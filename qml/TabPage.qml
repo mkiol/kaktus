@@ -97,7 +97,6 @@ Page {
 
         ViewPlaceholder {
             enabled: listView.count == 0
-            //enabled: true
             text: qsTr("No tabs")
         }
 

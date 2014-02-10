@@ -115,6 +115,16 @@ int Settings::getNetvibesFeedUpdateAtOnce()
     return settings.value("feedupdateatonce", 20).toInt();
 }
 
+void Settings::setNetvibesLastUpdateDate(int value)
+{
+    settings.setValue("lastupdatedate", value);
+}
+
+int Settings::getNetvibesLastUpdateDate()
+{
+    return settings.value("lastupdatedate", 0).toInt();
+}
+
 void  Settings::setDmCacheRetencyFeedLimit(int value)
 {
     settings.setValue("dm_limit", value);

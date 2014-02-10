@@ -92,7 +92,7 @@ ApplicationWindow {
 
         onBusy: {
             console.log("DM busy!");
-            busy.text = "Caching for offline...";
+            busy.text = "Caching...";
             busy.cancelable = true;
             busy.show();
         }
@@ -171,7 +171,7 @@ ApplicationWindow {
             console.log("Fetcher progress: " + current + "/" + total);
             busy.text = "Fetching data... " + Math.floor((current / total) * 100) + "%";
             if (current === total) {
-                busy.text = "Update done!";
+                busy.text = "Sync done!";
             }
         }
 

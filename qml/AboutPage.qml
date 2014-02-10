@@ -70,7 +70,8 @@ Page {
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeExtraSmall
                 textFormat: Text.StyledText
-                text: "<a href='"+PAGE+"'>"+PAGE+"</a>";
+                //text: "<a href='"+PAGE+"'>"+PAGE+"</a>";
+                text: PAGE;
             }
 
             Label {

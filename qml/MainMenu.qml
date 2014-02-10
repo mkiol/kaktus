@@ -20,6 +20,8 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "scripts.js" as Scripts
+
 
 PullDownMenu {
 
@@ -57,10 +59,27 @@ PullDownMenu {
     }
 
     MenuItem {
-        text: qsTr("Update")
+        text: qsTr("Sync")
 
         onClicked: {
             fetcher.update();
+        }
+    }
+
+    MenuLabel {
+        function update() {
+            var lastSync = settings.getNetvibesLastUpdateDate();
+            if (lastSync>0)
+                text = qsTr("Last sync") + ": " + Scripts.getHumanFriendlyTimeString(lastSync);
+            else
+                text = qsTr("Not yet synced");
+        }
+
+        Component.onCompleted: update();
+
+        Connections {
+            target: fetcher
+            onReady: update()
         }
     }
 

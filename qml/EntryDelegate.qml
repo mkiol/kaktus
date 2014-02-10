@@ -20,6 +20,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+import "scripts.js" as Scripts
 
 ListItem {
     id: root
@@ -169,48 +170,11 @@ ListItem {
         }
 
         Label {
-            function getHumanFriendlyTimeString(date) {
-                var delta = Math.floor(Date.now()/1000-date);
-                if (delta===0) {
-                    return "just now";
-                }
-                if (delta===1) {
-                    return "1 second ago";
-                }
-                if (delta<60) {
-                    return "" + delta + " seconds ago";
-                }
-                if (delta>=60&&delta<120) {
-                    return "1 minute ago";
-                }
-                if (delta<3600) {
-                    return "" + Math.floor(delta/60) + " minutes ago";
-                }
-                if (delta>=3600&&delta<7200) {
-                    return "1 hour ago";
-                }
-                if (delta<86400) {
-                    return "" + Math.floor(delta/3600) + " hours ago";
-                }
-                if (delta>=86400&&delta<172800) {
-                    return "yesterday";
-                }
-                if (delta<604800) {
-                    return "" + Math.floor(delta/86400) + " days ago";
-                }
-                if (delta>=604800&&delta<1209600) {
-                    return "1 week ago";
-                }
-                if (delta<2419200) {
-                    return "" + Math.floor(delta/604800) + " weeks ago";
-                }
-                return Qt.formatDateTime(new Date(date*1000),"dddd, d MMMM yy");
-            }
             anchors.left: parent.left; anchors.right: parent.right;
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingMedium
             font.pixelSize: Theme.fontSizeExtraSmall
             color: Theme.secondaryColor
-            text: getHumanFriendlyTimeString(date)
+            text: Scripts.getHumanFriendlyTimeString(date)
         }
 
     }

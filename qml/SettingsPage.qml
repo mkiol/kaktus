@@ -43,7 +43,10 @@ Page {
                     console.log(settings.getSignedIn());
                 }
 
+                contentHeight: flow.height + 2*Theme.paddingLarge
+
                 Flow {
+                    id: flow
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left; anchors.right: parent.right
                     spacing: Theme.paddingMedium
@@ -51,11 +54,11 @@ Page {
                     anchors.rightMargin: Theme.paddingLarge
 
                     Label {
-                        text: qsTr("Not logged into Netvibes")
+                        text: qsTr("Not signed in into Netvibes")
                         visible: !signinForm.signedIn
                     }
                     Label {
-                        text: qsTr("Logged into Netvibes as:")
+                        text: qsTr("Signed in into Netvibes as:")
                         visible: signinForm.signedIn
                     }
                     Label {
@@ -92,8 +95,8 @@ Page {
 
             TextSwitch {
                 id: autodownload
-                text: qsTr("Cache articles after Update")
-                description: qsTr("If enabled, all articles will be downloaded and cached for access in Offline mode after every update.")
+                text: qsTr("Cache articles after Sync action")
+                description: qsTr("If enabled, all articles will be downloaded and cached for access in Offline mode after every Sync action.")
 
                 Component.onCompleted: {
                     checked = settings.getAutoDownloadOnUpdate();
@@ -107,7 +110,7 @@ Page {
             TextSwitch {
                 id: offlinemode
                 text: qsTr("Offline mode")
-                description: qsTr("If enabled, content of articles will be displayed from local cache, without a network connection usage.")
+                description: qsTr("If enabled, content of articles will be displayed from local cache, without a network usage.")
 
                 Component.onCompleted: {
                     checked = settings.getOfflineMode();

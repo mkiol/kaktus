@@ -55,6 +55,8 @@ public:
     Q_INVOKABLE int getNetvibesFeedLimit();
     Q_INVOKABLE void setNetvibesFeedUpdateAtOnce(int value);
     Q_INVOKABLE int getNetvibesFeedUpdateAtOnce();
+    Q_INVOKABLE void setNetvibesLastUpdateDate(int value);
+    Q_INVOKABLE int getNetvibesLastUpdateDate();
 
     // Download Manger
     Q_INVOKABLE void setDmConnections(int value);

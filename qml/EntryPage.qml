@@ -59,7 +59,7 @@ Page {
         }
 
         ViewPlaceholder {
-            enabled: listView.model.count == 0
+            enabled: listView.count == 0
             text: qsTr("No entries")
         }
 

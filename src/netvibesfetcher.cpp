@@ -838,6 +838,9 @@ void NetvibesFetcher::taskEnd()
     _currentReply->deleteLater();
     _currentReply = 0;
 
+    Settings *s = Settings::instance();
+    s->setNetvibesLastUpdateDate(QDateTime::currentDateTime().toTime_t());
+
     if(_busyType) {
         qDebug() << "Update ends!";
         emit ready();
