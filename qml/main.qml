@@ -27,19 +27,15 @@ ApplicationWindow {
 
     onOffLineModeChanged: {
         settings.setOfflineMode(offLineMode);
+
+        if (offLineMode)
+            notification.show(qsTr("Switched to Offline mode!"));
+        else
+            notification.show(qsTr("Switched to Online mode!"));
     }
 
     Component.onCompleted: {
         offLineMode = settings.getOfflineMode();
-
-        /*if (settings.getSignedIn()) {
-            // User signed in, getting stored data
-            db.init();
-        } else {
-            // User not signed in, showing empty page
-            pageStack.push(Qt.resolvedUrl("EmptyPage.qml"));
-        }*/
-
         db.init();
     }
 
@@ -48,6 +44,13 @@ ApplicationWindow {
 
         onSettingsChanged: {
             offLineMode = settings.getOfflineMode();
+        }
+
+        onError: {
+            console.log("Settings error!");
+            console.log("code=" + code);
+            notification.show(qsTr("An unknown error occurred! :-("));
+            Qt.quit();
         }
     }
 
@@ -62,8 +65,6 @@ ApplicationWindow {
         onEmpty: {
             console.log("DB is empty!");
 
-            // No stred data, showing empty page
-            // pageStack.push(Qt.resolvedUrl("EmptyPage.qml"));
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.clear()
             pageStack.push(Qt.resolvedUrl("TabPage.qml"));
@@ -72,7 +73,6 @@ ApplicationWindow {
         onNotEmpty: {
             console.log("DB is not empty!");
 
-            // Found stored data, showing tabs
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.clear()
             pageStack.push(Qt.resolvedUrl("TabPage.qml"));
@@ -126,7 +126,7 @@ ApplicationWindow {
 
         onReady: {
             console.log("Fetcher ready!");
-
+            notification.show(qsTr("Sync done!"));
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.clear()
             pageStack.push(Qt.resolvedUrl("TabPage.qml"));
@@ -148,22 +148,26 @@ ApplicationWindow {
             }
 
             if (code >= 400 && code < 500) {
+                if (code == 402)
+                    notification.show(qsTr("User & Password do not match!"));
                 // Sign in
                 pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": code});
             } else {
                 // Unknown error
-                pageStack.push(Qt.resolvedUrl("ErrorPage.qml"),{"message": "Fether error, code: " + code});
+                notification.show(qsTr("An unknown error occurred! :-("));
             }
         }
 
         onErrorCheckingCredentials: {
             console.log("Fetcher checking error");
             console.log("code=" + code);
+            notification.show(qsTr("User & Password do not match!"));
             busy.hide();
         }
 
         onCredentialsValid: {
             console.log("Fetcher credentials valid");
+            notification.show(qsTr("Successfully Signed In!"));
             busy.hide();
         }
 
@@ -211,6 +215,10 @@ ApplicationWindow {
                 dm.cancel();
             }
         }
+    }
+
+    Notification {
+        id: notification
     }
 
     Image {

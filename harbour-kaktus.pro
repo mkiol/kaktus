@@ -41,7 +41,8 @@ OTHER_FILES += \
     qml/icon.png \
     qml/SettingsPage.qml \
     qml/AdvancedSettingsPage.qml \
-    qml/EmptyPage.qml
+    qml/scripts.js \
+    qml/Notification.qml
 
 HEADERS += \
     src/utils.h \

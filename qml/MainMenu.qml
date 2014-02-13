@@ -81,6 +81,7 @@ PullDownMenu {
             target: fetcher
             onReady: update()
         }
+
     }
 
 }

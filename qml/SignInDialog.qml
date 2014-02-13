@@ -40,48 +40,12 @@ Dialog {
             acceptText : qsTr("Sign In")
         }
 
-        Rectangle {
-            id: infoLabel
-            anchors {
-                left: parent.left; leftMargin: Theme.paddingLarge
-                right: parent.right; rightMargin: Theme.paddingLarge
-            }
-            height: childrenRect.height + 2*Theme.paddingLarge
-            color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
-            radius: 5
-
-            Label {
-                anchors.centerIn:  parent;
-                wrapMode: Text.Wrap
-                textFormat: Text.PlainText
-                font.pixelSize: Theme.fontSizeSmall
-
-                Component.onCompleted: {
-                    switch (code) {
-                    case 402:
-                        text = qsTr("Username & password do not match!");
-                        break;
-                    default:
-                        text = qsTr("Enter Netvibes username & password");
-                    }
-                }
-            }
-        }
-
-        Label {
-            text: " "
-        }
-
-        /*Label {
-            text: qsTr("Username")
-        }*/
-
         TextField {
             id: user
             anchors.left: parent.left; anchors.right: parent.right
 
             inputMethodHints: Qt.ImhEmailCharactersOnly| Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-            placeholderText: "Enter username here!"
+            placeholderText: qsTr("Enter username here!")
             label: qsTr("Username")
 
             Component.onCompleted: {
@@ -89,18 +53,21 @@ Dialog {
             }
         }
 
-        /*Label {
-            text: qsTr("Password")
-        }*/
-
         TextField {
             id: password
             anchors.left: parent.left; anchors.right: parent.right
             inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText | Qt.ImhSensitiveData
             echoMode: TextInput.Password
-            placeholderText: "Enter password here!"
+            placeholderText: qsTr("Enter password here!")
             label: qsTr("Password")
+
+            EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+            EnterKey.onClicked: {
+                Qt.inputMethod.hide();
+                root.accept();
+            }
         }
+
 
     }
 

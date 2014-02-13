@@ -25,18 +25,17 @@ Utils::Utils(DatabaseManager* db, QQuickView* view, QObject *parent) :
     _db = db;
     _view = view;
     _dashboardModel = NULL;
-    //offLine = false;
 }
 
-/*bool Utils::isOffline()
+void Utils::copyToClipboard(const QString &text)
 {
-    return offLine;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
+    QClipboard *clipboard = QGuiApplication::clipboard();
+#else
+    QClipboard *clipboard = QApplication::clipboard();
+#endif
+    clipboard->setText(text);
 }
-
-void Utils::setMode(bool isOffline)
-{
-    offLine = isOffline;
-}*/
 
 void Utils::setTabModel(const QString &dashboardId)
 {

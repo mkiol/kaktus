@@ -28,6 +28,8 @@
 #include <QString>
 #include <QDebug>
 #include <QStringList>
+#include <QGuiApplication>
+#include <QClipboard>
 
 #include "tabmodel.h"
 #include "dashboardmodel.h"
@@ -45,9 +47,8 @@ public:
     Q_INVOKABLE void setFeedModel(const QString &tabId);
     Q_INVOKABLE void setTabModel(const QString &dashboardId);
     Q_INVOKABLE void setDashboardModel();
-    //Q_INVOKABLE bool isOffline();
-    //Q_INVOKABLE void setMode(bool isOffline);
     Q_INVOKABLE QList<QString> dashboards();
+    Q_INVOKABLE void copyToClipboard(const QString &text);
 
     /*Q_INVOKABLE void setAsRead(const QString &entryId);
     Q_INVOKABLE void unsetAsRead(const QString &entryId);

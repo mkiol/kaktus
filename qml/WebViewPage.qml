@@ -80,6 +80,17 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                text: qsTr("Copy URL")
+
+                onClicked: {
+                    if (offLineMode)
+                        utils.copyToClipboard(offlineUrl);
+                    else
+                        utils.copyToClipboard(onlineUrl);
+                }
+            }
+
+            MenuItem {
                 text: qsTr("Open in browser")
 
                 onClicked: {

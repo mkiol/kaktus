@@ -35,7 +35,7 @@ public:
     static Settings* instance();
 
     // General
-    Q_INVOKABLE void setSettingsDir(const QString &value);
+    //Q_INVOKABLE void setSettingsDir(const QString &value);
     Q_INVOKABLE QString getSettingsDir();
     Q_INVOKABLE void setAutoDownloadOnUpdate(bool value);
     Q_INVOKABLE bool getAutoDownloadOnUpdate();
@@ -65,7 +65,7 @@ public:
     Q_INVOKABLE int getDmTimeOut();
     Q_INVOKABLE void setDmMaxSize(int value);
     Q_INVOKABLE int getDmMaxSize();
-    Q_INVOKABLE void setDmCacheDir(const QString &value);
+    //Q_INVOKABLE void setDmCacheDir(const QString &value);
     Q_INVOKABLE QString getDmCacheDir();
     Q_INVOKABLE void setDmUserAgent(const QString &value);
     Q_INVOKABLE QString getDmUserAgent();
@@ -80,6 +80,11 @@ public:
 
 signals:
     void settingsChanged();
+    /*
+    501 - Unable create settings dir
+    502 - Unable create cache dir
+     */
+    void error(int);
 
 private:
     QSettings settings;

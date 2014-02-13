@@ -47,7 +47,7 @@ DockedPanel {
 
     dock: Dock.Bottom
 
-    Rectangle {
+    /*Rectangle {
         id: shadow
         anchors.fill: parent
         color: Theme.rgba(Theme.highlightBackgroundColor, 0.4)
@@ -59,7 +59,7 @@ DockedPanel {
         offset: 0.5
         direction: OpacityRamp.BottomToTop
         sourceItem: shadow
-    }
+    }*/
 
     Rectangle {
         id: background

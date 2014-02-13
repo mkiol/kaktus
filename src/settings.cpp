@@ -135,21 +135,19 @@ int  Settings::getDmCacheRetencyFeedLimit()
     return settings.value("dm_limit", 20).toInt();
 }
 
-void Settings::setSettingsDir(const QString &value)
+/*void Settings::setSettingsDir(const QString &value)
 {
     settings.setValue("settingsdir", value);
-}
+}*/
 
 QString Settings::getSettingsDir()
 {
-    QString value = QDir(QStandardPaths::writableLocation(QStandardPaths::ConfigLocation))
-            .filePath(QCoreApplication::applicationName());
-    value = settings.value("settingsdir", value).toString();
+    QString value = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).path();
 
     if (!QDir(value).exists()) {
         if (!QDir::root().mkpath(value)) {
             qWarning() << "Unable to create settings dir!";
-            /// @todo handle 'Unable to create settings dir'
+            emit error(501);
         }
     }
 
@@ -186,21 +184,20 @@ int Settings::getDmMaxSize()
     return settings.value("maxsize", 1000000).toInt();
 }
 
-void Settings::setDmCacheDir(const QString &value)
+/*void Settings::setDmCacheDir(const QString &value)
 {
     settings.setValue("cachedir", value);
-}
+}*/
 
 QString Settings::getDmCacheDir()
 {
     QString value = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))
             .filePath("cached_files");
-    value = settings.value("cachedir", value).toString();
 
     if (!QDir(value).exists()) {
         if (!QDir::root().mkpath(value)) {
             qWarning() << "Unable to create cache dir!";
-            /// @todo handle 'Unable to create cache dir'
+            emit error(502);
         }
     }
 

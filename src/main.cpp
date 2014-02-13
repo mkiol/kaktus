@@ -25,6 +25,7 @@
 #include <QtDebug>
 #include <QGuiApplication>
 #include <QScopedPointer>
+#include <QQmlEngine>
 #include <sailfishapp.h>
 
 #include "databasemanager.h"
@@ -49,6 +50,8 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("PAGE", PAGE);
 
     app->setOrganizationName("mkiol");
+    app->setApplicationDisplayName(APP_NAME);
+    app->setApplicationVersion(VERSION);
 
     DatabaseManager db;
     DownloadManager dm(&db);
@@ -57,7 +60,7 @@ int main(int argc, char *argv[])
     Utils utils(&db, view.data());
 
     QObject::connect(&fetcher, SIGNAL(ready()), &utils, SLOT(updateModels()));
-    //QObject::connect(view->engine(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
+    QObject::connect(view->engine(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
 
     view->rootContext()->setContextProperty("db", &db);
     view->rootContext()->setContextProperty("fetcher", &fetcher);
