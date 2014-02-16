@@ -24,7 +24,7 @@ Rectangle {
     id: root
 
     width: parent.width
-    height: 50
+    height: 40
     anchors.top: parent.top
     anchors.horizontalCenter: parent.horizontalCenter
 
@@ -45,7 +45,7 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
         opacity: 0.8
-        color: "black"
+        color: Theme.highlightDimmerColor
     }
 
     Timer {

@@ -38,15 +38,10 @@ Page {
 
                 property bool signedIn: settings.getSignedIn()
                 onSignedInChanged: usernameLabel.text = settings.getNetvibesUsername();
-
-                Component.onCompleted: {
-                    console.log(settings.getSignedIn());
-                }
-
-                contentHeight: flow.height + 2*Theme.paddingLarge
+                contentHeight: flow1.height + 2*Theme.paddingLarge
 
                 Flow {
-                    id: flow
+                    id: flow1
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left; anchors.right: parent.right
                     spacing: Theme.paddingMedium
@@ -64,7 +59,6 @@ Page {
                     Label {
                         id: usernameLabel
                         color: Theme.highlightColor
-                        //text: settings.getNetvibesUsername();
                         visible: signinForm.signedIn
                     }
                 }
@@ -93,9 +87,44 @@ Page {
                 }
             }
 
+            ListItem {
+                id: defaultdashboard
+
+                contentHeight: flow2.height + 2*Theme.paddingLarge
+
+                Flow {
+                    id: flow2
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left; anchors.right: parent.right
+                    spacing: Theme.paddingMedium
+                    anchors.leftMargin: Theme.paddingLarge
+                    anchors.rightMargin: Theme.paddingLarge
+
+                    Label {
+                        text: qsTr("Dashboard in use: ")
+                    }
+
+                    Label {
+                        id: dashboard
+                        color: Theme.highlightColor
+                        text: settings.getNetvibesDefaultDashboard()
+                    }
+                }
+
+                menu: ContextMenu {
+                    MenuItem {
+                        text: qsTr("Change")
+                        onClicked: {
+                            utils.setDashboardModel();
+                            pageStack.push(Qt.resolvedUrl("DashboardDialog.qml"));
+                        }
+                    }
+                }
+            }
+
             TextSwitch {
                 id: autodownload
-                text: qsTr("Cache articles after Sync action")
+                text: qsTr("Caching articles")
                 description: qsTr("If enabled, all articles will be downloaded and cached for access in Offline mode after every Sync action.")
 
                 Component.onCompleted: {

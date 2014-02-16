@@ -25,6 +25,7 @@
 #include <QString>
 #include <QRegExp>
 #include <QCryptographicHash>
+#include <QTextCodec>
 
 #include "qhttpserver/qhttpserver.h"
 #include "qhttpserver/qhttprequest.h"

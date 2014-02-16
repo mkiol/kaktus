@@ -23,15 +23,15 @@ import Sailfish.Silica 1.0
 
 ApplicationWindow {
 
-    property bool offLineMode
+    property bool offLineMode: false
 
     onOffLineModeChanged: {
         settings.setOfflineMode(offLineMode);
 
         if (offLineMode)
-            notification.show(qsTr("Switched to Offline mode!"));
+            notification.show(qsTr("Offline mode!"));
         else
-            notification.show(qsTr("Switched to Online mode!"));
+            notification.show(qsTr("Online mode!"));
     }
 
     Component.onCompleted: {
@@ -66,16 +66,14 @@ ApplicationWindow {
             console.log("DB is empty!");
 
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
-            pageStack.clear()
-            pageStack.push(Qt.resolvedUrl("TabPage.qml"));
+            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
         }
 
         onNotEmpty: {
             console.log("DB is not empty!");
 
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
-            pageStack.clear()
-            pageStack.push(Qt.resolvedUrl("TabPage.qml"));
+            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
         }
     }
 
@@ -84,7 +82,7 @@ ApplicationWindow {
 
         onProgress: {
             console.log("DM progress: " + remaining);
-            busy.text = "" + remaining + " items left..."
+            busy.text = "" + remaining + " more items left..."
             if (remaining === 0) {
                 busy.text = "All done!";
             }
@@ -92,9 +90,7 @@ ApplicationWindow {
 
         onBusy: {
             console.log("DM busy!");
-            busy.text = "Caching...";
-            busy.cancelable = true;
-            busy.show();
+            busy.show("Caching...", true);
         }
 
         onReady: {
@@ -128,8 +124,7 @@ ApplicationWindow {
             console.log("Fetcher ready!");
             notification.show(qsTr("Sync done!"));
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
-            pageStack.clear()
-            pageStack.push(Qt.resolvedUrl("TabPage.qml"));
+            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
 
             if (!dm.isBusy() && settings.getAutoDownloadOnUpdate()) {
                 dm.startFeedDownload();
@@ -174,9 +169,6 @@ ApplicationWindow {
         onProgress: {
             console.log("Fetcher progress: " + current + "/" + total);
             busy.text = "Fetching data... " + Math.floor((current / total) * 100) + "%";
-            if (current === total) {
-                busy.text = "Sync done!";
-            }
         }
 
         onInitiating: {
@@ -201,15 +193,28 @@ ApplicationWindow {
 
         onBusy: {
             console.log("Fetcher busy!");
-            busy.show();
+            busy.show("", false);
         }
 
     }
 
-    BusyPanel {
+    /*BusyPanel {
         id: busy
-
         onCancel: {
+            console.log("cancel!");
+            if (dm.isBusy()) {
+                dm.cancel();
+            }
+        }
+    }*/
+
+    Notification {
+        id: notification
+    }
+
+    BusyBar {
+        id: busy
+        onCloseClicked: {
             console.log("cancel!");
             if (dm.isBusy()) {
                 dm.cancel();
@@ -217,11 +222,7 @@ ApplicationWindow {
         }
     }
 
-    Notification {
-        id: notification
-    }
-
-    Image {
+    /*Image {
         anchors {
             right: parent.right
             bottom: parent.bottom
@@ -238,6 +239,6 @@ ApplicationWindow {
                 offLineMode = !offLineMode;
             }
         }
-    }
+    }*/
 
 }

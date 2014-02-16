@@ -41,22 +41,22 @@ PullDownMenu {
         }
     }
 
-    MenuItem {
+    /*MenuItem {
         text: qsTr("Dashboards")
 
         onClicked: {
             utils.setDashboardModel();
             pageStack.push(Qt.resolvedUrl("DashboardPage.qml"));
         }
-    }
+    }*/
 
-    MenuItem {
+    /*MenuItem {
         text: qsTr("Download")
 
         onClicked: {
             pageStack.push(Qt.resolvedUrl("DownloadDialog.qml"));
         }
-    }
+    }*/
 
     MenuItem {
         text: qsTr("Sync")

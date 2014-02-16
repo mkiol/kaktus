@@ -50,7 +50,7 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
     DatabaseManager::CacheItem item = db->readCacheItemFromEntryId(entryId);
 
     QString filename;
-    QByteArray body, data;
+    QByteArray data;
 
     if (item.id == "") {
         item = db->readCacheItem(entryId);
@@ -68,20 +68,18 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
     }
 
     if (item.type == "text") {
-        QString content(data);
+        // Converting charset
+        QTextCodec *tc = QTextCodec::codecForHtml(data);
+        QString content = tc->toUnicode(data);
+
         filter(content);
-        body.append(content);
-    } else {
-        body = data;
+        data = tc->fromUnicode(content);
     }
 
-    resp->setHeader("Content-Length", QString::number(body.size()));
+    resp->setHeader("Content-Length", QString::number(data.size()));
     resp->setHeader("Content-Type", item.contentType);
     resp->writeHead(200);
-    resp->end(body);
-
-    //qDebug() << body;
-    //qDebug() << "content type:" << item.contentType;
+    resp->end(data);
 }
 
 bool CacheServer::readFile(const QString &filename, QByteArray &data)

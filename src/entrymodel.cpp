@@ -51,11 +51,11 @@ void EntryModel::createItems(const QString &feedId)
         doc.setHtml((*i).content);
         QString content = doc.toPlainText()
                 .replace(QChar::ObjectReplacementCharacter,QChar::Space)
-                .simplified();
+                .simplified().left(1000);
         doc.setHtml((*i).title);
         QString title = doc.toPlainText()
                 .replace(QChar::ObjectReplacementCharacter,QChar::Space)
-                .simplified();
+                .simplified().left(200);
 
         appendRow(new EntryItem((*i).id,
                                 title,

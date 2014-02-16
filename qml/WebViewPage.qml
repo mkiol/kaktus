@@ -62,10 +62,14 @@ Page {
         onLoadingChanged: {
             if (loadRequest.status == WebView.LoadStartedStatus) {
                 console.log("onLoadingChanged, LoadStartedStatus");
+                busy.show("Loading page content...", false);
             } else if (loadRequest.status == WebView.LoadFailedStatus) {
                 console.log("onLoadingChanged, LoadFailedStatus");
+                notification.show(qsTr("Failed to load page content :-("));
+                busy.hide();
             } else {
                 console.log("onLoadingChanged, Ok");
+                busy.hide();
             }
         }
 
@@ -87,6 +91,7 @@ Page {
                         utils.copyToClipboard(offlineUrl);
                     else
                         utils.copyToClipboard(onlineUrl);
+                    notification.show(qsTr("URL copied!"));
                 }
             }
 
@@ -115,6 +120,13 @@ Page {
                 text: qsTr("Top")
                 onClicked: view.scrollToTop()
             }
+        }
+    }
+
+    BusyBar {
+        id: busy
+        onCloseClicked: {
+            console.log("cancel!");
         }
     }
 
