@@ -32,6 +32,7 @@ Page {
         model: entryModel
 
         MainMenu{}
+        //UpMenu {}
 
         header: PageHeader {
             title: root.title

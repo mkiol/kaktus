@@ -157,6 +157,13 @@ QList<QString> Utils::dashboards()
     return simpleList;
 }
 
+QString Utils::defaultDashboardName()
+{
+    Settings *s = Settings::instance();
+    DatabaseManager::Dashboard d = _db->readDashboard(s->getNetvibesDefaultDashboard());
+    return d.title;
+}
+
 /*void Utils::setAsRead(const QString &entryId)
 {
     _db->updateEntryReadFlag(entryId,1);

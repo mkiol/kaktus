@@ -707,7 +707,6 @@ void NetvibesFetcher::cleanNewFeeds()
             i = _feedList.erase(i);
         }
     }
-
 }
 
 void NetvibesFetcher::cleanRemovedFeeds()

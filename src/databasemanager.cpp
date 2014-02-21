@@ -618,6 +618,23 @@ bool DatabaseManager::updateFeedReadlaterFlag(const QString &feedId, int readlat
     return ret;
 }
 
+DatabaseManager::Dashboard DatabaseManager::readDashboard(const QString &dashboardId)
+{
+    Dashboard d;
+    if (_db.isOpen()) {
+        QSqlQuery query(QString("SELECT id, name, title, description FROM dashboards WHERE id='%1';").arg(dashboardId),_db);
+        while(query.next()) {
+            d.id = query.value(0).toString();
+            d.name = query.value(1).toString();
+            d.title = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
+            d.description = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return d;
+}
 
 QList<DatabaseManager::Dashboard> DatabaseManager::readDashboards()
 {

@@ -115,12 +115,12 @@ Page {
             }
         }
 
-        PushUpMenu {
+        /*PushUpMenu {
             MenuItem {
                 text: qsTr("Top")
                 onClicked: view.scrollToTop()
             }
-        }
+        }*/
     }
 
     BusyBar {

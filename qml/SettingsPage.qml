@@ -107,7 +107,7 @@ Page {
                     Label {
                         id: dashboard
                         color: Theme.highlightColor
-                        text: settings.getNetvibesDefaultDashboard()
+                        text: utils.defaultDashboardName()
                     }
                 }
 

@@ -393,11 +393,18 @@ void DownloadManager::startFeedDownload()
     }
 
     cleanCache();
-    replyToCachedItemMap.clear();
-    replyToCheckerMap.clear();
 
     QMap<QString,QString> list = db->readNotCachedEntries();
     qDebug() << "startFeedDownload, list.count=" << list.count();
+
+    if (list.count() == 0) {
+        emit ready();
+        return;
+    }
+
+    replyToCachedItemMap.clear();
+    replyToCheckerMap.clear();
+
     QMap<QString,QString>::iterator i = list.begin();
     while (i != list.end()) {
 

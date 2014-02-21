@@ -32,6 +32,7 @@ Page {
         model: feedModel
 
         MainMenu{}
+        //UpMenu {}
 
         header: PageHeader {
             title: root.title

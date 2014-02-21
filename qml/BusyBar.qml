@@ -28,24 +28,27 @@ Rectangle {
     property string text
     property bool cancelable: false
     property bool open: false
+    property real progress: 0.0
 
     signal closeClicked
 
-    height: visible ? Theme.itemSizeSmall : 0
+    //height: visible ? Theme.itemSizeSmall : 0
+    height: visible ? 70 : 0
     width: parent.width
 
     anchors.bottom: parent.bottom
     anchors.left: parent.left
 
     /*gradient: Gradient {
-        GradientStop { position: -0.5; color: "transparent" }
-        GradientStop { position: 1.5; color: Theme.highlightBackgroundColor}
+        GradientStop { position: 0.0; color: "transparent" }
+        GradientStop { position: 0.95; color: Theme.highlightBackgroundColor}
     }*/
 
     color: Theme.highlightBackgroundColor
     enabled: opacity > 0.0
 
     opacity: root.open ? 1.0 : 0.0
+    visible: opacity > 0.0
     Behavior on opacity { FadeAnimation {} }
 
     function show(text, cancelable) {
@@ -58,47 +61,70 @@ Rectangle {
         root.open = false;
     }
 
-    Row {
-        spacing: Theme.paddingMedium
-        anchors{
-            left: parent.left; leftMargin: Theme.paddingMedium
-            right: parent.right; rightMargin: Theme.paddingMedium
-            verticalCenter: parent.verticalCenter
-        }
+    Rectangle {
+        id: progressRect
+        height: parent.height
+        anchors.right: parent.right
+        width: parent.width - (root.progress * parent.width)
+        color: Theme.highlightDimmerColor
+        opacity: 0.2
 
-        Image {
-            id: icon
-            anchors.verticalCenter: parent.verticalCenter
-            //source: "image://theme/icon-m-sync" + "?" + Theme.highlightDimmerColor
-            source: "image://theme/graphic-busyindicator-medium" + "?" + Theme.highlightDimmerColor
-
-            RotationAnimation on rotation {
-                loops: Animation.Infinite
-                from: 0
-                to: 360
-                duration: 1000
-                running: root.open
+        Behavior on width {
+            enabled: root.opacity == 1.0
+            SmoothedAnimation {
+                velocity: 480; duration: 200
             }
         }
+    }
 
-        Label {
-            id: titleBar
-            font.pixelSize: Theme.fontSizeSmall
-            font.family: Theme.fontFamily
-            text: root.text
-            width: parent.width - icon.width * 2 - parent.spacing *2
-            height: icon.height
-            anchors.verticalCenter: parent.verticalCenter
-            color: Theme.highlightDimmerColor
-            verticalAlignment: Text.AlignVCenter
+    Image {
+        id: icon
+        height: 40; width: 40
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: Theme.paddingMedium
+
+        source: "image://theme/graphic-busyindicator-medium?"+Theme.highlightDimmerColor
+
+        RotationAnimation on rotation {
+            loops: Animation.Infinite
+            from: 0
+            to: 360
+            duration: 1200
+            running: root.open
         }
+    }
 
-        IconButton {
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://theme/icon-m-close" + "?" + Theme.highlightDimmerColor
-            onClicked: root.closeClicked()
-            visible: root.cancelable
+    onVisibleChanged: {
+        if (!visible) {
+            progress = 0;
         }
+    }
 
+    Label {
+        id: titleBar
+        height: icon.height
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: icon.right; anchors.right: closeButton.right
+        anchors.leftMargin: Theme.paddingMedium
+
+        font.pixelSize: Theme.fontSizeSmall
+        font.family: Theme.fontFamily
+        text: root.text
+        color: Theme.highlightDimmerColor
+        verticalAlignment: Text.AlignVCenter
+    }
+
+    IconButton {
+        id: closeButton
+
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.leftMargin: Theme.paddingMedium
+        anchors.rightMargin: Theme.paddingMedium
+
+        icon.source: "image://theme/icon-m-close?"+Theme.highlightDimmerColor
+        onClicked: root.closeClicked()
+        visible: root.cancelable
     }
 }

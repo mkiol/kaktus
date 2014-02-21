@@ -76,6 +76,8 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
         data = tc->fromUnicode(content);
     }
 
+    //qDebug() << data;
+
     resp->setHeader("Content-Length", QString::number(data.size()));
     resp->setHeader("Content-Type", item.contentType);
     resp->writeHead(200);
@@ -106,22 +108,45 @@ bool CacheServer::readFile(const QString &filename, QByteArray &data)
 
 void CacheServer::filter(QString &content)
 {
-    QRegExp rxImg("(<img\\s[^>]*)src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
-    //QRegExp rxCss("<link\\s[^>]*rel\\s*=(\"stylesheet\"|'stylesheet')[^>]*href\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
-    QRegExp rxCss("(<link\\s[^>]*rel\\s*=(\"stylesheet\"|'stylesheet')[^>]*)href\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
+    //QRegExp rxImg("(<img\\s[^>]*)src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
+    QRegExp rxImgAll("<img[^>]*>", Qt::CaseInsensitive);
+    QRegExp rxLinkAll("<link[^>]*>", Qt::CaseInsensitive);
+    QRegExp rxFormAll("<form[^>]*>((?!<\\/form>).)*<\\/form>", Qt::CaseInsensitive);
+    QRegExp rxInputAll("<input[^>]*>", Qt::CaseInsensitive);
+    //QRegExp rxMetaAll("<meta[^>]*>", Qt::CaseInsensitive);
+    QRegExp rxMetaViewport("<meta\\s[^>]*name\\s*=(\"viewport\"|'viewport')[^>]*>", Qt::CaseInsensitive);
+    //QRegExp rxCss("(<link\\s[^>]*rel\\s*=(\"stylesheet\"|'stylesheet')[^>]*)href\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
     QRegExp rxScript("(<script\\s[^>]*)src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
     QRegExp rxFrame("(<iframe\\s[^>]*)src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
     QRegExp rxA("(<a\\s[^>]*)href\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
     QRegExp rxUrl("url[\\s]*\\([^\\)]*\\)", Qt::CaseInsensitive);
     QRegExp rxScriptAll("<script[^>]*>((?!<\\/script>).)*<\\/script>", Qt::CaseInsensitive);
+    QRegExp rxStyleAll("<style[^>]*>((?!<\\/style>).)*<\\/style>", Qt::CaseInsensitive);
+    QRegExp rxStyle("\\s*style\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
+    QRegExp rxClass("\\s*class\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
+    QRegExp rxWidth("\\s*width\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
+    QRegExp rxHeight("\\s*height\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
+    QRegExp rxHeadEnd("</head>", Qt::CaseInsensitive);
 
-    content = content.replace(rxImg,"\\1");
+    //content = content.replace(rxImg,"\\1");
+    content = content.replace(rxImgAll,"");
+    content = content.replace(rxLinkAll,"");
     content = content.replace(rxScript,"\\1");
     content = content.replace(rxScriptAll,"");
+    content = content.replace(rxFormAll,"");
+    content = content.replace(rxInputAll,"");
+    //content = content.replace(rxMetaAll,"");
+    content = content.replace(rxMetaViewport,"");
+    content = content.replace(rxStyle,"");
+    content = content.replace(rxClass,"");
+    content = content.replace(rxWidth,"");
+    content = content.replace(rxHeight,"");
+    content = content.replace(rxStyleAll,"");
     content = content.replace(rxFrame,"\\1");
     content = content.replace(rxA,"\\1");
     content = content.replace(rxUrl,"http://0.0.0.0");
-    content = content.replace(rxCss,"\\1");
+    //content = content.replace(rxCss,"\\1");
+    content = content.replace(rxHeadEnd,"<meta name='viewport' content='width=540px'><style>body{background:#000;color:#FFF;font-size:25px;}</style></head>");
 
     // Change CSS link
     /*

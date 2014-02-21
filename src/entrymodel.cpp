@@ -55,7 +55,9 @@ void EntryModel::createItems(const QString &feedId)
         doc.setHtml((*i).title);
         QString title = doc.toPlainText()
                 .replace(QChar::ObjectReplacementCharacter,QChar::Space)
-                .simplified().left(200);
+                .simplified();
+        if (title.length()>200)
+            title = title.left(197)+QString("...");
 
         appendRow(new EntryItem((*i).id,
                                 title,

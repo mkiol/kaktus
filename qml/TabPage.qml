@@ -30,6 +30,7 @@ Page {
         model: tabModel
 
         MainMenu{}
+        //UpMenu {}
 
         header: PageHeader {
             title: "Tabs"
@@ -80,12 +81,22 @@ Page {
                 width: parent.width
 
                 Label {
+                    id: label
                     wrapMode: Text.AlignLeft
                     anchors.left: parent.left; anchors.right: parent.right;
                     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeMedium
                     text: title
                 }
+            }
+
+            Image {
+                id: image
+                width: Theme.iconSizeSmall
+                height: Theme.iconSizeSmall
+                anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
+                anchors.verticalCenter: item.verticalCenter
+                source: iconUrl
             }
 
             onClicked: {

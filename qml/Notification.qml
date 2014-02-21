@@ -31,6 +31,11 @@ Rectangle {
     color: Theme.highlightBackgroundColor
     opacity: timer.running ? 1.0 : 0.0
 
+    MouseArea {
+        anchors.fill: parent
+        onClicked: timer.stop()
+    }
+
     Behavior on opacity { FadeAnimation {} }
 
     function show(text) {

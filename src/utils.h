@@ -36,6 +36,7 @@
 #include "feedmodel.h"
 #include "entrymodel.h"
 #include "databasemanager.h"
+#include "settings.h"
 
 class Utils : public QObject
 {
@@ -49,6 +50,7 @@ public:
     Q_INVOKABLE void setDashboardModel();
     Q_INVOKABLE QList<QString> dashboards();
     Q_INVOKABLE void copyToClipboard(const QString &text);
+    Q_INVOKABLE QString defaultDashboardName();
 
     /*Q_INVOKABLE void setAsRead(const QString &entryId);
     Q_INVOKABLE void unsetAsRead(const QString &entryId);

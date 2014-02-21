@@ -22,16 +22,16 @@ import Sailfish.Silica 1.0
 
 
 ApplicationWindow {
+    id: app
 
-    property bool offLineMode: false
+    property bool offLineMode
 
     onOffLineModeChanged: {
         settings.setOfflineMode(offLineMode);
-
-        if (offLineMode)
+        /*if (offLineMode)
             notification.show(qsTr("Offline mode!"));
         else
-            notification.show(qsTr("Online mode!"));
+            notification.show(qsTr("Online mode!"));*/
     }
 
     Component.onCompleted: {
@@ -126,7 +126,7 @@ ApplicationWindow {
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
 
-            if (!dm.isBusy() && settings.getAutoDownloadOnUpdate()) {
+            if (!dm.isBusy() && settings.getAutoDownloadOnUpdate() ) {
                 dm.startFeedDownload();
             } else {
                 busy.hide();
@@ -168,7 +168,9 @@ ApplicationWindow {
 
         onProgress: {
             console.log("Fetcher progress: " + current + "/" + total);
-            busy.text = "Fetching data... " + Math.floor((current / total) * 100) + "%";
+            //busy.text = "Fetching data... " + Math.floor((current / total) * 100) + "%";
+            busy.text = "Receiving data... ";
+            busy.progress = current / total;
         }
 
         onInitiating: {
@@ -198,18 +200,27 @@ ApplicationWindow {
 
     }
 
-    /*BusyPanel {
-        id: busy
-        onCancel: {
-            console.log("cancel!");
-            if (dm.isBusy()) {
-                dm.cancel();
-            }
-        }
-    }*/
-
     Notification {
         id: notification
+    }
+
+    Image {
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+            margins: Theme.paddingSmall
+        }
+        source: offLineMode ? "image://theme/icon-status-wlan-no-signal" : "image://theme/icon-status-wlan-4"
+        height: 48
+        width: 48
+        smooth: true
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                offLineMode = !offLineMode;
+            }
+        }
     }
 
     BusyBar {
@@ -221,24 +232,5 @@ ApplicationWindow {
             }
         }
     }
-
-    /*Image {
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-            margins: Theme.paddingSmall
-        }
-        source: offLineMode ? "image://theme/icon-status-wlan-0" : "image://theme/icon-status-wlan-4"
-        height: 48
-        width: 48
-        smooth: true
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                offLineMode = !offLineMode;
-            }
-        }
-    }*/
 
 }

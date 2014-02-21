@@ -121,6 +121,7 @@ public:
     bool updateEntryCache(const QString &entryId, int cacheDate, int flag = 1);
     bool writeAction(const Action &action, int date);
 
+    Dashboard readDashboard(const QString &dashboardId);
     QList<Dashboard> readDashboards();
     bool isDashborardExists();
     QList<Tab> readTabs(const QString &dashboardId);
