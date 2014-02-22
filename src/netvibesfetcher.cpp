@@ -19,7 +19,8 @@
 
 #include "netvibesfetcher.h"
 
-NetvibesFetcher::NetvibesFetcher(DatabaseManager* db, QObject *parent)
+NetvibesFetcher::NetvibesFetcher(DatabaseManager* db, QObject *parent) :
+    QObject(parent)
 {
     _db = db;
     _currentReply = 0;
@@ -398,6 +399,13 @@ void NetvibesFetcher::storeTabs(const QString &dashboardId)
             _db->writeTab(dashboardId, t);
             _tabList.append(t.id);
 
+            // Downloading icon file
+            Settings *s = Settings::instance();
+            DatabaseManager::CacheItem item;
+            item.origUrl = t.icon;
+            item.finalUrl = t.icon;
+            s->dm->addDownload(item);
+
             ++i;
         }
     }  else {
@@ -770,7 +778,7 @@ void NetvibesFetcher::finishedFeedsInfo()
 
 void NetvibesFetcher::finishedSet()
 {
-    qDebug() << this->_data;
+    //qDebug() << this->_data;
 
     if(!parse()) {
         qWarning() << "Error parsing Json!";
@@ -815,7 +823,6 @@ void NetvibesFetcher::finishedFeedsUpdate()
     else
         fetchFeedsUpdate();
 }
-
 
 void NetvibesFetcher::networkError(QNetworkReply::NetworkError e)
 {

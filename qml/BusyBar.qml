@@ -33,7 +33,7 @@ Rectangle {
     signal closeClicked
 
     //height: visible ? Theme.itemSizeSmall : 0
-    height: visible ? 70 : 0
+    height: visible ? 60 : 0
     width: parent.width
 
     anchors.bottom: parent.bottom
@@ -120,8 +120,7 @@ Rectangle {
 
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
-        anchors.leftMargin: Theme.paddingMedium
-        anchors.rightMargin: Theme.paddingMedium
+        //anchors.rightMargin: Theme.paddingMedium
 
         icon.source: "image://theme/icon-m-close?"+Theme.highlightDimmerColor
         onClicked: root.closeClicked()

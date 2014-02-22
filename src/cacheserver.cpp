@@ -178,7 +178,12 @@ QString CacheServer::hash(const QString &url)
     return QString(QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex());
 }
 
-QString CacheServer::getUrl(const QString &item)
+QString CacheServer::getUrlbyId(const QString &item)
 {
     return "http://127.0.0.1:" + QString::number(port) + "/" + item;
+}
+
+QString CacheServer::getUrlbyUrl(const QString &url)
+{
+    return "http://127.0.0.1:" + QString::number(port) + "/" + hash(url);
 }

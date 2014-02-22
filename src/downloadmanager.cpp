@@ -292,17 +292,17 @@ bool DownloadManager::saveToDisk(const QString &filename, const QByteArray &cont
     QFile file(cacheDir + "/" + filename);
 
     if (QFile::exists(filename)) {
-        qWarning() << "File exists!";
-    } else {
-
-        if (!file.open(QIODevice::WriteOnly)) {
-            qWarning() << "Could not open" << filename << "for writing: " << file.errorString();
-            return false;
-        }
-
-        file.write(content);
-        file.close();
+        qWarning() << "File exists, deleting file" << filename;
+        QFile::remove(filename);
     }
+
+    if (!file.open(QIODevice::WriteOnly)) {
+        qWarning() << "Could not open" << filename << "for writing: " << file.errorString();
+        return false;
+    }
+
+    file.write(content);
+    file.close();
 
     return true;
 }

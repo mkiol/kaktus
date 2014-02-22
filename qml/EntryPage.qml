@@ -49,7 +49,7 @@ Page {
 
             onClicked: {
                 var onlineUrl = model.link;
-                var offlineUrl = cache.getUrl(model.uid);
+                var offlineUrl = cache.getUrlbyId(model.uid);
                 pageStack.push(Qt.resolvedUrl("WebViewPage.qml"),
                                {"entryId": model.uid,
                                    "onlineUrl": onlineUrl,

@@ -19,6 +19,11 @@
 
 #include "settings.h"
 
+#include "downloadmanager.h"
+#include "databasemanager.h"
+#include "cacheserver.h"
+#include "netvibesfetcher.h"
+
 Settings* Settings::inst = 0;
 
 Settings::Settings(QObject *parent) : QObject(parent), settings()

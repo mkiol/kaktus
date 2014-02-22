@@ -36,40 +36,6 @@ Page {
             title: "Tabs"
         }
 
-        /*delegate: ListItem {
-            id: listItem
-            //contentHeight: item.height + 2 * Theme.paddingMedium
-            contentHeight: Math.max(image.height,label.height)+2*Theme.paddingMedium
-
-            Image {
-                id: image
-                width: Theme.iconSizeSmall
-                height: Theme.iconSizeSmall
-                anchors.left: parent.left;
-                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                anchors.verticalCenter: parent.verticalCenter
-                source: iconUrl
-            }
-
-            Label {
-                id: label
-                wrapMode: Text.AlignLeft
-                anchors.left: image.right; anchors.right: parent.right;
-                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: Theme.fontSizeMedium
-                text: title
-            }
-
-
-            onClicked: {
-                utils.setFeedModel(uid);
-                pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title});
-            }
-
-        }*/
-
-
         delegate: ListItem {
             id: listItem
             contentHeight: item.height + 2 * Theme.paddingMedium
@@ -96,12 +62,14 @@ Page {
                 height: Theme.iconSizeSmall
                 anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
                 anchors.verticalCenter: item.verticalCenter
-                source: iconUrl
             }
+
+            Component.onCompleted: image.source = cache.getUrlbyUrl(iconUrl)
 
             onClicked: {
                 utils.setFeedModel(uid);
                 pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title});
+                console.log(cache.getUrlbyUrl(iconUrl));
             }
         }
 

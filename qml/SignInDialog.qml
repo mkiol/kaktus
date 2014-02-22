@@ -26,7 +26,7 @@ Dialog {
 
     property int code
 
-    canAccept: user.text !== "" && password.text !== ""
+    canAccept: user.text!=="" && password.text !==""
 
     Column {
         anchors {
@@ -46,10 +46,15 @@ Dialog {
 
             inputMethodHints: Qt.ImhEmailCharactersOnly| Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
             placeholderText: qsTr("Enter username here!")
-            label: qsTr("Username")
+            label: qsTr("Netvibes's username")
 
             Component.onCompleted: {
                 text = settings.getNetvibesUsername();
+            }
+
+            EnterKey.iconSource: "image://theme/icon-m-enter-close"
+            EnterKey.onClicked: {
+                Qt.inputMethod.hide();
             }
         }
 
@@ -61,14 +66,13 @@ Dialog {
             placeholderText: qsTr("Enter password here!")
             label: qsTr("Password")
 
-            EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+            EnterKey.iconSource: user.text!=="" ? "image://theme/icon-m-enter-accept" : "image://theme/icon-m-enter-close"
             EnterKey.onClicked: {
                 Qt.inputMethod.hide();
-                root.accept();
+                if (user.text!=="")
+                    root.accept();
             }
         }
-
-
     }
 
     onAccepted: {

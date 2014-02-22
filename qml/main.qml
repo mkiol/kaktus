@@ -82,20 +82,20 @@ ApplicationWindow {
 
         onProgress: {
             console.log("DM progress: " + remaining);
-            busy.text = "" + remaining + " more items left..."
+            busyDM.text = "" + remaining + " more items left..."
             if (remaining === 0) {
-                busy.text = "All done!";
+                busyDM.text = "All done!";
             }
         }
 
         onBusy: {
             console.log("DM busy!");
-            busy.show("Caching...", true);
+            busyDM.show("Caching...",true);
         }
 
         onReady: {
             console.log("DM ready!");
-            busy.hide();
+            busyDM.hide();
         }
 
         /*onError: {
@@ -125,12 +125,10 @@ ApplicationWindow {
             notification.show(qsTr("Sync done!"));
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            busy.hide();
 
-            if (!dm.isBusy() && settings.getAutoDownloadOnUpdate() ) {
+            if (!dm.isBusy() && settings.getAutoDownloadOnUpdate())
                 dm.startFeedDownload();
-            } else {
-                busy.hide();
-            }
         }
 
         onError: {
@@ -224,13 +222,17 @@ ApplicationWindow {
     }
 
     BusyBar {
-        id: busy
+        id: busyDM
+        cancelable: true
         onCloseClicked: {
-            console.log("cancel!");
             if (dm.isBusy()) {
                 dm.cancel();
             }
         }
+    }
+
+    BusyBar {
+        id: busy
     }
 
 }

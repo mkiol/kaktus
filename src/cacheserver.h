@@ -31,8 +31,8 @@
 #include "qhttpserver/qhttprequest.h"
 #include "qhttpserver/qhttpresponse.h"
 
-#include "settings.h"
 #include "databasemanager.h"
+#include "settings.h"
 
 class CacheServer : public QObject
 {
@@ -40,7 +40,8 @@ class CacheServer : public QObject
 public:
     explicit CacheServer(DatabaseManager* db, QObject *parent = 0);
     ~CacheServer();
-    Q_INVOKABLE QString getUrl(const QString &item);
+    Q_INVOKABLE QString getUrlbyId(const QString &item);
+    Q_INVOKABLE QString getUrlbyUrl(const QString &item);
 
 public slots:
     void handle(QHttpRequest *req, QHttpResponse *resp);

@@ -33,6 +33,7 @@
 #include "cacheserver.h"
 #include "netvibesfetcher.h"
 #include "utils.h"
+#include "settings.h"
 
 static const char *APP_NAME = "Kaktus";
 static const char *VERSION = "0.0.1";
@@ -53,10 +54,11 @@ int main(int argc, char *argv[])
     app->setApplicationDisplayName(APP_NAME);
     app->setApplicationVersion(VERSION);
 
-    DatabaseManager db;
-    DownloadManager dm(&db);
-    CacheServer cache(&db);
-    NetvibesFetcher fetcher(&db, &dm);
+    Settings* settings = Settings::instance();
+    DatabaseManager db; settings->db = &db;
+    DownloadManager dm(&db); settings->dm = &dm;
+    CacheServer cache(&db); settings->cache = &cache;
+    NetvibesFetcher fetcher(&db, &dm); settings->fetcher = &fetcher;
     Utils utils(&db, view.data());
 
     QObject::connect(&fetcher, SIGNAL(ready()), &utils, SLOT(updateModels()));
@@ -67,7 +69,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("utils", &utils);
     view->rootContext()->setContextProperty("dm", &dm);
     view->rootContext()->setContextProperty("cache", &cache);
-    view->rootContext()->setContextProperty("settings", Settings::instance());
+    view->rootContext()->setContextProperty("settings", settings);
 
     view->setSource(SailfishApp::pathTo("qml/main.qml"));
     view->show();

@@ -26,6 +26,10 @@
 #include <QCoreApplication>
 #include <QStandardPaths>
 
+class DatabaseManager;
+class DownloadManager;
+class CacheServer;
+class NetvibesFetcher;
 
 class Settings: public QObject
 {
@@ -33,6 +37,11 @@ class Settings: public QObject
 
 public:
     static Settings* instance();
+
+    DatabaseManager* db;
+    CacheServer* cache;
+    DownloadManager* dm;
+    NetvibesFetcher* fetcher;
 
     // General
     //Q_INVOKABLE void setSettingsDir(const QString &value);
