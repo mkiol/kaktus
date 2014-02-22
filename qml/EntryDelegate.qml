@@ -26,6 +26,7 @@ ListItem {
     id: root
 
     property string title
+    property string author
     property int date
     property int read: 0
     property int readlater: 0
@@ -174,7 +175,10 @@ ListItem {
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingMedium
             font.pixelSize: Theme.fontSizeExtraSmall
             color: Theme.secondaryColor
-            text: Scripts.getHumanFriendlyTimeString(date)
+            truncationMode: TruncationMode.Fade
+            text: root.author!=""
+                  ? Scripts.getHumanFriendlyTimeString(date)+" | "+root.author
+                  : Scripts.getHumanFriendlyTimeString(date)
         }
 
     }

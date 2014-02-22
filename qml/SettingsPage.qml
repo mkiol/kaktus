@@ -124,8 +124,8 @@ Page {
 
             TextSwitch {
                 id: autodownload
-                text: qsTr("Caching articles")
-                description: qsTr("If enabled, all articles will be downloaded and cached for access in Offline mode after every Sync action.")
+                text: qsTr("Cache articles")
+                description: qsTr("If enabled, all articles will be downloaded and cached for access in Offline mode.")
 
                 Component.onCompleted: {
                     checked = settings.getAutoDownloadOnUpdate();

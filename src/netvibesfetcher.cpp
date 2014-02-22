@@ -26,6 +26,9 @@ NetvibesFetcher::NetvibesFetcher(DatabaseManager* db, QObject *parent) :
     _currentReply = 0;
     _busy = false;
     _busyType = false;
+
+    connect(&_manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
+            this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
 }
 
 void NetvibesFetcher::init()
@@ -42,6 +45,21 @@ void NetvibesFetcher::init()
 
     _feedList.clear(); _feedTabList.clear();
     signIn();
+}
+
+void NetvibesFetcher::networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility accessible)
+{
+    switch (accessible) {
+    case QNetworkAccessManager::UnknownAccessibility:
+        break;
+    case QNetworkAccessManager::NotAccessible:
+        qWarning() << "Network is not accessible!";
+        _currentReply->abort();
+        emit networkNotAccessible();
+        break;
+    case QNetworkAccessManager::Accessible:
+        break;
+    }
 }
 
 void NetvibesFetcher::update()
@@ -400,11 +418,14 @@ void NetvibesFetcher::storeTabs(const QString &dashboardId)
             _tabList.append(t.id);
 
             // Downloading icon file
-            Settings *s = Settings::instance();
-            DatabaseManager::CacheItem item;
-            item.origUrl = t.icon;
-            item.finalUrl = t.icon;
-            s->dm->addDownload(item);
+            if (t.icon!="") {
+                Settings *s = Settings::instance();
+                DatabaseManager::CacheItem item;
+                item.origUrl = t.icon;
+                item.finalUrl = t.icon;
+                s->dm->addDownload(item);
+                //qDebug() << "icon:" << t.icon;
+            }
 
             ++i;
         }
@@ -477,6 +498,7 @@ void NetvibesFetcher::storeEntries()
                 e.id = obj["id"].toString();
                 //e.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
                 e.title = obj["title"].toString();
+                e.author = obj["author"].toString();
                 e.link = obj["link"].toString();
                 e.content = obj["content"].toString();
                 e.read = (int) obj["flags"].toObject()["read"].toDouble();
@@ -530,9 +552,9 @@ void NetvibesFetcher::storeDashboards()
         }
 
         // Set default dashboard if not set
-        qDebug() << "defaultDashboardId" << defaultDashboardId;
-        qDebug() << "defaultDashboardIdExists" << defaultDashboardIdExists;
-        qDebug() << "lowestDashboardId" << lowestDashboardId;
+        //qDebug() << "defaultDashboardId" << defaultDashboardId;
+        //qDebug() << "defaultDashboardIdExists" << defaultDashboardIdExists;
+        //qDebug() << "lowestDashboardId" << lowestDashboardId;
         if (defaultDashboardId=="" || defaultDashboardIdExists==false) {
             s->setNetvibesDefaultDashboard(QString::number(lowestDashboardId));
         }
@@ -629,6 +651,12 @@ void NetvibesFetcher::finishedDashboards()
 
     if(!_dashboardList.isEmpty()) {
         _db->cleanTabs();
+
+        // Create Cache structure for Tab icons
+        if(!_busyType) {
+            _db->cleanCache();
+        }
+
         fetchTabs(_dashboardList.first());
     } else {
         qWarning() << "No Dashboards found!";
@@ -693,7 +721,7 @@ void NetvibesFetcher::finishedTabs()
                 // init
                 _db->cleanFeeds();
                 _db->cleanEntries();
-                _db->cleanCache();
+                //_db->cleanCache();
                 fetchFeeds();
 
                 _total = (_feedList.length()/feedsAtOnce)+3;

@@ -28,10 +28,10 @@ ApplicationWindow {
 
     onOffLineModeChanged: {
         settings.setOfflineMode(offLineMode);
-        /*if (offLineMode)
-            notification.show(qsTr("Offline mode!"));
+        if (offLineMode)
+            notification.show(qsTr("Offline mode enabled!"));
         else
-            notification.show(qsTr("Online mode!"));*/
+            notification.show(qsTr("Offline mode disabled!"));
     }
 
     Component.onCompleted: {
@@ -98,6 +98,10 @@ ApplicationWindow {
             busyDM.hide();
         }
 
+        onNetworkNotAccessible: {
+            notification.show(qsTr("Network connection is unavailable!"));
+        }
+
         /*onError: {
             console.log("DM error!");
             console.log("code=" + code);
@@ -129,6 +133,10 @@ ApplicationWindow {
 
             if (!dm.isBusy() && settings.getAutoDownloadOnUpdate())
                 dm.startFeedDownload();
+        }
+
+        onNetworkNotAccessible: {
+            notification.show(qsTr("Network connection is unavailable!"));
         }
 
         onError: {
@@ -202,23 +210,8 @@ ApplicationWindow {
         id: notification
     }
 
-    Image {
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-            margins: Theme.paddingSmall
-        }
-        source: offLineMode ? "image://theme/icon-status-wlan-no-signal" : "image://theme/icon-status-wlan-4"
-        height: 48
-        width: 48
-        smooth: true
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                offLineMode = !offLineMode;
-            }
-        }
+    ToolBar {
+        id: toolbar
     }
 
     BusyBar {

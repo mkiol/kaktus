@@ -60,6 +60,7 @@ signals:
     void busy();
     void progress(int current, int total);
     void ready();
+    void networkNotAccessible();
     void initiating();
     void updating();
     void uploading();
@@ -92,6 +93,7 @@ public slots:
 
     void readyRead();
     void networkError(QNetworkReply::NetworkError);
+    void networkAccessibleChanged (QNetworkAccessManager::NetworkAccessibility accessible);
 
 private:
     static const int feedsAtOnce = 5;

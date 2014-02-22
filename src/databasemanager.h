@@ -67,6 +67,7 @@ public:
     struct Entry {
         QString id;
         QString title;
+        QString author;
         QString link;
         QString content;
         QString feedId;

@@ -19,7 +19,7 @@
 
 #include "databasemanager.h"
 
-const QString DatabaseManager::version = QString("0.2");
+const QString DatabaseManager::version = QString("0.3");
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
@@ -337,6 +337,7 @@ bool DatabaseManager::createEntriesStructure()
                          "id VARCHAR(50) PRIMARY KEY, "
                          "feed_id VARCHAR(50), "
                          "title TEXT, "
+                         "author TEXT, "
                          "content TEXT, "
                          "link TEXT, "
                          "read INTEGER DEFAULT 0, "
@@ -375,7 +376,6 @@ bool DatabaseManager::writeCache(const CacheItem &item, int cacheDate, int flag)
     bool ret = false;
     if (_db.isOpen()) {
         QSqlQuery query(_db);
-        //qDebug() << "item.contentType=" << item.contentType << QString(item.contentType.toUtf8().toBase64());
         ret = query.exec(QString("INSERT INTO cache (id, orig_url, final_url, type, content_type, entry_id, feed_id, cached, cached_date) VALUES('%1','%2','%3','%4','%5','%6','%7',%8,'%9');")
                          .arg(item.id)
                          .arg(item.origUrl).arg(item.finalUrl)
@@ -437,14 +437,14 @@ bool DatabaseManager::writeAction(const Action &action, int date)
             rowid = query.value(0).toInt();
         }
 
-        qDebug() << "type=" << action.type << "rtype=" << rtype << "empty=" << empty << "rowid=" << rowid;
+        //qDebug() << "type=" << action.type << "rtype=" << rtype << "empty=" << empty << "rowid=" << rowid;
 
         if (!empty && ftype!=action.type) {
             ret = query.exec(QString("UPDATE actions SET type=%1, date=%2 WHERE rowid=%3;")
                              .arg(static_cast<int>(action.type))
                              .arg(date)
                              .arg(rowid));
-            qDebug() << "!empty && ftype!=action.type, ret=" << ret;
+            //qDebug() << "!empty && ftype!=action.type, ret=" << ret;
         }
 
         if (empty) {
@@ -455,10 +455,10 @@ bool DatabaseManager::writeAction(const Action &action, int date)
                              .arg(action.olderDate)
                              .arg(date));
 
-            qDebug() << "empty, ret=" << ret;
+            //qDebug() << "empty, ret=" << ret;
         }
 
-        qDebug() << "writeAction, ret=" << ret;
+        //qDebug() << "writeAction, ret=" << ret;
 
     } else {
         qWarning() << "DB is not open!";
@@ -527,10 +527,11 @@ bool DatabaseManager::writeEntry(const QString &feedId, const Entry &entry)
     if (_db.isOpen()) {
         QSqlQuery query(_db);
         //qDebug() << "writeEntry, feedId=" << feedId << "title=" << entry.title;
-        ret = query.exec(QString("INSERT INTO entries (id, feed_id, title, content, link, read, readlater, date) VALUES('%1','%2','%3','%4','%5',%6,%7,'%8');")
+        ret = query.exec(QString("INSERT INTO entries (id, feed_id, title, author, content, link, read, readlater, date) VALUES('%1','%2','%3','%4','%5','%6',%7,%8,'%9');")
                          .arg(entry.id)
                          .arg(feedId)
                          .arg(QString(entry.title.toUtf8().toBase64()))
+                         .arg(QString(entry.author.toUtf8().toBase64()))
                          .arg(QString(entry.content.toUtf8().toBase64()))
                          .arg(entry.link)
                          .arg(entry.read).arg(entry.readlater)
@@ -784,7 +785,7 @@ DatabaseManager::CacheItem DatabaseManager::readCacheItemFromOrigUrl(const QStri
     if (_db.isOpen()) {
         QSqlQuery query(QString("SELECT id, orig_url, final_url, type, content_type, entry_id, feed_id FROM cache WHERE orig_url='%1' AND cached=1;")
                         .arg(origUrl),_db);
-        qDebug() << "size=" << query.size() << query.lastError() << origUrl;
+        //qDebug() << "size=" << query.size() << query.lastError() << origUrl;
         while(query.next()) {
             item.id = query.value(0).toString();
             item.origUrl = query.value(1).toString();
@@ -850,9 +851,11 @@ DatabaseManager::CacheItem DatabaseManager::readCacheItem(const QString &cacheId
 bool DatabaseManager::isCacheItemExists(const QString &cacheId)
 {
     if (_db.isOpen()) {
+        //qDebug() << QString("SELECT COUNT(*) FROM cache WHERE id='%1';").arg(cacheId);
         QSqlQuery query(QString("SELECT COUNT(*) FROM cache WHERE id='%1';")
                         .arg(cacheId),_db);
         while(query.next()) {
+            //qDebug() << query.value(0).toInt();
             if (query.value(0).toInt() > 0) {
                 return true;
             }
@@ -919,18 +922,19 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, content, link, read, readlater, date FROM entries WHERE feed_id='%1' ORDER BY date DESC;")
+        QSqlQuery query(QString("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE feed_id='%1' ORDER BY date DESC;")
                         .arg(feedId),_db);
         while(query.next()) {
             //qDebug() << "readEntries, " << query.value(1).toString();
             Entry e;
             e.id = query.value(0).toString();
             e.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
-            e.content = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
-            e.link = query.value(3).toString();
-            e.read = query.value(4).toInt();
-            e.readlater= query.value(5).toInt();
-            e.date = query.value(6).toInt();
+            e.author = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
+            e.content = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            e.link = query.value(4).toString();
+            e.read = query.value(5).toInt();
+            e.readlater= query.value(6).toInt();
+            e.date = query.value(7).toInt();
             list.append(e);
         }
     } else {
@@ -945,16 +949,17 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries()
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query("SELECT id, title, content, link, read, readlater, date FROM entries ORDER BY date DESC;",_db);
+        QSqlQuery query("SELECT id, title, author, content, link, read, readlater, date FROM entries ORDER BY date DESC;",_db);
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
             e.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
-            e.content = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
-            e.link = query.value(3).toString();
-            e.read = query.value(4).toInt();
-            e.readlater= query.value(5).toInt();
-            e.date = query.value(6).toInt();
+            e.author = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
+            e.content = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            e.link = query.value(4).toString();
+            e.read = query.value(5).toInt();
+            e.readlater= query.value(6).toInt();
+            e.date = query.value(7).toInt();
             list.append(e);
         }
     } else {
@@ -990,17 +995,18 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesCachedOlderThan(int ca
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, content, link, read, readlater, date FROM entries WHERE cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2);")
+        QSqlQuery query(QString("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2);")
                         .arg(cacheDate).arg(limit), _db);
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
             e.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
-            e.content = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
-            e.link = query.value(3).toString();
-            e.read = query.value(4).toInt();
-            e.readlater= query.value(5).toInt();
-            e.date = query.value(6).toInt();
+            e.author = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
+            e.content = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            e.link = query.value(4).toString();
+            e.read = query.value(5).toInt();
+            e.readlater= query.value(6).toInt();
+            e.date = query.value(7).toInt();
             list.append(e);
         }
     } else {

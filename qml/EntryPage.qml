@@ -44,6 +44,7 @@ Page {
             content: model.content
             date: model.date
             read: model.read
+            author: model.author
             readlater: model.readlater
             index: model.index
 

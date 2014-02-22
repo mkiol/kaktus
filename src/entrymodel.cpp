@@ -61,6 +61,7 @@ void EntryModel::createItems(const QString &feedId)
 
         appendRow(new EntryItem((*i).id,
                                 title,
+                                (*i).author,
                                 content,
                                 (*i).link,
                                 (*i).read,
@@ -122,6 +123,7 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
 
 EntryItem::EntryItem(const QString &uid,
                    const QString &title,
+                   const QString &author,
                    const QString &content,
                    const QString &link,
                    const int read,
@@ -131,6 +133,7 @@ EntryItem::EntryItem(const QString &uid,
     ListItem(parent),
     m_uid(uid),
     m_title(title),
+    m_author(author),
     m_content(content),
     m_link(link),
     m_read(read),
@@ -143,6 +146,7 @@ QHash<int, QByteArray> EntryItem::roleNames() const
     QHash<int, QByteArray> names;
     names[UidRole] = "uid";
     names[TitleRole] = "title";
+    names[AuthorRole] = "author";
     names[ContentRole] = "content";
     names[LinkRole] = "link";
     names[ReadRole] = "read";
@@ -158,6 +162,8 @@ QVariant EntryItem::data(int role) const
         return uid();
     case TitleRole:
         return title();
+    case AuthorRole:
+        return author();
     case ContentRole:
         return content();
     case LinkRole:

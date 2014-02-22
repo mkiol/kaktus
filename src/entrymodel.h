@@ -43,6 +43,7 @@ public:
     enum Roles {
         UidRole = Qt::UserRole+1,
         TitleRole = Qt::DisplayRole,
+        AuthorRole,
         ContentRole,
         LinkRole,
         ReadRole,
@@ -54,6 +55,7 @@ public:
     EntryItem(QObject *parent = 0): ListItem(parent) {}
     explicit EntryItem(const QString &uid,
                       const QString &title,
+                      const QString &author,
                       const QString &content,
                       const QString &link,
                       const int read,
@@ -65,6 +67,7 @@ public:
     inline QString id() const { return m_uid; }
     inline QString uid() const { return m_uid; }
     Q_INVOKABLE inline QString title() const { return m_title; }
+    Q_INVOKABLE inline QString author() const { return m_author; }
     Q_INVOKABLE inline QString content() const { return m_content; }
     Q_INVOKABLE inline QString link() const { return m_link; }
     Q_INVOKABLE inline int read() const { return m_read; }
@@ -77,6 +80,7 @@ public:
 private:
     QString m_uid;
     QString m_title;
+    QString m_author;
     QString m_content;
     QString m_link;
     int m_read;

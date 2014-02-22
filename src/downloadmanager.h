@@ -76,6 +76,7 @@ public:
 signals:
     void busy();
     void ready();
+    void networkNotAccessible();
     /*
     500 - Unknown error
     501 - Save to disk error

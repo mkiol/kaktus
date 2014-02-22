@@ -117,7 +117,7 @@ void Settings::setNetvibesFeedUpdateAtOnce(int value)
 
 int Settings::getNetvibesFeedUpdateAtOnce()
 {
-    return settings.value("feedupdateatonce", 20).toInt();
+    return settings.value("feedupdateatonce", 15).toInt();
 }
 
 void Settings::setNetvibesLastUpdateDate(int value)

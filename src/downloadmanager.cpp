@@ -65,13 +65,13 @@ void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAcc
 {
     switch (accessible) {
     case QNetworkAccessManager::UnknownAccessibility:
-        qDebug() << "UnknownAccessibility";
         break;
     case QNetworkAccessManager::NotAccessible:
-        qDebug() << "NotAccessible";
+        qWarning() << "Network is not accessible!";
+        cancel();
+        emit networkNotAccessible();
         break;
     case QNetworkAccessManager::Accessible:
-        qDebug() << "Accessible";
         break;
     }
 }
@@ -203,6 +203,7 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
 
                     // Write Cache item to DB
                     item.id = hash(item.finalUrl);
+                    //qDebug() << "hash(item.finalUrl): " << hash(item.finalUrl);
                     item.origUrl = hash(item.origUrl);
                     item.finalUrl = hash(item.finalUrl);
                     db->writeCache(item, QDateTime::currentDateTime().toTime_t());
@@ -395,7 +396,7 @@ void DownloadManager::startFeedDownload()
     cleanCache();
 
     QMap<QString,QString> list = db->readNotCachedEntries();
-    qDebug() << "startFeedDownload, list.count=" << list.count();
+    //qDebug() << "startFeedDownload, list.count=" << list.count();
 
     if (list.count() == 0) {
         emit ready();
