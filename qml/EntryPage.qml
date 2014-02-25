@@ -26,10 +26,18 @@ Page {
 
     property string title
 
-    SilicaListView {
+    ListViewWithBar {
         id: listView
         anchors.fill: parent
         model: entryModel
+
+        onBarShowRequest: {
+            controlbar.show();
+        }
+
+        onBarHideRequest: {
+            controlbar.hide();
+        }
 
         MainMenu{}
         //UpMenu {}
@@ -55,7 +63,9 @@ Page {
                                {"entryId": model.uid,
                                    "onlineUrl": onlineUrl,
                                    "offlineUrl": offlineUrl,
-                                   "title": model.title
+                                   "title": model.title,
+                                   "stared": model.readlater,
+                                   "index": model.index
                                });
             }
         }
@@ -69,6 +79,10 @@ Page {
             flickable: listView
         }
 
+    }
+
+    ControlBar {
+        id: controlbar
     }
 
 }

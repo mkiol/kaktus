@@ -29,6 +29,8 @@ Page {
     property string entryId
     property string offlineUrl
     property string onlineUrl
+    property bool stared
+    property int index
 
     // work around Silica bug: don't let webview enable forward navigation
     onForwardNavigationChanged: {
@@ -46,6 +48,28 @@ Page {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
+        }
+
+        onBarShowRequest: {
+            controlbar.show();
+        }
+
+        onBarHideRequest: {
+            controlbar.hide();
+        }
+
+        signal barShowRequest();
+        signal barHideRequest();
+
+        property real initialContentY
+        onMovementStarted: {
+            initialContentY=contentY;
+            barHideRequest();
+        }
+        onMovementEnded: {
+            var delta = contentY-initialContentY
+            if (delta<0)
+                barShowRequest();
         }
 
         url:  offLineMode ? offlineUrl : onlineUrl
@@ -106,13 +130,13 @@ Page {
                 }
             }
 
-            MenuItem {
+            /*MenuItem {
                 text: qsTr("Back")
 
                 onClicked: {
                     pageStack.pop()
                 }
-            }
+            }*/
         }
 
         /*PushUpMenu {
@@ -121,6 +145,23 @@ Page {
                 onClicked: view.scrollToTop()
             }
         }*/
+    }
+
+    ControlBar {
+        id: controlbar
+        canBack: true
+        canStar: true
+        stared: root.stared
+        onBackClicked: pageStack.pop()
+        onStarClicked: {
+            if (stared) {
+                stared=false;
+                entryModel.setData(root.index, "readlater", 0);
+            } else {
+                stared=true;
+                entryModel.setData(root.index, "readlater", 1);
+            }
+        }
     }
 
     BusyBar {

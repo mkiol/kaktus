@@ -126,4 +126,6 @@ Rectangle {
         onClicked: root.closeClicked()
         visible: root.cancelable
     }
+
+
 }

@@ -28,10 +28,6 @@ ApplicationWindow {
 
     onOffLineModeChanged: {
         settings.setOfflineMode(offLineMode);
-        if (offLineMode)
-            notification.show(qsTr("Offline mode enabled!"));
-        else
-            notification.show(qsTr("Offline mode disabled!"));
     }
 
     Component.onCompleted: {
@@ -208,10 +204,6 @@ ApplicationWindow {
 
     Notification {
         id: notification
-    }
-
-    ToolBar {
-        id: toolbar
     }
 
     BusyBar {

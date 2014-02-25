@@ -24,10 +24,18 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
-    SilicaListView {
+    ListViewWithBar {
         id: listView
         anchors.fill: parent
         model: dashboardModel
+
+        onBarShowRequest: {
+            controlbar.show();
+        }
+
+        onBarHideRequest: {
+            controlbar.hide();
+        }
 
         header: PageHeader {
             title: "Dashboards"
@@ -68,6 +76,10 @@ Page {
             flickable: listView
         }
 
+    }
+
+    ControlBar {
+        id: controlbar
     }
 
 }

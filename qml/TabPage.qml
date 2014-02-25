@@ -24,10 +24,18 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
-    SilicaListView {
+    ListViewWithBar {
         id: listView
         anchors.fill: parent
         model: tabModel
+
+        onBarShowRequest: {
+            controlbar.show();
+        }
+
+        onBarHideRequest: {
+            controlbar.hide();
+        }
 
         MainMenu{}
         //UpMenu {}
@@ -83,6 +91,10 @@ Page {
             flickable: listView
         }
 
+    }
+
+    ControlBar {
+        id: controlbar
     }
 
 }

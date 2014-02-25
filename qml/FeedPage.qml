@@ -26,10 +26,18 @@ Page {
 
     property string title
 
-    SilicaListView {
+    ListViewWithBar {
         id: listView
         anchors.fill: parent
         model: feedModel
+
+        onBarShowRequest: {
+            controlbar.show();
+        }
+
+        onBarHideRequest: {
+            controlbar.hide();
+        }
 
         MainMenu{}
         //UpMenu {}
@@ -83,6 +91,10 @@ Page {
             flickable: listView
         }
 
+    }
+
+    ControlBar {
+        id: controlbar
     }
 
 }
