@@ -26,18 +26,10 @@ Page {
 
     property string title
 
-    ListViewWithBar {
+    SilicaListView {
         id: listView
         anchors.fill: parent
         model: entryModel
-
-        onBarShowRequest: {
-            controlbar.show();
-        }
-
-        onBarHideRequest: {
-            controlbar.hide();
-        }
 
         MainMenu{}
         //UpMenu {}
@@ -59,7 +51,7 @@ Page {
             onClicked: {
                 var onlineUrl = model.link;
                 var offlineUrl = cache.getUrlbyId(model.uid);
-                pageStack.push(Qt.resolvedUrl("WebViewPage.qml"),
+                pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),
                                {"entryId": model.uid,
                                    "onlineUrl": onlineUrl,
                                    "offlineUrl": offlineUrl,
@@ -83,6 +75,11 @@ Page {
 
     ControlBar {
         id: controlbar
-    }
+        canSync: false
+        canOffline: true
 
+        onSyncClicked: {
+            fetcher.update();
+        }
+    }
 }

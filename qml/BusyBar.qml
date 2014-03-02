@@ -32,8 +32,7 @@ Rectangle {
 
     signal closeClicked
 
-    //height: visible ? Theme.itemSizeSmall : 0
-    height: visible ? 60 : 0
+    height: visible ? Theme.itemSizeMedium * 1 : 0
     width: parent.width
 
     anchors.bottom: parent.bottom
@@ -79,13 +78,11 @@ Rectangle {
 
     Image {
         id: icon
-        height: 40; width: 40
+        height: 60; width: 60
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: Theme.paddingMedium
-
         source: "image://theme/graphic-busyindicator-medium?"+Theme.highlightDimmerColor
-
         RotationAnimation on rotation {
             loops: Animation.Infinite
             from: 0
@@ -107,7 +104,6 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: icon.right; anchors.right: closeButton.right
         anchors.leftMargin: Theme.paddingMedium
-
         font.pixelSize: Theme.fontSizeSmall
         font.family: Theme.fontFamily
         text: root.text
@@ -121,7 +117,6 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         //anchors.rightMargin: Theme.paddingMedium
-
         icon.source: "image://theme/icon-m-close?"+Theme.highlightDimmerColor
         onClicked: root.closeClicked()
         visible: root.cancelable

@@ -24,21 +24,12 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
-    ListViewWithBar {
+    SilicaListView {
         id: listView
         anchors.fill: parent
         model: tabModel
 
-        onBarShowRequest: {
-            controlbar.show();
-        }
-
-        onBarHideRequest: {
-            controlbar.hide();
-        }
-
         MainMenu{}
-        //UpMenu {}
 
         header: PageHeader {
             title: "Tabs"
@@ -95,6 +86,12 @@ Page {
 
     ControlBar {
         id: controlbar
+        canSync: false
+        canOffline: true
+
+        onSyncClicked: {
+            fetcher.update();
+        }
     }
 
 }

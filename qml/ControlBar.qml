@@ -26,41 +26,56 @@ Column {
     id: root
 
     property bool canBack: false
-    property bool canStar: false
     property bool canOffline: true
+
+    property bool canStar: false
+    property bool canSync: false
+    property bool canOpenBrowser: false
+
     property bool stared: false
     property bool open: false
-    property int showTime: 5000
+    property int showTime: 6000
+
+    property real barShowMoveWidth: 20
+    property Flickable flick: null
 
     signal backClicked()
     signal starClicked()
+    signal browserClicked()
+    signal syncClicked()
 
     width: parent.width
     anchors.bottom: parent.bottom
     anchors.left: parent.left
 
-    enabled: opacity > 0.0
     opacity: root.open ? 1.0 : 0.0
-    visible: opacity > 0.0
+    //enabled: opacity > 0.0
+    //visible: opacity > 0.0
     Behavior on opacity { FadeAnimation {duration: 300} }
 
     function show() {
-        //timer.start();
-        root.open = true;
+        if (!open)
+            root.open = true;
+        timer.restart();
     }
 
     function hide() {
-        root.open = false;
+        if (open) {
+            root.open = false;
+            timer.stop();
+        }
     }
 
     Rectangle {
         color: Theme.highlightBackgroundColor
-        height: Theme.itemSizeMedium * 1.2
+        height: Theme.itemSizeMedium * 1
         width: parent.width
 
+
         MouseArea {
+            enabled: root.opacity > 0.0
             anchors.fill: parent
-            onClicked: {}
+            onClicked: root.hide()
         }
 
         IconButton {
@@ -74,24 +89,21 @@ Column {
 
         Row {
             id: toolbarRow
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
 
-            anchors {
-                left: back.right; leftMargin: Theme.paddingMedium
-                right: offline.left; rightMargin: Theme.paddingMedium
-                verticalCenter: parent.verticalCenter
-            }
-
-            spacing: (width - (back.width * 3)) / 2;
+            spacing: (parent.width - (back.width * 4)) / 3;
 
             /*spacing: {
                 var i = 0;
-                if (canBack)
-                    ++i;
                 if (canStar)
                     ++i;
-                if (canOffline)
+                if (canOpenBrowser)
                     ++i;
-                return (width - (back.width * i)) / i-1;
+                if (canSync)
+                    ++i;
+                console.log((parent.width - (back.width * 2+i)) / 1+i);
+                return (parent.width - (back.width * 2+i)) / 1+i;
             }*/
 
             IconButton {
@@ -100,21 +112,61 @@ Column {
                 onClicked: root.starClicked()
             }
 
+            IconButton {
+                visible: root.canSync
+                icon.source: "image://theme/icon-m-sync?"+Theme.highlightDimmerColor
+                onClicked: root.syncClicked()
+            }
+
+            IconButton {
+                width: back.width; height: back.height
+                visible: root.canOpenBrowser
+                icon.source: "image://theme/icon-m-region?"+Theme.highlightDimmerColor
+                onClicked: root.browserClicked()
+            }
+
         }
 
-        IconButton {
-            id: offline
+        /*IconButton {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            visible: root.canStar
+            icon.source: root.stared ? "image://theme/icon-m-favorite-selected?"+Theme.highlightDimmerColor : "image://theme/icon-m-favorite?"+Theme.highlightDimmerColor
+            onClicked: root.starClicked()
+        }*/
+
+        Row {
             visible: root.canOffline
             anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightDimmerColor : "image://theme/icon-m-wlan-4?"+Theme.highlightDimmerColor
-            onClicked: {
-                offLineMode = !offLineMode;
-                if (offLineMode)
-                    notification.show(qsTr("Offline mode enabled"));
-                else
-                    notification.show(qsTr("Online mode enabled"));
+            Label {
+                visible: !root.canOpenBrowser
+                anchors.verticalCenter: parent.verticalCenter
+                text: offLineMode ? "Offline mode" : "Online mode"
+                font.pixelSize: Theme.fontSizeSmall
+                font.family: Theme.fontFamily
+                color: Theme.highlightDimmerColor
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: offLineMode = !offLineMode
+                }
             }
+
+            IconButton {
+                id: offline
+                //visible: root.canOffline
+                //anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
+                anchors.verticalCenter: parent.verticalCenter
+                icon.source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightDimmerColor : "image://theme/icon-m-wlan-4?"+Theme.highlightDimmerColor
+                onClicked: offLineMode = !offLineMode;
+            }
+        }
+
+        MouseArea {
+            enabled: root.opacity == 0.0
+            anchors.fill: parent
+            onClicked: root.show();
         }
     }
 
@@ -123,4 +175,50 @@ Column {
         interval: root.showTime
         onTriggered: hide();
     }
+
+    QtObject {
+        id: m
+        property real initialContentY: 0.0
+        property real lastContentY: 0.0
+        property int vector: 0
+    }
+
+
+    Connections {
+        target: flick
+
+        onMovementStarted: {
+            m.vector = 0;
+            m.lastContentY = 0.0;
+            m.initialContentY=flick.contentY;
+        }
+
+        onContentYChanged: {
+            if (flick.moving) {
+                var dInit = flick.contentY-m.initialContentY;
+                var dLast = flick.contentY-m.lastContentY;
+                var lastV = m.vector;
+                if (dInit<-barShowMoveWidth)
+                    root.show();
+                if (dInit>barShowMoveWidth)
+                    root.hide();
+                if (dLast>barShowMoveWidth)
+                    root.hide();
+                if (m.lastContentY!=0) {
+                    if (dLast<0)
+                        m.vector = -1;
+                    if (dLast>0)
+                        m.vector = 1;
+                    if (dLast==0)
+                        m.vector = 0;
+                }
+                if (lastV==-1 && m.vector==1)
+                    m.initialContentY=flick.contentY;
+                if (lastV==1 && m.vector==-1)
+                    m.initialContentY=flick.contentY;
+                m.lastContentY = flick.contentY;
+            }
+        }
+    }
+
 }

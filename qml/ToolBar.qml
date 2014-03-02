@@ -25,7 +25,7 @@ import Sailfish.Silica 1.0
 Rectangle {
     id: root
 
-    height: visible ? 60 : 0
+    height: visible ? Theme.itemSizeMedium * 0.7 : 0
     width: parent.width
 
     anchors.bottom: parent.bottom

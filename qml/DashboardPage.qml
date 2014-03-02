@@ -24,18 +24,10 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
-    ListViewWithBar {
+    SilicaListView {
         id: listView
         anchors.fill: parent
         model: dashboardModel
-
-        onBarShowRequest: {
-            controlbar.show();
-        }
-
-        onBarHideRequest: {
-            controlbar.hide();
-        }
 
         header: PageHeader {
             title: "Dashboards"
@@ -80,6 +72,11 @@ Page {
 
     ControlBar {
         id: controlbar
-    }
+        canSync: false
+        canOffline: true
 
+        onSyncClicked: {
+            fetcher.update();
+        }
+    }
 }

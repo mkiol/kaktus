@@ -122,7 +122,7 @@ ApplicationWindow {
 
         onReady: {
             console.log("Fetcher ready!");
-            notification.show(qsTr("Sync done!"));
+            //notification.show(qsTr("Sync done!"));
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
             busy.hide();

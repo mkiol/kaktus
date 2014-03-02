@@ -148,10 +148,11 @@ Page {
                 onCheckedChanged: {
                     settings.setOfflineMode(checked);
 
-                    if (checked)
+                    /*if (checked)
                         notification.show(qsTr("Offline mode enabled"));
                     else
                         notification.show(qsTr("Online mode enabled"));
+                    */
                 }
             }
 

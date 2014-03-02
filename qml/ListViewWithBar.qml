@@ -23,17 +23,46 @@ import Sailfish.Silica 1.0
 
 
 SilicaListView {
+    property real barShowMoveWidth: 30
+
     signal barShowRequest();
     signal barHideRequest();
 
-    property real initialContentY
+    QtObject {
+        id: m
+        property real initialContentY
+    }
+
     onMovementStarted: {
-        initialContentY=contentY;
-        barHideRequest();
+        m.initialContentY=contentY;
+        //barHideRequest();
     }
-    onMovementEnded: {
-        var delta = contentY-initialContentY
-        if (delta<0)
-            barShowRequest();
+
+    onContentYChanged: {
+        if (moving) {
+            //console.log("contentY:"+contentY);
+            var delta = contentY-m.initialContentY
+            //console.log("delta:"+delta);
+            if (delta<-barShowMoveWidth)
+                barShowRequest();
+            if (delta>barShowMoveWidth)
+                barHideRequest();
+        }
     }
+
+    Connections {
+        target: pageStack
+        onDepthChanged: barHideRequest()
+    }
+
+    Connections {
+        target: fetcher
+        onBusy: barHideRequest()
+    }
+
+    Connections {
+        target: dm
+        onBusy: barHideRequest()
+    }
+
 }

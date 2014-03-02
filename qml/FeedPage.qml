@@ -26,21 +26,12 @@ Page {
 
     property string title
 
-    ListViewWithBar {
+    SilicaListView {
         id: listView
         anchors.fill: parent
         model: feedModel
 
-        onBarShowRequest: {
-            controlbar.show();
-        }
-
-        onBarHideRequest: {
-            controlbar.hide();
-        }
-
         MainMenu{}
-        //UpMenu {}
 
         header: PageHeader {
             title: root.title
@@ -95,6 +86,12 @@ Page {
 
     ControlBar {
         id: controlbar
+        canSync: false
+        canOffline: true
+
+        onSyncClicked: {
+            fetcher.update();
+        }
     }
 
 }

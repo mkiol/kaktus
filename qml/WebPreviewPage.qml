@@ -32,13 +32,17 @@ Page {
     property bool stared
     property int index
 
-    // work around Silica bug: don't let webview enable forward navigation
     onForwardNavigationChanged: {
         if (forwardNavigation)
             forwardNavigation = false;
     }
-
-    allowedOrientations: Orientation.Landscape | Orientation.Portrait
+    onBackNavigationChanged: {
+        if (backNavigation)
+            backNavigation = false;
+    }
+    showNavigationIndicator: false
+    //allowedOrientations: Orientation.Landscape | Orientation.Portrait
+    allowedOrientations: Orientation.Portrait
 
     SilicaWebView {
         id: view
@@ -50,43 +54,6 @@ Page {
             bottom: parent.bottom
         }
 
-        onBarShowRequest: {
-            controlbar.show();
-        }
-
-        onBarHideRequest: {
-            controlbar.hide();
-        }
-
-        // Bar engine
-        property real barShowMoveWidth: 30
-        signal barShowRequest();
-        signal barHideRequest();
-
-        QtObject {
-            id: m
-            property real initialContentY
-        }
-
-        onMovementStarted: {
-            m.initialContentY=contentY;
-            //barHideRequest();
-        }
-
-        onContentYChanged: {
-            if (moving) {
-                //console.log("contentY:"+contentY);
-                var delta = contentY-m.initialContentY
-                //console.log("delta:"+delta);
-                if (delta<-barShowMoveWidth)
-                    barShowRequest();
-                if (delta>barShowMoveWidth)
-                    barHideRequest();
-            }
-        }
-        // ---
-
-
         url:  offLineMode ? offlineUrl : onlineUrl
         experimental.userAgent: settings.getDmUserAgent()
 
@@ -94,9 +61,9 @@ Page {
             console.log("onUrlChanged");
         }
 
-        header: PageHeader {
+        /*header: PageHeader {
             title: root.title
-        }
+        }*/
 
         onLoadingChanged: {
             if (loadRequest.status == WebView.LoadStartedStatus) {
@@ -120,56 +87,18 @@ Page {
                 }
             }
         }
-
-        PullDownMenu {
-            MenuItem {
-                text: qsTr("Copy URL")
-
-                onClicked: {
-                    if (offLineMode)
-                        utils.copyToClipboard(offlineUrl);
-                    else
-                        utils.copyToClipboard(onlineUrl);
-                    notification.show(qsTr("URL copied!"));
-                }
-            }
-
-            MenuItem {
-                text: qsTr("Open in browser")
-
-                onClicked: {
-                    if (offLineMode)
-                        Qt.openUrlExternally(offlineUrl);
-                    else
-                        Qt.openUrlExternally(onlineUrl);
-                }
-            }
-
-            /*MenuItem {
-                text: qsTr("Back")
-
-                onClicked: {
-                    pageStack.pop()
-                }
-            }*/
-        }
-
-        /*PushUpMenu {
-            MenuItem {
-                text: qsTr("Top")
-                onClicked: view.scrollToTop()
-            }
-        }*/
     }
 
     ControlBar {
         id: controlbar
+        flick: view
         canBack: true
         canStar: true
-        canOffline: true
-        flick: parent
+        canOpenBrowser: true
         stared: root.stared
+
         onBackClicked: pageStack.pop()
+
         onStarClicked: {
             if (stared) {
                 stared=false;
@@ -178,6 +107,14 @@ Page {
                 stared=true;
                 entryModel.setData(root.index, "readlater", 1);
             }
+        }
+
+        onBrowserClicked: {
+            notification.show(qsTr("Launching an external browser..."));
+            if (offLineMode)
+                Qt.openUrlExternally(offlineUrl);
+            else
+                Qt.openUrlExternally(onlineUrl);
         }
     }
 
