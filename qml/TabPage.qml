@@ -76,7 +76,31 @@ Page {
         ViewPlaceholder {
             enabled: listView.count == 0
             text: qsTr("No tabs")
+
+            Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.secondaryHighlightColor
+                //text: signedIn ? qsTr("Try to Sync!") : qsTr("You are not signed in to Netvibes!")
+                text: qsTr("Try to Sync!")
+            }
         }
+
+        /*Image {
+            visible: listView.count == 0
+            anchors.centerIn: parent
+            source: "image://theme/graphic-tutorial-close?"+Theme.secondaryHighlightColor
+        }*/
+
+        /*Button {
+            visible: !signedIn
+            enabled: !signedIn
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: Theme.itemSizeLarge
+            text: qsTr("Sign In")
+        }*/
 
         VerticalScrollDecorator {
             flickable: listView
@@ -84,7 +108,7 @@ Page {
 
     }
 
-    ControlBar {
+    ControlBarDark {
         id: controlbar
         canSync: false
         canOffline: true

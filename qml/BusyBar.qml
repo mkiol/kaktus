@@ -32,7 +32,7 @@ Rectangle {
 
     signal closeClicked
 
-    height: visible ? Theme.itemSizeMedium * 1 : 0
+    height: visible ? Theme.itemSizeMedium * 0.8 : 0
     width: parent.width
 
     anchors.bottom: parent.bottom

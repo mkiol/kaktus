@@ -79,8 +79,13 @@ Dialog {
         settings.setNetvibesUsername(user.text);
         settings.setNetvibesPassword(password.text);
 
-        if (code == 0)
+        if (code == 0) {
             fetcher.checkCredentials();
+        } else {
+            if (!dm.isBusy())
+                dm.cancel();
+            fetcher.update();
+        }
     }
 
 }

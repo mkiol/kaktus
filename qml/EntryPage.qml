@@ -32,7 +32,6 @@ Page {
         model: entryModel
 
         MainMenu{}
-        //UpMenu {}
 
         header: PageHeader {
             title: root.title
@@ -73,7 +72,7 @@ Page {
 
     }
 
-    ControlBar {
+    ControlBarDark {
         id: controlbar
         canSync: false
         canOffline: true

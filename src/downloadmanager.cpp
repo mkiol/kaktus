@@ -435,6 +435,8 @@ void DownloadManager::cancel()
     }
 
     downloads.clear();
+
+    emit canceled();
 }
 
 int DownloadManager::itemsToDownloadCount()

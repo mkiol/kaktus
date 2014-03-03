@@ -32,6 +32,18 @@ void DatabaseManager::init()
         emit error();
         return;
     }
+
+    Settings *s = Settings::instance();
+    if (!s->getSignedIn()) {
+        if (!createDB()) {
+            qWarning() << "Creation of new empty DB failed!";
+            emit error();
+        } else {
+            emit empty();
+        }
+        return;
+    }
+
     if (!checkParameters()) {
         qWarning() << "Check DB parameters failed!";
         emit error();
@@ -129,7 +141,7 @@ bool DatabaseManager::checkParameters()
         }
 
         if (createDB) {
-            if (!deleteDB()) {
+            /*if (!deleteDB()) {
                 qWarning() << "DB can not be deleted!";
                 return false;
             }
@@ -146,7 +158,9 @@ bool DatabaseManager::checkParameters()
                 return false;
             }
             // New empty DB created
-            qDebug() << "New empty DB created!";
+            qDebug() << "New empty DB created!";*/
+            if (!this->createDB())
+                return false;
             emit empty();
         } else {
             emit notEmpty();
@@ -158,6 +172,29 @@ bool DatabaseManager::checkParameters()
         qWarning() << "DB is not opened!";
         return false;
     }
+}
+
+bool DatabaseManager::createDB()
+{
+    if (!deleteDB()) {
+        qWarning() << "DB can not be deleted!";
+        //return false;
+    }
+    if (!openDB()) {
+        qWarning() << "DB can not be opened!";
+        return false;
+    }
+    if (!createStructure()) {
+        qWarning() << "Create DB structure faild!";
+        return false;
+    }
+    if (!createActionsStructure()) {
+        qWarning() << "Create Actions structure faild!";
+        return false;
+    }
+    // New empty DB created
+    qDebug() << "New empty DB created!";
+    return true;
 }
 
 bool DatabaseManager::createStructure()

@@ -49,11 +49,11 @@ Page {
                     anchors.rightMargin: Theme.paddingLarge
 
                     Label {
-                        text: qsTr("Not signed in into Netvibes")
+                        text: qsTr("Not signed in to Netvibes")
                         visible: !signinForm.signedIn
                     }
                     Label {
-                        text: qsTr("Signed in into Netvibes as:")
+                        text: qsTr("Signed in to Netvibes as:")
                         visible: signinForm.signedIn
                     }
                     Label {
@@ -71,6 +71,10 @@ Page {
                                 settings.setSignedIn(false);
                                 settings.setNetvibesPassword("");
                                 signinForm.signedIn = false;
+                                pageStack.clear();
+                                fetcher.cancel();
+                                dm.cancel();
+                                db.init();
                             } else {
                                 pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": 0});
                             }
@@ -155,31 +159,6 @@ Page {
                     */
                 }
             }
-
-            /*ComboBox {
-                id: defaultdashboard
-                width: root.width
-                label: qsTr("Default Dashboard")
-
-                Component.onCompleted: {
-                    var menustr = 'import QtQuick 2.0;import Sailfish.Silica 1.0;ContextMenu{';
-                    var list = utils.dashboards();
-                    for (var i in list)
-                        menustr += 'MenuItem{text:"'+list[i]+'"}';
-                    menustr += '}';
-                    menu = Qt.createQmlObject(menustr,defaultdashboard);
-                    defaultdashboard.currentIndex = 0;
-                }
-            }*/
-
-            /*Button {
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Advanced Settings")
-                onClicked: {
-                    pageStack.push(Qt.resolvedUrl("AdvancedSettingsPage.qml"));
-                }
-            }*/
-
         }
 
         VerticalScrollDecorator {}

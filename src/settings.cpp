@@ -28,6 +28,9 @@ Settings* Settings::inst = 0;
 
 Settings::Settings(QObject *parent) : QObject(parent), settings()
 {
+    // Reset Last Update date if not Signed in
+    if (!getSignedIn())
+        setNetvibesLastUpdateDate(0);
 }
 
 Settings* Settings::instance()
@@ -53,6 +56,7 @@ bool Settings::getOfflineMode()
 void Settings::setSignedIn(bool value)
 {
     settings.setValue("signedin", value);
+    emit settingsChanged();
 }
 
 bool Settings::getSignedIn()

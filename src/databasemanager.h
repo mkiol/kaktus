@@ -169,6 +169,7 @@ private:
     QString dbFilePath;
 
     bool openDB();
+    bool createDB();
     bool deleteDB();
 
     bool createStructure();

@@ -54,6 +54,7 @@ public:
     Q_INVOKABLE void checkCredentials();
     Q_INVOKABLE void updateFeeds();
     Q_INVOKABLE void updateTab(const QString &tabId);
+    Q_INVOKABLE void cancel();
 
 signals:
     void quit();
@@ -79,6 +80,7 @@ signals:
      */
     void error(int code);
     void errorCheckingCredentials(int code);
+    void canceled();
 
 public slots:
     void finishedSignIn();

@@ -77,6 +77,7 @@ signals:
     void busy();
     void ready();
     void networkNotAccessible();
+    void canceled();
     /*
     500 - Unknown error
     501 - Save to disk error

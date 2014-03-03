@@ -70,7 +70,7 @@ Page {
 
     }
 
-    ControlBar {
+    ControlBarDark {
         id: controlbar
         canSync: false
         canOffline: true

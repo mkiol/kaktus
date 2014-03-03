@@ -25,6 +25,7 @@ ApplicationWindow {
     id: app
 
     property bool offLineMode
+    property bool signedIn
 
     onOffLineModeChanged: {
         settings.setOfflineMode(offLineMode);
@@ -32,6 +33,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         offLineMode = settings.getOfflineMode();
+        signedIn = settings.getSignedIn();
         db.init();
     }
 
@@ -40,6 +42,7 @@ ApplicationWindow {
 
         onSettingsChanged: {
             offLineMode = settings.getOfflineMode();
+            signedIn = settings.getSignedIn();
         }
 
         onError: {
@@ -61,6 +64,7 @@ ApplicationWindow {
         onEmpty: {
             console.log("DB is empty!");
 
+            utils.updateModels();
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
         }
@@ -82,6 +86,11 @@ ApplicationWindow {
             if (remaining === 0) {
                 busyDM.text = "All done!";
             }
+        }
+
+        onCanceled: {
+            console.log("DM canceled!");
+            busyDM.hide();
         }
 
         onBusy: {
@@ -119,6 +128,11 @@ ApplicationWindow {
 
     Connections {
         target: fetcher
+
+        onCanceled: {
+            console.log("Fetcher canceled!");
+            busy.hide();
+        }
 
         onReady: {
             console.log("Fetcher ready!");

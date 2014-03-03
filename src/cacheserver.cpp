@@ -69,9 +69,13 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
 
     if (item.type == "text") {
         // Converting charset
-        QTextCodec *tc = QTextCodec::codecForHtml(data);
+        QTextCodec *tc;
+        QRegExp rx("charset=(\\S*)", Qt::CaseInsensitive);
+        if (rx.indexIn(item.contentType)!=-1)
+            tc = QTextCodec::codecForName(rx.cap(1).toUtf8());
+        else
+            tc = QTextCodec::codecForHtml(data);
         QString content = tc->toUnicode(data);
-
         filter(content);
         data = tc->fromUnicode(content);
     }
@@ -79,6 +83,7 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
     //qDebug() << data;
 
     resp->setHeader("Content-Length", QString::number(data.size()));
+    //qDebug() << "Content-Type:"<<item.contentType;
     resp->setHeader("Content-Type", item.contentType);
     resp->writeHead(200);
     resp->end(data);

@@ -49,8 +49,6 @@ Column {
     anchors.left: parent.left
 
     opacity: root.open ? 1.0 : 0.0
-    //enabled: opacity > 0.0
-    //visible: opacity > 0.0
     Behavior on opacity { FadeAnimation {duration: 300} }
 
     function show() {
@@ -67,7 +65,7 @@ Column {
     }
 
     Rectangle {
-        color: Theme.highlightBackgroundColor
+        color: Theme.rgba(Theme.highlightBackgroundColor, 0.1)
         height: Theme.itemSizeMedium * 0.8
         width: parent.width
 
@@ -83,7 +81,7 @@ Column {
             visible: root.canBack
             anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://theme/icon-m-back?"+Theme.highlightDimmerColor
+            icon.source: "image://theme/icon-m-back"
             onClicked: root.backClicked()
         }
 
@@ -91,7 +89,7 @@ Column {
             visible: root.canSync
             anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://theme/icon-m-sync?"+Theme.highlightDimmerColor
+            icon.source: "image://theme/icon-m-sync"
             onClicked: root.syncClicked()
         }
 
@@ -116,14 +114,14 @@ Column {
 
             IconButton {
                 visible: root.canStar
-                icon.source: root.stared ? "image://theme/icon-m-favorite-selected?"+Theme.highlightDimmerColor : "image://theme/icon-m-favorite?"+Theme.highlightDimmerColor
+                icon.source: root.stared ? "image://theme/icon-m-favorite-selected": "image://theme/icon-m-favorite"
                 onClicked: root.starClicked()
             }
 
             IconButton {
                 width: back.width; height: back.height
                 visible: root.canOpenBrowser
-                icon.source: "image://theme/icon-m-region?"+Theme.highlightDimmerColor
+                icon.source: "image://theme/icon-m-region?"
                 onClicked: root.browserClicked()
             }
 
@@ -147,7 +145,7 @@ Column {
                 text: offLineMode ? "Offline mode" : "Online mode"
                 font.pixelSize: Theme.fontSizeSmall
                 font.family: Theme.fontFamily
-                color: Theme.highlightDimmerColor
+                color: Theme.highlightColor
 
                 MouseArea {
                     anchors.fill: parent
@@ -160,7 +158,7 @@ Column {
                 //visible: root.canOffline
                 //anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
                 anchors.verticalCenter: parent.verticalCenter
-                icon.source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightDimmerColor : "image://theme/icon-m-wlan-4?"+Theme.highlightDimmerColor
+                icon.source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightColor : "image://theme/icon-m-wlan-4?"+Theme.highlightColor
                 onClicked: offLineMode = !offLineMode;
             }
         }

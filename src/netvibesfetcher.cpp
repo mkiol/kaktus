@@ -860,7 +860,10 @@ void NetvibesFetcher::networkError(QNetworkReply::NetworkError e)
     _currentReply->deleteLater();
     _currentReply = 0;
 
-    emit error(500);
+    if (e == QNetworkReply::OperationCanceledError)
+        emit canceled();
+    else
+        emit error(500);
     _busy = false;
 }
 
@@ -899,6 +902,12 @@ void NetvibesFetcher::uploadActions()
         DatabaseManager::Action action = actionsList.first();
         set(action.entryId,action.type);
     }
+}
+
+void NetvibesFetcher::cancel()
+{
+    if (_currentReply)
+        _currentReply->close();
 }
 
 

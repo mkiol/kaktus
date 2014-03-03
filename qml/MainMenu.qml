@@ -62,6 +62,8 @@ PullDownMenu {
         text: qsTr("Sync")
 
         onClicked: {
+            dm.cancel();
+            fetcher.cancel();
             fetcher.update();
         }
     }
