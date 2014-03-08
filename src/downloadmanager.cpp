@@ -356,7 +356,7 @@ void Checker::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 
 void Checker::timeout()
 {
-    qDebug() << "timeout";
+    //qDebug() << "timeout";
     reply->close();
 }
 
@@ -365,7 +365,7 @@ void Checker::metaDataChanged()
     if (reply->header(QNetworkRequest::ContentLengthHeader).isValid()) {
         int length = reply->header(QNetworkRequest::ContentLengthHeader).toInt();
             if (length > maxSize) {
-                qDebug() << "metaDataChanged, length=" << length;
+                //qDebug() << "metaDataChanged, length=" << length;
                 reply->close();
                 return;
             }
@@ -378,7 +378,7 @@ void Checker::metaDataChanged()
     if (reply->header(QNetworkRequest::ContentTypeHeader).isValid()) {
         QString type = reply->header(QNetworkRequest::ContentTypeHeader).toString().section('/', 0, 0);
         if (type != "text" && type != "image") {
-            qDebug() << "metaDataChanged, type=" << type;
+            //qDebug() << "metaDataChanged, type=" << type;
             reply->close();
             return;
         }

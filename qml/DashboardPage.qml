@@ -30,7 +30,7 @@ Page {
         model: dashboardModel
 
         header: PageHeader {
-            title: "Dashboards"
+            title: qsTr("Dashboards")
         }
 
         delegate: ListItem {
@@ -70,13 +70,7 @@ Page {
 
     }
 
-    ControlBarDark {
+    /*ControlBar {
         id: controlbar
-        canSync: false
-        canOffline: true
-
-        onSyncClicked: {
-            fetcher.update();
-        }
-    }
+    }*/
 }

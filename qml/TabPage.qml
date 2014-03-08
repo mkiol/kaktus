@@ -32,7 +32,7 @@ Page {
         MainMenu{}
 
         header: PageHeader {
-            title: "Tabs"
+            title: qsTr("Tabs")
         }
 
         delegate: ListItem {
@@ -61,14 +61,30 @@ Page {
                 height: Theme.iconSizeSmall
                 anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
                 anchors.verticalCenter: item.verticalCenter
+                visible: settings.getShowTabIcons()
             }
 
-            Component.onCompleted: image.source = cache.getUrlbyUrl(iconUrl)
+            Component.onCompleted: {
+                if (image.visible)
+                    image.source = cache.getUrlbyUrl(iconUrl);
+            }
+
+            Connections {
+                target: settings
+                onSettingsChanged: {
+                    if (settings.getShowTabIcons()) {
+                        image.source = cache.getUrlbyUrl(iconUrl);
+                        image.visible = true;
+                    } else {
+                        image.source = "";
+                        image.visible = false;
+                    }
+                }
+            }
 
             onClicked: {
                 utils.setFeedModel(uid);
                 pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title});
-                console.log(cache.getUrlbyUrl(iconUrl));
             }
         }
 
@@ -87,35 +103,14 @@ Page {
             }
         }
 
-        /*Image {
-            visible: listView.count == 0
-            anchors.centerIn: parent
-            source: "image://theme/graphic-tutorial-close?"+Theme.secondaryHighlightColor
-        }*/
-
-        /*Button {
-            visible: !signedIn
-            enabled: !signedIn
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: Theme.itemSizeLarge
-            text: qsTr("Sign In")
-        }*/
-
         VerticalScrollDecorator {
             flickable: listView
         }
 
     }
 
-    ControlBarDark {
+    /*ControlBar {
         id: controlbar
-        canSync: false
-        canOffline: true
-
-        onSyncClicked: {
-            fetcher.update();
-        }
-    }
+    }*/
 
 }

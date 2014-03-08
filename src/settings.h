@@ -52,6 +52,8 @@ public:
     Q_INVOKABLE bool getOfflineMode();
     Q_INVOKABLE void setSignedIn(bool value);
     Q_INVOKABLE bool getSignedIn();
+    Q_INVOKABLE bool getShowTabIcons();
+    Q_INVOKABLE void setShowTabIcons(bool value);
 
     // Netvibes Fetcher
     Q_INVOKABLE void setNetvibesUsername(const QString &value);

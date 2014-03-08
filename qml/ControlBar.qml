@@ -22,35 +22,20 @@ import Sailfish.Silica 1.0
 
 
 
-Column {
+Item {
     id: root
 
-    property bool canBack: false
-    property bool canOffline: true
-
-    property bool canStar: false
-    property bool canSync: false
-    property bool canOpenBrowser: false
-
-    property bool stared: false
-    property bool open: false
-    property int showTime: 6000
-
+    property bool open: true
+    property int showTime: 8000
     property real barShowMoveWidth: 20
     property Flickable flick: null
-
-    signal backClicked()
-    signal starClicked()
-    signal browserClicked()
-    signal syncClicked()
 
     width: parent.width
     anchors.bottom: parent.bottom
     anchors.left: parent.left
+    height: Theme.itemSizeMedium * 1
 
     opacity: root.open ? 1.0 : 0.0
-    //enabled: opacity > 0.0
-    //visible: opacity > 0.0
     Behavior on opacity { FadeAnimation {duration: 300} }
 
     function show() {
@@ -67,109 +52,81 @@ Column {
     }
 
     Rectangle {
-        color: Theme.highlightBackgroundColor
-        height: Theme.itemSizeMedium * 0.8
-        width: parent.width
+        id: background
+        color: Theme.rgba(Theme.backgroundColor, 0.7)
+        anchors.fill: parent
+    }
 
+    OpacityRampEffect {
+        id: effect
+        slope: 2
+        offset: 0.5
+        direction: OpacityRamp.RightToLeft
+        sourceItem: background
+    }
 
-        MouseArea {
-            enabled: root.opacity > 0.0
-            anchors.fill: parent
-            onClicked: root.hide()
-        }
+    //color: Theme.rgba(Theme.highlightBackgroundColor, 0.3)
+    //color: Theme.rgba(Theme.backgroundColor, 0.7)
+    //height: Theme.itemSizeMedium * 1
+    //width: parent.width
+    //anchors.fill: parent
 
-        IconButton {
-            id: back
-            visible: root.canBack
-            anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
+    MouseArea {
+        enabled: root.opacity > 0.0
+        anchors.fill: parent
+        onClicked: root.hide()
+    }
+
+    Row {
+        id: row
+        anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
+        anchors.verticalCenter: parent.verticalCenter
+
+        Label {
+            id: label
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://theme/icon-m-back?"+Theme.highlightDimmerColor
-            onClicked: root.backClicked()
-        }
+            text: offLineMode ? qsTr("Offline mode") : qsTr("Online mode")
+            font.pixelSize: Theme.fontSizeSmall
+            font.family: Theme.fontFamily
+            color: Theme.highlightColor
+            opacity: 0.0
+            visible: opacity > 0.0
+            Behavior on opacity { FadeAnimation {duration: 200} }
 
-        IconButton {
-            visible: root.canSync
-            anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://theme/icon-m-sync?"+Theme.highlightDimmerColor
-            onClicked: root.syncClicked()
-        }
-
-        Row {
-            id: toolbarRow
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-
-            spacing: (parent.width - (back.width * 4)) / 3;
-
-            /*spacing: {
-                var i = 0;
-                if (canStar)
-                    ++i;
-                if (canOpenBrowser)
-                    ++i;
-                if (canSync)
-                    ++i;
-                console.log((parent.width - (back.width * 2+i)) / 1+i);
-                return (parent.width - (back.width * 2+i)) / 1+i;
-            }*/
-
-            IconButton {
-                visible: root.canStar
-                icon.source: root.stared ? "image://theme/icon-m-favorite-selected?"+Theme.highlightDimmerColor : "image://theme/icon-m-favorite?"+Theme.highlightDimmerColor
-                onClicked: root.starClicked()
+            MouseArea {
+                anchors.fill: parent
+                onClicked: offLineMode = !offLineMode
             }
 
-            IconButton {
-                width: back.width; height: back.height
-                visible: root.canOpenBrowser
-                icon.source: "image://theme/icon-m-region?"+Theme.highlightDimmerColor
-                onClicked: root.browserClicked()
+            function show() {
+                label.opacity = 1.0;
+                ltimer.restart();
             }
 
-        }
-
-        /*IconButton {
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            visible: root.canStar
-            icon.source: root.stared ? "image://theme/icon-m-favorite-selected?"+Theme.highlightDimmerColor : "image://theme/icon-m-favorite?"+Theme.highlightDimmerColor
-            onClicked: root.starClicked()
-        }*/
-
-        Row {
-            visible: root.canOffline
-            anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-            Label {
-                visible: !root.canOpenBrowser
-                anchors.verticalCenter: parent.verticalCenter
-                text: offLineMode ? "Offline mode" : "Online mode"
-                font.pixelSize: Theme.fontSizeSmall
-                font.family: Theme.fontFamily
-                color: Theme.highlightDimmerColor
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: offLineMode = !offLineMode
+            Timer {
+                id: ltimer
+                interval: 3000
+                onTriggered: {
+                    label.opacity = 0.0;
                 }
             }
+        }
 
-            IconButton {
-                id: offline
-                //visible: root.canOffline
-                //anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
-                anchors.verticalCenter: parent.verticalCenter
-                icon.source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightDimmerColor : "image://theme/icon-m-wlan-4?"+Theme.highlightDimmerColor
-                onClicked: offLineMode = !offLineMode;
+        IconButton {
+            id: offline
+            anchors.verticalCenter: parent.verticalCenter
+            icon.source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightColor : "image://theme/icon-m-wlan-4?"+Theme.highlightColor
+            onClicked: {
+                offLineMode = !offLineMode;
+                label.show();
             }
         }
+    }
 
-        MouseArea {
-            enabled: root.opacity == 0.0
-            anchors.fill: parent
-            onClicked: root.show();
-        }
+    MouseArea {
+        enabled: root.opacity == 0.0
+        anchors.fill: parent
+        onClicked: root.show();
     }
 
     Timer {

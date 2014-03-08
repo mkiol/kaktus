@@ -55,6 +55,7 @@ public:
     Q_INVOKABLE void updateFeeds();
     Q_INVOKABLE void updateTab(const QString &tabId);
     Q_INVOKABLE void cancel();
+    Q_INVOKABLE bool isBusy();
 
 signals:
     void quit();

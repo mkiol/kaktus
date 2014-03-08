@@ -60,8 +60,15 @@ Page {
                     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeSmall
                     color: Theme.secondaryColor
-                    //text: unread + " unread" + " | " + readlater + " stared"
-                    text: unread + " unread"
+                    text: {
+                        if (unread==0)
+                            return qsTr("all read");
+                        if (unread==1)
+                            return qsTr("1 unread");
+                        if (unread<5)
+                            return qsTr("%1 unread","less than 5 articles are unread").arg(unread);
+                        return qsTr("%1 unread","more or equal 5 articles are unread").arg(unread);
+                    }
                     visible: unread!=0
                 }
             }
@@ -84,14 +91,8 @@ Page {
 
     }
 
-    ControlBarDark {
+    /*ControlBar {
         id: controlbar
-        canSync: false
-        canOffline: true
-
-        onSyncClicked: {
-            fetcher.update();
-        }
-    }
+    }*/
 
 }

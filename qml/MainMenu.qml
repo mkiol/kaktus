@@ -20,7 +20,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-import "scripts.js" as Scripts
 
 
 PullDownMenu {
@@ -41,23 +40,6 @@ PullDownMenu {
         }
     }
 
-    /*MenuItem {
-        text: qsTr("Dashboards")
-
-        onClicked: {
-            utils.setDashboardModel();
-            pageStack.push(Qt.resolvedUrl("DashboardPage.qml"));
-        }
-    }*/
-
-    /*MenuItem {
-        text: qsTr("Download")
-
-        onClicked: {
-            pageStack.push(Qt.resolvedUrl("DownloadDialog.qml"));
-        }
-    }*/
-
     MenuItem {
         text: qsTr("Sync")
 
@@ -72,16 +54,28 @@ PullDownMenu {
         function update() {
             var lastSync = settings.getNetvibesLastUpdateDate();
             if (lastSync>0)
-                text = qsTr("Last sync") + ": " + Scripts.getHumanFriendlyTimeString(lastSync);
+                text = qsTr("Last sync: %1").arg(app.getHumanFriendlyTimeString(lastSync));
             else
                 text = qsTr("Not yet synced");
         }
 
-        Component.onCompleted: update();
+        Component.onCompleted: {
+            update();
+        }
 
         Connections {
             target: fetcher
             onReady: update()
+        }
+
+        Timer {
+            id: timer
+            running: true
+            interval: 20000
+            repeat: true
+            onTriggered: {
+                parent.update();
+            }
         }
 
     }

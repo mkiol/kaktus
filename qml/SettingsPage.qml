@@ -127,9 +127,32 @@ Page {
             }
 
             TextSwitch {
+                id: offlinemode
+                text: qsTr("Offline mode")
+                description: qsTr("Content of articles will be displayed from local cache, without a network usage.")
+
+                checked: settings.getOfflineMode()
+
+                onCheckedChanged: {
+                    settings.setOfflineMode(checked);
+                    /*if (checked)
+                        notification.show(qsTr("Offline mode enabled"));
+                    else
+                        notification.show(qsTr("Online mode enabled"));
+                    */
+                }
+
+                /*Image {
+                    anchors.verticalCenter: parent.verticalCenter
+                    source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightColor : "image://theme/icon-m-wlan-4?"+Theme.highlightColor
+                    anchors.right: parent.right
+                }*/
+            }
+
+            TextSwitch {
                 id: autodownload
                 text: qsTr("Cache articles")
-                description: qsTr("If enabled, all articles will be downloaded and cached for access in Offline mode.")
+                description: qsTr("After sync the content for all articles will be downloaded and cached for access in Offline mode.")
 
                 Component.onCompleted: {
                     checked = settings.getAutoDownloadOnUpdate();
@@ -141,22 +164,12 @@ Page {
             }
 
             TextSwitch {
-                id: offlinemode
-                text: qsTr("Offline mode")
-                description: qsTr("If enabled, content of articles will be displayed from local cache, without a network usage.")
-
-                Component.onCompleted: {
-                    checked = settings.getOfflineMode();
-                }
+                id: tabicons
+                text: qsTr("Show Tabs icons")
+                checked: settings.getShowTabIcons();
 
                 onCheckedChanged: {
-                    settings.setOfflineMode(checked);
-
-                    /*if (checked)
-                        notification.show(qsTr("Offline mode enabled"));
-                    else
-                        notification.show(qsTr("Online mode enabled"));
-                    */
+                    settings.setShowTabIcons(checked);
                 }
             }
         }

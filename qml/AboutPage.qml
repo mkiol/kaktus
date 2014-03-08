@@ -53,7 +53,7 @@ Page {
                 font.pixelSize: Theme.fontSizeMedium
                 color: Theme.highlightColor
                 wrapMode: Text.WordWrap
-                text: qsTr("Version") + ": " + VERSION;
+                text: qsTr("Version: %1").arg(VERSION);
             }
 
             Label {
@@ -61,7 +61,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeSmall
-                text: qsTr("Kaktus is an unofficial Netvibes client for Sailfish OS.");
+                text: qsTr("Kaktus is an unofficial Netvibes client for Sailfish OS with offline reading capabilities.");
             }
 
             Label {
@@ -80,30 +80,8 @@ Page {
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeExtraSmall
                 textFormat: Text.RichText
-                text: qsTr("Copyright &copy; 2014 Michał Kościesza");
+                text: "Copyright &copy; 2014 Michał Kościesza"
             }
-
-            /*Label {
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-                anchors.left: parent.left; anchors.right: parent.right
-                font.pixelSize: Theme.fontSizeSmall
-                text: qsTr("It is free software. You can redistribute it and/or modify"
-                           +" it under the terms of the GNU General Public License as published by"
-                           +" the Free Software Foundation, either version 3 of the License, or"
-                           +" (at your option) any later version.");
-            }
-
-            Label {
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-                anchors.left: parent.left; anchors.right: parent.right
-                font.pixelSize: Theme.fontSizeSmall
-                text: qsTr("nReader is distributed in the hope that it will be useful,"
-                           +" but WITHOUT ANY WARRANTY; without even the implied warranty of"
-                           +" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
-                           +" GNU General Public License for more details.");
-            }*/
         }
 
         VerticalScrollDecorator {}

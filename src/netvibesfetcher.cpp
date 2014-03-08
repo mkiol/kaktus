@@ -47,6 +47,11 @@ void NetvibesFetcher::init()
     signIn();
 }
 
+bool NetvibesFetcher::isBusy()
+{
+    return _busy;
+}
+
 void NetvibesFetcher::networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility accessible)
 {
     switch (accessible) {
@@ -226,7 +231,7 @@ void NetvibesFetcher::set(const QString &entryId, DatabaseManager::ActionsTypes 
     QString feedId = _db->readFeedId(entryId);
     QString content = "feeds="+feedId+"&items="+entryId+"&format=json";
 
-    qDebug() << "content: " << content;
+    //qDebug() << "content: " << content;
 
     _currentReply = _manager.post(request, content.toUtf8());
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedSet()));
@@ -360,7 +365,7 @@ void NetvibesFetcher::fetchFeedsUpdate()
 
     QString feeds;  int ii = 0;
     QMap<QString,int>::iterator i = _feedUpdateList.begin();
-    qDebug() << "feedUpdateList.count=" << _feedUpdateList.count();
+    //qDebug() << "feedUpdateList.count=" << _feedUpdateList.count();
     while (i != _feedUpdateList.end()) {
         if (ii >= feedsUpdateAtOnce) {
             break;
@@ -608,11 +613,11 @@ void NetvibesFetcher::finishedSignIn()
             // upload actions
             actionsList =_db->readActions();
             if (actionsList.isEmpty()) {
-                qDebug() << "No actions to upload!";
+                //qDebug() << "No actions to upload!";
                 _db->cleanDashboards();
                 fetchDashboards();
             } else {
-                qDebug() << actionsList.count() << " actions to upload!";
+                //qDebug() << actionsList.count() << " actions to upload!";
                 uploadActions();
             }
 
@@ -703,7 +708,7 @@ void NetvibesFetcher::finishedTabs()
                 _feedUpdateList = _db->readFeedsFirstUpdate();
 
                 if (_feedList.isEmpty()) {
-                    qDebug() << "No new Feeds!";
+                    //qDebug() << "No new Feeds!";
                     fetchFeedsUpdate();
 
                     _total = (_feedUpdateList.count()/feedsUpdateAtOnce)+3;
@@ -737,7 +742,7 @@ void NetvibesFetcher::cleanNewFeeds()
     QStringList::iterator i = _feedList.begin();
     while (i != _feedList.end()) {
         if (storedFeedList.find(*i) == storedFeedList.end()) {
-            qDebug() << "New feed " << *i;
+            //qDebug() << "New feed " << *i;
             ++i;
         } else {
             i = _feedList.erase(i);
@@ -816,7 +821,7 @@ void NetvibesFetcher::finishedSet()
     }
 
     // deleting action
-    qDebug() << "Deleting action...";
+    //qDebug() << "Deleting action...";
     DatabaseManager::Action action = actionsList.takeFirst();
     _db->removeAction(action.entryId);
 
@@ -854,16 +859,17 @@ void NetvibesFetcher::finishedFeedsUpdate()
 
 void NetvibesFetcher::networkError(QNetworkReply::NetworkError e)
 {
-    qWarning() << "Network error!, error code: " << e;
-
     _currentReply->disconnect(this);
     _currentReply->deleteLater();
     _currentReply = 0;
 
-    if (e == QNetworkReply::OperationCanceledError)
+    if (e == QNetworkReply::OperationCanceledError) {
         emit canceled();
-    else
+    } else {
         emit error(500);
+        qWarning() << "Network error!, error code: " << e;
+    }
+
     _busy = false;
 }
 
@@ -879,11 +885,11 @@ void NetvibesFetcher::taskEnd()
     s->setNetvibesLastUpdateDate(QDateTime::currentDateTime().toTime_t());
 
     if(_busyType) {
-        qDebug() << "Update ends!";
+        //qDebug() << "Update ends!";
         emit ready();
         _busy = false;
     } else {
-        qDebug() << "Init ends!";
+        //qDebug() << "Init ends!";
         emit ready();
         _busy = false;
     }

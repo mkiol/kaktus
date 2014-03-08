@@ -121,7 +121,7 @@ bool DatabaseManager::checkParameters()
                     qWarning() << "DB version mismatch!";
                     createDB = true;
                 } else {
-                    qDebug() << "DB version ok!";
+                    //qDebug() << "DB version ok!";
                     // Check is Dashboard exists
                     if (!isDashborardExists()) {
                         emit empty();
@@ -141,24 +141,6 @@ bool DatabaseManager::checkParameters()
         }
 
         if (createDB) {
-            /*if (!deleteDB()) {
-                qWarning() << "DB can not be deleted!";
-                return false;
-            }
-            if (!openDB()) {
-                qWarning() << "DB can not be opened!";
-                return false;
-            }
-            if (!createStructure()) {
-                qWarning() << "Create DB structure faild!";
-                return false;
-            }
-            if (!createActionsStructure()) {
-                qWarning() << "Create Actions structure faild!";
-                return false;
-            }
-            // New empty DB created
-            qDebug() << "New empty DB created!";*/
             if (!this->createDB())
                 return false;
             emit empty();
@@ -193,7 +175,7 @@ bool DatabaseManager::createDB()
         return false;
     }
     // New empty DB created
-    qDebug() << "New empty DB created!";
+    //qDebug() << "New empty DB created!";
     return true;
 }
 
@@ -598,9 +580,6 @@ bool DatabaseManager::updateEntryCache(const QString &entryId, int cacheDate, in
 
     return ret;
 }
-
-//bool updateEntryReadFlag(const QString &entryId, int read);
-//bool updateEntryReadlaterFlag(const QString &entryId, int readlater);
 
 bool DatabaseManager::updateEntryReadFlag(const QString &entryId, int read)
 {

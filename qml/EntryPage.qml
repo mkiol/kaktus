@@ -72,13 +72,7 @@ Page {
 
     }
 
-    ControlBarDark {
+    /*ControlBar {
         id: controlbar
-        canSync: false
-        canOffline: true
-
-        onSyncClicked: {
-            fetcher.update();
-        }
-    }
+    }*/
 }

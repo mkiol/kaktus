@@ -44,8 +44,10 @@ Settings* Settings::instance()
 
 void Settings::setOfflineMode(bool value)
 {
-    settings.setValue("offlinemode", value);
-    emit settingsChanged();
+    if (getOfflineMode() != value) {
+        settings.setValue("offlinemode", value);
+        emit settingsChanged();
+    }
 }
 
 bool Settings::getOfflineMode()
@@ -53,10 +55,25 @@ bool Settings::getOfflineMode()
     return settings.value("offlinemode", false).toBool();
 }
 
+void Settings::setShowTabIcons(bool value)
+{
+    if (getShowTabIcons() != value) {
+        settings.setValue("showtabicons", value);
+        emit settingsChanged();
+    }
+}
+
+bool Settings::getShowTabIcons()
+{
+    return settings.value("showtabicons", false).toBool();
+}
+
 void Settings::setSignedIn(bool value)
 {
-    settings.setValue("signedin", value);
-    emit settingsChanged();
+    if (getSignedIn() != value) {
+        settings.setValue("signedin", value);
+        emit settingsChanged();
+    }
 }
 
 bool Settings::getSignedIn()

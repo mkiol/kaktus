@@ -26,6 +26,7 @@
 #include <QGuiApplication>
 #include <QScopedPointer>
 #include <QQmlEngine>
+#include <QTranslator>
 #include <sailfishapp.h>
 
 #include "databasemanager.h"
@@ -36,7 +37,7 @@
 #include "settings.h"
 
 static const char *APP_NAME = "Kaktus";
-static const char *VERSION = "0.0.2";
+static const char *VERSION = "0.9.0";
 static const char *AUTHOR = "Michał Kościesza <michal@mkiol.net>";
 static const char *PAGE = "https://github/mkiol/kaktus";
 
@@ -53,6 +54,11 @@ int main(int argc, char *argv[])
     app->setOrganizationName("mkiol");
     app->setApplicationDisplayName(APP_NAME);
     app->setApplicationVersion(VERSION);
+
+    QTranslator *appTranslator = new QTranslator;
+    appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
+    //appTranslator->load(":/i18n/kaktus_pl.qm");
+    app->installTranslator(appTranslator);
 
     Settings* settings = Settings::instance();
     DatabaseManager db; settings->db = &db;

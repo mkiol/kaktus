@@ -27,11 +27,8 @@ Column {
 
     property bool canBack: false
     property bool canOffline: true
-
     property bool canStar: false
-    property bool canSync: false
     property bool canOpenBrowser: false
-
     property bool stared: false
     property bool open: false
     property int showTime: 6000
@@ -42,7 +39,6 @@ Column {
     signal backClicked()
     signal starClicked()
     signal browserClicked()
-    signal syncClicked()
 
     width: parent.width
     anchors.bottom: parent.bottom
@@ -65,8 +61,8 @@ Column {
     }
 
     Rectangle {
-        color: Theme.rgba(Theme.highlightBackgroundColor, 0.1)
-        height: Theme.itemSizeMedium * 0.8
+        color: Theme.highlightBackgroundColor
+        height: Theme.itemSizeMedium * 1
         width: parent.width
 
 
@@ -81,16 +77,8 @@ Column {
             visible: root.canBack
             anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://theme/icon-m-back"
+            icon.source: "image://theme/icon-m-back?"+Theme.highlightDimmerColor
             onClicked: root.backClicked()
-        }
-
-        IconButton {
-            visible: root.canSync
-            anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://theme/icon-m-sync"
-            onClicked: root.syncClicked()
         }
 
         Row {
@@ -100,67 +88,28 @@ Column {
 
             spacing: (parent.width - (back.width * 4)) / 3;
 
-            /*spacing: {
-                var i = 0;
-                if (canStar)
-                    ++i;
-                if (canOpenBrowser)
-                    ++i;
-                if (canSync)
-                    ++i;
-                console.log((parent.width - (back.width * 2+i)) / 1+i);
-                return (parent.width - (back.width * 2+i)) / 1+i;
-            }*/
-
             IconButton {
                 visible: root.canStar
-                icon.source: root.stared ? "image://theme/icon-m-favorite-selected": "image://theme/icon-m-favorite"
+                icon.source: root.stared ? "image://theme/icon-m-favorite-selected?"+Theme.highlightDimmerColor : "image://theme/icon-m-favorite?"+Theme.highlightDimmerColor
                 onClicked: root.starClicked()
             }
 
             IconButton {
                 width: back.width; height: back.height
                 visible: root.canOpenBrowser
-                icon.source: "image://theme/icon-m-region?"
+                icon.source: "image://theme/icon-m-region?"+Theme.highlightDimmerColor
                 onClicked: root.browserClicked()
             }
 
         }
 
-        /*IconButton {
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            visible: root.canStar
-            icon.source: root.stared ? "image://theme/icon-m-favorite-selected?"+Theme.highlightDimmerColor : "image://theme/icon-m-favorite?"+Theme.highlightDimmerColor
-            onClicked: root.starClicked()
-        }*/
-
-        Row {
+        IconButton {
+            id: offline
             visible: root.canOffline
             anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
-            Label {
-                visible: !root.canOpenBrowser
-                anchors.verticalCenter: parent.verticalCenter
-                text: offLineMode ? "Offline mode" : "Online mode"
-                font.pixelSize: Theme.fontSizeSmall
-                font.family: Theme.fontFamily
-                color: Theme.highlightColor
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: offLineMode = !offLineMode
-                }
-            }
-
-            IconButton {
-                id: offline
-                //visible: root.canOffline
-                //anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
-                anchors.verticalCenter: parent.verticalCenter
-                icon.source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightColor : "image://theme/icon-m-wlan-4?"+Theme.highlightColor
-                onClicked: offLineMode = !offLineMode;
-            }
+            icon.source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightDimmerColor : "image://theme/icon-m-wlan-4?"+Theme.highlightDimmerColor
+            onClicked: offLineMode = !offLineMode;
         }
 
         MouseArea {

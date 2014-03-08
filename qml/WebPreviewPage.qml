@@ -36,10 +36,10 @@ Page {
         if (forwardNavigation)
             forwardNavigation = false;
     }
-    onBackNavigationChanged: {
+    /*onBackNavigationChanged: {
         if (backNavigation)
             backNavigation = false;
-    }
+    }*/
     showNavigationIndicator: false
     //allowedOrientations: Orientation.Landscape | Orientation.Portrait
     allowedOrientations: Orientation.Portrait
@@ -67,14 +67,14 @@ Page {
 
         onLoadingChanged: {
             if (loadRequest.status == WebView.LoadStartedStatus) {
-                console.log("onLoadingChanged, LoadStartedStatus");
+                //console.log("onLoadingChanged, LoadStartedStatus");
                 busy.show("Loading page content...", false);
             } else if (loadRequest.status == WebView.LoadFailedStatus) {
-                console.log("onLoadingChanged, LoadFailedStatus");
+                //console.log("onLoadingChanged, LoadFailedStatus");
                 notification.show(qsTr("Failed to load page content :-("));
                 busy.hide();
             } else {
-                console.log("onLoadingChanged, Ok");
+                //console.log("onLoadingChanged, Ok");
                 busy.hide();
             }
         }
@@ -89,7 +89,7 @@ Page {
         }
     }
 
-    ControlBar {
+    ControlBarWebPreview {
         id: controlbar
         flick: view
         canBack: true
@@ -120,9 +120,6 @@ Page {
 
     BusyBar {
         id: busy
-        onCloseClicked: {
-            console.log("cancel!");
-        }
     }
 
 }

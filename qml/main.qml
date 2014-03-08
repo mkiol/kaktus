@@ -27,6 +27,58 @@ ApplicationWindow {
     property bool offLineMode
     property bool signedIn
 
+    function getHumanFriendlyTimeString(date) {
+        var delta = Math.floor(Date.now()/1000-date);
+        if (delta===0) {
+            return qsTr("just now");
+        }
+        if (delta===1) {
+            return qsTr("1 second ago");
+        }
+        if (delta<5) {
+            return qsTr("%1 seconds ago","less than 5 seconds").arg(delta);
+        }
+        if (delta<60) {
+            return qsTr("%1 seconds ago","more or equal 5 seconds").arg(delta);
+        }
+        if (delta>=60&&delta<120) {
+            return qsTr("1 minute ago");
+        }
+        if (delta<300) {
+            qsTr("%1 minutes ago","less than 5 minutes").arg(Math.floor(delta/60));
+        }
+        if (delta<3600) {
+            qsTr("%1 minutes ago","more or equal 5 minutes").arg(Math.floor(delta/60));
+        }
+        if (delta>=3600&&delta<7200) {
+            return qsTr("1 hour ago");
+        }
+        if (delta<18000) {
+            return qsTr("%1 hours ago","less than 5 hours").arg(Math.floor(delta/3600));
+        }
+        if (delta<86400) {
+            return qsTr("%1 hours ago","more or equal 5 hours").arg(Math.floor(delta/3600));
+        }
+        if (delta>=86400&&delta<172800) {
+            return qsTr("yesterday");
+        }
+        if (delta<432000) {
+            return qsTr("%1 days ago","less than 5 days").arg(Math.floor(delta/86400));
+        }
+        if (delta<604800) {
+            return qsTr("%1 days ago","more or equal 5 days").arg(Math.floor(delta/86400));
+        }
+        if (delta>=604800&&delta<1209600) {
+            return qsTr("1 week ago");
+        }
+        if (delta<2419200) {
+            return qsTr("%1 weeks ago").arg(Math.floor(delta/604800));
+        }
+        return Qt.formatDateTime(new Date(date*1000),"dddd, d MMMM yy");
+    }
+
+    cover: CoverPage {}
+
     onOffLineModeChanged: {
         settings.setOfflineMode(offLineMode);
     }
@@ -62,16 +114,14 @@ ApplicationWindow {
         }
 
         onEmpty: {
-            console.log("DB is empty!");
-
+            //console.log("DB is empty!");
             utils.updateModels();
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
         }
 
         onNotEmpty: {
-            console.log("DB is not empty!");
-
+            //console.log("DB is not empty!");
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
         }
@@ -81,25 +131,25 @@ ApplicationWindow {
         target: dm
 
         onProgress: {
-            console.log("DM progress: " + remaining);
-            busyDM.text = "" + remaining + " more items left..."
+            //console.log("DM progress: " + remaining);
+            busyDM.text = qsTr("%1 more items left...").arg(remaining);
             if (remaining === 0) {
-                busyDM.text = "All done!";
+                busyDM.text = qsTr("All done!");
             }
         }
 
         onCanceled: {
-            console.log("DM canceled!");
+            //console.log("DM canceled!");
             busyDM.hide();
         }
 
         onBusy: {
-            console.log("DM busy!");
-            busyDM.show("Caching...",true);
+            //console.log("DM busy!");
+            busyDM.show(qsTr("Caching..."),true);
         }
 
         onReady: {
-            console.log("DM ready!");
+            //console.log("DM ready!");
             busyDM.hide();
         }
 
@@ -130,12 +180,12 @@ ApplicationWindow {
         target: fetcher
 
         onCanceled: {
-            console.log("Fetcher canceled!");
+            //console.log("Fetcher canceled!");
             busy.hide();
         }
 
         onReady: {
-            console.log("Fetcher ready!");
+            //console.log("Fetcher ready!");
             //notification.show(qsTr("Sync done!"));
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
@@ -170,47 +220,47 @@ ApplicationWindow {
         }
 
         onErrorCheckingCredentials: {
-            console.log("Fetcher checking error");
-            console.log("code=" + code);
+            //console.log("Fetcher checking error");
+            //console.log("code=" + code);
             notification.show(qsTr("User & Password do not match!"));
             busy.hide();
         }
 
         onCredentialsValid: {
-            console.log("Fetcher credentials valid");
+            //console.log("Fetcher credentials valid");
             notification.show(qsTr("Successfully Signed In!"));
             busy.hide();
         }
 
         onProgress: {
-            console.log("Fetcher progress: " + current + "/" + total);
+            //console.log("Fetcher progress: " + current + "/" + total);
             //busy.text = "Fetching data... " + Math.floor((current / total) * 100) + "%";
-            busy.text = "Receiving data... ";
+            busy.text = qsTr("Receiving data... ");
             busy.progress = current / total;
         }
 
         onInitiating: {
-            console.log("Fetcher init started!");
-            busy.text = "Initiating...";
+            //console.log("Fetcher init started!");
+            busy.text = qsTr("Initiating...");
         }
 
         onUpdating: {
-            console.log("Fetcher update started!");
-            busy.text = "Updating...";
+            //console.log("Fetcher update started!");
+            busy.text = qsTr("Updating...");
         }
 
         onUploading: {
-            console.log("Fetcher uploading!");
-            busy.text = "Sending data to Netvibes...";
+            //console.log("Fetcher uploading!");
+            busy.text = qsTr("Sending data to Netvibes...");
         }
 
         onCheckingCredentials: {
-            console.log("Fetcher checking credentials!");
-            busy.text = "Signing in...";
+            //console.log("Fetcher checking credentials!");
+            qsTr(busy.text = "Signing in...");
         }
 
         onBusy: {
-            console.log("Fetcher busy!");
+            //console.log("Fetcher busy!");
             busy.show("", false);
         }
 

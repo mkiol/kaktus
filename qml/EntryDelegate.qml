@@ -20,7 +20,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-import "scripts.js" as Scripts
+
 
 ListItem {
     id: root
@@ -177,8 +177,8 @@ ListItem {
             color: Theme.secondaryColor
             truncationMode: TruncationMode.Fade
             text: root.author!=""
-                  ? Scripts.getHumanFriendlyTimeString(date)+" | "+root.author
-                  : Scripts.getHumanFriendlyTimeString(date)
+                  ? app.getHumanFriendlyTimeString(date)+" | "+root.author
+                  : app.getHumanFriendlyTimeString(date)
         }
 
     }
@@ -187,7 +187,7 @@ ListItem {
         id: contextMenu
         ContextMenu {
             MenuItem {
-                text: readlater ? "Unstar" : "Star"
+                text: readlater ? qsTr("Unstar") : qsTr("Star")
                 onClicked: {
                     if (readlater) {
                         readlater=0;
@@ -199,7 +199,7 @@ ListItem {
                 }
             }
             MenuItem {
-                text: read ? "Mark as unread" : "Mark as read"
+                text: read ? qsTr("Mark as unread") : qsTr("Mark as read")
                 onClicked: {
                     if (read) {
                         read=0;
