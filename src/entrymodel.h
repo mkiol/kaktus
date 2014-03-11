@@ -30,6 +30,7 @@
 #include <QTextDocument>
 #include <QChar>
 #include <QDateTime>
+#include <QRegExp>
 
 #include "listmodel.h"
 #include "feedmodel.h"

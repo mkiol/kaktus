@@ -35,14 +35,14 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <location filename="../qml/CoverPage.qml" line="87"/>
-        <location filename="../qml/CoverPage.qml" line="100"/>
+        <location filename="../qml/CoverPage.qml" line="112"/>
+        <location filename="../qml/CoverPage.qml" line="126"/>
         <source>Syncing...</source>
         <translation>Aktualizowanie...</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="114"/>
-        <location filename="../qml/CoverPage.qml" line="120"/>
+        <location filename="../qml/CoverPage.qml" line="142"/>
+        <location filename="../qml/CoverPage.qml" line="148"/>
         <source>Caching...</source>
         <translation>Pobieranie...</translation>
     </message>
@@ -86,22 +86,22 @@
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="190"/>
+        <location filename="../qml/EntryDelegate.qml" line="188"/>
         <source>Unstar</source>
         <translation>Wyczyść gwiazdkę</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="190"/>
+        <location filename="../qml/EntryDelegate.qml" line="188"/>
         <source>Star</source>
         <translation>Zaznacz gwiazdką</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="202"/>
+        <location filename="../qml/EntryDelegate.qml" line="200"/>
         <source>Mark as unread</source>
         <translation>Zaznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="202"/>
+        <location filename="../qml/EntryDelegate.qml" line="200"/>
         <source>Mark as read</source>
         <translation>Zaznacz jako przeczytane</translation>
     </message>
@@ -149,7 +149,7 @@
         <location filename="../qml/FeedPage.qml" line="70"/>
         <source>%1 unread</source>
         <comment>more or equal 5 articles are unread</comment>
-        <translation>%1 nieprzeczytane</translation>
+        <translation>%1 nieprzeczytanych</translation>
     </message>
     <message>
         <location filename="../qml/FeedPage.qml" line="85"/>
@@ -302,12 +302,17 @@
 <context>
     <name>WebPreviewPage</name>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="74"/>
+        <location filename="../qml/WebPreviewPage.qml" line="66"/>
+        <source>Loading page content...</source>
+        <translation>Wczytywanie artykułu...</translation>
+    </message>
+    <message>
+        <location filename="../qml/WebPreviewPage.qml" line="68"/>
         <source>Failed to load page content :-(</source>
         <translation>Nie udało się pobrać treści :-(</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="113"/>
+        <location filename="../qml/WebPreviewPage.qml" line="106"/>
         <source>Launching an external browser...</source>
         <translation>Uruchamianie zewnętrznej przeglądarki...</translation>
     </message>
@@ -406,7 +411,7 @@
     <message>
         <location filename="../qml/main.qml" line="135"/>
         <source>%1 more items left...</source>
-        <translation>Pozostało po pobrania: %1... </translation>
+        <translation>Pozostało do pobrania: %1... </translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="137"/>
@@ -453,7 +458,7 @@
     <message>
         <location filename="../qml/main.qml" line="254"/>
         <source>Sending data to Netvibes...</source>
-        <translation>Wysyałanie danych do Netvibes...</translation>
+        <translation>Wysyłanie danych do Netvibes...</translation>
     </message>
 </context>
 </TS>

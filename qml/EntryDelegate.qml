@@ -137,7 +137,6 @@ ListItem {
             visible: root.content!="" && (root.read==0 || root.readlater>0)
             color: root.read > 0 && root.readlater==0 ? Theme.secondaryColor
                                                       : Theme.primaryColor
-
             function getFirstWords(){
                 var words = root.content.split(" ");
                 var shortText = ""; var max = Math.min(words.length, root.maxWords);
@@ -160,7 +159,6 @@ ListItem {
             font.pixelSize: Theme.fontSizeSmall
             color: root.read > 0 && root.readlater==0 ? Theme.secondaryColor
                                                       : Theme.primaryColor
-
             function getLastWords(){
                 var words = root.content.split(" ");
                 var fullText = ""; var max = Math.min(words.length, root.maxWords);
@@ -207,6 +205,8 @@ ListItem {
                     } else {
                         read=1;
                         entryModel.setData(index, "read", 1);
+                        if (lblMoreDetails.visible)
+                            root.expanded = false;
                     }
                 }
             }

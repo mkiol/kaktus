@@ -41,16 +41,16 @@ ApplicationWindow {
         if (delta<60) {
             return qsTr("%1 seconds ago","more or equal 5 seconds").arg(delta);
         }
-        if (delta>=60&&delta<120) {
+        if (delta<120) {
             return qsTr("1 minute ago");
         }
         if (delta<300) {
-            qsTr("%1 minutes ago","less than 5 minutes").arg(Math.floor(delta/60));
+            return qsTr("%1 minutes ago","less than 5 minutes").arg(Math.floor(delta/60));
         }
         if (delta<3600) {
-            qsTr("%1 minutes ago","more or equal 5 minutes").arg(Math.floor(delta/60));
+            return qsTr("%1 minutes ago","more or equal 5 minutes").arg(Math.floor(delta/60));
         }
-        if (delta>=3600&&delta<7200) {
+        if (delta<7200) {
             return qsTr("1 hour ago");
         }
         if (delta<18000) {
@@ -59,7 +59,7 @@ ApplicationWindow {
         if (delta<86400) {
             return qsTr("%1 hours ago","more or equal 5 hours").arg(Math.floor(delta/3600));
         }
-        if (delta>=86400&&delta<172800) {
+        if (delta<172800) {
             return qsTr("yesterday");
         }
         if (delta<432000) {
@@ -68,7 +68,7 @@ ApplicationWindow {
         if (delta<604800) {
             return qsTr("%1 days ago","more or equal 5 days").arg(Math.floor(delta/86400));
         }
-        if (delta>=604800&&delta<1209600) {
+        if (delta<1209600) {
             return qsTr("1 week ago");
         }
         if (delta<2419200) {
@@ -261,7 +261,7 @@ ApplicationWindow {
 
         onBusy: {
             //console.log("Fetcher busy!");
-            busy.show("", false);
+            busy.show("", true);
         }
 
     }
@@ -282,6 +282,12 @@ ApplicationWindow {
 
     BusyBar {
         id: busy
+        cancelable: true
+        onCloseClicked: {
+            if (fetcher.isBusy()) {
+                fetcher.cancel();
+            }
+        }
     }
 
 }

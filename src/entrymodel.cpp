@@ -51,13 +51,22 @@ void EntryModel::createItems(const QString &feedId)
         doc.setHtml((*i).content);
         QString content = doc.toPlainText()
                 .replace(QChar::ObjectReplacementCharacter,QChar::Space)
-                .simplified().left(1000);
+                .simplified();
+        if (content.length()>1000)
+            content = content.left(997)+"...";
+
         doc.setHtml((*i).title);
         QString title = doc.toPlainText()
                 .replace(QChar::ObjectReplacementCharacter,QChar::Space)
                 .simplified();
         if (title.length()>200)
             title = title.left(197)+QString("...");
+
+        /*QRegExp rx("(\\S*)\\s*\((\\S*)\)", Qt::CaseInsensitive);
+        if (rx.indexIn((*i).author)!=-1) {
+            qDebug() << "(*i).author:" << (*i).author << "cap:" << rx.cap(1).toUtf8();
+            //(*i).author = rx.cap(1).toUtf8();
+        }*/
 
         appendRow(new EntryItem((*i).id,
                                 title,

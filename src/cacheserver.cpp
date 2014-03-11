@@ -41,7 +41,7 @@ CacheServer::~CacheServer()
 
 void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
 {
-    qDebug() << "handle, url=" << req->url().toString();
+    //qDebug() << "handle, url=" << req->url().toString();
 
     QString entryId = req->url().path();
     if (entryId.at(0) == '/')

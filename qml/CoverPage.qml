@@ -26,6 +26,25 @@ CoverBackground {
     id: root
 
     property bool busy: false
+    property real progress: 0.0
+
+    Rectangle {
+        id: progressRect
+        height: parent.height
+        anchors.right: parent.right
+        width: parent.width - (root.progress * parent.width)
+        color: Theme.highlightDimmerColor
+        //color: Theme.highlightBackgroundColor
+        opacity: 0.5
+        visible: root.busy
+
+        Behavior on width {
+            enabled: root.busy
+            SmoothedAnimation {
+                velocity: 480; duration: 200
+            }
+        }
+    }
 
     Image {
         anchors.centerIn: parent
@@ -40,10 +59,16 @@ CoverBackground {
         anchors.verticalCenter: parent.verticalCenter
         spacing: Theme.paddingMedium
 
+        /*Image {
+            anchors.horizontalCenter: parent.horizontalCenter
+            source: "image://theme/icon-l-download"
+            visible: root.busy
+        }*/
+
         Label {
             id: label
             anchors.left: parent.left; anchors.right: parent.right
-            font.pixelSize: Theme.fontSizeLarge
+            font.pixelSize: Theme.fontSizeMedium
             font.family: Theme.fontFamilyHeading
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -59,7 +84,7 @@ CoverBackground {
         Label {
             id: progressLabel
             anchors.horizontalCenter: parent.horizontalCenter
-            font.pixelSize: Theme.fontSizeLarge
+            font.pixelSize: Theme.fontSizeMedium
             font.family: Theme.fontFamilyHeading
         }
     }
@@ -85,7 +110,8 @@ CoverBackground {
         target: fetcher
         onBusy: {
             label.text = qsTr("Syncing...");
-            progressLabel.text = "0%";
+            progressLabel.text = "";
+            root.progress = 0.0;
             root.busy = true
         }
         onError: {
@@ -99,7 +125,9 @@ CoverBackground {
         onProgress: {
             label.text = qsTr("Syncing...");
             progressLabel.text = Math.floor((current/total)*100)+"%";
+            root.progress = current / total;
         }
+
     }
 
     Connections {

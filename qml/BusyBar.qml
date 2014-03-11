@@ -113,7 +113,6 @@ Rectangle {
 
     IconButton {
         id: closeButton
-
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
         //anchors.rightMargin: Theme.paddingMedium

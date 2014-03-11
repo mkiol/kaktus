@@ -35,14 +35,14 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <location filename="../qml/CoverPage.qml" line="87"/>
-        <location filename="../qml/CoverPage.qml" line="100"/>
+        <location filename="../qml/CoverPage.qml" line="112"/>
+        <location filename="../qml/CoverPage.qml" line="126"/>
         <source>Syncing...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="114"/>
-        <location filename="../qml/CoverPage.qml" line="120"/>
+        <location filename="../qml/CoverPage.qml" line="142"/>
+        <location filename="../qml/CoverPage.qml" line="148"/>
         <source>Caching...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -86,22 +86,22 @@
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="190"/>
+        <location filename="../qml/EntryDelegate.qml" line="188"/>
         <source>Unstar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="190"/>
+        <location filename="../qml/EntryDelegate.qml" line="188"/>
         <source>Star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="202"/>
+        <location filename="../qml/EntryDelegate.qml" line="200"/>
         <source>Mark as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="202"/>
+        <location filename="../qml/EntryDelegate.qml" line="200"/>
         <source>Mark as read</source>
         <translation type="unfinished"></translation>
     </message>
@@ -302,12 +302,17 @@
 <context>
     <name>WebPreviewPage</name>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="74"/>
+        <location filename="../qml/WebPreviewPage.qml" line="66"/>
+        <source>Loading page content...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/WebPreviewPage.qml" line="68"/>
         <source>Failed to load page content :-(</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="113"/>
+        <location filename="../qml/WebPreviewPage.qml" line="106"/>
         <source>Launching an external browser...</source>
         <translation type="unfinished"></translation>
     </message>

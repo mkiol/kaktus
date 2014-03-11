@@ -57,24 +57,17 @@ Page {
         url:  offLineMode ? offlineUrl : onlineUrl
         experimental.userAgent: settings.getDmUserAgent()
 
-        onUrlChanged: {
-            console.log("onUrlChanged");
-        }
-
         /*header: PageHeader {
             title: root.title
         }*/
 
         onLoadingChanged: {
             if (loadRequest.status == WebView.LoadStartedStatus) {
-                //console.log("onLoadingChanged, LoadStartedStatus");
-                busy.show("Loading page content...", false);
+                busy.show(qsTr("Loading page content..."), false);
             } else if (loadRequest.status == WebView.LoadFailedStatus) {
-                //console.log("onLoadingChanged, LoadFailedStatus");
                 notification.show(qsTr("Failed to load page content :-("));
                 busy.hide();
             } else {
-                //console.log("onLoadingChanged, Ok");
                 busy.hide();
             }
         }
