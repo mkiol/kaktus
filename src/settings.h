@@ -52,6 +52,10 @@ public:
     Q_INVOKABLE bool getOfflineMode();
     Q_INVOKABLE void setSignedIn(bool value);
     Q_INVOKABLE bool getSignedIn();
+
+    //UI
+    Q_INVOKABLE bool getAutoMarkAsRead();
+    Q_INVOKABLE void setAutoMarkAsRead(bool value);
     Q_INVOKABLE bool getShowTabIcons();
     Q_INVOKABLE void setShowTabIcons(bool value);
 
@@ -88,6 +92,8 @@ public:
     // Cache Server
     Q_INVOKABLE void setCsPost(int value);
     Q_INVOKABLE int getCsPort();
+    Q_INVOKABLE QString getCsTheme();
+    Q_INVOKABLE void setCsTheme(const QString &value);
 
 signals:
     void settingsChanged();

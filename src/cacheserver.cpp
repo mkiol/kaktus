@@ -53,10 +53,10 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
     QByteArray data;
 
     if (item.id == "") {
-        item = db->readCacheItem(entryId);
+        item = db->readCacheItemFromFinalUrl(entryId);
         filename = entryId;
     } else {
-        filename = item.id;
+        filename = item.finalUrl;
     }
 
     if (!readFile(filename, data)) {
@@ -151,7 +151,15 @@ void CacheServer::filter(QString &content)
     content = content.replace(rxA,"\\1");
     content = content.replace(rxUrl,"http://0.0.0.0");
     //content = content.replace(rxCss,"\\1");
-    content = content.replace(rxHeadEnd,"<meta name='viewport' content='width=540px'><style>body{background:#000;color:#FFF;font-size:25px;}</style></head>");
+
+    // Applying Theme's style
+    Settings *s = Settings::instance();
+    QString style;
+    if (s->getCsTheme() == "white")
+        style = "<meta name='viewport' content='width=540px'><style>body{background:#FFF;color:#000;font-size:25px;}</style></head>";
+    else
+        style = "<meta name='viewport' content='width=540px'><style>body{background:#000;color:#FFF;font-size:25px;}</style></head>";
+    content = content.replace(rxHeadEnd,style);
 
     // Change CSS link
     /*

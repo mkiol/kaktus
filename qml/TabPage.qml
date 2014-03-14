@@ -65,8 +65,7 @@ Page {
             }
 
             Component.onCompleted: {
-                if (image.visible)
-                    image.source = cache.getUrlbyUrl(iconUrl);
+                image.source = cache.getUrlbyUrl(iconUrl);
             }
 
             Connections {

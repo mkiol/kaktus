@@ -21,6 +21,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 
+
 Page {
     id: root
 
@@ -32,6 +33,10 @@ Page {
         }
 
         model: VisualItemModel {
+
+            SectionHeader {
+                text: qsTr("Account")
+            }
 
             ListItem {
                 id: signinForm
@@ -53,7 +58,7 @@ Page {
                         visible: !signinForm.signedIn
                     }
                     Label {
-                        text: qsTr("Signed in to Netvibes as:")
+                        text: qsTr("Signed in to Netvibes as")
                         visible: signinForm.signedIn
                     }
                     Label {
@@ -68,6 +73,7 @@ Page {
                         text: signinForm.signedIn ? qsTr("Sign Out") : qsTr("Sign In")
                         onClicked: {
                             if (signinForm.signedIn) {
+                                notification.show(qsTr("Signed Out!"));
                                 settings.setSignedIn(false);
                                 settings.setNetvibesPassword("");
                                 signinForm.signedIn = false;
@@ -82,9 +88,10 @@ Page {
                     }
                 }
 
+                onClicked: showMenu();
+
                 Connections {
                     target: fetcher
-
                     onCredentialsValid: {
                         signinForm.signedIn = settings.getSignedIn();
                     }
@@ -93,9 +100,8 @@ Page {
 
             ListItem {
                 id: defaultdashboard
-
                 contentHeight: flow2.height + 2*Theme.paddingLarge
-
+                enabled: signinForm.signedIn && utils.defaultDashboardName()!==""
                 Flow {
                     id: flow2
                     anchors.verticalCenter: parent.verticalCenter
@@ -105,7 +111,8 @@ Page {
                     anchors.rightMargin: Theme.paddingLarge
 
                     Label {
-                        text: qsTr("Dashboard in use: ")
+                        color: signinForm.signedIn && utils.defaultDashboardName()!=="" ? Theme.primaryColor : Theme.secondaryColor
+                        text: signinForm.signedIn && utils.defaultDashboardName()!=="" ? qsTr("Dashboard in use") : qsTr("Dashboard not selected")
                     }
 
                     Label {
@@ -114,6 +121,8 @@ Page {
                         text: utils.defaultDashboardName()
                     }
                 }
+
+                onClicked: showMenu();
 
                 menu: ContextMenu {
                     MenuItem {
@@ -126,8 +135,11 @@ Page {
                 }
             }
 
+            SectionHeader {
+                text: qsTr("Cache")
+            }
+
             TextSwitch {
-                id: offlinemode
                 text: qsTr("Offline mode")
                 description: qsTr("Content of articles will be displayed from local cache, without a network usage.")
 
@@ -135,24 +147,12 @@ Page {
 
                 onCheckedChanged: {
                     settings.setOfflineMode(checked);
-                    /*if (checked)
-                        notification.show(qsTr("Offline mode enabled"));
-                    else
-                        notification.show(qsTr("Online mode enabled"));
-                    */
                 }
-
-                /*Image {
-                    anchors.verticalCenter: parent.verticalCenter
-                    source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightColor : "image://theme/icon-m-wlan-4?"+Theme.highlightColor
-                    anchors.right: parent.right
-                }*/
             }
 
             TextSwitch {
-                id: autodownload
                 text: qsTr("Cache articles")
-                description: qsTr("After sync the content for all articles will be downloaded and cached for access in Offline mode.")
+                description: qsTr("After sync the content of all articles will be downloaded and cached for access in Offline mode.")
 
                 Component.onCompleted: {
                     checked = settings.getAutoDownloadOnUpdate();
@@ -163,8 +163,40 @@ Page {
                 }
             }
 
+            SectionHeader {
+                text: qsTr("User Interface")
+            }
+
+
+            ComboBox {
+                width: root.width
+                label: qsTr("Offline viewer style")
+                //description: qsTr("Style which will be used to display articles in offline mode.")
+                currentIndex: {
+                    var theme = settings.getCsTheme();
+                    if (theme === "black")
+                        return 0;
+                    if (theme === "white")
+                        return 1;
+                }
+                menu: ContextMenu {
+                    MenuItem { id: blackTheme; text: "Black" }
+                    MenuItem { id: whiteTheme; text: "White" }
+                }
+
+                onCurrentIndexChanged: {
+                    switch (currentIndex) {
+                    case 0:
+                        settings.setCsTheme("black");
+                        break;
+                    case 1:
+                        settings.setCsTheme("white");
+                        break;
+                    }
+                }
+            }
+
             TextSwitch {
-                id: tabicons
                 text: qsTr("Show Tabs icons")
                 checked: settings.getShowTabIcons();
 
@@ -172,6 +204,17 @@ Page {
                     settings.setShowTabIcons(checked);
                 }
             }
+
+            TextSwitch {
+                text: qsTr("Auto mark as read")
+                description: qsTr("All opened articles will be marked as read.")
+                checked: settings.getAutoMarkAsRead();
+
+                onCheckedChanged: {
+                    settings.setAutoMarkAsRead(checked);
+                }
+            }
+
         }
 
         VerticalScrollDecorator {}

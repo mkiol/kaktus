@@ -897,12 +897,6 @@ void NetvibesFetcher::taskEnd()
 
 void NetvibesFetcher::uploadActions()
 {
-    /*QList<DatabaseManager::Action>::iterator i = actionsList.begin();
-    while (i!=actionsList.end()) {
-        qDebug() << "type" << (*i).type << "entryId" << (*i).entryId;
-        ++i;
-    }*/
-
     if (!actionsList.isEmpty()) {
         emit uploading();
         DatabaseManager::Action action = actionsList.first();

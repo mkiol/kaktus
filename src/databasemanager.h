@@ -138,8 +138,11 @@ public:
 
     CacheItem readCacheItemFromOrigUrl(const QString &origUrl);
     CacheItem readCacheItemFromEntryId(const QString &entryId);
+    CacheItem readCacheItemFromFinalUrl(const QString &finalUrl);
     CacheItem readCacheItem(const QString &cacheId);
+
     bool isCacheItemExists(const QString &cacheId);
+    bool isCacheItemExistsByFinalUrl(const QString &cacheId);
 
     QMap<QString,QString> readNotCachedEntries();
     QMap<QString,int> readFeedsLastUpdate();

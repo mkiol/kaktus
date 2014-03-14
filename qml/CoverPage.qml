@@ -46,10 +46,20 @@ CoverBackground {
         }
     }
 
-    Image {
+    Column {
         anchors.centerIn: parent
-        source: "icon.png"
         visible: !root.busy
+        spacing: Theme.paddingMedium
+
+        Image {
+            source: "icon-small.png"
+        }
+        Label {
+            font.pixelSize: Theme.fontSizeMedium
+            font.family: Theme.fontFamilyHeading
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: APP_NAME
+        }
     }
 
     Column {
@@ -66,6 +76,14 @@ CoverBackground {
         }*/
 
         Label {
+            id: progressLabel
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.pixelSize: Theme.fontSizeLarge
+            font.family: Theme.fontFamilyHeading
+            color: Theme.highlightColor
+        }
+
+        Label {
             id: label
             anchors.left: parent.left; anchors.right: parent.right
             font.pixelSize: Theme.fontSizeMedium
@@ -75,18 +93,6 @@ CoverBackground {
             wrapMode: Text.Wrap
         }
 
-        /*BusyIndicator {
-            anchors.horizontalCenter: parent.horizontalCenter
-            size: BusyIndicatorSize.Medium
-            running: root.busy
-        }*/
-
-        Label {
-            id: progressLabel
-            anchors.horizontalCenter: parent.horizontalCenter
-            font.pixelSize: Theme.fontSizeMedium
-            font.family: Theme.fontFamilyHeading
-        }
     }
 
     CoverActionList {
@@ -109,7 +115,7 @@ CoverBackground {
     Connections {
         target: fetcher
         onBusy: {
-            label.text = qsTr("Syncing...");
+            label.text = qsTr("Syncing");
             progressLabel.text = "";
             root.progress = 0.0;
             root.busy = true
@@ -123,7 +129,7 @@ CoverBackground {
                 root.busy = false;
         }
         onProgress: {
-            label.text = qsTr("Syncing...");
+            label.text = qsTr("Syncing");
             progressLabel.text = Math.floor((current/total)*100)+"%";
             root.progress = current / total;
         }
@@ -139,13 +145,13 @@ CoverBackground {
         onBusy: root.busy = true
         onReady: {
             if (!fetcher.isBusy()) {
-                label.text = qsTr("Caching...");
+                label.text = qsTr("Caching");
                 root.busy = false;
             }
         }
         onProgress: {
             if (!fetcher.isBusy()) {
-                label.text = qsTr("Caching...");
+                label.text = qsTr("Caching");
                 progressLabel.text = remaining;
             }
         }

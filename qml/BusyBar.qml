@@ -115,7 +115,6 @@ Rectangle {
         id: closeButton
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
-        //anchors.rightMargin: Theme.paddingMedium
         icon.source: "image://theme/icon-m-close?"+Theme.highlightDimmerColor
         onClicked: root.closeClicked()
         visible: root.cancelable

@@ -52,8 +52,19 @@ void Settings::setOfflineMode(bool value)
 
 bool Settings::getOfflineMode()
 {
-    return settings.value("offlinemode", false).toBool();
+    return settings.value("offlinemode", true).toBool();
 }
+
+void Settings::setAutoMarkAsRead(bool value)
+{
+    settings.setValue("automarkasread", value);
+}
+
+bool Settings::getAutoMarkAsRead()
+{
+    return settings.value("automarkasread", true).toBool();
+}
+
 
 void Settings::setShowTabIcons(bool value)
 {
@@ -65,7 +76,7 @@ void Settings::setShowTabIcons(bool value)
 
 bool Settings::getShowTabIcons()
 {
-    return settings.value("showtabicons", false).toBool();
+    return settings.value("showtabicons", true).toBool();
 }
 
 void Settings::setSignedIn(bool value)
@@ -261,4 +272,14 @@ void Settings::setCsPost(int value)
 int Settings::getCsPort()
 {
     return settings.value("port", 9999).toInt();
+}
+
+QString Settings::getCsTheme()
+{
+    return settings.value("theme", "black").toString();
+}
+
+void Settings::setCsTheme(const QString &value)
+{
+    settings.setValue("theme", value);
 }

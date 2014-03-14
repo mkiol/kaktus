@@ -55,8 +55,9 @@ Page {
                                    "onlineUrl": onlineUrl,
                                    "offlineUrl": offlineUrl,
                                    "title": model.title,
-                                   "stared": model.readlater,
-                                   "index": model.index
+                                   "stared": model.readlater===1,
+                                   "index": model.index,
+                                   "read" : model.read===1
                                });
             }
         }

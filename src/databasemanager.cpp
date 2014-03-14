@@ -53,7 +53,7 @@ void DatabaseManager::init()
 
 bool DatabaseManager::openDB()
 {
-    _db = QSqlDatabase::addDatabase("QSQLITE","qt_sql_nreader_connection");
+    _db = QSqlDatabase::addDatabase("QSQLITE","qt_sql_kaktus_connection");
     Settings *s = Settings::instance();
 
     dbFilePath = s->getSettingsDir();
@@ -864,12 +864,53 @@ DatabaseManager::CacheItem DatabaseManager::readCacheItem(const QString &cacheId
     return item;
 }
 
+DatabaseManager::CacheItem DatabaseManager::readCacheItemFromFinalUrl(const QString &finalUrl)
+{
+    CacheItem item;
+    if (_db.isOpen()) {
+        QSqlQuery query(QString("SELECT id, orig_url, final_url, type, content_type, entry_id, feed_id FROM cache WHERE final_url='%1';")
+                        .arg(finalUrl),_db);
+        while(query.next()) {
+            item.id = query.value(0).toString();
+            item.origUrl = query.value(1).toString();
+            item.finalUrl = query.value(2).toString();
+            item.type = query.value(3).toString();
+            item.contentType = QString(QByteArray::fromBase64(query.value(4).toByteArray()));
+            item.entryId = query.value(5).toString();
+            item.feedId = query.value(6).toString();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return item;
+}
+
 bool DatabaseManager::isCacheItemExists(const QString &cacheId)
 {
     if (_db.isOpen()) {
         //qDebug() << QString("SELECT COUNT(*) FROM cache WHERE id='%1';").arg(cacheId);
         QSqlQuery query(QString("SELECT COUNT(*) FROM cache WHERE id='%1';")
                         .arg(cacheId),_db);
+        while(query.next()) {
+            //qDebug() << query.value(0).toInt();
+            if (query.value(0).toInt() > 0) {
+                return true;
+            }
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return false;
+}
+
+bool DatabaseManager::isCacheItemExistsByFinalUrl(const QString &finalUrl)
+{
+    if (_db.isOpen()) {
+        //qDebug() << QString("SELECT COUNT(*) FROM cache WHERE id='%1';").arg(cacheId);
+        QSqlQuery query(QString("SELECT COUNT(*) FROM cache WHERE final_url='%1';")
+                        .arg(finalUrl),_db);
         while(query.next()) {
             //qDebug() << query.value(0).toInt();
             if (query.value(0).toInt() > 0) {
@@ -1041,6 +1082,12 @@ bool DatabaseManager::removeEntriesOlderThan(int cacheDate, int limit)
                          .arg(cacheDate).arg(limit));
         ret = query.exec(QString("DELETE FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2);")
                          .arg(cacheDate).arg(limit));
+
+        /*qDebug() << QString("DELETE FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
+                    .arg(cacheDate).arg(limit);
+
+        qDebug() << QString("DELETE FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2);")
+                    .arg(cacheDate).arg(limit);*/
     }
 
     return ret;

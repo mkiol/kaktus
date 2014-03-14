@@ -30,16 +30,20 @@ Page {
     property string offlineUrl
     property string onlineUrl
     property bool stared
+    property bool read
     property int index
+    property int markAsReadTime: 5000
 
     onForwardNavigationChanged: {
         if (forwardNavigation)
             forwardNavigation = false;
     }
+
     /*onBackNavigationChanged: {
         if (backNavigation)
             backNavigation = false;
     }*/
+
     showNavigationIndicator: false
     //allowedOrientations: Orientation.Landscape | Orientation.Portrait
     allowedOrientations: Orientation.Portrait
@@ -65,10 +69,17 @@ Page {
             if (loadRequest.status == WebView.LoadStartedStatus) {
                 busy.show(qsTr("Loading page content..."), false);
             } else if (loadRequest.status == WebView.LoadFailedStatus) {
-                notification.show(qsTr("Failed to load page content :-("));
+                if (offLineMode)
+                    notification.show(qsTr("Failed to load article from local cache :-("));
+                else
+                    notification.show(qsTr("Failed to load page content :-("));
                 busy.hide();
             } else {
                 busy.hide();
+
+                // Start timer to mark as read
+                if (!root.read && settings.getAutoMarkAsRead())
+                    timer.start();
             }
         }
 
@@ -100,6 +111,7 @@ Page {
                 stared=true;
                 entryModel.setData(root.index, "readlater", 1);
             }
+            utils.updateModels();
         }
 
         onBrowserClicked: {
@@ -115,4 +127,16 @@ Page {
         id: busy
     }
 
+    Timer {
+        id: timer
+        interval: root.markAsReadTime
+        onTriggered: {
+            if (!root.read && settings.getAutoMarkAsRead()) {
+                read=true;
+                entryModel.setData(root.index, "read", 1);
+                utils.updateModels();
+                notification.show(qsTr("Marked as read!"));
+            }
+        }
+    }
 }

@@ -114,14 +114,12 @@ ApplicationWindow {
         }
 
         onEmpty: {
-            //console.log("DB is empty!");
             utils.updateModels();
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
         }
 
         onNotEmpty: {
-            //console.log("DB is not empty!");
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
         }
@@ -139,17 +137,14 @@ ApplicationWindow {
         }
 
         onCanceled: {
-            //console.log("DM canceled!");
             busyDM.hide();
         }
 
         onBusy: {
-            //console.log("DM busy!");
             busyDM.show(qsTr("Caching..."),true);
         }
 
         onReady: {
-            //console.log("DM ready!");
             busyDM.hide();
         }
 
@@ -180,12 +175,10 @@ ApplicationWindow {
         target: fetcher
 
         onCanceled: {
-            //console.log("Fetcher canceled!");
             busy.hide();
         }
 
         onReady: {
-            //console.log("Fetcher ready!");
             //notification.show(qsTr("Sync done!"));
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
@@ -220,47 +213,37 @@ ApplicationWindow {
         }
 
         onErrorCheckingCredentials: {
-            //console.log("Fetcher checking error");
-            //console.log("code=" + code);
             notification.show(qsTr("User & Password do not match!"));
             busy.hide();
         }
 
         onCredentialsValid: {
-            //console.log("Fetcher credentials valid");
             notification.show(qsTr("Successfully Signed In!"));
             busy.hide();
         }
 
         onProgress: {
-            //console.log("Fetcher progress: " + current + "/" + total);
-            //busy.text = "Fetching data... " + Math.floor((current / total) * 100) + "%";
             busy.text = qsTr("Receiving data... ");
             busy.progress = current / total;
         }
 
         onInitiating: {
-            //console.log("Fetcher init started!");
             busy.text = qsTr("Initiating...");
         }
 
         onUpdating: {
-            //console.log("Fetcher update started!");
             busy.text = qsTr("Updating...");
         }
 
         onUploading: {
-            //console.log("Fetcher uploading!");
             busy.text = qsTr("Sending data to Netvibes...");
         }
 
         onCheckingCredentials: {
-            //console.log("Fetcher checking credentials!");
-            qsTr(busy.text = "Signing in...");
+            busy.text = qsTr("Signing in...");
         }
 
         onBusy: {
-            //console.log("Fetcher busy!");
             busy.show("", true);
         }
 

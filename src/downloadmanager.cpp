@@ -47,7 +47,7 @@ void DownloadManager::cleanCache()
     QDirIterator i(cacheDir);
     while (i.hasNext()) {
         if (i.fileInfo().isFile()) {
-            if (!db->isCacheItemExists(i.fileName())) {
+            if (!db->isCacheItemExistsByFinalUrl(i.fileName())) {
                 if (!QFile::remove(i.filePath())) {
                     qWarning() << "Unable to remove file " << i.filePath();
                 } else {
@@ -202,14 +202,14 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
                 if (saveToDisk(hash(url.toString()), content)) {
 
                     // Write Cache item to DB
-                    item.id = hash(item.finalUrl);
+                    item.id = hash(item.entryId+item.finalUrl);
                     //qDebug() << "hash(item.finalUrl): " << hash(item.finalUrl);
                     item.origUrl = hash(item.origUrl);
                     item.finalUrl = hash(item.finalUrl);
                     db->writeCache(item, QDateTime::currentDateTime().toTime_t());
 
                     if (item.entryId != "") {
-                        // Scan for other resorces, only text files
+                        // Scan for other resouces, only text files
                         //if (item.type == "text")
                         //    scanHtml(content, url);
                         db->updateEntryCache(item.entryId, QDateTime::currentDateTime().toTime_t());

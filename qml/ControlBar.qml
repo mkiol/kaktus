@@ -65,12 +65,6 @@ Item {
         sourceItem: background
     }
 
-    //color: Theme.rgba(Theme.highlightBackgroundColor, 0.3)
-    //color: Theme.rgba(Theme.backgroundColor, 0.7)
-    //height: Theme.itemSizeMedium * 1
-    //width: parent.width
-    //anchors.fill: parent
-
     MouseArea {
         enabled: root.opacity > 0.0
         anchors.fill: parent
