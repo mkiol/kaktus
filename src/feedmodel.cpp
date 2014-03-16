@@ -87,6 +87,24 @@ void FeedModel::setData(int row, const QString &fieldName, QVariant newValue)
     }
 }
 
+void FeedModel::decrementUnread(int row)
+{
+    FeedItem* item = static_cast<FeedItem*>(readRow(row));
+    int unread = item->unread();
+    if (unread>0) {
+        item->setUnread(--unread);
+        _db->updateFeedUnreadFlag(item->id(),unread);
+    }
+}
+
+void FeedModel::incrementUnread(int row)
+{
+    FeedItem* item = static_cast<FeedItem*>(readRow(row));
+    int unread = item->unread();
+    item->setUnread(++unread);
+    _db->updateFeedUnreadFlag(item->id(),unread);
+}
+
 // ----------------------------------------------------------------
 
 FeedItem::FeedItem(const QString &uid,
@@ -150,10 +168,12 @@ QVariant FeedItem::data(int role) const
 void FeedItem::setReadlater(int value)
 {
     m_readlater = value;
+    emit dataChanged();
 }
 
 void FeedItem::setUnread(int value)
 {
     m_unread = value;
+    emit dataChanged();
 }
 

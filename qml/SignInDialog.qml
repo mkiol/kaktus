@@ -45,8 +45,8 @@ Dialog {
             anchors.left: parent.left; anchors.right: parent.right
 
             inputMethodHints: Qt.ImhEmailCharactersOnly| Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-            placeholderText: qsTr("Enter username here!")
-            label: qsTr("Netvibes's username")
+            placeholderText: qsTr("Enter username (email) here!")
+            label: qsTr("Netvibes's username (email)")
 
             Component.onCompleted: {
                 text = settings.getNetvibesUsername();
@@ -84,8 +84,19 @@ Dialog {
         } else {
             if (!dm.isBusy())
                 dm.cancel();
-            fetcher.update();
+            //fetcher.update();
+            m.doUpdate = true;
         }
+    }
+
+    // trick!
+    QtObject {
+        id: m
+        property bool doUpdate: false
+    }
+    Component.onDestruction: {
+        if (m.doUpdate)
+            fetcher.update();
     }
 
 }

@@ -75,7 +75,7 @@ Page {
 
             onClicked: {
                 utils.setEntryModel(uid);
-                pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title});
+                pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
             }
 
         }

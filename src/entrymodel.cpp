@@ -125,6 +125,8 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
         }
         _db->writeAction(action,QDateTime::currentDateTime().toTime_t());
         _db->updateEntryReadFlag(item->id(),newValue.toInt());
+
+
     }
 }
 
@@ -191,9 +193,11 @@ QVariant EntryItem::data(int role) const
 void EntryItem::setReadlater(int value)
 {
     m_readlater = value;
+    emit dataChanged();
 }
 
 void EntryItem::setRead(int value)
 {
     m_read = value;
+    emit dataChanged();
 }

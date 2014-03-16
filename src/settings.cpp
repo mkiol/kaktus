@@ -52,7 +52,7 @@ void Settings::setOfflineMode(bool value)
 
 bool Settings::getOfflineMode()
 {
-    return settings.value("offlinemode", true).toBool();
+    return settings.value("offlinemode", false).toBool();
 }
 
 void Settings::setAutoMarkAsRead(bool value)

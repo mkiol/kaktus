@@ -128,7 +128,7 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
 
     if (error) {
 
-        //qDebug() << "DM, Errorcode: " << error << "entryId=" << entryId;
+        //qDebug() << "DM, Errorcode: " << error << "entryId=" << item.entryId;
         /*qWarning() << "Download of " << url.toEncoded().constData()
                    << " failed: " << reply->errorString();*/
 
@@ -225,7 +225,6 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
     }
 
     downloads.removeOne(reply);
-    //replyToCachedItemMap.remove(reply); // ????
     reply->deleteLater();
     addNextDownload();
 }
@@ -351,7 +350,7 @@ Checker::~Checker()
 
 void Checker::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
 {
-    qDebug() << "downloadProgress:" << bytesReceived << bytesTotal;
+    //qDebug() << "downloadProgress:" << bytesReceived << bytesTotal;
 }
 
 void Checker::timeout()

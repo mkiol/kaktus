@@ -15,8 +15,12 @@
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="64"/>
+        <source>Kaktus is an unofficial Netvibes offline feed reader application for Sailfish OS.</source>
+        <translation>Nieoficjalny czytnik kanałów RSS agregowanych poprzez serwis Netvibes.com. Posiada możliwość pracy w trybie offline. Przeznaczony dla systemu Sailfish OS. </translation>
+    </message>
+    <message>
         <source>Kaktus is an unofficial Netvibes client for Sailfish OS with offline reading capabilities.</source>
-        <translation>Nieoficjalny czytnik dla serwisu netvibes.com z możliwością pracy w trybie offline, przeznaczony dla Sailfish OS. </translation>
+        <translation type="obsolete">Nieoficjalny czytnik dla serwisu netvibes.com z możliwością pracy w trybie offline, przeznaczony dla Sailfish OS. </translation>
     </message>
 </context>
 <context>
@@ -86,30 +90,30 @@
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="188"/>
+        <location filename="../qml/EntryDelegate.qml" line="183"/>
         <source>Unstar</source>
         <translation>Wyczyść gwiazdkę</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="188"/>
+        <location filename="../qml/EntryDelegate.qml" line="183"/>
         <source>Star</source>
-        <translation>Zaznacz gwiazdką</translation>
+        <translation>Oznacz gwiazdką</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="200"/>
+        <location filename="../qml/EntryDelegate.qml" line="193"/>
         <source>Mark as unread</source>
-        <translation>Zaznacz jako nieprzeczytane</translation>
+        <translation>Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="200"/>
+        <location filename="../qml/EntryDelegate.qml" line="193"/>
         <source>Mark as read</source>
-        <translation>Zaznacz jako przeczytane</translation>
+        <translation>Oznacz jako przeczytane</translation>
     </message>
 </context>
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/EntryPage.qml" line="67"/>
+        <location filename="../qml/EntryPage.qml" line="70"/>
         <source>No entries</source>
         <translation>Brak artykułów</translation>
     </message>
@@ -283,9 +287,8 @@
         <translation>Wszystkie otwierane artykuły będą oznaczane jako przeczytane.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="200"/>
         <source>Show Tabs icons</source>
-        <translation>Pokaż ikony w zakładkach</translation>
+        <translation type="obsolete">Pokaż ikony w zakładkach</translation>
     </message>
 </context>
 <context>
@@ -302,13 +305,21 @@
     </message>
     <message>
         <location filename="../qml/SignInDialog.qml" line="48"/>
-        <source>Enter username here!</source>
-        <translation>Wprowadź nazwę użytkownika!</translation>
+        <source>Enter username (email) here!</source>
+        <translation>Wprowadź nazwę użytkownika (email)!</translation>
     </message>
     <message>
         <location filename="../qml/SignInDialog.qml" line="49"/>
+        <source>Netvibes&apos;s username (email)</source>
+        <translation>Nazwa użytkownika Netvibes (email)</translation>
+    </message>
+    <message>
+        <source>Enter username here!</source>
+        <translation type="obsolete">Wprowadź nazwę użytkownika!</translation>
+    </message>
+    <message>
         <source>Netvibes&apos;s username</source>
-        <translation>Nazwa użytkownika Netvibes</translation>
+        <translation type="obsolete">Nazwa użytkownika Netvibes</translation>
     </message>
     <message>
         <location filename="../qml/SignInDialog.qml" line="66"/>
@@ -342,17 +353,17 @@
 <context>
     <name>WebPreviewPage</name>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="70"/>
+        <location filename="../qml/WebPreviewPage.qml" line="71"/>
         <source>Loading page content...</source>
         <translation>Wczytywanie artykułu...</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="73"/>
+        <location filename="../qml/WebPreviewPage.qml" line="74"/>
         <source>Failed to load article from local cache :-(</source>
         <translation>Nie udało się pobrać artukułu z lokalnej kopii :-(</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="75"/>
+        <location filename="../qml/WebPreviewPage.qml" line="76"/>
         <source>Failed to load page content :-(</source>
         <translation>Nie udało się pobrać treści :-(</translation>
     </message>
@@ -362,7 +373,7 @@
         <translation>Uruchamianie zewnętrznej przeglądarki...</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="138"/>
+        <location filename="../qml/WebPreviewPage.qml" line="140"/>
         <source>Marked as read!</source>
         <translation>Oznaczono jako przeczytany!</translation>
     </message>

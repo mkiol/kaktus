@@ -32,9 +32,13 @@ ListItem {
     property int readlater: 0
     property string content
     property int maxWords: 20
+    property int maxChars: 200
     property bool cached: false
     property bool expanded: false
     property int index
+    property int feedindex
+
+    Component.onCompleted: console.log("index=" + index + " length=" + content.length)
 
     menu: contextMenu
     contentHeight: item.height + 2 * Theme.paddingMedium
@@ -61,10 +65,8 @@ ListItem {
 
         onClicked: {
             if (root.readlater) {
-                root.readlater=0;
                 entryModel.setData(index, "readlater", 0);
             } else {
-                root.readlater=1;
                 entryModel.setData(index, "readlater", 1);
             }
         }
@@ -96,13 +98,7 @@ ListItem {
             color: root.read>0 && root.readlater==0 ? Theme.secondaryColor
                                                     : Theme.primaryColor
             text: "•••"
-            visible: isShortEqualsFull()
-
-            function isShortEqualsFull(){
-                var words = root.content.split(" ");
-                var max = Math.min(words.length, root.maxWords);
-                return max === root.maxWords;
-            }
+            visible: root.content.length>root.maxChars
         }
     }
 
@@ -130,20 +126,18 @@ ListItem {
             id: shortContent
             anchors.left: parent.left; anchors.right: parent.right;
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            text: getFirstWords()
+            text: {
+                if (root.content.length > root.maxChars)
+                    return root.content.substr(0,root.maxChars);
+                return root.content;
+            }
+
             wrapMode: Text.Wrap
             textFormat: Text.PlainText
             font.pixelSize: Theme.fontSizeSmall
             visible: root.content!="" && (root.read==0 || root.readlater>0)
             color: root.read > 0 && root.readlater==0 ? Theme.secondaryColor
                                                       : Theme.primaryColor
-            function getFirstWords(){
-                var words = root.content.split(" ");
-                var shortText = ""; var max = Math.min(words.length, root.maxWords);
-                for (var i=0; i<max;i++)
-                    shortText += words[i] + " ";
-                return shortText;
-            }
         }
 
         Label {
@@ -153,19 +147,20 @@ ListItem {
             visible: opacity > 0.0
             opacity: root.expanded ? 1.0 : 0.0
             Behavior on opacity { FadeAnimation {} }
-            text: root.read>0 && root.readlater==0 ? root.content : getLastWords(root.content)
+            text : {
+                if (root.read>0 && root.readlater==0)
+                    return root.content;
+                if (root.content.length > root.maxChars) {
+                    return root.content.substr(root.maxChars);
+                }
+                return "";
+            }
+
             wrapMode: Text.Wrap
             textFormat: Text.PlainText
             font.pixelSize: Theme.fontSizeSmall
             color: root.read > 0 && root.readlater==0 ? Theme.secondaryColor
                                                       : Theme.primaryColor
-            function getLastWords(){
-                var words = root.content.split(" ");
-                var fullText = ""; var max = Math.min(words.length, root.maxWords);
-                for (var i=max; i<words.length;i++)
-                    fullText += words[i] + " ";
-                return fullText;
-            }
         }
 
         Label {
@@ -188,10 +183,8 @@ ListItem {
                 text: readlater ? qsTr("Unstar") : qsTr("Star")
                 onClicked: {
                     if (readlater) {
-                        readlater=0;
                         entryModel.setData(index, "readlater", 0);
                     } else {
-                        readlater=1;
                         entryModel.setData(index, "readlater", 1);
                     }
                 }
@@ -200,11 +193,11 @@ ListItem {
                 text: read ? qsTr("Mark as unread") : qsTr("Mark as read")
                 onClicked: {
                     if (read) {
-                        read=0;
                         entryModel.setData(index, "read", 0);
+                        feedModel.incrementUnread(feedindex);
                     } else {
-                        read=1;
                         entryModel.setData(index, "read", 1);
+                        feedModel.decrementUnread(feedindex);
                         if (lblMoreDetails.visible)
                             root.expanded = false;
                     }

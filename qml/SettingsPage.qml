@@ -196,14 +196,14 @@ Page {
                 }
             }
 
-            TextSwitch {
+            /*TextSwitch {
                 text: qsTr("Show Tabs icons")
                 checked: settings.getShowTabIcons();
 
                 onCheckedChanged: {
                     settings.setShowTabIcons(checked);
                 }
-            }
+            }*/
 
             TextSwitch {
                 text: qsTr("Auto mark as read")
@@ -213,6 +213,10 @@ Page {
                 onCheckedChanged: {
                     settings.setAutoMarkAsRead(checked);
                 }
+            }
+
+            Separator {
+
             }
 
         }

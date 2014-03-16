@@ -95,6 +95,8 @@ public:
     Q_INVOKABLE int count();
     Q_INVOKABLE QObject* get(int i);
     Q_INVOKABLE void setData(int row, const QString &fieldName, QVariant newValue);
+    Q_INVOKABLE void decrementUnread(int row);
+    Q_INVOKABLE void incrementUnread(int row);
 
 private:
     DatabaseManager* _db;

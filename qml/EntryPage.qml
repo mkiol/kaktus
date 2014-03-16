@@ -25,6 +25,7 @@ Page {
     id: root
 
     property string title
+    property int index
 
     SilicaListView {
         id: listView
@@ -46,6 +47,7 @@ Page {
             author: model.author
             readlater: model.readlater
             index: model.index
+            feedindex: root.index
 
             onClicked: {
                 var onlineUrl = model.link;
@@ -57,6 +59,7 @@ Page {
                                    "title": model.title,
                                    "stared": model.readlater===1,
                                    "index": model.index,
+                                   "feedindex": root.index,
                                    "read" : model.read===1
                                });
             }

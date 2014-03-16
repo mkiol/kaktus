@@ -32,7 +32,8 @@ Page {
     property bool stared
     property bool read
     property int index
-    property int markAsReadTime: 5000
+    property int feedindex
+    property int markAsReadTime: 6000
 
     onForwardNavigationChanged: {
         if (forwardNavigation)
@@ -67,7 +68,7 @@ Page {
 
         onLoadingChanged: {
             if (loadRequest.status == WebView.LoadStartedStatus) {
-                busy.show(qsTr("Loading page content..."), false);
+                busy.show(qsTr("Loading page content..."), true);
             } else if (loadRequest.status == WebView.LoadFailedStatus) {
                 if (offLineMode)
                     notification.show(qsTr("Failed to load article from local cache :-("));
@@ -111,7 +112,6 @@ Page {
                 stared=true;
                 entryModel.setData(root.index, "readlater", 1);
             }
-            utils.updateModels();
         }
 
         onBrowserClicked: {
@@ -125,6 +125,8 @@ Page {
 
     BusyBar {
         id: busy
+        cancelable: true
+        onCloseClicked: view.stop()
     }
 
     Timer {
@@ -134,7 +136,7 @@ Page {
             if (!root.read && settings.getAutoMarkAsRead()) {
                 read=true;
                 entryModel.setData(root.index, "read", 1);
-                utils.updateModels();
+                feedModel.decrementUnread(feedindex);
                 notification.show(qsTr("Marked as read!"));
             }
         }

@@ -15,7 +15,7 @@
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="64"/>
-        <source>Kaktus is an unofficial Netvibes client for Sailfish OS with offline reading capabilities.</source>
+        <source>Kaktus is an unofficial Netvibes offline feed reader application for Sailfish OS.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -86,22 +86,22 @@
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="188"/>
+        <location filename="../qml/EntryDelegate.qml" line="183"/>
         <source>Unstar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="188"/>
+        <location filename="../qml/EntryDelegate.qml" line="183"/>
         <source>Star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="200"/>
+        <location filename="../qml/EntryDelegate.qml" line="193"/>
         <source>Mark as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="200"/>
+        <location filename="../qml/EntryDelegate.qml" line="193"/>
         <source>Mark as read</source>
         <translation type="unfinished"></translation>
     </message>
@@ -109,7 +109,7 @@
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/EntryPage.qml" line="67"/>
+        <location filename="../qml/EntryPage.qml" line="70"/>
         <source>No entries</source>
         <translation type="unfinished"></translation>
     </message>
@@ -282,11 +282,6 @@
         <source>All opened articles will be marked as read.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="200"/>
-        <source>Show Tabs icons</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>SignInDialog</name>
@@ -302,12 +297,12 @@
     </message>
     <message>
         <location filename="../qml/SignInDialog.qml" line="48"/>
-        <source>Enter username here!</source>
+        <source>Enter username (email) here!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/SignInDialog.qml" line="49"/>
-        <source>Netvibes&apos;s username</source>
+        <source>Netvibes&apos;s username (email)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -342,17 +337,17 @@
 <context>
     <name>WebPreviewPage</name>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="70"/>
+        <location filename="../qml/WebPreviewPage.qml" line="71"/>
         <source>Loading page content...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="73"/>
+        <location filename="../qml/WebPreviewPage.qml" line="74"/>
         <source>Failed to load article from local cache :-(</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="75"/>
+        <location filename="../qml/WebPreviewPage.qml" line="76"/>
         <source>Failed to load page content :-(</source>
         <translation type="unfinished"></translation>
     </message>
@@ -362,7 +357,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="138"/>
+        <location filename="../qml/WebPreviewPage.qml" line="140"/>
         <source>Marked as read!</source>
         <translation type="unfinished"></translation>
     </message>
