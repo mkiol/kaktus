@@ -137,7 +137,7 @@ Page {
                 read=true;
                 entryModel.setData(root.index, "read", 1);
                 feedModel.decrementUnread(feedindex);
-                notification.show(qsTr("Marked as read!"));
+                //notification.show(qsTr("Marked as read!"));
             }
         }
     }

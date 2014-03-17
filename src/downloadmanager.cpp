@@ -23,18 +23,12 @@ DownloadManager::DownloadManager(DatabaseManager *db)
 {
     this->db = db;
 
-    Settings *s = Settings::instance();
-    cacheDir = s->getDmCacheDir();
-    connections = s->getDmConnections();
-    userAgent = s->getDmUserAgent();
-
     connect(&manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(downloadFinished(QNetworkReply*)));
 
     connect(&manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
             this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
 
-    //connect(this, SIGNAL(ready()),this, SLOT(cleanCache()));
 }
 
 void DownloadManager::cleanCache()
@@ -44,9 +38,10 @@ void DownloadManager::cleanCache()
     int limit = s->getDmCacheRetencyFeedLimit();
     int date = QDateTime::currentDateTime().toTime_t() - s->getDmMaxCacheRetency();
 
-    QDirIterator i(cacheDir);
+    /*QDirIterator i(cacheDir);
     while (i.hasNext()) {
         if (i.fileInfo().isFile()) {
+            //qDebug() << "Checking: " << i.filePath();
             if (!db->isCacheItemExistsByFinalUrl(i.fileName())) {
                 if (!QFile::remove(i.filePath())) {
                     qWarning() << "Unable to remove file " << i.filePath();
@@ -56,9 +51,30 @@ void DownloadManager::cleanCache()
             }
         }
         i.next();
-    }
+    }*/
 
+    QList<QString> list = db->readCacheFinalUrlOlderThan(date, limit);
+    QList<QString>::iterator i = list.begin();
+    while (i!=list.end()) {
+        QString filepath = cacheDir + "/" + *i;
+        if (QFile::exists(filepath)) {
+            if (!QFile::remove(filepath)) {
+                qWarning() << "Unable to remove file " << filepath;
+            } else {
+                qDebug() << "Removing" << filepath;
+            }
+        }
+    }
     db->removeEntriesOlderThan(date, limit);
+}
+
+void DownloadManager::removeCache()
+{
+    Settings *s = Settings::instance();
+    QDir cache(s->getDmCacheDir());
+    if (!cache.removeRecursively()) {
+        qWarning() << "Unable to remove dir " << s->getDmCacheDir();
+    }
 }
 
 void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility accessible)
@@ -79,10 +95,9 @@ void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAcc
 void DownloadManager::doDownload(DatabaseManager::CacheItem item)
 {   
     QNetworkRequest request(QUrl(item.finalUrl));
-
-    request.setHeader(QNetworkRequest::UserAgentHeader, userAgent);
+    Settings *s = Settings::instance();
+    request.setHeader(QNetworkRequest::UserAgentHeader, s->getDmUserAgent());
     request.setRawHeader("Accept", "*/*");
-
     QNetworkReply *reply = manager.get(request);
     replyToCheckerMap.insert(reply, new Checker(reply));
     replyToCachedItemMap.insert(reply, item);
@@ -108,7 +123,8 @@ void DownloadManager::addNextDownload()
         return;
     }
 
-    if (downloads.count() < connections && !queue.isEmpty()) {
+    Settings *s = Settings::instance();
+    if (downloads.count() < s->getDmConnections() && !queue.isEmpty()) {
         DatabaseManager::CacheItem item = queue.takeFirst();
         doDownload(item);
     }
@@ -289,11 +305,12 @@ bool DownloadManager::isUrlinQueue(const QString &origUrl, const QString &finalU
 
 bool DownloadManager::saveToDisk(const QString &filename, const QByteArray &content)
 {
-    QFile file(cacheDir + "/" + filename);
+    Settings *s = Settings::instance();
+    QFile file(s->getDmCacheDir() + "/" + filename);
 
-    if (QFile::exists(filename)) {
-        qWarning() << "File exists, deleting file" << filename;
-        QFile::remove(filename);
+    if (file.exists()) {
+        //qWarning() << "File exists, deleting file" << filename;
+        file.remove();
     }
 
     if (!file.open(QIODevice::WriteOnly)) {
@@ -323,7 +340,8 @@ void DownloadManager::addDownload(DatabaseManager::CacheItem item)
         emit busy();
     }
 
-    if (downloads.count() < connections) {
+    Settings *s = Settings::instance();
+    if (downloads.count() < s->getDmConnections()) {
         doDownload(item);
     } else {
         queue.append(item);
@@ -346,11 +364,6 @@ Checker::Checker(QNetworkReply *reply)
 Checker::~Checker()
 {
     disconnect(reply, 0, this, 0);
-}
-
-void Checker::downloadProgress(qint64 bytesReceived, qint64 bytesTotal)
-{
-    //qDebug() << "downloadProgress:" << bytesReceived << bytesTotal;
 }
 
 void Checker::timeout()
@@ -392,7 +405,7 @@ void DownloadManager::startFeedDownload()
         return;
     }
 
-    cleanCache();
+    QTimer::singleShot(0, this, SLOT(cleanCache()));
 
     QMap<QString,QString> list = db->readNotCachedEntries();
     //qDebug() << "startFeedDownload, list.count=" << list.count();

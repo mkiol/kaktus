@@ -24,6 +24,7 @@
 #include <QString>
 #include <QList>
 #include <QMap>
+#include <QFile>
 #include <QStringList>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>

@@ -131,6 +131,7 @@ public:
     QList<Entry> readEntries(const QString &feedId);
     QList<Entry> readEntries();
     QList<Entry> readEntriesCachedOlderThan(int cacheDate, int limit);
+    QList<QString> readCacheFinalUrlOlderThan(int cacheDate, int limit);
     //QList<CacheItem> readCacheItems();
     QList<QString> readCacheIdsOlderThan(int cacheDate, int limit);
 

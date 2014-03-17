@@ -38,8 +38,6 @@ ListItem {
     property int index
     property int feedindex
 
-    Component.onCompleted: console.log("index=" + index + " length=" + content.length)
-
     menu: contextMenu
     contentHeight: item.height + 2 * Theme.paddingMedium
 

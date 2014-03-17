@@ -53,7 +53,6 @@ public:
 
 public slots:
     void metaDataChanged();
-    void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
     void timeout();
 
 private:
@@ -92,6 +91,7 @@ public slots:
     void networkAccessibleChanged (QNetworkAccessManager::NetworkAccessibility accessible);
     void startFeedDownload();
     void cleanCache();
+    void removeCache();
 
 private:
     QNetworkAccessManager manager;
@@ -100,9 +100,10 @@ private:
     QMap<QNetworkReply*,DatabaseManager::CacheItem> replyToCachedItemMap;
     QMap<QNetworkReply*,Checker*> replyToCheckerMap;
     DatabaseManager *db;
-    int connections;
-    QString userAgent;
-    QString cacheDir;
+
+    //int connections;
+    //QString userAgent;
+    //QString cacheDir;
 
     void doDownload(DatabaseManager::CacheItem item);
     bool saveToDisk(const QString &filename, const QByteArray &content);

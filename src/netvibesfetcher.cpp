@@ -237,6 +237,17 @@ void NetvibesFetcher::set(const QString &entryId, DatabaseManager::ActionsTypes 
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedSet()));
     connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+
+    //Logging
+    Settings *s = Settings::instance();
+    QFile file(s->getSettingsDir() + "/log_request.txt");
+    if (!file.open(QIODevice::Append)) {
+        qWarning() << "Could not open" << file.fileName() << "for append: " << file.errorString();
+    } else {
+        file.write(("["+QDateTime::currentDateTime().toString()+"]\n").toUtf8());
+        file.write(content.toUtf8()+"\n");
+        file.close();
+    }
 }
 
 void NetvibesFetcher::fetchTabs(const QString &dashboardID)
@@ -812,6 +823,17 @@ void NetvibesFetcher::finishedFeedsInfo()
 void NetvibesFetcher::finishedSet()
 {
     //qDebug() << this->_data;
+
+    //Logging
+    Settings *s = Settings::instance();
+    QFile file(s->getSettingsDir() + "/log_reply.txt");
+    if (!file.open(QIODevice::Append)) {
+        qWarning() << "Could not open" << file.fileName() << "for append: " << file.errorString();
+    } else {
+        file.write(("["+QDateTime::currentDateTime().toString()+"]\n").toUtf8());
+        file.write(this->_data+"\n");
+        file.close();
+    }
 
     if(!parse()) {
         qWarning() << "Error parsing Json!";

@@ -114,6 +114,7 @@ ApplicationWindow {
         }
 
         onEmpty: {
+            dm.removeCache();
             utils.updateModels();
             utils.setTabModel(settings.getNetvibesDefaultDashboard());
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));

@@ -55,6 +55,6 @@ Rectangle {
 
     Timer {
         id: timer
-        interval: 2000
+        interval: 4000
     }
 }

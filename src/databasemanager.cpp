@@ -83,22 +83,18 @@ bool DatabaseManager::isTableExists(const QString &name)
         if (query.exec(QString("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='%1';").arg(name))) {
             while(query.next()) {
                 //qDebug() << query.value(0).toInt();
-                if(query.value(0).toInt() == 1) {
+                if (query.value(0).toInt() == 1)
                     return true;
-                } else {
-                    return false;
-                }
+                return false;
             }
-        } else {
-            qWarning() << "SQL error!";
-            return false;
         }
     } else {
         qWarning() << "DB is not opened!";
         return false;
     }
 
-    /// @todo fix it!
+    qWarning() << "SQL error!";
+    return false;
 }
 
 bool DatabaseManager::checkParameters()
@@ -1065,6 +1061,23 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesCachedOlderThan(int ca
             e.readlater= query.value(6).toInt();
             e.date = query.value(7).toInt();
             list.append(e);
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<QString> DatabaseManager::readCacheFinalUrlOlderThan(int cacheDate, int limit)
+{
+    QList<QString> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(QString("SELECT final_url FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
+                        .arg(cacheDate).arg(limit), _db);
+        while(query.next()) {
+            list.append(query.value(0).toString());
         }
     } else {
         qWarning() << "DB is not open!";
