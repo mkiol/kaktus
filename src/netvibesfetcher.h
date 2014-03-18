@@ -39,6 +39,8 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
+#include <QNetworkConfigurationManager>
+#include <QNetworkConfiguration>
 
 #include "databasemanager.h"
 #include "downloadmanager.h"
@@ -57,6 +59,7 @@ public:
     Q_INVOKABLE void updateTab(const QString &tabId);
     Q_INVOKABLE void cancel();
     Q_INVOKABLE bool isBusy();
+    //Q_INVOKABLE bool isOnline();
 
 signals:
     void quit();
@@ -116,6 +119,7 @@ private:
     int _total;
     QByteArray _cookie;
     DatabaseManager* _db;
+    QNetworkConfigurationManager ncm;
 
     bool parse();
 

@@ -133,7 +133,10 @@ CoverBackground {
             progressLabel.text = Math.floor((current/total)*100)+"%";
             root.progress = current / total;
         }
-
+        onCanceled: {
+            if (!dm.isBusy())
+                root.busy = false;
+        }
     }
 
     Connections {

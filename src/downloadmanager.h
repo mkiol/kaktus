@@ -36,6 +36,8 @@
 #include <QCryptographicHash>
 #include <QTimer>
 #include <QDirIterator>
+#include <QNetworkConfigurationManager>
+#include <QNetworkConfiguration>
 
 #include "databasemanager.h"
 #include "settings.h"
@@ -71,6 +73,7 @@ public:
     Q_INVOKABLE void cancel();
     Q_INVOKABLE int itemsToDownloadCount();
     Q_INVOKABLE bool isBusy();
+    Q_INVOKABLE bool isOnline();
 
 signals:
     void busy();
@@ -92,6 +95,7 @@ public slots:
     void startFeedDownload();
     void cleanCache();
     void removeCache();
+    void onlineStateChanged(bool isOnline);
 
 private:
     QNetworkAccessManager manager;
@@ -100,6 +104,7 @@ private:
     QMap<QNetworkReply*,DatabaseManager::CacheItem> replyToCachedItemMap;
     QMap<QNetworkReply*,Checker*> replyToCheckerMap;
     DatabaseManager *db;
+    QNetworkConfigurationManager ncm;
 
     //int connections;
     //QString userAgent;

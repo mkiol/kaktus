@@ -21,14 +21,31 @@
 
 DownloadManager::DownloadManager(DatabaseManager *db)
 {
-    this->db = db;
+    this->db = db; 
+
+    /*QList<QNetworkConfiguration> activeConfigs = ncm.allConfigurations(QNetworkConfiguration::Active);
+    QList<QNetworkConfiguration>::iterator i = activeConfigs.begin();
+    while (i != activeConfigs.end()) {
+        qDebug() << (*i).bearerTypeName();
+        ++i;
+    }*/
+    //connect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(onlineStateChanged(bool)));
 
     connect(&manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(downloadFinished(QNetworkReply*)));
-
     connect(&manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
             this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
 
+}
+
+bool DownloadManager::isOnline()
+{
+    return ncm.isOnline();
+}
+
+void DownloadManager::onlineStateChanged(bool isOnline)
+{
+    qDebug() << "isOnline:" << isOnline;
 }
 
 void DownloadManager::cleanCache()
@@ -54,6 +71,7 @@ void DownloadManager::cleanCache()
     }*/
 
     QList<QString> list = db->readCacheFinalUrlOlderThan(date, limit);
+    qDebug() << "list.count: " << list.count();
     QList<QString>::iterator i = list.begin();
     while (i!=list.end()) {
         QString filepath = cacheDir + "/" + *i;
@@ -64,6 +82,7 @@ void DownloadManager::cleanCache()
                 qDebug() << "Removing" << filepath;
             }
         }
+        ++i;
     }
     db->removeEntriesOlderThan(date, limit);
 }
@@ -79,16 +98,18 @@ void DownloadManager::removeCache()
 
 void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility accessible)
 {
-    switch (accessible) {
-    case QNetworkAccessManager::UnknownAccessibility:
-        break;
-    case QNetworkAccessManager::NotAccessible:
-        qWarning() << "Network is not accessible!";
-        cancel();
-        emit networkNotAccessible();
-        break;
-    case QNetworkAccessManager::Accessible:
-        break;
+    if (isBusy()) {
+        switch (accessible) {
+        case QNetworkAccessManager::UnknownAccessibility:
+            break;
+        case QNetworkAccessManager::NotAccessible:
+            qWarning() << "Network is not accessible!";
+            cancel();
+            emit networkNotAccessible();
+            break;
+        case QNetworkAccessManager::Accessible:
+            break;
+        }
     }
 }
 
@@ -111,8 +132,7 @@ void DownloadManager::doDownload(DatabaseManager::CacheItem item)
 
 void DownloadManager::error(QNetworkReply::NetworkError code)
 {
-    Q_UNUSED (code)
-    //qDebug() << "error: " << code;
+    qDebug() << "error: " << code;
 }
 
 void DownloadManager::addNextDownload()
@@ -406,6 +426,12 @@ void DownloadManager::startFeedDownload()
     }
 
     QTimer::singleShot(0, this, SLOT(cleanCache()));
+
+    if (!ncm.isOnline()) {
+        qWarning() << "Network is Offline!";
+        emit networkNotAccessible();
+        return;
+    }
 
     QMap<QString,QString> list = db->readNotCachedEntries();
     //qDebug() << "startFeedDownload, list.count=" << list.count();

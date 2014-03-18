@@ -39,6 +39,12 @@ void NetvibesFetcher::init()
         return;
     }
 
+    if (!ncm.isOnline()) {
+        qWarning() << "Network is Offline!";
+        emit networkNotAccessible();
+        return;
+    }
+
     _busy = true; _busyType = false;
     emit busy();
     emit initiating();
@@ -54,16 +60,18 @@ bool NetvibesFetcher::isBusy()
 
 void NetvibesFetcher::networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility accessible)
 {
-    switch (accessible) {
-    case QNetworkAccessManager::UnknownAccessibility:
-        break;
-    case QNetworkAccessManager::NotAccessible:
-        qWarning() << "Network is not accessible!";
-        _currentReply->abort();
-        emit networkNotAccessible();
-        break;
-    case QNetworkAccessManager::Accessible:
-        break;
+    if (this->_busy) {
+        switch (accessible) {
+        case QNetworkAccessManager::UnknownAccessibility:
+            break;
+        case QNetworkAccessManager::NotAccessible:
+            qWarning() << "Network is not accessible!";
+            cancel();
+            emit networkNotAccessible();
+            break;
+        case QNetworkAccessManager::Accessible:
+            break;
+        }
     }
 }
 
@@ -72,6 +80,12 @@ void NetvibesFetcher::update()
     if (_busy) {
         qWarning() << "Fetcher is busy!";
         emit error(200);
+        return;
+    }
+
+    if (!ncm.isOnline()) {
+        qWarning() << "Network is Offline!";
+        emit networkNotAccessible();
         return;
     }
 
@@ -931,5 +945,10 @@ void NetvibesFetcher::cancel()
     if (_currentReply)
         _currentReply->close();
 }
+
+/*bool NetvibesFetcher::isOnline()
+{
+    return ncm.isOnline();
+}*/
 
 

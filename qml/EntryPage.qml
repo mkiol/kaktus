@@ -50,6 +50,10 @@ Page {
             feedindex: root.index
 
             onClicked: {
+                // Switch to Offline mode if no network
+                if (!dm.isOnline())
+                    offLineMode = true;
+
                 var onlineUrl = model.link;
                 var offlineUrl = cache.getUrlbyId(model.uid);
                 pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),
