@@ -50,6 +50,7 @@ void FeedModel::createItems(const QString &tabId)
                               (*i).content,
                               (*i).link,
                               (*i).url,
+                              (*i).icon,
                               (*i).streamId,
                               (*i).unread,
                               (*i).readlater
@@ -112,6 +113,7 @@ FeedItem::FeedItem(const QString &uid,
                    const QString &content,
                    const QString &link,
                    const QString &url,
+                   const QString &icon,
                    const QString &streamId,
                    int unread,
                    int readlater,
@@ -122,6 +124,7 @@ FeedItem::FeedItem(const QString &uid,
     m_content(content),
     m_link(link),
     m_url(url),
+    m_icon(icon),
     m_streamid(streamId),
     m_unread(unread),
     m_readlater(readlater)
@@ -135,6 +138,7 @@ QHash<int, QByteArray> FeedItem::roleNames() const
     names[ContentRole] = "content";
     names[LinkRole] = "link";
     names[UrlRole] = "url";
+    names[IconRole] = "icon";
     names[StreamIdRole] = "streamId";
     names[UnreadRole] = "unread";
     names[ReadlaterRole] = "readlater";
@@ -154,6 +158,8 @@ QVariant FeedItem::data(int role) const
         return link();
     case UrlRole:
         return url();
+    case IconRole:
+        return icon();
     case StreamIdRole:
         return streamId();
     case UnreadRole:

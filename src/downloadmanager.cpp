@@ -71,7 +71,7 @@ void DownloadManager::cleanCache()
     }*/
 
     QList<QString> list = db->readCacheFinalUrlOlderThan(date, limit);
-    qDebug() << "list.count: " << list.count();
+    //qDebug() << "list.count: " << list.count();
     QList<QString>::iterator i = list.begin();
     while (i!=list.end()) {
         QString filepath = cacheDir + "/" + *i;
@@ -154,13 +154,13 @@ void DownloadManager::addNextDownload()
 
 void DownloadManager::downloadFinished(QNetworkReply *reply)
 {
+    //qDebug() << "Errorcode: " << reply->error() << " HttpStatusCode: " << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() << "Url:" << reply->url();
+
     QUrl url = reply->url();
     QNetworkReply::NetworkError error = reply->error();
     DatabaseManager::CacheItem item = replyToCachedItemMap.value(reply);
 
     delete replyToCheckerMap.take(reply);
-
-    //qDebug() << "Errorcode: " << reply->error() << " HttpStatusCode: " << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
 
     if (error) {
 
@@ -419,11 +419,11 @@ void Checker::metaDataChanged()
 
 void DownloadManager::startFeedDownload()
 {
-    bool busy = !downloads.isEmpty() || !queue.isEmpty();
+    /*bool busy = !downloads.isEmpty() || !queue.isEmpty();
     if (busy) {
         qWarning() << "Download Manager is busy!";
         return;
-    }
+    }*/
 
     QTimer::singleShot(0, this, SLOT(cleanCache()));
 
@@ -441,8 +441,8 @@ void DownloadManager::startFeedDownload()
         return;
     }
 
-    replyToCachedItemMap.clear();
-    replyToCheckerMap.clear();
+    //replyToCachedItemMap.clear();
+    //replyToCheckerMap.clear();
 
     QMap<QString,QString>::iterator i = list.begin();
     while (i != list.end()) {

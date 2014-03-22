@@ -42,6 +42,7 @@ public:
         ContentRole,
         LinkRole,
         UrlRole,
+        IconRole,
         StreamIdRole,
         UnreadRole,
         ReadlaterRole
@@ -54,6 +55,7 @@ public:
                       const QString &content,
                       const QString &link,
                       const QString &url,
+                      const QString &icon,
                       const QString &streamId,
                       int unread,
                       int readlater,
@@ -66,6 +68,7 @@ public:
     Q_INVOKABLE inline QString content() const { return m_content; }
     Q_INVOKABLE inline QString link() const { return m_link; }
     Q_INVOKABLE inline QString url() const { return m_url; }
+    Q_INVOKABLE inline QString icon() const { return m_icon; }
     Q_INVOKABLE inline QString streamId() const { return m_streamid; }
     Q_INVOKABLE inline int unread() const { return m_unread; }
     Q_INVOKABLE inline int readlater() const { return m_readlater; }
@@ -79,6 +82,7 @@ private:
     QString m_content;
     QString m_link;
     QString m_url;
+    QString m_icon;
     QString m_streamid;
     int m_unread;
     int m_readlater;

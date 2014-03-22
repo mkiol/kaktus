@@ -100,6 +100,8 @@ signals:
     /*
     501 - Unable create settings dir
     502 - Unable create cache dir
+    511 - Password decryption error
+    512 - Password encryption error
      */
     void error(int);
 

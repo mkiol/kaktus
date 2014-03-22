@@ -59,6 +59,7 @@ public:
         QString link;
         QString url;
         QString streamId;
+        QString icon;
         int unread;
         int readlater;
         int lastUpdate;

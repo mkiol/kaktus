@@ -24,9 +24,9 @@ Rectangle {
     id: root
 
     width: parent.width
-    height: 40
+    height: label.height + 2*Theme.paddingSmall
     anchors.top: parent.top
-    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.left: parent.left
 
     color: Theme.highlightBackgroundColor
     opacity: timer.running ? 1.0 : 0.0
@@ -49,7 +49,9 @@ Rectangle {
         font.family: Theme.fontFamily
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
+        anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
         opacity: 0.8
+        wrapMode: Text.WordWrap
         color: Theme.highlightDimmerColor
     }
 

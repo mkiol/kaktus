@@ -19,7 +19,7 @@
 
 #include "databasemanager.h"
 
-const QString DatabaseManager::version = QString("0.3");
+const QString DatabaseManager::version = QString("0.4");
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
@@ -319,6 +319,7 @@ bool DatabaseManager::createFeedsStructure()
                          "content TEXT, "
                          "link TEXT, "
                          "url TEXT, "
+                         "icon TEXT, "
                          "stream_id VARCHAR(50), "
                          "unread INTEGER DEFAULT 0, "
                          "read INTEGER DEFAULT 0, "
@@ -488,13 +489,14 @@ bool DatabaseManager::writeFeed(const QString &tabId, const Feed &feed)
     if (_db.isOpen()) {
         QSqlQuery query(_db);
         //qDebug() << "writeFeed, " << feed.id << tabId << feed.title;
-        ret = query.exec(QString("INSERT INTO feeds (id, tab_id, title, content, link, url, stream_id, unread, readlater, last_update) VALUES('%1','%2','%3','%4','%5','%6','%7',%8,%9,'%10');")
+        ret = query.exec(QString("INSERT INTO feeds (id, tab_id, title, content, link, url, icon, stream_id, unread, readlater, last_update) VALUES('%1','%2','%3','%4','%5','%6','%7','%8',%9,%10,'%11');")
                          .arg(feed.id)
                          .arg(tabId)
                          .arg(QString(feed.title.toUtf8().toBase64()))
                          .arg(QString(feed.content.toUtf8().toBase64()))
                          .arg(feed.link)
                          .arg(feed.url)
+                         .arg(feed.icon)
                          .arg(feed.streamId)
                          .arg(feed.unread)
                          .arg(feed.readlater)
@@ -697,7 +699,7 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &tabId)
     QList<DatabaseManager::Feed> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, content, link, url, stream_id, unread, readlater, last_update FROM feeds WHERE tab_id='%1';")
+        QSqlQuery query(QString("SELECT id, title, content, link, url, icon, stream_id, unread, readlater, last_update FROM feeds WHERE tab_id='%1';")
                         .arg(tabId),_db);
         while(query.next()) {
             //qDebug() << "readFeeds, " << query.value(1).toString();
@@ -707,10 +709,11 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &tabId)
             f.content = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
             f.link = query.value(3).toString();
             f.url = query.value(4).toString();
-            f.streamId = query.value(5).toString();
-            f.unread = query.value(6).toInt();
-            f.readlater = query.value(7).toInt();
-            f.lastUpdate = query.value(8).toInt();
+            f.icon = query.value(5).toString();
+            f.streamId = query.value(6).toString();
+            f.unread = query.value(7).toInt();
+            f.readlater = query.value(8).toInt();
+            f.lastUpdate = query.value(9).toInt();
             list.append(f);
         }
     } else {

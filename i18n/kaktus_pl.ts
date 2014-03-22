@@ -45,8 +45,8 @@
         <translation>Aktualizacja</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="148"/>
-        <location filename="../qml/CoverPage.qml" line="154"/>
+        <location filename="../qml/CoverPage.qml" line="151"/>
+        <location filename="../qml/CoverPage.qml" line="157"/>
         <source>Caching</source>
         <translation>Pobieranie</translation>
     </message>
@@ -90,22 +90,22 @@
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="183"/>
+        <location filename="../qml/EntryDelegate.qml" line="181"/>
         <source>Unstar</source>
         <translation>Wyczyść gwiazdkę</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="183"/>
+        <location filename="../qml/EntryDelegate.qml" line="181"/>
         <source>Star</source>
         <translation>Oznacz gwiazdką</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="193"/>
+        <location filename="../qml/EntryDelegate.qml" line="191"/>
         <source>Mark as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="193"/>
+        <location filename="../qml/EntryDelegate.qml" line="191"/>
         <source>Mark as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
@@ -113,7 +113,14 @@
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/EntryPage.qml" line="70"/>
+        <location filename="../qml/EntryPage.qml" line="55"/>
+        <source>Network connection is unavailable.
+Switching to Offline mode</source>
+        <translation>Brak połączenia sieciowego.
+Został włączony tryb Offline</translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryPage.qml" line="76"/>
         <source>No entries</source>
         <translation>Brak artykułów</translation>
     </message>
@@ -156,7 +163,7 @@
         <translation>%1 nieprzeczytanych</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="85"/>
+        <location filename="../qml/FeedPage.qml" line="111"/>
         <source>No feeds</source>
         <translation>Brak kanałów</translation>
     </message>
@@ -179,12 +186,12 @@
         <translation>Aktualizuj</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="57"/>
+        <location filename="../qml/MainMenu.qml" line="62"/>
         <source>Last sync: %1</source>
         <translation>Ostatnia aktualizacja: %1</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="59"/>
+        <location filename="../qml/MainMenu.qml" line="64"/>
         <source>Not yet synced</source>
         <translation>Jeszcze nie aktualizowano</translation>
     </message>
@@ -197,34 +204,28 @@
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="38"/>
         <source>Account</source>
-        <translation>Konto</translation>
+        <translation type="obsolete">Konto</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="57"/>
         <source>Not signed in to Netvibes</source>
-        <translation>Niezalogowany do Netvibes</translation>
+        <translation type="obsolete">Niezalogowany do Netvibes</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="73"/>
         <source>Sign Out</source>
-        <translation>Wyloguj</translation>
+        <translation type="obsolete">Wyloguj</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="73"/>
         <source>Sign In</source>
-        <translation>Zaloguj</translation>
+        <translation type="obsolete">Zaloguj</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="61"/>
         <source>Signed in to Netvibes as</source>
-        <translation>Zalogowany jako</translation>
+        <translation type="obsolete">Zalogowany jako</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="76"/>
         <source>Signed Out!</source>
-        <translation>Wylogowany!</translation>
+        <translation type="obsolete">Wylogowany!</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="115"/>
@@ -242,9 +243,43 @@
         <translation>Zmień</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="139"/>
         <source>Cache</source>
-        <translation>Praca w trybie offline</translation>
+        <translation type="obsolete">Praca w trybie offline</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="38"/>
+        <source>Netvibes account</source>
+        <translation>Konto Netvibes</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="57"/>
+        <source>Not signed in </source>
+        <translation>Niezalogowany</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="61"/>
+        <source>Signed in as</source>
+        <translation>Zalogowany jako</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="73"/>
+        <source>Sign out</source>
+        <translation>Wyloguj</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="73"/>
+        <source>Sign in</source>
+        <translation>Zaloguj</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="76"/>
+        <source>Signed out!</source>
+        <translation>Wylogowany!</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="139"/>
+        <source>Other</source>
+        <translation>Inne</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="143"/>
@@ -268,23 +303,25 @@
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="167"/>
-        <source>User Interface</source>
-        <translation>Interfejs</translation>
+        <source>Show icons</source>
+        <translation>Pokazuj ikony</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="173"/>
+        <source>User Interface</source>
+        <translation type="obsolete">Interfejs</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="187"/>
         <source>Offline viewer style</source>
         <translation>Styl wyświetlania w trybie Offline</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="209"/>
         <source>Auto mark as read</source>
-        <translation>Automatyczne oznaczaj jako przeczytane</translation>
+        <translation type="obsolete">Automatyczne oznaczaj jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="210"/>
         <source>All opened articles will be marked as read.</source>
-        <translation>Wszystkie otwierane artykuły będą oznaczane jako przeczytane.</translation>
+        <translation type="obsolete">Wszystkie otwierane artykuły będą oznaczane jako przeczytane.</translation>
     </message>
     <message>
         <source>Show Tabs icons</source>
@@ -373,9 +410,8 @@
         <translation>Uruchamianie zewnętrznej przeglądarki...</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="140"/>
         <source>Marked as read!</source>
-        <translation>Oznaczono jako przeczytany!</translation>
+        <translation type="obsolete">Oznaczono jako przeczytany!</translation>
     </message>
 </context>
 <context>
@@ -465,64 +501,64 @@
     </message>
     <message>
         <location filename="../qml/main.qml" line="103"/>
-        <location filename="../qml/main.qml" line="211"/>
+        <location filename="../qml/main.qml" line="214"/>
         <source>An unknown error occurred! :-(</source>
         <translation>Wystąpił nieznany błąd! :-(</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="133"/>
+        <location filename="../qml/main.qml" line="134"/>
         <source>%1 more items left...</source>
         <translation>Pozostało do pobrania: %1... </translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="135"/>
+        <location filename="../qml/main.qml" line="136"/>
         <source>All done!</source>
         <translation>Gotowe!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="144"/>
+        <location filename="../qml/main.qml" line="146"/>
         <source>Caching...</source>
         <translation>Pobieranie do lokalnej kopii...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="152"/>
-        <location filename="../qml/main.qml" line="192"/>
+        <location filename="../qml/main.qml" line="154"/>
+        <location filename="../qml/main.qml" line="195"/>
         <source>Network connection is unavailable!</source>
         <translation>Brak połączenia sieciowego!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="206"/>
-        <location filename="../qml/main.qml" line="216"/>
+        <location filename="../qml/main.qml" line="209"/>
+        <location filename="../qml/main.qml" line="219"/>
         <source>User &amp; Password do not match!</source>
         <translation>Nazwa użytkownika nie pasuje do hasła!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="221"/>
+        <location filename="../qml/main.qml" line="224"/>
         <source>Successfully Signed In!</source>
         <translation>Zalogowano!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="226"/>
+        <location filename="../qml/main.qml" line="229"/>
         <source>Receiving data... </source>
         <translation>Pobieranie danych...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="231"/>
+        <location filename="../qml/main.qml" line="234"/>
         <source>Initiating...</source>
         <translation>Pierwsza aktualizacja...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="235"/>
+        <location filename="../qml/main.qml" line="238"/>
         <source>Updating...</source>
         <translation>Aktualizacja...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="239"/>
+        <location filename="../qml/main.qml" line="242"/>
         <source>Sending data to Netvibes...</source>
         <translation>Wysyłanie danych do Netvibes...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="243"/>
+        <location filename="../qml/main.qml" line="246"/>
         <source>Signing in...</source>
         <translation>Logowanie...</translation>
     </message>

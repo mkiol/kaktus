@@ -138,6 +138,7 @@ ApplicationWindow {
         }
 
         onCanceled: {
+            //console.log("DM canceled");
             busyDM.hide();
         }
 
@@ -185,7 +186,8 @@ ApplicationWindow {
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
             busy.hide();
 
-            if (!dm.isBusy() && settings.getAutoDownloadOnUpdate())
+            //console.log("DM busy: "+dm.isBusy());
+            if (settings.getAutoDownloadOnUpdate())
                 dm.startFeedDownload();
         }
 

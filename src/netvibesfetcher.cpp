@@ -192,11 +192,6 @@ void NetvibesFetcher::fetchDashboards()
 {
     _data = QByteArray();
 
-    //QUrl url("http://www.netvibes.com/api/my/dashboards/data");
-    //QUrl url("http://www.netvibes.com/api/my/account");
-    //QUrl url("http://www.netvibes.com/api/feeds");
-    //currentReply = manager.post(request,"format=json&pageId=1724173");
-
     QUrl url("http://www.netvibes.com/api/my/dashboards");
     QNetworkRequest request(url);
 
@@ -245,15 +240,13 @@ void NetvibesFetcher::set(const QString &entryId, DatabaseManager::ActionsTypes 
     QString feedId = _db->readFeedId(entryId);
     QString content = "feeds="+feedId+"&items="+entryId+"&format=json";
 
-    //qDebug() << "content: " << content;
-
     _currentReply = _manager.post(request, content.toUtf8());
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedSet()));
     connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
 
     //Logging
-    Settings *s = Settings::instance();
+    /*Settings *s = Settings::instance();
     QFile file(s->getSettingsDir() + "/log_request.txt");
     if (!file.open(QIODevice::Append)) {
         qWarning() << "Could not open" << file.fileName() << "for append: " << file.errorString();
@@ -261,7 +254,7 @@ void NetvibesFetcher::set(const QString &entryId, DatabaseManager::ActionsTypes 
         file.write(("["+QDateTime::currentDateTime().toString()+"]\n").toUtf8());
         file.write(content.toUtf8()+"\n");
         file.close();
-    }
+    }*/
 }
 
 void NetvibesFetcher::fetchTabs(const QString &dashboardID)
@@ -501,9 +494,26 @@ void NetvibesFetcher::storeFeeds()
             f.unread = obj["flags"].toObject()["unread"].toDouble();
             f.readlater = obj["flags"].toObject()["readlater"].toDouble();
             f.lastUpdate = QDateTime::currentDateTime().toTime_t();
+
             QMap<QString,QString>::iterator it = _feedTabList.find(f.id);
             if (it!=_feedTabList.end()) {
+
+                // Downloading fav icon file
+                if (f.link!="") {
+                    Settings *s = Settings::instance();
+                    QUrl iconUrl(f.link);
+                    f.icon = QString("http://avatars.netvibes.com/favicon/%1://%2")
+                            .arg(iconUrl.scheme())
+                            .arg(iconUrl.host());
+                    DatabaseManager::CacheItem item;
+                    item.origUrl = f.icon;
+                    item.finalUrl = f.icon;
+                    s->dm->addDownload(item);
+                    //qDebug() << "favicon:" << f.icon;
+                }
+
                 _db->writeFeed(it.value(), f);
+
             } else {
                 qWarning() << "No matching feed!";
             }
@@ -839,7 +849,7 @@ void NetvibesFetcher::finishedSet()
     //qDebug() << this->_data;
 
     //Logging
-    Settings *s = Settings::instance();
+    /*Settings *s = Settings::instance();
     QFile file(s->getSettingsDir() + "/log_reply.txt");
     if (!file.open(QIODevice::Append)) {
         qWarning() << "Could not open" << file.fileName() << "for append: " << file.errorString();
@@ -847,7 +857,7 @@ void NetvibesFetcher::finishedSet()
         file.write(("["+QDateTime::currentDateTime().toString()+"]\n").toUtf8());
         file.write(this->_data+"\n");
         file.close();
-    }
+    }*/
 
     if(!parse()) {
         qWarning() << "Error parsing Json!";

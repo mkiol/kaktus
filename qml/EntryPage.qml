@@ -51,9 +51,11 @@ Page {
 
             onClicked: {
                 // Switch to Offline mode if no network
-                if (!dm.isOnline())
+                if (!dm.isOnline()) {
+                    notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode"));
                     offLineMode = true;
-
+                }
+                expanded = false;
                 var onlineUrl = model.link;
                 var offlineUrl = cache.getUrlbyId(model.uid);
                 pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),

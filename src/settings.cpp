@@ -23,6 +23,8 @@
 #include "databasemanager.h"
 #include "cacheserver.h"
 #include "netvibesfetcher.h"
+#include "simplecrypt.h"
+#include "../key.h"
 
 Settings* Settings::inst = 0;
 
@@ -114,12 +116,23 @@ QString Settings::getNetvibesUsername()
 
 void Settings::setNetvibesPassword(const QString &value)
 {
-    settings.setValue("password", value);
+    SimpleCrypt crypto(KEY);
+    QString encryptedPassword = crypto.encryptToString(value);
+    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        emit error(512);
+    }
+    settings.setValue("password", encryptedPassword);
 }
 
 QString Settings::getNetvibesPassword()
 {
-    return settings.value("password", "").toString();
+    SimpleCrypt crypto(KEY);
+    QString plainPassword = crypto.decryptToString(settings.value("password", "").toString());
+    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        emit error(511);
+        return "";
+    }
+    return plainPassword;
 }
 
 void Settings::setNetvibesDefaultDashboard(const QString &value)

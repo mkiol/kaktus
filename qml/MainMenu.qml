@@ -50,6 +50,11 @@ PullDownMenu {
         }
     }
 
+    /*MenuItem {
+        text: qsTr("Test")
+        onClicked: notification.show("Abcd")
+    }*/
+
     MenuLabel {
         function update() {
             var lastSync = settings.getNetvibesLastUpdateDate();

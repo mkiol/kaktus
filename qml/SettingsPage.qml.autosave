@@ -194,8 +194,8 @@ Page {
                         return 1;
                 }
                 menu: ContextMenu {
-                    MenuItem { id: blackTheme; text: "Black" }
-                    MenuItem { id: whiteTheme; text: "White" }
+                    MenuItem { id: blackTheme; text: qsTr("Black") }
+                    MenuItem { id: whiteTheme; text: qsTr("White") }
                 }
 
                 onCurrentIndexChanged: {

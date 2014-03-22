@@ -73,6 +73,32 @@ Page {
                 }
             }
 
+            Image {
+                id: image
+                width: Theme.iconSizeSmall
+                height: Theme.iconSizeSmall
+                anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
+                anchors.verticalCenter: item.verticalCenter
+                visible: settings.getShowTabIcons()
+            }
+
+            Component.onCompleted: {
+                image.source = cache.getUrlbyUrl(model.icon);
+            }
+
+            Connections {
+                target: settings
+                onSettingsChanged: {
+                    if (settings.getShowTabIcons()) {
+                        image.source = cache.getUrlbyUrl(model.icon);
+                        image.visible = true;
+                    } else {
+                        image.source = "";
+                        image.visible = false;
+                    }
+                }
+            }
+
             onClicked: {
                 utils.setEntryModel(uid);
                 pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
