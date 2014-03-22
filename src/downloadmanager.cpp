@@ -158,8 +158,7 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
 
     QUrl url = reply->url();
     QNetworkReply::NetworkError error = reply->error();
-    DatabaseManager::CacheItem item = replyToCachedItemMap.value(reply);
-
+    DatabaseManager::CacheItem item = replyToCachedItemMap.take(reply);
     delete replyToCheckerMap.take(reply);
 
     if (error) {
@@ -222,7 +221,7 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
             item.finalUrl = url.resolved(reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl()).toString();
             //qDebug() << "RedirectionTarget: " << url.toString() << "entryId" << item.entryId;
             downloads.removeOne(reply);
-            replyToCachedItemMap.remove(reply);
+            //replyToCachedItemMap.remove(reply);
             addDownload(item);
             reply->deleteLater();
             return;

@@ -52,7 +52,7 @@ Page {
             onClicked: {
                 // Switch to Offline mode if no network
                 if (!dm.isOnline()) {
-                    notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode"));
+                    notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode!"));
                     offLineMode = true;
                 }
                 expanded = false;

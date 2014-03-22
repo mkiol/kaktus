@@ -33,6 +33,19 @@
     </message>
 </context>
 <context>
+    <name>ControlBarWebPreview</name>
+    <message>
+        <location filename="../qml/ControlBarWebPreview.qml" line="114"/>
+        <source>Switching to Online mode!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/ControlBarWebPreview.qml" line="116"/>
+        <source>Switching to Offline mode!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <location filename="../qml/CoverPage.qml" line="118"/>
@@ -111,7 +124,7 @@
     <message>
         <location filename="../qml/EntryPage.qml" line="55"/>
         <source>Network connection is unavailable.
-Switching to Offline mode</source>
+Switching to Offline mode!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -278,6 +291,16 @@ Switching to Offline mode</source>
         <source>Offline viewer style</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="197"/>
+        <source>Black</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="198"/>
+        <source>White</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SignInDialog</name>
@@ -293,12 +316,12 @@ Switching to Offline mode</source>
     </message>
     <message>
         <location filename="../qml/SignInDialog.qml" line="48"/>
-        <source>Enter username (email) here!</source>
+        <source>Enter username here!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/SignInDialog.qml" line="49"/>
-        <source>Netvibes&apos;s username (email)</source>
+        <source>Netvibes&apos;s username</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

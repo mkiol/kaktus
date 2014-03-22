@@ -37,6 +37,19 @@
     </message>
 </context>
 <context>
+    <name>ControlBarWebPreview</name>
+    <message>
+        <location filename="../qml/ControlBarWebPreview.qml" line="114"/>
+        <source>Switching to Online mode!</source>
+        <translation>Został włączony tryb Online!</translation>
+    </message>
+    <message>
+        <location filename="../qml/ControlBarWebPreview.qml" line="116"/>
+        <source>Switching to Offline mode!</source>
+        <translation>Został włączony tryb Offline!</translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <location filename="../qml/CoverPage.qml" line="118"/>
@@ -113,11 +126,17 @@
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/EntryPage.qml" line="55"/>
         <source>Network connection is unavailable.
 Switching to Offline mode</source>
-        <translation>Brak połączenia sieciowego.
+        <translation type="obsolete">Brak połączenia sieciowego.
 Został włączony tryb Offline</translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryPage.qml" line="55"/>
+        <source>Network connection is unavailable.
+Switching to Offline mode!</source>
+        <translation>Brak połączenia sieciowego.
+Został włączony tryb Offline!</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="76"/>
@@ -307,6 +326,16 @@ Został włączony tryb Offline</translation>
         <translation>Pokazuj ikony</translation>
     </message>
     <message>
+        <location filename="../qml/SettingsPage.qml" line="197"/>
+        <source>Black</source>
+        <translation>Czarny</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="198"/>
+        <source>White</source>
+        <translation>Biały</translation>
+    </message>
+    <message>
         <source>User Interface</source>
         <translation type="obsolete">Interfejs</translation>
     </message>
@@ -341,22 +370,22 @@ Został włączony tryb Offline</translation>
         <translation>Zaloguj</translation>
     </message>
     <message>
-        <location filename="../qml/SignInDialog.qml" line="48"/>
         <source>Enter username (email) here!</source>
-        <translation>Wprowadź nazwę użytkownika (email)!</translation>
+        <translation type="obsolete">Wprowadź nazwę użytkownika (email)!</translation>
+    </message>
+    <message>
+        <source>Netvibes&apos;s username (email)</source>
+        <translation type="obsolete">Nazwa użytkownika Netvibes (email)</translation>
+    </message>
+    <message>
+        <location filename="../qml/SignInDialog.qml" line="48"/>
+        <source>Enter username here!</source>
+        <translation>Wprowadź nazwę użytkownika!</translation>
     </message>
     <message>
         <location filename="../qml/SignInDialog.qml" line="49"/>
-        <source>Netvibes&apos;s username (email)</source>
-        <translation>Nazwa użytkownika Netvibes (email)</translation>
-    </message>
-    <message>
-        <source>Enter username here!</source>
-        <translation type="obsolete">Wprowadź nazwę użytkownika!</translation>
-    </message>
-    <message>
         <source>Netvibes&apos;s username</source>
-        <translation type="obsolete">Nazwa użytkownika Netvibes</translation>
+        <translation>Nazwa użytkownika Netvibes</translation>
     </message>
     <message>
         <location filename="../qml/SignInDialog.qml" line="66"/>

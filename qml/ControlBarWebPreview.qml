@@ -109,7 +109,13 @@ Column {
             anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
             icon.source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightDimmerColor : "image://theme/icon-m-wlan-4?"+Theme.highlightDimmerColor
-            onClicked: offLineMode = !offLineMode;
+            onClicked: {
+                if (offLineMode)
+                    notification.show(qsTr("Switching to Online mode!"));
+                else
+                    notification.show(qsTr("Switching to Offline mode!"));
+                offLineMode = !offLineMode;
+            }
         }
 
         MouseArea {

@@ -33,7 +33,7 @@ Page {
     property bool read
     property int index
     property int feedindex
-    property int markAsReadTime: 6000
+    property int markAsReadTime: 4000
 
     onForwardNavigationChanged: {
         if (forwardNavigation)
