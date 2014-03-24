@@ -59,7 +59,6 @@ public:
     Q_INVOKABLE void updateTab(const QString &tabId);
     Q_INVOKABLE void cancel();
     Q_INVOKABLE bool isBusy();
-    //Q_INVOKABLE bool isOnline();
 
 signals:
     void quit();

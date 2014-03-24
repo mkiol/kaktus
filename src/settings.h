@@ -25,6 +25,8 @@
 #include <QDebug>
 #include <QCoreApplication>
 #include <QStandardPaths>
+#include <QQuickView>
+#include <QQmlContext>
 
 class DatabaseManager;
 class DownloadManager;
@@ -35,6 +37,10 @@ class Settings: public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY (bool offlineMode READ getOfflineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
+    Q_PROPERTY (bool showTabIcons READ getShowTabIcons WRITE setShowTabIcons NOTIFY showTabIconsChanged)
+    Q_PROPERTY (bool signedIn READ getSignedIn WRITE setSignedIn NOTIFY signedInChanged)
+
 public:
     static Settings* instance();
 
@@ -42,22 +48,24 @@ public:
     CacheServer* cache;
     DownloadManager* dm;
     NetvibesFetcher* fetcher;
+    QQuickView* view;
+
+    //Properties
+    void setOfflineMode(bool value);
+    bool getOfflineMode();
+    bool getShowTabIcons();
+    void setShowTabIcons(bool value);
+    void setSignedIn(bool value);
+    bool getSignedIn();
 
     // General
-    //Q_INVOKABLE void setSettingsDir(const QString &value);
     Q_INVOKABLE QString getSettingsDir();
     Q_INVOKABLE void setAutoDownloadOnUpdate(bool value);
     Q_INVOKABLE bool getAutoDownloadOnUpdate();
-    Q_INVOKABLE void setOfflineMode(bool value);
-    Q_INVOKABLE bool getOfflineMode();
-    Q_INVOKABLE void setSignedIn(bool value);
-    Q_INVOKABLE bool getSignedIn();
 
     //UI
     Q_INVOKABLE bool getAutoMarkAsRead();
     Q_INVOKABLE void setAutoMarkAsRead(bool value);
-    Q_INVOKABLE bool getShowTabIcons();
-    Q_INVOKABLE void setShowTabIcons(bool value);
 
     // Netvibes Fetcher
     Q_INVOKABLE void setNetvibesUsername(const QString &value);
@@ -96,7 +104,9 @@ public:
     Q_INVOKABLE void setCsTheme(const QString &value);
 
 signals:
-    void settingsChanged();
+    void offlineModeChanged();
+    void showTabIconsChanged();
+    void signedInChanged();
     /*
     501 - Unable create settings dir
     502 - Unable create cache dir

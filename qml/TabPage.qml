@@ -61,24 +61,24 @@ Page {
                 height: Theme.iconSizeSmall
                 anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
                 anchors.verticalCenter: item.verticalCenter
-                visible: settings.getShowTabIcons()
-            }
-
-            Component.onCompleted: {
-                image.source = cache.getUrlbyUrl(iconUrl);
+                visible: settings.showTabIcons
             }
 
             Connections {
                 target: settings
-                onSettingsChanged: {
-                    if (settings.getShowTabIcons()) {
+                onShowTabIconsChanged: {
+                    if (settings.showTabIcons)
                         image.source = cache.getUrlbyUrl(iconUrl);
-                        image.visible = true;
-                    } else {
+                    else
                         image.source = "";
-                        image.visible = false;
-                    }
                 }
+            }
+
+            Component.onCompleted: {
+                if (settings.showTabIcons)
+                    image.source = cache.getUrlbyUrl(iconUrl);
+                else
+                    image.source = "";
             }
 
             onClicked: {
@@ -97,8 +97,7 @@ Page {
                 anchors.bottom: parent.bottom
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.secondaryHighlightColor
-                //text: signedIn ? qsTr("Try to Sync!") : qsTr("You are not signed in to Netvibes!")
-                text: qsTr("Try to Sync!")
+                text: qsTr("Pull down to do first Sync")
             }
         }
 
@@ -107,9 +106,4 @@ Page {
         }
 
     }
-
-    /*ControlBar {
-        id: controlbar
-    }*/
-
 }

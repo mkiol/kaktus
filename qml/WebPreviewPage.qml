@@ -20,7 +20,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import QtWebKit 3.0
-import QtWebKit.experimental 1.0
+//import QtWebKit.experimental 1.0 //Not allowed in harbour :-(
 
 Page {
     id: root
@@ -59,18 +59,14 @@ Page {
             bottom: parent.bottom
         }
 
-        url:  offLineMode ? offlineUrl : onlineUrl
-        experimental.userAgent: settings.getDmUserAgent()
-
-        /*header: PageHeader {
-            title: root.title
-        }*/
+        url:  settings.offlineMode ? offlineUrl : onlineUrl
+        //experimental.userAgent: settings.getDmUserAgent()
 
         onLoadingChanged: {
             if (loadRequest.status == WebView.LoadStartedStatus) {
                 busy.show(qsTr("Loading page content..."), true);
             } else if (loadRequest.status == WebView.LoadFailedStatus) {
-                if (offLineMode)
+                if (settings.offlineMode)
                     notification.show(qsTr("Failed to load article from local cache :-("));
                 else
                     notification.show(qsTr("Failed to load page content :-("));
@@ -86,7 +82,7 @@ Page {
 
         onNavigationRequested: {
             // In Off-Line mode navigation is disabled
-            if (offLineMode) {
+            if (settings.offlineMode) {
                 if (request.url != offlineUrl) {
                     request.action = WebView.IgnoreRequest;
                 }
@@ -116,7 +112,7 @@ Page {
 
         onBrowserClicked: {
             notification.show(qsTr("Launching an external browser..."));
-            if (offLineMode)
+            if (settings.offlineMode)
                 Qt.openUrlExternally(offlineUrl);
             else
                 Qt.openUrlExternally(onlineUrl);

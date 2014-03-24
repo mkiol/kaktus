@@ -956,9 +956,4 @@ void NetvibesFetcher::cancel()
         _currentReply->close();
 }
 
-/*bool NetvibesFetcher::isOnline()
-{
-    return ncm.isOnline();
-}*/
-
 

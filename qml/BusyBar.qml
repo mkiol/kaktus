@@ -29,7 +29,6 @@ Rectangle {
     property bool cancelable: false
     property bool open: false
     property real progress: 0.0
-
     signal closeClicked
 
     height: visible ? Theme.itemSizeMedium * 1 : 0

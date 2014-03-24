@@ -109,9 +109,9 @@ Item {
         IconButton {
             id: offline
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightColor : "image://theme/icon-m-wlan-4?"+Theme.highlightColor
+            icon.source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightColor : "image://theme/icon-m-wlan-4?"+Theme.highlightColor
             onClicked: {
-                offLineMode = !offLineMode;
+                settings.offlineMode = !settings.offlineMode;
                 label.show();
             }
         }

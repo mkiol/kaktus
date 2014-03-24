@@ -52,7 +52,9 @@ PullDownMenu {
 
     /*MenuItem {
         text: qsTr("Test")
-        onClicked: notification.show("Abcd")
+        onClicked: {
+            utils.showNotification("Ala ma kota");
+        }
     }*/
 
     MenuLabel {

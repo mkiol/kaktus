@@ -67,18 +67,21 @@ class DownloadManager: public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY (bool online READ isOnline NOTIFY onlineChanged)
+
 public:
     DownloadManager(DatabaseManager* db);
     void addDownload(DatabaseManager::CacheItem item);
     Q_INVOKABLE void cancel();
     Q_INVOKABLE int itemsToDownloadCount();
     Q_INVOKABLE bool isBusy();
-    Q_INVOKABLE bool isOnline();
+    bool isOnline();
 
 signals:
     void busy();
     void ready();
     void networkNotAccessible();
+    void onlineChanged();
     void canceled();
     /*
     500 - Unknown error

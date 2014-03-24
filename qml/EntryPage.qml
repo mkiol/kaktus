@@ -51,9 +51,10 @@ Page {
 
             onClicked: {
                 // Switch to Offline mode if no network
-                if (!dm.isOnline()) {
+                if (!settings.offlineMode && !dm.online) {
                     notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode!"));
-                    offLineMode = true;
+                    //utils.showNotification("Network connection is unavailable","Switching to Offline mode!","icon-m-wlan-no-signal");
+                    settings.offlineMode = true;
                 }
                 expanded = false;
                 var onlineUrl = model.link;
@@ -81,8 +82,4 @@ Page {
         }
 
     }
-
-    /*ControlBar {
-        id: controlbar
-    }*/
 }

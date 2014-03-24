@@ -38,11 +38,13 @@
 #include "databasemanager.h"
 #include "settings.h"
 
+
 class Utils : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit Utils(DatabaseManager* db, QQuickView* view, QObject *parent = 0);
+    explicit Utils(QObject *parent = 0);
     ~Utils();
     Q_INVOKABLE void setEntryModel(const QString &feedId);
     Q_INVOKABLE void setFeedModel(const QString &tabId);
@@ -51,11 +53,9 @@ public:
     Q_INVOKABLE QList<QString> dashboards();
     Q_INVOKABLE void copyToClipboard(const QString &text);
     Q_INVOKABLE QString defaultDashboardName();
-
-    /*Q_INVOKABLE void setAsRead(const QString &entryId);
-    Q_INVOKABLE void unsetAsRead(const QString &entryId);
-    Q_INVOKABLE void setAsReadlater(const QString &entryId);
-    Q_INVOKABLE void unsetAsReadlater(const QString &entryId);*/
+    /*Q_INVOKABLE bool showNotification(const QString previewSummary,
+                                      const QString previewBody = "",
+                                      const QString icon = "");*/
 
 public slots:
     void updateModels();
@@ -65,9 +65,6 @@ private:
     QMap<QString, FeedModel*> _feedModelsList;
     QMap<QString, TabModel*> _tabModelsList;
     DashboardModel* _dashboardModel;
-    DatabaseManager* _db;
-    QQuickView* _view;
-    bool offLine;
 };
 
 #endif // UTILS_H

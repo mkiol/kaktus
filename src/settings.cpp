@@ -48,7 +48,7 @@ void Settings::setOfflineMode(bool value)
 {
     if (getOfflineMode() != value) {
         settings.setValue("offlinemode", value);
-        emit settingsChanged();
+        emit offlineModeChanged();
     }
 }
 
@@ -72,7 +72,7 @@ void Settings::setShowTabIcons(bool value)
 {
     if (getShowTabIcons() != value) {
         settings.setValue("showtabicons", value);
-        emit settingsChanged();
+        emit showTabIconsChanged();
     }
 }
 
@@ -85,7 +85,7 @@ void Settings::setSignedIn(bool value)
 {
     if (getSignedIn() != value) {
         settings.setValue("signedin", value);
-        emit settingsChanged();
+        emit signedInChanged();
     }
 }
 

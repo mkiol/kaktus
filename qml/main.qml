@@ -24,9 +24,6 @@ import Sailfish.Silica 1.0
 ApplicationWindow {
     id: app
 
-    property bool offLineMode
-    property bool signedIn
-
     function getHumanFriendlyTimeString(date) {
         var delta = Math.floor(Date.now()/1000-date);
         if (delta===0) {
@@ -79,23 +76,12 @@ ApplicationWindow {
 
     cover: CoverPage {}
 
-    onOffLineModeChanged: {
-        settings.setOfflineMode(offLineMode);
-    }
-
     Component.onCompleted: {
-        offLineMode = settings.getOfflineMode();
-        signedIn = settings.getSignedIn();
         db.init();
     }
 
     Connections {
         target: settings
-
-        onSettingsChanged: {
-            offLineMode = settings.getOfflineMode();
-            signedIn = settings.getSignedIn();
-        }
 
         onError: {
             console.log("Settings error!");
@@ -138,7 +124,6 @@ ApplicationWindow {
         }
 
         onCanceled: {
-            //console.log("DM canceled");
             busyDM.hide();
         }
 

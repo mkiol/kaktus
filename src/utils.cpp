@@ -17,13 +17,14 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+//#include <QtDBus/QtDBus>
+//#include <QDateTime>
+
 #include "utils.h"
 
-Utils::Utils(DatabaseManager* db, QQuickView* view, QObject *parent) :
+Utils::Utils(QObject *parent) :
     QObject(parent)
 {
-    _db = db;
-    _view = view;
     _dashboardModel = NULL;
 }
 
@@ -40,39 +41,40 @@ void Utils::copyToClipboard(const QString &text)
 void Utils::setTabModel(const QString &dashboardId)
 {
     TabModel* tabModel;
+    Settings *s = Settings::instance();
     QMap<QString,TabModel*>::iterator i = _tabModelsList.find(dashboardId);
     if (i == _tabModelsList.end()) {
-        tabModel = new TabModel(_db);
+        tabModel = new TabModel(s->db);
         tabModel->init(dashboardId);
         _tabModelsList.insert(dashboardId,tabModel);
     } else {
         tabModel = i.value();
     }
-
-    _view->rootContext()->setContextProperty("tabModel", tabModel);
+    s->view->rootContext()->setContextProperty("tabModel", tabModel);
 }
 
 void Utils::setFeedModel(const QString &tabId)
 {
     FeedModel* feedModel;
+    Settings *s = Settings::instance();
     QMap<QString,FeedModel*>::iterator i = _feedModelsList.find(tabId);
     if (i == _feedModelsList.end()) {
-        feedModel = new FeedModel(_db);
+        feedModel = new FeedModel(s->db);
         feedModel->init(tabId);
         _feedModelsList.insert(tabId,feedModel);
     } else {
         feedModel = i.value();
     }
-
-    _view->rootContext()->setContextProperty("feedModel", feedModel);
+    s->view->rootContext()->setContextProperty("feedModel", feedModel);
 }
 
 void Utils::setEntryModel(const QString &feedId)
 {
     EntryModel* entryModel;
+    Settings *s = Settings::instance();
     QMap<QString,EntryModel*>::iterator i = _entryModelsList.find(feedId);
     if (i == _entryModelsList.end()) {
-        entryModel = new EntryModel(_db);
+        entryModel = new EntryModel(s->db);
         entryModel->init(feedId);
         _entryModelsList.insert(feedId,entryModel);
     } else {
@@ -80,17 +82,17 @@ void Utils::setEntryModel(const QString &feedId)
             i.value()->init();
         entryModel = i.value();
     }
-
-    _view->rootContext()->setContextProperty("entryModel", entryModel);
+    s->view->rootContext()->setContextProperty("entryModel", entryModel);
 }
 
 void Utils::setDashboardModel()
 {
+    Settings *s = Settings::instance();
     if(!_dashboardModel) {
-        _dashboardModel = new DashboardModel(_db);
+        _dashboardModel = new DashboardModel(s->db);
         _dashboardModel->init();
     }
-    _view->rootContext()->setContextProperty("dashboardModel", _dashboardModel);
+    s->view->rootContext()->setContextProperty("dashboardModel", _dashboardModel);
 }
 
 void Utils::updateModels()
@@ -147,8 +149,9 @@ Utils::~Utils()
 
 QList<QString> Utils::dashboards()
 {
+    Settings *s = Settings::instance();
     QList<QString> simpleList;
-    QList<DatabaseManager::Dashboard> list = _db->readDashboards();
+    QList<DatabaseManager::Dashboard> list = s->db->readDashboards();
     QList<DatabaseManager::Dashboard>::iterator i = list.begin();
     while (i != list.end()) {
         simpleList.append((*i).title);
@@ -160,71 +163,41 @@ QList<QString> Utils::dashboards()
 QString Utils::defaultDashboardName()
 {
     Settings *s = Settings::instance();
-    DatabaseManager::Dashboard d = _db->readDashboard(s->getNetvibesDefaultDashboard());
+    DatabaseManager::Dashboard d = s->db->readDashboard(s->getNetvibesDefaultDashboard());
     return d.title;
 }
 
-/*void Utils::setAsRead(const QString &entryId)
+/*bool Utils::showNotification(const QString previewSummary,
+                             const QString previewBody,
+                             const QString icon)
 {
-    _db->updateEntryReadFlag(entryId,1);
-    QString feedId = _db->readFeedId(entryId);
-    QMap<QString,EntryModel*>::iterator i = _entryModelsList.find(feedId);
-    if (i != _entryModelsList.end()) {
-        i.value()->reInit = true;
+
+    QVariantMap hints;
+    hints.insert("category", "net.mkiol.kaktus.notification");
+    hints.insert("x-nemo-timestamp", QDateTime::currentDateTime().toString(Qt::ISODate));
+    hints.insert("x-nemo-preview-body", previewBody);
+    hints.insert("x-nemo-preview-summary", previewSummary);
+    hints.insert("x-nemo-item-count", 1);
+
+    QList<QVariant> argumentList;
+    argumentList << "Kaktus";
+    argumentList << (uint)0;
+    argumentList << icon;
+    argumentList << "";
+    argumentList << "";
+    argumentList << QStringList();
+    argumentList << hints;
+    argumentList << (int)5000;
+
+    static QDBusInterface notifyApp("org.freedesktop.Notifications",
+                                    "/org/freedesktop/Notifications",
+                                    "org.freedesktop.Notifications");
+    QDBusMessage reply = notifyApp.callWithArgumentList(QDBus::AutoDetect,
+                                                        "Notify", argumentList);
+
+    if(reply.type() == QDBusMessage::ErrorMessage) {
+        qWarning() << "D-Bus Error:" << reply.errorMessage();
+        return false;
     }
-
-    DatabaseManager::Action action;
-    action.type = DatabaseManager::SetRead;
-    action.entryId = entryId;
-
-    _db->writeAction(action,QDateTime::currentDateTime().toTime_t());
-}
-
-void Utils::unsetAsRead(const QString &entryId)
-{
-    _db->updateEntryReadFlag(entryId,0);
-    QString feedId = _db->readFeedId(entryId);
-    QMap<QString,EntryModel*>::iterator i = _entryModelsList.find(feedId);
-    if (i != _entryModelsList.end()) {
-        i.value()->reInit = true;
-    }
-
-    DatabaseManager::Action action;
-    action.type = DatabaseManager::UnSetRead;
-    action.entryId = entryId;
-
-    _db->writeAction(action,QDateTime::currentDateTime().toTime_t());
-}
-
-void Utils::setAsReadlater(const QString &entryId)
-{
-    _db->updateEntryReadlaterFlag(entryId,1);
-    QString feedId = _db->readFeedId(entryId);
-    QMap<QString,EntryModel*>::iterator i = _entryModelsList.find(feedId);
-    if (i != _entryModelsList.end()) {
-        i.value()->reInit = true;
-    }
-
-    DatabaseManager::Action action;
-    action.type = DatabaseManager::SetReadlater;
-    action.entryId = entryId;
-
-    _db->writeAction(action,QDateTime::currentDateTime().toTime_t());
-}
-
-void Utils::unsetAsReadlater(const QString &entryId)
-{
-    _db->updateEntryReadlaterFlag(entryId,0);
-    QString feedId = _db->readFeedId(entryId);
-    QMap<QString,EntryModel*>::iterator i = _entryModelsList.find(feedId);
-    if (i != _entryModelsList.end()) {
-        i.value()->reInit = true;
-    }
-
-    DatabaseManager::Action action;
-    action.type = DatabaseManager::UnSetReadlater;
-    action.entryId = entryId;
-
-    _db->writeAction(action,QDateTime::currentDateTime().toTime_t());
+    return true;
 }*/
-

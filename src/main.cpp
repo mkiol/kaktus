@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("AUTHOR", AUTHOR);
     view->rootContext()->setContextProperty("PAGE", PAGE);
 
-    app->setOrganizationName("mkiol");
+    //app->setOrganizationName("mkiol"); //Not allowed in harbour :-(
     app->setApplicationDisplayName(APP_NAME);
     app->setApplicationVersion(VERSION);
 
@@ -61,11 +61,12 @@ int main(int argc, char *argv[])
     app->installTranslator(appTranslator);
 
     Settings* settings = Settings::instance();
+    settings->view = view.data();
     DatabaseManager db; settings->db = &db;
     DownloadManager dm(&db); settings->dm = &dm;
     CacheServer cache(&db); settings->cache = &cache;
     NetvibesFetcher fetcher(&db, &dm); settings->fetcher = &fetcher;
-    Utils utils(&db, view.data());
+    Utils utils;
 
     QObject::connect(&fetcher, SIGNAL(ready()), &utils, SLOT(updateModels()));
     QObject::connect(view->engine(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));

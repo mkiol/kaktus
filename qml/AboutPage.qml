@@ -61,7 +61,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeSmall
-                text: qsTr("Kaktus is an unofficial Netvibes offline feed reader application for Sailfish OS.");
+                text: qsTr("An unofficial Netvibes feed reader, specially designed to work offline.");
             }
 
             Label {

@@ -40,9 +40,6 @@ Page {
 
             ListItem {
                 id: signinForm
-
-                property bool signedIn: settings.getSignedIn()
-                onSignedInChanged: usernameLabel.text = settings.getNetvibesUsername();
                 contentHeight: flow1.height + 2*Theme.paddingLarge
 
                 Flow {
@@ -55,28 +52,27 @@ Page {
 
                     Label {
                         text: qsTr("Not signed in ")
-                        visible: !signinForm.signedIn
+                        visible: !settings.signedIn
                     }
                     Label {
                         text: qsTr("Signed in as")
-                        visible: signinForm.signedIn
+                        visible: settings.signedIn
                     }
                     Label {
-                        id: usernameLabel
                         color: Theme.highlightColor
-                        visible: signinForm.signedIn
+                        visible: settings.signedIn
+                        text: settings.signedIn ? settings.getNetvibesUsername() : ""
                     }
                 }
 
                 menu: ContextMenu {
                     MenuItem {
-                        text: signinForm.signedIn ? qsTr("Sign out") : qsTr("Sign in")
+                        text: settings.signedIn ? qsTr("Sign out") : qsTr("Sign in")
                         onClicked: {
-                            if (signinForm.signedIn) {
+                            if (settings.signedIn) {
                                 notification.show(qsTr("Signed out!"));
-                                settings.setSignedIn(false);
+                                settings.signedIn = false;
                                 settings.setNetvibesPassword("");
-                                signinForm.signedIn = false;
                                 pageStack.clear();
                                 fetcher.cancel();
                                 dm.cancel();
@@ -89,19 +85,12 @@ Page {
                 }
 
                 onClicked: showMenu();
-
-                Connections {
-                    target: fetcher
-                    onCredentialsValid: {
-                        signinForm.signedIn = settings.getSignedIn();
-                    }
-                }
             }
 
             ListItem {
                 id: defaultdashboard
                 contentHeight: flow2.height + 2*Theme.paddingLarge
-                enabled: signinForm.signedIn && utils.defaultDashboardName()!==""
+                enabled: settings.signedIn && utils.defaultDashboardName()!==""
                 Flow {
                     id: flow2
                     anchors.verticalCenter: parent.verticalCenter
@@ -111,8 +100,8 @@ Page {
                     anchors.rightMargin: Theme.paddingLarge
 
                     Label {
-                        color: signinForm.signedIn && utils.defaultDashboardName()!=="" ? Theme.primaryColor : Theme.secondaryColor
-                        text: signinForm.signedIn && utils.defaultDashboardName()!=="" ? qsTr("Dashboard in use") : qsTr("Dashboard not selected")
+                        color: settings.signedIn && utils.defaultDashboardName()!=="" ? Theme.primaryColor : Theme.secondaryColor
+                        text: settings.signedIn && utils.defaultDashboardName()!=="" ? qsTr("Dashboard in use") : qsTr("Dashboard not selected")
                     }
 
                     Label {
@@ -142,22 +131,20 @@ Page {
             TextSwitch {
                 text: qsTr("Offline mode")
                 description: qsTr("Content of articles will be displayed from local cache, without a network usage.")
-
-                checked: settings.getOfflineMode()
-
                 onCheckedChanged: {
-                    settings.setOfflineMode(checked);
+                    settings.offlineMode = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.offlineMode;
                 }
             }
 
             TextSwitch {
                 text: qsTr("Cache articles")
                 description: qsTr("After sync the content of all articles will be downloaded and cached for access in Offline mode.")
-
                 Component.onCompleted: {
                     checked = settings.getAutoDownloadOnUpdate();
                 }
-
                 onCheckedChanged: {
                     settings.setAutoDownloadOnUpdate(checked);
                 }
@@ -165,10 +152,11 @@ Page {
 
             TextSwitch {
                 text: qsTr("Show icons")
-                checked: settings.getShowTabIcons();
-
                 onCheckedChanged: {
-                    settings.setShowTabIcons(checked);
+                    settings.showTabIcons = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.showTabIcons;
                 }
             }
 
@@ -209,15 +197,6 @@ Page {
                     }
                 }
             }
-
-            /*TextSwitch {
-                text: qsTr("Show Tabs icons")
-                checked: settings.getShowTabIcons();
-
-                onCheckedChanged: {
-                    settings.setShowTabIcons(checked);
-                }
-            }*/
 
         }
 

@@ -29,8 +29,8 @@ DownloadManager::DownloadManager(DatabaseManager *db)
         qDebug() << (*i).bearerTypeName();
         ++i;
     }*/
-    //connect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(onlineStateChanged(bool)));
 
+    connect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(onlineStateChanged(bool)));
     connect(&manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(downloadFinished(QNetworkReply*)));
     connect(&manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
@@ -45,7 +45,8 @@ bool DownloadManager::isOnline()
 
 void DownloadManager::onlineStateChanged(bool isOnline)
 {
-    qDebug() << "isOnline:" << isOnline;
+    Q_UNUSED(isOnline)
+    emit onlineChanged();
 }
 
 void DownloadManager::cleanCache()

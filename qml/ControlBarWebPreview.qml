@@ -21,7 +21,6 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 
-
 Column {
     id: root
 
@@ -108,13 +107,20 @@ Column {
             visible: root.canOffline
             anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: offLineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightDimmerColor : "image://theme/icon-m-wlan-4?"+Theme.highlightDimmerColor
+            icon.source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightDimmerColor : "image://theme/icon-m-wlan-4?"+Theme.highlightDimmerColor
             onClicked: {
-                if (offLineMode)
-                    notification.show(qsTr("Switching to Online mode!"));
-                else
-                    notification.show(qsTr("Switching to Offline mode!"));
-                offLineMode = !offLineMode;
+
+                if (settings.offlineMode) {
+                    if (dm.online) {
+                        notification.show(qsTr("Switching to Online mode..."));
+                        settings.offlineMode = false;
+                    } else {
+                        notification.show(qsTr("Network connection is unavailable!"));
+                    }
+                } else {
+                    notification.show(qsTr("Switching to Offline mode..."));
+                    settings.offlineMode = true;
+                }
             }
         }
 
