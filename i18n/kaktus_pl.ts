@@ -22,45 +22,64 @@
 <context>
     <name>ControlBar</name>
     <message>
-        <location filename="../qml/ControlBar.qml" line="82"/>
         <source>Offline mode</source>
-        <translation>Tryb Offline</translation>
+        <translation type="obsolete">Tryb Offline</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="82"/>
         <source>Online mode</source>
-        <translation>Tryb Online</translation>
+        <translation type="obsolete">Tryb Online</translation>
     </message>
 </context>
 <context>
     <name>ControlBarWebPreview</name>
     <message>
-        <location filename="../qml/ControlBarWebPreview.qml" line="115"/>
         <source>Switching to Online mode...</source>
-        <translation>Tryb Online! </translation>
+        <translation type="obsolete">Tryb Online! </translation>
     </message>
     <message>
-        <location filename="../qml/ControlBarWebPreview.qml" line="118"/>
         <source>Network connection is unavailable!</source>
-        <translation>Brak połączenia sieciowego!</translation>
+        <translation type="obsolete">Brak połączenia sieciowego!</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBarWebPreview.qml" line="121"/>
         <source>Switching to Offline mode...</source>
-        <translation>Tryb Offline!</translation>
+        <translation type="obsolete">Tryb Offline!</translation>
+    </message>
+    <message>
+        <location filename="../qml/ControlBarWebPreview.qml" line="117"/>
+        <source>Cannot switch to Online mode
+Network connection is unavailable</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
-        <location filename="../qml/CoverPage.qml" line="118"/>
-        <location filename="../qml/CoverPage.qml" line="132"/>
+        <location filename="../qml/CoverPage.qml" line="105"/>
         <source>Syncing</source>
         <translation>Aktualizacja</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="151"/>
-        <location filename="../qml/CoverPage.qml" line="157"/>
+        <location filename="../qml/CoverPage.qml" line="109"/>
+        <source>Initiating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/CoverPage.qml" line="110"/>
+        <source>Updating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/CoverPage.qml" line="111"/>
+        <source>Uploading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/CoverPage.qml" line="112"/>
+        <source>Signing in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/CoverPage.qml" line="120"/>
         <source>Caching</source>
         <translation>Pobieranie</translation>
     </message>
@@ -91,12 +110,12 @@
 <context>
     <name>DashboardPage</name>
     <message>
-        <location filename="../qml/DashboardPage.qml" line="33"/>
+        <location filename="../qml/DashboardPage.qml" line="36"/>
         <source>Dashboards</source>
         <translation>Tablice</translation>
     </message>
     <message>
-        <location filename="../qml/DashboardPage.qml" line="64"/>
+        <location filename="../qml/DashboardPage.qml" line="67"/>
         <source>No dashboards</source>
         <translation>Brak tablic</translation>
     </message>
@@ -127,14 +146,19 @@
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/EntryPage.qml" line="55"/>
         <source>Network connection is unavailable.
 Switching to Offline mode!</source>
-        <translation>Brak połączenia sieciowego.
+        <translation type="obsolete">Brak połączenia sieciowego.
 Został włączony tryb Offline!</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="77"/>
+        <location filename="../qml/EntryPage.qml" line="58"/>
+        <source>Network connection is unavailable
+Switching to Offline mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryPage.qml" line="79"/>
         <source>No entries</source>
         <translation>Brak artykułów</translation>
     </message>
@@ -155,29 +179,29 @@ Został włączony tryb Offline!</translation>
 <context>
     <name>FeedPage</name>
     <message>
-        <location filename="../qml/FeedPage.qml" line="65"/>
+        <location filename="../qml/FeedPage.qml" line="68"/>
         <source>all read</source>
         <translation>wszytkie przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="67"/>
+        <location filename="../qml/FeedPage.qml" line="70"/>
         <source>1 unread</source>
         <translation>1 nieprzeczytany</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="69"/>
+        <location filename="../qml/FeedPage.qml" line="72"/>
         <source>%1 unread</source>
         <comment>less than 5 articles are unread</comment>
         <translation>%1 nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="70"/>
+        <location filename="../qml/FeedPage.qml" line="73"/>
         <source>%1 unread</source>
         <comment>more or equal 5 articles are unread</comment>
         <translation>%1 nieprzeczytanych</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="111"/>
+        <location filename="../qml/FeedPage.qml" line="114"/>
         <source>No feeds</source>
         <translation>Brak kanałów</translation>
     </message>
@@ -200,12 +224,12 @@ Został włączony tryb Offline!</translation>
         <translation>Aktualizuj</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="64"/>
+        <location filename="../qml/MainMenu.qml" line="61"/>
         <source>Last sync: %1</source>
         <translation>Ostatnia aktualizacja: %1</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="66"/>
+        <location filename="../qml/MainMenu.qml" line="63"/>
         <source>Not yet synced</source>
         <translation>Jeszcze nie aktualizowano</translation>
     </message>
@@ -344,19 +368,105 @@ Został włączony tryb Offline!</translation>
 <context>
     <name>TabPage</name>
     <message>
-        <location filename="../qml/TabPage.qml" line="35"/>
+        <location filename="../qml/TabPage.qml" line="38"/>
         <source>Tabs</source>
         <translation>Zakładki</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="93"/>
+        <location filename="../qml/TabPage.qml" line="96"/>
         <source>No tabs</source>
         <translation>Brak zakładek</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="100"/>
+        <location filename="../qml/TabPage.qml" line="103"/>
         <source>Pull down to do first Sync</source>
         <translation>Wykonaj pierwszą aktualizacje kanałów</translation>
+    </message>
+</context>
+<context>
+    <name>Utils</name>
+    <message>
+        <location filename="../src/utils.cpp" line="210"/>
+        <source>just now</source>
+        <translation type="unfinished">przed chwilą</translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="213"/>
+        <source>1 second ago</source>
+        <translation type="unfinished">sekundę temu</translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="216"/>
+        <source>%1 seconds ago</source>
+        <comment>less than 5 seconds</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="219"/>
+        <source>%1 seconds ago</source>
+        <comment>more or equal 5 seconds</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="222"/>
+        <source>1 minute ago</source>
+        <translation type="unfinished">minutę temu</translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="225"/>
+        <source>%1 minutes ago</source>
+        <comment>less than 5 minutes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="228"/>
+        <source>%1 minutes ago</source>
+        <comment>more or equal 5 minutes</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="231"/>
+        <source>1 hour ago</source>
+        <translation type="unfinished">godzinę temu</translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="234"/>
+        <source>%1 hours ago</source>
+        <comment>less than 5 hours</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="237"/>
+        <source>%1 hours ago</source>
+        <comment>more or equal 5 hours</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="240"/>
+        <source>yesterday</source>
+        <translation type="unfinished">wczoraj</translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="243"/>
+        <source>%1 days ago</source>
+        <comment>less than 5 days</comment>
+        <translation type="unfinished">%1 dni temu</translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="246"/>
+        <source>%1 days ago</source>
+        <comment>more or equal 5 days</comment>
+        <translation type="unfinished">%1 dni temu</translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="249"/>
+        <source>1 week ago</source>
+        <translation type="unfinished">tydzień temu</translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="252"/>
+        <source>%1 weeks ago</source>
+        <translation type="unfinished">%1 tygodnie temu</translation>
     </message>
 </context>
 <context>
@@ -367,17 +477,17 @@ Został włączony tryb Offline!</translation>
         <translation>Wczytywanie artykułu...</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="70"/>
+        <location filename="../qml/WebPreviewPage.qml" line="73"/>
         <source>Failed to load article from local cache :-(</source>
         <translation>Nie udało się pobrać artukułu z lokalnej kopii :-(</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="72"/>
+        <location filename="../qml/WebPreviewPage.qml" line="75"/>
         <source>Failed to load page content :-(</source>
         <translation>Nie udało się pobrać treści :-(</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="114"/>
+        <location filename="../qml/WebPreviewPage.qml" line="118"/>
         <source>Launching an external browser...</source>
         <translation>Uruchamianie zewnętrznej przeglądarki...</translation>
     </message>
@@ -385,148 +495,141 @@ Został włączony tryb Offline!</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="30"/>
         <source>just now</source>
-        <translation>przed chwilą</translation>
+        <translation type="obsolete">przed chwilą</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="33"/>
         <source>1 second ago</source>
-        <translation>sekundę temu</translation>
+        <translation type="obsolete">sekundę temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="42"/>
         <source>1 minute ago</source>
-        <translation>minutę temu</translation>
+        <translation type="obsolete">minutę temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="51"/>
         <source>1 hour ago</source>
-        <translation>godzinę temu</translation>
+        <translation type="obsolete">godzinę temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="60"/>
         <source>yesterday</source>
-        <translation>wczoraj</translation>
+        <translation type="obsolete">wczoraj</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="36"/>
         <source>%1 seconds ago</source>
         <comment>less than 5 seconds</comment>
-        <translation>%1 sekundy temu</translation>
+        <translation type="obsolete">%1 sekundy temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="39"/>
         <source>%1 seconds ago</source>
         <comment>more or equal 5 seconds</comment>
-        <translation>%1 sekund temu</translation>
+        <translation type="obsolete">%1 sekund temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="45"/>
         <source>%1 minutes ago</source>
         <comment>less than 5 minutes</comment>
-        <translation>%1 minuty temu</translation>
+        <translation type="obsolete">%1 minuty temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="48"/>
         <source>%1 minutes ago</source>
         <comment>more or equal 5 minutes</comment>
-        <translation>%1 minut temu</translation>
+        <translation type="obsolete">%1 minut temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="54"/>
         <source>%1 hours ago</source>
         <comment>less than 5 hours</comment>
-        <translation>%1 godziny temu</translation>
+        <translation type="obsolete">%1 godziny temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="57"/>
         <source>%1 hours ago</source>
         <comment>more or equal 5 hours</comment>
-        <translation>%1 godzin temu</translation>
+        <translation type="obsolete">%1 godzin temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="63"/>
         <source>%1 days ago</source>
         <comment>less than 5 days</comment>
-        <translation>%1 dni temu</translation>
+        <translation type="obsolete">%1 dni temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="66"/>
         <source>%1 days ago</source>
         <comment>more or equal 5 days</comment>
-        <translation>%1 dni temu</translation>
+        <translation type="obsolete">%1 dni temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="69"/>
         <source>1 week ago</source>
-        <translation>tydzień temu</translation>
+        <translation type="obsolete">tydzień temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="72"/>
         <source>%1 weeks ago</source>
-        <translation>%1 tygodnie temu</translation>
+        <translation type="obsolete">%1 tygodnie temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="89"/>
-        <location filename="../qml/main.qml" line="199"/>
+        <location filename="../qml/main.qml" line="109"/>
         <source>An unknown error occurred! :-(</source>
         <translation>Wystąpił nieznany błąd! :-(</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="120"/>
+        <location filename="../qml/main.qml" line="69"/>
         <source>%1 more items left...</source>
         <translation>Pozostało do pobrania: %1... </translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="122"/>
+        <location filename="../qml/main.qml" line="71"/>
         <source>All done!</source>
         <translation>Gotowe!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="131"/>
         <source>Caching...</source>
-        <translation>Pobieranie do lokalnej kopii...</translation>
+        <translation type="obsolete">Pobieranie do lokalnej kopii...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="139"/>
-        <location filename="../qml/main.qml" line="180"/>
         <source>Network connection is unavailable!</source>
-        <translation>Brak połączenia sieciowego!</translation>
+        <translation type="obsolete">Brak połączenia sieciowego!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="194"/>
-        <location filename="../qml/main.qml" line="204"/>
+        <location filename="../qml/main.qml" line="76"/>
+        <source>Download failed
+Network connection is unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="93"/>
+        <source>Sync failed
+Network connection is unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="104"/>
+        <location filename="../qml/main.qml" line="114"/>
         <source>User &amp; Password do not match!</source>
         <translation>Nazwa użytkownika nie pasuje do hasła!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="209"/>
+        <location filename="../qml/main.qml" line="118"/>
         <source>Successfully Signed In!</source>
         <translation>Zalogowano!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="214"/>
+        <location filename="../qml/main.qml" line="122"/>
         <source>Receiving data... </source>
         <translation>Pobieranie danych...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="219"/>
+        <location filename="../qml/main.qml" line="127"/>
         <source>Initiating...</source>
         <translation>Pierwsza aktualizacja...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="223"/>
+        <location filename="../qml/main.qml" line="131"/>
         <source>Updating...</source>
         <translation>Aktualizacja...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="227"/>
+        <location filename="../qml/main.qml" line="135"/>
         <source>Sending data to Netvibes...</source>
         <translation>Wysyłanie danych do Netvibes...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="231"/>
+        <location filename="../qml/main.qml" line="139"/>
         <source>Signing in...</source>
         <translation>Logowanie...</translation>
     </message>

@@ -53,6 +53,7 @@ public:
     Q_INVOKABLE QList<QString> dashboards();
     Q_INVOKABLE void copyToClipboard(const QString &text);
     Q_INVOKABLE QString defaultDashboardName();
+    Q_INVOKABLE QString getHumanFriendlyTimeString(int date);
     /*Q_INVOKABLE bool showNotification(const QString previewSummary,
                                       const QString previewBody = "",
                                       const QString icon = "");*/

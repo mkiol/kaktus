@@ -17,40 +17,42 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QtCore/qmath.h>
+
 #include "netvibesfetcher.h"
 
-NetvibesFetcher::NetvibesFetcher(DatabaseManager* db, QObject *parent) :
+NetvibesFetcher::NetvibesFetcher(QObject *parent) :
     QObject(parent)
 {
-    _db = db;
-    _currentReply = 0;
+    _currentReply = NULL;
     _busy = false;
-    _busyType = false;
+    _busyType = Unknown;
 
     connect(&_manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
             this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
 }
 
-void NetvibesFetcher::init()
+bool NetvibesFetcher::init()
 {
     if (_busy) {
         qWarning() << "Fetcher is busy!";
-        emit error(200);
-        return;
+        return false;
     }
 
     if (!ncm.isOnline()) {
         qWarning() << "Network is Offline!";
         emit networkNotAccessible();
-        return;
+        return false;
     }
 
-    _busy = true; _busyType = false;
-    emit busy();
-    emit initiating();
+    setBusy(true, Initiating);
 
-    _feedList.clear(); _feedTabList.clear();
+    _feedList.clear();
+    _feedTabList.clear();
+
     signIn();
+    //emit progress(0,100);
+    return true;
 }
 
 bool NetvibesFetcher::isBusy()
@@ -58,9 +60,40 @@ bool NetvibesFetcher::isBusy()
     return _busy;
 }
 
+NetvibesFetcher::BusyType NetvibesFetcher::busyType()
+{
+    return _busyType;
+}
+
+void NetvibesFetcher::setBusy(bool busy, BusyType type)
+{
+    _busyType = type;
+    _busy = busy;
+
+    if (busy) {
+        switch (type) {
+        case Initiating:
+            emit initiating();
+            break;
+        case Updating:
+            emit updating();
+            break;
+        case CheckingCredentials:
+            emit checkingCredentials();
+            break;
+        case Unknown:
+            break;
+        }
+    } else {
+        _busyType = Unknown;
+    }
+
+    emit busyChanged();
+}
+
 void NetvibesFetcher::networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility accessible)
 {
-    if (this->_busy) {
+    if (_busy) {
         switch (accessible) {
         case QNetworkAccessManager::UnknownAccessibility:
             break;
@@ -75,82 +108,53 @@ void NetvibesFetcher::networkAccessibleChanged(QNetworkAccessManager::NetworkAcc
     }
 }
 
-void NetvibesFetcher::update()
+bool NetvibesFetcher::update()
 {
     if (_busy) {
         qWarning() << "Fetcher is busy!";
-        emit error(200);
-        return;
+        return false;
     }
 
     if (!ncm.isOnline()) {
         qWarning() << "Network is Offline!";
         emit networkNotAccessible();
-        return;
+        return false;
     }
 
-    int feedCount =_db->readFeedsCount();
-    int entriesCount =_db->readFeedsCount();
+    Settings *s = Settings::instance();
+    int feedCount =s->db->readFeedsCount();
+    int entriesCount =s->db->readFeedsCount();
 
-    emit busy();
-
-    _busy = true;
     if (feedCount == 0 || entriesCount == 0) {
-        _busyType = false;
-        emit initiating();
+        setBusy(true, Initiating);
     } else {
-        _busyType = true;
-        emit updating();
+        setBusy(true, Updating);
     }
 
-    _feedList.clear(); _feedTabList.clear(); actionsList.clear();
+    _feedList.clear();
+    _feedTabList.clear();
+    actionsList.clear();
+
     signIn();
+    //emit progress(0,100);
+    return true;
 }
 
-void NetvibesFetcher::checkCredentials()
+bool NetvibesFetcher::checkCredentials()
 {
     if (_busy) {
         qWarning() << "Fetcher is busy!";
-        emit error(200);
-        return;
+        return false;
     }
 
-    emit busy();
-    emit checkingCredentials();
-    _busy = true;
+    setBusy(true, CheckingCredentials);
 
-    signIn(true);
+    signIn();
+
+    return true;
 }
 
-void NetvibesFetcher::updateFeeds()
-{
-    if (_busy) {
-        qWarning() << "Fetcher is busy!";
-        emit error(200);
-        return;
-    }
-
-    _busy = true; _busyType = true;
-    emit busy();
-
-    fetchFeedsUpdate();
-}
-
-void NetvibesFetcher::updateTab(const QString &tabId)
-{
-    if (_busy) {
-        qWarning() << "Fetcher is busy!";
-        emit error(200);
-        return;
-    }
-
-    _busy = true; _busyType = true;
-    emit busy();
-
-    fetchFeedsInfo(tabId);
-}
-
-void NetvibesFetcher::signIn(bool onlyCheck)
+void NetvibesFetcher::signIn()
 {
     _data = QByteArray();
 
@@ -160,11 +164,11 @@ void NetvibesFetcher::signIn(bool onlyCheck)
 
     if (password == "" || username == "") {
         qWarning() << "Netvibes username & password do not match!";
-        if (onlyCheck)
+        if (_busyType == CheckingCredentials)
             emit errorCheckingCredentials(400);
         else
             emit error(400);
-        _busy = false;
+        setBusy(false);
         return;
     }
 
@@ -175,11 +179,12 @@ void NetvibesFetcher::signIn(bool onlyCheck)
         _currentReply->disconnect();
         _currentReply->deleteLater();
     }
+
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     QString body = "email="+QUrl::toPercentEncoding(username)+"&password="+QUrl::toPercentEncoding(password)+"&session_only=1";
     _currentReply = _manager.post(request,body.toUtf8());
 
-    if (onlyCheck)
+    if (_busyType == CheckingCredentials)
         connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedSignInOnlyCheck()));
     else
         connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedSignIn()));
@@ -237,7 +242,8 @@ void NetvibesFetcher::set(const QString &entryId, DatabaseManager::ActionsTypes 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Cookie", _cookie);
 
-    QString feedId = _db->readFeedId(entryId);
+    Settings *s = Settings::instance();
+    QString feedId = s->db->readFeedId(entryId);
     QString content = "feeds="+feedId+"&items="+entryId+"&format=json";
 
     _currentReply = _manager.post(request, content.toUtf8());
@@ -428,21 +434,22 @@ bool NetvibesFetcher::parse()
 
 void NetvibesFetcher::storeTabs(const QString &dashboardId)
 {
+    Settings *s = Settings::instance();
+
     if (_jsonObj["userData"].toObject()["tabs"].isArray()) {
         QJsonArray::const_iterator i = _jsonObj["userData"].toObject()["tabs"].toArray().constBegin();
         while (i != _jsonObj["userData"].toObject()["tabs"].toArray().constEnd()) {
             QJsonObject obj = (*i).toObject();
-
             DatabaseManager::Tab t;
             t.id = obj["id"].toString();
             t.icon = obj["icon"].toString();
             t.title = obj["title"].toString();
-            _db->writeTab(dashboardId, t);
+
+            s->db->writeTab(dashboardId, t);
             _tabList.append(t.id);
 
             // Downloading icon file
             if (t.icon!="") {
-                Settings *s = Settings::instance();
                 DatabaseManager::CacheItem item;
                 item.origUrl = t.icon;
                 item.finalUrl = t.icon;
@@ -478,6 +485,8 @@ void NetvibesFetcher::storeTabs(const QString &dashboardId)
 
 void NetvibesFetcher::storeFeeds()
 {
+    Settings *s = Settings::instance();
+
     if (_jsonObj["feeds"].isArray()) {
         QJsonArray::const_iterator i = _jsonObj["feeds"].toArray().constBegin();
         while (i != _jsonObj["feeds"].toArray().constEnd()) {
@@ -486,7 +495,6 @@ void NetvibesFetcher::storeFeeds()
             DatabaseManager::Feed f;
             f.id = obj["id"].toString();
             f.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
-            //f.title = obj["title"].toString();
             f.link = obj["link"].toString();
             f.url = obj["url"].toString();
             f.content = obj["content"].toString();
@@ -497,10 +505,8 @@ void NetvibesFetcher::storeFeeds()
 
             QMap<QString,QString>::iterator it = _feedTabList.find(f.id);
             if (it!=_feedTabList.end()) {
-
                 // Downloading fav icon file
                 if (f.link!="") {
-                    Settings *s = Settings::instance();
                     QUrl iconUrl(f.link);
                     f.icon = QString("http://avatars.netvibes.com/favicon/%1://%2")
                             .arg(iconUrl.scheme())
@@ -512,7 +518,7 @@ void NetvibesFetcher::storeFeeds()
                     //qDebug() << "favicon:" << f.icon;
                 }
 
-                _db->writeFeed(it.value(), f);
+                s->db->writeFeed(it.value(), f);
 
             } else {
                 qWarning() << "No matching feed!";
@@ -527,6 +533,8 @@ void NetvibesFetcher::storeFeeds()
 
 void NetvibesFetcher::storeEntries()
 {
+    Settings *s = Settings::instance();
+
     if (_jsonObj["items"].isArray()) {
         QJsonArray::const_iterator i = _jsonObj["items"].toArray().constBegin();
         while (i != _jsonObj["items"].toArray().constEnd()) {
@@ -544,7 +552,7 @@ void NetvibesFetcher::storeEntries()
                 e.read = (int) obj["flags"].toObject()["read"].toDouble();
                 e.readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
                 e.date = (int) obj["date"].toDouble();
-                _db->writeEntry(obj["feed_id"].toString(), e);
+                s->db->writeEntry(obj["feed_id"].toString(), e);
 
                 ++ii;
             }
@@ -558,10 +566,11 @@ void NetvibesFetcher::storeEntries()
 
 void NetvibesFetcher::storeDashboards()
 {
+    Settings *s = Settings::instance();
+
     if (_jsonObj["dashboards"].isObject()) {
 
         // Set default dashboard if not set
-        Settings *s = Settings::instance();
         QString defaultDashboardId = s->getNetvibesDefaultDashboard();
         int lowestDashboardId = 99999999;
         bool defaultDashboardIdExists = false;
@@ -577,7 +586,7 @@ void NetvibesFetcher::storeDashboards()
                 d.name = obj["name"].toString();
                 d.title = obj["title"].toString();
                 d.description = obj["descrition"].toString();
-                _db->writeDashboard(d);
+                s->db->writeDashboard(d);
                 _dashboardList.append(d.id);
 
                 // Search lowest id
@@ -614,7 +623,7 @@ void NetvibesFetcher::finishedSignInOnlyCheck()
         if (_jsonObj["success"].toBool()) {
             s->setSignedIn(true);
             emit credentialsValid();
-            _busy = false;
+            setBusy(false);
         } else {
             s->setSignedIn(false);
             QString message = _jsonObj["message"].toString();
@@ -622,14 +631,14 @@ void NetvibesFetcher::finishedSignInOnlyCheck()
                 emit errorCheckingCredentials(402);
             else
                 emit errorCheckingCredentials(401);
-            _busy = false;
+            setBusy(false);
             qWarning() << "SignIn check error, messsage: " << message;
         }
     } else {
         s->setSignedIn(false);
         qWarning() << "SignIn check error!";
         emit errorCheckingCredentials(501);
-        _busy = false;
+        setBusy(false);
     }
 }
 
@@ -646,10 +655,10 @@ void NetvibesFetcher::finishedSignIn()
             _cookie = _currentReply->rawHeader("Set-Cookie");
 
             // upload actions
-            actionsList =_db->readActions();
+            actionsList =s->db->readActions();
             if (actionsList.isEmpty()) {
                 //qDebug() << "No actions to upload!";
-                _db->cleanDashboards();
+                s->db->cleanDashboards();
                 fetchDashboards();
             } else {
                 //qDebug() << actionsList.count() << " actions to upload!";
@@ -664,7 +673,7 @@ void NetvibesFetcher::finishedSignIn()
                 emit error(402);
             else
                 emit error(401);
-            _busy = false;
+            setBusy(false);
             qWarning() << "SignIn error, messsage: " << message;
         }
     } else {
@@ -672,7 +681,7 @@ void NetvibesFetcher::finishedSignIn()
 
         qWarning() << "SignIn error!";
         emit error(501);
-        _busy = false;
+        setBusy(false);
     }
 }
 
@@ -680,21 +689,23 @@ void NetvibesFetcher::finishedDashboards()
 {
     //qDebug() << this->_data;
 
+    Settings *s = Settings::instance();
+
     if(!parse()) {
         qWarning() << "Error parsing Json!";
         emit error(600);
-        _busy = false;
+        setBusy(false);
         return;
     }
 
     storeDashboards();
 
     if(!_dashboardList.isEmpty()) {
-        _db->cleanTabs();
+        s->db->cleanTabs();
 
         // Create Cache structure for Tab icons
-        if(!_busyType) {
-            _db->cleanCache();
+        if(_busyType == Initiating) {
+            s->db->cleanCache();
         }
 
         fetchTabs(_dashboardList.first());
@@ -709,10 +720,12 @@ void NetvibesFetcher::finishedTabs()
 {
     //qDebug() << this->_data;
 
+    Settings *s = Settings::instance();
+
     if(!parse()) {
         qWarning() << "Error parsing Json!";
         emit error(600);
-        _busy = false;
+        setBusy(false);
         return;
     }
 
@@ -731,41 +744,32 @@ void NetvibesFetcher::finishedTabs()
             taskEnd();
         } else {
 
-            if(_busyType) {
-
-                //update
+            if (_busyType == Updating) {
                 cleanRemovedFeeds();
                 cleanNewFeeds();
-
-                Settings *s = Settings::instance();
                 int feedsUpdateAtOnce = s->getNetvibesFeedUpdateAtOnce();
-
-                _feedUpdateList = _db->readFeedsFirstUpdate();
+                _feedUpdateList = s->db->readFeedsFirstUpdate();
 
                 if (_feedList.isEmpty()) {
                     //qDebug() << "No new Feeds!";
+                    _total = qCeil(_feedUpdateList.count()/feedsUpdateAtOnce)+3;
+                    emit progress(3,_total);
                     fetchFeedsUpdate();
-
-                    _total = (_feedUpdateList.count()/feedsUpdateAtOnce)+3;
-                    emit progress(3,_total);
-
                 } else {
-                    fetchFeeds();
-
-                    _total = (_feedUpdateList.count()/feedsUpdateAtOnce)+(_feedList.length()/feedsAtOnce)+3;
+                    _total = qCeil(_feedUpdateList.count()/feedsUpdateAtOnce)+qCeil(_feedList.length()/feedsAtOnce)+3;
                     emit progress(3,_total);
+                    fetchFeeds();
                 }
 
-            } else {
+            }
 
-                // init
-                _db->cleanFeeds();
-                _db->cleanEntries();
-                //_db->cleanCache();
-                fetchFeeds();
-
-                _total = (_feedList.length()/feedsAtOnce)+3;
+            if (_busyType == Initiating) {
+                s->db->cleanFeeds();
+                s->db->cleanEntries();
+                //s->db->cleanCache();
+                _total = qCeil(_feedList.length()/feedsAtOnce)+3;
                 emit progress(3,_total);
+                fetchFeeds();
             }
         }
     }
@@ -773,7 +777,8 @@ void NetvibesFetcher::finishedTabs()
 
 void NetvibesFetcher::cleanNewFeeds()
 {
-    QMap<QString,int> storedFeedList = _db->readFeedsLastUpdate();
+    Settings *s = Settings::instance();
+    QMap<QString,int> storedFeedList = s->db->readFeedsLastUpdate();
     QStringList::iterator i = _feedList.begin();
     while (i != _feedList.end()) {
         if (storedFeedList.find(*i) == storedFeedList.end()) {
@@ -787,11 +792,12 @@ void NetvibesFetcher::cleanNewFeeds()
 
 void NetvibesFetcher::cleanRemovedFeeds()
 {
-    QMap<QString,int> storedFeedList = _db->readFeedsLastUpdate();
+    Settings *s = Settings::instance();
+    QMap<QString,int> storedFeedList = s->db->readFeedsLastUpdate();
     QMap<QString,int>::iterator i = storedFeedList.begin();
     while (i != storedFeedList.end()) {
         if (!_feedList.contains(i.key())) {
-            _db->removeFeed(i.key());
+            s->db->removeFeed(i.key());
         }
         ++i;
     }
@@ -801,26 +807,29 @@ void NetvibesFetcher::finishedFeeds()
 {
     //qDebug() << this->_data;
 
+    Settings *s = Settings::instance();
+
     if(!parse()) {
         qWarning() << "Error parsing Json!";
         emit error(600);
-        _busy = false;
+        setBusy(false);
         return;
     }
 
     storeFeeds();
     storeEntries();
 
-    Settings *s = Settings::instance();
     int feedsUpdateAtOnce = s->getNetvibesFeedUpdateAtOnce();
     emit progress(_total-((_feedList.length()/feedsAtOnce)+(_feedUpdateList.count()/feedsUpdateAtOnce)),_total);
 
     if (_feedList.isEmpty()) {
 
-        if(_busyType) {
-            _feedUpdateList = _db->readFeedsFirstUpdate();
+        if(_busyType == Updating) {
+            _feedUpdateList = s->db->readFeedsFirstUpdate();
             fetchFeedsUpdate();
-        } else {
+        }
+
+        if(_busyType == Initiating) {
             taskEnd();
         }
 
@@ -836,17 +845,19 @@ void NetvibesFetcher::finishedFeedsInfo()
     if(!parse()) {
         qWarning() << "Error parsing Json!";
         emit error(600);
-        _busy = false;
+        setBusy(false);
         return;
     }
 
     emit ready();
-    _busy = false;
+    setBusy(false);
 }
 
 void NetvibesFetcher::finishedSet()
 {
     //qDebug() << this->_data;
+
+    Settings *s = Settings::instance();
 
     //Logging
     /*Settings *s = Settings::instance();
@@ -862,17 +873,16 @@ void NetvibesFetcher::finishedSet()
     if(!parse()) {
         qWarning() << "Error parsing Json!";
         emit error(600);
-        _busy = false;
+        setBusy(false);
         return;
     }
 
     // deleting action
-    //qDebug() << "Deleting action...";
     DatabaseManager::Action action = actionsList.takeFirst();
-    _db->removeAction(action.entryId);
+    s->db->removeAction(action.entryId);
 
     if (actionsList.isEmpty()) {
-        _db->cleanDashboards();
+        s->db->cleanDashboards();
         fetchDashboards();
     } else {
         uploadActions();
@@ -886,7 +896,7 @@ void NetvibesFetcher::finishedFeedsUpdate()
     if(!parse()) {
         qWarning() << "Error parsing Json!";
         emit error(600);
-        _busy = false;
+        setBusy(false);
         return;
     }
 
@@ -895,7 +905,7 @@ void NetvibesFetcher::finishedFeedsUpdate()
 
     Settings *s = Settings::instance();
     int feedsUpdateAtOnce = s->getNetvibesFeedUpdateAtOnce();
-    emit progress(_total-(_feedUpdateList.count()/feedsUpdateAtOnce),_total);
+    emit progress(_total-qCeil(_feedUpdateList.count()/feedsUpdateAtOnce),_total);
 
     if (_feedUpdateList.isEmpty())
         taskEnd();
@@ -916,7 +926,7 @@ void NetvibesFetcher::networkError(QNetworkReply::NetworkError e)
         qWarning() << "Network error!, error code: " << e;
     }
 
-    _busy = false;
+    setBusy(false);
 }
 
 void NetvibesFetcher::taskEnd()
@@ -930,15 +940,8 @@ void NetvibesFetcher::taskEnd()
     Settings *s = Settings::instance();
     s->setNetvibesLastUpdateDate(QDateTime::currentDateTime().toTime_t());
 
-    if(_busyType) {
-        //qDebug() << "Update ends!";
-        emit ready();
-        _busy = false;
-    } else {
-        //qDebug() << "Init ends!";
-        emit ready();
-        _busy = false;
-    }
+    emit ready();
+    setBusy(false);
 }
 
 void NetvibesFetcher::uploadActions()

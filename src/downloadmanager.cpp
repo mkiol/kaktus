@@ -19,9 +19,9 @@
 
 #include "downloadmanager.h"
 
-DownloadManager::DownloadManager(DatabaseManager *db)
+DownloadManager::DownloadManager(QObject *parent) :
+    QObject(parent)
 {
-    this->db = db; 
 
     /*QList<QNetworkConfiguration> activeConfigs = ncm.allConfigurations(QNetworkConfiguration::Active);
     QList<QNetworkConfiguration>::iterator i = activeConfigs.begin();
@@ -60,7 +60,7 @@ void DownloadManager::cleanCache()
     while (i.hasNext()) {
         if (i.fileInfo().isFile()) {
             //qDebug() << "Checking: " << i.filePath();
-            if (!db->isCacheItemExistsByFinalUrl(i.fileName())) {
+            if (!s->db->isCacheItemExistsByFinalUrl(i.fileName())) {
                 if (!QFile::remove(i.filePath())) {
                     qWarning() << "Unable to remove file " << i.filePath();
                 } else {
@@ -71,7 +71,7 @@ void DownloadManager::cleanCache()
         i.next();
     }*/
 
-    QList<QString> list = db->readCacheFinalUrlOlderThan(date, limit);
+    QList<QString> list = s->db->readCacheFinalUrlOlderThan(date, limit);
     //qDebug() << "list.count: " << list.count();
     QList<QString>::iterator i = list.begin();
     while (i!=list.end()) {
@@ -85,7 +85,7 @@ void DownloadManager::cleanCache()
         }
         ++i;
     }
-    db->removeEntriesOlderThan(date, limit);
+    s->db->removeEntriesOlderThan(date, limit);
 }
 
 void DownloadManager::removeCache()
@@ -133,7 +133,7 @@ void DownloadManager::doDownload(DatabaseManager::CacheItem item)
 
 void DownloadManager::error(QNetworkReply::NetworkError code)
 {
-    qDebug() << "error: " << code;
+    qWarning() << "Error in DownloadManager: " << code;
 }
 
 void DownloadManager::addNextDownload()
@@ -141,6 +141,7 @@ void DownloadManager::addNextDownload()
     if (downloads.isEmpty() && queue.isEmpty()) {
         emit progress(0);
         emit ready();
+        emit busyChanged();
         return;
     }
 
@@ -157,6 +158,8 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
 {
     //qDebug() << "Errorcode: " << reply->error() << " HttpStatusCode: " << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() << "Url:" << reply->url();
 
+    Settings *s = Settings::instance();
+
     QUrl url = reply->url();
     QNetworkReply::NetworkError error = reply->error();
     DatabaseManager::CacheItem item = replyToCachedItemMap.take(reply);
@@ -172,16 +175,16 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
             switch (error) {
             case QNetworkReply::OperationCanceledError:
                 if (!checkIfHeadersAreValid(reply))
-                    db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),2);
+                    s->db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),2);
                 break;
             case QNetworkReply::HostNotFoundError:
-                //db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),4);
+                //s->db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),4);
                 break;
             case QNetworkReply::AuthenticationRequiredError:
-                db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),5);
+                s->db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),5);
                 break;
             case QNetworkReply::ContentNotFoundError:
-                db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),6);
+                s->db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),6);
                 break;
             default:
                 break;
@@ -200,16 +203,16 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
         switch (error) {
         case QNetworkReply::OperationCanceledError:
             if (!checkIfHeadersAreValid(reply))
-                db->writeCache(item, QDateTime::currentDateTime().toTime_t(),2);
+                s->db->writeCache(item, QDateTime::currentDateTime().toTime_t(),2);
             break;
         case QNetworkReply::HostNotFoundError:
-            db->writeCache(item, QDateTime::currentDateTime().toTime_t(),4);
+            s->db->writeCache(item, QDateTime::currentDateTime().toTime_t(),4);
             break;
         case QNetworkReply::AuthenticationRequiredError:
-            db->writeCache(item, QDateTime::currentDateTime().toTime_t(),5);
+            s->db->writeCache(item, QDateTime::currentDateTime().toTime_t(),5);
             break;
         case QNetworkReply::ContentNotFoundError:
-            db->writeCache(item, QDateTime::currentDateTime().toTime_t(),6);
+            s->db->writeCache(item, QDateTime::currentDateTime().toTime_t(),6);
             break;
         default:
             break;
@@ -242,13 +245,13 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
                     //qDebug() << "hash(item.finalUrl): " << hash(item.finalUrl);
                     item.origUrl = hash(item.origUrl);
                     item.finalUrl = hash(item.finalUrl);
-                    db->writeCache(item, QDateTime::currentDateTime().toTime_t());
+                    s->db->writeCache(item, QDateTime::currentDateTime().toTime_t());
 
                     if (item.entryId != "") {
                         // Scan for other resouces, only text files
                         //if (item.type == "text")
                         //    scanHtml(content, url);
-                        db->updateEntryCache(item.entryId, QDateTime::currentDateTime().toTime_t());
+                        s->db->updateEntryCache(item.entryId, QDateTime::currentDateTime().toTime_t());
                     }
 
                 } else {
@@ -356,13 +359,10 @@ void DownloadManager::sslErrors(const QList<QSslError> &sslErrors)
 
 void DownloadManager::addDownload(DatabaseManager::CacheItem item)
 {
-    if (downloads.isEmpty() && queue.isEmpty()) {
-        emit busy();
-    }
-
     Settings *s = Settings::instance();
     if (downloads.count() < s->getDmConnections()) {
         doDownload(item);
+        emit busyChanged();
     } else {
         queue.append(item);
     }
@@ -417,7 +417,7 @@ void Checker::metaDataChanged()
     }
 }
 
-void DownloadManager::startFeedDownload()
+bool DownloadManager::startFeedDownload()
 {
     /*bool busy = !downloads.isEmpty() || !queue.isEmpty();
     if (busy) {
@@ -430,15 +430,16 @@ void DownloadManager::startFeedDownload()
     if (!ncm.isOnline()) {
         qWarning() << "Network is Offline!";
         emit networkNotAccessible();
-        return;
+        return false;
     }
 
-    QMap<QString,QString> list = db->readNotCachedEntries();
+    Settings *s = Settings::instance();
+    QMap<QString,QString> list = s->db->readNotCachedEntries();
     //qDebug() << "startFeedDownload, list.count=" << list.count();
 
     if (list.count() == 0) {
-        emit ready();
-        return;
+        qWarning() << "No feeds to download!";
+        return false;
     }
 
     //replyToCachedItemMap.clear();
@@ -455,6 +456,8 @@ void DownloadManager::startFeedDownload()
         addDownload(item);
         ++i;
     }
+
+    return true;
 }
 
 QString DownloadManager::hash(const QString &url)
@@ -479,7 +482,8 @@ void DownloadManager::cancel()
 
 int DownloadManager::itemsToDownloadCount()
 {
-    return db->readNotCachedEntriesCount();
+    Settings *s = Settings::instance();
+    return s->db->readNotCachedEntriesCount();
 }
 
 bool DownloadManager::isBusy()

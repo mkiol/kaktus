@@ -19,6 +19,7 @@
 
 //#include <QtDBus/QtDBus>
 //#include <QDateTime>
+#include <QtCore/qmath.h>
 
 #include "utils.h"
 
@@ -171,7 +172,6 @@ QString Utils::defaultDashboardName()
                              const QString previewBody,
                              const QString icon)
 {
-
     QVariantMap hints;
     hints.insert("category", "net.mkiol.kaktus.notification");
     hints.insert("x-nemo-timestamp", QDateTime::currentDateTime().toString(Qt::ISODate));
@@ -201,3 +201,56 @@ QString Utils::defaultDashboardName()
     }
     return true;
 }*/
+
+QString Utils::getHumanFriendlyTimeString(int date)
+{
+    int delta = QDateTime::currentDateTime().toTime_t()-date;
+
+    if (delta==0) {
+        return tr("just now");
+    }
+    if (delta==1) {
+        return tr("1 second ago");
+    }
+    if (delta<5) {
+        return tr("%1 seconds ago","less than 5 seconds").arg(delta);
+    }
+    if (delta<60) {
+        return tr("%1 seconds ago","more or equal 5 seconds").arg(delta);
+    }
+    if (delta<120) {
+        return tr("1 minute ago");
+    }
+    if (delta<300) {
+        return tr("%1 minutes ago","less than 5 minutes").arg(qFloor(delta/60));
+    }
+    if (delta<3600) {
+        return tr("%1 minutes ago","more or equal 5 minutes").arg(qFloor(delta/60));
+    }
+    if (delta<7200) {
+        return tr("1 hour ago");
+    }
+    if (delta<18000) {
+        return tr("%1 hours ago","less than 5 hours").arg(qFloor(delta/3600));
+    }
+    if (delta<86400) {
+        return tr("%1 hours ago","more or equal 5 hours").arg(qFloor(delta/3600));
+    }
+    if (delta<172800) {
+        return tr("yesterday");
+    }
+    if (delta<432000) {
+        return tr("%1 days ago","less than 5 days").arg(qFloor(delta/86400));
+    }
+    if (delta<604800) {
+        return tr("%1 days ago","more or equal 5 days").arg(qFloor(delta/86400));
+    }
+    if (delta<1209600) {
+        return tr("1 week ago");
+    }
+    if (delta<2419200) {
+        return tr("%1 weeks ago").arg(qFloor(delta/604800));
+    }
+    QDateTime d; d.setTime_t(date);
+    return d.toString("dddd, d MMMM yy");
+}

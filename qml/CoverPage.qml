@@ -21,59 +21,48 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 
-
 CoverBackground {
     id: root
 
-    property bool busy: false
-    property real progress: 0.0
-
-    Rectangle {
-        id: progressRect
-        height: parent.height
-        anchors.right: parent.right
-        width: parent.width - (root.progress * parent.width)
-        color: Theme.highlightDimmerColor
-        //color: Theme.highlightBackgroundColor
-        opacity: 0.5
-        visible: root.busy
-
-        Behavior on width {
-            enabled: root.busy
-            SmoothedAnimation {
-                velocity: 480; duration: 200
-            }
-        }
-    }
-
     Column {
         anchors.centerIn: parent
-        visible: !root.busy
+        visible: !dm.busy && !fetcher.busy
         spacing: Theme.paddingMedium
 
         Image {
             source: "icon-small.png"
+            anchors.horizontalCenter: parent.horizontalCenter
         }
+
         Label {
             font.pixelSize: Theme.fontSizeMedium
             font.family: Theme.fontFamilyHeading
             anchors.horizontalCenter: parent.horizontalCenter
             text: APP_NAME
         }
+
+        Item {
+            height: Theme.paddingLarge
+            width: Theme.paddingLarge
+        }
     }
 
     Column {
-        visible: root.busy
-        anchors.left: parent.left; anchors.right: parent.right
-        anchors.margins: Theme.paddingSmall
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.centerIn: parent
+        visible: dm.busy || fetcher.busy
         spacing: Theme.paddingMedium
 
-        /*Image {
+        Image {
+            source: "icon-small.png"
             anchors.horizontalCenter: parent.horizontalCenter
-            source: "image://theme/icon-l-download"
-            visible: root.busy
-        }*/
+        }
+
+        Label {
+            id: label
+            font.pixelSize: Theme.fontSizeMedium
+            font.family: Theme.fontFamilyHeading
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
 
         Label {
             id: progressLabel
@@ -83,77 +72,51 @@ CoverBackground {
             color: Theme.highlightColor
         }
 
-        Label {
-            id: label
-            anchors.left: parent.left; anchors.right: parent.right
-            font.pixelSize: Theme.fontSizeMedium
-            font.family: Theme.fontFamilyHeading
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            wrapMode: Text.Wrap
+        Item {
+            height: 2*Theme.paddingLarge
+            width: Theme.paddingLarge
         }
 
     }
 
     CoverActionList {
+        enabled: !dm.busy && !fetcher.busy
         CoverAction {
-            id: action
-            iconSource: root.busy ? "image://theme/icon-cover-cancel" : "image://theme/icon-cover-sync"
+            iconSource: "image://theme/icon-cover-sync"
+            onTriggered: fetcher.update();
+        }
+    }
+
+    CoverActionList {
+        enabled: dm.busy || fetcher.busy
+        CoverAction {
+            iconSource: "image://theme/icon-cover-cancel"
             onTriggered: {
-                if (root.busy) {
-                    dm.cancel();
-                    fetcher.cancel();
-                } else {
-                    dm.cancel();
-                    fetcher.cancel();
-                    fetcher.update();
-                }
+                dm.cancel();
+                fetcher.cancel();
             }
         }
     }
 
     Connections {
         target: fetcher
-        onBusy: {
-            label.text = qsTr("Syncing");
-            progressLabel.text = "";
-            root.progress = 0.0;
-            root.busy = true
-        }
-        onError: {
-            root.busy = false;
-            //label.text = qsTr("Error!");
-        }
-        onReady: {
-            if (!dm.isBusy())
-                root.busy = false;
-        }
+
         onProgress: {
             label.text = qsTr("Syncing");
             progressLabel.text = Math.floor((current/total)*100)+"%";
-            root.progress = current / total;
         }
-        onCanceled: {
-            if (!dm.isBusy())
-                root.busy = false;
-        }
+
+        onInitiating: label.text = qsTr("Initiating")
+        onUpdating: label.text = qsTr("Updating")
+        onUploading: label.text = qsTr("Uploading")
+        onCheckingCredentials: label.text = qsTr("Signing in")
     }
 
     Connections {
         target: dm
-        onCanceled: {
-            if (!fetcher.isBusy())
-                root.busy = false;
-        }
-        onBusy: root.busy = true
-        onReady: {
-            if (!fetcher.isBusy()) {
-                label.text = qsTr("Caching");
-                root.busy = false;
-            }
-        }
+
         onProgress: {
-            if (!fetcher.isBusy()) {
+            if (!fetcher.busy) {
                 label.text = qsTr("Caching");
                 progressLabel.text = remaining;
             }

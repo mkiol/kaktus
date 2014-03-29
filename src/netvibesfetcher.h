@@ -24,7 +24,6 @@
 #include <QString>
 #include <QList>
 #include <QMap>
-#include <QFile>
 #include <QStringList>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -50,27 +49,37 @@ class NetvibesFetcher: public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY (bool busy READ isBusy NOTIFY busyChanged)
+
 public:
-    explicit NetvibesFetcher(DatabaseManager* db, QObject *parent = 0);
-    Q_INVOKABLE void init();
-    Q_INVOKABLE void update();
-    Q_INVOKABLE void checkCredentials();
-    Q_INVOKABLE void updateFeeds();
-    Q_INVOKABLE void updateTab(const QString &tabId);
+    enum BusyType {
+        Unknown,
+        Initiating,
+        Updating,
+        CheckingCredentials
+    };
+
+    explicit NetvibesFetcher(QObject *parent = 0);
+
+    Q_INVOKABLE bool init();
+    Q_INVOKABLE bool update();
+    Q_INVOKABLE bool checkCredentials();
     Q_INVOKABLE void cancel();
-    Q_INVOKABLE bool isBusy();
+
+    Q_INVOKABLE BusyType busyType();
+    bool isBusy();
 
 signals:
     void quit();
-    void busy();
+    void busyChanged();
     void progress(int current, int total);
-    void ready();
+
     void networkNotAccessible();
+
     void initiating();
     void updating();
     void uploading();
     void checkingCredentials();
-    void credentialsValid();
 
     /*
     200 - Fether is busy
@@ -82,9 +91,11 @@ signals:
     600 - Error while parsing XML
     601 - Unknown XML response
      */
-    void error(int code);
+    void credentialsValid();
     void errorCheckingCredentials(int code);
+    void error(int code);
     void canceled();
+    void ready();
 
 public slots:
     void finishedSignIn();
@@ -103,12 +114,13 @@ public slots:
 
 private:
     static const int feedsAtOnce = 5;
+
     QNetworkAccessManager _manager;
     QNetworkReply* _currentReply;
     QByteArray _data;
     QJsonObject _jsonObj;
     bool _busy;
-    bool _busyType; // true = init, false = update
+    BusyType _busyType;
     QStringList _dashboardList;
     QStringList _feedList;
     QMap<QString,int> _feedUpdateList;
@@ -117,7 +129,6 @@ private:
     QList<DatabaseManager::Action> actionsList;
     int _total;
     QByteArray _cookie;
-    DatabaseManager* _db;
     QNetworkConfigurationManager ncm;
 
     bool parse();
@@ -126,7 +137,7 @@ private:
     void storeFeeds();
     void storeDashboards();
     void storeEntries();
-    void signIn(bool onlyCheck = false);
+    void signIn();
     void fetchDashboards();
     void fetchTabs(const QString &dashboardId);
     void fetchFeeds();
@@ -140,6 +151,8 @@ private:
     void cleanRemovedFeeds();
     void taskEnd();
     void downloadFeeds();
+
+    void setBusy(bool busy, BusyType type = Unknown);
 };
 
 #endif // NETVIBESFETCHER_H

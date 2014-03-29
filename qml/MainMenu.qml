@@ -43,11 +43,8 @@ PullDownMenu {
     MenuItem {
         text: qsTr("Sync")
 
-        onClicked: {
-            dm.cancel();
-            fetcher.cancel();
-            fetcher.update();
-        }
+        onClicked: fetcher.update()
+        enabled: !fetcher.busy && !dm.busy
     }
 
     /*MenuItem {
@@ -61,7 +58,7 @@ PullDownMenu {
         function update() {
             var lastSync = settings.getNetvibesLastUpdateDate();
             if (lastSync>0)
-                text = qsTr("Last sync: %1").arg(app.getHumanFriendlyTimeString(lastSync));
+                text = qsTr("Last sync: %1").arg(utils.getHumanFriendlyTimeString(lastSync));
             else
                 text = qsTr("Not yet synced");
         }
@@ -72,7 +69,10 @@ PullDownMenu {
 
         Connections {
             target: fetcher
-            onReady: update()
+            onBusyChanged: {
+                if (!fetcher.busy)
+                    update();
+            }
         }
 
         Timer {

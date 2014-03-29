@@ -112,13 +112,11 @@ Column {
 
                 if (settings.offlineMode) {
                     if (dm.online) {
-                        notification.show(qsTr("Switching to Online mode..."));
                         settings.offlineMode = false;
                     } else {
-                        notification.show(qsTr("Network connection is unavailable!"));
+                        notification.show(qsTr("Cannot switch to Online mode\nNetwork connection is unavailable"));
                     }
                 } else {
-                    notification.show(qsTr("Switching to Offline mode..."));
                     settings.offlineMode = true;
                 }
             }

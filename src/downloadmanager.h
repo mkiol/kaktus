@@ -68,17 +68,21 @@ class DownloadManager: public QObject
     Q_OBJECT
 
     Q_PROPERTY (bool online READ isOnline NOTIFY onlineChanged)
+    Q_PROPERTY (bool busy READ isBusy NOTIFY busyChanged)
 
 public:
-    DownloadManager(DatabaseManager* db);
+    DownloadManager(QObject *parent = 0);
+
     void addDownload(DatabaseManager::CacheItem item);
     Q_INVOKABLE void cancel();
     Q_INVOKABLE int itemsToDownloadCount();
-    Q_INVOKABLE bool isBusy();
+    Q_INVOKABLE bool startFeedDownload();
+
+    bool isBusy();
     bool isOnline();
 
 signals:
-    void busy();
+    void busyChanged();
     void ready();
     void networkNotAccessible();
     void onlineChanged();
@@ -95,7 +99,6 @@ public slots:
     void sslErrors(const QList<QSslError> &errors);
     void error(QNetworkReply::NetworkError code);
     void networkAccessibleChanged (QNetworkAccessManager::NetworkAccessibility accessible);
-    void startFeedDownload();
     void cleanCache();
     void removeCache();
     void onlineStateChanged(bool isOnline);
@@ -106,7 +109,7 @@ private:
     QList<QNetworkReply*> downloads;
     QMap<QNetworkReply*,DatabaseManager::CacheItem> replyToCachedItemMap;
     QMap<QNetworkReply*,Checker*> replyToCheckerMap;
-    DatabaseManager *db;
+    //DatabaseManager *db;
     QNetworkConfigurationManager ncm;
 
     //int connections;

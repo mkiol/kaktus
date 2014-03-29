@@ -26,8 +26,11 @@ Page {
 
     SilicaListView {
         id: listView
-        anchors.fill: parent
         model: tabModel
+
+        anchors { top: parent.top; left: parent.left; right: parent.right }
+        height: app.height - (dm.busy||fetcher.busy ? Theme.itemSizeMedium : 0);
+        clip:true
 
         MainMenu{}
 

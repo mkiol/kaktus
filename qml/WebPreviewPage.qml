@@ -20,7 +20,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import QtWebKit 3.0
-//import QtWebKit.experimental 1.0 //Not allowed in harbour :-(
+import QtWebKit.experimental 1.0 //Not allowed in harbour :-(
 
 Page {
     id: root
@@ -46,7 +46,6 @@ Page {
     }*/
 
     showNavigationIndicator: false
-    //allowedOrientations: Orientation.Landscape | Orientation.Portrait
     allowedOrientations: Orientation.Portrait
 
     SilicaWebView {
@@ -60,23 +59,29 @@ Page {
         }
 
         url:  settings.offlineMode ? offlineUrl : onlineUrl
-        //experimental.userAgent: settings.getDmUserAgent()
+        experimental.userAgent: settings.getDmUserAgent()
 
         onLoadingChanged: {
             if (loadRequest.status == WebView.LoadStartedStatus) {
-                busy.show(qsTr("Loading page content..."), true);
+
+                proggressPanel.text = qsTr("Loading page content...");
+                proggressPanel.open = true;
+
             } else if (loadRequest.status == WebView.LoadFailedStatus) {
+
                 if (settings.offlineMode)
                     notification.show(qsTr("Failed to load article from local cache :-("));
                 else
                     notification.show(qsTr("Failed to load page content :-("));
-                busy.hide();
-            } else {
-                busy.hide();
+                proggressPanel.open = false;
 
+            } else {
+
+                proggressPanel.open = false;
                 // Start timer to mark as read
                 if (!root.read && settings.getAutoMarkAsRead())
                     timer.start();
+
             }
         }
 
@@ -99,7 +104,6 @@ Page {
         stared: root.stared
 
         onBackClicked: pageStack.pop()
-
         onStarClicked: {
             if (stared) {
                 stared=false;
@@ -112,15 +116,15 @@ Page {
 
         onBrowserClicked: {
             notification.show(qsTr("Launching an external browser..."));
-            if (settings.offlineMode)
-                Qt.openUrlExternally(offlineUrl);
-            else
-                Qt.openUrlExternally(onlineUrl);
+            Qt.openUrlExternally(onlineUrl);
         }
     }
 
-    BusyBar {
-        id: busy
+    ProgressPanel {
+        id: proggressPanel
+        transparent: false
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
         cancelable: true
         onCloseClicked: view.stop()
     }
@@ -136,5 +140,14 @@ Page {
                 //notification.show(qsTr("Marked as read!"));
             }
         }
+    }
+
+    Connections {
+        target: fetcher
+        onBusyChanged: pageStack.pop()
+    }
+    Connections {
+        target: dm
+        onBusyChanged: pageStack.pop()
     }
 }

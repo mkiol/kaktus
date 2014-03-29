@@ -168,8 +168,8 @@ ListItem {
             color: Theme.secondaryColor
             truncationMode: TruncationMode.Fade
             text: root.author!=""
-                  ? app.getHumanFriendlyTimeString(date)+" | "+root.author
-                  : app.getHumanFriendlyTimeString(date)
+                  ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
+                  : utils.getHumanFriendlyTimeString(date)
         }
 
     }

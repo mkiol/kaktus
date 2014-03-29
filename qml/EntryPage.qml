@@ -29,8 +29,11 @@ Page {
 
     SilicaListView {
         id: listView
-        anchors.fill: parent
         model: entryModel
+
+        anchors { top: parent.top; left: parent.left; right: parent.right }
+        height: app.height - (dm.busy||fetcher.busy ? Theme.itemSizeMedium : 0);
+        clip:true
 
         MainMenu{}
 
@@ -52,8 +55,7 @@ Page {
             onClicked: {
                 // Switch to Offline mode if no network
                 if (!settings.offlineMode && !dm.online) {
-                    notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode!"));
-                    //utils.showNotification("Network connection is unavailable","Switching to Offline mode!","icon-m-wlan-no-signal");
+                    notification.show(qsTr("Network connection is unavailable\nSwitching to Offline mode"));
                     settings.offlineMode = true;
                 }
                 expanded = false;
