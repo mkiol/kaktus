@@ -106,10 +106,22 @@ CoverBackground {
             progressLabel.text = Math.floor((current/total)*100)+"%";
         }
 
-        onInitiating: label.text = qsTr("Initiating")
-        onUpdating: label.text = qsTr("Updating")
-        onUploading: label.text = qsTr("Uploading")
-        onCheckingCredentials: label.text = qsTr("Signing in")
+        onBusyChanged: {
+            switch(fetcher.busyType) {
+            case 1:
+                label.text = qsTr("Initiating");
+                progressLabel.text = "0%"
+                break;
+            case 2:
+                label.text = qsTr("Updating")
+                progressLabel.text = "0%"
+                break;
+            case 3:
+                label.text = qsTr("Signing in")
+                progressLabel.text = "";
+                break;
+            }
+        }
     }
 
     Connections {

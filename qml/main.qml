@@ -123,21 +123,27 @@ ApplicationWindow {
             progressPanel.progress = current / total;
         }
 
-        onInitiating: {
-            progressPanel.text = qsTr("Initiating...");
-        }
-
-        onUpdating: {
-            progressPanel.text = qsTr("Updating...");
-        }
-
         onUploading: {
             progressPanel.text = qsTr("Sending data to Netvibes...");
         }
 
-        onCheckingCredentials: {
-            progressPanel.text = qsTr("Signing in...");
+        onBusyChanged: {
+            switch(fetcher.busyType) {
+            case 1:
+                progressPanel.text = qsTr("Initiating...");
+                progressPanel.progress = 0;
+                break;
+            case 2:
+                progressPanel.text = qsTr("Updating...");
+                progressPanel.progress = 0;
+                break;
+            case 3:
+                progressPanel.text = qsTr("Signing in...");
+                progressPanel.progress = 0;
+                break;
+            }
         }
+
     }
 
     Notification {

@@ -33,6 +33,7 @@ Page {
     property bool read
     property int index
     property int feedindex
+    property bool cached
     property int markAsReadTime: 4000
 
     onForwardNavigationChanged: {
@@ -104,6 +105,7 @@ Page {
         stared: root.stared
 
         onBackClicked: pageStack.pop()
+
         onStarClicked: {
             if (stared) {
                 stared=false;
@@ -117,6 +119,20 @@ Page {
         onBrowserClicked: {
             notification.show(qsTr("Launching an external browser..."));
             Qt.openUrlExternally(onlineUrl);
+        }
+
+        onOfflineClicked: {
+            if (settings.offlineMode) {
+                if (dm.online)
+                    settings.offlineMode = false;
+                else
+                    notification.show(qsTr("Cannot switch to Online mode\nNetwork connection is unavailable"));
+            } else {
+                if (root.cached)
+                    settings.offlineMode = true;
+                else
+                  notification.show(qsTr("Offline version not available"));
+            }
         }
     }
 

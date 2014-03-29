@@ -78,6 +78,21 @@ ListItem {
         }
     }
 
+    /*BackgroundItem {
+        id: cachedIcon
+        anchors.right: background.right; anchors.bottom: background.bottom
+        height: Theme.iconSizeSmall+2*Theme.paddingMedium
+        width: height
+        visible: cached
+
+        Image {
+            anchors.centerIn: parent;
+            width: Theme.iconSizeSmall
+            height: Theme.iconSizeSmall
+            source: "image://theme/icon-m-download"
+        }
+    }*/
+
     BackgroundItem {
         id: expander
         anchors.right: background.right; anchors.bottom: background.bottom

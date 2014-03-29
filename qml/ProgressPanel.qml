@@ -41,17 +41,19 @@ Item {
 
     Behavior on opacity { FadeAnimation {} }
 
-    Image {
+    Rectangle {
         id: background
         anchors.fill: parent
-        source: "image://theme/graphic-header"
-        visible: root.transparent
+        color: root.transparent ? Theme.rgba(Theme.highlightBackgroundColor, 0.1) : Theme.highlightBackgroundColor
     }
 
-    Rectangle {
-        anchors.fill: parent
-        color: Theme.highlightBackgroundColor
-        visible: !root.transparent
+    OpacityRampEffect {
+        id: effect
+        slope: 1
+        offset: 0.1
+        direction: OpacityRamp.TopToBottom
+        sourceItem: background
+        enabled: root.transparent
     }
 
     function show(text) {

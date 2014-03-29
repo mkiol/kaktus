@@ -48,15 +48,16 @@
 class NetvibesFetcher: public QObject
 {
     Q_OBJECT
-
+    Q_ENUMS(BusyType)
     Q_PROPERTY (bool busy READ isBusy NOTIFY busyChanged)
+    Q_PROPERTY (BusyType busyType READ readBusyType NOTIFY busyChanged)
 
 public:
     enum BusyType {
-        Unknown,
-        Initiating,
-        Updating,
-        CheckingCredentials
+        Unknown = 0,
+        Initiating = 1,
+        Updating = 2,
+        CheckingCredentials = 3
     };
 
     explicit NetvibesFetcher(QObject *parent = 0);
@@ -66,7 +67,7 @@ public:
     Q_INVOKABLE bool checkCredentials();
     Q_INVOKABLE void cancel();
 
-    Q_INVOKABLE BusyType busyType();
+    BusyType readBusyType();
     bool isBusy();
 
 signals:
@@ -76,8 +77,8 @@ signals:
 
     void networkNotAccessible();
 
-    void initiating();
-    void updating();
+    //void initiating();
+    //void updating();
     void uploading();
     void checkingCredentials();
 

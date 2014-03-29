@@ -904,6 +904,23 @@ bool DatabaseManager::isCacheItemExists(const QString &cacheId)
     return false;
 }
 
+bool DatabaseManager::isCacheItemExistsByEntryId(const QString &entryId)
+{
+    if (_db.isOpen()) {
+        QSqlQuery query(QString("SELECT COUNT(*) FROM cache WHERE entry_id='%1' AND cached=1;")
+                        .arg(entryId),_db);
+        while(query.next()) {
+            if (query.value(0).toInt() > 0) {
+                return true;
+            }
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return false;
+}
+
 bool DatabaseManager::isCacheItemExistsByFinalUrl(const QString &finalUrl)
 {
     if (_db.isOpen()) {
@@ -982,6 +999,31 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId
                         .arg(feedId),_db);
         while(query.next()) {
             //qDebug() << "readEntries, " << query.value(1).toString();
+            Entry e;
+            e.id = query.value(0).toString();
+            e.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
+            e.author = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
+            e.content = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            e.link = query.value(4).toString();
+            e.read = query.value(5).toInt();
+            e.readlater= query.value(6).toInt();
+            e.date = query.value(7).toInt();
+            list.append(e);
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater()
+{
+    QList<DatabaseManager::Entry> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE readlater=1 ORDER BY date DESC;",_db);
+        while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
             e.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));

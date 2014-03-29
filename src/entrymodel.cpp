@@ -42,7 +42,14 @@ void EntryModel::init()
 
 void EntryModel::createItems(const QString &feedId)
 {
-    QList<DatabaseManager::Entry> list = _db->readEntries(feedId);
+    QList<DatabaseManager::Entry> list;
+
+    if (feedId == "readlater") {
+        list = _db->readEntriesReadlater();
+    } else {
+        list = _db->readEntries(feedId);
+    }
+
     QList<DatabaseManager::Entry>::iterator i = list.begin();
     while( i != list.end() ) {
 
@@ -73,6 +80,7 @@ void EntryModel::createItems(const QString &feedId)
                                 (*i).author,
                                 content,
                                 (*i).link,
+                                _db->isCacheItemExistsByEntryId((*i).id),
                                 (*i).read,
                                 (*i).readlater,
                                 (*i).date
@@ -137,6 +145,7 @@ EntryItem::EntryItem(const QString &uid,
                    const QString &author,
                    const QString &content,
                    const QString &link,
+                   const bool cached,
                    const int read,
                    const int readlater,
                    const int date,
@@ -147,6 +156,7 @@ EntryItem::EntryItem(const QString &uid,
     m_author(author),
     m_content(content),
     m_link(link),
+    m_cached(cached),
     m_read(read),
     m_readlater(readlater),
     m_date(date)
@@ -160,6 +170,7 @@ QHash<int, QByteArray> EntryItem::roleNames() const
     names[AuthorRole] = "author";
     names[ContentRole] = "content";
     names[LinkRole] = "link";
+    names[CachedRole] = "cached";
     names[ReadRole] = "read";
     names[ReadLaterRole] = "readlater";
     names[DateRole] = "date";
@@ -179,6 +190,8 @@ QVariant EntryItem::data(int role) const
         return content();
     case LinkRole:
         return link();
+    case CachedRole:
+        return cached();
     case ReadRole:
         return read();
     case ReadLaterRole:

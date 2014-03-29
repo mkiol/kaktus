@@ -50,14 +50,31 @@ Page {
             author: model.author
             readlater: model.readlater
             index: model.index
+            cached: model.cached
             feedindex: root.index
 
             onClicked: {
+                // Entry not cached and offline mode enabled
+                if (settings.offlineMode && !model.cached) {
+                    /*pageStack.push(Qt.resolvedUrl("NoContentPage.qml"),
+                                   {"title": model.title,});*/
+                    notification.show(qsTr("Offline version not available"));
+                    return;
+                }
+
                 // Switch to Offline mode if no network
                 if (!settings.offlineMode && !dm.online) {
-                    notification.show(qsTr("Network connection is unavailable\nSwitching to Offline mode"));
-                    settings.offlineMode = true;
+                    if (model.cached) {
+                        // Entry cached
+                        notification.show(qsTr("Network connection is unavailable\nSwitching to Offline mode"));
+                        settings.offlineMode = true;
+                    } else {
+                        // Entry not cached
+                        notification.show(qsTr("Network connection is unavailable"));
+                        return;
+                    }
                 }
+
                 expanded = false;
                 var onlineUrl = model.link;
                 var offlineUrl = cache.getUrlbyId(model.uid);
@@ -69,7 +86,8 @@ Page {
                                    "stared": model.readlater===1,
                                    "index": model.index,
                                    "feedindex": root.index,
-                                   "read" : model.read===1
+                                   "read" : model.read===1,
+                                   "cached" : model.cached
                                });
             }
         }

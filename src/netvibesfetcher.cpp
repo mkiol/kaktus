@@ -51,7 +51,6 @@ bool NetvibesFetcher::init()
     _feedTabList.clear();
 
     signIn();
-    //emit progress(0,100);
     return true;
 }
 
@@ -60,7 +59,7 @@ bool NetvibesFetcher::isBusy()
     return _busy;
 }
 
-NetvibesFetcher::BusyType NetvibesFetcher::busyType()
+NetvibesFetcher::BusyType NetvibesFetcher::readBusyType()
 {
     return _busyType;
 }
@@ -70,7 +69,7 @@ void NetvibesFetcher::setBusy(bool busy, BusyType type)
     _busyType = type;
     _busy = busy;
 
-    if (busy) {
+    /*if (busy) {
         switch (type) {
         case Initiating:
             emit initiating();
@@ -86,7 +85,10 @@ void NetvibesFetcher::setBusy(bool busy, BusyType type)
         }
     } else {
         _busyType = Unknown;
-    }
+    }*/
+
+    if (!busy)
+        _busyType = Unknown;
 
     emit busyChanged();
 }

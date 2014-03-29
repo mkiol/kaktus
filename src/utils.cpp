@@ -79,7 +79,7 @@ void Utils::setEntryModel(const QString &feedId)
         entryModel->init(feedId);
         _entryModelsList.insert(feedId,entryModel);
     } else {
-        if (i.value()->reInit)
+        if (i.value()->reInit || feedId=="readlater")
             i.value()->init();
         entryModel = i.value();
     }

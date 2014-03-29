@@ -42,6 +42,22 @@ Page {
             id: listItem
             contentHeight: item.height + 2 * Theme.paddingMedium
 
+            Rectangle {
+                id: background
+                anchors.fill: parent
+                color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
+                visible: model.uid==="readlater"
+            }
+
+            OpacityRampEffect {
+                id: effect
+                slope: 1
+                offset: 0.1
+                direction: OpacityRamp.BottomToTop
+                sourceItem: background
+                enabled: background.visible
+            }
+
             Column {
                 id: item
                 spacing: Theme.paddingSmall
@@ -64,13 +80,22 @@ Page {
                 height: Theme.iconSizeSmall
                 anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
                 anchors.verticalCenter: item.verticalCenter
-                visible: settings.showTabIcons
+                visible: settings.showTabIcons && model.uid!=="readlater"
+            }
+
+            Image {
+                width: Theme.iconSizeSmall
+                height: Theme.iconSizeSmall
+                anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
+                anchors.verticalCenter: item.verticalCenter
+                visible: model.uid==="readlater"
+                source: "image://theme/icon-m-favorite-selected";
             }
 
             Connections {
                 target: settings
                 onShowTabIconsChanged: {
-                    if (settings.showTabIcons)
+                    if (settings.showTabIcons && model.uid!=="readlater")
                         image.source = cache.getUrlbyUrl(iconUrl);
                     else
                         image.source = "";
@@ -78,15 +103,21 @@ Page {
             }
 
             Component.onCompleted: {
-                if (settings.showTabIcons)
+                if (settings.showTabIcons && model.uid!=="readlater") {
                     image.source = cache.getUrlbyUrl(iconUrl);
-                else
+                } else {
                     image.source = "";
+                }
             }
 
             onClicked: {
-                utils.setFeedModel(uid);
-                pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title});
+                if (model.uid==="readlater") {
+                    utils.setEntryModel(uid);
+                    pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
+                } else {
+                    utils.setFeedModel(uid);
+                    pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title});
+                }
             }
         }
 

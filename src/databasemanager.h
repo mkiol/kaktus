@@ -130,6 +130,7 @@ public:
     QList<Feed> readFeeds(const QString &tabId);
     QString readFeedId(const QString &entryId);
     QList<Entry> readEntries(const QString &feedId);
+    QList<Entry> readEntriesReadlater();
     QList<Entry> readEntries();
     QList<Entry> readEntriesCachedOlderThan(int cacheDate, int limit);
     QList<QString> readCacheFinalUrlOlderThan(int cacheDate, int limit);
@@ -145,6 +146,7 @@ public:
 
     bool isCacheItemExists(const QString &cacheId);
     bool isCacheItemExistsByFinalUrl(const QString &cacheId);
+    bool isCacheItemExistsByEntryId(const QString &entryId);
 
     QMap<QString,QString> readNotCachedEntries();
     QMap<QString,int> readFeedsLastUpdate();

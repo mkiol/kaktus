@@ -38,6 +38,7 @@ Column {
     signal backClicked()
     signal starClicked()
     signal browserClicked()
+    signal offlineClicked()
 
     width: parent.width
     anchors.bottom: parent.bottom
@@ -108,18 +109,7 @@ Column {
             anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
             icon.source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightDimmerColor : "image://theme/icon-m-wlan-4?"+Theme.highlightDimmerColor
-            onClicked: {
-
-                if (settings.offlineMode) {
-                    if (dm.online) {
-                        settings.offlineMode = false;
-                    } else {
-                        notification.show(qsTr("Cannot switch to Online mode\nNetwork connection is unavailable"));
-                    }
-                } else {
-                    settings.offlineMode = true;
-                }
-            }
+            onClicked: root.offlineClicked()
         }
 
         MouseArea {

@@ -47,6 +47,7 @@ public:
         AuthorRole,
         ContentRole,
         LinkRole,
+        CachedRole,
         ReadRole,
         ReadLaterRole,
         DateRole
@@ -59,6 +60,7 @@ public:
                       const QString &author,
                       const QString &content,
                       const QString &link,
+                      const bool cached,
                       const int read,
                       const int readlater,
                       const int date,
@@ -71,6 +73,7 @@ public:
     Q_INVOKABLE inline QString author() const { return m_author; }
     Q_INVOKABLE inline QString content() const { return m_content; }
     Q_INVOKABLE inline QString link() const { return m_link; }
+    Q_INVOKABLE inline bool cached() const { return m_cached; }
     Q_INVOKABLE inline int read() const { return m_read; }
     Q_INVOKABLE inline int readlater() const { return m_readlater; }
     Q_INVOKABLE inline int date() const { return m_date; }
@@ -84,6 +87,7 @@ private:
     QString m_author;
     QString m_content;
     QString m_link;
+    bool m_cached;
     int m_read;
     int m_readlater;
     int m_date;
