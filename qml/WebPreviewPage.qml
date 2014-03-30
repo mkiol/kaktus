@@ -162,6 +162,7 @@ Page {
         target: fetcher
         onBusyChanged: pageStack.pop()
     }
+
     Connections {
         target: dm
         onBusyChanged: pageStack.pop()

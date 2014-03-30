@@ -62,10 +62,10 @@ public slots:
     void updateModels();
     
 private:
-    QMap<QString, EntryModel*> _entryModelsList;
-    QMap<QString, FeedModel*> _feedModelsList;
-    QMap<QString, TabModel*> _tabModelsList;
-    DashboardModel* _dashboardModel;
+    EntryModel* entryModel;
+    FeedModel* feedModel;
+    TabModel* tabModel;
+    DashboardModel* dashboardModel;
 };
 
 #endif // UTILS_H

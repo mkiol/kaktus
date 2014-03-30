@@ -26,7 +26,10 @@
 Utils::Utils(QObject *parent) :
     QObject(parent)
 {
-    _dashboardModel = NULL;
+    dashboardModel = NULL;
+    entryModel = NULL;
+    tabModel = NULL;
+    feedModel = NULL;
 }
 
 void Utils::copyToClipboard(const QString &text)
@@ -41,111 +44,88 @@ void Utils::copyToClipboard(const QString &text)
 
 void Utils::setTabModel(const QString &dashboardId)
 {
-    TabModel* tabModel;
+    TabModel *oldTabModel = tabModel;
     Settings *s = Settings::instance();
-    QMap<QString,TabModel*>::iterator i = _tabModelsList.find(dashboardId);
-    if (i == _tabModelsList.end()) {
-        tabModel = new TabModel(s->db);
-        tabModel->init(dashboardId);
-        _tabModelsList.insert(dashboardId,tabModel);
-    } else {
-        tabModel = i.value();
-    }
+
+    tabModel = new TabModel(s->db);
+    tabModel->init(dashboardId);
+
     s->view->rootContext()->setContextProperty("tabModel", tabModel);
+
+    if (oldTabModel != NULL)
+        delete oldTabModel;
 }
 
 void Utils::setFeedModel(const QString &tabId)
 {
-    FeedModel* feedModel;
+    FeedModel* oldFeedModel = feedModel;
     Settings *s = Settings::instance();
-    QMap<QString,FeedModel*>::iterator i = _feedModelsList.find(tabId);
-    if (i == _feedModelsList.end()) {
-        feedModel = new FeedModel(s->db);
-        feedModel->init(tabId);
-        _feedModelsList.insert(tabId,feedModel);
-    } else {
-        feedModel = i.value();
-    }
+
+    feedModel = new FeedModel(s->db);
+    feedModel->init(tabId);
+
     s->view->rootContext()->setContextProperty("feedModel", feedModel);
+
+    if (oldFeedModel != NULL)
+        delete oldFeedModel;
 }
 
 void Utils::setEntryModel(const QString &feedId)
 {
-    EntryModel* entryModel;
+    EntryModel* oldEntryModel = entryModel;
     Settings *s = Settings::instance();
-    QMap<QString,EntryModel*>::iterator i = _entryModelsList.find(feedId);
-    if (i == _entryModelsList.end()) {
-        entryModel = new EntryModel(s->db);
-        entryModel->init(feedId);
-        _entryModelsList.insert(feedId,entryModel);
-    } else {
-        if (i.value()->reInit || feedId=="readlater")
-            i.value()->init();
-        entryModel = i.value();
-    }
+
+    entryModel = new EntryModel(s->db);
+    entryModel->init(feedId);
+
     s->view->rootContext()->setContextProperty("entryModel", entryModel);
+
+    if (oldEntryModel != NULL)
+        delete oldEntryModel;
 }
 
 void Utils::setDashboardModel()
 {
+    DashboardModel* oldDashboardModel = dashboardModel;
     Settings *s = Settings::instance();
-    if(!_dashboardModel) {
-        _dashboardModel = new DashboardModel(s->db);
-        _dashboardModel->init();
-    }
-    s->view->rootContext()->setContextProperty("dashboardModel", _dashboardModel);
+
+    dashboardModel = new DashboardModel(s->db);
+    dashboardModel->init();
+
+    s->view->rootContext()->setContextProperty("dashboardModel", dashboardModel);
+
+    if (oldDashboardModel != NULL)
+        delete oldDashboardModel;
 }
 
 void Utils::updateModels()
 {
-    // Dashboard
-    if(_dashboardModel) {
-        _dashboardModel->init();
-    }
+    if (dashboardModel != NULL)
+        dashboardModel->init();
 
-    // Tabs
-    QMap<QString,TabModel*>::iterator ti = _tabModelsList.begin();
-    while (ti != _tabModelsList.end()) {
-        ti.value()->init();
-        ++ti;
-    }
+    if (tabModel != NULL)
+        tabModel->init();
 
-    // Feeds
-    QMap<QString,FeedModel*>::iterator fi = _feedModelsList.begin();
-    while (fi != _feedModelsList.end()) {
-        fi.value()->init();
-        ++fi;
-    }
+    if (feedModel != NULL)
+        feedModel->init();
 
-    // Entries
-    QMap<QString,EntryModel*>::iterator ei = _entryModelsList.begin();
-    while (ei != _entryModelsList.end()) {
-        ei.value()->init();
-        ++ei;
-    }
+    if (entryModel != NULL)
+        entryModel->init();
 }
 
 Utils::~Utils()
 {
-    QMap<QString,EntryModel*>::iterator ei = _entryModelsList.begin();
-    while (ei != _entryModelsList.end()) {
-        delete ei.value();
-        ++ei;
-    }
+    if (entryModel != NULL)
+        delete entryModel;
 
-    QMap<QString,FeedModel*>::iterator fi = _feedModelsList.begin();
-    while (fi != _feedModelsList.end()) {
-        delete fi.value();
-        ++fi;
-    }
+    if (feedModel != NULL)
+        delete feedModel;
 
-    QMap<QString,TabModel*>::iterator ti = _tabModelsList.begin();
-    while (ti != _tabModelsList.end()) {
-        delete ti.value();
-        ++ti;
-    }
+    if (tabModel != NULL)
+        delete tabModel;
 
-    delete _dashboardModel;
+    if (dashboardModel != NULL)
+        delete dashboardModel;
 }
 
 QList<QString> Utils::dashboards()

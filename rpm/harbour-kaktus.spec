@@ -73,3 +73,11 @@ desktop-file-install --delete-original       \
 /usr/share/icons/hicolor/86x86/apps
 # >> files
 # << files
+
+%changelog
+* Sun Mar 30 2014 Michal Kosciesza 1.0.1-1
+- UI improvements
+- Extra Tab with Starred articles
+
+* Mon Mar 25 2014 Michal Kosciesza 1.0.0-1
+- First release

@@ -54,6 +54,12 @@ Page {
             feedindex: root.index
 
             onClicked: {
+                // Not allowed while Syncing
+                if (dm.busy || fetcher.busy) {
+                    notification.show(qsTr("Please wait until Syncing finished"));
+                    return;
+                }
+
                 // Entry not cached and offline mode enabled
                 if (settings.offlineMode && !model.cached) {
                     /*pageStack.push(Qt.resolvedUrl("NoContentPage.qml"),

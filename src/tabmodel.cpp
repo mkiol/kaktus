@@ -41,7 +41,7 @@ void TabModel::init()
 void TabModel::createItems(const QString &dashboardId)
 {
     // Readlater extra Tab, id="readlater"
-    appendRow(new TabItem("readlater",tr("Stared"),""));
+    appendRow(new TabItem("readlater",tr("Starred articles"),""));
 
     QList<DatabaseManager::Tab> list = _db->readTabs(dashboardId);
     QList<DatabaseManager::Tab>::iterator i = list.begin();

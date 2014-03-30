@@ -33,8 +33,6 @@ Item {
 
     height: Theme.itemSizeMedium;
     width: parent.width
-    //anchors.bottom: parent.bottom
-    //anchors.left: parent.left
     enabled: open
     opacity: open ? 1.0 : 0.0
     visible: opacity > 0.0
@@ -44,7 +42,7 @@ Item {
     Rectangle {
         id: background
         anchors.fill: parent
-        color: root.transparent ? Theme.rgba(Theme.highlightBackgroundColor, 0.1) : Theme.highlightBackgroundColor
+        color: root.transparent ? Theme.rgba(Theme.highlightBackgroundColor, 0.2) : Theme.highlightBackgroundColor
     }
 
     OpacityRampEffect {
