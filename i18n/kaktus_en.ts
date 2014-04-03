@@ -20,15 +20,6 @@
     </message>
 </context>
 <context>
-    <name>ControlBarWebPreview</name>
-    <message>
-        <location filename="../qml/ControlBarWebPreview.qml" line="117"/>
-        <source>Cannot switch to Online mode
-Network connection is unavailable</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>CoverPage</name>
     <message>
         <location filename="../qml/CoverPage.qml" line="105"/>
@@ -36,27 +27,22 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="109"/>
+        <location filename="../qml/CoverPage.qml" line="112"/>
         <source>Initiating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="110"/>
+        <location filename="../qml/CoverPage.qml" line="116"/>
         <source>Updating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="111"/>
-        <source>Uploading</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/CoverPage.qml" line="112"/>
+        <location filename="../qml/CoverPage.qml" line="120"/>
         <source>Signing in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="120"/>
+        <location filename="../qml/CoverPage.qml" line="132"/>
         <source>Caching</source>
         <translation type="unfinished"></translation>
     </message>
@@ -100,22 +86,22 @@ Network connection is unavailable</source>
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="181"/>
+        <location filename="../qml/EntryDelegate.qml" line="196"/>
         <source>Unstar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="181"/>
+        <location filename="../qml/EntryDelegate.qml" line="196"/>
         <source>Star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="191"/>
+        <location filename="../qml/EntryDelegate.qml" line="206"/>
         <source>Mark as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="191"/>
+        <location filename="../qml/EntryDelegate.qml" line="206"/>
         <source>Mark as read</source>
         <translation type="unfinished"></translation>
     </message>
@@ -123,13 +109,28 @@ Network connection is unavailable</source>
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/EntryPage.qml" line="58"/>
+        <location filename="../qml/EntryPage.qml" line="59"/>
+        <source>Please wait until Syncing finished</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryPage.qml" line="67"/>
+        <source>Offline version not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryPage.qml" line="75"/>
         <source>Network connection is unavailable
 Switching to Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="79"/>
+        <source>Network connection is unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryPage.qml" line="103"/>
         <source>No entries</source>
         <translation type="unfinished"></translation>
     </message>
@@ -172,7 +173,7 @@ Switching to Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="114"/>
+        <location filename="../qml/FeedPage.qml" line="115"/>
         <source>No feeds</source>
         <translation type="unfinished"></translation>
     </message>
@@ -206,99 +207,118 @@ Switching to Offline mode</source>
     </message>
 </context>
 <context>
+    <name>NoContentPage</name>
+    <message>
+        <location filename="../qml/NoContentPage.qml" line="40"/>
+        <source>Offline version not available :-(</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/NoContentPage.qml" line="54"/>
+        <source>Cannot switch to Online mode
+Network connection is unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="32"/>
+        <location filename="../qml/SettingsPage.qml" line="34"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="104"/>
+        <location filename="../qml/SettingsPage.qml" line="107"/>
         <source>Dashboard in use</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="104"/>
+        <location filename="../qml/SettingsPage.qml" line="107"/>
         <source>Dashboard not selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="118"/>
+        <location filename="../qml/SettingsPage.qml" line="121"/>
         <source>Change</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="38"/>
+        <location filename="../qml/SettingsPage.qml" line="40"/>
         <source>Netvibes account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="54"/>
+        <location filename="../qml/SettingsPage.qml" line="56"/>
         <source>Not signed in </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="58"/>
+        <location filename="../qml/SettingsPage.qml" line="60"/>
         <source>Signed in as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="70"/>
+        <location filename="../qml/SettingsPage.qml" line="72"/>
         <source>Sign out</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="70"/>
+        <location filename="../qml/SettingsPage.qml" line="72"/>
         <source>Sign in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="73"/>
+        <location filename="../qml/SettingsPage.qml" line="76"/>
         <source>Signed out!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="128"/>
+        <location filename="../qml/SettingsPage.qml" line="131"/>
         <source>Other</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="132"/>
+        <location filename="../qml/SettingsPage.qml" line="135"/>
         <source>Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="133"/>
+        <location filename="../qml/SettingsPage.qml" line="136"/>
         <source>Content of articles will be displayed from local cache, without a network usage.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="143"/>
+        <location filename="../qml/SettingsPage.qml" line="146"/>
         <source>Cache articles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="144"/>
+        <location filename="../qml/SettingsPage.qml" line="147"/>
         <source>After sync the content of all articles will be downloaded and cached for access in Offline mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="154"/>
+        <location filename="../qml/SettingsPage.qml" line="157"/>
         <source>Show icons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="175"/>
+        <location filename="../qml/SettingsPage.qml" line="167"/>
+        <source>Show Tab with starred articles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="188"/>
         <source>Offline viewer style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="185"/>
+        <location filename="../qml/SettingsPage.qml" line="198"/>
         <source>Black</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="186"/>
+        <location filename="../qml/SettingsPage.qml" line="199"/>
         <source>White</source>
         <translation type="unfinished"></translation>
     </message>
@@ -337,6 +357,14 @@ Switching to Offline mode</source>
     </message>
 </context>
 <context>
+    <name>TabModel</name>
+    <message>
+        <location filename="../src/tabmodel.cpp" line="44"/>
+        <source>Starred articles</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TabPage</name>
     <message>
         <location filename="../qml/TabPage.qml" line="38"/>
@@ -344,98 +372,103 @@ Switching to Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="96"/>
+        <location filename="../qml/TabPage.qml" line="145"/>
         <source>No tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="103"/>
+        <location filename="../qml/TabPage.qml" line="152"/>
         <source>Pull down to do first Sync</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/TabPage.qml" line="152"/>
+        <source>Wait until Sync finish</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Utils</name>
     <message>
-        <location filename="../src/utils.cpp" line="210"/>
+        <location filename="../src/utils.cpp" line="190"/>
         <source>just now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="213"/>
+        <location filename="../src/utils.cpp" line="193"/>
         <source>1 second ago</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="216"/>
+        <location filename="../src/utils.cpp" line="196"/>
         <source>%1 seconds ago</source>
         <comment>less than 5 seconds</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="219"/>
+        <location filename="../src/utils.cpp" line="199"/>
         <source>%1 seconds ago</source>
         <comment>more or equal 5 seconds</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="222"/>
+        <location filename="../src/utils.cpp" line="202"/>
         <source>1 minute ago</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="225"/>
+        <location filename="../src/utils.cpp" line="205"/>
         <source>%1 minutes ago</source>
         <comment>less than 5 minutes</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="228"/>
+        <location filename="../src/utils.cpp" line="208"/>
         <source>%1 minutes ago</source>
         <comment>more or equal 5 minutes</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="231"/>
+        <location filename="../src/utils.cpp" line="211"/>
         <source>1 hour ago</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="234"/>
+        <location filename="../src/utils.cpp" line="214"/>
         <source>%1 hours ago</source>
         <comment>less than 5 hours</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="237"/>
+        <location filename="../src/utils.cpp" line="217"/>
         <source>%1 hours ago</source>
         <comment>more or equal 5 hours</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="240"/>
+        <location filename="../src/utils.cpp" line="220"/>
         <source>yesterday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="243"/>
+        <location filename="../src/utils.cpp" line="223"/>
         <source>%1 days ago</source>
         <comment>less than 5 days</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="246"/>
+        <location filename="../src/utils.cpp" line="226"/>
         <source>%1 days ago</source>
         <comment>more or equal 5 days</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="249"/>
+        <location filename="../src/utils.cpp" line="229"/>
         <source>1 week ago</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="252"/>
+        <location filename="../src/utils.cpp" line="232"/>
         <source>%1 weeks ago</source>
         <translation type="unfinished"></translation>
     </message>
@@ -443,23 +476,34 @@ Switching to Offline mode</source>
 <context>
     <name>WebPreviewPage</name>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="67"/>
+        <location filename="../qml/WebPreviewPage.qml" line="68"/>
         <source>Loading page content...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="73"/>
+        <location filename="../qml/WebPreviewPage.qml" line="74"/>
         <source>Failed to load article from local cache :-(</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="75"/>
+        <location filename="../qml/WebPreviewPage.qml" line="76"/>
         <source>Failed to load page content :-(</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="118"/>
+        <location filename="../qml/WebPreviewPage.qml" line="120"/>
         <source>Launching an external browser...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/WebPreviewPage.qml" line="129"/>
+        <source>Cannot switch to Online mode
+Network connection is unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/WebPreviewPage.qml" line="134"/>
+        <source>Offline version not available</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -509,22 +553,22 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="127"/>
+        <location filename="../qml/main.qml" line="133"/>
         <source>Initiating...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="131"/>
+        <location filename="../qml/main.qml" line="137"/>
         <source>Updating...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="135"/>
+        <location filename="../qml/main.qml" line="127"/>
         <source>Sending data to Netvibes...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="139"/>
+        <location filename="../qml/main.qml" line="141"/>
         <source>Signing in...</source>
         <translation type="unfinished"></translation>
     </message>
