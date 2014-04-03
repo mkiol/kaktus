@@ -37,7 +37,7 @@
 #include "settings.h"
 
 static const char *APP_NAME = "Kaktus";
-static const char *VERSION = "1.0.1 (beta release)";
+static const char *VERSION = "1.0.2 (beta release)";
 static const char *AUTHOR = "Michał Kościesza <michal@mkiol.net>";
 static const char *PAGE = "https://github/mkiol/kaktus";
 
@@ -55,10 +55,10 @@ int main(int argc, char *argv[])
     app->setApplicationDisplayName(APP_NAME);
     app->setApplicationVersion(VERSION);
 
-    //QTranslator *appTranslator = new QTranslator;
-    //appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
+    QTranslator *appTranslator = new QTranslator;
+    appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
     //appTranslator->load(":/i18n/kaktus_pl.qm");
-    //app->installTranslator(appTranslator);
+    app->installTranslator(appTranslator);
 
     Settings* settings = Settings::instance();
     settings->view = view.data();

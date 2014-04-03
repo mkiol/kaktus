@@ -637,7 +637,8 @@ DatabaseManager::Dashboard DatabaseManager::readDashboard(const QString &dashboa
 {
     Dashboard d;
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, name, title, description FROM dashboards WHERE id='%1';").arg(dashboardId),_db);
+        QSqlQuery query(QString("SELECT id, name, title, description FROM dashboards WHERE id='%1';")
+                        .arg(dashboardId),_db);
         while(query.next()) {
             d.id = query.value(0).toString();
             d.name = query.value(1).toString();
@@ -656,7 +657,8 @@ QList<DatabaseManager::Dashboard> DatabaseManager::readDashboards()
     QList<DatabaseManager::Dashboard> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query("SELECT id, name, title, description FROM dashboards;",_db);
+        QSqlQuery query(QString("SELECT id, name, title, description FROM dashboards LIMIT %1;")
+                        .arg(dashboardsLimit),_db);
         while(query.next()) {
             Dashboard d;
             d.id = query.value(0).toString();
@@ -677,8 +679,9 @@ QList<DatabaseManager::Tab> DatabaseManager::readTabs(const QString &dashboardId
     QList<DatabaseManager::Tab> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, icon FROM tabs WHERE dashboard_id='%1';")
-                        .arg(dashboardId),_db);
+        QSqlQuery query(QString("SELECT id, title, icon FROM tabs WHERE dashboard_id='%1' LIMIT %2;")
+                        .arg(dashboardId)
+                        .arg(tabsLimit),_db);
         while(query.next()) {
             //qDebug() << "readTabs, " << query.value(1).toString();
             Tab t;
@@ -699,8 +702,9 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &tabId)
     QList<DatabaseManager::Feed> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, content, link, url, icon, stream_id, unread, readlater, last_update FROM feeds WHERE tab_id='%1';")
-                        .arg(tabId),_db);
+        QSqlQuery query(QString("SELECT id, title, content, link, url, icon, stream_id, unread, readlater, last_update FROM feeds WHERE tab_id='%1' LIMIT %2;")
+                        .arg(tabId)
+                        .arg(feedsLimit),_db);
         while(query.next()) {
             //qDebug() << "readFeeds, " << query.value(1).toString();
             Feed f;
@@ -995,8 +999,9 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE feed_id='%1' ORDER BY date DESC;")
-                        .arg(feedId),_db);
+        QSqlQuery query(QString("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE feed_id='%1' ORDER BY date DESC LIMIT %2;")
+                        .arg(feedId)
+                        .arg(entriesLimit),_db);
         while(query.next()) {
             //qDebug() << "readEntries, " << query.value(1).toString();
             Entry e;
@@ -1022,7 +1027,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater()
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE readlater=1 ORDER BY date DESC;",_db);
+        QSqlQuery query(QString("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE readlater=1 ORDER BY date DESC LIMIT %1;")
+                        .arg(entriesLimit),_db);
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
@@ -1117,10 +1123,14 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesCachedOlderThan(int ca
 QList<QString> DatabaseManager::readCacheFinalUrlOlderThan(int cacheDate, int limit)
 {
     QList<QString> list;
-
+    bool ret = false;
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT final_url FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
-                        .arg(cacheDate).arg(limit), _db);
+        QSqlQuery query(_db);
+        /*qDebug() << QString("SELECT final_url FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
+                    .arg(cacheDate).arg(limit);*/
+
+        ret = query.exec(QString("SELECT final_url FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
+                        .arg(cacheDate).arg(limit));
         while(query.next()) {
             list.append(query.value(0).toString());
         }
@@ -1138,14 +1148,9 @@ bool DatabaseManager::removeEntriesOlderThan(int cacheDate, int limit)
         QSqlQuery query(_db);
         ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
                          .arg(cacheDate).arg(limit));
+
         ret = query.exec(QString("DELETE FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2);")
                          .arg(cacheDate).arg(limit));
-
-        /*qDebug() << QString("DELETE FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
-                    .arg(cacheDate).arg(limit);
-
-        qDebug() << QString("DELETE FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2);")
-                    .arg(cacheDate).arg(limit);*/
     }
 
     return ret;

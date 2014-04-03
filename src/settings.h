@@ -40,6 +40,7 @@ class Settings: public QObject
     Q_PROPERTY (bool offlineMode READ getOfflineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
     Q_PROPERTY (bool showTabIcons READ getShowTabIcons WRITE setShowTabIcons NOTIFY showTabIconsChanged)
     Q_PROPERTY (bool signedIn READ getSignedIn WRITE setSignedIn NOTIFY signedInChanged)
+    Q_PROPERTY (bool showStarredTab READ getShowStarredTab WRITE setShowStarredTab NOTIFY showStarredTabChanged)
 
 public:
     static Settings* instance();
@@ -57,6 +58,8 @@ public:
     void setShowTabIcons(bool value);
     void setSignedIn(bool value);
     bool getSignedIn();
+    bool getShowStarredTab();
+    void setShowStarredTab(bool value);
 
     // General
     Q_INVOKABLE QString getSettingsDir();
@@ -107,6 +110,7 @@ signals:
     void offlineModeChanged();
     void showTabIconsChanged();
     void signedInChanged();
+    void showStarredTabChanged();
     /*
     501 - Unable create settings dir
     502 - Unable create cache dir

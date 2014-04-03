@@ -39,6 +39,11 @@ class DatabaseManager : public QObject
     Q_OBJECT
 
 public:
+    static const int dashboardsLimit = 50;
+    static const int tabsLimit = 50;
+    static const int feedsLimit = 50;
+    static const int entriesLimit = 50;
+
     struct Dashboard {
         QString id;
         QString name;

@@ -72,7 +72,7 @@ void DownloadManager::cleanCache()
     }*/
 
     QList<QString> list = s->db->readCacheFinalUrlOlderThan(date, limit);
-    //qDebug() << "list.count: " << list.count();
+    //qDebug() << "DownloadManager::cleanCache, date:" << date << " limit:"<<limit<<" list.count:" << list.count();
     QList<QString>::iterator i = list.begin();
     while (i!=list.end()) {
         QString filepath = cacheDir + "/" + *i;

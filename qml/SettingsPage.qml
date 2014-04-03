@@ -26,7 +26,9 @@ Page {
     id: root
 
     SilicaListView {
-        anchors.fill: parent
+        anchors { top: parent.top; left: parent.left; right: parent.right }
+        height: app.height - (dm.busy||fetcher.busy ? Theme.itemSizeMedium : 0);
+        clip: true
 
         header: PageHeader {
             title: qsTr("Settings")
@@ -68,6 +70,7 @@ Page {
                 menu: ContextMenu {
                     MenuItem {
                         text: settings.signedIn ? qsTr("Sign out") : qsTr("Sign in")
+                        //enabled: settings.signedIn ? true : dm.online
                         onClicked: {
                             if (settings.signedIn) {
                                 notification.show(qsTr("Signed out!"));
@@ -157,6 +160,16 @@ Page {
                 }
                 Component.onCompleted: {
                     checked = settings.showTabIcons;
+                }
+            }
+
+            TextSwitch {
+                text: qsTr("Show Tab with starred articles")
+                onCheckedChanged: {
+                    settings.showStarredTab = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.showStarredTab;
                 }
             }
 

@@ -40,9 +40,19 @@ Page {
 
         delegate: ListItem {
             id: listItem
-            contentHeight: item.height + 2 * Theme.paddingMedium
+            contentHeight: visible ? item.height + 2 * Theme.paddingMedium : 0
+            visible: {
+                if (model.uid==="readlater") {
+                    if (listView.count==1)
+                        return false;
+                    if (settings.showStarredTab)
+                        return true
+                    return false;
+                }
+                return true;
+            }
 
-            Rectangle {
+            /*Rectangle {
                 id: background
                 anchors.fill: parent
                 color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
@@ -56,6 +66,14 @@ Page {
                 direction: OpacityRamp.BottomToTop
                 sourceItem: background
                 enabled: background.visible
+            }*/
+
+            Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left; anchors.right: parent.right;
+                color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
+                visible: model.uid==="readlater"
+                height: 2
             }
 
             Column {
@@ -123,7 +141,7 @@ Page {
 
 
         ViewPlaceholder {
-            enabled: listView.count == 0
+            enabled: listView.count == 1
             text: qsTr("No tabs")
 
             Label {
@@ -131,7 +149,7 @@ Page {
                 anchors.bottom: parent.bottom
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.secondaryHighlightColor
-                text: qsTr("Pull down to do first Sync")
+                text: fetcher.busy ? qsTr("Wait until Sync finish") : qsTr("Pull down to do first Sync")
             }
         }
 

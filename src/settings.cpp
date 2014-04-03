@@ -44,6 +44,19 @@ Settings* Settings::instance()
     return Settings::inst;
 }
 
+void Settings::setShowStarredTab(bool value)
+{
+    if (getShowStarredTab() != value) {
+        settings.setValue("showstarredtab", value);
+        emit showStarredTabChanged();
+    }
+}
+
+bool Settings::getShowStarredTab()
+{
+    return settings.value("showstarredtab", true).toBool();
+}
+
 void Settings::setOfflineMode(bool value)
 {
     if (getOfflineMode() != value) {

@@ -104,6 +104,7 @@ Page {
 
             onClicked: {
                 utils.setEntryModel(uid);
+                console.log("Feed id: " + uid);
                 pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
             }
 

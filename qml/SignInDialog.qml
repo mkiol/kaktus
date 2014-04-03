@@ -82,7 +82,7 @@ Dialog {
         if (code == 0) {
             fetcher.checkCredentials();
         } else {
-            if (!dm.isBusy())
+            if (!dm.busy)
                 dm.cancel();
             //fetcher.update();
             m.doUpdate = true;
