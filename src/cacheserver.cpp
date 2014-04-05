@@ -17,17 +17,17 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QRegExp>
+#include <QCryptographicHash>
+#include <QTextCodec>
+#include <QFile>
+
 #include "cacheserver.h"
 
-CacheServer::CacheServer(DatabaseManager *db, QObject *parent) :
+
+CacheServer::CacheServer(QObject *parent) :
     QObject(parent)
 {
-    this->db = db;
-
-    Settings *s = Settings::instance();
-    cacheDir = s->getDmCacheDir();
-    port = s->getCsPort();
-
     server = new QHttpServer;
     connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
             this, SLOT(handle(QHttpRequest*, QHttpResponse*)));
@@ -43,17 +43,21 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
 {
     //qDebug() << "handle, url=" << req->url().toString();
 
+    ///@todo Need to rewrite this crappy code :-(
+
+    Settings *s = Settings::instance();
+
     QString entryId = req->url().path();
     if (entryId.at(0) == '/')
         entryId = entryId.right(entryId.length()-1);
 
-    DatabaseManager::CacheItem item = db->readCacheItemFromEntryId(entryId);
+    DatabaseManager::CacheItem item = s->db->readCacheItemFromEntryId(entryId);
 
     QString filename;
     QByteArray data;
 
     if (item.id == "") {
-        item = db->readCacheItemFromFinalUrl(entryId);
+        item = s->db->readCacheItemFromFinalUrl(entryId);
         filename = entryId;
     } else {
         filename = item.finalUrl;
@@ -91,6 +95,9 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
 
 bool CacheServer::readFile(const QString &filename, QByteArray &data)
 {
+    Settings *s = Settings::instance();
+    QString cacheDir = s->getDmCacheDir();
+
     QFile file(cacheDir + "/" + filename);
 
     if (!QFile::exists(cacheDir + "/" + filename)) {

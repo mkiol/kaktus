@@ -21,7 +21,6 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 
-
 Page {
     id: root
 
@@ -128,7 +127,27 @@ Page {
             }
 
             SectionHeader {
-                text: qsTr("Other")
+                text: qsTr("Cache")
+            }
+
+            Row {
+                spacing: Theme.paddingMedium
+                anchors.left: parent.left
+                anchors.margins: Theme.paddingLarge
+
+                Label {
+                    text: qsTr("Current cache size")
+                }
+
+                Label {
+                    color: Theme.secondaryColor
+                    text: utils.getHumanFriendlySizeString(dm.cacheSize);
+                }
+
+                /*Button {
+                    text: qsTr("Clear")
+                    onClicked: dm.cleanCache()
+                }*/
             }
 
             TextSwitch {
@@ -151,6 +170,10 @@ Page {
                 onCheckedChanged: {
                     settings.setAutoDownloadOnUpdate(checked);
                 }
+            }
+
+            SectionHeader {
+                text: qsTr("UI")
             }
 
             TextSwitch {

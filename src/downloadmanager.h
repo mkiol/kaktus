@@ -20,30 +20,36 @@
 #ifndef DOWNLOADMANAGER_H
 #define DOWNLOADMANAGER_H
 
-#include <QFile>
-#include <QFileInfo>
 #include <QList>
-#include <QDir>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QSslError>
-#include <QTimer>
 #include <QUrl>
-#include <QDebug>
 #include <QMap>
-#include <QRegExp>
-#include <QCryptographicHash>
-#include <QTimer>
-#include <QDirIterator>
 #include <QNetworkConfigurationManager>
 #include <QNetworkConfiguration>
+#include <QThread>
 
 #include "databasemanager.h"
 #include "settings.h"
 
 
 class QSslError;
+
+class CacheCleaner : public QThread
+{
+    Q_OBJECT
+
+protected:
+    void run();
+
+signals:
+    void ready();
+
+private:
+    static const int entriesLimit = 200;
+};
 
 class Checker: public QObject
 {
@@ -69,6 +75,7 @@ class DownloadManager: public QObject
 
     Q_PROPERTY (bool online READ isOnline NOTIFY onlineChanged)
     Q_PROPERTY (bool busy READ isBusy NOTIFY busyChanged)
+    Q_PROPERTY (int cacheSize READ getCacheSize NOTIFY cacheSizeChanged)
 
 public:
     DownloadManager(QObject *parent = 0);
@@ -77,11 +84,14 @@ public:
     Q_INVOKABLE void cancel();
     Q_INVOKABLE int itemsToDownloadCount();
     Q_INVOKABLE bool startFeedDownload();
+    Q_INVOKABLE void cleanCache();
 
     bool isBusy();
     bool isOnline();
+    int getCacheSize();
 
 signals:
+    void cacheSizeChanged();
     void busyChanged();
     void ready();
     void networkNotAccessible();
@@ -99,22 +109,22 @@ public slots:
     void sslErrors(const QList<QSslError> &errors);
     void error(QNetworkReply::NetworkError code);
     void networkAccessibleChanged (QNetworkAccessManager::NetworkAccessibility accessible);
-    void cleanCache();
     void removeCache();
     void onlineStateChanged(bool isOnline);
+    void cacheCleaningFinished();
 
 private:
+    static const int entriesLimit = 200;
+    static const int cacheRetencyFeedLimit = 20;
+    static const int maxCacheRetency = 604800; // 1 week
+
     QNetworkAccessManager manager;
     QList<DatabaseManager::CacheItem> queue;
     QList<QNetworkReply*> downloads;
     QMap<QNetworkReply*,DatabaseManager::CacheItem> replyToCachedItemMap;
     QMap<QNetworkReply*,Checker*> replyToCheckerMap;
-    //DatabaseManager *db;
     QNetworkConfigurationManager ncm;
-
-    //int connections;
-    //QString userAgent;
-    //QString cacheDir;
+    CacheCleaner cleaner;
 
     void doDownload(DatabaseManager::CacheItem item);
     bool saveToDisk(const QString &filename, const QByteArray &content);

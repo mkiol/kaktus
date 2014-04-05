@@ -19,7 +19,7 @@
 
 #include "databasemanager.h"
 
-const QString DatabaseManager::version = QString("0.4");
+const QString DatabaseManager::version = QString("1.0");
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
@@ -270,6 +270,10 @@ bool DatabaseManager::createCacheStructure()
                          "cached INTEGER DEFAULT 0, "
                          "cached_date TIMESTAMP "
                          ");");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS cache_final_url "
+                         "ON cache(final_url);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS cache_entry "
+                         "ON cache(entry_id);");
     } else {
         qWarning() << "DB is not opened!";
         return false;
@@ -364,6 +368,14 @@ bool DatabaseManager::createEntriesStructure()
                          "cached INTEGER DEFAULT 0, "
                          "cached_date TIMESTAMP "
                          ");");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_date "
+                         "ON entries(date DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_date_by_feed "
+                         "ON entries(feed_id,readlater,date DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_readlater "
+                         "ON entries(readlater);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_feed_id "
+                         "ON entries(feed_id);");
     } else {
         qWarning() << "DB is not opened!";
         return false;
@@ -543,7 +555,8 @@ bool DatabaseManager::writeEntry(const QString &feedId, const Entry &entry)
     bool ret = false;
     if (_db.isOpen()) {
         QSqlQuery query(_db);
-        //qDebug() << "writeEntry, feedId=" << feedId << "title=" << entry.title;
+        //qDebug() << "new, feedId=" << feedId << "readlater=" << entry.readlater;
+        if (entry.readlater==1)
         ret = query.exec(QString("INSERT INTO entries (id, feed_id, title, author, content, link, read, readlater, date) VALUES('%1','%2','%3','%4','%5','%6',%7,%8,'%9');")
                          .arg(entry.id)
                          .arg(feedId)
@@ -554,7 +567,8 @@ bool DatabaseManager::writeEntry(const QString &feedId, const Entry &entry)
                          .arg(entry.read).arg(entry.readlater)
                          .arg(entry.date));
         if(!ret) {
-            //qDebug() << entry.title << entry.read;
+            if (entry.readlater==1)
+            //qDebug() << "update, readlater=" << entry.readlater;
             ret = query.exec(QString("UPDATE entries SET read=%1, readlater=%2 WHERE id='%3';")
                              .arg(entry.read)
                              .arg(entry.readlater)
@@ -727,6 +741,21 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &tabId)
     return list;
 }
 
+QList<QString> DatabaseManager::readAllFeedIds()
+{
+    QList<QString> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query("SELECT id FROM feeds;",_db);
+        while(query.next())
+            list.append(query.value(0).toString());
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
 QString DatabaseManager::readFeedId(const QString &entryId)
 {
     if (_db.isOpen()) {
@@ -781,6 +810,57 @@ QList<QString> DatabaseManager::readCacheIdsOlderThan(int cacheDate, int limit)
     }
 
     return list;
+}
+
+QList<QString> DatabaseManager::readCacheFinalUrlsByLimit(const QString &feedId, int limit)
+{
+    QList<QString> list;
+
+    if (_db.isOpen()) {
+
+        //SELECT id FROM entries as a WHERE feed_id='%1' AND date NOT IN (
+        //SELECT date FROM entries WHERE feed_id=a.feed_id OR readlater!=1 ORDER BY date DESC LIMIT %2
+        //);
+
+        QSqlQuery query(_db);
+
+        if (!query.exec(QString("SELECT final_url FROM cache WHERE entry_id IN ("
+            "SELECT id FROM entries WHERE feed_id='%1' AND id NOT IN ("
+            "SELECT id FROM entries WHERE feed_id='%1' OR readlater=1 ORDER BY date DESC LIMIT %2"
+            "));").arg(feedId).arg(limit)))
+            qWarning() << "SQL error!";
+        while(query.next()) {
+            list.append(query.value(0).toString());
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+bool DatabaseManager::removeEntriesByLimit(const QString &feedId, int limit)
+{
+    bool ret = false;
+
+    if (_db.isOpen()) {
+
+        QSqlQuery query(_db);
+
+        ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN ("
+        "SELECT id FROM entries WHERE feed_id='%1' AND id NOT IN ("
+        "SELECT id FROM entries WHERE feed_id='%1' OR readlater=1 ORDER BY date DESC LIMIT %2"
+        "));").arg(feedId).arg(limit));
+
+        ret = query.exec(QString("DELETE FROM entries WHERE feed_id='%1' AND id NOT IN ("
+        "SELECT id FROM entries WHERE feed_id='%1' OR readlater=1 ORDER BY date DESC LIMIT %2"
+        ");").arg(feedId).arg(limit));
+
+        if (!ret)
+            qWarning() << "SQL error!";
+    }
+
+    return ret;
 }
 
 /*bool DatabaseManager::removeCacheItemsOlderThan(int cacheDate, int limit)

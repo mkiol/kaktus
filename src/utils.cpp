@@ -182,6 +182,23 @@ QString Utils::defaultDashboardName()
     return true;
 }*/
 
+QString Utils::getHumanFriendlySizeString(int size)
+{
+    if (size==0) {
+        return tr("empty");
+    }
+    if (size<1024) {
+        return QString("%1 B").arg(size);
+    }
+    if (size<1048576) {
+        return QString("%1 kB").arg(qFloor(size/1024));
+    }
+    if (size<1073741824) {
+        return QString("%1 MB").arg(qFloor(size/1048576));
+    }
+    return QString("%1 GB").arg(size/1073741824);
+}
+
 QString Utils::getHumanFriendlyTimeString(int date)
 {
     int delta = QDateTime::currentDateTime().toTime_t()-date;

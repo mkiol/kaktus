@@ -17,7 +17,18 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QDirIterator>
+#include <QFile>
+#include <QFileInfo>
+#include <QRegExp>
+#include <QCryptographicHash>
+#include <QTimer>
+#include <QUrl>
+#include <QDebug>
+#include <QDir>
+
 #include "downloadmanager.h"
+
 
 DownloadManager::DownloadManager(QObject *parent) :
     QObject(parent)
@@ -30,12 +41,12 @@ DownloadManager::DownloadManager(QObject *parent) :
         ++i;
     }*/
 
+    connect(&cleaner, SIGNAL(ready()), this, SLOT(cacheCleaningFinished()));
     connect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(onlineStateChanged(bool)));
     connect(&manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(downloadFinished(QNetworkReply*)));
     connect(&manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
             this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
-
 }
 
 bool DownloadManager::isOnline()
@@ -49,43 +60,28 @@ void DownloadManager::onlineStateChanged(bool isOnline)
     emit onlineChanged();
 }
 
+int DownloadManager::getCacheSize()
+{
+    int size = 0;
+    Settings *s = Settings::instance();
+    QDirIterator i(s->getDmCacheDir());
+    while (i.hasNext()) {
+        if (i.fileInfo().isFile())
+            size += i.fileInfo().size();
+        i.next();
+    }
+    return size;
+}
+
 void DownloadManager::cleanCache()
 {
-    Settings *s = Settings::instance();
-    QString cacheDir = s->getDmCacheDir();
-    int limit = s->getDmCacheRetencyFeedLimit();
-    int date = QDateTime::currentDateTime().toTime_t() - s->getDmMaxCacheRetency();
+    cleaner.start();
+}
 
-    /*QDirIterator i(cacheDir);
-    while (i.hasNext()) {
-        if (i.fileInfo().isFile()) {
-            //qDebug() << "Checking: " << i.filePath();
-            if (!s->db->isCacheItemExistsByFinalUrl(i.fileName())) {
-                if (!QFile::remove(i.filePath())) {
-                    qWarning() << "Unable to remove file " << i.filePath();
-                } else {
-                    qDebug() << "Removing" << i.filePath();
-                }
-            }
-        }
-        i.next();
-    }*/
-
-    QList<QString> list = s->db->readCacheFinalUrlOlderThan(date, limit);
-    //qDebug() << "DownloadManager::cleanCache, date:" << date << " limit:"<<limit<<" list.count:" << list.count();
-    QList<QString>::iterator i = list.begin();
-    while (i!=list.end()) {
-        QString filepath = cacheDir + "/" + *i;
-        if (QFile::exists(filepath)) {
-            if (!QFile::remove(filepath)) {
-                qWarning() << "Unable to remove file " << filepath;
-            } else {
-                qDebug() << "Removing" << filepath;
-            }
-        }
-        ++i;
-    }
-    s->db->removeEntriesOlderThan(date, limit);
+void DownloadManager::cacheCleaningFinished()
+{
+    qDebug() << "Cache cleaning finished!";
+    emit cacheSizeChanged();
 }
 
 void DownloadManager::removeCache()
@@ -93,7 +89,7 @@ void DownloadManager::removeCache()
     Settings *s = Settings::instance();
     QDir cache(s->getDmCacheDir());
     if (!cache.removeRecursively()) {
-        qWarning() << "Unable to remove dir " << s->getDmCacheDir();
+        qWarning() << "Unable to remove " << s->getDmCacheDir();
     }
 }
 
@@ -363,6 +359,7 @@ void DownloadManager::addDownload(DatabaseManager::CacheItem item)
     if (downloads.count() < s->getDmConnections()) {
         doDownload(item);
         emit busyChanged();
+        emit cacheSizeChanged();
     } else {
         queue.append(item);
     }
@@ -425,7 +422,7 @@ bool DownloadManager::startFeedDownload()
         return;
     }*/
 
-    QTimer::singleShot(0, this, SLOT(cleanCache()));
+    cleanCache();
 
     if (!ncm.isOnline()) {
         qWarning() << "Network is Offline!";
@@ -493,4 +490,33 @@ bool DownloadManager::isBusy()
     }
 
     return true;
+}
+
+void CacheCleaner::run() Q_DECL_OVERRIDE {
+
+    Settings *s = Settings::instance();
+    QString cacheDir = s->getDmCacheDir();
+
+    QList<QString> feedList = s->db->readAllFeedIds();
+    QList<QString>::iterator ii = feedList.begin();
+    while (ii!=feedList.end()) {
+        QList<QString> cacheList = s->db->readCacheFinalUrlsByLimit(*ii, entriesLimit);
+        QList<QString>::iterator iii = cacheList.begin();
+        while (iii!=cacheList.end()) {
+            QString filepath = cacheDir + "/" + *iii;
+            if (QFile::exists(filepath)) {
+                if (!QFile::remove(filepath)) {
+                    qWarning() << "Unable to remove file " << filepath;
+                }
+            }
+            ++iii;
+            QThread::msleep(100);
+        }
+
+        s->db->removeEntriesByLimit(*ii, entriesLimit);
+
+        ++ii;
+    }
+
+    emit ready();
 }

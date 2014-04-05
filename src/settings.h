@@ -95,14 +95,14 @@ public:
     Q_INVOKABLE QString getDmCacheDir();
     Q_INVOKABLE void setDmUserAgent(const QString &value);
     Q_INVOKABLE QString getDmUserAgent();
-    Q_INVOKABLE void setDmMaxCacheRetency(int value);
-    Q_INVOKABLE int getDmMaxCacheRetency();
-    Q_INVOKABLE void setDmCacheRetencyFeedLimit(int value);
-    Q_INVOKABLE int getDmCacheRetencyFeedLimit();
+    //Q_INVOKABLE void setDmMaxCacheRetency(int value);
+    //Q_INVOKABLE int getDmMaxCacheRetency();
+    //Q_INVOKABLE void setDmCacheRetencyFeedLimit(int value);
+    //Q_INVOKABLE int getDmCacheRetencyFeedLimit();
 
     // Cache Server
-    Q_INVOKABLE void setCsPost(int value);
-    Q_INVOKABLE int getCsPort();
+    //Q_INVOKABLE void setCsPost(int value);
+    //Q_INVOKABLE int getCsPort();
     Q_INVOKABLE QString getCsTheme();
     Q_INVOKABLE void setCsTheme(const QString &value);
 

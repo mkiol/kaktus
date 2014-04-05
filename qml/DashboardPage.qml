@@ -52,6 +52,7 @@ Page {
                     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeMedium
                     text: title
+                    color: listItem.down ? Theme.highlightColor : Theme.primaryColor
                 }
             }
 

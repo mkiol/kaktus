@@ -108,10 +108,18 @@ ListItem {
             anchors.rightMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: Theme.fontSizeLarge
-            color: root.read>0 && root.readlater==0 ? Theme.secondaryColor
-                                                    : Theme.primaryColor
             text: "•••"
             visible: root.content.length>root.maxChars
+            color: {
+                if (root.read>0 && root.readlater==0) {
+                    if (root.down)
+                        return Theme.secondaryHighlightColor;
+                    return Theme.secondaryColor;
+                }
+                if (root.down)
+                    return Theme.highlightColor;
+                return Theme.primaryColor;
+            }
         }
     }
 
@@ -130,8 +138,15 @@ ListItem {
             truncationMode: TruncationMode.Fade
             wrapMode: Text.Wrap
             text: title
-            color: root.read>0 && root.readlater==0 ? Theme.secondaryColor
-                                                    : Theme.highlightColor
+
+            color: {
+                if (root.read>0 && root.readlater==0) {
+                    if (root.down)
+                        return Theme.secondaryHighlightColor;
+                    return Theme.secondaryColor;
+                }
+                return Theme.highlightColor;
+            }
         }
 
         // Content
@@ -149,8 +164,16 @@ ListItem {
             textFormat: Text.PlainText
             font.pixelSize: Theme.fontSizeSmall
             visible: root.content!="" && (root.read==0 || root.readlater>0)
-            color: root.read > 0 && root.readlater==0 ? Theme.secondaryColor
-                                                      : Theme.primaryColor
+            color: {
+                if (root.read>0 && root.readlater==0) {
+                    if (root.down)
+                        return Theme.secondaryHighlightColor;
+                    return Theme.secondaryColor;
+                }
+                if (root.down)
+                    return Theme.highlightColor;
+                return Theme.primaryColor;
+            }
         }
 
         Label {
@@ -172,19 +195,28 @@ ListItem {
             wrapMode: Text.Wrap
             textFormat: Text.PlainText
             font.pixelSize: Theme.fontSizeSmall
-            color: root.read > 0 && root.readlater==0 ? Theme.secondaryColor
-                                                      : Theme.primaryColor
+            color: {
+                if (root.read>0 && root.readlater==0) {
+                    if (root.down)
+                        return Theme.secondaryHighlightColor;
+                    return Theme.secondaryColor;
+                }
+                if (root.down)
+                    return Theme.highlightColor;
+                return Theme.primaryColor;
+            }
         }
 
         Label {
             anchors.left: parent.left; anchors.right: parent.right;
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingMedium
             font.pixelSize: Theme.fontSizeExtraSmall
-            color: Theme.secondaryColor
+            color: root.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
             truncationMode: TruncationMode.Fade
             text: root.author!=""
                   ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
                   : utils.getHumanFriendlyTimeString(date)
+
         }
 
     }

@@ -88,6 +88,7 @@ Page {
                     anchors.left: parent.left; anchors.right: parent.right;
                     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeMedium
+                    color: listItem.down ? Theme.highlightColor : Theme.primaryColor
                     text: title
                 }
             }

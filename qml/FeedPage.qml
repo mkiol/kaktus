@@ -56,13 +56,14 @@ Page {
                     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeMedium
                     text: title
+                    color: listItem.down ? Theme.highlightColor : Theme.primaryColor
                 }
 
                 Label {
                     anchors.left: parent.left; anchors.right: parent.right;
                     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeSmall
-                    color: Theme.secondaryColor
+                    color: listItem.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
                     text: {
                         if (unread==0)
                             return qsTr("all read");
@@ -104,7 +105,6 @@ Page {
 
             onClicked: {
                 utils.setEntryModel(uid);
-                console.log("Feed id: " + uid);
                 pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
             }
 

@@ -23,9 +23,6 @@
 #include <QObject>
 #include <QByteArray>
 #include <QString>
-#include <QRegExp>
-#include <QCryptographicHash>
-#include <QTextCodec>
 
 #include "qhttpserver/qhttpserver.h"
 #include "qhttpserver/qhttprequest.h"
@@ -37,8 +34,9 @@
 class CacheServer : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit CacheServer(DatabaseManager* db, QObject *parent = 0);
+    explicit CacheServer(QObject *parent = 0);
     ~CacheServer();
     Q_INVOKABLE QString getUrlbyId(const QString &item);
     Q_INVOKABLE QString getUrlbyUrl(const QString &item);
@@ -47,10 +45,9 @@ public slots:
     void handle(QHttpRequest *req, QHttpResponse *resp);
 
 private:
+    static const int port = 9999;
+
     QHttpServer *server;
-    QString cacheDir;
-    int port;
-    DatabaseManager *db;
 
     bool readFile(const QString &filename, QByteArray &data);
     QString hash(const QString &url);

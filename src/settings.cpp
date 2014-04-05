@@ -188,7 +188,7 @@ int Settings::getNetvibesLastUpdateDate()
     return settings.value("lastupdatedate", 0).toInt();
 }
 
-void  Settings::setDmCacheRetencyFeedLimit(int value)
+/*void  Settings::setDmCacheRetencyFeedLimit(int value)
 {
     settings.setValue("dm_limit", value);
 }
@@ -196,7 +196,7 @@ void  Settings::setDmCacheRetencyFeedLimit(int value)
 int  Settings::getDmCacheRetencyFeedLimit()
 {
     return settings.value("dm_limit", 20).toInt();
-}
+}*/
 
 /*void Settings::setSettingsDir(const QString &value)
 {
@@ -278,7 +278,7 @@ QString Settings::getDmUserAgent()
     return settings.value("useragent", value).toString();
 }
 
-void Settings::setDmMaxCacheRetency(int value)
+/*void Settings::setDmMaxCacheRetency(int value)
 {
     settings.setValue("cacheretency", value);
 }
@@ -288,9 +288,9 @@ int Settings::getDmMaxCacheRetency()
     // 1 day = 86400
     // 1 week = 604800
     return settings.value("cacheretency", 604800).toInt();
-}
+}*/
 
-void Settings::setCsPost(int value)
+/*void Settings::setCsPost(int value)
 {
     settings.setValue("port", value);
 }
@@ -298,7 +298,7 @@ void Settings::setCsPost(int value)
 int Settings::getCsPort()
 {
     return settings.value("port", 9999).toInt();
-}
+}*/
 
 QString Settings::getCsTheme()
 {

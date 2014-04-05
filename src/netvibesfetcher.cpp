@@ -321,6 +321,7 @@ void NetvibesFetcher::fetchFeeds()
     }
 
     QString content = "feeds=" + QUrl::toPercentEncoding(feeds) + "&" + limit + "&merged=0&format=json";
+    //QString content = "feeds=" + QUrl::toPercentEncoding(feeds) + "&" + limit + "&readlater=1&merged=0&format=json";
 
     _currentReply = _manager.post(request, content.toUtf8());
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedFeeds()));
@@ -503,6 +504,12 @@ void NetvibesFetcher::storeFeeds()
             f.streamId = f.id;
             f.unread = obj["flags"].toObject()["unread"].toDouble();
             f.readlater = obj["flags"].toObject()["readlater"].toDouble();
+
+            /*qDebug() << obj["flags"].toObject()["readlater"].toString();
+            qDebug() << obj["flags"].toObject();
+            if (f.readlater==1)
+                qDebug() << "readlater!";*/
+
             f.lastUpdate = QDateTime::currentDateTime().toTime_t();
 
             QMap<QString,QString>::iterator it = _feedTabList.find(f.id);

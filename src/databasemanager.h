@@ -39,10 +39,10 @@ class DatabaseManager : public QObject
     Q_OBJECT
 
 public:
-    static const int dashboardsLimit = 50;
-    static const int tabsLimit = 50;
-    static const int feedsLimit = 50;
-    static const int entriesLimit = 50;
+    static const int dashboardsLimit = 100;
+    static const int tabsLimit = 100;
+    static const int feedsLimit = 100;
+    static const int entriesLimit = 100;
 
     struct Dashboard {
         QString id;
@@ -131,9 +131,12 @@ public:
     Dashboard readDashboard(const QString &dashboardId);
     QList<Dashboard> readDashboards();
     bool isDashborardExists();
+
     QList<Tab> readTabs(const QString &dashboardId);
     QList<Feed> readFeeds(const QString &tabId);
+    QList<QString> readAllFeedIds();
     QString readFeedId(const QString &entryId);
+
     QList<Entry> readEntries(const QString &feedId);
     QList<Entry> readEntriesReadlater();
     QList<Entry> readEntries();
@@ -148,10 +151,12 @@ public:
     CacheItem readCacheItemFromEntryId(const QString &entryId);
     CacheItem readCacheItemFromFinalUrl(const QString &finalUrl);
     CacheItem readCacheItem(const QString &cacheId);
-
     bool isCacheItemExists(const QString &cacheId);
     bool isCacheItemExistsByFinalUrl(const QString &cacheId);
     bool isCacheItemExistsByEntryId(const QString &entryId);
+
+    QList<QString>  readCacheFinalUrlsByLimit(const QString &feedId, int limit);
+    bool removeEntriesByLimit(const QString &feedId, int limit);
 
     QMap<QString,QString> readNotCachedEntries();
     QMap<QString,int> readFeedsLastUpdate();

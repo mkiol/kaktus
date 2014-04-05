@@ -45,14 +45,14 @@ Item {
         color: root.transparent ? Theme.rgba(Theme.highlightBackgroundColor, 0.2) : Theme.highlightBackgroundColor
     }
 
-    OpacityRampEffect {
+    /*OpacityRampEffect {
         id: effect
         slope: 1
         offset: 0.1
         direction: OpacityRamp.TopToBottom
         sourceItem: background
         enabled: root.transparent
-    }
+    }*/
 
     function show(text) {
         root.text = text;
