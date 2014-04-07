@@ -371,7 +371,7 @@ bool DatabaseManager::createEntriesStructure()
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_date "
                          "ON entries(date DESC);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_date_by_feed "
-                         "ON entries(feed_id,readlater,date DESC);");
+                         "ON entries(feed_id,date DESC);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_readlater "
                          "ON entries(readlater);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_feed_id "
@@ -465,14 +465,11 @@ bool DatabaseManager::writeAction(const Action &action, int date)
             rowid = query.value(0).toInt();
         }
 
-        //qDebug() << "type=" << action.type << "rtype=" << rtype << "empty=" << empty << "rowid=" << rowid;
-
         if (!empty && ftype!=action.type) {
             ret = query.exec(QString("UPDATE actions SET type=%1, date=%2 WHERE rowid=%3;")
                              .arg(static_cast<int>(action.type))
                              .arg(date)
                              .arg(rowid));
-            //qDebug() << "!empty && ftype!=action.type, ret=" << ret;
         }
 
         if (empty) {
@@ -482,11 +479,7 @@ bool DatabaseManager::writeAction(const Action &action, int date)
                              .arg(action.entryId)
                              .arg(action.olderDate)
                              .arg(date));
-
-            //qDebug() << "empty, ret=" << ret;
         }
-
-        //qDebug() << "writeAction, ret=" << ret;
 
     } else {
         qWarning() << "DB is not open!";
@@ -556,7 +549,6 @@ bool DatabaseManager::writeEntry(const QString &feedId, const Entry &entry)
     if (_db.isOpen()) {
         QSqlQuery query(_db);
         //qDebug() << "new, feedId=" << feedId << "readlater=" << entry.readlater;
-        if (entry.readlater==1)
         ret = query.exec(QString("INSERT INTO entries (id, feed_id, title, author, content, link, read, readlater, date) VALUES('%1','%2','%3','%4','%5','%6',%7,%8,'%9');")
                          .arg(entry.id)
                          .arg(feedId)
@@ -567,8 +559,6 @@ bool DatabaseManager::writeEntry(const QString &feedId, const Entry &entry)
                          .arg(entry.read).arg(entry.readlater)
                          .arg(entry.date));
         if(!ret) {
-            if (entry.readlater==1)
-            //qDebug() << "update, readlater=" << entry.readlater;
             ret = query.exec(QString("UPDATE entries SET read=%1, readlater=%2 WHERE id='%3';")
                              .arg(entry.read)
                              .arg(entry.readlater)
@@ -818,20 +808,17 @@ QList<QString> DatabaseManager::readCacheFinalUrlsByLimit(const QString &feedId,
 
     if (_db.isOpen()) {
 
-        //SELECT id FROM entries as a WHERE feed_id='%1' AND date NOT IN (
-        //SELECT date FROM entries WHERE feed_id=a.feed_id OR readlater!=1 ORDER BY date DESC LIMIT %2
-        //);
-
         QSqlQuery query(_db);
 
-        if (!query.exec(QString("SELECT final_url FROM cache WHERE entry_id IN ("
-            "SELECT id FROM entries WHERE feed_id='%1' AND id NOT IN ("
-            "SELECT id FROM entries WHERE feed_id='%1' OR readlater=1 ORDER BY date DESC LIMIT %2"
-            "));").arg(feedId).arg(limit)))
+        if (!query.exec(QString("SELECT c.final_url, e.readlater FROM cache as c, entries as e "
+            "WHERE c.entry_id==e.id AND e.feed_id='%1' AND e.readlater!=1 AND e.id NOT IN ("
+            "SELECT id FROM entries WHERE feed_id='%1' ORDER BY date DESC LIMIT %2"
+            ");").arg(feedId).arg(limit)))
             qWarning() << "SQL error!";
         while(query.next()) {
             list.append(query.value(0).toString());
         }
+
     } else {
         qWarning() << "DB is not open!";
     }
@@ -848,12 +835,12 @@ bool DatabaseManager::removeEntriesByLimit(const QString &feedId, int limit)
         QSqlQuery query(_db);
 
         ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN ("
-        "SELECT id FROM entries WHERE feed_id='%1' AND id NOT IN ("
-        "SELECT id FROM entries WHERE feed_id='%1' OR readlater=1 ORDER BY date DESC LIMIT %2"
+        "SELECT id FROM entries WHERE feed_id='%1' AND readlater!=1 AND id NOT IN ("
+        "SELECT id FROM entries WHERE feed_id='%1' ORDER BY date DESC LIMIT %2"
         "));").arg(feedId).arg(limit));
 
-        ret = query.exec(QString("DELETE FROM entries WHERE feed_id='%1' AND id NOT IN ("
-        "SELECT id FROM entries WHERE feed_id='%1' OR readlater=1 ORDER BY date DESC LIMIT %2"
+        ret = query.exec(QString("DELETE FROM entries WHERE feed_id='%1' AND readlater!=1 AND id NOT IN ("
+        "SELECT id FROM entries WHERE feed_id='%1' ORDER BY date DESC LIMIT %2"
         ");").arg(feedId).arg(limit));
 
         if (!ret)

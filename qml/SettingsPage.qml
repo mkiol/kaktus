@@ -133,7 +133,7 @@ Page {
             Row {
                 spacing: Theme.paddingMedium
                 anchors.left: parent.left
-                anchors.margins: Theme.paddingLarge
+                anchors.leftMargin: Theme.paddingLarge
 
                 Label {
                     text: qsTr("Current cache size")

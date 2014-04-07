@@ -158,7 +158,7 @@ QString Settings::getNetvibesDefaultDashboard()
     return settings.value("dafaultdashboard", "").toString();
 }
 
-void Settings::setNetvibesFeedLimit(int value)
+/*void Settings::setNetvibesFeedLimit(int value)
 {
     settings.setValue("limit", value);
 }
@@ -166,9 +166,9 @@ void Settings::setNetvibesFeedLimit(int value)
 int Settings::getNetvibesFeedLimit()
 {
     return settings.value("limit", 15).toInt();
-}
+}*/
 
-void Settings::setNetvibesFeedUpdateAtOnce(int value)
+/*void Settings::setNetvibesFeedUpdateAtOnce(int value)
 {
     settings.setValue("feedupdateatonce", value);
 }
@@ -176,7 +176,7 @@ void Settings::setNetvibesFeedUpdateAtOnce(int value)
 int Settings::getNetvibesFeedUpdateAtOnce()
 {
     return settings.value("feedupdateatonce", 15).toInt();
-}
+}*/
 
 void Settings::setNetvibesLastUpdateDate(int value)
 {

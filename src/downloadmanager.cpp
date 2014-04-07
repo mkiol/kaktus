@@ -152,7 +152,9 @@ void DownloadManager::addNextDownload()
 
 void DownloadManager::downloadFinished(QNetworkReply *reply)
 {
-    //qDebug() << "Errorcode: " << reply->error() << " HttpStatusCode: " << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() << "Url:" << reply->url();
+    //qDebug() << "Errorcode: " << reply->error() <<
+    //"HttpStatusCode: " << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() <<
+    //"Url:" << reply->url();
 
     Settings *s = Settings::instance();
 

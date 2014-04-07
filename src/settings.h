@@ -77,10 +77,10 @@ public:
     Q_INVOKABLE QString getNetvibesPassword();
     Q_INVOKABLE void setNetvibesDefaultDashboard(const QString &value);
     Q_INVOKABLE QString getNetvibesDefaultDashboard();
-    Q_INVOKABLE void setNetvibesFeedLimit(int value);
-    Q_INVOKABLE int getNetvibesFeedLimit();
-    Q_INVOKABLE void setNetvibesFeedUpdateAtOnce(int value);
-    Q_INVOKABLE int getNetvibesFeedUpdateAtOnce();
+    //Q_INVOKABLE void setNetvibesFeedLimit(int value);
+    //Q_INVOKABLE int getNetvibesFeedLimit();
+    //Q_INVOKABLE void setNetvibesFeedUpdateAtOnce(int value);
+    //Q_INVOKABLE int getNetvibesFeedUpdateAtOnce();
     Q_INVOKABLE void setNetvibesLastUpdateDate(int value);
     Q_INVOKABLE int getNetvibesLastUpdateDate();
 

@@ -56,7 +56,7 @@ Page {
             onClicked: {
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy) {
-                    notification.show(qsTr("Please wait until Syncing finished"));
+                    notification.show(qsTr("Please wait until Sync finishes"));
                     return;
                 }
 

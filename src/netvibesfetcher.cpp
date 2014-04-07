@@ -298,13 +298,10 @@ void NetvibesFetcher::fetchFeeds()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Cookie", _cookie);
 
-    Settings *s = Settings::instance();
-    int limitFeeds= s->getNetvibesFeedLimit();
-
     QString feeds, limit; int ii = 0;
     QStringList::iterator i = _feedList.begin();
     while (i != _feedList.end()) {
-        if (ii > NetvibesFetcher::feedsAtOnce) {
+        if (ii > feedsAtOnce) {
             break;
         }
 
@@ -321,7 +318,7 @@ void NetvibesFetcher::fetchFeeds()
     }
 
     QString content = "feeds=" + QUrl::toPercentEncoding(feeds) + "&" + limit + "&merged=0&format=json";
-    //QString content = "feeds=" + QUrl::toPercentEncoding(feeds) + "&" + limit + "&readlater=1&merged=0&format=json";
+    //qDebug() << "content=" << content;
 
     _currentReply = _manager.post(request, content.toUtf8());
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedFeeds()));
@@ -329,8 +326,82 @@ void NetvibesFetcher::fetchFeeds()
     connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
 }
 
+/*void NetvibesFetcher::fetchFeeds2()
+{
+    _data = QByteArray();
+
+    QUrl url("http://www.netvibes.com/api/feeds");
+    QNetworkRequest request(url);
+
+    if (_currentReply) {
+        _currentReply->disconnect();
+        _currentReply->deleteLater();
+    }
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
+    request.setRawHeader("Cookie", _cookie);
+
+    QString feeds; int ii = 0;
+    QStringList::iterator i = _feedList.begin();
+    while (i != _feedList.end()) {
+        if (ii > feedsAtOnce) {
+            break;
+        }
+        if (ii != 0)
+            feeds += ",";
+        feeds += *i;
+        i = _feedList.erase(i);
+        ++ii;
+    }
+
+    QString content = "offset=0&limit=" +QString::number(feedsAtOnce*limitFeeds)+ "&feeds=" + QUrl::toPercentEncoding(feeds) + "&format=json";
+    qDebug() << "content=" << content;
+
+    _currentReply = _manager.post(request, content.toUtf8());
+    connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedFeeds()));
+    connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+}*/
+
+void NetvibesFetcher::fetchFeedsReadlater()
+{
+    _data = QByteArray();
+
+    QUrl url("http://www.netvibes.com/api/feeds/readlater");
+    QNetworkRequest request(url);
+
+    if (_currentReply) {
+        _currentReply->disconnect();
+        _currentReply->deleteLater();
+    }
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
+    request.setRawHeader("Cookie", _cookie);
+
+    QString feeds; int ii = 0;
+    QStringList::iterator i = _feedListReadlater.begin();
+    while (i != _feedListReadlater.end()) {
+        if (ii > feedsReadlaterAtOnce) {
+            break;
+        }
+        if (ii != 0)
+            feeds += ",";
+        feeds += *i;
+        i = _feedListReadlater.erase(i);
+        ++ii;
+    }
+
+    QString content = "offset=0&limit=" +QString::number(feedsReadlaterAtOnce*limitFeeds)+ "&feeds=" + QUrl::toPercentEncoding(feeds) + "&format=json";
+    //qDebug() << "content=" << content;
+
+    _currentReply = _manager.post(request, content.toUtf8());
+    connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedFeedsReadlater()));
+    connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+}
+
 void NetvibesFetcher::fetchFeedsInfo(const QString &tabId)
 {
+    Q_UNUSED(tabId)
+
     _data = QByteArray();
 
     QUrl url("http://www.netvibes.com/api/feeds/info");
@@ -343,13 +414,10 @@ void NetvibesFetcher::fetchFeedsInfo(const QString &tabId)
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Cookie", _cookie);
 
-    Settings *s = Settings::instance();
-    int limitFeeds= s->getNetvibesFeedLimit();
-
     QString feeds, limit; int ii = 0;
     QStringList::iterator i = _feedList.begin();
     while (i != _feedList.end()) {
-        if (ii > NetvibesFetcher::feedsAtOnce) {
+        if (ii > feedsAtOnce) {
             break;
         }
 
@@ -366,6 +434,8 @@ void NetvibesFetcher::fetchFeedsInfo(const QString &tabId)
     }
 
     QString content = "feeds=" + QUrl::toPercentEncoding(feeds) + "&" + limit + "&merged=0&format=json";
+
+    //qDebug() << "content=" << content;
 
     _currentReply = _manager.post(request, content.toUtf8());
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedFeedsInfo()));
@@ -386,9 +456,6 @@ void NetvibesFetcher::fetchFeedsUpdate()
     }
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Cookie", _cookie);
-
-    Settings *s = Settings::instance();
-    int feedsUpdateAtOnce = s->getNetvibesFeedUpdateAtOnce();
 
     QString feeds;  int ii = 0;
     QMap<QString,int>::iterator i = _feedUpdateList.begin();
@@ -504,12 +571,7 @@ void NetvibesFetcher::storeFeeds()
             f.streamId = f.id;
             f.unread = obj["flags"].toObject()["unread"].toDouble();
             f.readlater = obj["flags"].toObject()["readlater"].toDouble();
-
-            /*qDebug() << obj["flags"].toObject()["readlater"].toString();
-            qDebug() << obj["flags"].toObject();
-            if (f.readlater==1)
-                qDebug() << "readlater!";*/
-
+            //qDebug() << f.title;
             f.lastUpdate = QDateTime::currentDateTime().toTime_t();
 
             QMap<QString,QString>::iterator it = _feedTabList.find(f.id);
@@ -567,6 +629,36 @@ void NetvibesFetcher::storeEntries()
             }
             ++i;
         }
+    }  else {
+        qWarning() << "No items element found!";
+    }
+
+}
+
+void NetvibesFetcher::storeEntriesMerged()
+{
+    Settings *s = Settings::instance();
+
+    if (_jsonObj["items"].isArray()) {
+        QJsonArray::const_iterator i = _jsonObj["items"].toArray().constBegin();
+        while (i != _jsonObj["items"].toArray().constEnd()) {
+            QJsonObject obj = (*i).toObject();
+
+            DatabaseManager::Entry e;
+            e.id = obj["id"].toString();
+            //e.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
+            e.title = obj["title"].toString();
+            e.author = obj["author"].toString();
+            e.link = obj["link"].toString();
+            e.content = obj["content"].toString();
+            e.read = (int) obj["flags"].toObject()["read"].toDouble();
+            e.readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
+            e.date = (int) obj["date"].toDouble();
+            s->db->writeEntry(obj["feed_id"].toString(), e);
+
+            ++i;
+        }
+
     }  else {
         qWarning() << "No items element found!";
     }
@@ -756,8 +848,8 @@ void NetvibesFetcher::finishedTabs()
             if (_busyType == Updating) {
                 cleanRemovedFeeds();
                 cleanNewFeeds();
-                int feedsUpdateAtOnce = s->getNetvibesFeedUpdateAtOnce();
                 _feedUpdateList = s->db->readFeedsFirstUpdate();
+                //qDebug() << "_feedUpdateList.count:"<<_feedUpdateList.count();
 
                 if (_feedList.isEmpty()) {
                     //qDebug() << "No new Feeds!";
@@ -778,6 +870,7 @@ void NetvibesFetcher::finishedTabs()
                 //s->db->cleanCache();
                 _total = qCeil(_feedList.length()/feedsAtOnce)+3;
                 emit progress(3,_total);
+                _feedListReadlater =_feedList;
                 fetchFeeds();
             }
         }
@@ -828,7 +921,6 @@ void NetvibesFetcher::finishedFeeds()
     storeFeeds();
     storeEntries();
 
-    int feedsUpdateAtOnce = s->getNetvibesFeedUpdateAtOnce();
     emit progress(_total-((_feedList.length()/feedsAtOnce)+(_feedUpdateList.count()/feedsUpdateAtOnce)),_total);
 
     if (_feedList.isEmpty()) {
@@ -839,11 +931,33 @@ void NetvibesFetcher::finishedFeeds()
         }
 
         if(_busyType == Initiating) {
-            taskEnd();
+            fetchFeedsReadlater();
+            //taskEnd();
         }
 
     } else {
         fetchFeeds();
+    }
+}
+
+void NetvibesFetcher::finishedFeedsReadlater()
+{
+    //qDebug() << this->_data;
+
+    if(!parse()) {
+        qWarning() << "Error parsing Json!";
+        emit error(600);
+        setBusy(false);
+        return;
+    }
+
+    //storeFeeds();
+    storeEntriesMerged();
+
+    if (_feedList.isEmpty()) {
+        taskEnd();
+    } else {
+        fetchFeedsReadlater();
     }
 }
 
@@ -912,8 +1026,6 @@ void NetvibesFetcher::finishedFeedsUpdate()
     storeFeeds();
     storeEntries();
 
-    Settings *s = Settings::instance();
-    int feedsUpdateAtOnce = s->getNetvibesFeedUpdateAtOnce();
     emit progress(_total-qCeil(_feedUpdateList.count()/feedsUpdateAtOnce),_total);
 
     if (_feedUpdateList.isEmpty())

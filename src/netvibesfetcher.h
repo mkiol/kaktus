@@ -106,6 +106,7 @@ public slots:
     void finishedFeeds();
     void finishedFeedsInfo();
     void finishedFeedsUpdate();
+    void finishedFeedsReadlater();
 
     void finishedSet();
 
@@ -115,6 +116,9 @@ public slots:
 
 private:
     static const int feedsAtOnce = 5;
+    static const int limitFeeds = 20;
+    static const int feedsUpdateAtOnce = 20;
+    static const int feedsReadlaterAtOnce = 10;
 
     QNetworkAccessManager _manager;
     QNetworkReply* _currentReply;
@@ -124,6 +128,7 @@ private:
     BusyType _busyType;
     QStringList _dashboardList;
     QStringList _feedList;
+    QStringList _feedListReadlater;
     QMap<QString,int> _feedUpdateList;
     QMap<QString,QString> _feedTabList;
     QStringList _tabList;
@@ -138,12 +143,14 @@ private:
     void storeFeeds();
     void storeDashboards();
     void storeEntries();
+    void storeEntriesMerged();
     void signIn();
     void fetchDashboards();
     void fetchTabs(const QString &dashboardId);
     void fetchFeeds();
     void fetchFeedsInfo(const QString &tabId);
     void fetchFeedsUpdate();
+    void fetchFeedsReadlater();
 
     void uploadActions();
     void set(const QString &entryId, DatabaseManager::ActionsTypes type);

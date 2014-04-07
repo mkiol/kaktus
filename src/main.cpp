@@ -37,7 +37,7 @@
 #include "settings.h"
 
 static const char *APP_NAME = "Kaktus";
-static const char *VERSION = "1.0.2 (beta release)";
+static const char *VERSION = "1.0.3 (beta release)";
 static const char *AUTHOR = "Michał Kościesza <michal@mkiol.net>";
 static const char *PAGE = "https://github/mkiol/kaktus";
 

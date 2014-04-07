@@ -86,12 +86,12 @@
         <translation>Zmień</translation>
     </message>
     <message>
-        <location filename="../qml/DashboardDialog.qml" line="70"/>
+        <location filename="../qml/DashboardDialog.qml" line="71"/>
         <source>No dashboards</source>
         <translation>Brak tablic</translation>
     </message>
     <message>
-        <location filename="../qml/DashboardDialog.qml" line="82"/>
+        <location filename="../qml/DashboardDialog.qml" line="83"/>
         <source>Dashboard changed!</source>
         <translation>Zmieniono tablicę!</translation>
     </message>
@@ -104,7 +104,7 @@
         <translation>Tablice</translation>
     </message>
     <message>
-        <location filename="../qml/DashboardPage.qml" line="67"/>
+        <location filename="../qml/DashboardPage.qml" line="68"/>
         <source>No dashboards</source>
         <translation>Brak tablic</translation>
     </message>
@@ -112,22 +112,22 @@
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="196"/>
+        <location filename="../qml/EntryDelegate.qml" line="228"/>
         <source>Unstar</source>
-        <translation>Wyczyść gwiazdkę</translation>
+        <translation>Usuń z ulubionych</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="196"/>
+        <location filename="../qml/EntryDelegate.qml" line="228"/>
         <source>Star</source>
-        <translation>Oznacz gwiazdką</translation>
+        <translation>Dodaj do ulubionych</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="206"/>
+        <location filename="../qml/EntryDelegate.qml" line="238"/>
         <source>Mark as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="206"/>
+        <location filename="../qml/EntryDelegate.qml" line="238"/>
         <source>Mark as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
@@ -141,8 +141,12 @@ Switching to Offline mode!</source>
 Został włączony tryb Offline!</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="59"/>
         <source>Please wait until Syncing finished</source>
+        <translation type="obsolete">Zaczekaj do zakończenia aktualizacji</translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryPage.qml" line="59"/>
+        <source>Please wait until Sync finishes</source>
         <translation>Zaczekaj do zakończenia aktualizacji</translation>
     </message>
     <message>
@@ -184,23 +188,23 @@ Został włączony tryb Offline</translation>
 <context>
     <name>FeedPage</name>
     <message>
-        <location filename="../qml/FeedPage.qml" line="68"/>
+        <location filename="../qml/FeedPage.qml" line="69"/>
         <source>all read</source>
         <translation>wszytkie przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="70"/>
+        <location filename="../qml/FeedPage.qml" line="71"/>
         <source>1 unread</source>
         <translation>1 nieprzeczytany</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="72"/>
+        <location filename="../qml/FeedPage.qml" line="73"/>
         <source>%1 unread</source>
         <comment>less than 5 articles are unread</comment>
         <translation>%1 nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="73"/>
+        <location filename="../qml/FeedPage.qml" line="74"/>
         <source>%1 unread</source>
         <comment>more or equal 5 articles are unread</comment>
         <translation>%1 nieprzeczytanych</translation>
@@ -257,102 +261,116 @@ Brak połączenia sieciowego</translation>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="34"/>
+        <location filename="../qml/SettingsPage.qml" line="33"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="107"/>
+        <location filename="../qml/SettingsPage.qml" line="106"/>
         <source>Dashboard in use</source>
         <translation>Aktualna tablica</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="107"/>
+        <location filename="../qml/SettingsPage.qml" line="106"/>
         <source>Dashboard not selected</source>
         <translation>Nie wybrano tablicy</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="121"/>
+        <location filename="../qml/SettingsPage.qml" line="120"/>
         <source>Change</source>
         <translation>Zmień</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="40"/>
+        <location filename="../qml/SettingsPage.qml" line="39"/>
         <source>Netvibes account</source>
         <translation>Konto Netvibes</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="56"/>
+        <location filename="../qml/SettingsPage.qml" line="55"/>
         <source>Not signed in </source>
         <translation>Niezalogowany</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="60"/>
+        <location filename="../qml/SettingsPage.qml" line="59"/>
         <source>Signed in as</source>
         <translation>Zalogowany jako</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="72"/>
+        <location filename="../qml/SettingsPage.qml" line="71"/>
         <source>Sign out</source>
         <translation>Wyloguj</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="72"/>
+        <location filename="../qml/SettingsPage.qml" line="71"/>
         <source>Sign in</source>
         <translation>Zaloguj</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="76"/>
+        <location filename="../qml/SettingsPage.qml" line="75"/>
         <source>Signed out!</source>
         <translation>Wylogowany!</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="131"/>
         <source>Other</source>
-        <translation>Inne</translation>
+        <translation type="obsolete">Inne</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="135"/>
+        <location filename="../qml/SettingsPage.qml" line="130"/>
+        <source>Cache</source>
+        <translation>Kopia Offline</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="139"/>
+        <source>Current cache size</source>
+        <translation>Rozmiar kopii Offline</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="154"/>
         <source>Offline mode</source>
         <translation>Tryb Offline</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="136"/>
+        <location filename="../qml/SettingsPage.qml" line="155"/>
         <source>Content of articles will be displayed from local cache, without a network usage.</source>
         <translation>Treść aktykułów będzie pobierana z lokalnej kopi, czyli bez użycia połączenia internetowego.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="146"/>
+        <location filename="../qml/SettingsPage.qml" line="165"/>
         <source>Cache articles</source>
         <translation>Twórz lokalną kopię</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="147"/>
+        <location filename="../qml/SettingsPage.qml" line="166"/>
         <source>After sync the content of all articles will be downloaded and cached for access in Offline mode.</source>
         <translation>Każdorazowa podczas aktualizacji treść aktykułów będzie pobierana i zapisywana lokalnie, tak aby była dostępna podczas pracy w trybie Offline.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="157"/>
+        <location filename="../qml/SettingsPage.qml" line="176"/>
+        <source>UI</source>
+        <translation>Interfejs</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="180"/>
         <source>Show icons</source>
         <translation>Pokazuj ikony</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="167"/>
+        <location filename="../qml/SettingsPage.qml" line="190"/>
         <source>Show Tab with starred articles</source>
         <translation>Pokazuj Zakładkę z artkułami z gwiazdką </translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="198"/>
+        <location filename="../qml/SettingsPage.qml" line="221"/>
         <source>Black</source>
         <translation>Czarny</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="199"/>
+        <location filename="../qml/SettingsPage.qml" line="222"/>
         <source>White</source>
         <translation>Biały</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="188"/>
+        <location filename="../qml/SettingsPage.qml" line="211"/>
         <source>Offline viewer style</source>
         <translation>Styl wyświetlania w trybie Offline</translation>
     </message>
@@ -395,7 +413,7 @@ Brak połączenia sieciowego</translation>
     <message>
         <location filename="../src/tabmodel.cpp" line="44"/>
         <source>Starred articles</source>
-        <translation>Artykuły oznaczone gwiazdką</translation>
+        <translation>Ulubione</translation>
     </message>
 </context>
 <context>
@@ -406,17 +424,17 @@ Brak połączenia sieciowego</translation>
         <translation>Zakładki</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="145"/>
+        <location filename="../qml/TabPage.qml" line="146"/>
         <source>No tabs</source>
         <translation>Brak zakładek</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="152"/>
+        <location filename="../qml/TabPage.qml" line="153"/>
         <source>Pull down to do first Sync</source>
         <translation>Wykonaj pierwszą aktualizacje kanałów</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="152"/>
+        <location filename="../qml/TabPage.qml" line="153"/>
         <source>Wait until Sync finish</source>
         <translation>Zaczekaj do zakończenia aktualizacji</translation>
     </message>
@@ -424,85 +442,90 @@ Brak połączenia sieciowego</translation>
 <context>
     <name>Utils</name>
     <message>
-        <location filename="../src/utils.cpp" line="190"/>
+        <location filename="../src/utils.cpp" line="188"/>
+        <source>empty</source>
+        <translation>pusta</translation>
+    </message>
+    <message>
+        <location filename="../src/utils.cpp" line="207"/>
         <source>just now</source>
         <translation>przed chwilą</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="193"/>
+        <location filename="../src/utils.cpp" line="210"/>
         <source>1 second ago</source>
         <translation>sekundę temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="196"/>
+        <location filename="../src/utils.cpp" line="213"/>
         <source>%1 seconds ago</source>
         <comment>less than 5 seconds</comment>
         <translation>%1 sekundy temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="199"/>
+        <location filename="../src/utils.cpp" line="216"/>
         <source>%1 seconds ago</source>
         <comment>more or equal 5 seconds</comment>
         <translation>%1 sekund temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="202"/>
+        <location filename="../src/utils.cpp" line="219"/>
         <source>1 minute ago</source>
         <translation>minutę temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="205"/>
+        <location filename="../src/utils.cpp" line="222"/>
         <source>%1 minutes ago</source>
         <comment>less than 5 minutes</comment>
         <translation>%1 minuty temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="208"/>
+        <location filename="../src/utils.cpp" line="225"/>
         <source>%1 minutes ago</source>
         <comment>more or equal 5 minutes</comment>
         <translation>%1 minut temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="211"/>
+        <location filename="../src/utils.cpp" line="228"/>
         <source>1 hour ago</source>
         <translation>godzinę temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="214"/>
+        <location filename="../src/utils.cpp" line="231"/>
         <source>%1 hours ago</source>
         <comment>less than 5 hours</comment>
         <translation>%1 godziny temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="217"/>
+        <location filename="../src/utils.cpp" line="234"/>
         <source>%1 hours ago</source>
         <comment>more or equal 5 hours</comment>
         <translation>%1 godzin temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="220"/>
+        <location filename="../src/utils.cpp" line="237"/>
         <source>yesterday</source>
         <translation>wczoraj</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="223"/>
+        <location filename="../src/utils.cpp" line="240"/>
         <source>%1 days ago</source>
         <comment>less than 5 days</comment>
         <translation>%1 dni temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="226"/>
+        <location filename="../src/utils.cpp" line="243"/>
         <source>%1 days ago</source>
         <comment>more or equal 5 days</comment>
         <translation>%1 dni temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="229"/>
+        <location filename="../src/utils.cpp" line="246"/>
         <source>1 week ago</source>
         <translation>tydzień temu</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="232"/>
+        <location filename="../src/utils.cpp" line="249"/>
         <source>%1 weeks ago</source>
         <translation>%1 tygodnie temu</translation>
     </message>
