@@ -40,7 +40,16 @@ Page {
 
         delegate: ListItem {
             id: listItem
-            contentHeight: visible ? item.height + 2 * Theme.paddingMedium : 0
+            contentHeight: {
+                if (visible) {
+                    if (model.uid==="readlater")
+                        return item.height + 3 * Theme.paddingMedium;
+                    else
+                        return item.height + 2 * Theme.paddingMedium;
+                } else {
+                    return 0;
+                }
+            }
             visible: {
                 if (model.uid==="readlater") {
                     if (listView.count==1)
@@ -73,7 +82,7 @@ Page {
                 anchors.left: parent.left; anchors.right: parent.right;
                 color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
                 visible: model.uid==="readlater"
-                height: 2
+                height: 3
             }
 
             Column {

@@ -322,7 +322,7 @@ Brak połączenia sieciowego</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="139"/>
         <source>Current cache size</source>
-        <translation>Rozmiar kopii Offline</translation>
+        <translation>Rozmiar lokalnej kopii</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="154"/>
@@ -357,7 +357,7 @@ Brak połączenia sieciowego</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="190"/>
         <source>Show Tab with starred articles</source>
-        <translation>Pokazuj Zakładkę z artkułami z gwiazdką </translation>
+        <translation>Pokazuj zakładkę z ulubionymi </translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="221"/>
