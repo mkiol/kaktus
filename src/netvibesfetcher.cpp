@@ -233,6 +233,12 @@ void NetvibesFetcher::set(const QString &entryId, DatabaseManager::ActionsTypes 
     case DatabaseManager::UnSetReadlater:
         url.setUrl("http://www.netvibes.com/api/feeds/readlater/remove");
         break;
+    case DatabaseManager::UnSetReadAll:
+        url.setUrl("http://www.netvibes.com/api/feeds/read/remove");
+        break;
+    case DatabaseManager::SetReadAll:
+        url.setUrl("http://www.netvibes.com/api/feeds/read/add");
+        break;
     }
 
     QNetworkRequest request(url);
@@ -246,7 +252,12 @@ void NetvibesFetcher::set(const QString &entryId, DatabaseManager::ActionsTypes 
 
     Settings *s = Settings::instance();
     QString feedId = s->db->readFeedId(entryId);
-    QString content = "feeds="+feedId+"&items="+entryId+"&format=json";
+
+    QString content;
+    if (type == DatabaseManager::SetReadAll || type == DatabaseManager::UnSetReadAll)
+        content = "feeds="+feedId+":"+QDateTime::currentDateTime().toTime_t()+"&format=json";
+    else
+        content = "feeds="+feedId+"&items="+entryId+"&format=json";
 
     _currentReply = _manager.post(request, content.toUtf8());
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedSet()));
@@ -376,20 +387,23 @@ void NetvibesFetcher::fetchFeedsReadlater()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Cookie", _cookie);
 
-    QString feeds; int ii = 0;
-    QStringList::iterator i = _feedListReadlater.begin();
-    while (i != _feedListReadlater.end()) {
-        if (ii > feedsReadlaterAtOnce) {
-            break;
-        }
-        if (ii != 0)
+    Settings *s = Settings::instance();
+    QStringList list = s->db->readAllFeedIds();
+    QStringList::iterator i = list.begin();
+    QString feeds;
+
+    while (i != list.end()) {
+        if (i != list.begin())
             feeds += ",";
         feeds += *i;
-        i = _feedListReadlater.erase(i);
-        ++ii;
+        ++i;
     }
 
-    QString content = "offset=0&limit=" +QString::number(feedsReadlaterAtOnce*limitFeeds)+ "&feeds=" + QUrl::toPercentEncoding(feeds) + "&format=json";
+    QString content = QString("offset=%1&limit=%2&feeds=%3&format=json")
+            .arg(offset*limitFeedsReadlater)
+            .arg(limitFeedsReadlater)
+            .arg(QUrl::toPercentEncoding(feeds).data());
+
     //qDebug() << "content=" << content;
 
     _currentReply = _manager.post(request, content.toUtf8());
@@ -635,7 +649,7 @@ void NetvibesFetcher::storeEntries()
 
 }
 
-void NetvibesFetcher::storeEntriesMerged()
+bool NetvibesFetcher::storeEntriesMerged()
 {
     Settings *s = Settings::instance();
 
@@ -663,6 +677,12 @@ void NetvibesFetcher::storeEntriesMerged()
         qWarning() << "No items element found!";
     }
 
+    //qDebug() << "hasMore:" << _jsonObj["hasMore"].toBool();
+
+    // returns true if has more
+    if (_jsonObj["hasMore"].isBool())
+        return _jsonObj["hasMore"].toBool();
+    return false;
 }
 
 void NetvibesFetcher::storeDashboards()
@@ -870,7 +890,6 @@ void NetvibesFetcher::finishedTabs()
                 //s->db->cleanCache();
                 _total = qCeil(_feedList.length()/feedsAtOnce)+3;
                 emit progress(3,_total);
-                _feedListReadlater =_feedList;
                 fetchFeeds();
             }
         }
@@ -931,8 +950,8 @@ void NetvibesFetcher::finishedFeeds()
         }
 
         if(_busyType == Initiating) {
+            offset = 0;
             fetchFeedsReadlater();
-            //taskEnd();
         }
 
     } else {
@@ -951,14 +970,12 @@ void NetvibesFetcher::finishedFeedsReadlater()
         return;
     }
 
-    //storeFeeds();
-    storeEntriesMerged();
+    ++offset;
 
-    if (_feedList.isEmpty()) {
-        taskEnd();
-    } else {
+    if (storeEntriesMerged())
         fetchFeedsReadlater();
-    }
+    else
+        taskEnd();
 }
 
 void NetvibesFetcher::finishedFeedsInfo()

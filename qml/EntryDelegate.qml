@@ -225,7 +225,7 @@ ListItem {
         id: contextMenu
         ContextMenu {
             MenuItem {
-                text: readlater ? qsTr("Unstar") : qsTr("Star")
+                text: readlater ? qsTr("Unsave") : qsTr("Save")
                 onClicked: {
                     if (readlater) {
                         entryModel.setData(index, "readlater", 0);

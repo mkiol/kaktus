@@ -74,11 +74,7 @@ signals:
     void quit();
     void busyChanged();
     void progress(int current, int total);
-
     void networkNotAccessible();
-
-    //void initiating();
-    //void updating();
     void uploading();
     void checkingCredentials();
 
@@ -117,8 +113,8 @@ public slots:
 private:
     static const int feedsAtOnce = 5;
     static const int limitFeeds = 20;
+    static const int limitFeedsReadlater = 2;
     static const int feedsUpdateAtOnce = 20;
-    static const int feedsReadlaterAtOnce = 10;
 
     QNetworkAccessManager _manager;
     QNetworkReply* _currentReply;
@@ -128,7 +124,6 @@ private:
     BusyType _busyType;
     QStringList _dashboardList;
     QStringList _feedList;
-    QStringList _feedListReadlater;
     QMap<QString,int> _feedUpdateList;
     QMap<QString,QString> _feedTabList;
     QStringList _tabList;
@@ -136,6 +131,7 @@ private:
     int _total;
     QByteArray _cookie;
     QNetworkConfigurationManager ncm;
+    int offset;
 
     bool parse();
 
@@ -143,7 +139,7 @@ private:
     void storeFeeds();
     void storeDashboards();
     void storeEntries();
-    void storeEntriesMerged();
+    bool storeEntriesMerged(); // returns true if has more
     void signIn();
     void fetchDashboards();
     void fetchTabs(const QString &dashboardId);

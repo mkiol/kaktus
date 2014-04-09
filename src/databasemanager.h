@@ -96,7 +96,9 @@ public:
         SetRead = 11,
         UnSetRead = 10,
         SetReadlater = 21,
-        UnSetReadlater = 20
+        UnSetReadlater = 20,
+        SetReadAll = 30,
+        UnSetReadAll= 31
     };
 
     struct Action {

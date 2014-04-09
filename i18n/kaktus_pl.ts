@@ -112,14 +112,22 @@
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="228"/>
         <source>Unstar</source>
-        <translation>Usuń z ulubionych</translation>
+        <translation type="obsolete">Usuń z ulubionych</translation>
+    </message>
+    <message>
+        <source>Star</source>
+        <translation type="obsolete">Dodaj do ulubionych</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="228"/>
-        <source>Star</source>
-        <translation>Dodaj do ulubionych</translation>
+        <source>Unsave</source>
+        <translation>Usuń z zapisanych</translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryDelegate.qml" line="228"/>
+        <source>Save</source>
+        <translation>Zapisz</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="238"/>
@@ -317,60 +325,64 @@ Brak połączenia sieciowego</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="130"/>
         <source>Cache</source>
-        <translation>Kopia Offline</translation>
+        <translation>Lokalna kopia</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="139"/>
+        <location filename="../qml/SettingsPage.qml" line="144"/>
         <source>Current cache size</source>
         <translation>Rozmiar lokalnej kopii</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="154"/>
+        <location filename="../qml/SettingsPage.qml" line="155"/>
         <source>Offline mode</source>
         <translation>Tryb Offline</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="155"/>
+        <location filename="../qml/SettingsPage.qml" line="156"/>
         <source>Content of articles will be displayed from local cache, without a network usage.</source>
         <translation>Treść aktykułów będzie pobierana z lokalnej kopi, czyli bez użycia połączenia internetowego.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="165"/>
+        <location filename="../qml/SettingsPage.qml" line="166"/>
         <source>Cache articles</source>
         <translation>Twórz lokalną kopię</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="166"/>
+        <location filename="../qml/SettingsPage.qml" line="167"/>
         <source>After sync the content of all articles will be downloaded and cached for access in Offline mode.</source>
         <translation>Każdorazowa podczas aktualizacji treść aktykułów będzie pobierana i zapisywana lokalnie, tak aby była dostępna podczas pracy w trybie Offline.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="176"/>
+        <location filename="../qml/SettingsPage.qml" line="177"/>
         <source>UI</source>
         <translation>Interfejs</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="180"/>
+        <location filename="../qml/SettingsPage.qml" line="181"/>
         <source>Show icons</source>
         <translation>Pokazuj ikony</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="190"/>
-        <source>Show Tab with starred articles</source>
-        <translation>Pokazuj zakładkę z ulubionymi </translation>
+        <location filename="../qml/SettingsPage.qml" line="191"/>
+        <source>Show Tab with saved articles</source>
+        <translation>Pokazuj zakładkę z zapisanymi artykułami </translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="221"/>
+        <source>Show Tab with starred articles</source>
+        <translation type="obsolete">Pokazuj zakładkę z ulubionymi </translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="222"/>
         <source>Black</source>
         <translation>Czarny</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="222"/>
+        <location filename="../qml/SettingsPage.qml" line="223"/>
         <source>White</source>
         <translation>Biały</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="211"/>
+        <location filename="../qml/SettingsPage.qml" line="212"/>
         <source>Offline viewer style</source>
         <translation>Styl wyświetlania w trybie Offline</translation>
     </message>
@@ -411,9 +423,13 @@ Brak połączenia sieciowego</translation>
 <context>
     <name>TabModel</name>
     <message>
-        <location filename="../src/tabmodel.cpp" line="44"/>
         <source>Starred articles</source>
-        <translation>Ulubione</translation>
+        <translation type="obsolete">Ulubione</translation>
+    </message>
+    <message>
+        <location filename="../src/tabmodel.cpp" line="44"/>
+        <source>Saved</source>
+        <translation>Zapisane</translation>
     </message>
 </context>
 <context>
@@ -424,17 +440,17 @@ Brak połączenia sieciowego</translation>
         <translation>Zakładki</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="146"/>
+        <location filename="../qml/TabPage.qml" line="155"/>
         <source>No tabs</source>
         <translation>Brak zakładek</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="153"/>
+        <location filename="../qml/TabPage.qml" line="162"/>
         <source>Pull down to do first Sync</source>
         <translation>Wykonaj pierwszą aktualizacje kanałów</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="153"/>
+        <location filename="../qml/TabPage.qml" line="162"/>
         <source>Wait until Sync finish</source>
         <translation>Zaczekaj do zakończenia aktualizacji</translation>
     </message>

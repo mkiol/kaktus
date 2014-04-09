@@ -130,24 +130,25 @@ Page {
                 text: qsTr("Cache")
             }
 
-            Row {
-                spacing: Theme.paddingMedium
-                anchors.left: parent.left
-                anchors.leftMargin: Theme.paddingLarge
+            ListItem {
+                contentHeight: flow3.height + 2*Theme.paddingLarge
 
-                Label {
-                    text: qsTr("Current cache size")
+                Flow {
+                    id: flow3
+                    spacing: Theme.paddingMedium
+                    anchors.left: parent.left; anchors.right: parent.right
+                    anchors.leftMargin: Theme.paddingLarge
+                    anchors.rightMargin: Theme.paddingLarge
+
+                    Label {
+                        text: qsTr("Current cache size")
+                    }
+
+                    Label {
+                        color: Theme.secondaryColor
+                        text: utils.getHumanFriendlySizeString(dm.cacheSize);
+                    }
                 }
-
-                Label {
-                    color: Theme.secondaryColor
-                    text: utils.getHumanFriendlySizeString(dm.cacheSize);
-                }
-
-                /*Button {
-                    text: qsTr("Clear")
-                    onClicked: dm.cleanCache()
-                }*/
             }
 
             TextSwitch {
@@ -187,7 +188,7 @@ Page {
             }
 
             TextSwitch {
-                text: qsTr("Show Tab with starred articles")
+                text: qsTr("Show Tab with saved articles")
                 onCheckedChanged: {
                     settings.showStarredTab = checked;
                 }

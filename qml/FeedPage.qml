@@ -108,6 +108,21 @@ Page {
                 pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
             }
 
+            menu: ContextMenu {
+                MenuItem {
+                    text: qsTr("Mark as read")
+                    onClicked: {
+
+                    }
+                }
+                MenuItem {
+                    text: qsTr("Mark as unread")
+                    onClicked: {
+
+                    }
+                }
+            }
+
         }
 
         ViewPlaceholder {

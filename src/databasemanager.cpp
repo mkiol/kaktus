@@ -452,6 +452,12 @@ bool DatabaseManager::writeAction(const Action &action, int date)
         case DatabaseManager::SetReadlater:
             rtype = DatabaseManager::UnSetReadlater;
             break;
+        case DatabaseManager::SetReadAll:
+            rtype = DatabaseManager::UnSetReadAll;
+            break;
+        case DatabaseManager::UnSetReadAll:
+            rtype = DatabaseManager::SetReadAll;
+            break;
         }
 
         bool empty = true; int rowid;
