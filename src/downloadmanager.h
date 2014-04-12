@@ -48,7 +48,7 @@ signals:
     void ready();
 
 private:
-    static const int entriesLimit = 200;
+    static const int entriesLimit = 100;
 };
 
 class Checker: public QObject

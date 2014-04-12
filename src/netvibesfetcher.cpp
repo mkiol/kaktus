@@ -69,24 +69,6 @@ void NetvibesFetcher::setBusy(bool busy, BusyType type)
     _busyType = type;
     _busy = busy;
 
-    /*if (busy) {
-        switch (type) {
-        case Initiating:
-            emit initiating();
-            break;
-        case Updating:
-            emit updating();
-            break;
-        case CheckingCredentials:
-            emit checkingCredentials();
-            break;
-        case Unknown:
-            break;
-        }
-    } else {
-        _busyType = Unknown;
-    }*/
-
     if (!busy)
         _busyType = Unknown;
 
@@ -214,13 +196,15 @@ void NetvibesFetcher::fetchDashboards()
     connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
 }
 
-void NetvibesFetcher::set(const QString &entryId, DatabaseManager::ActionsTypes type)
+void NetvibesFetcher::set()
 {
+    DatabaseManager::Action action = actionsList.first();
+
     _data = QByteArray();
 
     QUrl url;
 
-    switch (type) {
+    switch (action.type) {
     case DatabaseManager::SetRead:
         url.setUrl("http://www.netvibes.com/api/feeds/read/add");
         break;
@@ -250,14 +234,13 @@ void NetvibesFetcher::set(const QString &entryId, DatabaseManager::ActionsTypes 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Cookie", _cookie);
 
-    Settings *s = Settings::instance();
-    QString feedId = s->db->readFeedId(entryId);
-
     QString content;
-    if (type == DatabaseManager::SetReadAll || type == DatabaseManager::UnSetReadAll)
-        content = "feeds="+feedId+":"+QDateTime::currentDateTime().toTime_t()+"&format=json";
+    if (action.type == DatabaseManager::SetReadAll ||action.type == DatabaseManager::UnSetReadAll)
+        content = QString("feeds=%1:%2&format=json").arg(action.feedId).arg(action.olderDate);
     else
-        content = "feeds="+feedId+"&items="+entryId+"&format=json";
+        content = QString("feeds=%1&items=%2&format=json").arg(action.feedId).arg(action.entryId);
+
+    //qDebug() << "content=" << content;
 
     _currentReply = _manager.post(request, content.toUtf8());
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedSet()));
@@ -584,9 +567,10 @@ void NetvibesFetcher::storeFeeds()
             f.content = obj["content"].toString();
             f.streamId = f.id;
             f.unread = obj["flags"].toObject()["unread"].toDouble();
+            f.read = obj["flags"].toObject()["read"].toDouble();
             f.readlater = obj["flags"].toObject()["readlater"].toDouble();
             //qDebug() << f.title;
-            f.lastUpdate = QDateTime::currentDateTime().toTime_t();
+            f.lastUpdate = QDateTime::currentDateTimeUtc().toTime_t();
 
             QMap<QString,QString>::iterator it = _feedTabList.find(f.id);
             if (it!=_feedTabList.end()) {
@@ -1076,7 +1060,7 @@ void NetvibesFetcher::taskEnd()
     _currentReply = 0;
 
     Settings *s = Settings::instance();
-    s->setNetvibesLastUpdateDate(QDateTime::currentDateTime().toTime_t());
+    s->setNetvibesLastUpdateDate(QDateTime::currentDateTimeUtc().toTime_t());
 
     emit ready();
     setBusy(false);
@@ -1086,8 +1070,7 @@ void NetvibesFetcher::uploadActions()
 {
     if (!actionsList.isEmpty()) {
         emit uploading();
-        DatabaseManager::Action action = actionsList.first();
-        set(action.entryId,action.type);
+        set();
     }
 }
 

@@ -66,6 +66,7 @@ public:
         QString streamId;
         QString icon;
         int unread;
+        int read;
         int readlater;
         int lastUpdate;
     };
@@ -106,6 +107,7 @@ public:
         QString feedId;
         QString entryId;
         int olderDate;
+        int date;
     };
 
     explicit DatabaseManager(QObject *parent = 0);
@@ -121,14 +123,17 @@ public:
     bool writeDashboard(const Dashboard &dashboard);
     bool writeTab(const QString &dashboardId, const Tab &tab);
     bool writeFeed(const QString &tabId, const Feed &feed);
-    bool updateFeedUnreadFlag(const QString &feedId, int unread);
+
+    bool updateEntriesReadFlag(const QString &feedId, int read);
+    bool updateFeedReadFlag(const QString &feedId, int unread, int read);
     bool updateFeedReadlaterFlag(const QString &feedId, int readlater);
+
     bool writeEntry(const QString &feedId, const Entry &entry);
     bool updateEntryReadFlag(const QString &entryId, int read);
     bool updateEntryReadlaterFlag(const QString &entryId, int readlater);
     bool writeCache(const CacheItem &item, int cacheDate, int flag = 1);
     bool updateEntryCache(const QString &entryId, int cacheDate, int flag = 1);
-    bool writeAction(const Action &action, int date);
+    bool writeAction(Action &action);
 
     Dashboard readDashboard(const QString &dashboardId);
     QList<Dashboard> readDashboards();
@@ -141,6 +146,7 @@ public:
 
     QList<Entry> readEntries(const QString &feedId);
     QList<Entry> readEntriesReadlater();
+    QList<Entry> readEntriesUnread(const QString &feedId);
     QList<Entry> readEntries();
     QList<Entry> readEntriesCachedOlderThan(int cacheDate, int limit);
     QList<QString> readCacheFinalUrlOlderThan(int cacheDate, int limit);
@@ -163,6 +169,9 @@ public:
     QMap<QString,QString> readNotCachedEntries();
     QMap<QString,int> readFeedsLastUpdate();
     QMap<QString,int> readFeedsFirstUpdate();
+
+    int readLatestEntryDateByFeedId(const QString &feedId);
+    int readFeedLastUpadate(const QString &feedId);
 
     bool removeFeed(const QString &feedId);
     //bool removeCacheItems(const QString &feedId);

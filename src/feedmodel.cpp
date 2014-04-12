@@ -17,6 +17,7 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+
 #include "feedmodel.h"
 
 FeedModel::FeedModel(DatabaseManager *db, QObject *parent) :
@@ -53,6 +54,7 @@ void FeedModel::createItems(const QString &tabId)
                               (*i).icon,
                               (*i).streamId,
                               (*i).unread,
+                              (*i).read,
                               (*i).readlater
                              ));
         ++i;
@@ -84,7 +86,10 @@ void FeedModel::setData(int row, const QString &fieldName, QVariant newValue)
 
     if (fieldName=="unread") {
         item->setUnread(newValue.toInt());
-        //_db->updateFeedUnreadFlag(item->id(),newValue.toInt());
+    }
+
+    if (fieldName=="read") {
+        item->setRead(newValue.toInt());
     }
 }
 
@@ -92,9 +97,11 @@ void FeedModel::decrementUnread(int row)
 {
     FeedItem* item = static_cast<FeedItem*>(readRow(row));
     int unread = item->unread();
+    int read = item->read();
     if (unread>0) {
         item->setUnread(--unread);
-        _db->updateFeedUnreadFlag(item->id(),unread);
+        item->setRead(++read);
+        _db->updateFeedReadFlag(item->id(),unread,read);
     }
 }
 
@@ -102,8 +109,52 @@ void FeedModel::incrementUnread(int row)
 {
     FeedItem* item = static_cast<FeedItem*>(readRow(row));
     int unread = item->unread();
+    int read = item->read();
     item->setUnread(++unread);
-    _db->updateFeedUnreadFlag(item->id(),unread);
+    item->setRead(--read);
+    _db->updateFeedReadFlag(item->id(),unread,read);
+}
+
+void FeedModel::markAllAsUnread(int row)
+{
+    FeedItem* item = static_cast<FeedItem*>(readRow(row));
+    int unread = item->unread();
+    int read = item->read();
+    item->setUnread(unread+read);
+    item->setRead(0);
+
+    if (_db->updateFeedReadFlag(item->id(),unread+read,0) && _db->updateEntriesReadFlag(item->id(),0)) {
+        DatabaseManager::Action action;
+        action.type = DatabaseManager::UnSetReadAll;
+        action.feedId = item->id();
+        //action.olderDate = _db->readLatestEntryDateByFeedId(item->id());
+        action.olderDate = _db->readFeedLastUpadate(item->id());
+        _db->writeAction(action);
+
+    } else {
+        qWarning() << "Unable to update Read flag";
+    }
+}
+
+void FeedModel::markAllAsRead(int row)
+{
+    FeedItem* item = static_cast<FeedItem*>(readRow(row));
+    int unread = item->unread();
+    int read = item->read();
+    item->setRead(unread+read);
+    item->setUnread(0);
+
+    if (_db->updateFeedReadFlag(item->id(),0,unread+read) && _db->updateEntriesReadFlag(item->id(),1)) {
+        DatabaseManager::Action action;
+        action.type = DatabaseManager::SetReadAll;
+        action.feedId = item->id();
+        //action.olderDate = _db->readLatestEntryDateByFeedId(item->id());
+        action.olderDate = _db->readFeedLastUpadate(item->id());
+        _db->writeAction(action);
+
+    } else {
+        qWarning() << "Unable to update Read flag";
+    }
 }
 
 // ----------------------------------------------------------------
@@ -116,6 +167,7 @@ FeedItem::FeedItem(const QString &uid,
                    const QString &icon,
                    const QString &streamId,
                    int unread,
+                   int read,
                    int readlater,
                    QObject *parent) :
     ListItem(parent),
@@ -127,6 +179,7 @@ FeedItem::FeedItem(const QString &uid,
     m_icon(icon),
     m_streamid(streamId),
     m_unread(unread),
+    m_read(read),
     m_readlater(readlater)
 {}
 
@@ -141,6 +194,7 @@ QHash<int, QByteArray> FeedItem::roleNames() const
     names[IconRole] = "icon";
     names[StreamIdRole] = "streamId";
     names[UnreadRole] = "unread";
+    names[ReadRole] = "read";
     names[ReadlaterRole] = "readlater";
     return names;
 }
@@ -164,6 +218,8 @@ QVariant FeedItem::data(int role) const
         return streamId();
     case UnreadRole:
         return unread();
+    case ReadRole:
+        return read();
     case ReadlaterRole:
         return readlater();
     default:
@@ -183,3 +239,8 @@ void FeedItem::setUnread(int value)
     emit dataChanged();
 }
 
+void FeedItem::setRead(int value)
+{
+    m_read = value;
+    emit dataChanged();
+}

@@ -109,29 +109,34 @@
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/EntryPage.qml" line="59"/>
+        <location filename="../qml/EntryPage.qml" line="62"/>
         <source>Please wait until Sync finishes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="67"/>
+        <location filename="../qml/EntryPage.qml" line="70"/>
         <source>Offline version not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="75"/>
+        <location filename="../qml/EntryPage.qml" line="78"/>
         <source>Network connection is unavailable
 Switching to Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="79"/>
+        <location filename="../qml/EntryPage.qml" line="82"/>
         <source>Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="103"/>
-        <source>No entries</source>
+        <location filename="../qml/EntryPage.qml" line="106"/>
+        <source>No unread items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryPage.qml" line="106"/>
+        <source>No items</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -163,17 +168,27 @@ Switching to Offline mode</source>
     <message>
         <location filename="../qml/FeedPage.qml" line="73"/>
         <source>%1 unread</source>
-        <comment>less than 5 articles are unread</comment>
+        <comment>less than 5 items are unread</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/FeedPage.qml" line="74"/>
         <source>%1 unread</source>
-        <comment>more or equal 5 articles are unread</comment>
+        <comment>more or equal 5 items are unread</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="115"/>
+        <location filename="../qml/FeedPage.qml" line="113"/>
+        <source>Mark all as read</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/FeedPage.qml" line="121"/>
+        <source>Mark all as unread</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/FeedPage.qml" line="134"/>
         <source>No feeds</source>
         <translation type="unfinished"></translation>
     </message>
@@ -181,27 +196,27 @@ Switching to Offline mode</source>
 <context>
     <name>MainMenu</name>
     <message>
-        <location filename="../qml/MainMenu.qml" line="28"/>
+        <location filename="../qml/MainMenu.qml" line="32"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="36"/>
+        <location filename="../qml/MainMenu.qml" line="40"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="44"/>
+        <location filename="../qml/MainMenu.qml" line="48"/>
         <source>Sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="61"/>
+        <location filename="../qml/MainMenu.qml" line="65"/>
         <source>Last sync: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="63"/>
+        <location filename="../qml/MainMenu.qml" line="67"/>
         <source>Not yet synced</source>
         <translation type="unfinished"></translation>
     </message>
@@ -228,17 +243,17 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="106"/>
+        <location filename="../qml/SettingsPage.qml" line="107"/>
         <source>Dashboard in use</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="106"/>
+        <location filename="../qml/SettingsPage.qml" line="107"/>
         <source>Dashboard not selected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="120"/>
+        <location filename="../qml/SettingsPage.qml" line="121"/>
         <source>Change</source>
         <translation type="unfinished"></translation>
     </message>
@@ -273,62 +288,67 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="130"/>
+        <location filename="../qml/SettingsPage.qml" line="131"/>
         <source>Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="144"/>
+        <location filename="../qml/SettingsPage.qml" line="146"/>
         <source>Current cache size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="155"/>
+        <location filename="../qml/SettingsPage.qml" line="157"/>
         <source>Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="156"/>
-        <source>Content of articles will be displayed from local cache, without a network usage.</source>
+        <location filename="../qml/SettingsPage.qml" line="158"/>
+        <source>Content of items will be displayed from local cache, without a network usage.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="166"/>
-        <source>Cache articles</source>
+        <location filename="../qml/SettingsPage.qml" line="168"/>
+        <source>Cache items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="167"/>
-        <source>After sync the content of all articles will be downloaded and cached for access in Offline mode.</source>
+        <location filename="../qml/SettingsPage.qml" line="169"/>
+        <source>After sync the content of all items will be downloaded and cached for access in Offline mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="177"/>
+        <location filename="../qml/SettingsPage.qml" line="183"/>
+        <source>Show only unread items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="203"/>
+        <source>Show Tab with saved items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="179"/>
         <source>UI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="181"/>
+        <location filename="../qml/SettingsPage.qml" line="193"/>
         <source>Show icons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="191"/>
-        <source>Show Tab with saved articles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="212"/>
+        <location filename="../qml/SettingsPage.qml" line="224"/>
         <source>Offline viewer style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="222"/>
+        <location filename="../qml/SettingsPage.qml" line="234"/>
         <source>Black</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="223"/>
+        <location filename="../qml/SettingsPage.qml" line="235"/>
         <source>White</source>
         <translation type="unfinished"></translation>
     </message>
@@ -382,17 +402,17 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="155"/>
+        <location filename="../qml/TabPage.qml" line="182"/>
         <source>No tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="162"/>
+        <location filename="../qml/TabPage.qml" line="189"/>
         <source>Pull down to do first Sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="162"/>
+        <location filename="../qml/TabPage.qml" line="189"/>
         <source>Wait until Sync finish</source>
         <translation type="unfinished"></translation>
     </message>
@@ -497,7 +517,7 @@ Network connection is unavailable</source>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="74"/>
-        <source>Failed to load article from local cache :-(</source>
+        <source>Failed to load item from local cache :-(</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

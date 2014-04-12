@@ -54,6 +54,9 @@ Page {
             feedindex: root.index
 
             onClicked: {
+
+                //console.log("date:"+date);
+
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy) {
                     notification.show(qsTr("Please wait until Sync finishes"));
@@ -100,7 +103,7 @@ Page {
 
         ViewPlaceholder {
             enabled: listView.count == 0
-            text: qsTr("No entries")
+            text: settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }
 
         VerticalScrollDecorator {

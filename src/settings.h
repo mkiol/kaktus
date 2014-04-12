@@ -41,6 +41,7 @@ class Settings: public QObject
     Q_PROPERTY (bool showTabIcons READ getShowTabIcons WRITE setShowTabIcons NOTIFY showTabIconsChanged)
     Q_PROPERTY (bool signedIn READ getSignedIn WRITE setSignedIn NOTIFY signedInChanged)
     Q_PROPERTY (bool showStarredTab READ getShowStarredTab WRITE setShowStarredTab NOTIFY showStarredTabChanged)
+    Q_PROPERTY (bool showOnlyUnread READ getShowOnlyUnread WRITE setShowOnlyUnread NOTIFY showOnlyUnreadChanged)
 
 public:
     static Settings* instance();
@@ -60,6 +61,9 @@ public:
     bool getSignedIn();
     bool getShowStarredTab();
     void setShowStarredTab(bool value);
+
+    bool getShowOnlyUnread();
+    void setShowOnlyUnread(bool value);
 
     // General
     Q_INVOKABLE QString getSettingsDir();
@@ -85,14 +89,14 @@ public:
     Q_INVOKABLE int getNetvibesLastUpdateDate();
 
     // Download Manger
-    Q_INVOKABLE void setDmConnections(int value);
-    Q_INVOKABLE int getDmConnections();
-    Q_INVOKABLE void setDmTimeOut(int value);
-    Q_INVOKABLE int getDmTimeOut();
-    Q_INVOKABLE void setDmMaxSize(int value);
-    Q_INVOKABLE int getDmMaxSize();
+    void setDmConnections(int value);
+    int getDmConnections();
+    void setDmTimeOut(int value);
+    int getDmTimeOut();
+    void setDmMaxSize(int value);
+    int getDmMaxSize();
     //Q_INVOKABLE void setDmCacheDir(const QString &value);
-    Q_INVOKABLE QString getDmCacheDir();
+    QString getDmCacheDir();
     Q_INVOKABLE void setDmUserAgent(const QString &value);
     Q_INVOKABLE QString getDmUserAgent();
     //Q_INVOKABLE void setDmMaxCacheRetency(int value);
@@ -111,6 +115,7 @@ signals:
     void showTabIconsChanged();
     void signedInChanged();
     void showStarredTabChanged();
+    void showOnlyUnreadChanged();
     /*
     501 - Unable create settings dir
     502 - Unable create cache dir

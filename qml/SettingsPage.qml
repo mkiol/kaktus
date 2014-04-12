@@ -93,6 +93,7 @@ Page {
                 id: defaultdashboard
                 contentHeight: flow2.height + 2*Theme.paddingLarge
                 enabled: settings.signedIn && utils.defaultDashboardName()!==""
+
                 Flow {
                     id: flow2
                     anchors.verticalCenter: parent.verticalCenter
@@ -136,6 +137,7 @@ Page {
                 Flow {
                     id: flow3
                     spacing: Theme.paddingMedium
+                    anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left; anchors.right: parent.right
                     anchors.leftMargin: Theme.paddingLarge
                     anchors.rightMargin: Theme.paddingLarge
@@ -153,7 +155,7 @@ Page {
 
             TextSwitch {
                 text: qsTr("Offline mode")
-                description: qsTr("Content of articles will be displayed from local cache, without a network usage.")
+                description: qsTr("Content of items will be displayed from local cache, without a network usage.")
                 onCheckedChanged: {
                     settings.offlineMode = checked;
                 }
@@ -163,8 +165,8 @@ Page {
             }
 
             TextSwitch {
-                text: qsTr("Cache articles")
-                description: qsTr("After sync the content of all articles will be downloaded and cached for access in Offline mode.")
+                text: qsTr("Cache items")
+                description: qsTr("After sync the content of all items will be downloaded and cached for access in Offline mode.")
                 Component.onCompleted: {
                     checked = settings.getAutoDownloadOnUpdate();
                 }
@@ -178,6 +180,16 @@ Page {
             }
 
             TextSwitch {
+                text: qsTr("Show only unread items")
+                onCheckedChanged: {
+                    settings.showOnlyUnread = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.showOnlyUnread;
+                }
+            }
+
+            TextSwitch {
                 text: qsTr("Show icons")
                 onCheckedChanged: {
                     settings.showTabIcons = checked;
@@ -188,7 +200,7 @@ Page {
             }
 
             TextSwitch {
-                text: qsTr("Show Tab with saved articles")
+                text: qsTr("Show Tab with saved items")
                 onCheckedChanged: {
                     settings.showStarredTab = checked;
                 }

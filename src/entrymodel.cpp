@@ -17,6 +17,15 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QList>
+//#include <QStringList>
+#include <QDebug>
+#include <QModelIndex>
+#include <QTextDocument>
+#include <QChar>
+//#include <QDateTime>
+#include <QRegExp>
+
 #include "entrymodel.h"
 
 EntryModel::EntryModel(DatabaseManager *db, QObject *parent) :
@@ -24,6 +33,9 @@ EntryModel::EntryModel(DatabaseManager *db, QObject *parent) :
 {
     _db = db;
     reInit = false;
+
+    Settings *s = Settings::instance();
+    connect(s,SIGNAL(showOnlyUnreadChanged()),this,SLOT(init()));
 }
 
 void EntryModel::init(const QString &feedId)
@@ -44,10 +56,15 @@ void EntryModel::createItems(const QString &feedId)
 {
     QList<DatabaseManager::Entry> list;
 
+    Settings *s = Settings::instance();
+
     if (feedId == "readlater") {
         list = _db->readEntriesReadlater();
     } else {
-        list = _db->readEntries(feedId);
+        if (s->getShowOnlyUnread())
+            list = _db->readEntriesUnread(feedId);
+        else
+            list = _db->readEntries(feedId);
     }
 
     QList<DatabaseManager::Entry>::iterator i = list.begin();
@@ -110,6 +127,8 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
     if (fieldName=="readlater") {
         item->setReadlater(newValue.toInt());
         DatabaseManager::Action action;
+        Settings *s = Settings::instance();
+        action.feedId = s->db->readFeedId(item->id());
         if (newValue==1) {
             action.type = DatabaseManager::SetReadlater;
             action.entryId = item->id();
@@ -117,13 +136,15 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
             action.type = DatabaseManager::UnSetReadlater;
             action.entryId = item->id();
         }
-        _db->writeAction(action,QDateTime::currentDateTime().toTime_t());
+        _db->writeAction(action);
         _db->updateEntryReadlaterFlag(item->id(),newValue.toInt());
     }
 
     if (fieldName=="read") {
         item->setRead(newValue.toInt());
         DatabaseManager::Action action;
+        Settings *s = Settings::instance();
+        action.feedId = s->db->readFeedId(item->id());
         if (newValue==1) {
             action.type = DatabaseManager::SetRead;
             action.entryId = item->id();
@@ -131,10 +152,8 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
             action.type = DatabaseManager::UnSetRead;
             action.entryId = item->id();
         }
-        _db->writeAction(action,QDateTime::currentDateTime().toTime_t());
+        _db->writeAction(action);
         _db->updateEntryReadFlag(item->id(),newValue.toInt());
-
-
     }
 }
 

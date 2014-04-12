@@ -201,7 +201,7 @@ QString Utils::getHumanFriendlySizeString(int size)
 
 QString Utils::getHumanFriendlyTimeString(int date)
 {
-    int delta = QDateTime::currentDateTime().toTime_t()-date;
+    int delta = QDateTime::currentDateTimeUtc().toTime_t()-date;
 
     if (delta==0) {
         return tr("just now");

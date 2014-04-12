@@ -57,6 +57,19 @@ bool Settings::getShowStarredTab()
     return settings.value("showstarredtab", true).toBool();
 }
 
+void Settings::setShowOnlyUnread(bool value)
+{
+    if (getShowOnlyUnread() != value) {
+        settings.setValue("showonlyunread", value);
+        emit showOnlyUnreadChanged();
+    }
+}
+
+bool Settings::getShowOnlyUnread()
+{
+    return settings.value("showonlyunread", false).toBool();
+}
+
 void Settings::setOfflineMode(bool value)
 {
     if (getOfflineMode() != value) {

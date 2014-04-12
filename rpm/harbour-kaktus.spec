@@ -75,10 +75,12 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
-* Mon Apr 04 2014 Michal Kosciesza 1.0.3-1
+* Sat Apr 12 2014 Michal Kosciesza 1.0.3-1
+- Show only unread option
+- Mark all items in Feed as read/unread
 - New Cache management algorithm
 - Cache size view in Settings
-- Minor UI improvements
+- UI improvements
 
 * Thu Apr 03 2014 Michal Kosciesza 1.0.2-1
 - Increased performance
@@ -86,7 +88,7 @@ desktop-file-install --delete-original       \
 
 * Sun Mar 30 2014 Michal Kosciesza 1.0.1-1
 - UI improvements
-- Extra Tab with Starred articles
+- Extra Tab with Saved items
 
 * Mon Mar 25 2014 Michal Kosciesza 1.0.0-1
 - First release

@@ -71,7 +71,7 @@ Page {
             } else if (loadRequest.status == WebView.LoadFailedStatus) {
 
                 if (settings.offlineMode)
-                    notification.show(qsTr("Failed to load article from local cache :-("));
+                    notification.show(qsTr("Failed to load item from local cache :-("));
                 else
                     notification.show(qsTr("Failed to load page content :-("));
                 proggressPanel.open = false;

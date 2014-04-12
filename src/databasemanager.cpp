@@ -17,6 +17,8 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "QDateTime"
+
 #include "databasemanager.h"
 
 const QString DatabaseManager::version = QString("1.0");
@@ -373,7 +375,9 @@ bool DatabaseManager::createEntriesStructure()
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_date_by_feed "
                          "ON entries(feed_id,date DESC);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_readlater "
-                         "ON entries(readlater);");
+                         "ON entries(readlater, date);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_by_feed "
+                         "ON entries(feed_id, read, date);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_feed_id "
                          "ON entries(feed_id);");
     } else {
@@ -432,13 +436,13 @@ bool DatabaseManager::writeTab(const QString &dashboardId, const Tab &tab)
     return ret;
 }
 
-bool DatabaseManager::writeAction(const Action &action, int date)
+bool DatabaseManager::writeAction(Action &action)
 {
     bool ret = false;
     if (_db.isOpen()) {
 
         // finding reverse action type
-        DatabaseManager::ActionsTypes rtype, ftype;
+        /*DatabaseManager::ActionsTypes rtype, ftype;
         switch (action.type) {
         case DatabaseManager::SetRead:
             rtype = DatabaseManager::UnSetRead;
@@ -460,11 +464,24 @@ bool DatabaseManager::writeAction(const Action &action, int date)
             break;
         }
 
+        if (action.date==0)
+            action.date = QDateTime::currentDateTimeUtc().toTime_t();
+
+        QString sql;
+        if (action.type==DatabaseManager::SetReadAll||action.type==DatabaseManager::UnSetReadAll)
+            sql = QString("SELECT rowid, type FROM actions WHERE feed_id='%1' AND (type=%2 OR type=%3) ORDER BY date;")
+                    .arg(action.entryId)
+                    .arg(static_cast<int>(action.type))
+                    .arg(static_cast<int>(rtype));
+        else
+            sql = QString("SELECT rowid, type FROM actions WHERE entry_id='%1' AND (type=%2 OR type=%3) ORDER BY date;")
+                    .arg(action.entryId)
+                    .arg(static_cast<int>(action.type))
+                    .arg(static_cast<int>(rtype));
+
+
+        QSqlQuery query(sql,_db);
         bool empty = true; int rowid;
-        QSqlQuery query(QString("SELECT rowid, type FROM actions WHERE entry_id='%1' AND (type=%2 OR type=%3) ORDER BY date;")
-                        .arg(action.entryId)
-                        .arg(static_cast<int>(action.type))
-                        .arg(static_cast<int>(rtype)),_db);
         while(query.next()) {
             empty = false;
             ftype = static_cast<ActionsTypes>(query.value(1).toInt());
@@ -474,18 +491,25 @@ bool DatabaseManager::writeAction(const Action &action, int date)
         if (!empty && ftype!=action.type) {
             ret = query.exec(QString("UPDATE actions SET type=%1, date=%2 WHERE rowid=%3;")
                              .arg(static_cast<int>(action.type))
-                             .arg(date)
+                             .arg(action.date)
                              .arg(rowid));
         }
 
         if (empty) {
-            ret = query.exec(QString("INSERT INTO actions VALUES(%1,'%2','%3',%4,%5);")
+            ret = query.exec(QString("INSERT INTO actions (type, feed_id, entry_id, date) VALUES(%1,'%2','%3',%5);")
                              .arg(static_cast<int>(action.type))
                              .arg(action.feedId)
                              .arg(action.entryId)
-                             .arg(action.olderDate)
-                             .arg(date));
-        }
+                             .arg(action.date));
+        }*/
+
+        QSqlQuery query(_db);
+        ret = query.exec(QString("INSERT INTO actions (type, feed_id, entry_id, older_date, date) VALUES(%1,'%2','%3',%4,%5);")
+                         .arg(static_cast<int>(action.type))
+                         .arg(action.feedId)
+                         .arg(action.entryId)
+                         .arg(action.olderDate)
+                         .arg(QDateTime::currentDateTimeUtc().toTime_t()));
 
     } else {
         qWarning() << "DB is not open!";
@@ -500,7 +524,7 @@ bool DatabaseManager::writeFeed(const QString &tabId, const Feed &feed)
     if (_db.isOpen()) {
         QSqlQuery query(_db);
         //qDebug() << "writeFeed, " << feed.id << tabId << feed.title;
-        ret = query.exec(QString("INSERT INTO feeds (id, tab_id, title, content, link, url, icon, stream_id, unread, readlater, last_update) VALUES('%1','%2','%3','%4','%5','%6','%7','%8',%9,%10,'%11');")
+        ret = query.exec(QString("INSERT INTO feeds (id, tab_id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update) VALUES('%1','%2','%3','%4','%5','%6','%7','%8',%9,,%10,%11,'%12');")
                          .arg(feed.id)
                          .arg(tabId)
                          .arg(QString(feed.title.toUtf8().toBase64()))
@@ -510,12 +534,14 @@ bool DatabaseManager::writeFeed(const QString &tabId, const Feed &feed)
                          .arg(feed.icon)
                          .arg(feed.streamId)
                          .arg(feed.unread)
+                         .arg(feed.read)
                          .arg(feed.readlater)
                          .arg(feed.lastUpdate));
         if(!ret) {
-            ret = query.exec(QString("UPDATE feeds SET last_update='%1', unread=%2, readlater=%3 WHERE id='%4';")
+            ret = query.exec(QString("UPDATE feeds SET last_update='%1', unread=%2, read=%3, readlater=%4 WHERE id='%5';")
                              .arg(feed.lastUpdate)
                              .arg(feed.unread)
+                             .arg(feed.read)
                              .arg(feed.readlater)
                              .arg(feed.id));
         }
@@ -615,15 +641,27 @@ bool DatabaseManager::updateEntryReadlaterFlag(const QString &entryId, int readl
     return ret;
 }
 
-
-
-bool DatabaseManager::updateFeedUnreadFlag(const QString &feedId, int unread)
+bool DatabaseManager::updateEntriesReadFlag(const QString &feedId, int read)
 {
     bool ret = false;
     if (_db.isOpen()) {
         QSqlQuery query(_db);
-        ret = query.exec(QString("UPDATE feeds SET unread=%1 WHERE id='%2';")
+        ret = query.exec(QString("UPDATE entries SET read=%1 WHERE feed_id='%2';")
+                         .arg(read)
+                         .arg(feedId));
+    }
+
+    return ret;
+}
+
+bool DatabaseManager::updateFeedReadFlag(const QString &feedId, int unread, int read)
+{
+    bool ret = false;
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        ret = query.exec(QString("UPDATE feeds SET unread=%1, read=%2 WHERE id='%3';")
                          .arg(unread)
+                         .arg(read)
                          .arg(feedId));
     }
 
@@ -712,7 +750,7 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &tabId)
     QList<DatabaseManager::Feed> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, content, link, url, icon, stream_id, unread, readlater, last_update FROM feeds WHERE tab_id='%1' LIMIT %2;")
+        QSqlQuery query(QString("SELECT id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update FROM feeds WHERE tab_id='%1' LIMIT %2;")
                         .arg(tabId)
                         .arg(feedsLimit),_db);
         while(query.next()) {
@@ -726,8 +764,9 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &tabId)
             f.icon = query.value(5).toString();
             f.streamId = query.value(6).toString();
             f.unread = query.value(7).toInt();
-            f.readlater = query.value(8).toInt();
-            f.lastUpdate = query.value(9).toInt();
+            f.read = query.value(8).toInt();
+            f.readlater = query.value(9).toInt();
+            f.lastUpdate = query.value(10).toInt();
             list.append(f);
         }
     } else {
@@ -1067,6 +1106,36 @@ QMap<QString,int> DatabaseManager::readFeedsFirstUpdate()
     return list;
 }
 
+int DatabaseManager::readLatestEntryDateByFeedId(const QString &feedId)
+{
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        query.exec(QString("SELECT max(date) FROM entries WHERE feed_id='%1';").arg(feedId));
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readFeedLastUpadate(const QString &feedId)
+{
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        query.exec(QString("SELECT last_update FROM feeds WHERE id='%1';").arg(feedId));
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
 QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId)
 {
     QList<DatabaseManager::Entry> list;
@@ -1121,6 +1190,33 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater()
     return list;
 }
 
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnread(const QString &feedId)
+{
+    QList<DatabaseManager::Entry> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(QString("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE read=0 AND feed_id='%1' ORDER BY date DESC LIMIT %2;")
+                        .arg(feedId)
+                        .arg(entriesLimit),_db);
+        while(query.next()) {
+            Entry e;
+            e.id = query.value(0).toString();
+            e.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
+            e.author = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
+            e.content = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            e.link = query.value(4).toString();
+            e.read = query.value(5).toInt();
+            e.readlater= query.value(6).toInt();
+            e.date = query.value(7).toInt();
+            list.append(e);
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
 QList<DatabaseManager::Entry> DatabaseManager::readEntries()
 {
     QList<DatabaseManager::Entry> list;
@@ -1151,13 +1247,14 @@ QList<DatabaseManager::Action> DatabaseManager::readActions()
     QList<DatabaseManager::Action> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query("SELECT type, feed_id, entry_id, older_date FROM actions ORDER BY date DESC;",_db);
+        QSqlQuery query("SELECT type, feed_id, entry_id, older_date, date FROM actions ORDER BY date;",_db);
         while(query.next()) {
             Action a;
             a.type = static_cast<ActionsTypes>(query.value(0).toInt());
             a.feedId = query.value(1).toString();
             a.entryId = query.value(2).toString();
             a.olderDate = query.value(3).toInt();
+            a.date = query.value(4).toInt();
             list.append(a);
         }
     } else {

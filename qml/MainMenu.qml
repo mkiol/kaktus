@@ -47,44 +47,18 @@ PullDownMenu {
         enabled: !fetcher.busy && !dm.busy
     }
 
-    /*MenuItem {
-        text: qsTr("Test")
-        onClicked: {
-            utils.showNotification("Ala ma kota");
-        }
-    }*/
-
-    MenuLabel {
-        function update() {
+    onActiveChanged: {
+        if (active) {
             var lastSync = settings.getNetvibesLastUpdateDate();
             if (lastSync>0)
-                text = qsTr("Last sync: %1").arg(utils.getHumanFriendlyTimeString(lastSync));
+                label.text = qsTr("Last sync: %1").arg(utils.getHumanFriendlyTimeString(lastSync));
             else
-                text = qsTr("Not yet synced");
+                label = qsTr("Not yet synced");
         }
+    }
 
-        Component.onCompleted: {
-            update();
-        }
-
-        Connections {
-            target: fetcher
-            onBusyChanged: {
-                if (!fetcher.busy)
-                    update();
-            }
-        }
-
-        Timer {
-            id: timer
-            running: true
-            interval: 20000
-            repeat: true
-            onTriggered: {
-                parent.update();
-            }
-        }
-
+    MenuLabel {
+        id: label
     }
 
 }

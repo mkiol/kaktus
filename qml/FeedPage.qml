@@ -70,8 +70,8 @@ Page {
                         if (unread==1)
                             return qsTr("1 unread");
                         if (unread<5)
-                            return qsTr("%1 unread","less than 5 articles are unread").arg(unread);
-                        return qsTr("%1 unread","more or equal 5 articles are unread").arg(unread);
+                            return qsTr("%1 unread","less than 5 items are unread").arg(unread);
+                        return qsTr("%1 unread","more or equal 5 items are unread").arg(unread);
                     }
                     visible: unread!=0
                 }
@@ -110,15 +110,19 @@ Page {
 
             menu: ContextMenu {
                 MenuItem {
-                    text: qsTr("Mark as read")
+                    text: qsTr("Mark all as read")
+                    enabled: model.unread!=0
+                    visible: enabled
                     onClicked: {
-
+                        feedModel.markAllAsRead(model.index);
                     }
                 }
                 MenuItem {
-                    text: qsTr("Mark as unread")
+                    text: qsTr("Mark all as unread")
+                    enabled: model.read!=0
+                    visible: enabled
                     onClicked: {
-
+                        feedModel.markAllAsUnread(model.index);
                     }
                 }
             }

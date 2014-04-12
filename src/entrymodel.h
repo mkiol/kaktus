@@ -22,15 +22,9 @@
 
 #include <QAbstractListModel>
 #include <QString>
-#include <QList>
-#include <QStringList>
-#include <QDebug>
 #include <QByteArray>
-#include <QModelIndex>
-#include <QTextDocument>
-#include <QChar>
-#include <QDateTime>
-#include <QRegExp>
+#include <QVariant>
+#include <QHash>
 
 #include "listmodel.h"
 #include "feedmodel.h"
@@ -69,14 +63,14 @@ public:
     QHash<int, QByteArray> roleNames() const;
     inline QString id() const { return m_uid; }
     inline QString uid() const { return m_uid; }
-    Q_INVOKABLE inline QString title() const { return m_title; }
-    Q_INVOKABLE inline QString author() const { return m_author; }
-    Q_INVOKABLE inline QString content() const { return m_content; }
-    Q_INVOKABLE inline QString link() const { return m_link; }
-    Q_INVOKABLE inline bool cached() const { return m_cached; }
-    Q_INVOKABLE inline int read() const { return m_read; }
-    Q_INVOKABLE inline int readlater() const { return m_readlater; }
-    Q_INVOKABLE inline int date() const { return m_date; }
+    inline QString title() const { return m_title; }
+    inline QString author() const { return m_author; }
+    inline QString content() const { return m_content; }
+    inline QString link() const { return m_link; }
+    inline bool cached() const { return m_cached; }
+    inline int read() const { return m_read; }
+    inline int readlater() const { return m_readlater; }
+    inline int date() const { return m_date; }
 
     void setReadlater(int value);
     void setRead(int value);
@@ -101,11 +95,14 @@ public:
     bool reInit; // if true init existing model on setEntryModel
 
     explicit EntryModel(DatabaseManager* db, QObject *parent = 0);
-    Q_INVOKABLE void init(const QString &feedId);
-    Q_INVOKABLE void init();
-    Q_INVOKABLE int count();
-    Q_INVOKABLE QObject* get(int i);
+    void init(const QString &feedId);
+    int count();
+    QObject* get(int i);
+
     Q_INVOKABLE void setData(int row, const QString &fieldName, QVariant newValue);
+
+public slots:
+    void init();
 
 private:
    DatabaseManager* _db;

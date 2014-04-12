@@ -112,9 +112,9 @@ public slots:
 
 private:
     static const int feedsAtOnce = 5;
-    static const int limitFeeds = 20;
-    static const int limitFeedsReadlater = 2;
-    static const int feedsUpdateAtOnce = 20;
+    static const int limitFeeds = 50;
+    static const int limitFeedsReadlater = 50;
+    static const int feedsUpdateAtOnce = 10;
 
     QNetworkAccessManager _manager;
     QNetworkReply* _currentReply;
@@ -149,7 +149,7 @@ private:
     void fetchFeedsReadlater();
 
     void uploadActions();
-    void set(const QString &entryId, DatabaseManager::ActionsTypes type);
+    void set();
 
     void cleanNewFeeds();
     void cleanRemovedFeeds();

@@ -43,13 +43,14 @@ Page {
             contentHeight: {
                 if (visible) {
                     if (model.uid==="readlater")
-                        return item.height + 3 * Theme.paddingMedium;
+                        return itemReadlater.height + 2 * Theme.paddingLarge;
                     else
                         return item.height + 2 * Theme.paddingMedium;
                 } else {
                     return 0;
                 }
             }
+
             visible: {
                 if (model.uid==="readlater") {
                     if (listView.count==1)
@@ -77,19 +78,12 @@ Page {
                 enabled: background.visible
             }*/
 
-            Rectangle {
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left; anchors.right: parent.right;
-                color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
-                visible: model.uid==="readlater"
-                height: 3
-            }
-
             Column {
                 id: item
                 spacing: Theme.paddingSmall
                 anchors.verticalCenter: parent.verticalCenter
                 width: parent.width
+                visible: model.uid!=="readlater"
 
                 Label {
                     id: label
@@ -111,14 +105,46 @@ Page {
                 visible: settings.showTabIcons && model.uid!=="readlater"
             }
 
+            // readlater
+
+            Column {
+                id: itemReadlater
+                spacing: Theme.paddingSmall
+                anchors.verticalCenter: parent.verticalCenter
+                width: parent.width
+                anchors.left: star.right; anchors.right: parent.right
+                visible: model.uid==="readlater"
+
+                Label {
+                    wrapMode: Text.AlignLeft
+                    anchors.left: parent.left; anchors.right: parent.right;
+                    anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingLarge
+                    font.pixelSize: Theme.fontSizeMedium
+                    color: listItem.down ? Theme.highlightColor : Theme.primaryColor
+                    text: title
+                }
+            }
+
+            /*Rectangle {
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left; anchors.right: parent.right;
+                color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
+                visible: model.uid==="readlater"
+                height: 3
+            }*/
+
             Image {
+                id: star
                 width: Theme.iconSizeSmall
                 height: Theme.iconSizeSmall
-                anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
+                anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
                 anchors.verticalCenter: item.verticalCenter
                 visible: model.uid==="readlater"
-                source: "image://theme/icon-m-favorite-selected";
+                source: listItem.down ? "image://theme/icon-m-favorite-selected?"+Theme.highlightColor :
+                                        "image://theme/icon-m-favorite-selected"
             }
+
+            // --
 
             Connections {
                 target: settings
