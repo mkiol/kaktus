@@ -91,9 +91,8 @@
         <translation>Brak tablic</translation>
     </message>
     <message>
-        <location filename="../qml/DashboardDialog.qml" line="83"/>
         <source>Dashboard changed!</source>
-        <translation>Zmieniono tablicę!</translation>
+        <translation type="obsolete">Zmieniono tablicę!</translation>
     </message>
 </context>
 <context>
@@ -205,22 +204,20 @@ Został włączony tryb Offline</translation>
 <context>
     <name>FeedPage</name>
     <message>
-        <location filename="../qml/FeedPage.qml" line="69"/>
         <source>all read</source>
-        <translation>wszytkie przeczytane</translation>
+        <translation type="obsolete">wszytkie przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="71"/>
         <source>1 unread</source>
-        <translation>1 nieprzeczytany</translation>
+        <translation type="obsolete">1 nieprzeczytany</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="113"/>
+        <location filename="../qml/FeedPage.qml" line="117"/>
         <source>Mark all as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="121"/>
+        <location filename="../qml/FeedPage.qml" line="126"/>
         <source>Mark all as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
     </message>
@@ -235,16 +232,14 @@ Został włączony tryb Offline</translation>
         <translation type="obsolete">%1 nieprzeczytanych</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="73"/>
         <source>%1 unread</source>
         <comment>less than 5 items are unread</comment>
-        <translation>%1 nieprzeczytane</translation>
+        <translation type="obsolete">%1 nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="74"/>
         <source>%1 unread</source>
         <comment>more or equal 5 items are unread</comment>
-        <translation>%1 nieprzeczytanych</translation>
+        <translation type="obsolete">%1 nieprzeczytanych</translation>
     </message>
     <message>
         <source>Mark as read</source>
@@ -255,7 +250,7 @@ Został włączony tryb Offline</translation>
         <translation type="obsolete">Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="134"/>
+        <location filename="../qml/FeedPage.qml" line="140"/>
         <source>No feeds</source>
         <translation>Brak kanałów</translation>
     </message>
@@ -263,27 +258,27 @@ Został włączony tryb Offline</translation>
 <context>
     <name>MainMenu</name>
     <message>
-        <location filename="../qml/MainMenu.qml" line="32"/>
+        <location filename="../qml/MainMenu.qml" line="28"/>
         <source>About</source>
         <translation>O Programie</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="40"/>
+        <location filename="../qml/MainMenu.qml" line="36"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="48"/>
+        <location filename="../qml/MainMenu.qml" line="44"/>
         <source>Sync</source>
         <translation>Aktualizuj</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="65"/>
+        <location filename="../qml/MainMenu.qml" line="54"/>
         <source>Last sync: %1</source>
         <translation>Ostatnia aktualizacja: %1</translation>
     </message>
     <message>
-        <location filename="../qml/MainMenu.qml" line="67"/>
+        <location filename="../qml/MainMenu.qml" line="56"/>
         <source>Not yet synced</source>
         <translation>Jeszcze nie aktualizowano</translation>
     </message>
@@ -502,17 +497,17 @@ Brak połączenia sieciowego</translation>
         <translation>Zakładki</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="182"/>
+        <location filename="../qml/TabPage.qml" line="194"/>
         <source>No tabs</source>
         <translation>Brak zakładek</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="189"/>
+        <location filename="../qml/TabPage.qml" line="201"/>
         <source>Pull down to do first Sync</source>
         <translation>Wykonaj pierwszą aktualizacje kanałów</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="189"/>
+        <location filename="../qml/TabPage.qml" line="201"/>
         <source>Wait until Sync finish</source>
         <translation>Zaczekaj do zakończenia aktualizacji</translation>
     </message>
@@ -718,17 +713,22 @@ Brak połączenia sieciowego</translation>
         <translation type="obsolete">%1 tygodnie temu</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="109"/>
+        <location filename="../qml/main.qml" line="115"/>
         <source>An unknown error occurred! :-(</source>
         <translation>Wystąpił nieznany błąd! :-(</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="69"/>
+        <location filename="../qml/main.qml" line="75"/>
         <source>%1 more items left...</source>
         <translation>Pozostało do pobrania: %1... </translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="71"/>
+        <location filename="../qml/main.qml" line="45"/>
+        <source>Dashboard changed!</source>
+        <translation>Zmieniono tablicę!</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="77"/>
         <source>All done!</source>
         <translation>Gotowe!</translation>
     </message>
@@ -741,52 +741,52 @@ Brak połączenia sieciowego</translation>
         <translation type="obsolete">Brak połączenia sieciowego!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="76"/>
+        <location filename="../qml/main.qml" line="82"/>
         <source>Download failed
 Network connection is unavailable</source>
         <translation>Nie udało się pobrać
 Brak połączenia sieciowego</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="93"/>
+        <location filename="../qml/main.qml" line="99"/>
         <source>Sync failed
 Network connection is unavailable</source>
         <translation>Aktualizacja nie powiodła się
 Brak połączenia sieciowego</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="104"/>
-        <location filename="../qml/main.qml" line="114"/>
+        <location filename="../qml/main.qml" line="110"/>
+        <location filename="../qml/main.qml" line="120"/>
         <source>User &amp; Password do not match!</source>
         <translation>Nazwa użytkownika nie pasuje do hasła!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="118"/>
+        <location filename="../qml/main.qml" line="124"/>
         <source>Successfully Signed In!</source>
         <translation>Zalogowano!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="122"/>
+        <location filename="../qml/main.qml" line="128"/>
         <source>Receiving data... </source>
         <translation>Pobieranie danych...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="133"/>
+        <location filename="../qml/main.qml" line="139"/>
         <source>Initiating...</source>
         <translation>Pierwsza aktualizacja...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="137"/>
+        <location filename="../qml/main.qml" line="143"/>
         <source>Updating...</source>
         <translation>Aktualizacja...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="127"/>
+        <location filename="../qml/main.qml" line="133"/>
         <source>Sending data to Netvibes...</source>
         <translation>Wysyłanie danych do Netvibes...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="141"/>
+        <location filename="../qml/main.qml" line="147"/>
         <source>Signing in...</source>
         <translation>Logowanie...</translation>
     </message>

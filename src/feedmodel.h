@@ -101,8 +101,8 @@ public:
     explicit FeedModel(DatabaseManager* db, QObject *parent = 0);
     void init(const QString &tabId);
     void init();
-    int count();
-    QObject* get(int i);
+    //int count();
+    //QObject* get(int i);
     void setData(int row, const QString &fieldName, QVariant newValue);
 
     Q_INVOKABLE void decrementUnread(int row);
@@ -115,7 +115,6 @@ private:
     QString _tabId;
 
     void createItems(const QString &dashboardId);
-    void sort();
 };
 
 #endif // FEEDMODEL_H

@@ -42,13 +42,14 @@ Page {
 
         delegate: ListItem {
             id: listItem
-            contentHeight: item.height + 2 * Theme.paddingMedium
+            contentHeight: item.height + 3 * Theme.paddingMedium
 
             Column {
                 id: item
                 spacing: 0.5*Theme.paddingSmall
                 anchors.verticalCenter: parent.verticalCenter
-                width: parent.width
+                anchors.left: image.visible ? image.right : parent.left
+                anchors.right: unreadbox.visible ? unreadbox.left : parent.right
 
                 Label {
                     wrapMode: Text.AlignLeft
@@ -58,31 +59,34 @@ Page {
                     text: title
                     color: listItem.down ? Theme.highlightColor : Theme.primaryColor
                 }
+            }
+
+            Rectangle {
+                id: unreadbox
+                anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
+                anchors.verticalCenter: parent.verticalCenter
+                width: unreadlabel.width + 2 * Theme.paddingSmall
+                height: unreadlabel.height + 2 * Theme.paddingSmall
+                color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
+                radius: 5
+                visible: model.unread!=0
 
                 Label {
-                    anchors.left: parent.left; anchors.right: parent.right;
-                    anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                    font.pixelSize: Theme.fontSizeSmall
-                    color: listItem.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                    text: {
-                        if (unread==0)
-                            return qsTr("all read");
-                        if (unread==1)
-                            return qsTr("1 unread");
-                        if (unread<5)
-                            return qsTr("%1 unread","less than 5 items are unread").arg(unread);
-                        return qsTr("%1 unread","more or equal 5 items are unread").arg(unread);
-                    }
-                    visible: unread!=0
+                    id: unreadlabel
+                    anchors.centerIn: parent
+                    text: model.unread
+                    //color: listItem.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                    color: Theme.highlightColor
                 }
+
             }
 
             Image {
                 id: image
                 width: Theme.iconSizeSmall
                 height: Theme.iconSizeSmall
-                anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
-                anchors.verticalCenter: item.verticalCenter
+                anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
+                anchors.verticalCenter: parent.verticalCenter
                 visible: settings.showTabIcons
             }
 
@@ -115,6 +119,7 @@ Page {
                     visible: enabled
                     onClicked: {
                         feedModel.markAllAsRead(model.index);
+                        tabModel.updateFlags();
                     }
                 }
                 MenuItem {
@@ -123,6 +128,7 @@ Page {
                     visible: enabled
                     onClicked: {
                         feedModel.markAllAsUnread(model.index);
+                        tabModel.updateFlags();
                     }
                 }
             }

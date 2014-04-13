@@ -144,7 +144,7 @@ QList<QString> Utils::dashboards()
 QString Utils::defaultDashboardName()
 {
     Settings *s = Settings::instance();
-    DatabaseManager::Dashboard d = s->db->readDashboard(s->getNetvibesDefaultDashboard());
+    DatabaseManager::Dashboard d = s->db->readDashboard(s->getDashboardInUse());
     return d.title;
 }
 

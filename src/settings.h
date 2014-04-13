@@ -42,6 +42,7 @@ class Settings: public QObject
     Q_PROPERTY (bool signedIn READ getSignedIn WRITE setSignedIn NOTIFY signedInChanged)
     Q_PROPERTY (bool showStarredTab READ getShowStarredTab WRITE setShowStarredTab NOTIFY showStarredTabChanged)
     Q_PROPERTY (bool showOnlyUnread READ getShowOnlyUnread WRITE setShowOnlyUnread NOTIFY showOnlyUnreadChanged)
+    Q_PROPERTY (QString dashboardInUse READ getDashboardInUse WRITE setDashboardInUse NOTIFY dashboardInUseChanged)
 
 public:
     static Settings* instance();
@@ -55,60 +56,56 @@ public:
     //Properties
     void setOfflineMode(bool value);
     bool getOfflineMode();
+
     bool getShowTabIcons();
     void setShowTabIcons(bool value);
+
     void setSignedIn(bool value);
     bool getSignedIn();
+
     bool getShowStarredTab();
     void setShowStarredTab(bool value);
+
+    void setDashboardInUse(const QString &value);
+    QString getDashboardInUse();
+    // ---
 
     bool getShowOnlyUnread();
     void setShowOnlyUnread(bool value);
 
-    // General
     Q_INVOKABLE QString getSettingsDir();
+
+    QString getDmCacheDir();
+
     Q_INVOKABLE void setAutoDownloadOnUpdate(bool value);
     Q_INVOKABLE bool getAutoDownloadOnUpdate();
 
-    //UI
     Q_INVOKABLE bool getAutoMarkAsRead();
     Q_INVOKABLE void setAutoMarkAsRead(bool value);
 
-    // Netvibes Fetcher
     Q_INVOKABLE void setNetvibesUsername(const QString &value);
     Q_INVOKABLE QString getNetvibesUsername();
+
     Q_INVOKABLE void setNetvibesPassword(const QString &value);
     Q_INVOKABLE QString getNetvibesPassword();
-    Q_INVOKABLE void setNetvibesDefaultDashboard(const QString &value);
-    Q_INVOKABLE QString getNetvibesDefaultDashboard();
-    //Q_INVOKABLE void setNetvibesFeedLimit(int value);
-    //Q_INVOKABLE int getNetvibesFeedLimit();
-    //Q_INVOKABLE void setNetvibesFeedUpdateAtOnce(int value);
-    //Q_INVOKABLE int getNetvibesFeedUpdateAtOnce();
+
     Q_INVOKABLE void setNetvibesLastUpdateDate(int value);
     Q_INVOKABLE int getNetvibesLastUpdateDate();
 
-    // Download Manger
-    void setDmConnections(int value);
-    int getDmConnections();
-    void setDmTimeOut(int value);
-    int getDmTimeOut();
-    void setDmMaxSize(int value);
-    int getDmMaxSize();
-    //Q_INVOKABLE void setDmCacheDir(const QString &value);
-    QString getDmCacheDir();
     Q_INVOKABLE void setDmUserAgent(const QString &value);
     Q_INVOKABLE QString getDmUserAgent();
-    //Q_INVOKABLE void setDmMaxCacheRetency(int value);
-    //Q_INVOKABLE int getDmMaxCacheRetency();
-    //Q_INVOKABLE void setDmCacheRetencyFeedLimit(int value);
-    //Q_INVOKABLE int getDmCacheRetencyFeedLimit();
 
-    // Cache Server
-    //Q_INVOKABLE void setCsPost(int value);
-    //Q_INVOKABLE int getCsPort();
     Q_INVOKABLE QString getCsTheme();
     Q_INVOKABLE void setCsTheme(const QString &value);
+
+    void setDmConnections(int value);
+    int getDmConnections();
+
+    void setDmTimeOut(int value);
+    int getDmTimeOut();
+
+    void setDmMaxSize(int value);
+    int getDmMaxSize();
 
 signals:
     void offlineModeChanged();
@@ -116,6 +113,8 @@ signals:
     void signedInChanged();
     void showStarredTabChanged();
     void showOnlyUnreadChanged();
+    void dashboardInUseChanged();
+
     /*
     501 - Unable create settings dir
     502 - Unable create cache dir

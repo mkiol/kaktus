@@ -96,8 +96,8 @@ public:
 
     explicit EntryModel(DatabaseManager* db, QObject *parent = 0);
     void init(const QString &feedId);
-    int count();
-    QObject* get(int i);
+    //int count();
+    //QObject* get(int i);
 
     Q_INVOKABLE void setData(int row, const QString &fieldName, QVariant newValue);
 
@@ -109,7 +109,6 @@ private:
    QString _feedId;
 
    void createItems(const QString &feedId);
-   void sort();
 };
 
 #endif // ENTRYMODEL_H

@@ -61,7 +61,7 @@ void FeedModel::createItems(const QString &tabId)
     }
 }
 
-void FeedModel::sort()
+/*void FeedModel::sort()
 {
 }
 
@@ -73,7 +73,7 @@ int FeedModel::count()
 QObject* FeedModel::get(int i)
 {
     return (QObject*) this->readRow(i);
-}
+}*/
 
 void FeedModel::setData(int row, const QString &fieldName, QVariant newValue)
 {

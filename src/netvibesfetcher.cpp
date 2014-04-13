@@ -676,7 +676,7 @@ void NetvibesFetcher::storeDashboards()
     if (_jsonObj["dashboards"].isObject()) {
 
         // Set default dashboard if not set
-        QString defaultDashboardId = s->getNetvibesDefaultDashboard();
+        QString defaultDashboardId = s->getDashboardInUse();
         int lowestDashboardId = 99999999;
         bool defaultDashboardIdExists = false;
 
@@ -710,7 +710,7 @@ void NetvibesFetcher::storeDashboards()
         //qDebug() << "defaultDashboardIdExists" << defaultDashboardIdExists;
         //qDebug() << "lowestDashboardId" << lowestDashboardId;
         if (defaultDashboardId=="" || defaultDashboardIdExists==false) {
-            s->setNetvibesDefaultDashboard(QString::number(lowestDashboardId));
+            s->setDashboardInUse(QString::number(lowestDashboardId));
         }
 
     } else {

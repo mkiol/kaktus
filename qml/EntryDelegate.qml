@@ -246,6 +246,7 @@ ListItem {
                         if (lblMoreDetails.visible)
                             root.expanded = false;
                     }
+                    tabModel.updateFlags();
                 }
             }
         }

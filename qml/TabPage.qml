@@ -43,7 +43,7 @@ Page {
             contentHeight: {
                 if (visible) {
                     if (model.uid==="readlater")
-                        return itemReadlater.height + 2 * Theme.paddingLarge;
+                        return itemReadlater.height + 3 * Theme.paddingMedium;
                     else
                         return item.height + 2 * Theme.paddingMedium;
                 } else {
@@ -80,13 +80,62 @@ Page {
 
             Column {
                 id: item
-                spacing: Theme.paddingSmall
-                anchors.verticalCenter: parent.verticalCenter
-                width: parent.width
+
                 visible: model.uid!=="readlater"
+                spacing: 0.5*Theme.paddingSmall
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: image.visible ? image.right : parent.left
+                anchors.right: unreadbox.visible ? unreadbox.left : parent.right
 
                 Label {
-                    id: label
+                    wrapMode: Text.AlignLeft
+                    anchors.left: parent.left; anchors.right: parent.right;
+                    anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
+                    font.pixelSize: Theme.fontSizeMedium
+                    color: listItem.down ? Theme.highlightColor : Theme.primaryColor
+                    text: title
+                }
+            }
+
+            Rectangle {
+                id: unreadbox
+                anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
+                anchors.verticalCenter: parent.verticalCenter
+                width: unreadlabel.width + 3 * Theme.paddingSmall
+                height: unreadlabel.height + 2 * Theme.paddingSmall
+                color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
+                radius: 5
+                visible: model.unread!=0
+
+                Label {
+                    id: unreadlabel
+                    anchors.centerIn: parent
+                    text: model.unread
+                    //color: listItem.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                    color: Theme.highlightColor
+                }
+
+            }
+
+            Image {
+                id: image
+                width: Theme.iconSizeSmall
+                height: Theme.iconSizeSmall
+                anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
+                anchors.verticalCenter: parent.verticalCenter
+                visible: settings.showTabIcons && model.uid!=="readlater"
+            }
+
+            // readlater
+
+            Column {
+                id: itemReadlater
+                spacing: 1.0 * Theme.paddingSmall
+                anchors.left: star.right; anchors.right: parent.right
+                anchors.top: parent.top
+                visible: model.uid==="readlater"
+
+                Label {
                     wrapMode: Text.AlignLeft
                     anchors.left: parent.left; anchors.right: parent.right;
                     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
@@ -97,48 +146,12 @@ Page {
             }
 
             Image {
-                id: image
-                width: Theme.iconSizeSmall
-                height: Theme.iconSizeSmall
-                anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
-                anchors.verticalCenter: item.verticalCenter
-                visible: settings.showTabIcons && model.uid!=="readlater"
-            }
-
-            // readlater
-
-            Column {
-                id: itemReadlater
-                spacing: Theme.paddingSmall
-                anchors.verticalCenter: parent.verticalCenter
-                width: parent.width
-                anchors.left: star.right; anchors.right: parent.right
-                visible: model.uid==="readlater"
-
-                Label {
-                    wrapMode: Text.AlignLeft
-                    anchors.left: parent.left; anchors.right: parent.right;
-                    anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingLarge
-                    font.pixelSize: Theme.fontSizeMedium
-                    color: listItem.down ? Theme.highlightColor : Theme.primaryColor
-                    text: title
-                }
-            }
-
-            /*Rectangle {
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left; anchors.right: parent.right;
-                color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
-                visible: model.uid==="readlater"
-                height: 3
-            }*/
-
-            Image {
                 id: star
                 width: Theme.iconSizeSmall
                 height: Theme.iconSizeSmall
                 anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
-                anchors.verticalCenter: item.verticalCenter
+                anchors.verticalCenter: itemReadlater.verticalCenter
+                //anchors.verticalCenter: item.verticalCenter
                 visible: model.uid==="readlater"
                 source: listItem.down ? "image://theme/icon-m-favorite-selected?"+Theme.highlightColor :
                                         "image://theme/icon-m-favorite-selected"

@@ -59,7 +59,7 @@ Dialog {
             }
 
             onClicked: {
-                settings.setNetvibesDefaultDashboard(uid);
+                settings.dashboardInUse = uid;
                 root.canAccept = true;
                 root.accept();
             }
@@ -78,8 +78,5 @@ Dialog {
     }
 
     onAccepted: {
-        utils.setTabModel(settings.getNetvibesDefaultDashboard());
-        pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
-        notification.show(qsTr("Dashboard changed!"));
     }
 }

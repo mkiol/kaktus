@@ -524,7 +524,7 @@ bool DatabaseManager::writeFeed(const QString &tabId, const Feed &feed)
     if (_db.isOpen()) {
         QSqlQuery query(_db);
         //qDebug() << "writeFeed, " << feed.id << tabId << feed.title;
-        ret = query.exec(QString("INSERT INTO feeds (id, tab_id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update) VALUES('%1','%2','%3','%4','%5','%6','%7','%8',%9,,%10,%11,'%12');")
+        ret = query.exec(QString("INSERT INTO feeds (id, tab_id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update) VALUES('%1','%2','%3','%4','%5','%6','%7','%8',%9,%10,%11,'%12');")
                          .arg(feed.id)
                          .arg(tabId)
                          .arg(QString(feed.title.toUtf8().toBase64()))
@@ -537,6 +537,7 @@ bool DatabaseManager::writeFeed(const QString &tabId, const Feed &feed)
                          .arg(feed.read)
                          .arg(feed.readlater)
                          .arg(feed.lastUpdate));
+        //qDebug() << "ret1" << ret;
         if(!ret) {
             ret = query.exec(QString("UPDATE feeds SET last_update='%1', unread=%2, read=%3, readlater=%4 WHERE id='%5';")
                              .arg(feed.lastUpdate)
@@ -545,6 +546,7 @@ bool DatabaseManager::writeFeed(const QString &tabId, const Feed &feed)
                              .arg(feed.readlater)
                              .arg(feed.id));
         }
+        //qDebug() << "ret2" << ret;
     }
 
     return ret;
@@ -1293,13 +1295,13 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesCachedOlderThan(int ca
 QList<QString> DatabaseManager::readCacheFinalUrlOlderThan(int cacheDate, int limit)
 {
     QList<QString> list;
-    bool ret = false;
+    //bool ret = false;
     if (_db.isOpen()) {
         QSqlQuery query(_db);
         /*qDebug() << QString("SELECT final_url FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
                     .arg(cacheDate).arg(limit);*/
 
-        ret = query.exec(QString("SELECT final_url FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
+        query.exec(QString("SELECT final_url FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
                         .arg(cacheDate).arg(limit));
         while(query.next()) {
             list.append(query.value(0).toString());
@@ -1426,4 +1428,31 @@ int DatabaseManager::readFeedsCount()
     }
 
     return count;
+}
+
+DatabaseManager::Flags DatabaseManager::readTabFlags(const QString &tabId)
+{
+    Flags flags = {0,0,0};
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        query.exec(QString("SELECT sum(unread) as unread, sum(read) as read, sum(readlater) as readlater FROM feeds WHERE tab_id='%1';")
+                   .arg(tabId));
+        while(query.next()) {
+
+            /*qDebug() << tabId;
+            qDebug() << "unread" << query.value(0).toInt();
+            qDebug() << "read" << query.value(1).toInt();
+            qDebug() << "readlater" << query.value(2).toInt();*/
+
+            flags.unread = query.value(0).toInt();
+            flags.read = query.value(1).toInt();
+            flags.readlater = query.value(2).toInt();
+
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return flags;
 }

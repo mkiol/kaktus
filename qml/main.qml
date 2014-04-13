@@ -38,6 +38,12 @@ ApplicationWindow {
             console.log("code=" + code);
             Qt.quit();
         }
+
+        onDashboardInUseChanged: {
+            utils.setTabModel(settings.dashboardInUse);
+            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            notification.show(qsTr("Dashboard changed!"));
+        }
     }
 
     Connections {
@@ -51,12 +57,12 @@ ApplicationWindow {
         onEmpty: {
             dm.removeCache();
             utils.updateModels();
-            utils.setTabModel(settings.getNetvibesDefaultDashboard());
+            utils.setTabModel(settings.dashboardInUse);
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
         }
 
         onNotEmpty: {
-            utils.setTabModel(settings.getNetvibesDefaultDashboard());
+            utils.setTabModel(settings.dashboardInUse);
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
         }
     }
@@ -82,7 +88,7 @@ ApplicationWindow {
 
         onReady: {
             //notification.show(qsTr("Sync done!"));
-            utils.setTabModel(settings.getNetvibesDefaultDashboard());
+            utils.setTabModel(settings.dashboardInUse);
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
 
             if (settings.getAutoDownloadOnUpdate())

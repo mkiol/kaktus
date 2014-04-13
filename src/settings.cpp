@@ -161,35 +161,22 @@ QString Settings::getNetvibesPassword()
     return plainPassword;
 }
 
-void Settings::setNetvibesDefaultDashboard(const QString &value)
+void Settings::setDashboardInUse(const QString &value)
 {
-    settings.setValue("dafaultdashboard", value);
+    if (getDashboardInUse() != value) {
+        if (getDashboardInUse() == "") {
+            settings.setValue("dafaultdashboard", value);
+        } else {
+            settings.setValue("dafaultdashboard", value);
+            emit dashboardInUseChanged();
+        }
+    }
 }
 
-QString Settings::getNetvibesDefaultDashboard()
+QString Settings::getDashboardInUse()
 {
     return settings.value("dafaultdashboard", "").toString();
 }
-
-/*void Settings::setNetvibesFeedLimit(int value)
-{
-    settings.setValue("limit", value);
-}
-
-int Settings::getNetvibesFeedLimit()
-{
-    return settings.value("limit", 15).toInt();
-}*/
-
-/*void Settings::setNetvibesFeedUpdateAtOnce(int value)
-{
-    settings.setValue("feedupdateatonce", value);
-}
-
-int Settings::getNetvibesFeedUpdateAtOnce()
-{
-    return settings.value("feedupdateatonce", 15).toInt();
-}*/
 
 void Settings::setNetvibesLastUpdateDate(int value)
 {
@@ -200,21 +187,6 @@ int Settings::getNetvibesLastUpdateDate()
 {
     return settings.value("lastupdatedate", 0).toInt();
 }
-
-/*void  Settings::setDmCacheRetencyFeedLimit(int value)
-{
-    settings.setValue("dm_limit", value);
-}
-
-int  Settings::getDmCacheRetencyFeedLimit()
-{
-    return settings.value("dm_limit", 20).toInt();
-}*/
-
-/*void Settings::setSettingsDir(const QString &value)
-{
-    settings.setValue("settingsdir", value);
-}*/
 
 QString Settings::getSettingsDir()
 {
@@ -260,11 +232,6 @@ int Settings::getDmMaxSize()
     return settings.value("maxsize", 1000000).toInt();
 }
 
-/*void Settings::setDmCacheDir(const QString &value)
-{
-    settings.setValue("cachedir", value);
-}*/
-
 QString Settings::getDmCacheDir()
 {
     QString value = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))
@@ -290,28 +257,6 @@ QString Settings::getDmUserAgent()
     QString value = "Mozilla/5.0 (Linux; Android 4.2.1; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19";
     return settings.value("useragent", value).toString();
 }
-
-/*void Settings::setDmMaxCacheRetency(int value)
-{
-    settings.setValue("cacheretency", value);
-}
-
-int Settings::getDmMaxCacheRetency()
-{
-    // 1 day = 86400
-    // 1 week = 604800
-    return settings.value("cacheretency", 604800).toInt();
-}*/
-
-/*void Settings::setCsPost(int value)
-{
-    settings.setValue("port", value);
-}
-
-int Settings::getCsPort()
-{
-    return settings.value("port", 9999).toInt();
-}*/
 
 QString Settings::getCsTheme()
 {

@@ -110,6 +110,12 @@ public:
         int date;
     };
 
+    struct Flags {
+        int unread;
+        int read;
+        int readlater;
+    };
+
     explicit DatabaseManager(QObject *parent = 0);
 
     Q_INVOKABLE void init();
@@ -182,6 +188,8 @@ public:
     int readNotCachedEntriesCount();
     int readEntriesCount();
     int readFeedsCount();
+
+    Flags readTabFlags(const QString &tabId);
 
     QSqlError lastError();
 

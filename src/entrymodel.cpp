@@ -106,11 +106,7 @@ void EntryModel::createItems(const QString &feedId)
     }
 }
 
-void EntryModel::sort()
-{
-}
-
-int EntryModel::count()
+/*int EntryModel::count()
 {
     return this->rowCount();
 }
@@ -118,7 +114,7 @@ int EntryModel::count()
 QObject* EntryModel::get(int i)
 {
     return (QObject*) this->readRow(i);
-}
+}*/
 
 void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
 {

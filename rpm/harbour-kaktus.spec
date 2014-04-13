@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.0.3
-Release:    1
+Release:    2
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,9 +75,12 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+* Sun Apr 13 2014 Michal Kosciesza 1.0.3-2
+- Showing number of unread items on Tabs
+
 * Sat Apr 12 2014 Michal Kosciesza 1.0.3-1
-- Show only unread option
-- Mark all items in Feed as read/unread
+- 'Show only unread' option
+- 'Mark all items in Feed as read/unread' option
 - New Cache management algorithm
 - Cache size view in Settings
 - UI improvements
