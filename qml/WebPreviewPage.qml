@@ -153,6 +153,7 @@ Page {
                 read=true;
                 entryModel.setData(root.index, "read", 1);
                 feedModel.decrementUnread(feedindex);
+                tabModel.updateFlags();
                 //notification.show(qsTr("Marked as read!"));
             }
         }

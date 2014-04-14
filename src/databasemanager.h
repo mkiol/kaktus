@@ -151,7 +151,7 @@ public:
     QString readFeedId(const QString &entryId);
 
     QList<Entry> readEntries(const QString &feedId);
-    QList<Entry> readEntriesReadlater();
+    QList<Entry> readEntriesReadlater(const QString &dashboardId);
     QList<Entry> readEntriesUnread(const QString &feedId);
     QList<Entry> readEntries();
     QList<Entry> readEntriesCachedOlderThan(int cacheDate, int limit);
@@ -188,6 +188,7 @@ public:
     int readNotCachedEntriesCount();
     int readEntriesCount();
     int readFeedsCount();
+    int readUnreadCount(const QString &dashboardId);
 
     Flags readTabFlags(const QString &tabId);
 

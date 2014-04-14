@@ -22,27 +22,32 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <location filename="../qml/CoverPage.qml" line="105"/>
-        <source>Syncing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/CoverPage.qml" line="112"/>
-        <source>Initiating</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/CoverPage.qml" line="116"/>
-        <source>Updating</source>
+        <location filename="../qml/CoverPage.qml" line="60"/>
+        <source>all read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="120"/>
+        <source>Syncing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/CoverPage.qml" line="127"/>
+        <source>Initiating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/CoverPage.qml" line="131"/>
+        <source>Updating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/CoverPage.qml" line="135"/>
         <source>Signing in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="132"/>
+        <location filename="../qml/CoverPage.qml" line="150"/>
         <source>Caching</source>
         <translation type="unfinished"></translation>
     </message>
@@ -81,22 +86,22 @@
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="228"/>
+        <location filename="../qml/EntryDelegate.qml" line="229"/>
         <source>Unsave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="228"/>
+        <location filename="../qml/EntryDelegate.qml" line="229"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="238"/>
+        <location filename="../qml/EntryDelegate.qml" line="239"/>
         <source>Mark as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="238"/>
+        <location filename="../qml/EntryDelegate.qml" line="239"/>
         <source>Mark as read</source>
         <translation type="unfinished"></translation>
     </message>
@@ -151,17 +156,17 @@ Switching to Offline mode</source>
 <context>
     <name>FeedPage</name>
     <message>
-        <location filename="../qml/FeedPage.qml" line="117"/>
+        <location filename="../qml/FeedPage.qml" line="119"/>
         <source>Mark all as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="126"/>
+        <location filename="../qml/FeedPage.qml" line="128"/>
         <source>Mark all as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="140"/>
+        <location filename="../qml/FeedPage.qml" line="142"/>
         <source>No feeds</source>
         <translation type="unfinished"></translation>
     </message>
@@ -266,62 +271,62 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="146"/>
+        <location filename="../qml/SettingsPage.qml" line="147"/>
         <source>Current cache size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="157"/>
+        <location filename="../qml/SettingsPage.qml" line="158"/>
         <source>Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="158"/>
+        <location filename="../qml/SettingsPage.qml" line="159"/>
         <source>Content of items will be displayed from local cache, without a network usage.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="168"/>
+        <location filename="../qml/SettingsPage.qml" line="169"/>
         <source>Cache items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="169"/>
+        <location filename="../qml/SettingsPage.qml" line="170"/>
         <source>After sync the content of all items will be downloaded and cached for access in Offline mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="183"/>
+        <location filename="../qml/SettingsPage.qml" line="184"/>
         <source>Show only unread items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="203"/>
+        <location filename="../qml/SettingsPage.qml" line="204"/>
         <source>Show Tab with saved items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="179"/>
+        <location filename="../qml/SettingsPage.qml" line="180"/>
         <source>UI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="193"/>
+        <location filename="../qml/SettingsPage.qml" line="194"/>
         <source>Show icons</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="224"/>
+        <location filename="../qml/SettingsPage.qml" line="225"/>
         <source>Offline viewer style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="234"/>
+        <location filename="../qml/SettingsPage.qml" line="235"/>
         <source>Black</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="235"/>
+        <location filename="../qml/SettingsPage.qml" line="236"/>
         <source>White</source>
         <translation type="unfinished"></translation>
     </message>
@@ -375,17 +380,17 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="194"/>
+        <location filename="../qml/TabPage.qml" line="189"/>
         <source>No tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="201"/>
+        <location filename="../qml/TabPage.qml" line="196"/>
         <source>Pull down to do first Sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="201"/>
+        <location filename="../qml/TabPage.qml" line="196"/>
         <source>Wait until Sync finish</source>
         <translation type="unfinished"></translation>
     </message>
@@ -393,90 +398,90 @@ Network connection is unavailable</source>
 <context>
     <name>Utils</name>
     <message>
-        <location filename="../src/utils.cpp" line="188"/>
+        <location filename="../src/utils.cpp" line="194"/>
         <source>empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="207"/>
+        <location filename="../src/utils.cpp" line="213"/>
         <source>just now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="210"/>
+        <location filename="../src/utils.cpp" line="216"/>
         <source>1 second ago</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="213"/>
+        <location filename="../src/utils.cpp" line="219"/>
         <source>%1 seconds ago</source>
         <comment>less than 5 seconds</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="216"/>
+        <location filename="../src/utils.cpp" line="222"/>
         <source>%1 seconds ago</source>
         <comment>more or equal 5 seconds</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="219"/>
+        <location filename="../src/utils.cpp" line="225"/>
         <source>1 minute ago</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="222"/>
+        <location filename="../src/utils.cpp" line="228"/>
         <source>%1 minutes ago</source>
         <comment>less than 5 minutes</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="225"/>
+        <location filename="../src/utils.cpp" line="231"/>
         <source>%1 minutes ago</source>
         <comment>more or equal 5 minutes</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="228"/>
+        <location filename="../src/utils.cpp" line="234"/>
         <source>1 hour ago</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="231"/>
+        <location filename="../src/utils.cpp" line="237"/>
         <source>%1 hours ago</source>
         <comment>less than 5 hours</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="234"/>
+        <location filename="../src/utils.cpp" line="240"/>
         <source>%1 hours ago</source>
         <comment>more or equal 5 hours</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="237"/>
+        <location filename="../src/utils.cpp" line="243"/>
         <source>yesterday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="240"/>
+        <location filename="../src/utils.cpp" line="246"/>
         <source>%1 days ago</source>
         <comment>less than 5 days</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="243"/>
+        <location filename="../src/utils.cpp" line="249"/>
         <source>%1 days ago</source>
         <comment>more or equal 5 days</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="246"/>
+        <location filename="../src/utils.cpp" line="252"/>
         <source>1 week ago</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="249"/>
+        <location filename="../src/utils.cpp" line="255"/>
         <source>%1 weeks ago</source>
         <translation type="unfinished"></translation>
     </message>

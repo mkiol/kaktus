@@ -42,7 +42,7 @@ Page {
 
         delegate: ListItem {
             id: listItem
-            contentHeight: item.height + 3 * Theme.paddingMedium
+            contentHeight: item.height + 2 * Theme.paddingMedium
 
             Column {
                 id: item
@@ -57,7 +57,9 @@ Page {
                     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeMedium
                     text: title
-                    color: listItem.down ? Theme.highlightColor : Theme.primaryColor
+                    color: listItem.down ?
+                               (model.unread ? Theme.highlightColor : Theme.secondaryHighlightColor) :
+                               (model.unread ? Theme.primaryColor : Theme.secondaryColor)
                 }
             }
 
@@ -87,13 +89,13 @@ Page {
                 height: Theme.iconSizeSmall
                 anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
                 anchors.verticalCenter: parent.verticalCenter
-                visible: settings.showTabIcons
+                visible: status!=Image.Error && status!=Image.Null && settings.showTabIcons
             }
 
             Connections {
                 target: settings
                 onShowTabIconsChanged: {
-                    if (settings.showTabIcons)
+                    if (settings.showTabIcons && model.icon!="")
                         image.source = cache.getUrlbyUrl(model.icon);
                     else
                         image.source = "";
@@ -101,7 +103,7 @@ Page {
             }
 
             Component.onCompleted: {
-                if (settings.showTabIcons)
+                if (settings.showTabIcons && model.icon!="")
                     image.source = cache.getUrlbyUrl(model.icon);
                 else
                     image.source = "";

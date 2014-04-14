@@ -133,6 +133,7 @@ Page {
 
             ListItem {
                 contentHeight: flow3.height + 2*Theme.paddingLarge
+                enabled: false
 
                 Flow {
                     id: flow3

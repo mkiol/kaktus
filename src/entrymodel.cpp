@@ -59,7 +59,7 @@ void EntryModel::createItems(const QString &feedId)
     Settings *s = Settings::instance();
 
     if (feedId == "readlater") {
-        list = _db->readEntriesReadlater();
+        list = _db->readEntriesReadlater(s->getDashboardInUse());
     } else {
         if (s->getShowOnlyUnread())
             list = _db->readEntriesUnread(feedId);

@@ -38,152 +38,147 @@ Page {
             title: qsTr("Tabs")
         }
 
-        delegate: ListItem {
-            id: listItem
-            contentHeight: {
-                if (visible) {
-                    if (model.uid==="readlater")
-                        return itemReadlater.height + 3 * Theme.paddingMedium;
-                    else
-                        return item.height + 2 * Theme.paddingMedium;
-                } else {
-                    return 0;
-                }
-            }
+        delegate: Item {
 
-            visible: {
-                if (model.uid==="readlater") {
-                    if (listView.count==1)
-                        return false;
-                    if (settings.showStarredTab)
-                        return true
-                    return false;
-                }
-                return true;
-            }
+            anchors.left: parent.left; anchors.right: parent.right
+            height: model.uid==="readlater" ? listItem.height+Theme.paddingMedium : listItem.height
 
-            /*Rectangle {
-                id: background
-                anchors.fill: parent
-                color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
-                visible: model.uid==="readlater"
-            }
+            ListItem {
+                id: listItem
 
-            OpacityRampEffect {
-                id: effect
-                slope: 1
-                offset: 0.1
-                direction: OpacityRamp.BottomToTop
-                sourceItem: background
-                enabled: background.visible
-            }*/
-
-            Column {
-                id: item
-
-                visible: model.uid!=="readlater"
-                spacing: 0.5*Theme.paddingSmall
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: image.visible ? image.right : parent.left
-                anchors.right: unreadbox.visible ? unreadbox.left : parent.right
-
-                Label {
-                    wrapMode: Text.AlignLeft
-                    anchors.left: parent.left; anchors.right: parent.right;
-                    anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                    font.pixelSize: Theme.fontSizeMedium
-                    color: listItem.down ? Theme.highlightColor : Theme.primaryColor
-                    text: title
-                }
-            }
-
-            Rectangle {
-                id: unreadbox
-                anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
-                anchors.verticalCenter: parent.verticalCenter
-                width: unreadlabel.width + 3 * Theme.paddingSmall
-                height: unreadlabel.height + 2 * Theme.paddingSmall
-                color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
-                radius: 5
-                visible: model.unread!=0
-
-                Label {
-                    id: unreadlabel
-                    anchors.centerIn: parent
-                    text: model.unread
-                    //color: listItem.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                    color: Theme.highlightColor
-                }
-
-            }
-
-            Image {
-                id: image
-                width: Theme.iconSizeSmall
-                height: Theme.iconSizeSmall
-                anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
-                anchors.verticalCenter: parent.verticalCenter
-                visible: settings.showTabIcons && model.uid!=="readlater"
-            }
-
-            // readlater
-
-            Column {
-                id: itemReadlater
-                spacing: 1.0 * Theme.paddingSmall
-                anchors.left: star.right; anchors.right: parent.right
                 anchors.top: parent.top
-                visible: model.uid==="readlater"
 
-                Label {
-                    wrapMode: Text.AlignLeft
-                    anchors.left: parent.left; anchors.right: parent.right;
-                    anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                    font.pixelSize: Theme.fontSizeMedium
-                    color: listItem.down ? Theme.highlightColor : Theme.primaryColor
-                    text: title
+                contentHeight: {
+                    if (visible) {
+                        if (model.uid==="readlater")
+                            return itemReadlater.height + 2 * Theme.paddingMedium;
+                        else
+                            return item.height + 2 * Theme.paddingMedium;
+                    } else {
+                        return 0;
+                    }
                 }
-            }
 
-            Image {
-                id: star
-                width: Theme.iconSizeSmall
-                height: Theme.iconSizeSmall
-                anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
-                anchors.verticalCenter: itemReadlater.verticalCenter
-                //anchors.verticalCenter: item.verticalCenter
-                visible: model.uid==="readlater"
-                source: listItem.down ? "image://theme/icon-m-favorite-selected?"+Theme.highlightColor :
-                                        "image://theme/icon-m-favorite-selected"
-            }
+                visible: {
+                    if (model.uid==="readlater") {
+                        if (listView.count==1)
+                            return false;
+                        if (settings.showStarredTab)
+                            return true
+                        return false;
+                    }
+                    return true;
+                }
 
-            // --
+                Column {
+                    id: item
 
-            Connections {
-                target: settings
-                onShowTabIconsChanged: {
-                    if (settings.showTabIcons && model.uid!=="readlater")
+                    visible: model.uid!=="readlater"
+                    spacing: 0.5*Theme.paddingSmall
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: image.visible ? image.right : parent.left
+                    anchors.right: unreadbox.visible ? unreadbox.left : parent.right
+
+                    Label {
+                        wrapMode: Text.AlignLeft
+                        anchors.left: parent.left; anchors.right: parent.right;
+                        anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
+                        font.pixelSize: Theme.fontSizeMedium
+                        color: listItem.down ?
+                                   (model.unread ? Theme.highlightColor : Theme.secondaryHighlightColor) :
+                                   (model.unread ? Theme.primaryColor : Theme.secondaryColor)
+                        text: title
+                    }
+                }
+
+                Rectangle {
+                    id: unreadbox
+                    anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: unreadlabel.width + 3 * Theme.paddingSmall
+                    height: unreadlabel.height + 2 * Theme.paddingSmall
+                    color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
+                    radius: 5
+                    visible: model.unread!=0
+
+                    Label {
+                        id: unreadlabel
+                        anchors.centerIn: parent
+                        text: model.unread
+                        //color: listItem.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                        color: Theme.highlightColor
+                    }
+                }
+
+                Image {
+                    id: image
+                    width: Theme.iconSizeSmall
+                    height: Theme.iconSizeSmall
+                    anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: status!=Image.Error && status!=Image.Null && settings.showTabIcons && model.uid!=="readlater"
+                }
+
+                // readlater
+
+                Column {
+                    id: itemReadlater
+                    spacing: 1.0 * Theme.paddingSmall
+                    anchors.left: star.right; anchors.right: parent.right
+                    //anchors.top: parent.top
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: model.uid==="readlater"
+
+                    Label {
+                        wrapMode: Text.AlignLeft
+                        anchors.left: parent.left; anchors.right: parent.right;
+                        anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
+                        font.pixelSize: Theme.fontSizeMedium
+                        color: listItem.down ? Theme.highlightColor : Theme.primaryColor
+                        text: title
+                    }
+                }
+
+                Image {
+                    id: star
+                    width: Theme.iconSizeSmall
+                    height: Theme.iconSizeSmall
+                    anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
+                    anchors.verticalCenter: itemReadlater.verticalCenter
+                    //anchors.verticalCenter: item.verticalCenter
+                    visible: model.uid==="readlater"
+                    source: listItem.down ? "image://theme/icon-m-favorite-selected?"+Theme.highlightColor :
+                                            "image://theme/icon-m-favorite-selected"
+                }
+
+                // --
+
+                Connections {
+                    target: settings
+                    onShowTabIconsChanged: {
+                        if (settings.showTabIcons && model.uid!=="readlater" && iconUrl!="")
+                            image.source = cache.getUrlbyUrl(iconUrl);
+                        else
+                            image.source = "";
+                    }
+                }
+
+                Component.onCompleted: {
+                    if (settings.showTabIcons && model.uid!=="readlater" && iconUrl!="") {
                         image.source = cache.getUrlbyUrl(iconUrl);
-                    else
+                    } else {
                         image.source = "";
+                    }
                 }
-            }
 
-            Component.onCompleted: {
-                if (settings.showTabIcons && model.uid!=="readlater") {
-                    image.source = cache.getUrlbyUrl(iconUrl);
-                } else {
-                    image.source = "";
-                }
-            }
-
-            onClicked: {
-                if (model.uid==="readlater") {
-                    utils.setEntryModel(uid);
-                    pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
-                } else {
-                    utils.setFeedModel(uid);
-                    pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title});
+                onClicked: {
+                    if (model.uid==="readlater") {
+                        utils.setEntryModel(uid);
+                        pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
+                    } else {
+                        utils.setFeedModel(uid);
+                        pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title});
+                    }
                 }
             }
         }

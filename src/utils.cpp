@@ -148,6 +148,12 @@ QString Utils::defaultDashboardName()
     return d.title;
 }
 
+int Utils::getUnreadItemsCount()
+{
+    Settings *s = Settings::instance();
+    return s->db->readUnreadCount(s->getDashboardInUse());
+}
+
 /*bool Utils::showNotification(const QString previewSummary,
                              const QString previewBody,
                              const QString icon)

@@ -98,6 +98,7 @@ ListItem {
         anchors.right: background.right; anchors.bottom: background.bottom
         height: visible ? lblMoreDetails.height : 0
         anchors.left: item.left
+        enabled: lblMoreDetails.visible
         onClicked: {
             if (lblMoreDetails.visible)
                 root.expanded = !root.expanded;

@@ -24,38 +24,60 @@ import Sailfish.Silica 1.0
 CoverBackground {
     id: root
 
+    property int unread: 0
+
+    onStatusChanged: {
+        if (status==Cover.Active) {
+            root.unread = utils.getUnreadItemsCount();
+        }
+    }
+
+    Image {
+        id: image
+        source: "icon-small.png"
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top; anchors.topMargin: 2*Theme.paddingLarge
+    }
+
     Column {
-        anchors.centerIn: parent
+        anchors.top: parent.verticalCenter
         visible: !dm.busy && !fetcher.busy
         spacing: Theme.paddingMedium
+        anchors.horizontalCenter: parent.horizontalCenter
 
-        Image {
-            source: "icon-small.png"
+        Rectangle {
+            id: unreadbox
             anchors.horizontalCenter: parent.horizontalCenter
+            width: unreadlabel.width + 3 * Theme.paddingSmall
+            height: unreadlabel.height + 2 * Theme.paddingSmall
+            color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
+            radius: 5
+            //visible: root.unread!=0
+
+            Label {
+                id: unreadlabel
+                anchors.centerIn: parent
+                text: root.unread!=0 ? root.unread : qsTr("all read")
+                //color: listItem.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                color: Theme.highlightColor
+                horizontalAlignment: Text.AlignHCenter
+            }
         }
 
-        Label {
+        /*Label {
             font.pixelSize: Theme.fontSizeMedium
             font.family: Theme.fontFamilyHeading
             anchors.horizontalCenter: parent.horizontalCenter
             text: APP_NAME
-        }
-
-        Item {
-            height: Theme.paddingLarge
-            width: Theme.paddingLarge
-        }
+            visible: root.unread==0
+        }*/
     }
 
     Column {
-        anchors.centerIn: parent
+        anchors.top: parent.verticalCenter
         visible: dm.busy || fetcher.busy
         spacing: Theme.paddingMedium
-
-        Image {
-            source: "icon-small.png"
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+        anchors.horizontalCenter: parent.horizontalCenter
 
         Label {
             id: label
@@ -67,16 +89,10 @@ CoverBackground {
         Label {
             id: progressLabel
             anchors.horizontalCenter: parent.horizontalCenter
-            font.pixelSize: Theme.fontSizeLarge
-            font.family: Theme.fontFamilyHeading
+            //font.pixelSize: Theme.fontSizeLarge
+            //font.family: Theme.fontFamilyHeading
             color: Theme.highlightColor
         }
-
-        Item {
-            height: 2*Theme.paddingLarge
-            width: Theme.paddingLarge
-        }
-
     }
 
     CoverActionList {
@@ -121,6 +137,9 @@ CoverBackground {
                 progressLabel.text = "";
                 break;
             }
+
+            if (!fetcher.busy)
+                root.unread = utils.getUnreadItemsCount();
         }
     }
 

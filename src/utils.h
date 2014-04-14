@@ -55,6 +55,7 @@ public:
     Q_INVOKABLE QString defaultDashboardName();
     Q_INVOKABLE QString getHumanFriendlyTimeString(int date);
     Q_INVOKABLE QString getHumanFriendlySizeString(int size);
+    Q_INVOKABLE int getUnreadItemsCount();
     /*Q_INVOKABLE bool showNotification(const QString previewSummary,
                                       const QString previewBody = "",
                                       const QString icon = "");*/

@@ -1166,13 +1166,18 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater()
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater(const QString &dashboardId)
 {
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE readlater=1 ORDER BY date DESC LIMIT %1;")
+        QSqlQuery query(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.read, e.readlater, e.date "
+                                "FROM entries as e, feeds as f, tabs as t "
+                                "WHERE e.feed_id=f.id AND f.tab_id=t.id AND t.dashboard_id=%1 AND e.readlater=1 "
+                                "ORDER BY date DESC LIMIT %2;")
+                        .arg(dashboardId)
                         .arg(entriesLimit),_db);
+
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
@@ -1456,3 +1461,20 @@ DatabaseManager::Flags DatabaseManager::readTabFlags(const QString &tabId)
 
     return flags;
 }
+
+int DatabaseManager::readUnreadCount(const QString &dashboardId)
+{
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        query.exec(QString("SELECT sum(f.unread) FROM feeds as f, tabs as t WHERE f.tab_id=t.id AND t.dashboard_id='%1';")
+                   .arg(dashboardId));
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
