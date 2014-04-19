@@ -46,12 +46,6 @@ Column {
     anchors.bottom: parent.bottom
     anchors.left: parent.left
 
-    /*rotation: app.orientation==Orientation.Portrait ? 0 : 90
-    transformOrigin: Item.TopLeft
-    width: app.orientation==Orientation.Portrait ? app.width : app.height
-    y: app.orientation==Orientation.Portrait ? app.height-height : 0
-    x: app.orientation==Orientation.Portrait ? 0 : height*/
-
     opacity: root.open ? 1.0 : 0.0
     Behavior on opacity { FadeAnimation {duration: 300} }
 

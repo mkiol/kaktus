@@ -35,12 +35,8 @@ Item {
     opacity: open ? 1.0 : 0.0
     visible: opacity > 0.0
 
-    rotation: app.orientation==Orientation.Portrait ? 0 : 90
-    transformOrigin: Item.TopLeft
-    height: app.orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium
-    width: app.orientation==Orientation.Portrait ? app.width : app.height
-    y: app.orientation==Orientation.Portrait ? app.height-height : 0
-    x: app.orientation==Orientation.Portrait ? 0 : height
+    height: Theme.itemSizeMedium
+    width: parent.width
 
     Behavior on opacity { FadeAnimation {} }
 

@@ -158,6 +158,7 @@ Page {
         transparent: false
         anchors.left: parent.left
         anchors.bottom: parent.bottom
+        height: isPortrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium
         cancelable: true
         onCloseClicked: view.stop()
     }
