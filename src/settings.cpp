@@ -31,8 +31,10 @@ Settings* Settings::inst = 0;
 Settings::Settings(QObject *parent) : QObject(parent), settings()
 {
     // Reset Last Update date if not Signed in
-    if (!getSignedIn())
-        setNetvibesLastUpdateDate(0);
+    if (!getSignedIn()) {
+        setLastUpdateDate(0);
+        setDashboardInUse("");
+    }
 }
 
 Settings* Settings::instance()
@@ -178,14 +180,30 @@ QString Settings::getDashboardInUse()
     return settings.value("dafaultdashboard", "").toString();
 }
 
-void Settings::setNetvibesLastUpdateDate(int value)
+void Settings::setLastUpdateDate(int value)
 {
-    settings.setValue("lastupdatedate", value);
+    if (getLastUpdateDate() != value) {
+        settings.setValue("lastupdatedate", value);
+        emit lastUpdateDateChanged();
+    }
 }
 
-int Settings::getNetvibesLastUpdateDate()
+int Settings::getLastUpdateDate()
 {
     return settings.value("lastupdatedate", 0).toInt();
+}
+
+void Settings::setAllowedOrientations(int value)
+{
+    if (getAllowedOrientations() != value) {
+        settings.setValue("allowedorientations", value);
+        emit allowedOrientationsChanged();
+    }
+}
+
+int Settings::getAllowedOrientations()
+{
+    return settings.value("allowedorientations", 0).toInt();
 }
 
 QString Settings::getSettingsDir()

@@ -656,6 +656,20 @@ bool DatabaseManager::updateEntriesReadFlag(const QString &feedId, int read)
     return ret;
 }
 
+bool DatabaseManager::updateEntriesReadFlagByTab(const QString &tabId, int read)
+{
+    bool ret = false;
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        ret = query.exec(QString("UPDATE entries SET read=%1 WHERE feed_id IN "
+                                 "(SELECT id FROM feeds WHERE tab_id='%2');")
+                         .arg(read)
+                         .arg(tabId));
+    }
+
+    return ret;
+}
+
 bool DatabaseManager::updateFeedReadFlag(const QString &feedId, int unread, int read)
 {
     bool ret = false;
@@ -669,6 +683,46 @@ bool DatabaseManager::updateFeedReadFlag(const QString &feedId, int unread, int 
 
     return ret;
 }
+
+bool DatabaseManager::updateFeedAllAsReadByTab(const QString &tabId)
+{
+    bool ret = false;
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        ret = query.exec(QString("UPDATE feeds SET unread=0, read="
+                                 "(SELECT f.read+f.unread FROM feeds as f WHERE f.id=feeds.id) "
+                                 "WHERE tab_id='%1';").arg(tabId));
+    }
+
+    return ret;
+}
+
+bool DatabaseManager::updateFeedAllAsUnreadByTab(const QString &tabId)
+{
+    bool ret = false;
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        ret = query.exec(QString("UPDATE feeds SET read=0, unread="
+                                 "(SELECT f.unread+f.read FROM feeds as f WHERE f.id=feeds.id) "
+                                 "WHERE tab_id='%1';").arg(tabId));
+    }
+
+    return ret;
+}
+
+/*bool DatabaseManager::updateTabReadFlag(const QString &tabId, int unread, int read)
+{
+    bool ret = false;
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        ret = query.exec(QString("UPDATE tabs SET unread=%1, read=%2 WHERE id='%3';")
+                         .arg(unread)
+                         .arg(read)
+                         .arg(tabId));
+    }
+
+    return ret;
+}*/
 
 bool DatabaseManager::updateFeedReadlaterFlag(const QString &feedId, int readlater)
 {
@@ -770,6 +824,23 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &tabId)
             f.readlater = query.value(9).toInt();
             f.lastUpdate = query.value(10).toInt();
             list.append(f);
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<QString> DatabaseManager::readFeedsIdsByTab(const QString &tabId)
+{
+    QList<QString> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(QString("SELECT id FROM feeds WHERE tab_id='%1';")
+                        .arg(tabId),_db);
+        while(query.next()) {
+            list.append(query.value(0).toString());
         }
     } else {
         qWarning() << "DB is not open!";
@@ -1128,6 +1199,21 @@ int DatabaseManager::readFeedLastUpadate(const QString &feedId)
     if (_db.isOpen()) {
         QSqlQuery query(_db);
         query.exec(QString("SELECT last_update FROM feeds WHERE id='%1';").arg(feedId));
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readTabLastUpadate(const QString &tabId)
+{
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        query.exec(QString("SELECT max(last_update) FROM feeds WHERE tab_id='%1';").arg(tabId));
         while(query.next()) {
             return query.value(0).toInt();
         }

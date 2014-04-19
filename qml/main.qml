@@ -158,16 +158,12 @@ ApplicationWindow {
 
     ProgressPanel {
         id: progressPanelDm
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
         open: dm.busy && !fetcher.busy
         onCloseClicked: dm.cancel();
     }
 
     ProgressPanel {
         id: progressPanel
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
         open: fetcher.busy
         onCloseClicked: fetcher.cancel();
     }

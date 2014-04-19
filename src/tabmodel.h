@@ -84,9 +84,10 @@ public:
     explicit TabModel(DatabaseManager* db, QObject *parent = 0);
     void init(const QString &dashboardId);
     void init();
-    //int count();
-    //QObject* get(int i);
+
     Q_INVOKABLE void updateFlags();
+    Q_INVOKABLE void markAllAsUnread(int row);
+    Q_INVOKABLE void markAllAsRead(int row);
 
 private:
     DatabaseManager* _db;

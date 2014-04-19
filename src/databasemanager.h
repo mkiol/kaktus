@@ -98,8 +98,10 @@ public:
         UnSetRead = 10,
         SetReadlater = 21,
         UnSetReadlater = 20,
-        SetReadAll = 30,
-        UnSetReadAll= 31
+        SetFeedReadAll = 30,
+        UnSetFeedReadAll= 31,
+        SetTabReadAll = 40,
+        UnSetTabReadAll= 41
     };
 
     struct Action {
@@ -132,6 +134,10 @@ public:
 
     bool updateEntriesReadFlag(const QString &feedId, int read);
     bool updateFeedReadFlag(const QString &feedId, int unread, int read);
+    bool updateFeedAllAsReadByTab(const QString &tabId);
+    bool updateFeedAllAsUnreadByTab(const QString &tabId);
+    //bool updateTabReadFlag(const QString &tabId, int unread, int read);
+    bool updateEntriesReadFlagByTab(const QString &tabId, int read);
     bool updateFeedReadlaterFlag(const QString &feedId, int readlater);
 
     bool writeEntry(const QString &feedId, const Entry &entry);
@@ -139,7 +145,9 @@ public:
     bool updateEntryReadlaterFlag(const QString &entryId, int readlater);
     bool writeCache(const CacheItem &item, int cacheDate, int flag = 1);
     bool updateEntryCache(const QString &entryId, int cacheDate, int flag = 1);
+
     bool writeAction(Action &action);
+    QList<Action> readActions();
 
     Dashboard readDashboard(const QString &dashboardId);
     QList<Dashboard> readDashboards();
@@ -147,6 +155,7 @@ public:
 
     QList<Tab> readTabs(const QString &dashboardId);
     QList<Feed> readFeeds(const QString &tabId);
+    QList<QString> readFeedsIdsByTab(const QString &tabId);
     QList<QString> readAllFeedIds();
     QString readFeedId(const QString &entryId);
 
@@ -158,8 +167,6 @@ public:
     QList<QString> readCacheFinalUrlOlderThan(int cacheDate, int limit);
     //QList<CacheItem> readCacheItems();
     QList<QString> readCacheIdsOlderThan(int cacheDate, int limit);
-
-    QList<Action> readActions();
 
     CacheItem readCacheItemFromOrigUrl(const QString &origUrl);
     CacheItem readCacheItemFromEntryId(const QString &entryId);
@@ -178,6 +185,7 @@ public:
 
     int readLatestEntryDateByFeedId(const QString &feedId);
     int readFeedLastUpadate(const QString &feedId);
+    int readTabLastUpadate(const QString &tabId);
 
     bool removeFeed(const QString &feedId);
     //bool removeCacheItems(const QString &feedId);

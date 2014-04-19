@@ -25,6 +25,16 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
+    allowedOrientations: {
+        switch (settings.allowedOrientations) {
+        case 1:
+            return Orientation.Portrait;
+        case 2:
+            return Orientation.Landscape;
+        }
+        return Orientation.Landscape | Orientation.Portrait;
+    }
+
     SilicaListView {
         anchors.fill: parent
         anchors.leftMargin: Theme.paddingLarge

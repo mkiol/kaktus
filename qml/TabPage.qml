@@ -24,12 +24,28 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
+    allowedOrientations: {
+        switch (settings.allowedOrientations) {
+        case 1:
+            return Orientation.Portrait;
+        case 2:
+            return Orientation.Landscape;
+        }
+        return Orientation.Landscape | Orientation.Portrait;
+    }
+
     SilicaListView {
         id: listView
         model: tabModel
 
         anchors { top: parent.top; left: parent.left; right: parent.right }
-        height: app.height - (dm.busy||fetcher.busy ? Theme.itemSizeMedium : 0);
+
+        height: {
+            if (dm.busy||fetcher.busy)
+                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
+            return isPortrait ? app.height : app.width;
+        }
+
         clip:true
 
         MainMenu{}
@@ -40,8 +56,10 @@ Page {
 
         delegate: Item {
 
+            property bool readlaterItem: model.uid==="readlater"
+
             anchors.left: parent.left; anchors.right: parent.right
-            height: model.uid==="readlater" ? listItem.height+Theme.paddingMedium : listItem.height
+            height: readlaterItem ? listItem.height+Theme.paddingMedium : listItem.height
 
             ListItem {
                 id: listItem
@@ -50,7 +68,7 @@ Page {
 
                 contentHeight: {
                     if (visible) {
-                        if (model.uid==="readlater")
+                        if (readlaterItem)
                             return itemReadlater.height + 2 * Theme.paddingMedium;
                         else
                             return item.height + 2 * Theme.paddingMedium;
@@ -60,7 +78,7 @@ Page {
                 }
 
                 visible: {
-                    if (model.uid==="readlater") {
+                    if (readlaterItem) {
                         if (listView.count==1)
                             return false;
                         if (settings.showStarredTab)
@@ -73,7 +91,7 @@ Page {
                 Column {
                     id: item
 
-                    visible: model.uid!=="readlater"
+                    visible: !readlaterItem
                     spacing: 0.5*Theme.paddingSmall
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: image.visible ? image.right : parent.left
@@ -116,7 +134,7 @@ Page {
                     height: Theme.iconSizeSmall
                     anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
                     anchors.verticalCenter: parent.verticalCenter
-                    visible: status!=Image.Error && status!=Image.Null && settings.showTabIcons && model.uid!=="readlater"
+                    visible: status!=Image.Error && status!=Image.Null && settings.showTabIcons && !readlaterItem
                 }
 
                 // readlater
@@ -127,7 +145,7 @@ Page {
                     anchors.left: star.right; anchors.right: parent.right
                     //anchors.top: parent.top
                     anchors.verticalCenter: parent.verticalCenter
-                    visible: model.uid==="readlater"
+                    visible: readlaterItem
 
                     Label {
                         wrapMode: Text.AlignLeft
@@ -146,7 +164,7 @@ Page {
                     anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
                     anchors.verticalCenter: itemReadlater.verticalCenter
                     //anchors.verticalCenter: item.verticalCenter
-                    visible: model.uid==="readlater"
+                    visible: readlaterItem
                     source: listItem.down ? "image://theme/icon-m-favorite-selected?"+Theme.highlightColor :
                                             "image://theme/icon-m-favorite-selected"
                 }
@@ -156,7 +174,7 @@ Page {
                 Connections {
                     target: settings
                     onShowTabIconsChanged: {
-                        if (settings.showTabIcons && model.uid!=="readlater" && iconUrl!="")
+                        if (settings.showTabIcons && !readlaterItem && iconUrl!="")
                             image.source = cache.getUrlbyUrl(iconUrl);
                         else
                             image.source = "";
@@ -164,7 +182,7 @@ Page {
                 }
 
                 Component.onCompleted: {
-                    if (settings.showTabIcons && model.uid!=="readlater" && iconUrl!="") {
+                    if (settings.showTabIcons && !readlaterItem && iconUrl!="") {
                         image.source = cache.getUrlbyUrl(iconUrl);
                     } else {
                         image.source = "";
@@ -172,12 +190,34 @@ Page {
                 }
 
                 onClicked: {
-                    if (model.uid==="readlater") {
+                    if (readlaterItem) {
                         utils.setEntryModel(uid);
                         pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
                     } else {
                         utils.setFeedModel(uid);
                         pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title});
+                    }
+                }
+
+                showMenuOnPressAndHold: !readlaterItem
+
+                menu: ContextMenu {
+
+                    MenuItem {
+                        text: qsTr("Mark all as read")
+                        enabled: model.unread!=0
+                        visible: enabled
+                        onClicked: {
+                            tabModel.markAllAsRead(model.index);
+                        }
+                    }
+                    MenuItem {
+                        text: qsTr("Mark all as unread")
+                        enabled: model.read!=0
+                        visible: enabled
+                        onClicked: {
+                            tabModel.markAllAsUnread(model.index);
+                        }
                     }
                 }
             }

@@ -28,6 +28,16 @@ Dialog {
 
     canAccept: user.text!=="" && password.text !==""
 
+    allowedOrientations: {
+        switch (settings.allowedOrientations) {
+        case 1:
+            return Orientation.Portrait;
+        case 2:
+            return Orientation.Landscape;
+        }
+        return Orientation.Landscape | Orientation.Portrait;
+    }
+
     Column {
         anchors {
             left: parent.left; leftMargin: Theme.paddingMedium

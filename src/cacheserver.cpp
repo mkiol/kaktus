@@ -80,7 +80,9 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
         else
             tc = QTextCodec::codecForHtml(data);
         QString content = tc->toUnicode(data);
-        filter(content);
+
+        QUrlQuery query(req->url());
+        filter(content,query);
         data = tc->fromUnicode(content);
     }
 
@@ -118,7 +120,7 @@ bool CacheServer::readFile(const QString &filename, QByteArray &data)
     return true;
 }
 
-void CacheServer::filter(QString &content)
+void CacheServer::filter(QString &content, QUrlQuery &query)
 {
     //QRegExp rxImg("(<img\\s[^>]*)src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
     QRegExp rxImgAll("<img[^>]*>", Qt::CaseInsensitive);
@@ -161,11 +163,20 @@ void CacheServer::filter(QString &content)
 
     // Applying Theme's style
     Settings *s = Settings::instance();
-    QString style;
-    if (s->getCsTheme() == "white")
-        style = "<meta name='viewport' content='width=540px'><style>body{background:#FFF;color:#000;font-size:25px;}</style></head>";
-    else
-        style = "<meta name='viewport' content='width=540px'><style>body{background:#000;color:#FFF;font-size:25px;}</style></head>";
+    QString style, width = "540px";
+
+    if (query.hasQueryItem("width"))
+        width = query.queryItemValue("width");
+
+    if (s->getCsTheme() == "white") {
+        style = QString("<meta name='viewport' content='width=%1'>"
+                        "<style>body{background:#FFF;color:#000;font-size:25px;}</style></head>")
+                .arg(width);
+    } else {
+        style = QString("<meta name='viewport' content='width=%1'>"
+                "<style>body{background:#000;color:#FFF;font-size:25px;}</style></head>")
+                .arg(width);
+    }
     content = content.replace(rxHeadEnd,style);
 
     // Change CSS link

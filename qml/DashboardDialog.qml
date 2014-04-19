@@ -27,6 +27,16 @@ Dialog {
 
     canAccept: false
 
+    allowedOrientations: {
+        switch (settings.allowedOrientations) {
+        case 1:
+            return Orientation.Portrait;
+        case 2:
+            return Orientation.Landscape;
+        }
+        return Orientation.Landscape | Orientation.Portrait;
+    }
+
     SilicaListView {
         id: listView
         anchors.fill: parent

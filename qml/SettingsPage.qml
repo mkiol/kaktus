@@ -24,10 +24,25 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
+    allowedOrientations: {
+        switch (settings.allowedOrientations) {
+        case 1:
+            return Orientation.Portrait;
+        case 2:
+            return Orientation.Landscape;
+        }
+        return Orientation.Landscape | Orientation.Portrait;
+    }
+
     SilicaListView {
         anchors { top: parent.top; left: parent.left; right: parent.right }
-        height: app.height - (dm.busy||fetcher.busy ? Theme.itemSizeMedium : 0);
         clip: true
+
+        height: {
+            if (dm.busy||fetcher.busy)
+                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
+            return isPortrait ? app.height : app.width;
+        }
 
         header: PageHeader {
             title: qsTr("Settings")
@@ -219,6 +234,20 @@ Page {
                     settings.setAutoMarkAsRead(checked);
                 }
             }*/
+
+            ComboBox {
+                width: root.width
+                label: qsTr("Orientation")
+                currentIndex: settings.allowedOrientations
+
+                menu: ContextMenu {
+                    MenuItem { id: allOrientations; text: qsTr("Dynamic") }
+                    MenuItem { id: portraitOrientation; text: qsTr("Portrait") }
+                    MenuItem { id: landscapeOrientation; text: qsTr("Landscape") }
+                }
+
+                onCurrentIndexChanged: settings.allowedOrientations = currentIndex
+            }
 
             ComboBox {
                 width: root.width

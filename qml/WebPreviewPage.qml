@@ -47,7 +47,16 @@ Page {
     }*/
 
     showNavigationIndicator: false
-    allowedOrientations: Orientation.Portrait
+
+    allowedOrientations: {
+        switch (settings.allowedOrientations) {
+        case 1:
+            return Orientation.Portrait;
+        case 2:
+            return Orientation.Landscape;
+        }
+        return Orientation.Landscape | Orientation.Portrait;
+    }
 
     SilicaWebView {
         id: view
@@ -59,7 +68,15 @@ Page {
             bottom: parent.bottom
         }
 
-        url:  settings.offlineMode ? offlineUrl : onlineUrl
+        url:  {
+            if (settings.offlineMode) {
+                if (isPortrait)
+                    return offlineUrl+"?width=540px";
+                return offlineUrl+"?width=960px";
+            }
+            return onlineUrl;
+        }
+
         experimental.userAgent: settings.getDmUserAgent()
 
         onLoadingChanged: {
@@ -86,14 +103,14 @@ Page {
             }
         }
 
-        onNavigationRequested: {
+        /*onNavigationRequested: {
             // In Off-Line mode navigation is disabled
             if (settings.offlineMode) {
                 if (request.url != offlineUrl) {
                     request.action = WebView.IgnoreRequest;
                 }
             }
-        }
+        }*/
     }
 
     ControlBarWebPreview {

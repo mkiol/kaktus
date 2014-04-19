@@ -43,6 +43,8 @@ class Settings: public QObject
     Q_PROPERTY (bool showStarredTab READ getShowStarredTab WRITE setShowStarredTab NOTIFY showStarredTabChanged)
     Q_PROPERTY (bool showOnlyUnread READ getShowOnlyUnread WRITE setShowOnlyUnread NOTIFY showOnlyUnreadChanged)
     Q_PROPERTY (QString dashboardInUse READ getDashboardInUse WRITE setDashboardInUse NOTIFY dashboardInUseChanged)
+    Q_PROPERTY (int lastUpdateDate READ getLastUpdateDate WRITE setLastUpdateDate NOTIFY lastUpdateDateChanged)
+    Q_PROPERTY (int allowedOrientations READ getAllowedOrientations WRITE setAllowedOrientations NOTIFY allowedOrientationsChanged)
 
 public:
     static Settings* instance();
@@ -68,6 +70,13 @@ public:
 
     void setDashboardInUse(const QString &value);
     QString getDashboardInUse();
+
+    void setLastUpdateDate(int value);
+    int getLastUpdateDate();
+
+    void setAllowedOrientations(int value);
+    int getAllowedOrientations();
+
     // ---
 
     bool getShowOnlyUnread();
@@ -89,8 +98,8 @@ public:
     Q_INVOKABLE void setNetvibesPassword(const QString &value);
     Q_INVOKABLE QString getNetvibesPassword();
 
-    Q_INVOKABLE void setNetvibesLastUpdateDate(int value);
-    Q_INVOKABLE int getNetvibesLastUpdateDate();
+    //Q_INVOKABLE void setNetvibesLastUpdateDate(int value);
+    //Q_INVOKABLE int getNetvibesLastUpdateDate();
 
     Q_INVOKABLE void setDmUserAgent(const QString &value);
     Q_INVOKABLE QString getDmUserAgent();
@@ -114,6 +123,8 @@ signals:
     void showStarredTabChanged();
     void showOnlyUnreadChanged();
     void dashboardInUseChanged();
+    void lastUpdateDateChanged();
+    void allowedOrientationsChanged();
 
     /*
     501 - Unable create settings dir

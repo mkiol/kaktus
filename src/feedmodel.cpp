@@ -125,7 +125,7 @@ void FeedModel::markAllAsUnread(int row)
 
     if (_db->updateFeedReadFlag(item->id(),unread+read,0) && _db->updateEntriesReadFlag(item->id(),0)) {
         DatabaseManager::Action action;
-        action.type = DatabaseManager::UnSetReadAll;
+        action.type = DatabaseManager::UnSetFeedReadAll;
         action.feedId = item->id();
         //action.olderDate = _db->readLatestEntryDateByFeedId(item->id());
         action.olderDate = _db->readFeedLastUpadate(item->id());
@@ -146,7 +146,7 @@ void FeedModel::markAllAsRead(int row)
 
     if (_db->updateFeedReadFlag(item->id(),0,unread+read) && _db->updateEntriesReadFlag(item->id(),1)) {
         DatabaseManager::Action action;
-        action.type = DatabaseManager::SetReadAll;
+        action.type = DatabaseManager::SetFeedReadAll;
         action.feedId = item->id();
         //action.olderDate = _db->readLatestEntryDateByFeedId(item->id());
         action.olderDate = _db->readFeedLastUpadate(item->id());

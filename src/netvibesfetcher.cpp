@@ -217,10 +217,16 @@ void NetvibesFetcher::set()
     case DatabaseManager::UnSetReadlater:
         url.setUrl("http://www.netvibes.com/api/feeds/readlater/remove");
         break;
-    case DatabaseManager::UnSetReadAll:
+    case DatabaseManager::UnSetFeedReadAll:
         url.setUrl("http://www.netvibes.com/api/feeds/read/remove");
         break;
-    case DatabaseManager::SetReadAll:
+    case DatabaseManager::SetFeedReadAll:
+        url.setUrl("http://www.netvibes.com/api/feeds/read/add");
+        break;
+    case DatabaseManager::UnSetTabReadAll:
+        url.setUrl("http://www.netvibes.com/api/feeds/read/remove");
+        break;
+    case DatabaseManager::SetTabReadAll:
         url.setUrl("http://www.netvibes.com/api/feeds/read/add");
         break;
     }
@@ -235,10 +241,34 @@ void NetvibesFetcher::set()
     request.setRawHeader("Cookie", _cookie);
 
     QString content;
-    if (action.type == DatabaseManager::SetReadAll ||action.type == DatabaseManager::UnSetReadAll)
+
+    if (action.type == DatabaseManager::SetTabReadAll ||
+        action.type == DatabaseManager::UnSetTabReadAll) {
+
+        Settings *s = Settings::instance();
+        QStringList list = s->db->readFeedsIdsByTab(action.feedId);
+        QStringList::iterator i = list.begin();
+        QString feeds;
+        while (i != list.end()) {
+            if (i != list.begin())
+                feeds += ",";
+            feeds += *i+":"+QString::number(action.olderDate);
+            ++i;
+        }
+        content = QString("feeds=%1&format=json").arg(feeds);
+    }
+
+    if (action.type == DatabaseManager::SetFeedReadAll ||
+        action.type == DatabaseManager::UnSetFeedReadAll) {
         content = QString("feeds=%1:%2&format=json").arg(action.feedId).arg(action.olderDate);
-    else
+    }
+
+    if (action.type == DatabaseManager::SetRead ||
+        action.type == DatabaseManager::UnSetRead ||
+        action.type == DatabaseManager::SetReadlater ||
+        action.type == DatabaseManager::UnSetReadlater) {
         content = QString("feeds=%1&items=%2&format=json").arg(action.feedId).arg(action.entryId);
+    }
 
     //qDebug() << "content=" << content;
 
@@ -1060,7 +1090,7 @@ void NetvibesFetcher::taskEnd()
     _currentReply = 0;
 
     Settings *s = Settings::instance();
-    s->setNetvibesLastUpdateDate(QDateTime::currentDateTimeUtc().toTime_t());
+    s->setLastUpdateDate(QDateTime::currentDateTimeUtc().toTime_t());
 
     emit ready();
     setBusy(false);

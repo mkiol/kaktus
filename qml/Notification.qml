@@ -23,10 +23,12 @@ import Sailfish.Silica 1.0
 Rectangle {
     id: root
 
-    width: parent.width
-    height: label.height + 2*Theme.paddingSmall
-    anchors.top: parent.top
-    anchors.left: parent.left
+    rotation: app.orientation==Orientation.Portrait ? 0 : 90
+    transformOrigin: Item.TopLeft
+    height: app.orientation==Orientation.Portrait ? label.height + 2*Theme.paddingSmall : label.height + 1*Theme.paddingSmall
+    width: app.orientation==Orientation.Portrait ? app.width : app.height
+    y: app.orientation==Orientation.Portrait ? 0 : 0
+    x: app.orientation==Orientation.Portrait ? 0 : app.width
 
     color: Theme.highlightBackgroundColor
     opacity: timer.running ? 1.0 : 0.0

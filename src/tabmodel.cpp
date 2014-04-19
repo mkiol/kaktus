@@ -63,16 +63,6 @@ void TabModel::sort()
 {
 }
 
-/*int TabModel::count()
-{
-    return this->rowCount();
-}
-
-QObject* TabModel::get(int i)
-{
-    return (QObject*) this->readRow(i);
-}*/
-
 void TabModel::updateFlags()
 {
     int i, size = this->rowCount();
@@ -82,6 +72,55 @@ void TabModel::updateFlags()
         item->setUnread(flags.unread);
         //item.setRead(flags.read);
         //item.setReadlater(flags.readlater);
+    }
+}
+
+void TabModel::markAllAsUnread(int row)
+{
+    TabItem* item = static_cast<TabItem*>(readRow(row));
+    int unread = item->unread();
+    int read = item->read();
+    item->setUnread(unread+read);
+    item->setRead(0);
+
+    if (_db->updateFeedAllAsUnreadByTab(item->id()) &&
+        _db->updateEntriesReadFlagByTab(item->id(),0)) {
+
+        DatabaseManager::Action action;
+        action.type = DatabaseManager::UnSetTabReadAll;
+        action.feedId = item->id();
+        action.olderDate = _db->readTabLastUpadate(item->id());
+        _db->writeAction(action);
+
+    } else {
+        qWarning() << "Unable to update Read flag";
+    }
+}
+
+void TabModel::markAllAsRead(int row)
+{
+    TabItem* item = static_cast<TabItem*>(readRow(row));
+    int unread = item->unread();
+    int read = item->read();
+    item->setRead(unread+read);
+    item->setUnread(0);
+
+
+    //qDebug() << _db->updateTabReadFlag(item->id(),0,unread+read);
+    //qDebug() << _db->updateFeedAllAsReadByTab(item->id());
+    //qDebug() << _db->updateEntriesReadFlagByTab(item->id(),1);
+
+    if (_db->updateFeedAllAsReadByTab(item->id()) &&
+        _db->updateEntriesReadFlagByTab(item->id(),1)) {
+
+        DatabaseManager::Action action;
+        action.type = DatabaseManager::SetTabReadAll;
+        action.feedId = item->id();
+        action.olderDate = _db->readTabLastUpadate(item->id());
+        _db->writeAction(action);
+
+    } else {
+        qWarning() << "Unable to update Read flag";
     }
 }
 
