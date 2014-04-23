@@ -53,7 +53,7 @@
 przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="78"/>
+        <location filename="../qml/CoverPage.qml" line="85"/>
         <source>Not signed in</source>
         <translation>Niezalogowany</translation>
     </message>
@@ -66,55 +66,53 @@ przeczytane</translation>
         <translation type="obsolete">czytanych</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="151"/>
-        <location filename="../qml/CoverPage.qml" line="166"/>
+        <location filename="../qml/CoverPage.qml" line="121"/>
         <source>All read</source>
         <translation>Wszytkie przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="168"/>
+        <location filename="../qml/CoverPage.qml" line="123"/>
         <source>Unread item</source>
         <translation>Nieprzeczytany</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="170"/>
+        <location filename="../qml/CoverPage.qml" line="125"/>
         <source>Unread items</source>
         <comment>less than 5 articles are unread</comment>
         <translation>Nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="171"/>
+        <location filename="../qml/CoverPage.qml" line="126"/>
         <source>Unread items</source>
         <comment>more or equal 5 articles are unread</comment>
         <translation>Nieprzeczytanych</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="194"/>
         <source>Last sync</source>
-        <translation>Ostatnia aktualizacja</translation>
+        <translation type="obsolete">Ostatnia aktualizacja</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="258"/>
+        <location filename="../qml/CoverPage.qml" line="264"/>
         <source>Syncing</source>
         <translation>Aktualizacja</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="265"/>
+        <location filename="../qml/CoverPage.qml" line="271"/>
         <source>Initiating</source>
         <translation>Inicjacja</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="269"/>
+        <location filename="../qml/CoverPage.qml" line="275"/>
         <source>Updating</source>
         <translation>Aktualizacja</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="273"/>
+        <location filename="../qml/CoverPage.qml" line="279"/>
         <source>Signing in</source>
         <translation>Logowanie</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="292"/>
+        <location filename="../qml/CoverPage.qml" line="298"/>
         <source>Caching</source>
         <translation>Pobieranie</translation>
     </message>
@@ -345,9 +343,8 @@ Brak połączenia sieciowego</translation>
 <context>
     <name>NotSignedCoverPage</name>
     <message>
-        <location filename="../qml/NotSignedCoverPage.qml" line="38"/>
         <source>Not signed in</source>
-        <translation>Niezalogowany</translation>
+        <translation type="obsolete">Niezalogowany</translation>
     </message>
 </context>
 <context>
@@ -608,7 +605,7 @@ Brak połączenia sieciowego</translation>
     <message>
         <location filename="../src/utils.cpp" line="213"/>
         <source>just now</source>
-        <translation>przed chwilą</translation>
+        <translation>w tej chwili</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="216"/>

@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.0.4
-Release:    1
+Release:    2
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,9 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+* Wed Apr 23 2014 Michal Kosciesza 1.0.4-2
+- Cover improvements
+
 * Sat Apr 19 2014 Michal Kosciesza 1.0.4-1
 - Landscape mode
 - 'Last sync' info on Cover

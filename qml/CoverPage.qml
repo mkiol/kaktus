@@ -70,43 +70,52 @@ CoverBackground {
         anchors.bottom: parent.bottom
     }
 
+    // Not signed In
     Label {
-        anchors.centerIn: parent
+        visible: !settings.signedIn
+
+        anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right;
+        anchors.margins: Theme.paddingLarge
         font.pixelSize: Theme.fontSizeMedium
         font.family: Theme.fontFamilyHeading
-        color: Theme.highlightColor
+
+        wrapMode: Text.Wrap
+        horizontalAlignment: Text.AlignHCenter
+
         text: qsTr("Not signed in")
-        visible: !settings.signedIn
     }
 
+    // Singned In and idle
     Column {
-        anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right;
-        anchors.margins: Theme.paddingMedium
+        visible: !dm.busy && !fetcher.busy && settings.signedIn && settings.signedIn
+
+        anchors.top: parent.top; anchors.topMargin: Theme.paddingMedium
+        anchors.left: parent.left; anchors.right: parent.right;
+        anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
 
         spacing: Theme.paddingMedium
 
-        visible: !dm.busy && !fetcher.busy && settings.signedIn && settings.signedIn
-
-        /*Item {
+        Item {
             anchors.left: parent.left; anchors.right: parent.right;
             height: Math.max(unreadDesc.height,unreadlabel.height)
+            visible: root.unread>0
 
             Label {
                 id: unreadlabel
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 text: root.unread
-                color: Theme.highlightColor
+                color: Theme.primaryColor
                 font.pixelSize: root.unread>999 ? Theme.fontSizeLarge : Theme.fontSizeHuge
                 font.family: Theme.fontFamilyHeading
-
             }
 
             Label {
                 id: unreadDesc
+
+                anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize: Theme.fontSizeExtraSmall
                 font.family: Theme.fontFamilyHeading
-                anchors.verticalCenter: parent.verticalCenter
                 anchors.left: unreadlabel.right; anchors.right: parent.right;
                 anchors.leftMargin: Theme.paddingMedium
                 text: {
@@ -121,45 +130,29 @@ CoverBackground {
                 wrapMode: Text.Wrap
                 horizontalAlignment: Text.AlignLeft
                 truncationMode: TruncationMode.Fade
+                maximumLineCount: 2
             }
+        }
 
-            Column {
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: unreadlabel.right; anchors.right: parent.right;
-                spacing: 0
+        Label {
+            visible: root.unread==0
 
-                Label {
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    font.family: Theme.fontFamilyHeading
-                    text: qsTr("Uread")
-                }
+            font.pixelSize: Theme.fontSizeMedium
+            font.family: Theme.fontFamilyHeading
+            anchors.left: parent.left; anchors.right: parent.right;
+            text: qsTr("All read");
+            wrapMode: Text.Wrap
+            horizontalAlignment: Text.AlignLeft
+            truncationMode: TruncationMode.Fade
+            maximumLineCount: 2
+        }
 
-                Label {
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    font.family: Theme.fontFamilyHeading
-                    text: qsTr("items")
-                }
-            }
-        }*/
-
-        Column {
+        /*Column {
             anchors.left: parent.left; anchors.right: parent.right;
             visible: root.unread>0
 
             Label {
-                id: unreadlabel
-                text: root.unread>0 ? root.unread : qsTr("All read")
-                color: Theme.highlightColor
-                font.pixelSize: root.unread>0 ? Theme.fontSizeHuge : Theme.fontSizeLarge
-                font.family: Theme.fontFamilyHeading
-                wrapMode: Text.Wrap
-                anchors.left: parent.left; anchors.right: parent.right;
-                horizontalAlignment: Text.AlignHCenter
-            }
-
-            Label {
-                visible: root.unread>0
-                font.pixelSize: Theme.fontSizeSmall
+                font.pixelSize: Theme.fontSizeMedium
                 font.family: Theme.fontFamilyHeading
                 text: {
                     if (root.unread==0)
@@ -170,49 +163,55 @@ CoverBackground {
                         return qsTr("Unread items","less than 5 articles are unread");
                     return qsTr("Unread items","more or equal 5 articles are unread");
                 }
+                wrapMode: Text.NoWrap
+                anchors.left: parent.left; anchors.right: parent.right;
+                horizontalAlignment: Text.AlignHCenter
+                elide: Text.ElideRight
+            }
+
+            Label {
+                id: unreadlabel
+                text: root.unread
+                color: Theme.highlightColor
+                font.pixelSize: Theme.fontSizeHuge
+                font.family: Theme.fontFamilyHeading
                 wrapMode: Text.Wrap
                 anchors.left: parent.left; anchors.right: parent.right;
                 horizontalAlignment: Text.AlignHCenter
             }
-        }
-
-        Rectangle {
-            anchors.left: parent.left; anchors.right: parent.right;
-            height: 2
-            color: Theme.primaryColor
-            opacity: 0.1
-            visible: root.unread>0
-        }
+        }*/
 
         Column {
             anchors.left: parent.left; anchors.right: parent.right;
             visible: settings.lastUpdateDate>0
 
-            Label {
-                font.pixelSize: Theme.fontSizeSmall
+            /*Label {
+                font.pixelSize: Theme.fontSizeMedium
                 font.family: Theme.fontFamilyHeading
                 text: qsTr("Last sync")
                 wrapMode: Text.Wrap
                 anchors.left: parent.left; anchors.right: parent.right;
                 horizontalAlignment: Text.AlignHCenter
-
-            }
+            }*/
 
             Label {
                 id: lastupdateLabel
-                font.pixelSize: Theme.fontSizeSmall
+                font.pixelSize: Theme.fontSizeLarge
                 font.family: Theme.fontFamilyHeading
                 color: Theme.highlightColor
                 wrapMode: Text.Wrap
                 anchors.left: parent.left; anchors.right: parent.right;
-                horizontalAlignment: Text.AlignHCenter
+                horizontalAlignment: Text.AlignLeft
             }
         }
     }
 
+    // Busy
     Column {
-        anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right;
-        anchors.margins: Theme.paddingMedium
+        anchors.top: parent.top; anchors.topMargin: Theme.paddingLarge
+        anchors.left: parent.left; anchors.right: parent.right;
+        anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
+
         visible: dm.busy || fetcher.busy
         spacing: Theme.paddingMedium
 
@@ -220,15 +219,19 @@ CoverBackground {
             id: label
             font.pixelSize: Theme.fontSizeMedium
             font.family: Theme.fontFamilyHeading
-            anchors.horizontalCenter: parent.horizontalCenter
+            wrapMode: Text.Wrap
+            anchors.left: parent.left; anchors.right: parent.right;
+            horizontalAlignment: Text.AlignLeft
         }
 
         Label {
             id: progressLabel
-            anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: Theme.fontSizeHuge
             font.family: Theme.fontFamilyHeading
             color: Theme.highlightColor
+            wrapMode: Text.Wrap
+            anchors.left: parent.left; anchors.right: parent.right;
+            horizontalAlignment: Text.AlignLeft
         }
     }
 

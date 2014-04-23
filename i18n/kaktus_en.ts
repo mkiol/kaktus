@@ -22,60 +22,54 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <location filename="../qml/CoverPage.qml" line="78"/>
+        <location filename="../qml/CoverPage.qml" line="85"/>
         <source>Not signed in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="151"/>
-        <location filename="../qml/CoverPage.qml" line="166"/>
+        <location filename="../qml/CoverPage.qml" line="121"/>
         <source>All read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="168"/>
+        <location filename="../qml/CoverPage.qml" line="123"/>
         <source>Unread item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="170"/>
+        <location filename="../qml/CoverPage.qml" line="125"/>
         <source>Unread items</source>
         <comment>less than 5 articles are unread</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="171"/>
+        <location filename="../qml/CoverPage.qml" line="126"/>
         <source>Unread items</source>
         <comment>more or equal 5 articles are unread</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="194"/>
-        <source>Last sync</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/CoverPage.qml" line="258"/>
+        <location filename="../qml/CoverPage.qml" line="264"/>
         <source>Syncing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="265"/>
+        <location filename="../qml/CoverPage.qml" line="271"/>
         <source>Initiating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="269"/>
+        <location filename="../qml/CoverPage.qml" line="275"/>
         <source>Updating</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="273"/>
+        <location filename="../qml/CoverPage.qml" line="279"/>
         <source>Signing in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="292"/>
+        <location filename="../qml/CoverPage.qml" line="298"/>
         <source>Caching</source>
         <translation type="unfinished"></translation>
     </message>
@@ -224,14 +218,6 @@ Switching to Offline mode</source>
     <message>
         <location filename="../qml/MainMenu.qml" line="56"/>
         <source>Not yet synced</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>NotSignedCoverPage</name>
-    <message>
-        <location filename="../qml/NotSignedCoverPage.qml" line="38"/>
-        <source>Not signed in</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
