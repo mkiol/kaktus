@@ -45,6 +45,7 @@ class Settings: public QObject
     Q_PROPERTY (QString dashboardInUse READ getDashboardInUse WRITE setDashboardInUse NOTIFY dashboardInUseChanged)
     Q_PROPERTY (int lastUpdateDate READ getLastUpdateDate WRITE setLastUpdateDate NOTIFY lastUpdateDateChanged)
     Q_PROPERTY (int allowedOrientations READ getAllowedOrientations WRITE setAllowedOrientations NOTIFY allowedOrientationsChanged)
+    Q_PROPERTY (bool powerSaveMode READ getPowerSaveMode WRITE setPowerSaveMode NOTIFY powerSaveModeChanged)
 
 public:
     static Settings* instance();
@@ -58,6 +59,9 @@ public:
     //Properties
     void setOfflineMode(bool value);
     bool getOfflineMode();
+
+    void setPowerSaveMode(bool value);
+    bool getPowerSaveMode();
 
     bool getShowTabIcons();
     void setShowTabIcons(bool value);
@@ -98,9 +102,6 @@ public:
     Q_INVOKABLE void setNetvibesPassword(const QString &value);
     Q_INVOKABLE QString getNetvibesPassword();
 
-    //Q_INVOKABLE void setNetvibesLastUpdateDate(int value);
-    //Q_INVOKABLE int getNetvibesLastUpdateDate();
-
     Q_INVOKABLE void setDmUserAgent(const QString &value);
     Q_INVOKABLE QString getDmUserAgent();
 
@@ -125,6 +126,7 @@ signals:
     void dashboardInUseChanged();
     void lastUpdateDateChanged();
     void allowedOrientationsChanged();
+    void powerSaveModeChanged();
 
     /*
     501 - Unable create settings dir

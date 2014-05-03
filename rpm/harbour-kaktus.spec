@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.0.4
-Release:    2
+Release:    3
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,9 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+* Sat May 03 2014 Michal Kosciesza 1.0.4-3
+- Workaround for 'High Power Consumption' webkit bug
+
 * Wed Apr 23 2014 Michal Kosciesza 1.0.4-2
 - Cover improvements
 

@@ -59,6 +59,19 @@ bool Settings::getShowStarredTab()
     return settings.value("showstarredtab", true).toBool();
 }
 
+void Settings::setPowerSaveMode(bool value)
+{
+    if (getPowerSaveMode() != value) {
+        settings.setValue("powersavemode", value);
+        emit powerSaveModeChanged();
+    }
+}
+
+bool Settings::getPowerSaveMode()
+{
+    return settings.value("powersavemode", true).toBool();
+}
+
 void Settings::setShowOnlyUnread(bool value)
 {
     if (getShowOnlyUnread() != value) {

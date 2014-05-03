@@ -20,7 +20,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import QtWebKit 3.0
-import QtWebKit.experimental 1.0 //Not allowed in harbour :-(
 
 Page {
     id: root
@@ -96,6 +95,7 @@ Page {
             } else {
 
                 proggressPanel.open = false;
+
                 // Start timer to mark as read
                 if (!root.read && settings.getAutoMarkAsRead())
                     timer.start();
@@ -111,6 +111,12 @@ Page {
                 }
             }
         }*/
+
+        onNavigationRequested: {
+            if (!Qt.application.active) {
+                request.action = WebView.IgnoreRequest;
+            }
+        }
     }
 
     ControlBarWebPreview {
@@ -185,5 +191,15 @@ Page {
     Connections {
         target: dm
         onBusyChanged: pageStack.pop()
+    }
+
+    // Workaround for 'High Power Consumption' webkit bug
+    Connections {
+        target: Qt.application
+        onActiveChanged: {
+            if(!Qt.application.active && settings.powerSaveMode) {
+                pageStack.pop();
+            }
+        }
     }
 }

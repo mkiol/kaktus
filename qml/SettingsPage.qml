@@ -225,6 +225,17 @@ Page {
                 }
             }
 
+            TextSwitch {
+                text: qsTr("Power save mode")
+                description: qsTr("When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.")
+                onCheckedChanged: {
+                    settings.powerSaveMode = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.powerSaveMode;
+                }
+            }
+
             /*TextSwitch {
                 text: qsTr("Auto mark as read")
                 description: qsTr("All opened articles will be marked as read.")

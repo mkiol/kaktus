@@ -92,7 +92,7 @@ Item {
             from: 0
             to: 360
             duration: 1200
-            running: root.open
+            running: root.open && Qt.application.active
         }
     }
 

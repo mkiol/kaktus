@@ -37,10 +37,10 @@
 #include "settings.h"
 
 static const char *APP_NAME = "Kaktus";
-static const char *VERSION = "1.0.4 (beta release)";
-//static const char *VERSION = "1.0.4";
 static const char *AUTHOR = "Michał Kościesza <michal@mkiol.net>";
 static const char *PAGE = "https://github/mkiol/kaktus";
+//static const char *VERSION = "1.0.4 (beta release)";
+static const char *VERSION = "1.0.4";
 
 int main(int argc, char *argv[])
 {
@@ -52,7 +52,6 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("AUTHOR", AUTHOR);
     view->rootContext()->setContextProperty("PAGE", PAGE);
 
-    //app->setOrganizationName("mkiol"); //Not allowed in harbour :-(
     app->setApplicationDisplayName(APP_NAME);
     app->setApplicationVersion(VERSION);
 
