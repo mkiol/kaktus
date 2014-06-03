@@ -17,8 +17,16 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "settings.h"
+#include <QDir>
+#include <QDebug>
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#include <QStandardPaths>
+#else
+#include <QDesktopServices>
+#endif
+
+#include "settings.h"
 #include "downloadmanager.h"
 #include "databasemanager.h"
 #include "cacheserver.h"
@@ -221,7 +229,12 @@ int Settings::getAllowedOrientations()
 
 QString Settings::getSettingsDir()
 {
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     QString value = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).path();
+#else
+    QString value = QDir(QDesktopServices::storageLocation(QDesktopServices::CacheLocation)).path();
+#endif
 
     if (!QDir(value).exists()) {
         if (!QDir::root().mkpath(value)) {
@@ -265,8 +278,15 @@ int Settings::getDmMaxSize()
 
 QString Settings::getDmCacheDir()
 {
-    QString value = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))
-            .filePath("cached_files");
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+    QString value = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).filePath("cached_files");
+#else
+    QString value = QDir(QDesktopServices::storageLocation(QDesktopServices::CacheLocation)).filePath("cached_files");
+#endif
+
+    //qDebug() << QDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
+    //qDebug() << QFileInfo(settings.fileName()).absolutePath();
 
     if (!QDir(value).exists()) {
         if (!QDir::root().mkpath(value)) {

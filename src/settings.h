@@ -20,13 +20,15 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include <QObject>
 #include <QSettings>
-#include <QDir>
-#include <QDebug>
-#include <QCoreApplication>
-#include <QStandardPaths>
+#include <QString>
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QQuickView>
-#include <QQmlContext>
+#else
+#include <QDeclarativeView>
+#endif
 
 class DatabaseManager;
 class DownloadManager;
@@ -54,7 +56,12 @@ public:
     CacheServer* cache;
     DownloadManager* dm;
     NetvibesFetcher* fetcher;
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     QQuickView* view;
+#else
+    QDeclarativeView* view;
+#endif
 
     //Properties
     void setOfflineMode(bool value);

@@ -46,7 +46,6 @@ void TabModel::createItems(const QString &dashboardId)
     QList<DatabaseManager::Tab> list = _db->readTabs(dashboardId);
     QList<DatabaseManager::Tab>::iterator i = list.begin();
     while( i != list.end() ) {
-        //qDebug() << "tab: " << (*i).id << (*i).title;
         DatabaseManager::Flags flags = _db->readTabFlags((*i).id);
         appendRow(new TabItem((*i).id,
                               (*i).title,

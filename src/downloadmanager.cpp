@@ -29,6 +29,11 @@
 
 #include "downloadmanager.h"
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#else
+#include "utils.h"
+#endif
+
 
 DownloadManager::DownloadManager(QObject *parent) :
     QObject(parent)
@@ -42,7 +47,9 @@ DownloadManager::DownloadManager(QObject *parent) :
     }*/
 
     connect(&cleaner, SIGNAL(ready()), this, SLOT(cacheCleaningFinished()));
+#ifdef ONLINE_CHECK
     connect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(onlineStateChanged(bool)));
+#endif
     connect(&manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(downloadFinished(QNetworkReply*)));
     connect(&manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
@@ -51,7 +58,12 @@ DownloadManager::DownloadManager(QObject *parent) :
 
 bool DownloadManager::isOnline()
 {
+#ifdef ONLINE_CHECK
     return ncm.isOnline();
+#endif
+#ifndef ONLINE_CHECK
+    return true;
+#endif
 }
 
 void DownloadManager::onlineStateChanged(bool isOnline)
@@ -88,9 +100,14 @@ void DownloadManager::removeCache()
 {
     Settings *s = Settings::instance();
     QDir cache(s->getDmCacheDir());
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (!cache.removeRecursively()) {
+#else
+    if (!Utils::removeDir(cache.absolutePath())) {
+#endif
         qWarning() << "Unable to remove " << s->getDmCacheDir();
     }
+
 }
 
 void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility accessible)
@@ -114,7 +131,12 @@ void DownloadManager::doDownload(DatabaseManager::CacheItem item)
 {   
     QNetworkRequest request(QUrl(item.finalUrl));
     Settings *s = Settings::instance();
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     request.setHeader(QNetworkRequest::UserAgentHeader, s->getDmUserAgent());
+#else
+    request.setRawHeader("User-Agent", s->getDmUserAgent().toLatin1());
+#endif
+
     request.setRawHeader("Accept", "*/*");
     QNetworkReply *reply = manager.get(request);
     replyToCheckerMap.insert(reply, new Checker(reply));
@@ -428,8 +450,8 @@ bool DownloadManager::startFeedDownload()
 
     if (!ncm.isOnline()) {
         qWarning() << "Network is Offline!";
-        emit networkNotAccessible();
-        return false;
+        //emit networkNotAccessible();
+        //return false;
     }
 
     Settings *s = Settings::instance();
@@ -493,8 +515,8 @@ bool DownloadManager::isBusy()
 
     return true;
 }
-
-void CacheCleaner::run() Q_DECL_OVERRIDE {
+//void CacheCleaner::run() Q_DECL_OVERRIDE {
+void CacheCleaner::run() {
 
     Settings *s = Settings::instance();
     QString cacheDir = s->getDmCacheDir();

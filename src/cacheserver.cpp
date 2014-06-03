@@ -81,8 +81,7 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
             tc = QTextCodec::codecForHtml(data);
         QString content = tc->toUnicode(data);
 
-        QUrlQuery query(req->url());
-        filter(content,query);
+        filter(content,req->url());
         data = tc->fromUnicode(content);
     }
 
@@ -120,7 +119,7 @@ bool CacheServer::readFile(const QString &filename, QByteArray &data)
     return true;
 }
 
-void CacheServer::filter(QString &content, QUrlQuery &query)
+void CacheServer::filter(QString &content, const QUrl &query)
 {
     //QRegExp rxImg("(<img\\s[^>]*)src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
     QRegExp rxImgAll("<img[^>]*>", Qt::CaseInsensitive);
@@ -165,8 +164,8 @@ void CacheServer::filter(QString &content, QUrlQuery &query)
     Settings *s = Settings::instance();
     QString style, width = "540px";
 
-    if (query.hasQueryItem("width"))
-        width = query.queryItemValue("width");
+    /*if (query.hasQueryItem("width"))
+        width = query.queryItemValue("width");*/
 
     if (s->getCsTheme() == "white") {
         style = QString("<meta name='viewport' content='width=%1'>"

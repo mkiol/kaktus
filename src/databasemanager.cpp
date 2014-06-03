@@ -17,7 +17,8 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "QDateTime"
+#include <QDebug>
+#include <QDateTime>
 
 #include "databasemanager.h"
 
@@ -59,6 +60,7 @@ bool DatabaseManager::openDB()
     Settings *s = Settings::instance();
 
     dbFilePath = s->getSettingsDir();
+    qDebug() << "Connecting to settings DB in " << dbFilePath;
     dbFilePath.append(QDir::separator()).append("settings.db");
     dbFilePath = QDir::toNativeSeparators(dbFilePath);
     _db.setDatabaseName(dbFilePath);
@@ -746,8 +748,8 @@ DatabaseManager::Dashboard DatabaseManager::readDashboard(const QString &dashboa
         while(query.next()) {
             d.id = query.value(0).toString();
             d.name = query.value(1).toString();
-            d.title = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
-            d.description = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            decodeBase64(query.value(2),d.title);
+            decodeBase64(query.value(3),d.description);
         }
     } else {
         qWarning() << "DB is not open!";
@@ -767,8 +769,8 @@ QList<DatabaseManager::Dashboard> DatabaseManager::readDashboards()
             Dashboard d;
             d.id = query.value(0).toString();
             d.name = query.value(1).toString();
-            d.title = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
-            d.description = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            decodeBase64(query.value(2),d.title);
+            decodeBase64(query.value(3),d.description);
             list.append(d);
         }
     } else {
@@ -782,15 +784,20 @@ QList<DatabaseManager::Tab> DatabaseManager::readTabs(const QString &dashboardId
 {
     QList<DatabaseManager::Tab> list;
 
+    bool ret;
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, icon FROM tabs WHERE dashboard_id='%1' LIMIT %2;")
+        QSqlQuery query(_db);
+        ret = query.exec(QString("SELECT id, title, icon FROM tabs WHERE dashboard_id='%1' LIMIT %2;")
                         .arg(dashboardId)
-                        .arg(tabsLimit),_db);
+                        .arg(tabsLimit));
+        if (!ret)
+            qWarning() << "SQL Error!";
+
         while(query.next()) {
             //qDebug() << "readTabs, " << query.value(1).toString();
             Tab t;
             t.id = query.value(0).toString();
-            t.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
+            decodeBase64(query.value(1),t.title);
             t.icon = query.value(2).toString();
             list.append(t);
         }
@@ -813,8 +820,8 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &tabId)
             //qDebug() << "readFeeds, " << query.value(1).toString();
             Feed f;
             f.id = query.value(0).toString();
-            f.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
-            f.content = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
+            decodeBase64(query.value(1),f.title);
+            decodeBase64(query.value(2),f.content);
             f.link = query.value(3).toString();
             f.url = query.value(4).toString();
             f.icon = query.value(5).toString();
@@ -995,7 +1002,7 @@ DatabaseManager::CacheItem DatabaseManager::readCacheItemFromOrigUrl(const QStri
             item.origUrl = query.value(1).toString();
             item.finalUrl = query.value(2).toString();
             item.type = query.value(3).toString();
-            item.contentType = QString(QByteArray::fromBase64(query.value(4).toByteArray()));
+            decodeBase64(query.value(4),item.contentType);
             item.entryId = query.value(5).toString();
             item.feedId = query.value(6).toString();
             //qDebug() << "item.contentType=" << item.contentType;
@@ -1018,7 +1025,7 @@ DatabaseManager::CacheItem DatabaseManager::readCacheItemFromEntryId(const QStri
             item.origUrl = query.value(1).toString();
             item.finalUrl = query.value(2).toString();
             item.type = query.value(3).toString();
-            item.contentType = QString(QByteArray::fromBase64(query.value(4).toByteArray()));
+            decodeBase64(query.value(4),item.contentType);
             item.entryId = query.value(5).toString();
             item.feedId = query.value(6).toString();
             //qDebug() << "item.contentType=" << item.contentType;
@@ -1041,7 +1048,7 @@ DatabaseManager::CacheItem DatabaseManager::readCacheItem(const QString &cacheId
             item.origUrl = query.value(1).toString();
             item.finalUrl = query.value(2).toString();
             item.type = query.value(3).toString();
-            item.contentType = QString(QByteArray::fromBase64(query.value(4).toByteArray()));
+            decodeBase64(query.value(4),item.contentType);
             item.entryId = query.value(5).toString();
             item.feedId = query.value(6).toString();
         }
@@ -1063,7 +1070,7 @@ DatabaseManager::CacheItem DatabaseManager::readCacheItemFromFinalUrl(const QStr
             item.origUrl = query.value(1).toString();
             item.finalUrl = query.value(2).toString();
             item.type = query.value(3).toString();
-            item.contentType = QString(QByteArray::fromBase64(query.value(4).toByteArray()));
+            decodeBase64(query.value(4),item.contentType);
             item.entryId = query.value(5).toString();
             item.feedId = query.value(6).toString();
         }
@@ -1236,9 +1243,9 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId
             //qDebug() << "readEntries, " << query.value(1).toString();
             Entry e;
             e.id = query.value(0).toString();
-            e.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
-            e.author = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
-            e.content = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            decodeBase64(query.value(1),e.title);
+            decodeBase64(query.value(2),e.author);
+            decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
             e.read = query.value(5).toInt();
             e.readlater= query.value(6).toInt();
@@ -1267,9 +1274,9 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater(const QStrin
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
-            e.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
-            e.author = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
-            e.content = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            decodeBase64(query.value(1),e.title);
+            decodeBase64(query.value(2),e.author);
+            decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
             e.read = query.value(5).toInt();
             e.readlater= query.value(6).toInt();
@@ -1294,9 +1301,9 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnread(const QString &
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
-            e.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
-            e.author = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
-            e.content = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            decodeBase64(query.value(1),e.title);
+            decodeBase64(query.value(2),e.author);
+            decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
             e.read = query.value(5).toInt();
             e.readlater= query.value(6).toInt();
@@ -1319,9 +1326,9 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries()
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
-            e.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
-            e.author = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
-            e.content = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            decodeBase64(query.value(1),e.title);
+            decodeBase64(query.value(2),e.author);
+            decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
             e.read = query.value(5).toInt();
             e.readlater= query.value(6).toInt();
@@ -1367,9 +1374,9 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesCachedOlderThan(int ca
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
-            e.title = QString(QByteArray::fromBase64(query.value(1).toByteArray()));
-            e.author = QString(QByteArray::fromBase64(query.value(2).toByteArray()));
-            e.content = QString(QByteArray::fromBase64(query.value(3).toByteArray()));
+            decodeBase64(query.value(1),e.title);
+            decodeBase64(query.value(2),e.author);
+            decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
             e.read = query.value(5).toInt();
             e.readlater= query.value(6).toInt();
@@ -1564,3 +1571,8 @@ int DatabaseManager::readUnreadCount(const QString &dashboardId)
     return 0;
 }
 
+void DatabaseManager::decodeBase64(const QVariant &source, QString &result)
+{
+    QByteArray str = QByteArray::fromBase64(source.toByteArray());
+    result = QString::fromUtf8(str.data(),str.size());
+}

@@ -23,7 +23,6 @@
 #include <QObject>
 #include <QByteArray>
 #include <QString>
-#include <QUrlQuery>
 
 #include "qhttpserver/qhttpserver.h"
 #include "qhttpserver/qhttprequest.h"
@@ -52,7 +51,7 @@ private:
 
     bool readFile(const QString &filename, QByteArray &data);
     QString hash(const QString &url);
-    void filter(QString &content, QUrlQuery &query);
+    void filter(QString &content, const QUrl &query);
 };
 
 #endif // CACHESERVER_H

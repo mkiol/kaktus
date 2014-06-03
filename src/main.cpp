@@ -17,17 +17,22 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifdef QT_QML_DEBUG
-#include <QtQuick>
+#ifdef MEEGO_EDITION_HARMATTAN
+#include <QtGui/QApplication>
+#include <QDeclarativeContext>
+#include <QDeclarativeEngine>
+#include "qmlapplicationviewer.h"
 #endif
-
-#include <QObject>
-#include <QtDebug>
+#ifdef SAILFISH
 #include <QGuiApplication>
 #include <QScopedPointer>
 #include <QQmlEngine>
-#include <QTranslator>
+#include <QQmlContext>
 #include <sailfishapp.h>
+#endif
+
+#include <QtDebug>
+#include <QTranslator>
 
 #include "databasemanager.h"
 #include "downloadmanager.h"
@@ -39,21 +44,64 @@
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michał Kościesza <michal@mkiol.net>";
 static const char *PAGE = "https://github/mkiol/kaktus";
-//static const char *VERSION = "1.0.4 (beta release)";
-static const char *VERSION = "1.0.4";
+static const char *VERSION = "1.0.5";
 
-int main(int argc, char *argv[])
+Q_DECL_EXPORT int main(int argc, char *argv[])
 {
+  
+#ifdef MEEGO_EDITION_HARMATTAN
+    QScopedPointer<QApplication> app(createApplication(argc, argv));
+    QmlApplicationViewer view;
+
+    app->setApplicationName("kaktus");
+    app->setOrganizationName("mkiol");
+    app->setApplicationVersion(VERSION);
+
+    view.rootContext()->setContextProperty("APP_NAME", APP_NAME);
+    view.rootContext()->setContextProperty("VERSION", VERSION);
+    view.rootContext()->setContextProperty("AUTHOR", AUTHOR);
+    view.rootContext()->setContextProperty("PAGE", PAGE);
+
+    QTranslator *appTranslator = new QTranslator;
+    appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
+    //appTranslator->load(":/i18n/kaktus_pl.qm");
+    app->installTranslator(appTranslator);
+
+    Settings* settings = Settings::instance();
+    settings->view = &view;
+    DatabaseManager db; settings->db = &db;
+    DownloadManager dm; settings->dm = &dm;
+    CacheServer cache(&db); settings->cache = &cache;
+    NetvibesFetcher fetcher; settings->fetcher = &fetcher;
+    Utils utils;
+
+    QObject::connect(&fetcher, SIGNAL(ready()), &utils, SLOT(updateModels()));
+    QObject::connect(view.engine(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
+
+    view.rootContext()->setContextProperty("db", &db);
+    view.rootContext()->setContextProperty("fetcher", &fetcher);
+    view.rootContext()->setContextProperty("utils", &utils);
+    view.rootContext()->setContextProperty("dm", &dm);
+    view.rootContext()->setContextProperty("cache", &cache);
+    view.rootContext()->setContextProperty("settings", settings);
+
+    view.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
+    view.setMainQmlFile(QLatin1String("qml/harmattan/main.qml"));
+    view.showExpanded();
+
+    return app->exec();
+#endif
+#ifdef SAILFISH
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
+
+    app->setApplicationDisplayName(APP_NAME);
+    app->setApplicationVersion(VERSION);
 
     view->rootContext()->setContextProperty("APP_NAME", APP_NAME);
     view->rootContext()->setContextProperty("VERSION", VERSION);
     view->rootContext()->setContextProperty("AUTHOR", AUTHOR);
     view->rootContext()->setContextProperty("PAGE", PAGE);
-
-    app->setApplicationDisplayName(APP_NAME);
-    app->setApplicationVersion(VERSION);
 
     QTranslator *appTranslator = new QTranslator;
     appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
@@ -78,8 +126,9 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("cache", &cache);
     view->rootContext()->setContextProperty("settings", settings);
 
-    view->setSource(SailfishApp::pathTo("qml/main.qml"));
+    view->setSource(SailfishApp::pathTo("qml/sailfish/main.qml"));
     view->show();
 
     return app->exec();
+#endif
 }

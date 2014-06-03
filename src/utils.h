@@ -21,15 +21,12 @@
 #define UTILS_H
 
 #include <QObject>
-#include <QQuickView>
-#include <QQmlContext>
-#include <QDateTime>
 #include <QList>
 #include <QString>
-#include <QDebug>
-#include <QStringList>
-#include <QGuiApplication>
-#include <QClipboard>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QFileInfoList>
 
 #include "tabmodel.h"
 #include "dashboardmodel.h"
@@ -46,6 +43,9 @@ class Utils : public QObject
 public:
     explicit Utils(QObject *parent = 0);
     ~Utils();
+
+    static bool removeDir(const QString &dirName);
+
     Q_INVOKABLE void setEntryModel(const QString &feedId);
     Q_INVOKABLE void setFeedModel(const QString &tabId);
     Q_INVOKABLE void setTabModel(const QString &dashboardId);

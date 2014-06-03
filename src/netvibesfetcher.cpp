@@ -17,7 +17,23 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QAbstractListModel>
+#include <QBuffer>
+#include <QUrl>
+#include <QDebug>
+#include <QModelIndex>
+#include <QDateTime>
+#include <QRegExp>
+#include <QNetworkConfiguration>
 #include <QtCore/qmath.h>
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#include <QJsonDocument>
+#include <QJsonValue>
+#include <QJsonArray>
+#else
+#include "qjson.h"
+#endif
 
 #include "netvibesfetcher.h"
 
@@ -39,11 +55,13 @@ bool NetvibesFetcher::init()
         return false;
     }
 
+#ifdef ONLINE_CHECK
     if (!ncm.isOnline()) {
         qWarning() << "Network is Offline!";
         emit networkNotAccessible();
         return false;
     }
+#endif
 
     setBusy(true, Initiating);
 
@@ -99,11 +117,13 @@ bool NetvibesFetcher::update()
         return false;
     }
 
+#ifdef ONLINE_CHECK
     if (!ncm.isOnline()) {
         qWarning() << "Network is Offline!";
         emit networkNotAccessible();
         return false;
     }
+#endif
 
     Settings *s = Settings::instance();
     int feedCount =s->db->readFeedsCount();
@@ -156,7 +176,9 @@ void NetvibesFetcher::signIn()
         return;
     }
 
-    QUrl url("http://www.netvibes.com/ajax/user/signIn.php");
+    //QUrl url("http://www.netvibes.com/ajax/user/signIn.php");
+    QUrl url("http://www.netvibes.com/api/auth/signin");
+
     QNetworkRequest request(url);
 
     if (_currentReply) {
@@ -520,12 +542,28 @@ void NetvibesFetcher::readyRead()
 
 bool NetvibesFetcher::parse()
 {
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     QJsonDocument doc = QJsonDocument::fromJson(this->_data);
     if (!doc.isObject()) {
         qWarning() << "Json doc is empty!";
         return false;
     }
     _jsonObj = doc.object();
+#else
+    QJson qjson(this);
+    bool ok;
+    _jsonObj = qjson.parse(this->_data, &ok).toMap();
+    if (!ok) {
+        qWarning() << "An error occurred during parsing Json!";
+        return false;
+    }
+    if (_jsonObj.empty()) {
+        qWarning() << "Json doc is empty!";
+        return false;
+    }
+#endif
+
    return true;
 }
 
@@ -533,10 +571,21 @@ void NetvibesFetcher::storeTabs(const QString &dashboardId)
 {
     Settings *s = Settings::instance();
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (_jsonObj["userData"].toObject()["tabs"].isArray()) {
         QJsonArray::const_iterator i = _jsonObj["userData"].toObject()["tabs"].toArray().constBegin();
-        while (i != _jsonObj["userData"].toObject()["tabs"].toArray().constEnd()) {
+        QJsonArray::const_iterator end = _jsonObj["userData"].toObject()["tabs"].toArray().constEnd();
+#else
+    if (_jsonObj["userData"].toMap()["tabs"].type()==QVariant::List) {
+        QVariantList::const_iterator i = _jsonObj["userData"].toMap()["tabs"].toList().constBegin();
+        QVariantList::const_iterator end = _jsonObj["userData"].toMap()["tabs"].toList().constEnd();
+#endif
+        while (i != end) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonObject obj = (*i).toObject();
+#else
+            QVariantMap obj = (*i).toMap();
+#endif
             DatabaseManager::Tab t;
             t.id = obj["id"].toString();
             t.icon = obj["icon"].toString();
@@ -560,11 +609,18 @@ void NetvibesFetcher::storeTabs(const QString &dashboardId)
         qWarning() << "No tabs element found!";
     }
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (_jsonObj["userData"].toObject()["modules"].isArray()) {
         QJsonArray::const_iterator i = _jsonObj["userData"].toObject()["modules"].toArray().constBegin();
-        while (i != _jsonObj["userData"].toObject()["modules"].toArray().constEnd()) {
+        QJsonArray::const_iterator end = _jsonObj["userData"].toObject()["modules"].toArray().constEnd();
+#else
+    if (_jsonObj["userData"].toMap()["modules"].type()==QVariant::List) {
+        QVariantList::const_iterator i = _jsonObj["userData"].toMap()["modules"].toList().constBegin();
+        QVariantList::const_iterator end = _jsonObj["userData"].toMap()["modules"].toList().constEnd();
+#endif
+        while (i != end) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonObject obj = (*i).toObject();
-
             if (obj["name"].toString() == "RssReader") {
                 _feedTabList.insert(
                             obj["data"].toObject()["streamIds"].toString(),
@@ -572,7 +628,16 @@ void NetvibesFetcher::storeTabs(const QString &dashboardId)
                         );
                 _feedList.append(obj["data"].toObject()["streamIds"].toString());
             }
-
+#else
+            QVariantMap obj = (*i).toMap();
+            if (obj["name"].toString() == "RssReader") {
+                _feedTabList.insert(
+                            obj["data"].toMap()["streamIds"].toString(),
+                        obj["tab"].toString()
+                        );
+                _feedList.append(obj["data"].toMap()["streamIds"].toString());
+            }
+#endif
             ++i;
         }
     }  else {
@@ -584,11 +649,27 @@ void NetvibesFetcher::storeFeeds()
 {
     Settings *s = Settings::instance();
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (_jsonObj["feeds"].isArray()) {
         QJsonArray::const_iterator i = _jsonObj["feeds"].toArray().constBegin();
-        while (i != _jsonObj["feeds"].toArray().constEnd()) {
+        QJsonArray::const_iterator end = _jsonObj["feeds"].toArray().constEnd();
+#else
+    if (_jsonObj["feeds"].type()==QVariant::List) {
+        QVariantList::const_iterator i = _jsonObj["feeds"].toList().constBegin();
+        QVariantList::const_iterator end = _jsonObj["feeds"].toList().constEnd();
+#endif
+        while (i != end) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonObject obj = (*i).toObject();
-
+            int unread = obj["flags"].toObject()["unread"].toDouble();
+            int read = obj["flags"].toObject()["read"].toDouble();
+            int readlater = obj["flags"].toObject()["readlater"].toDouble();
+#else
+            QVariantMap obj = (*i).toMap();
+            int unread = obj["flags"].toMap()["unread"].toDouble();
+            int read = obj["flags"].toMap()["read"].toDouble();
+            int readlater = obj["flags"].toMap()["readlater"].toDouble();
+#endif
             DatabaseManager::Feed f;
             f.id = obj["id"].toString();
             f.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
@@ -596,9 +677,9 @@ void NetvibesFetcher::storeFeeds()
             f.url = obj["url"].toString();
             f.content = obj["content"].toString();
             f.streamId = f.id;
-            f.unread = obj["flags"].toObject()["unread"].toDouble();
-            f.read = obj["flags"].toObject()["read"].toDouble();
-            f.readlater = obj["flags"].toObject()["readlater"].toDouble();
+            f.unread = unread;
+            f.read = read;
+            f.readlater = readlater;
             //qDebug() << f.title;
             f.lastUpdate = QDateTime::currentDateTimeUtc().toTime_t();
 
@@ -634,13 +715,29 @@ void NetvibesFetcher::storeEntries()
 {
     Settings *s = Settings::instance();
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (_jsonObj["items"].isArray()) {
         QJsonArray::const_iterator i = _jsonObj["items"].toArray().constBegin();
-        while (i != _jsonObj["items"].toArray().constEnd()) {
+        QJsonArray::const_iterator end = _jsonObj["items"].toArray().constEnd();
+#else
+    if (_jsonObj["items"].type()==QVariant::List) {
+        QVariantList::const_iterator i = _jsonObj["items"].toList().constBegin();
+        QVariantList::const_iterator end = _jsonObj["items"].toList().constEnd();
+#endif
+        while (i != end) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonArray::const_iterator ii = (*i).toArray().constBegin();
             while (ii != (*i).toArray().constEnd()) {
                 QJsonObject obj = (*ii).toObject();
-
+                int read = (int) obj["flags"].toObject()["read"].toDouble();
+                int readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
+#else
+            QVariantList::const_iterator ii = (*i).toList().constBegin();
+            while (ii != (*i).toList().constEnd()) {
+                QVariantMap obj = (*ii).toMap();
+                int read = (int) obj["flags"].toMap()["read"].toDouble();
+                int readlater = (int) obj["flags"].toMap()["readlater"].toDouble();
+#endif
                 DatabaseManager::Entry e;
                 e.id = obj["id"].toString();
                 //e.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
@@ -648,8 +745,8 @@ void NetvibesFetcher::storeEntries()
                 e.author = obj["author"].toString();
                 e.link = obj["link"].toString();
                 e.content = obj["content"].toString();
-                e.read = (int) obj["flags"].toObject()["read"].toDouble();
-                e.readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
+                e.read = read;
+                e.readlater = readlater;
                 e.date = (int) obj["date"].toDouble();
                 s->db->writeEntry(obj["feed_id"].toString(), e);
 
@@ -660,17 +757,31 @@ void NetvibesFetcher::storeEntries()
     }  else {
         qWarning() << "No items element found!";
     }
-
 }
 
 bool NetvibesFetcher::storeEntriesMerged()
 {
     Settings *s = Settings::instance();
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (_jsonObj["items"].isArray()) {
         QJsonArray::const_iterator i = _jsonObj["items"].toArray().constBegin();
-        while (i != _jsonObj["items"].toArray().constEnd()) {
+        QJsonArray::const_iterator end = _jsonObj["items"].toArray().constEnd();
+#else
+    if (_jsonObj["items"].type()==QVariant::List) {
+        QVariantList::const_iterator i = _jsonObj["items"].toList().constBegin();
+        QVariantList::const_iterator end = _jsonObj["items"].toList().constEnd();
+#endif
+        while (i != end) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonObject obj = (*i).toObject();
+            int read = (int) obj["flags"].toObject()["read"].toDouble();
+            int readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
+#else
+            QVariantMap obj = (*i).toMap();
+            int read = (int) obj["flags"].toMap()["read"].toDouble();
+            int readlater = (int) obj["flags"].toMap()["readlater"].toDouble();
+#endif
 
             DatabaseManager::Entry e;
             e.id = obj["id"].toString();
@@ -679,8 +790,8 @@ bool NetvibesFetcher::storeEntriesMerged()
             e.author = obj["author"].toString();
             e.link = obj["link"].toString();
             e.content = obj["content"].toString();
-            e.read = (int) obj["flags"].toObject()["read"].toDouble();
-            e.readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
+            e.read = read;
+            e.readlater = readlater;
             e.date = (int) obj["date"].toDouble();
             s->db->writeEntry(obj["feed_id"].toString(), e);
 
@@ -694,7 +805,11 @@ bool NetvibesFetcher::storeEntriesMerged()
     //qDebug() << "hasMore:" << _jsonObj["hasMore"].toBool();
 
     // returns true if has more
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (_jsonObj["hasMore"].isBool())
+#else
+    if (_jsonObj["hasMore"].type()==QVariant::Bool)
+#endif
         return _jsonObj["hasMore"].toBool();
     return false;
 }
@@ -703,17 +818,28 @@ void NetvibesFetcher::storeDashboards()
 {
     Settings *s = Settings::instance();
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (_jsonObj["dashboards"].isObject()) {
-
+#else
+    if (_jsonObj["dashboards"].type()==QVariant::Map) {
+#endif
         // Set default dashboard if not set
         QString defaultDashboardId = s->getDashboardInUse();
         int lowestDashboardId = 99999999;
         bool defaultDashboardIdExists = false;
-
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
         QJsonObject::const_iterator i = _jsonObj["dashboards"].toObject().constBegin();
-        while (i != _jsonObj["dashboards"].toObject().constEnd()) {
+        QJsonObject::const_iterator end = _jsonObj["dashboards"].toObject().constEnd();
+#else
+        QVariantMap::const_iterator i = _jsonObj["dashboards"].toMap().constBegin();
+        QVariantMap::const_iterator end = _jsonObj["dashboards"].toMap().constEnd();
+#endif
+        while (i != end) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonObject obj = i.value().toObject();
-
+#else
+            QVariantMap obj = i.value().toMap();
+#endif
             if (obj["active"].toString()=="1") {
 
                 DatabaseManager::Dashboard d;
@@ -785,6 +911,7 @@ void NetvibesFetcher::finishedSignIn()
 
     if (parse()) {
         if (_jsonObj["success"].toBool()) {
+
             s->setSignedIn(true);
 
             _cookie = _currentReply->rawHeader("Set-Cookie");

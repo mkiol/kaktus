@@ -74,14 +74,22 @@ void EntryModel::createItems(const QString &feedId)
         QTextDocument doc;
         doc.setHtml((*i).content);
         QString content = doc.toPlainText()
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                 .replace(QChar::ObjectReplacementCharacter,QChar::Space)
+#else
+                .replace(QChar::ObjectReplacementCharacter,QChar(0x0020))
+#endif
                 .simplified();
         if (content.length()>1000)
             content = content.left(997)+"...";
 
         doc.setHtml((*i).title);
         QString title = doc.toPlainText()
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                 .replace(QChar::ObjectReplacementCharacter,QChar::Space)
+#else
+                .replace(QChar::ObjectReplacementCharacter,QChar(0x0020))
+#endif
                 .simplified();
         if (title.length()>200)
             title = title.left(197)+QString("...");

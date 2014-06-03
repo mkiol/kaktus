@@ -28,7 +28,6 @@
 #include <QDir>
 #include <QByteArray>
 #include <QVariant>
-#include <QDebug>
 #include <QList>
 #include <QMap>
 
@@ -226,6 +225,7 @@ private:
     bool createActionsStructure();
     bool checkParameters();
     bool isTableExists(const QString &name);
+    void decodeBase64(const QVariant &source, QString &result);
 };
 
 #endif // DATABASEMANAGER_H

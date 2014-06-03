@@ -20,30 +20,23 @@
 #ifndef NETVIBESFETCHER_H
 #define NETVIBESFETCHER_H
 
-#include <QAbstractListModel>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QByteArray>
 #include <QString>
 #include <QList>
 #include <QMap>
 #include <QStringList>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QBuffer>
-#include <QUrl>
-#include <QDebug>
-#include <QByteArray>
-#include <QModelIndex>
-#include <QDateTime>
-#include <QRegExp>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonValue>
-#include <QJsonArray>
 #include <QNetworkConfigurationManager>
-#include <QNetworkConfiguration>
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#include <QJsonObject>
+#else
+#include <QVariantMap>
+#endif
 
 #include "databasemanager.h"
 #include "downloadmanager.h"
-
 
 class NetvibesFetcher: public QObject
 {
@@ -119,7 +112,13 @@ private:
     QNetworkAccessManager _manager;
     QNetworkReply* _currentReply;
     QByteArray _data;
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     QJsonObject _jsonObj;
+#else
+    QVariantMap _jsonObj;
+#endif
+
     bool _busy;
     BusyType _busyType;
     QStringList _dashboardList;

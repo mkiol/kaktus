@@ -17,9 +17,17 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-//#include <QtDBus/QtDBus>
-//#include <QDateTime>
+#include <QClipboard>
+#include <QDebug>
+#include <QDateTime>
 #include <QtCore/qmath.h>
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#include <QGuiApplication>
+#include <QQmlContext>
+#else
+#include <QApplication>
+#include <QDeclarativeContext>
+#endif
 
 #include "utils.h"
 
@@ -30,6 +38,34 @@ Utils::Utils(QObject *parent) :
     entryModel = NULL;
     tabModel = NULL;
     feedModel = NULL;
+}
+
+/*
+ * Copyright (c) 2009 John Schember <john@nachtimwald.com>
+ * http://john.nachtimwald.com/2010/06/08/qt-remove-directory-and-its-contents/
+ */
+bool Utils::removeDir(const QString &dirName)
+{
+    bool result = true;
+    QDir dir(dirName);
+
+    if (dir.exists(dirName)) {
+        Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst)) {
+            if (info.isDir()) {
+                result = removeDir(info.absoluteFilePath());
+            }
+            else {
+                result = QFile::remove(info.absoluteFilePath());
+            }
+
+            if (!result) {
+                return result;
+            }
+        }
+        result = dir.rmdir(dirName);
+    }
+
+    return result;
 }
 
 void Utils::copyToClipboard(const QString &text)
