@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>i18n/kaktus_pl.qm</file>
+	<file>i18n/kaktus_en.qm</file>
     </qresource>
 </RCC>
