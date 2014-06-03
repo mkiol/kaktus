@@ -22,6 +22,10 @@
 #include <QTextCodec>
 #include <QFile>
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#include <QUrlQuery>
+#endif
+
 #include "cacheserver.h"
 
 
@@ -164,8 +168,11 @@ void CacheServer::filter(QString &content, const QUrl &query)
     Settings *s = Settings::instance();
     QString style, width = "540px";
 
-    /*if (query.hasQueryItem("width"))
-        width = query.queryItemValue("width");*/
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+    QUrlQuery urlQuery(query);
+    if (urlQuery.hasQueryItem("width"))
+        width = urlQuery.queryItemValue("width");
+#endif
 
     if (s->getCsTheme() == "white") {
         style = QString("<meta name='viewport' content='width=%1'>"
