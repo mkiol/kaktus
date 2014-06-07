@@ -26,6 +26,7 @@ Item {
     id: root
 
     signal clicked
+    signal holded
     property alias pressed: mouseArea.pressed
 
     property string title
@@ -53,9 +54,8 @@ Item {
     MouseArea {
         id: mouseArea;
         anchors.fill: parent
-        onClicked: {
-            listItem.clicked();
-        }
+        onClicked: root.clicked();
+        onPressAndHold: root.holded();
     }
 
 

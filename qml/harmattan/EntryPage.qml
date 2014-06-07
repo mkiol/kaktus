@@ -70,6 +70,11 @@ Page {
             cached: model.cached
             feedindex: root.index
 
+            onHolded: {
+                console.log("holded");
+                menu.open();
+            }
+
             onClicked: {
 
                 // Not allowed while Syncing
@@ -120,6 +125,18 @@ Page {
         ViewPlaceholder {
             enabled: listView.count == 0
             text: settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+        }
+    }
+
+    SelectionDialog {
+        id: menu
+        titleText: "Dialog Header #1"
+        selectedIndex: 1
+
+        model: ListModel {
+            ListElement { name: "ListTitle #1" }
+            ListElement { name: "ListTitle #2" }
+            ListElement { name: "ListTitle #3" }
         }
     }
 

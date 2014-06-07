@@ -1,12 +1,27 @@
 TARGET = harbour-kaktus
 
-QT += core network sql dbus
-
-CONFIG += sailfishapp
-
 DEFINES += SAILFISH
 
 DEFINES += ONLINE_CHECK
+
+## sailfishapp.prf ##
+
+QT += quick qml network sql dbus
+target.path = /usr/bin
+qml.files = qml/sailfish
+qml.path = /usr/share/$${TARGET}/qml
+desktop.files = $${TARGET}.desktop
+desktop.path = /usr/share/applications
+icon.files = $${TARGET}.png
+icon.path = /usr/share/icons/hicolor/86x86/apps
+INSTALLS += target qml desktop icon
+CONFIG += link_pkgconfig
+PKGCONFIG += sailfishapp
+INCLUDEPATH += /usr/include/sailfishapp
+QMAKE_RPATHDIR += /usr/share/$${TARGET}/lib
+OTHER_FILES += $$files(rpm/*)
+
+##
 
 SOURCES += \
     src/main.cpp \
@@ -46,34 +61,13 @@ lessThan(QT_MAJOR_VERSION, 5) {
 include(qhttpserver/qhttpserver.pri)
 
 OTHER_FILES += \
-    qml/pages/FirstPage.qml \
-    qml/pages/SecondPage.qml \
+    qml/sailfish/*.qml \
     rpm/harbour-kaktus.spec \
-    rpm/harbour-kaktus.yaml \
     harbour-kaktus.desktop \
-    qml/main.qml \
-    qml/TabPage.qml \
-    qml/InitPage.qml \
-    qml/FeedPage.qml \
-    qml/EntryPage.qml \
-    qml/ErrorPage.qml \
-    qml/SignInDialog.qml \
-    qml/EntryDelegate.qml \
-    qml/MainMenu.qml \
-    qml/AboutPage.qml \
-    qml/icon.png \
-    qml/SettingsPage.qml \
-    qml/Notification.qml \
-    qml/DashboardPage.qml \
-    qml/DashboardDialog.qml \
-    qml/WebPreviewPage.qml \
-    qml/ControlBarWebPreview.qml \
     i18n_paths.lst \
     i18n_ts.lst \
-    lupdate.sh \
-    qml/CoverPage.qml \
-    qml/ProgressPanel.qml
-    
+    lupdate.sh
+
 CODECFORTR = UTF-8
 
 TRANSLATIONS = i18n/kaktus_en.ts \
