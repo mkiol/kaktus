@@ -47,6 +47,7 @@ Item {
     id: listItem
 
     signal clicked
+    signal holded
     property alias pressed: mouseArea.pressed
 
     property int titleSize: UI.LIST_TILE_SIZE
@@ -156,9 +157,8 @@ Item {
     MouseArea {
         id: mouseArea;
         anchors.fill: parent
-        onClicked: {
-            listItem.clicked();
-        }
+        onClicked: listItem.clicked()
+        onPressAndHold: listItem.holded()
     }
 
     Image {

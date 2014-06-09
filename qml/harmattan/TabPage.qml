@@ -85,6 +85,8 @@ Page {
                 }
             }
 
+            onHolded: !readlaterItem ? contextMenu.open() : {}
+
             Connections {
                 target: settings
                 onShowTabIconsChanged: {
@@ -103,6 +105,33 @@ Page {
                         iconSource = cache.getUrlbyUrl(iconUrl);
                     else
                         iconSource = "";
+                }
+            }
+
+            Dialog {
+                id: contextMenu
+                buttons: Column {
+                    spacing: UiConstants.DefaultMargin
+
+                    Button {
+                        text: qsTr("Mark all as read")
+                        enabled: model.unread!=0
+                        visible: enabled
+                        onClicked: {
+                            tabModel.markAllAsRead(model.index);
+                            contextMenu.accept();
+                        }
+                    }
+
+                    Button {
+                        text: qsTr("Mark all as unread")
+                        enabled: model.read!=0
+                        visible: enabled
+                        onClicked: {
+                            tabModel.markAllAsUnread(model.index);
+                            contextMenu.accept();
+                        }
+                    }
                 }
             }
         }

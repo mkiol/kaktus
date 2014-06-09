@@ -70,10 +70,7 @@ Page {
             cached: model.cached
             feedindex: root.index
 
-            onHolded: {
-                console.log("holded");
-                menu.open();
-            }
+            onHolded: contextMenu.open()
 
             onClicked: {
 
@@ -120,23 +117,47 @@ Page {
                                });
             }
 
+            Dialog {
+                id: contextMenu
+                buttons: Column {
+                    spacing: UiConstants.DefaultMargin
+
+                    Button {
+                        text: readlater ? qsTr("Unsave") : qsTr("Save")
+                        onClicked: {
+                            if (readlater) {
+                                entryModel.setData(index, "readlater", 0);
+                            } else {
+                                entryModel.setData(index, "readlater", 1);
+                            }
+                            contextMenu.accept()
+                        }
+                    }
+
+                    Button {
+                        text: read ? qsTr("Mark as unread") : qsTr("Mark as read")
+                        onClicked: {
+                            if (read) {
+                                entryModel.setData(index, "read", 0);
+                                feedModel.incrementUnread(feedindex);
+                            } else {
+                                entryModel.setData(index, "read", 1);
+                                feedModel.decrementUnread(feedindex);
+                                /*if (lblMoreDetails.visible)
+                                    root.expanded = false;*/
+                            }
+                            tabModel.updateFlags();
+                            contextMenu.accept()
+                        }
+                    }
+                }
+            }
+
         }
 
         ViewPlaceholder {
             enabled: listView.count == 0
             text: settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
-        }
-    }
-
-    SelectionDialog {
-        id: menu
-        titleText: "Dialog Header #1"
-        selectedIndex: 1
-
-        model: ListModel {
-            ListElement { name: "ListTitle #1" }
-            ListElement { name: "ListTitle #2" }
-            ListElement { name: "ListTitle #3" }
         }
     }
 
