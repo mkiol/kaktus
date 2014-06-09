@@ -37,19 +37,21 @@ Page {
         return PageOrientation.Automatic;
     }
 
-    PageHeader {
+    /*PageHeader {
         id: header
         title: qsTr("Settings")
-    }
+    }*/
 
     ListView {
         id: listView
 
-        anchors {
+        /*anchors {
             top: header.bottom; topMargin: Theme.paddingMedium
             left: parent.left; right: parent.right;
             bottom: parent.bottom; bottomMargin: Theme.paddingMedium
-        }
+        }*/
+
+        anchors.fill: parent
 
         spacing: Theme.paddingLarge
 

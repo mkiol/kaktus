@@ -44,7 +44,7 @@
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michał Kościesza <michal@mkiol.net>";
 static const char *PAGE = "https://github/mkiol/kaktus";
-static const char *VERSION = "1.0.5";
+static const char *VERSION = "1.0.5 beta";
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {

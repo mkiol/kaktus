@@ -56,9 +56,9 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left; anchors.leftMargin: UiConstants.DefaultMargin
         anchors.right: parent.right; anchors.rightMargin: UiConstants.DefaultMargin
-        opacity: 0.8
+        opacity: 1.0
         wrapMode: Text.WordWrap
-        color: Theme.highlightForegroundColor
+        color: Theme.highlightColor
     }
 
     Timer {

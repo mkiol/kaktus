@@ -39,17 +39,18 @@ Page {
         return PageOrientation.Automatic;
     }
 
-    PageHeader {
+    /*PageHeader {
         id: header
         title: root.title
-    }
+    }*/
 
     ListView {
         id: listView
 
         model: feedModel
 
-        anchors { top: header.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
+        //anchors { top: header.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
+        anchors.fill: parent
 
         clip: true
 

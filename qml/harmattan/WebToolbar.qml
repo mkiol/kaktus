@@ -47,12 +47,14 @@ ToolBarLayout {
     }
 
     ToolIcon {
-        iconSource: "internet.png"
+        iconSource: theme.inverted ? "internet-inverted.png" : "internet.png"
         onClicked: browserClicked()
     }
 
     ToolIcon {
-        iconSource: settings.offlineMode ? "offline.png" : "online.png"
+        iconSource: settings.offlineMode ?
+                        (theme.inverted ? "offline-inverted.png" : "offline.png") :
+                        (theme.inverted ? "online-inverted.png" : "online.png")
         onClicked: offlineClicked()
     }
 }

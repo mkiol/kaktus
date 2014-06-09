@@ -53,14 +53,28 @@ var itemSizeSmall = 64;
 var paddingLarge = 24;
 var paddingMedium = 16;
 var paddingSmall = 6;
-var primaryColor = "#282828";
-var secondaryColor = "#505050";
+
+//var primaryColor = "#282828";
+var primaryColor = "#FFFFFF";
+
+//var secondaryColor = "#505050";
+var secondaryColor = "#8c8c8c";
+
+//var secondaryHighlightColor = "#DDDDDD";
 var secondaryHighlightColor = "#DDDDDD";
-//var highlightBackgroundColor = "#4591FF";
+
+//var highlightBackgroundColor = "#FF8500"; //17
 var highlightBackgroundColor = "#FF8500"; //17
+
+//var highlightForegroundColor = "#FFFFFF";
 var highlightForegroundColor = "#FFFFFF";
+
+//var highlightDimmerColor = "#FFFFFF";
 var highlightDimmerColor = "#FFFFFF";
-var backgroundColor = "#E0E1E2";
+
+//var backgroundColor = "#E0E1E2";
+var backgroundColor = "#000000";
+
 var startDragDistance = 20;
 var statusBarHeight = 36;
 var navigationBarLanscape = 56;

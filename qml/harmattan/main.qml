@@ -30,6 +30,7 @@ PageStackWindow {
     showToolBar: !fetcher.busy
 
     Component.onCompleted: {
+        theme.inverted = true;
         db.init();
     }
 

@@ -42,6 +42,8 @@ Item {
     property int index
     property int feedindex
 
+    property alias down: mouseArea.pressed
+
     height: item.height + 2 * Theme.paddingMedium
     width: parent.width
 
@@ -87,33 +89,131 @@ Item {
             anchors { left: parent.left; right: parent.right }
             anchors.rightMargin: star.width
             text: listItem.title
-            color: mouseArea.pressed ? Theme.secondaryColor : Theme.primaryColor
+
+            color: {
+                if (root.read>0 && root.readlater==0) {
+                    if (root.down)
+                        return Theme.secondaryHighlightColor;
+                    return Theme.secondaryColor;
+                }
+                return Theme.highlightColor;
+            }
+
             font.pixelSize: Theme.fontSizeMedium
             font.family: Theme.fontFamilyHeading
             font.bold: true
             maximumLineCount: 2
-            elide: Text.ElideLeft
+            elide: Text.ElideRight
         }
 
         Label {
-            id: subText
+            id: shortContent
+            anchors { left: parent.left; right: parent.right }
+            text: {
+                if (root.content.length > root.maxChars)
+                    return root.content.substr(0,root.maxChars);
+                return root.content;
+            }
+            visible: root.content!="" && (root.read==0 || root.readlater>0)
+
+            color: {
+                if (root.read>0 && root.readlater==0) {
+                    if (root.down)
+                        return Theme.secondaryHighlightColor;
+                    return Theme.secondaryColor;
+                }
+                if (root.down)
+                    return Theme.highlightColor;
+                return Theme.primaryColor;
+            }
+
+            wrapMode: Text.WordWrap
+        }
+
+
+        Label {
+            id: fullContent
             anchors { left: parent.left; right: parent.right }
             text: listItem.content
-            color: mouseArea.pressed ? Theme.secondaryColor : Theme.primaryColor
-            //maximumLineCount: 2
-            //elide: Text.ElideLeft
+
+            visible: opacity > 0.0
+            opacity: root.expanded ? 1.0 : 0.0
+            Behavior on opacity { NumberAnimation { duration: 300 } }
+
+            color: {
+                if (root.read>0 && root.readlater==0) {
+                    if (root.down)
+                        return Theme.secondaryHighlightColor;
+                    return Theme.secondaryColor;
+                }
+                if (root.down)
+                    return Theme.highlightColor;
+                return Theme.primaryColor;
+            }
+
             wrapMode: Text.WordWrap
-            visible: text!=""
         }
 
-        Label {
+        Item {
             anchors.left: parent.left; anchors.right: parent.right;
-            font.pixelSize: Theme.fontSizeExtraSmall
-            color: Theme.secondaryColor
-            elide: Text.ElideLeft
-            text: root.author!=""
-                  ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
-                  : utils.getHumanFriendlyTimeString(date)
+            height: dateLabel.height + Theme.paddingMedium/2
+
+            Rectangle {
+                anchors.fill: parent
+                color: mouseExpander.pressed ? Qt.rgba(255,255,255,0.1) : Qt.rgba(255,255,255,0.0)
+            }
+
+            MouseArea {
+                id: mouseExpander
+                anchors.fill: parent
+                onClicked: {
+                    if (lblMoreDetails.visible)
+                        root.expanded = !root.expanded;
+                }
+            }
+
+            Label {
+                id: dateLabel
+                anchors.left: parent.left; anchors.right: expander.left;
+                anchors.rightMargin: Theme.paddingMedium
+                anchors.verticalCenter: parent.verticalCenter
+                font.pixelSize: Theme.fontSizeExtraSmall
+                color: Theme.secondaryColor
+                elide: Text.ElideRight
+                text: root.author!=""
+                      ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
+                      : utils.getHumanFriendlyTimeString(date)
+            }
+
+            Item {
+                id: expander
+                anchors.right: parent.right;
+                anchors.verticalCenter: parent.verticalCenter
+                height: visible ? lblMoreDetails.height : 0
+                width: lblMoreDetails.width
+                anchors.left: root.left
+                enabled: lblMoreDetails.visible
+
+                Label {
+                    id: lblMoreDetails
+                    anchors.right: parent.right
+                    anchors.rightMargin: Theme.paddingMedium
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.pixelSize: Theme.fontSizeMedium
+                    text: "•••"
+                    visible: root.content.length>root.maxChars
+                    color: {
+                        if (root.read>0 && root.readlater==0) {
+                            if (root.down)
+                                return Theme.secondaryHighlightColor;
+                            return Theme.secondaryColor;
+                        }
+                        if (root.down)
+                            return Theme.highlightColor;
+                        return Theme.primaryColor;
+                    }
+                }
+            }
 
         }
     }

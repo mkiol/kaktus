@@ -16,7 +16,7 @@ symbian {
   TARGET.CAPABILITY += NetworkServices
   CONFIG += qt-components
   DEPLOYMENT.display_name = "Kaktus"
-  VERSION = 1.0.0
+  VERSION = 1.0.5
   ICON = kaktus.svg
 }
 

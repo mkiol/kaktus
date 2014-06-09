@@ -37,17 +37,18 @@ Page {
         return PageOrientation.Automatic;
     }
 
-    PageHeader {
+    /*PageHeader {
         id: header
         title: qsTr("Tabs")
-    }
+    }*/
 
     ListView {
         id: listView
 
         model: tabModel
 
-        anchors { top: header.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
+        //anchors { top: header.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
+        anchors.fill: parent
 
         clip: true
 
@@ -59,7 +60,7 @@ Page {
             iconSize: Theme.iconSizeSmall
             iconVisible: settings.showTabIcons && !readlaterItem
             titleText: model.title
-            iconSource: readlaterItem ? "image://theme/icon-m-toolbar-favorite-mark" : ""
+            iconSource: readlaterItem ? "image://theme/icon-m-toolbar-favorite-mark-white" : ""
             unread: model.unread
             showUnread: true
             titleColor: model.unread>0 || readlaterItem ? Theme.primaryColor : Theme.secondaryColor
