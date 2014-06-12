@@ -487,7 +487,7 @@ Brak połączenia sieciowego</translation>
         <location filename="../qml/harmattan/SettingsPage.qml" line="113"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="185"/>
         <source>After sync the content of all items will be downloaded and cached for access in Offline mode.</source>
-        <translation>Treść aktykułów będzie pobierana z lokalnej kopi, czyli bez użycia połączenia internetowego.</translation>
+        <translation>Każdorazowa podczas aktualizacji treść aktykułów będzie pobierana i zapisywana lokalnie, tak aby była dostępna podczas pracy w trybie Offline.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="127"/>
@@ -511,7 +511,7 @@ Brak połączenia sieciowego</translation>
         <location filename="../qml/harmattan/SettingsPage.qml" line="158"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="230"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
-        <translation>Gdy aplikacja przełączy się w tryb nieaktywny, wszystkie otwarte strony internetowe zostaną zamknięta aby zmniejszyć zużycie energii.   </translation>
+        <translation>Gdy aplikacja przełączy się w tryb nieaktywny, wszystkie otwarte strony internetowe zostaną zamknięte aby zmniejszyć zużycie energii.   </translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="178"/>

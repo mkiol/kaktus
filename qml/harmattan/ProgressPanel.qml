@@ -46,7 +46,7 @@ Item {
     Rectangle {
         id: background
         anchors.fill: parent
-        color: Qt.rgba(0,0,0, 0.8)
+        color: Qt.rgba(0.1,0.1,0.1, 0.9)
     }
 
     function show(text) {
@@ -64,7 +64,7 @@ Item {
         height: parent.height
         anchors.left: parent.left
         width: root.progress * parent.width
-        color: Qt.rgba(0,0,0,0.3)
+        color: Qt.rgba(0.3,0.3,0.3, 0.8)
 
         Behavior on width {
             enabled: root.opacity == 1.0
@@ -105,7 +105,7 @@ Item {
         font.pixelSize: Theme.fontSizeSmall
         font.family: Theme.fontFamily
         text: root.text
-        color: Theme.highlightForegroundColor
+        color: Theme.primaryColor
         verticalAlignment: Text.AlignVCenter
     }
 
@@ -127,7 +127,8 @@ Item {
         id: closeButton
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
-        platformIconId: "common-dialog-close"
+        //platformIconId: "common-dialog-close"
+        iconSource: theme.inverted ? "image://theme/icon-m-toolbar-close-white" : "image://theme/icon-m-toolbar-close"
         visible: root.cancelable
         onClicked: root.closeClicked()
     }

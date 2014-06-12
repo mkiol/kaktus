@@ -96,6 +96,9 @@ Item {
                         return Theme.secondaryHighlightColor;
                     return Theme.secondaryColor;
                 }
+
+                if (root.down)
+                    return Theme.secondaryHighlightColor;
                 return Theme.highlightColor;
             }
 
@@ -123,7 +126,7 @@ Item {
                     return Theme.secondaryColor;
                 }
                 if (root.down)
-                    return Theme.highlightColor;
+                    return Theme.secondaryColor;
                 return Theme.primaryColor;
             }
 
@@ -142,12 +145,12 @@ Item {
 
             color: {
                 if (root.read>0 && root.readlater==0) {
-                    if (root.down)
-                        return Theme.secondaryHighlightColor;
+                    /*if (root.down)
+                        return Theme.secondaryHighlightColor;*/
                     return Theme.secondaryColor;
                 }
                 if (root.down)
-                    return Theme.highlightColor;
+                    return Theme.secondaryColor
                 return Theme.primaryColor;
             }
 
@@ -209,7 +212,7 @@ Item {
                             return Theme.secondaryColor;
                         }
                         if (root.down)
-                            return Theme.highlightColor;
+                            return Theme.secondaryColor;
                         return Theme.primaryColor;
                     }
                 }

@@ -27,7 +27,7 @@ Page {
 
     property int code
 
-    tools: MainToolbar {}
+    tools: SimpleToolbar {}
 
     PageHeader {
         id: header
@@ -40,7 +40,9 @@ Page {
         anchors {
             top: header.bottom; bottom: parent.bottom
             left: parent.left; right: parent.right
-            margins: Theme.paddingMedium
+            leftMargin: Theme.paddingMedium
+            rightMargin: Theme.paddingMedium
+            topMargin: 2*Theme.paddingLarge
         }
 
         spacing: Theme.paddingLarge
@@ -61,6 +63,9 @@ Page {
                 Component.onCompleted: {
                     text = settings.getNetvibesUsername();
                 }
+
+                Keys.onReturnPressed: password.focus = true
+
             }
 
             Label {
@@ -73,23 +78,37 @@ Page {
                 inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText | Qt.ImhSensitiveData
                 echoMode: TextInput.Password
                 placeholderText: qsTr("Enter password here!")
+
+                Keys.onReturnPressed: {
+                    platformCloseSoftwareInputPanel();
+                    dummy.focus = true;
+                    if (user.text!="" && password.text!="")
+                        accept()
+                }
             }
+
+            Item { id: dummy }
         }
     }
 
     ScrollDecorator { flickableItem: listView }
 
     Button{
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.margins: UiConstants.DefaultMargin
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+            //margins: UiConstants.DefaultMargin
+            bottomMargin: 2*Theme.paddingLarge
+        }
 
         text: qsTr("Sign in")
         onClicked: accept()
     }
 
     function accept() {
-        settings.setNetvibesUsername(user.text);
+
+        if (user.text!="")
+            settings.setNetvibesUsername(user.text);
         settings.setNetvibesPassword(password.text);
 
         if (code == 0) {

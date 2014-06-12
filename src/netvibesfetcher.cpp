@@ -930,8 +930,12 @@ void NetvibesFetcher::finishedSignIn()
         } else {
             s->setSignedIn(false);
 
-            QString message = _jsonObj["message"].toString();
-            if (message == "nomatch")
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+            QString message = _jsonObj["error"].toObject()["message"].toString();
+#else
+            QString message = _jsonObj["error"].toMap()["message"].toString();
+#endif
+            if (message == "no match")
                 emit error(402);
             else
                 emit error(401);

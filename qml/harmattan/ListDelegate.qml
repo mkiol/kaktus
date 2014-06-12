@@ -141,7 +141,8 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             width: unreadlabel.width + 3 * Theme.paddingSmall
             height: unreadlabel.height + 2 * Theme.paddingSmall
-            color: listItem.pressed ? Qt.rgba(255,255,255,0.1) : Qt.rgba(255,255,255,0.2)
+            //color: listItem.pressed ? Qt.rgba(69,145,255,1) : Qt.rgba(69,145,255,1)
+            color: listItem.pressed ? Theme.secondaryHighlightColor : Theme.highlightForegroundColor
 
             radius: 5
             visible: unread!==0 && showUnread
@@ -150,7 +151,7 @@ Item {
                 id: unreadlabel
                 anchors.centerIn: parent
                 text: unread
-                color: listItem.pressed ? Theme.secondaryHighlightColor : Theme.highlightForegroundColor
+                color: Theme.highlightDimmerColor
             }
         }
     }

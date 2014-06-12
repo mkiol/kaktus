@@ -67,10 +67,10 @@ var secondaryHighlightColor = "#DDDDDD";
 var highlightBackgroundColor = "#FF8500"; //17
 
 //var highlightForegroundColor = "#FFFFFF";
-var highlightForegroundColor = "#FFFFFF";
+var highlightForegroundColor = "#4591FF";
 
 //var highlightDimmerColor = "#FFFFFF";
-var highlightDimmerColor = "#FFFFFF";
+var highlightDimmerColor = "#000000";
 
 //var backgroundColor = "#E0E1E2";
 var backgroundColor = "#000000";
