@@ -44,7 +44,7 @@ PageStackWindow {
         }
 
         onDashboardInUseChanged: {
-            console.log("onDashboardInUseChanged");
+            //console.log("onDashboardInUseChanged");
             utils.setTabModel(settings.dashboardInUse);
             pageStack.clear();
             pageStack.replace(Qt.resolvedUrl("TabPage.qml"));
@@ -61,7 +61,7 @@ PageStackWindow {
         }
 
         onEmpty: {
-            console.log("DB empty");
+            //console.log("DB empty");
             dm.removeCache();
             utils.updateModels();
             utils.setTabModel(settings.dashboardInUse);
@@ -69,7 +69,7 @@ PageStackWindow {
         }
 
         onNotEmpty: {
-            console.log("DB not empty");
+            //console.log("DB not empty");
             utils.setTabModel(settings.dashboardInUse);
             pageStack.replace(Qt.resolvedUrl("TabPage.qml"));
         }
@@ -79,7 +79,7 @@ PageStackWindow {
         target: dm
 
         onProgress: {
-            console.log("DM progress: " + remaining);
+            //console.log("DM progress: " + remaining);
             progressPanelDm.text = qsTr("%1 more items left...").arg(remaining);
             if (remaining === 0) {
                 progressPanelDm.text = qsTr("All done!");

@@ -57,6 +57,10 @@ Page {
 
         model: VisualItemModel {
 
+            SectionHeader {
+                text: qsTr("Netvibes")
+            }
+
             TextLabel {
                 text: settings.signedIn ? qsTr("Signed in as") : qsTr("Not signed in")
                 value: settings.signedIn ? settings.getNetvibesUsername() : ""

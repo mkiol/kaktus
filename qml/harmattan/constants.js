@@ -47,31 +47,23 @@ var MARGIN_DEFAULT = 0;
 var MARGIN_XLARGE = 16;
 
 // ListDelegate
-var LIST_ITEM_MARGIN = 16
-var LIST_ITEM_SPACING = 16
-var LIST_ITEM_HEIGHT = 80
+var LIST_ITEM_MARGIN = 18
+var LIST_ITEM_SPACING = 18
+var LIST_ITEM_HEIGHT = 88
 var LIST_ICON_SIZE = 64
 var LIST_TILE_SIZE = 26
 var LIST_TITLE_COLOR = "#282828"
-var LIST_TITLE_COLOR_PRESSED = "#797979"
 var LIST_TITLE_COLOR_INVERTED = "#ffffff"
-var LIST_TITLE_COLOR_PRESSED_INVERTED = "#797979"
 var LIST_SUBTILE_SIZE = 22
 var LIST_SUBTITLE_COLOR = "#505050"
-var LIST_SUBTITLE_COLOR_PRESSED = "#797979"
-var LIST_SUBTITLE_COLOR_INVERTED = "#C8C8C8"
-var LIST_SUBTITLE_COLOR_PRESSED_INVERTED = "#797979"
+var LIST_SUBTITLE_COLOR_INVERTED = "#d2d2d2"
 
 /* Font properties */
-var FONT_FAMILY = "Nokia Pure Text";
-var FONT_FAMILY_BOLD = "Nokia Pure Text Bold";
-var FONT_FAMILY_LIGHT = "Nokia Pure Text Light";
+var FONT_FAMILY = "Nokia Pure";
+var FONT_FAMILY_BOLD = "Nokia Pure Bold";
+var FONT_FAMILY_LIGHT = "Nokia Pure Light";
 var FONT_DEFAULT_SIZE = 24;
 var FONT_LIGHT_SIZE = 22;
-
-// we use a fallback font when language is set to farsi
-var FONT_FAMILY_FARSI = "Arial"
-var FONT_FAMILY_LIGHT_FARSI = "Arial"
 
 /* TUMBLER properties */
 var TUMBLER_COLOR_TEXT = "#FFFFFF";

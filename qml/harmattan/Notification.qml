@@ -22,7 +22,11 @@ import com.nokia.meego 1.0
 
 import "Theme.js" as Theme
 
-Rectangle {
+InfoBanner {
+    topMargin: isPortrait ? UiConstants.HeaderDefaultHeightPortrait: UiConstants.HeaderDefaultHeightLandscape
+}
+
+/*Rectangle {
     id: root
 
     property bool isPortrait: screen.currentOrientation==Screen.Portrait || screen.currentOrientation==Screen.PortraitInverted
@@ -66,4 +70,5 @@ Rectangle {
         interval: 4000
     }
 
-}
+}*/
+
