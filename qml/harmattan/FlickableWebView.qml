@@ -72,6 +72,12 @@
          id: webView
          transformOrigin: Item.TopLeft
 
+         settings.javascriptEnabled: false
+         settings.javaEnabled: false
+         settings.javascriptCanOpenWindows: false
+         settings.pluginsEnabled: false
+
+
          onLoadStarted: flickable.loadStarted()
          onLoadFailed: flickable.loadFailed()
          onLoadFinished: flickable.loadFinished()

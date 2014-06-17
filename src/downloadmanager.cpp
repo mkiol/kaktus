@@ -409,7 +409,7 @@ Checker::~Checker()
 
 void Checker::timeout()
 {
-    //qDebug() << "timeout";
+    qDebug() << "timeout";
     reply->close();
 }
 

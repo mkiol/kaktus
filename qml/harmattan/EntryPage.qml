@@ -50,6 +50,8 @@ Page {
 
         model: entryModel
 
+        PullBar {}
+
         //anchors { top: header.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
         anchors.fill: parent
 

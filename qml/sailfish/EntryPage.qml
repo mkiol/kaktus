@@ -63,6 +63,7 @@ Page {
             date: model.date
             read: model.read
             author: model.author
+            image: model.image
             readlater: model.readlater
             index: model.index
             cached: model.cached
@@ -70,7 +71,7 @@ Page {
 
             onClicked: {
 
-                //console.log("date:"+date);
+                console.log("image:"+image);
 
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy) {

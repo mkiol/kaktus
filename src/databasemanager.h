@@ -77,6 +77,7 @@ public:
         QString link;
         QString content;
         QString feedId;
+        QString image;
         int read;
         int readlater;
         int date;
@@ -156,6 +157,7 @@ public:
     QList<Feed> readFeeds(const QString &tabId);
     QList<QString> readFeedsIdsByTab(const QString &tabId);
     QList<QString> readAllFeedIds();
+    QMap<QString,QString> readAllFeedsIdsTabs();
     QString readFeedId(const QString &entryId);
 
     QList<Entry> readEntries(const QString &feedId);
@@ -180,6 +182,7 @@ public:
 
     QMap<QString,QString> readNotCachedEntries();
     QMap<QString,int> readFeedsLastUpdate();
+
     QMap<QString,int> readFeedsFirstUpdate();
 
     int readLatestEntryDateByFeedId(const QString &feedId);

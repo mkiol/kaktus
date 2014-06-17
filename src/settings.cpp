@@ -306,6 +306,9 @@ void Settings::setDmUserAgent(const QString &value)
 QString Settings::getDmUserAgent()
 {
     QString value = "Mozilla/5.0 (Linux; Android 4.2.1; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19";
+    //QString value = "Mozilla/5.0 (MeeGo; NokiaN9) AppleWebKit/534.13 (KHTML, like Gecko) NokiaBrowser/8.5.0 Mobile Safari/534.13";
+    //QString value = "Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:26.0) Gecko/26.0 Firefox/26.0 SailfishBrowser/1.0 like Safari/538.1";
+    //QString value = "Mozilla/5.0 (Mobile; rv:26.0) Gecko/26.0 Firefox/26.0";
     return settings.value("useragent", value).toString();
 }
 

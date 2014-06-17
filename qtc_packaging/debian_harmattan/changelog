@@ -1,3 +1,10 @@
+kaktus (1.0.5-1) unstable; urgency=low
+
+  * Pull bar with 'last sync' information
+  * Mobile User-Agent in Web Wiew
+
+ -- Michal Kosciesza <michal@mkiol.net>  Tue, 17 Jun 2014 00:04:51 +0200
+
 kaktus (1.0.5-0) unstable; urgency=low
 
   * Initial Release. App ported to Meego from Sailfish OS

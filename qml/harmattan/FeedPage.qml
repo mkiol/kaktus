@@ -54,6 +54,8 @@ Page {
 
         clip: true
 
+        PullBar {}
+
         delegate: ListDelegate {
             id: listItem
 

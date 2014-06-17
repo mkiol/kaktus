@@ -122,7 +122,8 @@ private:
     bool _busy;
     BusyType _busyType;
     QStringList _dashboardList;
-    QStringList _feedList;
+    //QStringList _feedList;
+    QMap<QString,QString> _feedList;
     QMap<QString,int> _feedUpdateList;
     QMap<QString,QString> _feedTabList;
     QStringList _tabList;
@@ -133,6 +134,8 @@ private:
     int offset;
 
     bool parse();
+
+    QString hash(const QString &url);
 
     void storeTabs(const QString &dashboardId);
     void storeFeeds();

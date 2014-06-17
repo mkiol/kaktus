@@ -22,7 +22,7 @@
 
 #include "databasemanager.h"
 
-const QString DatabaseManager::version = QString("1.0");
+const QString DatabaseManager::version = QString("1.2");
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
@@ -339,6 +339,8 @@ bool DatabaseManager::createFeedsStructure()
                          "next_update TIMESTAMP, "
                          "last_update TIMESTAMP "
                          ");");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS feeds_id "
+                         "ON feeds(id DESC);");
     } else {
         qWarning() << "DB is not opened!";
         return false;
@@ -364,6 +366,7 @@ bool DatabaseManager::createEntriesStructure()
                          "author TEXT, "
                          "content TEXT, "
                          "link TEXT, "
+                         "image TEXT, "
                          "read INTEGER DEFAULT 0, "
                          "readlater INTEGER DEFAULT 0, "
                          "created_at TIMESTAMP, "
@@ -585,13 +588,14 @@ bool DatabaseManager::writeEntry(const QString &feedId, const Entry &entry)
     if (_db.isOpen()) {
         QSqlQuery query(_db);
         //qDebug() << "new, feedId=" << feedId << "readlater=" << entry.readlater;
-        ret = query.exec(QString("INSERT INTO entries (id, feed_id, title, author, content, link, read, readlater, date) VALUES('%1','%2','%3','%4','%5','%6',%7,%8,'%9');")
+        ret = query.exec(QString("INSERT INTO entries (id, feed_id, title, author, content, link, image, read, readlater, date) VALUES('%1','%2','%3','%4','%5','%6','%7',%8,%9,'%10');")
                          .arg(entry.id)
                          .arg(feedId)
                          .arg(QString(entry.title.toUtf8().toBase64()))
                          .arg(QString(entry.author.toUtf8().toBase64()))
                          .arg(QString(entry.content.toUtf8().toBase64()))
                          .arg(entry.link)
+                         .arg(entry.image)
                          .arg(entry.read).arg(entry.readlater)
                          .arg(entry.date));
         if(!ret) {
@@ -813,7 +817,8 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &tabId)
     QList<DatabaseManager::Feed> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update FROM feeds WHERE tab_id='%1' LIMIT %2;")
+        QSqlQuery query(QString("SELECT id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update "
+                                "FROM feeds WHERE tab_id='%1' ORDER BY id DESC LIMIT %2;")
                         .arg(tabId)
                         .arg(feedsLimit),_db);
         while(query.next()) {
@@ -1169,6 +1174,22 @@ QMap<QString,int> DatabaseManager::readFeedsLastUpdate()
     return list;
 }
 
+QMap<QString,QString> DatabaseManager::readAllFeedsIdsTabs()
+{
+    QMap<QString,QString> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query("SELECT id, tab_id FROM feeds;",_db);
+        while(query.next()) {
+            list.insert(query.value(0).toString(), query.value(1).toString());
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
 QMap<QString,int> DatabaseManager::readFeedsFirstUpdate()
 {
     QMap<QString,int> list;
@@ -1236,7 +1257,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE feed_id='%1' ORDER BY date DESC LIMIT %2;")
+        QSqlQuery query(QString("SELECT id, title, author, content, link, image, read, readlater, date FROM entries WHERE feed_id='%1' ORDER BY date DESC LIMIT %2;")
                         .arg(feedId)
                         .arg(entriesLimit),_db);
         while(query.next()) {
@@ -1247,9 +1268,10 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId
             decodeBase64(query.value(2),e.author);
             decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
-            e.read = query.value(5).toInt();
-            e.readlater= query.value(6).toInt();
-            e.date = query.value(7).toInt();
+            e.image = query.value(5).toString();
+            e.read = query.value(6).toInt();
+            e.readlater= query.value(7).toInt();
+            e.date = query.value(8).toInt();
             list.append(e);
         }
     } else {
@@ -1264,7 +1286,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater(const QStrin
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.read, e.readlater, e.date "
+        QSqlQuery query(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.image, e.read, e.readlater, e.date "
                                 "FROM entries as e, feeds as f, tabs as t "
                                 "WHERE e.feed_id=f.id AND f.tab_id=t.id AND t.dashboard_id=%1 AND e.readlater=1 "
                                 "ORDER BY date DESC LIMIT %2;")
@@ -1278,9 +1300,10 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater(const QStrin
             decodeBase64(query.value(2),e.author);
             decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
-            e.read = query.value(5).toInt();
-            e.readlater= query.value(6).toInt();
-            e.date = query.value(7).toInt();
+            e.image = query.value(5).toString();
+            e.read = query.value(6).toInt();
+            e.readlater= query.value(7).toInt();
+            e.date = query.value(8).toInt();
             list.append(e);
         }
     } else {
@@ -1295,7 +1318,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnread(const QString &
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE read=0 AND feed_id='%1' ORDER BY date DESC LIMIT %2;")
+        QSqlQuery query(QString("SELECT id, title, author, content, link, image, read, readlater, date FROM entries WHERE read=0 AND feed_id='%1' ORDER BY date DESC LIMIT %2;")
                         .arg(feedId)
                         .arg(entriesLimit),_db);
         while(query.next()) {
@@ -1305,9 +1328,10 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnread(const QString &
             decodeBase64(query.value(2),e.author);
             decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
-            e.read = query.value(5).toInt();
-            e.readlater= query.value(6).toInt();
-            e.date = query.value(7).toInt();
+            e.image = query.value(5).toString();
+            e.read = query.value(6).toInt();
+            e.readlater= query.value(7).toInt();
+            e.date = query.value(8).toInt();
             list.append(e);
         }
     } else {
@@ -1322,7 +1346,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries()
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query("SELECT id, title, author, content, link, read, readlater, date FROM entries ORDER BY date DESC;",_db);
+        QSqlQuery query("SELECT id, title, author, content, link, image, read, readlater, date FROM entries ORDER BY date DESC;",_db);
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
@@ -1330,9 +1354,10 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries()
             decodeBase64(query.value(2),e.author);
             decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
-            e.read = query.value(5).toInt();
-            e.readlater= query.value(6).toInt();
-            e.date = query.value(7).toInt();
+            e.image = query.value(5).toString();
+            e.read = query.value(6).toInt();
+            e.readlater= query.value(7).toInt();
+            e.date = query.value(8).toInt();
             list.append(e);
         }
     } else {
@@ -1369,7 +1394,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesCachedOlderThan(int ca
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, author, content, link, read, readlater, date FROM entries WHERE cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2);")
+        QSqlQuery query(QString("SELECT id, title, author, content, link, image, read, readlater, date FROM entries WHERE cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2);")
                         .arg(cacheDate).arg(limit), _db);
         while(query.next()) {
             Entry e;
@@ -1378,9 +1403,10 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesCachedOlderThan(int ca
             decodeBase64(query.value(2),e.author);
             decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
-            e.read = query.value(5).toInt();
-            e.readlater= query.value(6).toInt();
-            e.date = query.value(7).toInt();
+            e.image = query.value(5).toString();
+            e.read = query.value(6).toInt();
+            e.readlater= query.value(7).toInt();
+            e.date = query.value(8).toInt();
             list.append(e);
         }
     } else {

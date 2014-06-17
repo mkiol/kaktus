@@ -41,6 +41,7 @@ public:
         AuthorRole,
         ContentRole,
         LinkRole,
+        ImageRole,
         CachedRole,
         ReadRole,
         ReadLaterRole,
@@ -54,6 +55,7 @@ public:
                       const QString &author,
                       const QString &content,
                       const QString &link,
+                      const QString &image,
                       const bool cached,
                       const int read,
                       const int readlater,
@@ -67,6 +69,7 @@ public:
     inline QString author() const { return m_author; }
     inline QString content() const { return m_content; }
     inline QString link() const { return m_link; }
+    inline QString image() const { return m_image; }
     inline bool cached() const { return m_cached; }
     inline int read() const { return m_read; }
     inline int readlater() const { return m_readlater; }
@@ -81,6 +84,7 @@ private:
     QString m_author;
     QString m_content;
     QString m_link;
+    QString m_image;
     bool m_cached;
     int m_read;
     int m_readlater;

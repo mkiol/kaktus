@@ -22,6 +22,7 @@
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
 #include "qmlapplicationviewer.h"
+#include "networkaccessmanagerfactory.h"
 #endif
 #ifdef SAILFISH
 #include <QGuiApplication>
@@ -44,7 +45,7 @@
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michał Kościesza <michal@mkiol.net>";
 static const char *PAGE = "https://github/mkiol/kaktus";
-static const char *VERSION = "1.0.5 (beta)";
+static const char *VERSION = "1.1.0 (beta)";
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
@@ -69,6 +70,10 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     Settings* settings = Settings::instance();
     settings->view = &view;
+
+    NetworkAccessManagerFactory factory(settings->getDmUserAgent());
+    view.engine()->setNetworkAccessManagerFactory(&factory);
+
     DatabaseManager db; settings->db = &db;
     DownloadManager dm; settings->dm = &dm;
     CacheServer cache(&db); settings->cache = &cache;

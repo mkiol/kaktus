@@ -105,6 +105,7 @@ void EntryModel::createItems(const QString &feedId)
                                 (*i).author,
                                 content,
                                 (*i).link,
+                                (*i).image,
                                 _db->isCacheItemExistsByEntryId((*i).id),
                                 (*i).read,
                                 (*i).readlater,
@@ -168,6 +169,7 @@ EntryItem::EntryItem(const QString &uid,
                    const QString &author,
                    const QString &content,
                    const QString &link,
+                   const QString &image,
                    const bool cached,
                    const int read,
                    const int readlater,
@@ -179,6 +181,7 @@ EntryItem::EntryItem(const QString &uid,
     m_author(author),
     m_content(content),
     m_link(link),
+    m_image(image),
     m_cached(cached),
     m_read(read),
     m_readlater(readlater),
@@ -193,6 +196,7 @@ QHash<int, QByteArray> EntryItem::roleNames() const
     names[AuthorRole] = "author";
     names[ContentRole] = "content";
     names[LinkRole] = "link";
+    names[ImageRole] = "image";
     names[CachedRole] = "cached";
     names[ReadRole] = "read";
     names[ReadLaterRole] = "readlater";
@@ -213,6 +217,8 @@ QVariant EntryItem::data(int role) const
         return content();
     case LinkRole:
         return link();
+    case ImageRole:
+        return image();
     case CachedRole:
         return cached();
     case ReadRole:

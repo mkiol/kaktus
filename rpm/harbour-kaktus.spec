@@ -13,8 +13,8 @@ Name:       harbour-kaktus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
-Version:    1.0.5
-Release:    3
+Version:    1.1.0
+Release:    0
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -73,3 +73,49 @@ desktop-file-install --delete-original       \
 /usr/share/icons/hicolor/86x86/apps
 # >> files
 # << files
+
+%changelog
+* Tue Jun 17 2014 Michal Kosciesza 1.1.0-0
+- Thumbnails in items view
+
+* Sat May 03 2014 Michal Kosciesza 1.0.5-0
+- Sigin fix due to change in Netvibes API
+- Qt4 support and initial Meego Harmattan support
+
+* Sat May 03 2014 Michal Kosciesza 1.0.4-3
+- Workaround for 'High Power Consumption' webkit bug
+
+* Wed Apr 23 2014 Michal Kosciesza 1.0.4-2
+- Cover improvements
+
+* Sat Apr 19 2014 Michal Kosciesza 1.0.4-1
+- Landscape mode
+- 'Last sync' info on Cover
+- Possibility to mark all items in Tab as read/unread
+
+* Mon Apr 14 2014 Michal Kosciesza 1.0.3-4
+- Version fo r Openrepos.org
+
+* Mon Apr 14 2014 Michal Kosciesza 1.0.3-3
+- Showing number of unread items on Cover
+- Icon update
+
+* Sun Apr 13 2014 Michal Kosciesza 1.0.3-2
+- Showing number of unread items on Tabs
+
+* Sat Apr 12 2014 Michal Kosciesza 1.0.3-1
+- 'Show only unread' option
+- Possibility to mark all items in Feed as read/unread
+- Auto cache cleaning algorithm
+- Cache size view in Settings
+- UI improvements
+
+* Thu Apr 03 2014 Michal Kosciesza 1.0.2-1
+- Increased performance
+- Better error handling when ne twork connection fails
+* Sun Mar 30 2014 Michal Kosciesza 1.0.1-1
+- UI improvements
+- Extra Tab with Saved items
+
+* Mon Mar 25 2014 Michal Kosciesza 1.0.0-1
+- First release

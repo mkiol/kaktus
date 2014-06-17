@@ -31,6 +31,7 @@ ListItem {
     property int read: 0
     property int readlater: 0
     property string content
+    property string image
     property int maxWords: 20
     property int maxChars: 200
     property bool cached: false
@@ -103,14 +104,15 @@ ListItem {
             if (lblMoreDetails.visible)
                 root.expanded = !root.expanded;
         }
+
         Label {
             id: lblMoreDetails
+            visible: root.content.length>root.maxChars
             anchors.right: parent.right
             anchors.rightMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: Theme.fontSizeLarge
             text: "•••"
-            visible: root.content.length>root.maxChars
             color: {
                 if (root.read>0 && root.readlater==0) {
                     if (root.down)
@@ -150,7 +152,36 @@ ListItem {
             }
         }
 
+        // Image
+
+        Image {
+            id: entryImage
+            anchors.left: parent.left;
+            anchors.leftMargin: Theme.paddingLarge;
+            visible: source!="" && status!=Image.Error && status!=Image.Null && settings.showTabIcons
+            fillMode: Image.PreserveAspectFit
+            width: sourceSize.width>root.width-2*Theme.paddingLarge ? root.width-2*Theme.paddingLarge : sourceSize.width
+        }
+
+        Connections {
+            target: settings
+            onShowTabIconsChanged: {
+                if (settings.showTabIcons && image!="")
+                    entryImage.source = settings.offlineMode ? cache.getUrlbyUrl(image) : dm.online ? image : cache.getUrlbyUrl(image);
+                else
+                    entryImage.source = "";
+            }
+        }
+
+        Component.onCompleted: {
+            if (settings.showTabIcons && image!="")
+                entryImage.source = settings.offlineMode ? cache.getUrlbyUrl(image) : dm.online ? image : cache.getUrlbyUrl(image);
+            else
+                entryImage.source = "";
+        }
+
         // Content
+
         Label {
             id: shortContent
             anchors.left: parent.left; anchors.right: parent.right;

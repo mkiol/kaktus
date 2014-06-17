@@ -26,6 +26,7 @@
 #include <QRegExp>
 #include <QNetworkConfiguration>
 #include <QtCore/qmath.h>
+#include <QCryptographicHash>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QJsonDocument>
@@ -345,7 +346,7 @@ void NetvibesFetcher::fetchFeeds()
     request.setRawHeader("Cookie", _cookie);
 
     QString feeds, limit; int ii = 0;
-    QStringList::iterator i = _feedList.begin();
+    QMap<QString,QString>::iterator i = _feedList.begin();
     while (i != _feedList.end()) {
         if (ii > feedsAtOnce) {
             break;
@@ -356,7 +357,7 @@ void NetvibesFetcher::fetchFeeds()
             limit += "&";
         }
 
-        feeds += *i;
+        feeds += i.key();
         limit += "limit[" + QString::number(ii) + "]=" + QString::number(limitFeeds);
 
         i = _feedList.erase(i);
@@ -464,7 +465,7 @@ void NetvibesFetcher::fetchFeedsInfo(const QString &tabId)
     request.setRawHeader("Cookie", _cookie);
 
     QString feeds, limit; int ii = 0;
-    QStringList::iterator i = _feedList.begin();
+    QMap<QString,QString>::iterator i = _feedList.begin();
     while (i != _feedList.end()) {
         if (ii > feedsAtOnce) {
             break;
@@ -475,7 +476,7 @@ void NetvibesFetcher::fetchFeedsInfo(const QString &tabId)
             limit += "&";
         }
 
-        feeds += *i;
+        feeds += i.key();
         limit += "limit[" + QString::number(ii) + "]=" + QString::number(limitFeeds);
 
         i = _feedList.erase(i);
@@ -622,20 +623,19 @@ void NetvibesFetcher::storeTabs(const QString &dashboardId)
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonObject obj = (*i).toObject();
             if (obj["name"].toString() == "RssReader") {
-                _feedTabList.insert(
-                            obj["data"].toObject()["streamIds"].toString(),
-                        obj["tab"].toString()
-                        );
-                _feedList.append(obj["data"].toObject()["streamIds"].toString());
+                //qDebug() << obj["tab"].toString() << obj["data"].toObject()["streamIds"].toString();
+                QString streamId = obj["data"].toObject()["streamIds"].toString();
+                QString tabId = obj["tab"].toString();
+                _feedTabList.insert(streamId,tabId);
+                _feedList.insert(streamId,tabId);
             }
 #else
             QVariantMap obj = (*i).toMap();
             if (obj["name"].toString() == "RssReader") {
-                _feedTabList.insert(
-                            obj["data"].toMap()["streamIds"].toString(),
-                        obj["tab"].toString()
-                        );
-                _feedList.append(obj["data"].toMap()["streamIds"].toString());
+                QString streamId = obj["data"].toMap()["streamIds"].toString();
+                QString tabId = obj["tab"].toString();
+                _feedTabList.insert(streamId,tabId);
+                _feedList.insert(streamId,tabId);
             }
 #endif
             ++i;
@@ -731,6 +731,13 @@ void NetvibesFetcher::storeEntries()
                 QJsonObject obj = (*ii).toObject();
                 int read = (int) obj["flags"].toObject()["read"].toDouble();
                 int readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
+                QString image = "";
+                if (obj["enclosures"].isArray()) {
+                    if (!obj["enclosures"].toArray().empty()) {
+                        //qDebug() << obj["enclosures"].toArray()[0].toObject()["type"].toString() << obj["enclosures"].toArray()[0].toObject()["url"].toString();
+                        image = obj["enclosures"].toArray()[0].toObject()["url"].toString();
+                    }
+                }
 #else
             QVariantList::const_iterator ii = (*i).toList().constBegin();
             while (ii != (*i).toList().constEnd()) {
@@ -744,11 +751,22 @@ void NetvibesFetcher::storeEntries()
                 e.title = obj["title"].toString();
                 e.author = obj["author"].toString();
                 e.link = obj["link"].toString();
+                e.image = image;
                 e.content = obj["content"].toString();
                 e.read = read;
                 e.readlater = readlater;
                 e.date = (int) obj["date"].toDouble();
                 s->db->writeEntry(obj["feed_id"].toString(), e);
+
+                // Downloading image file
+                if (image!="" && s->getAutoDownloadOnUpdate()) {
+                    if (!s->db->isCacheItemExistsByFinalUrl(hash(image))) {
+                        DatabaseManager::CacheItem item;
+                        item.origUrl = image;
+                        item.finalUrl = image;
+                        s->dm->addDownload(item);
+                    }
+                }
 
                 ++ii;
             }
@@ -777,6 +795,13 @@ bool NetvibesFetcher::storeEntriesMerged()
             QJsonObject obj = (*i).toObject();
             int read = (int) obj["flags"].toObject()["read"].toDouble();
             int readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
+            QString image = "";
+            if (obj["enclosures"].isArray()) {
+                if (!obj["enclosures"].toArray().empty()) {
+                    //qDebug() << obj["enclosures"].toArray()[0].toObject()["type"].toString() << obj["enclosures"].toArray()[0].toObject()["url"].toString();
+                    image = obj["enclosures"].toArray()[0].toObject()["url"].toString();
+                }
+            }
 #else
             QVariantMap obj = (*i).toMap();
             int read = (int) obj["flags"].toMap()["read"].toDouble();
@@ -789,11 +814,20 @@ bool NetvibesFetcher::storeEntriesMerged()
             e.title = obj["title"].toString();
             e.author = obj["author"].toString();
             e.link = obj["link"].toString();
+            e.image = image;
             e.content = obj["content"].toString();
             e.read = read;
             e.readlater = readlater;
             e.date = (int) obj["date"].toDouble();
             s->db->writeEntry(obj["feed_id"].toString(), e);
+
+            // Downloading image file
+            if (image!="") {
+                DatabaseManager::CacheItem item;
+                item.origUrl = image;
+                item.finalUrl = image;
+                s->dm->addDownload(item);
+            }
 
             ++i;
         }
@@ -1017,12 +1051,12 @@ void NetvibesFetcher::finishedTabs()
                 //qDebug() << "_feedUpdateList.count:"<<_feedUpdateList.count();
 
                 if (_feedList.isEmpty()) {
-                    //qDebug() << "No new Feeds!";
+                    qDebug() << "No new Feeds!";
                     _total = qCeil(_feedUpdateList.count()/feedsUpdateAtOnce)+3;
                     emit progress(3,_total);
                     fetchFeedsUpdate();
                 } else {
-                    _total = qCeil(_feedUpdateList.count()/feedsUpdateAtOnce)+qCeil(_feedList.length()/feedsAtOnce)+3;
+                    _total = qCeil(_feedUpdateList.count()/feedsUpdateAtOnce)+qCeil(_feedList.count()/feedsAtOnce)+3;
                     emit progress(3,_total);
                     fetchFeeds();
                 }
@@ -1033,7 +1067,7 @@ void NetvibesFetcher::finishedTabs()
                 s->db->cleanFeeds();
                 s->db->cleanEntries();
                 //s->db->cleanCache();
-                _total = qCeil(_feedList.length()/feedsAtOnce)+3;
+                _total = qCeil(_feedList.count()/feedsAtOnce)+3;
                 emit progress(3,_total);
                 fetchFeeds();
             }
@@ -1044,14 +1078,21 @@ void NetvibesFetcher::finishedTabs()
 void NetvibesFetcher::cleanNewFeeds()
 {
     Settings *s = Settings::instance();
-    QMap<QString,int> storedFeedList = s->db->readFeedsLastUpdate();
-    QStringList::iterator i = _feedList.begin();
+    QMap<QString,QString> storedFeedList = s->db->readAllFeedsIdsTabs();
+    QMap<QString,QString>::iterator i = _feedList.begin();
     while (i != _feedList.end()) {
-        if (storedFeedList.find(*i) == storedFeedList.end()) {
-            //qDebug() << "New feed " << *i;
+        //qDebug() << i.value() << i.key();
+        QMap<QString,QString>::iterator ci = storedFeedList.find(i.key());
+        if (ci == storedFeedList.end()) {
+            qDebug() << "New feed " << i.value() << i.key();
             ++i;
         } else {
-            i = _feedList.erase(i);
+            if (ci.value() == i.value()) {
+                i = _feedList.erase(i);
+            } else {
+                qDebug() << "Old feed in new tab found" << ci.value() << i.value() << i.key();
+                ++i;
+            }
         }
     }
 }
@@ -1059,11 +1100,19 @@ void NetvibesFetcher::cleanNewFeeds()
 void NetvibesFetcher::cleanRemovedFeeds()
 {
     Settings *s = Settings::instance();
-    QMap<QString,int> storedFeedList = s->db->readFeedsLastUpdate();
-    QMap<QString,int>::iterator i = storedFeedList.begin();
+    QMap<QString,QString> storedFeedList = s->db->readAllFeedsIdsTabs();
+    QMap<QString,QString>::iterator i = storedFeedList.begin();
+    QMap<QString,QString>::iterator end = _feedList.end();
     while (i != storedFeedList.end()) {
-        if (!_feedList.contains(i.key())) {
+        QMap<QString,QString>::iterator ci = _feedList.find(i.key());
+        if (ci == end) {
+            qDebug() << "Removing feed" << i.value() << i.key();
             s->db->removeFeed(i.key());
+        } else {
+            if (ci.value() != i.value()) {
+                qDebug() << "Removing existing feed in old tab" << ci.value() << i.value() << i.key();
+                s->db->removeFeed(i.key());
+            }
         }
         ++i;
     }
@@ -1085,7 +1134,7 @@ void NetvibesFetcher::finishedFeeds()
     storeFeeds();
     storeEntries();
 
-    emit progress(_total-((_feedList.length()/feedsAtOnce)+(_feedUpdateList.count()/feedsUpdateAtOnce)),_total);
+    emit progress(_total-((_feedList.count()/feedsAtOnce)+(_feedUpdateList.count()/feedsUpdateAtOnce)),_total);
 
     if (_feedList.isEmpty()) {
 
@@ -1241,4 +1290,8 @@ void NetvibesFetcher::cancel()
         _currentReply->close();
 }
 
-
+QString NetvibesFetcher::hash(const QString &url)
+{
+    QByteArray data; data.append(url);
+    return QString(QCryptographicHash::hash(data, QCryptographicHash::Md5).toHex());
+}
