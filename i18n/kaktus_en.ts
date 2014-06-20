@@ -149,58 +149,58 @@
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="82"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="83"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="78"/>
         <source>Please wait until Sync finishes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="90"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="91"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="86"/>
         <source>Offline version not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="98"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="99"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="94"/>
         <source>Network connection is unavailable
 Switching to Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="102"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="103"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="98"/>
         <source>Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="129"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="181"/>
         <source>Unsave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="129"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="181"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="141"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="191"/>
         <source>Mark as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="141"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="191"/>
         <source>Mark as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="163"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="162"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="122"/>
         <source>No unread items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="163"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="162"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="122"/>
         <source>No items</source>
         <translation type="unfinished"></translation>
@@ -222,13 +222,13 @@ Switching to Offline mode</source>
 <context>
     <name>FeedPage</name>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="102"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="147"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="134"/>
         <source>Mark all as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="113"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="156"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="143"/>
         <source>Mark all as unread</source>
         <translation type="unfinished"></translation>
@@ -282,6 +282,15 @@ Switching to Offline mode</source>
     </message>
 </context>
 <context>
+    <name>MainToolbar</name>
+    <message>
+        <location filename="../qml/harmattan/MainToolbar.qml" line="52"/>
+        <source>Cannot switch to Online mode
+Network connection is unavailable</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PullBar</name>
     <message>
         <location filename="../qml/harmattan/PullBar.qml" line="44"/>
@@ -329,6 +338,7 @@ Switching to Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="143"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="209"/>
         <source>Show icons &amp; images</source>
         <translation type="unfinished"></translation>
@@ -439,11 +449,6 @@ Switching to Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="143"/>
-        <source>Show icons</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="184"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="251"/>
         <source>Orientation</source>
@@ -539,25 +544,25 @@ Switching to Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="120"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="158"/>
         <location filename="../qml/sailfish/TabPage.qml" line="207"/>
         <source>Mark all as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="130"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="166"/>
         <location filename="../qml/sailfish/TabPage.qml" line="215"/>
         <source>Mark all as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="145"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="178"/>
         <location filename="../qml/sailfish/TabPage.qml" line="229"/>
         <source>No tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="146"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="179"/>
         <source>Press button to do first Sync</source>
         <translation type="unfinished"></translation>
     </message>
@@ -567,7 +572,7 @@ Switching to Offline mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="146"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="179"/>
         <location filename="../qml/sailfish/TabPage.qml" line="236"/>
         <source>Wait until Sync finish</source>
         <translation type="unfinished"></translation>

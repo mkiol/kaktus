@@ -214,19 +214,19 @@ Został włączony tryb Offline!</translation>
         <translation type="obsolete">Zaczekaj do zakończenia aktualizacji</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="82"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="83"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="78"/>
         <source>Please wait until Sync finishes</source>
         <translation>Zaczekaj do zakończenia aktualizacji</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="90"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="91"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="86"/>
         <source>Offline version not available</source>
         <translation>Brak kopii Offline</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="98"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="99"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="94"/>
         <source>Network connection is unavailable
 Switching to Offline mode</source>
@@ -234,39 +234,39 @@ Switching to Offline mode</source>
 Został włączony tryb Offline</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="102"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="103"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="98"/>
         <source>Network connection is unavailable</source>
         <translation>Brak połączenia sieciowego</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="129"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="181"/>
         <source>Unsave</source>
         <translation>Usuń z zapisanych</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="129"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="181"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="141"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="191"/>
         <source>Mark as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="141"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="191"/>
         <source>Mark as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="163"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="162"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="122"/>
         <source>No unread items</source>
         <translation>Brak nieprzeczytanych artykułów</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="163"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="162"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="122"/>
         <source>No items</source>
         <translation>Brak artykułów</translation>
@@ -300,13 +300,13 @@ Został włączony tryb Offline</translation>
         <translation type="obsolete">1 nieprzeczytany</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="102"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="147"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="134"/>
         <source>Mark all as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="113"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="156"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="143"/>
         <source>Mark all as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
@@ -388,6 +388,16 @@ Został włączony tryb Offline</translation>
     </message>
 </context>
 <context>
+    <name>MainToolbar</name>
+    <message>
+        <location filename="../qml/harmattan/MainToolbar.qml" line="52"/>
+        <source>Cannot switch to Online mode
+Network connection is unavailable</source>
+        <translation>Nie można przejść do trybu Online
+Brak połączenia sieciowego</translation>
+    </message>
+</context>
+<context>
     <name>NoContentPage</name>
     <message>
         <source>Offline version not available :-(</source>
@@ -455,6 +465,7 @@ Brak połączenia sieciowego</translation>
         <translation>Niezalogowany</translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="143"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="209"/>
         <source>Show icons &amp; images</source>
         <translation>Pokazuj ikony i obrazki</translation>
@@ -605,9 +616,8 @@ Brak połączenia sieciowego</translation>
         <translation type="obsolete">Pokazuj tylko nieprzeczytane artykuły</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="143"/>
         <source>Show icons</source>
-        <translation>Pokazuj ikony</translation>
+        <translation type="obsolete">Pokazuj ikony</translation>
     </message>
     <message>
         <source>Show Tab with saved articles</source>
@@ -701,25 +711,25 @@ Brak połączenia sieciowego</translation>
         <translation>Zakładki</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="120"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="158"/>
         <location filename="../qml/sailfish/TabPage.qml" line="207"/>
         <source>Mark all as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="130"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="166"/>
         <location filename="../qml/sailfish/TabPage.qml" line="215"/>
         <source>Mark all as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="145"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="178"/>
         <location filename="../qml/sailfish/TabPage.qml" line="229"/>
         <source>No tabs</source>
         <translation>Brak zakładek</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="146"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="179"/>
         <source>Press button to do first Sync</source>
         <translation>Wykonaj pierwszą aktualizacje kanałów</translation>
     </message>
@@ -729,7 +739,7 @@ Brak połączenia sieciowego</translation>
         <translation>Wykonaj pierwszą aktualizacje kanałów</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="146"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="179"/>
         <location filename="../qml/sailfish/TabPage.qml" line="236"/>
         <source>Wait until Sync finish</source>
         <translation>Zaczekaj do zakończenia aktualizacji</translation>

@@ -821,6 +821,10 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &tabId)
                                 "FROM feeds WHERE tab_id='%1' ORDER BY id DESC LIMIT %2;")
                         .arg(tabId)
                         .arg(feedsLimit),_db);
+        /*QSqlQuery query(QString("SELECT id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update "
+                                "FROM feeds WHERE tab_id='%1' LIMIT %2;")
+                        .arg(tabId)
+                        .arg(feedsLimit),_db);*/
         while(query.next()) {
             //qDebug() << "readFeeds, " << query.value(1).toString();
             Feed f;

@@ -88,7 +88,7 @@ Page {
                 }
             }
 
-            onHolded: !readlaterItem ? contextMenu.open() : {}
+            onHolded: !readlaterItem ? contextMenu.openMenu(model.index, model.read, model.unread) : {}
 
             Connections {
                 target: settings
@@ -111,7 +111,7 @@ Page {
                 }
             }
 
-            Dialog {
+            /*Dialog {
                 id: contextMenu
                 buttons: Column {
                     spacing: UiConstants.DefaultMargin
@@ -136,6 +136,39 @@ Page {
                         }
                     }
                 }
+            }*/
+        }
+    }
+
+    ContextMenu {
+        id: contextMenu
+        property int index
+        property int read
+        property int unread
+
+        function openMenu(i, r, u) {
+            index = i;
+            read = r;
+            unread = u;
+            open();
+        }
+
+        MenuLayout {
+            MenuItem {
+                text: qsTr("Mark all as read")
+                enabled: contextMenu.unread!=0
+                //visible: enabled
+                onClicked: {
+                    tabModel.markAllAsRead(contextMenu.index);
+                }
+            }
+            MenuItem {
+                text: qsTr("Mark all as unread")
+                enabled: contextMenu.read!=0
+                //visible: enabled
+                onClicked: {
+                    tabModel.markAllAsUnread(contextMenu.index);
+                }
             }
         }
     }
@@ -150,7 +183,7 @@ Page {
         visible: listView.count == 1 && !fetcher.busy && !dm.busy
         source: "arrow.png"
         anchors.bottom: parent.bottom; anchors.bottomMargin: Theme.paddingLarge
-        anchors.horizontalCenter: parent.horizontalCenter
+        x: (parent.width/3)-UiConstants.DefaultMargin;
     }
 
     ScrollDecorator { flickableItem: listView }

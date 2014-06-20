@@ -285,8 +285,7 @@ QString Settings::getDmCacheDir()
     QString value = QDir(QDesktopServices::storageLocation(QDesktopServices::CacheLocation)).filePath("cached_files");
 #endif
 
-    //qDebug() << QDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation));
-    //qDebug() << QFileInfo(settings.fileName()).absolutePath();
+    //qDebug() << "Cache dir is" << value;
 
     if (!QDir(value).exists()) {
         if (!QDir::root().mkpath(value)) {

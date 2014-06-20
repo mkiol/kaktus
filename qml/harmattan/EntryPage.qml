@@ -65,6 +65,7 @@ Page {
 
             title: model.title
             content: model.content
+            image: model.image
             date: model.date
             read: model.read
             author: model.author
@@ -73,7 +74,7 @@ Page {
             cached: model.cached
             feedindex: root.index
 
-            onHolded: contextMenu.open()
+            onHolded: contextMenu.openMenu(model.index, model.read, model.readlater)
 
             onClicked: {
 
@@ -120,7 +121,7 @@ Page {
                                });
             }
 
-            Dialog {
+            /*Dialog {
                 id: contextMenu
                 buttons: Column {
                     spacing: UiConstants.DefaultMargin
@@ -146,21 +147,61 @@ Page {
                             } else {
                                 entryModel.setData(index, "read", 1);
                                 feedModel.decrementUnread(feedindex);
-                                /*if (lblMoreDetails.visible)
-                                    root.expanded = false;*/
                             }
                             tabModel.updateFlags();
                             contextMenu.accept()
                         }
                     }
                 }
-            }
+            }*/
 
         }
 
         ViewPlaceholder {
             enabled: listView.count == 0
             text: settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+        }
+    }
+
+    ContextMenu {
+        id: contextMenu
+        property int index
+        property int read
+        property int readlater
+
+        function openMenu(i, r, rl) {
+            index = i;
+            read = r;
+            readlater = rl;
+            open();
+        }
+
+        MenuLayout {
+            MenuItem {
+                text: contextMenu.readlater ? qsTr("Unsave") : qsTr("Save")
+                onClicked: {
+                    if (contextMenu.readlater) {
+                        entryModel.setData(contextMenu.index, "readlater", 0);
+                    } else {
+                        entryModel.setData(contextMenu.index, "readlater", 1);
+                    }
+                }
+            }
+            MenuItem {
+                text: contextMenu.read ? qsTr("Mark as unread") : qsTr("Mark as read")
+                onClicked: {
+                    if (contextMenu.read) {
+                        entryModel.setData(contextMenu.index, "read", 0);
+                        feedModel.incrementUnread(root.index);
+                    } else {
+                        entryModel.setData(contextMenu.index, "read", 1);
+                        feedModel.decrementUnread(root.index);
+                        /*if (lblMoreDetails.visible)
+                            root.expanded = false;*/
+                    }
+                    tabModel.updateFlags();
+                }
+            }
         }
     }
 

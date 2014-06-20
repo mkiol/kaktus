@@ -725,13 +725,14 @@ void NetvibesFetcher::storeEntries()
         QVariantList::const_iterator end = _jsonObj["items"].toList().constEnd();
 #endif
         while (i != end) {
+            QString image = "";
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonArray::const_iterator ii = (*i).toArray().constBegin();
             while (ii != (*i).toArray().constEnd()) {
                 QJsonObject obj = (*ii).toObject();
                 int read = (int) obj["flags"].toObject()["read"].toDouble();
                 int readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
-                QString image = "";
+
                 if (obj["enclosures"].isArray()) {
                     if (!obj["enclosures"].toArray().empty()) {
                         //qDebug() << obj["enclosures"].toArray()[0].toObject()["type"].toString() << obj["enclosures"].toArray()[0].toObject()["url"].toString();
@@ -744,6 +745,13 @@ void NetvibesFetcher::storeEntries()
                 QVariantMap obj = (*ii).toMap();
                 int read = (int) obj["flags"].toMap()["read"].toDouble();
                 int readlater = (int) obj["flags"].toMap()["readlater"].toDouble();
+
+                if (obj["enclosures"].type()==QVariant::List) {
+                    if (!obj["enclosures"].toList().empty()) {
+                        //qDebug() << obj["enclosures"].toList()[0].toMap()["type"].toString() << obj["enclosures"].toList()[0].toMap()["url"].toString();
+                        image = obj["enclosures"].toList()[0].toMap()["url"].toString();
+                    }
+                }
 #endif
                 DatabaseManager::Entry e;
                 e.id = obj["id"].toString();
@@ -791,11 +799,12 @@ bool NetvibesFetcher::storeEntriesMerged()
         QVariantList::const_iterator end = _jsonObj["items"].toList().constEnd();
 #endif
         while (i != end) {
+            QString image = "";
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonObject obj = (*i).toObject();
             int read = (int) obj["flags"].toObject()["read"].toDouble();
             int readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
-            QString image = "";
+
             if (obj["enclosures"].isArray()) {
                 if (!obj["enclosures"].toArray().empty()) {
                     //qDebug() << obj["enclosures"].toArray()[0].toObject()["type"].toString() << obj["enclosures"].toArray()[0].toObject()["url"].toString();
@@ -806,6 +815,13 @@ bool NetvibesFetcher::storeEntriesMerged()
             QVariantMap obj = (*i).toMap();
             int read = (int) obj["flags"].toMap()["read"].toDouble();
             int readlater = (int) obj["flags"].toMap()["readlater"].toDouble();
+
+            if (obj["enclosures"].type()==QVariant::List) {
+                if (!obj["enclosures"].toList().empty()) {
+                    //qDebug() << obj["enclosures"].toList()[0].toMap()["type"].toString() << obj["enclosures"].toList()[0].toMap()["url"].toString();
+                    image = obj["enclosures"].toList()[0].toMap()["url"].toString();
+                }
+            }
 #endif
 
             DatabaseManager::Entry e;

@@ -1,3 +1,10 @@
+kaktus (1.1.0-0) unstable; urgency=low
+
+  * Thumbnails in item view
+  * Offline/Online toolbar button
+
+ -- Michal Kosciesza <michal@mkiol.net>  Fri, 20 Jun 2014 22:28:59 +0200
+
 kaktus (1.0.5-1) unstable; urgency=low
 
   * Pull bar with 'last sync' information

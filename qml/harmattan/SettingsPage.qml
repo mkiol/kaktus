@@ -140,7 +140,7 @@ Page {
             }
 
             TextSwitch {
-                text: qsTr("Show icons")
+                text: qsTr("Show icons & images")
                 onCheckedChanged: {
                     settings.showTabIcons = checked;
                 }
@@ -220,6 +220,10 @@ Page {
                         break;
                     }
                 }
+            }
+
+            Item {
+                height: Theme.paddingMedium
             }
 
         }

@@ -71,7 +71,7 @@ Page {
 
             onClicked: {
 
-                console.log("image:"+image);
+                //console.log("image:"+image);
 
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy) {

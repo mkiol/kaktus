@@ -35,6 +35,7 @@ Item {
     property int read: 0
     property int readlater: 0
     property string content
+    property string image
     property int maxWords: 20
     property int maxChars: 200
     property bool cached: false
@@ -84,6 +85,8 @@ Item {
 
         spacing: Theme.paddingMedium
 
+        // Title
+
         Label {
             id: mainText
             anchors { left: parent.left; right: parent.right }
@@ -108,6 +111,35 @@ Item {
             maximumLineCount: 2
             elide: Text.ElideRight
         }
+
+        // Image
+
+        Image {
+            id: entryImage
+            anchors.left: parent.left;
+            visible: source!="" && status!=Image.Error && status!=Image.Null && settings.showTabIcons
+            fillMode: Image.PreserveAspectFit
+            width: sourceSize.width>parent.width ? parent.width : sourceSize.width
+        }
+
+        Connections {
+            target: settings
+            onShowTabIconsChanged: {
+                if (settings.showTabIcons && image!="")
+                    entryImage.source = settings.offlineMode ? cache.getUrlbyUrl(image) : dm.online ? image : cache.getUrlbyUrl(image);
+                else
+                    entryImage.source = "";
+            }
+        }
+
+        Component.onCompleted: {
+            if (settings.showTabIcons && image!="")
+                entryImage.source = settings.offlineMode ? cache.getUrlbyUrl(image) : dm.online ? image : cache.getUrlbyUrl(image);
+            else
+                entryImage.source = "";
+        }
+
+        // Content
 
         Label {
             id: shortContent
@@ -159,12 +191,12 @@ Item {
 
         Item {
             anchors.left: parent.left; anchors.right: parent.right;
-            height: dateLabel.height + Theme.paddingMedium/2
+            height: dateLabel.height + Theme.paddingMedium
 
-            Rectangle {
+            /*Rectangle {
                 anchors.fill: parent
                 color: mouseExpander.pressed ? Qt.rgba(255,255,255,0.1) : Qt.rgba(255,255,255,0.0)
-            }
+            }*/
 
             MouseArea {
                 id: mouseExpander
@@ -178,7 +210,7 @@ Item {
             Label {
                 id: dateLabel
                 anchors.left: parent.left; anchors.right: expander.left;
-                anchors.rightMargin: Theme.paddingMedium
+                anchors.rightMargin: Theme.paddingLarge
                 anchors.verticalCenter: parent.verticalCenter
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: Theme.secondaryColor
@@ -202,7 +234,7 @@ Item {
                     anchors.right: parent.right
                     anchors.rightMargin: Theme.paddingMedium
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pixelSize: Theme.fontSizeMedium
+                    font.pixelSize: Theme.fontSizeSmall
                     text: "•••"
                     visible: root.content.length>root.maxChars
                     color: {

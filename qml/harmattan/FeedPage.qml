@@ -73,7 +73,7 @@ Page {
                 pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
             }
 
-            onHolded: contextMenu.open()
+            onHolded: contextMenu.openMenu(model.index, model.read, model.unread)
 
             Connections {
                 target: settings
@@ -93,7 +93,7 @@ Page {
                 }
             }
 
-            Dialog {
+            /*Dialog {
                 id: contextMenu
                 buttons: Column {
                     spacing: UiConstants.DefaultMargin
@@ -120,12 +120,47 @@ Page {
                         }
                     }
                 }
-            }
+            }*/
         }
 
         ViewPlaceholder {
             enabled: listView.count == 0
             text: qsTr("No feeds")
+        }
+    }
+
+    ContextMenu {
+        id: contextMenu
+        property int index
+        property int read
+        property int unread
+
+        function openMenu(i, r, u) {
+            index = i;
+            read = r;
+            unread = u;
+            open();
+        }
+
+        MenuLayout {
+            MenuItem {
+                text: qsTr("Mark all as read")
+                enabled: contextMenu.unread!=0
+                //visible: enabled
+                onClicked: {
+                    feedModel.markAllAsRead(contextMenu.index);
+                    tabModel.updateFlags();
+                }
+            }
+            MenuItem {
+                text: qsTr("Mark all as unread")
+                enabled: contextMenu.read!=0
+                //visible: enabled
+                onClicked: {
+                    feedModel.markAllAsUnread(contextMenu.index);
+                    tabModel.updateFlags();
+                }
+            }
         }
     }
 

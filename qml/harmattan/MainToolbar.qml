@@ -41,6 +41,22 @@ ToolBarLayout {
     }
 
     ToolIcon {
+        iconSource: settings.offlineMode ?
+                        (theme.inverted ? "offline-inverted.png" : "offline.png") :
+                        (theme.inverted ? "online-inverted.png" : "online.png")
+        onClicked: {
+            if (settings.offlineMode) {
+                if (dm.online)
+                    settings.offlineMode = false;
+                else
+                    notification.show(qsTr("Cannot switch to Online mode\nNetwork connection is unavailable"));
+            } else {
+                settings.offlineMode = true;
+            }
+        }
+    }
+
+    ToolIcon {
         iconId: "toolbar-view-menu"
         onClicked: (menu.status == DialogStatus.Closed) ? menu.open() : menu.close()
     }

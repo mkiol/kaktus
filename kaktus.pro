@@ -8,7 +8,7 @@ contains(MEEGO_EDITION, harmattan) {
     DEFINES += MEEGO_EDITION_HARMATTAN
 }
 
-#DEFINES += ONLINE_CHECK
+DEFINES += ONLINE_CHECK
 DEFINES += MEEGO_EDITION_HARMATTAN
 
 symbian {
@@ -16,7 +16,7 @@ symbian {
   TARGET.CAPABILITY += NetworkServices
   CONFIG += qt-components
   DEPLOYMENT.display_name = "Kaktus"
-  VERSION = 1.0.5
+  VERSION = 1.1.0
   ICON = kaktus.svg
 }
 
@@ -33,7 +33,9 @@ SOURCES += \
     src/dashboardmodel.cpp \
     src/cacheserver.cpp \
     src/settings.cpp \
-    src/simplecrypt.cpp
+    src/simplecrypt.cpp \
+    src/customnetworkaccessmanager.cpp \
+    src/networkaccessmanagerfactory.cpp
 
 HEADERS += \
     src/utils.h \
@@ -48,7 +50,9 @@ HEADERS += \
     src/cacheserver.h \
     src/settings.h \
     src/simplecrypt.h \
-    key.h
+    key.h \
+    src/customnetworkaccessmanager.h \
+    src/networkaccessmanagerfactory.h
 
 #QJson if Qt < 5
 lessThan(QT_MAJOR_VERSION, 5) {
