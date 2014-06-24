@@ -21,6 +21,7 @@
 #include <QCryptographicHash>
 #include <QTextCodec>
 #include <QFile>
+#include <QDebug>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QUrlQuery>
@@ -166,22 +167,29 @@ void CacheServer::filter(QString &content, const QUrl &query)
 
     // Applying Theme's style
     Settings *s = Settings::instance();
-    QString style, width = "540px";
+    QString style, width, fontsize;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     QUrlQuery urlQuery(query);
     if (urlQuery.hasQueryItem("width"))
         width = urlQuery.queryItemValue("width");
+    if (urlQuery.hasQueryItem("fontsize"))
+        fontsize = urlQuery.queryItemValue("fontsize");
+#else
+    if (query.hasQueryItem("width"))
+        width = query.queryItemValue("width");
+    if (query.hasQueryItem("fontsize"))
+        fontsize= query.queryItemValue("fontsize");
 #endif
 
     if (s->getCsTheme() == "white") {
         style = QString("<meta name='viewport' content='width=%1'>"
-                        "<style>body{background:#FFF;color:#000;font-size:25px;}</style></head>")
-                .arg(width);
+                        "<style>body{background:#FFF;color:#000;font-size:%2;}</style></head>")
+                .arg(width).arg(fontsize);
     } else {
         style = QString("<meta name='viewport' content='width=%1'>"
-                "<style>body{background:#000;color:#FFF;font-size:25px;}</style></head>")
-                .arg(width);
+                "<style>body{background:#000;color:#FFF;font-size:%2;}</style></head>")
+                .arg(width).arg(fontsize);
     }
     content = content.replace(rxHeadEnd,style);
 

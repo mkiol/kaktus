@@ -17,7 +17,7 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifdef MEEGO_EDITION_HARMATTAN
+#if defined(MEEGO_EDITION_HARMATTAN) || defined(SYMBIAN_OS)
 #include <QtGui/QApplication>
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
@@ -50,7 +50,7 @@ static const char *VERSION = "1.1.0 (beta)";
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
   
-#ifdef MEEGO_EDITION_HARMATTAN
+#if defined(MEEGO_EDITION_HARMATTAN) || defined(SYMBIAN_OS)
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     QmlApplicationViewer view;
 
@@ -65,7 +65,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     QTranslator *appTranslator = new QTranslator;
     appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
-    //appTranslator->load(":/i18n/kaktus_pl.qm");
     app->installTranslator(appTranslator);
 
     Settings* settings = Settings::instance();
@@ -91,12 +90,16 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     view.rootContext()->setContextProperty("settings", settings);
 
     view.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
+#endif
+#if defined(MEEGO_EDITION_HARMATTAN)
     view.setMainQmlFile(QLatin1String("qml/harmattan/main.qml"));
     view.showExpanded();
-
-    return app->exec();
 #endif
-#ifdef SAILFISH
+#if defined(SYMBIAN_OS)
+    view.setMainQmlFile(QLatin1String("qml/symbian/main.qml"));
+    view.showExpanded();
+#endif
+#if defined(SAILFISH)
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
 
@@ -133,7 +136,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     view->setSource(SailfishApp::pathTo("qml/sailfish/main.qml"));
     view->show();
-
-    return app->exec();
 #endif
+    return app->exec();
+
 }

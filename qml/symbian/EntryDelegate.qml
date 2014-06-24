@@ -18,17 +18,17 @@
 */
 
 import QtQuick 1.1
-import com.nokia.meego 1.0
+import com.nokia.symbian 1.1
 
 import "Theme.js" as Theme
 
-Item {
+ListItem {
     id: root
 
     signal clicked
     signal holded
-    property alias pressed: mouseArea.pressed
-
+    property bool pressed: mode=="pressed"
+    property bool down: mode=="pressed"
     property string title
     property string author
     property int date
@@ -43,30 +43,18 @@ Item {
     property int index
     property int feedindex
 
-    property alias down: mouseArea.pressed
+    onPressAndHold: {
+        holded();
+    }
 
-    height: item.height + 2 * Theme.paddingMedium
+    height: item.height + 2 * platformStyle.paddingMedium
     width: parent.width
 
-    BorderImage {
-        anchors.fill: parent
-        visible: mouseArea.pressed
-        source: theme.inverted ? "image://theme/meegotouch-panel-inverted-background-pressed" : "image://theme/meegotouch-panel-background-pressed"
-    }
-
-    MouseArea {
-        id: mouseArea;
-        anchors.fill: parent
-        onClicked: root.clicked();
-        onPressAndHold: root.holded();
-    }
-
-
-    ToolIcon {
+    ToolButton {
         id: star
         anchors.horizontalCenter: mainText.horizontalCenter
         anchors.right: parent.right
-        platformIconId: readlater>0 ? "toolbar-favorite-mark" : "toolbar-favorite-unmark"
+        iconSource: readlater>0 ? "favourite-selected.png" : "favourite.png"
 
         onClicked: {
             if (root.readlater>0) {
@@ -80,10 +68,9 @@ Item {
     Column {
         id: item
         anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
-        anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
-
-        spacing: Theme.paddingMedium
+        anchors.left: parent.left; anchors.leftMargin: platformStyle.paddingMedium
+        anchors.right: parent.right; anchors.rightMargin: platformStyle.paddingMedium
+        spacing: platformStyle.paddingMedium
 
         // Title
 
@@ -96,19 +83,19 @@ Item {
             color: {
                 if (root.read>0 && root.readlater==0) {
                     if (root.down)
-                        return Theme.secondaryHighlightColor;
-                    return Theme.secondaryColor;
+                        return platformStyle.colorHighlighted;
+                    return platformStyle.colorNormalMid;
                 }
 
                 if (root.down)
-                    return Theme.secondaryHighlightColor;
+                    return platformStyle.colorHighlighted;
                 return Theme.highlightColor;
             }
 
-            font.pixelSize: Theme.fontSizeMedium
-            font.family: Theme.fontFamilyHeading
+            font.pixelSize: platformStyle.fontSizeMedium
             font.bold: true
-            maximumLineCount: 2
+            maximumLineCount: 4
+            wrapMode: Text.Wrap
             elide: Text.ElideRight
         }
 
@@ -154,12 +141,12 @@ Item {
             color: {
                 if (root.read>0 && root.readlater==0) {
                     if (root.down)
-                        return Theme.secondaryHighlightColor;
-                    return Theme.secondaryColor;
+                        return platformStyle.colorHighlighted;
+                    return platformStyle.colorNormalMid;
                 }
                 if (root.down)
-                    return Theme.secondaryColor;
-                return Theme.primaryColor;
+                    return platformStyle.colorHighlighted;
+                return platformStyle.colorNormalLight;
             }
 
             wrapMode: Text.WordWrap
@@ -185,13 +172,13 @@ Item {
 
             color: {
                 if (root.read>0 && root.readlater==0) {
-                    /*if (root.down)
-                        return Theme.secondaryHighlightColor;*/
-                    return Theme.secondaryColor;
+                    if (root.down)
+                        return platformStyle.colorHighlighted;
+                    return platformStyle.colorNormalMid;
                 }
                 if (root.down)
-                    return Theme.secondaryColor
-                return Theme.primaryColor;
+                    return platformStyle.colorHighlighted
+                return platformStyle.colorNormalLight;
             }
 
             wrapMode: Text.WordWrap
@@ -199,7 +186,7 @@ Item {
 
         Item {
             anchors.left: parent.left; anchors.right: parent.right;
-            height: dateLabel.height + Theme.paddingMedium
+            height: dateLabel.height + platformStyle.paddingMedium
 
             /*Rectangle {
                 anchors.fill: parent
@@ -218,10 +205,10 @@ Item {
             Label {
                 id: dateLabel
                 anchors.left: parent.left; anchors.right: expander.left;
-                anchors.rightMargin: Theme.paddingLarge
+                anchors.rightMargin: platformStyle.paddingLarge
                 anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryColor
+                font.pixelSize: platformStyle.fontSizeSmall
+                color: root.down ? platformStyle.colorHighlighted : platformStyle.colorNormalMid
                 elide: Text.ElideRight
                 text: root.author!=""
                       ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
@@ -240,20 +227,20 @@ Item {
                 Label {
                     id: lblMoreDetails
                     anchors.right: parent.right
-                    anchors.rightMargin: Theme.paddingMedium
+                    anchors.rightMargin: platformStyle.paddingMedium
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pixelSize: Theme.fontSizeSmall
+                    font.pixelSize: platformStyle.fontSizeSmall
                     text: "•••"
                     visible: root.content.length>root.maxChars
                     color: {
                         if (root.read>0 && root.readlater==0) {
                             if (root.down)
-                                return Theme.secondaryHighlightColor;
-                            return Theme.secondaryColor;
+                                return platformStyle.colorHighlighted
+                            return platformStyle.colorNormalMid
                         }
                         if (root.down)
-                            return Theme.secondaryColor;
-                        return Theme.primaryColor;
+                            return platformStyle.colorHighlighted
+                        return platformStyle.colorNormalLight
                     }
                 }
             }
