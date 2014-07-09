@@ -69,9 +69,12 @@ Page {
 
         url:  {
             if (settings.offlineMode) {
+                /*console.log(view.width);
                 if (isPortrait)
                     return offlineUrl+"?width=540px";
-                return offlineUrl+"?width=960px";
+                return offlineUrl+"?width=960px";*/
+                if (settings.offlineMode)
+                    return offlineUrl+"?width="+view.width+"px"+"&fontsize=24px";
             }
             return onlineUrl;
         }

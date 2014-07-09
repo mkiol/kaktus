@@ -125,6 +125,47 @@ QObject* EntryModel::get(int i)
     return (QObject*) this->readRow(i);
 }*/
 
+void EntryModel::setAllAsUnread()
+{
+    int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        EntryItem* item = static_cast<EntryItem*>(readRow(i));
+        item->setRead(0);
+    }
+}
+
+void EntryModel::setAllAsRead()
+{
+    int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        EntryItem* item = static_cast<EntryItem*>(readRow(i));
+        item->setRead(1);
+    }
+}
+
+int EntryModel::countRead()
+{
+    int read = 0; int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        EntryItem* item = static_cast<EntryItem*>(readRow(i));
+        read=read+item->read();
+    }
+
+    return read;
+}
+
+int EntryModel::countUnread()
+{
+    int unread = 0; int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        EntryItem* item = static_cast<EntryItem*>(readRow(i));
+        if (item->read() == 0)
+            ++unread;
+    }
+
+    return unread;
+}
+
 void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
 {
     EntryItem* item = static_cast<EntryItem*>(readRow(row));

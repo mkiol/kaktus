@@ -22,6 +22,13 @@ import Sailfish.Silica 1.0
 
 
 PullDownMenu {
+    id: root
+
+    property bool showMarkAsRead: true
+    property bool showMarkAsUnread: true
+
+    signal markedAsRead
+    signal markedAsUnread
 
     MenuItem {
         text: qsTr("About")
@@ -44,6 +51,20 @@ PullDownMenu {
 
         onClicked: fetcher.update()
         enabled: !fetcher.busy && !dm.busy
+    }
+
+    MenuItem {
+        text: qsTr("Mark all as read")
+        enabled: root.showMarkAsRead
+        visible: enabled
+        onClicked: markedAsRead()
+    }
+
+    MenuItem {
+        text: qsTr("Mark all as unread")
+        enabled: root.showMarkAsUnread
+        visible: enabled
+        onClicked: markedAsUnread()
     }
 
     onActiveChanged: {

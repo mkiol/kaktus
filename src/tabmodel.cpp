@@ -74,7 +74,7 @@ void TabModel::updateFlags()
     }
 }
 
-void TabModel::markAllAsUnread(int row)
+void TabModel::markAsUnread(int row)
 {
     TabItem* item = static_cast<TabItem*>(readRow(row));
     int unread = item->unread();
@@ -96,7 +96,7 @@ void TabModel::markAllAsUnread(int row)
     }
 }
 
-void TabModel::markAllAsRead(int row)
+void TabModel::markAsRead(int row)
 {
     TabItem* item = static_cast<TabItem*>(readRow(row));
     int unread = item->unread();
@@ -121,6 +121,42 @@ void TabModel::markAllAsRead(int row)
     } else {
         qWarning() << "Unable to update Read flag";
     }
+}
+
+void TabModel::markAllAsUnread()
+{
+    int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        markAsUnread(i);
+    }
+}
+
+void TabModel::markAllAsRead()
+{
+    int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        markAsRead(i);
+    }
+}
+
+int TabModel::countRead()
+{
+    int read = 0; int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        TabItem* item = static_cast<TabItem*>(readRow(i));
+        read=read+item->read();
+    }
+    return read;
+}
+
+int TabModel::countUnread()
+{
+    int unread = 0; int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        TabItem* item = static_cast<TabItem*>(readRow(i));
+        unread=unread+item->unread();
+    }
+    return unread;
 }
 
 // ----------------------------------------------------------------

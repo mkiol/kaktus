@@ -20,8 +20,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-
-
 ListItem {
     id: root
 
@@ -37,7 +35,13 @@ ListItem {
     property bool cached: false
     property bool expanded: false
     property int index
-    property int feedindex
+
+    property bool showMarkedAsRead: true
+
+    signal markedAsRead
+    signal markedAsUnread
+    signal markedReadlater
+    signal umarkedReadlater
 
     menu: contextMenu
     contentHeight: item.height + 2 * Theme.paddingMedium
@@ -79,21 +83,6 @@ ListItem {
         }
     }
 
-    /*BackgroundItem {
-        id: cachedIcon
-        anchors.right: background.right; anchors.bottom: background.bottom
-        height: Theme.iconSizeSmall+2*Theme.paddingMedium
-        width: height
-        visible: cached
-
-        Image {
-            anchors.centerIn: parent;
-            width: Theme.iconSizeSmall
-            height: Theme.iconSizeSmall
-            source: "image://theme/icon-m-download"
-        }
-    }*/
-
     BackgroundItem {
         id: expander
         anchors.right: background.right; anchors.bottom: background.bottom
@@ -133,6 +122,7 @@ ListItem {
         width: parent.width-star.width+Theme.paddingLarge
 
         // Title
+
         Label {
             anchors.left: parent.left; anchors.right: parent.right;
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
@@ -158,7 +148,9 @@ ListItem {
             id: entryImage
             anchors.left: parent.left;
             anchors.leftMargin: Theme.paddingLarge;
-            visible: source!="" && status!=Image.Error && status!=Image.Null && settings.showTabIcons
+            visible: source!="" && status!=Image.Error &&
+                     status!=Image.Null && settings.showTabIcons &&
+                     ((root.read==0 && root.readlater==0)||root.readlater>0)
             fillMode: Image.PreserveAspectFit
             width: sourceSize.width>root.width-2*Theme.paddingLarge ? root.width-2*Theme.paddingLarge : sourceSize.width
         }
@@ -268,17 +260,16 @@ ListItem {
             }
             MenuItem {
                 text: read ? qsTr("Mark as unread") : qsTr("Mark as read")
+                visible: enabled
+                enabled: root.showMarkedAsRead
                 onClicked: {
                     if (read) {
-                        entryModel.setData(index, "read", 0);
-                        feedModel.incrementUnread(feedindex);
+                        root.markedAsUnread();
                     } else {
-                        entryModel.setData(index, "read", 1);
-                        feedModel.decrementUnread(feedindex);
+                        root.markedAsRead();
                         if (lblMoreDetails.visible)
                             root.expanded = false;
                     }
-                    tabModel.updateFlags();
                 }
             }
         }

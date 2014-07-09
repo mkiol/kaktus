@@ -34,6 +34,9 @@ Page {
         return Orientation.Landscape | Orientation.Portrait;
     }
 
+    property int read
+    property int unread
+
     SilicaListView {
         id: listView
         model: tabModel
@@ -48,7 +51,26 @@ Page {
 
         clip:true
 
-        MainMenu{}
+        PageMenu {
+            showMarkAsRead: root.unread!=0
+            showMarkAsUnread: false
+
+            onMarkedAsRead:    {
+                tabModel.markAllAsRead();
+            }
+
+            onMarkedAsUnread: {
+                tabModel.markAllAsUnread();
+            }
+
+            onActiveChanged: {
+                if (active) {
+                    root.read = tabModel.countRead();
+                    root.unread = tabModel.countUnread();
+                    //console.log("read: "+root.read+" unread: "+root.unread);
+                }
+            }
+        }
 
         header: PageHeader {
             title: qsTr("Tabs")
@@ -192,10 +214,10 @@ Page {
                 onClicked: {
                     if (readlaterItem) {
                         utils.setEntryModel(uid);
-                        pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
+                        pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "readlater": true});
                     } else {
                         utils.setFeedModel(uid);
-                        pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title});
+                        pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title, "index": model.index});
                     }
                 }
 
@@ -208,7 +230,7 @@ Page {
                         enabled: model.unread!=0
                         visible: enabled
                         onClicked: {
-                            tabModel.markAllAsRead(model.index);
+                            tabModel.markAsRead(model.index);
                         }
                     }
                     MenuItem {
@@ -216,7 +238,7 @@ Page {
                         enabled: model.read!=0
                         visible: enabled
                         onClicked: {
-                            tabModel.markAllAsUnread(model.index);
+                            tabModel.markAsUnread(model.index);
                         }
                     }
                 }

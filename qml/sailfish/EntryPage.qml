@@ -36,6 +36,9 @@ Page {
 
     property string title
     property int index
+    property int read
+    property int unread
+    property bool readlater
 
     SilicaListView {
         id: listView
@@ -50,7 +53,29 @@ Page {
             return isPortrait ? app.height : app.width;
         }
 
-        MainMenu{}
+        PageMenu {
+            showMarkAsRead: root.readlater ? false : root.unread!=0
+            showMarkAsUnread: false
+
+            onMarkedAsRead:    {
+                feedModel.markAllAsRead(root.index);
+                tabModel.updateFlags();
+                entryModel.setAllAsRead();
+            }
+
+            onMarkedAsUnread: {
+                feedModel.markAllAsUnread(root.index);
+                tabModel.updateFlags();
+                entryModel.setAllAsUnread();
+            }
+
+            onActiveChanged: {
+                if (active) {
+                    root.read = entryModel.countRead();
+                    root.unread = entryModel.countUnread();
+                }
+            }
+        }
 
         header: PageHeader {
             title: root.title
@@ -67,11 +92,9 @@ Page {
             readlater: model.readlater
             index: model.index
             cached: model.cached
-            feedindex: root.index
+            showMarkedAsRead: !root.readlater
 
             onClicked: {
-
-                //console.log("image:"+image);
 
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy) {
@@ -114,6 +137,20 @@ Page {
                                    "read" : model.read===1,
                                    "cached" : model.cached
                                });
+            }
+
+            onMarkedAsRead: {
+                entryModel.setData(model.index, "read", 1);
+                if (!readlater)
+                    feedModel.decrementUnread(root.index);
+                tabModel.updateFlags();
+            }
+
+            onMarkedAsUnread: {
+                entryModel.setData(model.index, "read", 0);
+                if (!readlater)
+                    feedModel.incrementUnread(root.index);
+                tabModel.updateFlags();
             }
         }
 

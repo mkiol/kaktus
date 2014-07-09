@@ -109,6 +109,10 @@ public:
     Q_INVOKABLE void incrementUnread(int row);
     Q_INVOKABLE void markAllAsUnread(int row);
     Q_INVOKABLE void markAllAsRead(int row);
+    Q_INVOKABLE void setAllAsUnread();
+    Q_INVOKABLE void setAllAsRead();
+    Q_INVOKABLE int countRead();
+    Q_INVOKABLE int countUnread();
 
 private:
     DatabaseManager* _db;

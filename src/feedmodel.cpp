@@ -157,6 +157,53 @@ void FeedModel::markAllAsRead(int row)
     }
 }
 
+int FeedModel::countRead()
+{
+    int read = 0; int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        FeedItem* item = static_cast<FeedItem*>(readRow(i));
+        read=read+item->read();
+    }
+
+    return read;
+}
+
+int FeedModel::countUnread()
+{
+    int unread = 0; int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        FeedItem* item = static_cast<FeedItem*>(readRow(i));
+        unread=unread+item->unread();
+    }
+
+    return unread;
+}
+
+void FeedModel::setAllAsUnread()
+{
+    int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        FeedItem* item = static_cast<FeedItem*>(readRow(i));
+        int unread = item->unread();
+        int read = item->read();
+        item->setUnread(unread+read);
+        item->setRead(0);
+    }
+}
+
+void FeedModel::setAllAsRead()
+{
+    int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        FeedItem* item = static_cast<FeedItem*>(readRow(i));
+        int unread = item->unread();
+        int read = item->read();
+        item->setRead(unread+read);
+        item->setUnread(0);
+    }
+}
+
+
 // ----------------------------------------------------------------
 
 FeedItem::FeedItem(const QString &uid,
@@ -244,3 +291,4 @@ void FeedItem::setRead(int value)
     m_read = value;
     emit dataChanged();
 }
+

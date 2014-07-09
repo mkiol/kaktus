@@ -113,7 +113,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     QTranslator *appTranslator = new QTranslator;
     appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
-    //appTranslator->load(":/i18n/kaktus_pl.qm");
     app->installTranslator(appTranslator);
 
     Settings* settings = Settings::instance();
@@ -135,6 +134,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("settings", settings);
 
     view->setSource(SailfishApp::pathTo("qml/sailfish/main.qml"));
+
     view->show();
 #endif
     return app->exec();

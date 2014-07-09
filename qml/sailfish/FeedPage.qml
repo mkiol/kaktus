@@ -35,6 +35,9 @@ Page {
     }
 
     property string title
+    property int index
+    property int read
+    property int unread
 
     SilicaListView {
         id: listView
@@ -49,7 +52,27 @@ Page {
             return isPortrait ? app.height : app.width;
         }
 
-        MainMenu{}
+        PageMenu {
+            showMarkAsRead: root.unread!=0
+            showMarkAsUnread: false
+
+            onMarkedAsRead:    {
+                tabModel.markAsRead(root.index);
+                feedModel.setAllAsRead();
+            }
+
+            onMarkedAsUnread: {
+                tabModel.markAsUnread(root.index);
+                feedModel.setAllAsUnread();
+            }
+
+            onActiveChanged: {
+                if (active) {
+                    root.read = feedModel.countRead();
+                    root.unread = feedModel.countUnread();
+                }
+            }
+        }
 
         header: PageHeader {
             title: root.title
@@ -126,7 +149,7 @@ Page {
 
             onClicked: {
                 utils.setEntryModel(uid);
-                pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
+                pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index, "readlater": false});
             }
 
             menu: ContextMenu {
@@ -162,5 +185,4 @@ Page {
         }
 
     }
-
 }

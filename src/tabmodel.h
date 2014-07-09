@@ -86,8 +86,12 @@ public:
     void init();
 
     Q_INVOKABLE void updateFlags();
-    Q_INVOKABLE void markAllAsUnread(int row);
-    Q_INVOKABLE void markAllAsRead(int row);
+    Q_INVOKABLE void markAsUnread(int row);
+    Q_INVOKABLE void markAsRead(int row);
+    Q_INVOKABLE void markAllAsUnread();
+    Q_INVOKABLE void markAllAsRead();
+    Q_INVOKABLE int countRead();
+    Q_INVOKABLE int countUnread();
 
 private:
     DatabaseManager* _db;

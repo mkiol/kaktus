@@ -105,6 +105,11 @@ public:
 
     Q_INVOKABLE void setData(int row, const QString &fieldName, QVariant newValue);
 
+    Q_INVOKABLE void setAllAsUnread();
+    Q_INVOKABLE void setAllAsRead();
+    Q_INVOKABLE int countRead();
+    Q_INVOKABLE int countUnread();
+
 public slots:
     void init();
 
