@@ -52,7 +52,10 @@ Page {
         clip:true
 
         PageMenu {
-            showMarkAsRead: root.unread!=0
+            showMarkAsRead: false
+            showMarkAsUnread: false
+
+            /*showMarkAsRead: root.unread!=0
             showMarkAsUnread: false
 
             onMarkedAsRead:    {
@@ -69,7 +72,7 @@ Page {
                     root.unread = tabModel.countUnread();
                     //console.log("read: "+root.read+" unread: "+root.unread);
                 }
-            }
+            }*/
         }
 
         header: PageHeader {

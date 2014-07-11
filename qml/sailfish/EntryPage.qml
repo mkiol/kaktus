@@ -54,6 +54,7 @@ Page {
         }
 
         PageMenu {
+            showAbout: false
             showMarkAsRead: root.readlater ? false : root.unread!=0
             showMarkAsUnread: false
 

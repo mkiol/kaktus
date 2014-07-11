@@ -132,22 +132,22 @@
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="249"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="252"/>
         <source>Unsave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="249"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="252"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="259"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="262"/>
         <source>Mark as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="259"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="262"/>
         <source>Mark as read</source>
         <translation type="unfinished"></translation>
     </message>
@@ -156,21 +156,21 @@
     <name>EntryPage</name>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="83"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="100"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="102"/>
         <location filename="../qml/symbian/EntryPage.qml" line="78"/>
         <source>Please wait until Sync finishes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="91"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="108"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="110"/>
         <location filename="../qml/symbian/EntryPage.qml" line="86"/>
         <source>Offline version not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="99"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="116"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="118"/>
         <location filename="../qml/symbian/EntryPage.qml" line="94"/>
         <source>Network connection is unavailable
 Switching to Offline mode</source>
@@ -178,7 +178,7 @@ Switching to Offline mode</source>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="103"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="120"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="122"/>
         <location filename="../qml/symbian/EntryPage.qml" line="98"/>
         <source>Network connection is unavailable</source>
         <translation type="unfinished"></translation>
@@ -209,14 +209,14 @@ Switching to Offline mode</source>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="162"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="144"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="160"/>
         <location filename="../qml/symbian/EntryPage.qml" line="122"/>
         <source>No unread items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="162"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="144"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="160"/>
         <location filename="../qml/symbian/EntryPage.qml" line="122"/>
         <source>No items</source>
         <translation type="unfinished"></translation>
@@ -239,51 +239,23 @@ Switching to Offline mode</source>
     <name>FeedPage</name>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="147"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="155"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="158"/>
         <location filename="../qml/symbian/FeedPage.qml" line="110"/>
         <source>Mark all as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="156"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="164"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="167"/>
         <location filename="../qml/symbian/FeedPage.qml" line="119"/>
         <source>Mark all as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="128"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="178"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="181"/>
         <location filename="../qml/symbian/FeedPage.qml" line="91"/>
         <source>No feeds</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>MainMenu</name>
-    <message>
-        <location filename="../qml/sailfish/MainMenu.qml" line="27"/>
-        <source>About</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/MainMenu.qml" line="35"/>
-        <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/MainMenu.qml" line="43"/>
-        <source>Sync</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/MainMenu.qml" line="53"/>
-        <source>Last sync: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/MainMenu.qml" line="55"/>
-        <source>Not yet synced</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -313,37 +285,47 @@ Network connection is unavailable</source>
 <context>
     <name>PageMenu</name>
     <message>
-        <location filename="../qml/sailfish/PageMenu.qml" line="34"/>
+        <location filename="../qml/sailfish/PageMenu.qml" line="37"/>
+        <source>Mode: Offline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/PageMenu.qml" line="37"/>
+        <source>Mode: Online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/PageMenu.qml" line="48"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/PageMenu.qml" line="42"/>
+        <location filename="../qml/sailfish/PageMenu.qml" line="57"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/PageMenu.qml" line="50"/>
+        <location filename="../qml/sailfish/PageMenu.qml" line="66"/>
         <source>Sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/PageMenu.qml" line="57"/>
+        <location filename="../qml/sailfish/PageMenu.qml" line="74"/>
         <source>Mark all as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/PageMenu.qml" line="64"/>
+        <location filename="../qml/sailfish/PageMenu.qml" line="81"/>
         <source>Mark all as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/PageMenu.qml" line="74"/>
+        <location filename="../qml/sailfish/PageMenu.qml" line="91"/>
         <source>Last sync: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/PageMenu.qml" line="76"/>
+        <location filename="../qml/sailfish/PageMenu.qml" line="93"/>
         <source>Not yet synced</source>
         <translation type="unfinished"></translation>
     </message>
@@ -628,27 +610,27 @@ Network connection is unavailable</source>
 <context>
     <name>TabPage</name>
     <message>
-        <location filename="../qml/sailfish/TabPage.qml" line="75"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="79"/>
         <source>Tabs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="158"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="228"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="232"/>
         <location filename="../qml/symbian/TabPage.qml" line="123"/>
         <source>Mark all as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="166"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="236"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="240"/>
         <location filename="../qml/symbian/TabPage.qml" line="131"/>
         <source>Mark all as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="178"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="250"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="254"/>
         <location filename="../qml/symbian/TabPage.qml" line="143"/>
         <source>No tabs</source>
         <translation type="unfinished"></translation>
@@ -660,13 +642,13 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/TabPage.qml" line="257"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="261"/>
         <source>Pull down to do first Sync</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="179"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="257"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="261"/>
         <location filename="../qml/symbian/TabPage.qml" line="144"/>
         <source>Wait until Sync finish</source>
         <translation type="unfinished"></translation>

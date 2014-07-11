@@ -24,6 +24,9 @@ import Sailfish.Silica 1.0
 PullDownMenu {
     id: root
 
+    property bool showAbout: true
+    property bool showSettings: true
+    property bool showSync: true
     property bool showMarkAsRead: true
     property bool showMarkAsUnread: true
 
@@ -31,7 +34,19 @@ PullDownMenu {
     signal markedAsUnread
 
     MenuItem {
+        text: settings.offlineMode ? qsTr("Mode: Offline") : qsTr("Mode: Online")
+        enabled: false
+    }
+
+    /*TextSwitch {
+        text: qsTr("Offline")
+        checked: settings.offlineMode
+        onCheckedChanged: settings.offlineMode = checked
+    }*/
+
+    MenuItem {
         text: qsTr("About")
+        visible: root.showAbout
 
         onClicked: {
             pageStack.push(Qt.resolvedUrl("AboutPage.qml"));
@@ -40,6 +55,7 @@ PullDownMenu {
 
     MenuItem {
         text: qsTr("Settings")
+        visible: root.showSettings
 
         onClicked: {
             pageStack.push(Qt.resolvedUrl("SettingsPage.qml"));
@@ -48,6 +64,7 @@ PullDownMenu {
 
     MenuItem {
         text: qsTr("Sync")
+        visible: root.showSync
 
         onClicked: fetcher.update()
         enabled: !fetcher.busy && !dm.busy

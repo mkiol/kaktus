@@ -245,7 +245,7 @@ QString Utils::getHumanFriendlyTimeString(int date)
 {
     int delta = QDateTime::currentDateTimeUtc().toTime_t()-date;
 
-    if (delta==0) {
+    if (delta<=0) {
         return tr("just now");
     }
     if (delta==1) {

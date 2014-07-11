@@ -53,6 +53,7 @@ Page {
         }
 
         PageMenu {
+            showAbout: false
             showMarkAsRead: root.unread!=0
             showMarkAsUnread: false
 

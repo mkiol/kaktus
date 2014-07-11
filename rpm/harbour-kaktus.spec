@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.1.0
-Release:    2
+Release:    3
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,11 +75,11 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
-* Tue Jul 08 2014 Michal Kosciesza 1.1.0-2
-- 'Mark as read' in Pull-down menu
 
-* Tue Jun 17 2014 Michal Kosciesza 1.1.0-0
+* Fri Jul 11 2014 Michal Kosciesza 1.1.0-3
 - Thumbnails in items view
+- 'Mark as read' in Pull-down menu
+- Offline mode indicator in Pull-down menu
 
 * Sat May 03 2014 Michal Kosciesza 1.0.5-0
 - Sigin fix due to change in Netvibes API
