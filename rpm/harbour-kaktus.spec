@@ -80,6 +80,7 @@ desktop-file-install --delete-original       \
 - Thumbnails in items view
 - 'Mark as read' in Pull-down menu
 - Offline mode indicator in Pull-down menu
+- FIX: Sync Failed on every first sync attempt
 
 * Sat May 03 2014 Michal Kosciesza 1.0.5-0
 - Sigin fix due to change in Netvibes API
@@ -97,7 +98,7 @@ desktop-file-install --delete-original       \
 - Possibility to mark all items in Tab as read/unread
 
 * Mon Apr 14 2014 Michal Kosciesza 1.0.3-4
-- Version fo r Openrepos.org
+- Version for Openrepos.org
 
 * Mon Apr 14 2014 Michal Kosciesza 1.0.3-3
 - Showing number of unread items on Cover
