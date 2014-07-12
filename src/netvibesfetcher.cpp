@@ -49,6 +49,43 @@ NetvibesFetcher::NetvibesFetcher(QObject *parent) :
             this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
 }
 
+bool NetvibesFetcher::delayedUpdate(bool state)
+{
+    disconnect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(delayedUpdate(bool)));
+
+#ifdef ONLINE_CHECK
+    if (!state) {
+        qWarning() << "Network is Offline!";
+        emit networkNotAccessible();
+        setBusy(false);
+        return false;
+    }
+#endif
+
+    switch (_busyType) {
+    case InitiatingWaiting:
+        setBusy(true, Initiating);
+        break;
+    case UpdatingWaiting:
+        setBusy(true, Updating);
+        break;
+    case CheckingCredentialsWaiting:
+        setBusy(true, CheckingCredentials);
+        break;
+    default:
+        qWarning() << "Wrong busy state!";
+        setBusy(false);
+        return false;
+    }
+
+    _feedList.clear();
+    _feedTabList.clear();
+    actionsList.clear();
+    signIn();
+
+    return true;
+}
+
 bool NetvibesFetcher::init()
 {
     if (_busy) {
@@ -58,14 +95,15 @@ bool NetvibesFetcher::init()
 
 #ifdef ONLINE_CHECK
     if (!ncm.isOnline()) {
-        qWarning() << "Network is Offline!";
-        emit networkNotAccessible();
-        return false;
+        qDebug() << "Network is Offline. Waiting...";
+        //emit networkNotAccessible();
+        setBusy(true, InitiatingWaiting);
+        connect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(delayedUpdate(bool)));
+        return true;
     }
 #endif
 
     setBusy(true, Initiating);
-
     _feedList.clear();
     _feedTabList.clear();
 
@@ -118,17 +156,23 @@ bool NetvibesFetcher::update()
         return false;
     }
 
-#ifdef ONLINE_CHECK
-    if (!ncm.isOnline()) {
-        qWarning() << "Network is Offline!";
-        emit networkNotAccessible();
-        return false;
-    }
-#endif
-
     Settings *s = Settings::instance();
     int feedCount =s->db->readFeedsCount();
     int entriesCount =s->db->readFeedsCount();
+
+
+#ifdef ONLINE_CHECK
+    if (!ncm.isOnline()) {
+        qDebug() << "Network is Offline. Waiting...";
+        if (feedCount == 0 || entriesCount == 0) {
+            setBusy(true, InitiatingWaiting);
+        } else {
+            setBusy(true, UpdatingWaiting);
+        }
+        connect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(delayedUpdate(bool)));
+        return true;
+    }
+#endif
 
     if (feedCount == 0 || entriesCount == 0) {
         setBusy(true, Initiating);
@@ -151,6 +195,15 @@ bool NetvibesFetcher::checkCredentials()
         qWarning() << "Fetcher is busy!";
         return false;
     }
+
+#ifdef ONLINE_CHECK
+    if (!ncm.isOnline()) {
+        qDebug() << "Network is Offline. Waiting...";
+        setBusy(true, CheckingCredentialsWaiting);
+        connect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(delayedUpdate(bool)));
+        return true;
+    }
+#endif
 
     setBusy(true, CheckingCredentials);
 
@@ -1302,8 +1355,15 @@ void NetvibesFetcher::uploadActions()
 
 void NetvibesFetcher::cancel()
 {
-    if (_currentReply)
-        _currentReply->close();
+    disconnect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(delayedUpdate(bool)));
+    if (_busyType==UpdatingWaiting||_busyType==InitiatingWaiting||_busyType==CheckingCredentialsWaiting) {
+        setBusy(false);
+    } else {
+        if (_currentReply)
+            _currentReply->close();
+        else
+            setBusy(false);
+    }
 }
 
 QString NetvibesFetcher::hash(const QString &url)

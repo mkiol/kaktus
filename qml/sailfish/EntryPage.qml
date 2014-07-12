@@ -95,6 +95,8 @@ Page {
             cached: model.cached
             showMarkedAsRead: !root.readlater
 
+
+
             onClicked: {
 
                 // Not allowed while Syncing

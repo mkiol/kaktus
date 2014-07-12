@@ -169,7 +169,7 @@ Page {
                 }
             }
 
-            TextSwitch {
+            /*TextSwitch {
                 text: qsTr("Offline mode")
                 description: qsTr("Content of items will be displayed from local cache, without a network usage.")
                 onCheckedChanged: {
@@ -177,6 +177,24 @@ Page {
                 }
                 Component.onCompleted: {
                     checked = settings.offlineMode;
+                }
+            }*/
+
+            ComboBox {
+                width: root.width
+                label: qsTr("Mode")
+                currentIndex: settings.offlineMode ? 1 : 0
+
+                menu: ContextMenu {
+                    MenuItem { id: onlineMode; text: qsTr("Online") }
+                    MenuItem { id: offlineMode; text: qsTr("Offline") }
+                }
+
+                onCurrentIndexChanged: {
+                    if (currentIndex==0)
+                        settings.offlineMode = false;
+                    else
+                        settings.offlineMode = true;
                 }
             }
 

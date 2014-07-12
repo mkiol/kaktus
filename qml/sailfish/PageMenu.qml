@@ -63,12 +63,14 @@ PullDownMenu {
     }
 
     MenuItem {
-        text: qsTr("Sync")
+        text: enabled ? qsTr("Sync") : qsTr("Syncing...")
         visible: root.showSync
 
         onClicked: fetcher.update()
         enabled: !fetcher.busy && !dm.busy
     }
+
+
 
     MenuItem {
         text: qsTr("Mark all as read")

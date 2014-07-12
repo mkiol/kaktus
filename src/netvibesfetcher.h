@@ -50,7 +50,10 @@ public:
         Unknown = 0,
         Initiating = 1,
         Updating = 2,
-        CheckingCredentials = 3
+        CheckingCredentials = 3,
+        InitiatingWaiting = 11,
+        UpdatingWaiting = 21,
+        CheckingCredentialsWaiting = 31
     };
 
     explicit NetvibesFetcher(QObject *parent = 0);
@@ -102,6 +105,8 @@ public slots:
     void readyRead();
     void networkError(QNetworkReply::NetworkError);
     void networkAccessibleChanged (QNetworkAccessManager::NetworkAccessibility accessible);
+
+    bool delayedUpdate(bool state);
 
 private:
     static const int feedsAtOnce = 5;
