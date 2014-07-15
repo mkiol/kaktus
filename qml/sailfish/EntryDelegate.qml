@@ -152,10 +152,10 @@ ListItem {
             anchors.leftMargin: Theme.paddingLarge;
             fillMode: Image.PreserveAspectFit
             width: sourceSize.width>root.width-2*Theme.paddingLarge ? root.width-2*Theme.paddingLarge : sourceSize.width
-
             enabled: source!="" && status==Image.Ready && settings.showTabIcons &&
                      ((root.read==0 && root.readlater==0)||root.readlater>0)
-            opacity: enabled && visible ? 1.0 : 0.0
+            visible: opacity>0
+            opacity: enabled ? 1.0 : 0.0
             Behavior on opacity { FadeAnimation {} }
             //Behavior on opacity {NumberAnimation { duration: 500 }}
 

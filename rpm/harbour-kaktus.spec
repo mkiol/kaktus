@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.1.0
-Release:    3
+Release:    4
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,9 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Tue Jul 15 2014 Michal Kosciesza 1.1.0-4
+- Polkit update
 
 * Fri Jul 11 2014 Michal Kosciesza 1.1.0-3
 - Thumbnails in items view
