@@ -124,6 +124,12 @@ public:
     void setDmMaxSize(int value);
     int getDmMaxSize();
 
+    void setFeedsAtOnce(int value);
+    int getFeedsAtOnce();
+
+    void setFeedsUpdateAtOnce(int value);
+    int getFeedsUpdateAtOnce();
+
 signals:
     void offlineModeChanged();
     void showTabIconsChanged();

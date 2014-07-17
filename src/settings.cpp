@@ -320,3 +320,32 @@ void Settings::setCsTheme(const QString &value)
 {
     settings.setValue("theme", value);
 }
+
+
+void Settings::setFeedsAtOnce(int value)
+{
+    settings.setValue("feedsatonce", value);
+}
+
+int Settings::getFeedsAtOnce()
+{
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
+    return settings.value("feedsatonce", 1).toInt();
+#else
+    return settings.value("feedsatonce", 5).toInt();
+#endif
+}
+
+void Settings::setFeedsUpdateAtOnce(int value)
+{
+    settings.setValue("feedsupdateatonce", value);
+}
+
+int Settings::getFeedsUpdateAtOnce()
+{
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
+    return settings.value("feedsupdateatonce", 1).toInt();
+#else
+    return settings.value("feedsupdateatonce", 10).toInt();
+#endif
+}

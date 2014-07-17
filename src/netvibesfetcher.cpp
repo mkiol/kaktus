@@ -398,6 +398,9 @@ void NetvibesFetcher::fetchFeeds()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Cookie", _cookie);
 
+    Settings *s = Settings::instance();
+    int feedsAtOnce = s->getFeedsAtOnce();
+
     QString feeds, limit; int ii = 0;
     QMap<QString,QString>::iterator i = _feedList.begin();
     while (i != _feedList.end()) {
@@ -439,6 +442,9 @@ void NetvibesFetcher::fetchFeeds()
     }
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Cookie", _cookie);
+
+    Settings *s = Settings::instance();
+    int feedsAtOnce = s->getFeedsAtOnce();
 
     QString feeds; int ii = 0;
     QStringList::iterator i = _feedList.begin();
@@ -517,6 +523,9 @@ void NetvibesFetcher::fetchFeedsInfo(const QString &tabId)
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Cookie", _cookie);
 
+    Settings *s = Settings::instance();
+    int feedsAtOnce = s->getFeedsAtOnce();
+
     QString feeds, limit; int ii = 0;
     QMap<QString,QString>::iterator i = _feedList.begin();
     while (i != _feedList.end()) {
@@ -559,6 +568,9 @@ void NetvibesFetcher::fetchFeedsUpdate()
     }
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Cookie", _cookie);
+
+    Settings *s = Settings::instance();
+    int feedsUpdateAtOnce = s->getFeedsUpdateAtOnce();
 
     QString feeds;  int ii = 0;
     QMap<QString,int>::iterator i = _feedUpdateList.begin();
@@ -1090,6 +1102,8 @@ void NetvibesFetcher::finishedTabs()
     //qDebug() << this->_data;
 
     Settings *s = Settings::instance();
+    int feedsAtOnce = s->getFeedsAtOnce();
+    int feedsUpdateAtOnce = s->getFeedsUpdateAtOnce();
 
     if(!parse()) {
         qWarning() << "Error parsing Json!";
@@ -1192,6 +1206,8 @@ void NetvibesFetcher::finishedFeeds()
     //qDebug() << this->_data;
 
     Settings *s = Settings::instance();
+    int feedsAtOnce = s->getFeedsAtOnce();
+    int feedsUpdateAtOnce = s->getFeedsUpdateAtOnce();
 
     if(!parse()) {
         qWarning() << "Error parsing Json!";
@@ -1295,6 +1311,9 @@ void NetvibesFetcher::finishedSet()
 void NetvibesFetcher::finishedFeedsUpdate()
 {
     //qDebug() << this->_data;
+
+    Settings *s = Settings::instance();
+    int feedsUpdateAtOnce = s->getFeedsUpdateAtOnce();
 
     if(!parse()) {
         qWarning() << "Error parsing Json!";
