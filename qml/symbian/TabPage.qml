@@ -124,7 +124,7 @@ Page {
                 enabled: contextMenu.unread!=0
                 //visible: enabled
                 onClicked: {
-                    tabModel.markAllAsRead(contextMenu.index);
+                    tabModel.markAsRead(contextMenu.index);
                 }
             }
             MenuItem {
@@ -132,7 +132,7 @@ Page {
                 enabled: contextMenu.read!=0
                 //visible: enabled
                 onClicked: {
-                    tabModel.markAllAsUnread(contextMenu.index);
+                    tabModel.markAsUnread(contextMenu.index);
                 }
             }
         }

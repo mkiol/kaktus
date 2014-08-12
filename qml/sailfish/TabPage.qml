@@ -52,6 +52,7 @@ Page {
         clip:true
 
         PageMenu {
+            id: menu
             showMarkAsRead: false
             showMarkAsUnread: false
 
@@ -248,6 +249,9 @@ Page {
             }
         }
 
+        OfflineIndicator {
+            active: menu.active
+        }
 
         ViewPlaceholder {
             enabled: listView.count == 1

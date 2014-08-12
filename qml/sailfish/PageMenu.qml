@@ -34,15 +34,12 @@ PullDownMenu {
     signal markedAsUnread
 
     MenuItem {
-        text: settings.offlineMode ? qsTr("Mode: Offline") : qsTr("Mode: Online")
-        enabled: false
-    }
+        text: settings.offlineMode ? qsTr("Set to: Online") : qsTr("Set to: Offline")
 
-    /*TextSwitch {
-        text: qsTr("Offline")
-        checked: settings.offlineMode
-        onCheckedChanged: settings.offlineMode = checked
-    }*/
+        onClicked: {
+            settings.offlineMode = !settings.offlineMode;
+        }
+    }
 
     MenuItem {
         text: qsTr("About")
@@ -99,5 +96,4 @@ PullDownMenu {
     MenuLabel {
         id: label
     }
-
 }

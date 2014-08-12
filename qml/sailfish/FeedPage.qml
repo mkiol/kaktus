@@ -53,6 +53,8 @@ Page {
         }
 
         PageMenu {
+            id: menu
+
             showAbout: false
             showMarkAsRead: root.unread!=0
             showMarkAsUnread: false
@@ -174,6 +176,10 @@ Page {
                 }
             }
 
+        }
+
+        OfflineIndicator {
+            active: menu.active
         }
 
         ViewPlaceholder {

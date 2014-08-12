@@ -20,6 +20,8 @@
 import QtQuick 1.1
 import com.nokia.symbian 1.1
 
+import "Theme.js" as Theme
+
 Page {
     id: root
 

@@ -54,6 +54,8 @@ Page {
         }
 
         PageMenu {
+            id: menu
+
             showAbout: false
             showMarkAsRead: root.readlater ? false : root.unread!=0
             showMarkAsUnread: false
@@ -155,6 +157,10 @@ Page {
                     feedModel.incrementUnread(root.index);
                 tabModel.updateFlags();
             }
+        }
+
+        OfflineIndicator {
+            active: menu.active
         }
 
         ViewPlaceholder {

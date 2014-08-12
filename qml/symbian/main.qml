@@ -58,7 +58,7 @@ PageStackWindow {
         }
 
         onEmpty: {
-            //console.log("DB empty");
+            console.log("DB empty");
             dm.removeCache();
             utils.updateModels();
             utils.setTabModel(settings.dashboardInUse);
@@ -66,7 +66,7 @@ PageStackWindow {
         }
 
         onNotEmpty: {
-            //console.log("DB not empty");
+            console.log("DB not empty");
             utils.setTabModel(settings.dashboardInUse);
             pageStack.replace(Qt.resolvedUrl("TabPage.qml"));
         }
@@ -153,6 +153,18 @@ PageStackWindow {
                 break;
             case 3:
                 progressPanel.text = qsTr("Signing in...");
+                progressPanel.progress = 0;
+                break;
+            case 11:
+                progressPanel.text = qsTr("Waiting for network...");
+                progressPanel.progress = 0;
+                break;
+            case 21:
+                progressPanel.text = qsTr("Waiting for network...");
+                progressPanel.progress = 0;
+                break;
+            case 31:
+                progressPanel.text = qsTr("Waiting for network...");
                 progressPanel.progress = 0;
                 break;
             }

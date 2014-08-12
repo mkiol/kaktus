@@ -214,7 +214,8 @@ bool NetvibesFetcher::checkCredentials()
 
 void NetvibesFetcher::signIn()
 {
-    _data = QByteArray();
+    //_data = QByteArray();
+    _data.clear();
 
     Settings *s = Settings::instance();
     QString password = s->getNetvibesPassword();
@@ -255,7 +256,8 @@ void NetvibesFetcher::signIn()
 
 void NetvibesFetcher::fetchDashboards()
 {
-    _data = QByteArray();
+    //_data = QByteArray();
+    _data.clear();
 
     QUrl url("http://www.netvibes.com/api/my/dashboards");
     QNetworkRequest request(url);
@@ -276,7 +278,8 @@ void NetvibesFetcher::set()
 {
     DatabaseManager::Action action = actionsList.first();
 
-    _data = QByteArray();
+    //_data = QByteArray();
+    _data.clear();
 
     QUrl url;
 
@@ -367,7 +370,8 @@ void NetvibesFetcher::set()
 
 void NetvibesFetcher::fetchTabs(const QString &dashboardID)
 {
-    _data = QByteArray();
+    //_data = QByteArray();
+    _data.clear();
 
     QUrl url("http://www.netvibes.com/api/my/dashboards/data");
     QNetworkRequest request(url);
@@ -386,7 +390,8 @@ void NetvibesFetcher::fetchTabs(const QString &dashboardID)
 
 void NetvibesFetcher::fetchFeeds()
 {
-    _data = QByteArray();
+    //_data = QByteArray();
+    _data.clear();
 
     QUrl url("http://www.netvibes.com/api/feeds");
     QNetworkRequest request(url);
@@ -431,7 +436,8 @@ void NetvibesFetcher::fetchFeeds()
 
 /*void NetvibesFetcher::fetchFeeds2()
 {
-    _data = QByteArray();
+    //_data = QByteArray();
+    _data.clear();
 
     QUrl url("http://www.netvibes.com/api/feeds");
     QNetworkRequest request(url);
@@ -470,7 +476,8 @@ void NetvibesFetcher::fetchFeeds()
 
 void NetvibesFetcher::fetchFeedsReadlater()
 {
-    _data = QByteArray();
+    //_data = QByteArray();
+    _data.clear();
 
     QUrl url("http://www.netvibes.com/api/feeds/readlater");
     QNetworkRequest request(url);
@@ -511,7 +518,8 @@ void NetvibesFetcher::fetchFeedsInfo(const QString &tabId)
 {
     Q_UNUSED(tabId)
 
-    _data = QByteArray();
+    //_data = QByteArray();
+    _data.clear();
 
     QUrl url("http://www.netvibes.com/api/feeds/info");
     QNetworkRequest request(url);
@@ -557,7 +565,8 @@ void NetvibesFetcher::fetchFeedsInfo(const QString &tabId)
 
 void NetvibesFetcher::fetchFeedsUpdate()
 {
-    _data = QByteArray();
+    //_data = QByteArray();
+    _data.clear();
 
     QUrl url("http://www.netvibes.com/api/feeds/update");
     QNetworkRequest request(url);
@@ -1346,6 +1355,8 @@ void NetvibesFetcher::networkError(QNetworkReply::NetworkError e)
         qWarning() << "Network error!, error code: " << e;
     }
 
+    _data.clear();
+
     setBusy(false);
 }
 
@@ -1359,6 +1370,8 @@ void NetvibesFetcher::taskEnd()
 
     Settings *s = Settings::instance();
     s->setLastUpdateDate(QDateTime::currentDateTimeUtc().toTime_t());
+
+    _data.clear();
 
     emit ready();
     setBusy(false);

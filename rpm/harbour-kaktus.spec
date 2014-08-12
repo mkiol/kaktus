@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.1.0
-Release:    4
+Release:    5
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,10 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Tue Aug 12 2014 Michal Kosciesza 1.1.0-5
+- New Offline mode indicator
+- Posibility to set Offline/Online mode in Pull-down menu
 
 * Tue Jul 15 2014 Michal Kosciesza 1.1.0-4
 - Polkit update
