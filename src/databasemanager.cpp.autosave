@@ -39,12 +39,12 @@ void DatabaseManager::init()
             emit empty();
         }
         return;
-    }
-
-    if (!openDB()) {
-        qWarning() << "DB can not be opened!";
-        emit error();
-        return;
+    } else {
+        if (!openDB()) {
+            qWarning() << "DB can not be opened!";
+            emit error();
+            return;
+        }
     }
 
     if (!checkParameters()) {

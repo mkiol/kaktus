@@ -446,7 +446,11 @@ bool DownloadManager::startFeedDownload()
         return;
     }*/
 
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
+    //cleanCache();
+#else
     cleanCache();
+#endif
 
     if (!ncm.isOnline()) {
         qWarning() << "Network is Offline!";
@@ -515,6 +519,7 @@ bool DownloadManager::isBusy()
 
     return true;
 }
+
 //void CacheCleaner::run() Q_DECL_OVERRIDE {
 void CacheCleaner::run() {
 

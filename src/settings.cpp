@@ -253,7 +253,11 @@ void Settings::setDmConnections(int value)
 
 int Settings::getDmConnections()
 {
+#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
+    return settings.value("connections", 1).toInt();
+#else
     return settings.value("connections", 20).toInt();
+#endif
 }
 
 void Settings::setDmTimeOut(int value)
