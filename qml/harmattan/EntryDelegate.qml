@@ -48,6 +48,8 @@ Item {
     height: item.height + 2 * Theme.paddingMedium
     width: parent.width
 
+    function getUrlbyUrl(url){return cache.getUrlbyUrl(url)}
+
     BorderImage {
         anchors.fill: parent
         visible: mouseArea.pressed
@@ -117,12 +119,24 @@ Item {
         Image {
             id: entryImage
             anchors.left: parent.left;
-            visible: source!="" && status!=Image.Error && status!=Image.Null && settings.showTabIcons && ((root.read==0 && root.readlater==0)||root.readlater>0)
+            //visible: source!="" && status!=Image.Error && status!=Image.Null && settings.showTabIcons && ((root.read==0 && root.readlater==0)||root.readlater>0)
             fillMode: Image.PreserveAspectFit
             width: sourceSize.width>parent.width ? parent.width : sourceSize.width
+
+            enabled: source!="" && status==Image.Ready && settings.showTabIcons &&
+                                 ((root.read==0 && root.readlater==0)||root.readlater>0)
+            visible: opacity>0
+            opacity: enabled ? 1.0 : 0.0
+
+            source: {
+                if (settings.showTabIcons && image!="")
+                    return settings.offlineMode ? getUrlbyUrl(image) : dm.online ? image : getUrlbyUrl(image);
+                else
+                    return "";
+            }
         }
 
-        Connections {
+        /*Connections {
             target: settings
             onShowTabIconsChanged: {
                 if (settings.showTabIcons && image!="")
@@ -137,7 +151,7 @@ Item {
                 entryImage.source = settings.offlineMode ? cache.getUrlbyUrl(image) : dm.online ? image : cache.getUrlbyUrl(image);
             else
                 entryImage.source = "";
-        }
+        }*/
 
         // Content
 

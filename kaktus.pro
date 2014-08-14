@@ -4,23 +4,13 @@ QT += core network sql
 
 CONFIG += qdeclarative-boostable
 
-#contains(MEEGO_EDITION, harmattan) {
-#    DEFINES += MEEGO_EDITION_HARMATTAN
-#}
+contains(MEEGO_EDITION, harmattan) {
+    DEFINES += MEEGO_EDITION_HARMATTAN
+}
+
+DEFINES += MEEGO_EDITION_HARMATTAN
 
 DEFINES += ONLINE_CHECK
-#DEFINES += MEEGO_EDITION_HARMATTAN
-DEFINES += SYMBIAN_OS
-
-symbian {
-  TARGET.UID3 = 0xE7EAC7DC
-  TARGET.CAPABILITY += NetworkServices
-  CONFIG += qt-components
-  DEPLOYMENT.display_name = "Kaktus"
-  VERSION = 1.1.0
-  ICON = kaktus.svg
-  DEFINES += SYMBIAN_OS
-}
 
 SOURCES += \
     src/main.cpp \
@@ -67,10 +57,6 @@ include(qhttpserver/qhttpserver.pri)
 folder_01.source = qml/harmattan
 folder_01.target = qml
 DEPLOYMENTFOLDERS += folder_01
-
-folder_02.source = qml/symbian
-folder_02.target = qml
-DEPLOYMENTFOLDERS += folder_02
                
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()

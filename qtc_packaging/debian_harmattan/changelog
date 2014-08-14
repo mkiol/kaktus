@@ -1,3 +1,9 @@
+kaktus (1.1.0-1) unstable; urgency=low
+
+  * FIX: Sync Failed on every first sync attempt
+
+ -- Michal Kosciesza <michal@mkiol.net>  Thu, 14 Aug 2014 16:16:15 +0200
+
 kaktus (1.1.0-0) unstable; urgency=low
 
   * Thumbnails in item view

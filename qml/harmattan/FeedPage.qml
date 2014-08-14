@@ -93,34 +93,6 @@ Page {
                 }
             }
 
-            /*Dialog {
-                id: contextMenu
-                buttons: Column {
-                    spacing: UiConstants.DefaultMargin
-
-                    Button {
-                        text: qsTr("Mark all as read")
-                        enabled: model.unread!=0
-                        visible: enabled
-                        onClicked: {
-                            feedModel.markAllAsRead(model.index);
-                            tabModel.updateFlags();
-                            contextMenu.accept();
-                        }
-                    }
-
-                    Button {
-                        text: qsTr("Mark all as unread")
-                        enabled: model.read!=0
-                        visible: enabled
-                        onClicked: {
-                            feedModel.markAllAsUnread(model.index);
-                            tabModel.updateFlags();
-                            contextMenu.accept();
-                        }
-                    }
-                }
-            }*/
         }
 
         ViewPlaceholder {

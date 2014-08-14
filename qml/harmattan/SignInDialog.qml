@@ -50,7 +50,7 @@ Page {
         model: VisualItemModel {
 
             Label {
-                text: qsTr("Username")
+                text: qsTr("Username (E-mail)")
             }
 
             TextField {
@@ -58,7 +58,7 @@ Page {
                 anchors.left: parent.left; anchors.right: parent.right
 
                 inputMethodHints: Qt.ImhEmailCharactersOnly| Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-                placeholderText: qsTr("Enter username here!")
+                placeholderText: qsTr("Enter username (E-mail) here!")
 
                 Component.onCompleted: {
                     text = settings.getNetvibesUsername();

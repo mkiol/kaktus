@@ -121,40 +121,6 @@ Page {
                                });
             }
 
-            /*Dialog {
-                id: contextMenu
-                buttons: Column {
-                    spacing: UiConstants.DefaultMargin
-
-                    Button {
-                        text: readlater ? qsTr("Unsave") : qsTr("Save")
-                        onClicked: {
-                            if (readlater) {
-                                entryModel.setData(index, "readlater", 0);
-                            } else {
-                                entryModel.setData(index, "readlater", 1);
-                            }
-                            contextMenu.accept()
-                        }
-                    }
-
-                    Button {
-                        text: read ? qsTr("Mark as unread") : qsTr("Mark as read")
-                        onClicked: {
-                            if (read) {
-                                entryModel.setData(index, "read", 0);
-                                feedModel.incrementUnread(feedindex);
-                            } else {
-                                entryModel.setData(index, "read", 1);
-                                feedModel.decrementUnread(feedindex);
-                            }
-                            tabModel.updateFlags();
-                            contextMenu.accept()
-                        }
-                    }
-                }
-            }*/
-
         }
 
         ViewPlaceholder {

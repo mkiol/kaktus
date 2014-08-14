@@ -158,6 +158,18 @@ PageStackWindow {
                 progressPanel.text = qsTr("Signing in...");
                 progressPanel.progress = 0;
                 break;
+            case 11:
+                progressPanel.text = qsTr("Waiting for network...");
+                progressPanel.progress = 0;
+                break;
+            case 21:
+                progressPanel.text = qsTr("Waiting for network...");
+                progressPanel.progress = 0;
+                break;
+            case 31:
+                progressPanel.text = qsTr("Waiting for network...");
+                progressPanel.progress = 0;
+                break;
             }
         }
     }

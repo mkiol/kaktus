@@ -55,8 +55,8 @@ Dialog {
             anchors.left: parent.left; anchors.right: parent.right
 
             inputMethodHints: Qt.ImhEmailCharactersOnly| Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-            placeholderText: qsTr("Enter username here!")
-            label: qsTr("Netvibes's username")
+            placeholderText: qsTr("Enter username (E-mail) here!")
+            label: qsTr("Netvibes's username (E-mail)")
 
             Component.onCompleted: {
                 text = settings.getNetvibesUsername();
