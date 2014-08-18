@@ -100,15 +100,16 @@ public:
 
     explicit EntryModel(DatabaseManager* db, QObject *parent = 0);
     void init(const QString &feedId);
-    //int count();
-    //QObject* get(int i);
 
     Q_INVOKABLE void setData(int row, const QString &fieldName, QVariant newValue);
 
     Q_INVOKABLE void setAllAsUnread();
     Q_INVOKABLE void setAllAsRead();
     Q_INVOKABLE int countRead();
-    Q_INVOKABLE int countUnread();
+    int countUnread();
+
+    Q_INVOKABLE void createItems(int offset, int limit);
+    Q_INVOKABLE int count();
 
 public slots:
     void init();
@@ -116,8 +117,6 @@ public slots:
 private:
    DatabaseManager* _db;
    QString _feedId;
-
-   void createItems(const QString &feedId);
 };
 
 #endif // ENTRYMODEL_H

@@ -39,12 +39,12 @@ void DatabaseManager::init()
             emit empty();
         }
         return;
-    }
-
-    if (!openDB()) {
-        qWarning() << "DB can not be opened!";
-        emit error();
-        return;
+    } else {
+        if (!openDB()) {
+            qWarning() << "DB can not be opened!";
+            emit error();
+            return;
+        }
     }
 
     if (!checkParameters()) {
@@ -1256,14 +1256,15 @@ int DatabaseManager::readTabLastUpadate(const QString &tabId)
     return 0;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId)
+QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId, int offset, int limit)
 {
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, author, content, link, image, read, readlater, date FROM entries WHERE feed_id='%1' ORDER BY date DESC LIMIT %2;")
-                        .arg(feedId)
-                        .arg(entriesLimit),_db);
+        QSqlQuery query(QString("SELECT id, title, author, content, link, image, read, readlater, date "
+                                "FROM entries WHERE feed_id='%1' "
+                                "ORDER BY date DESC LIMIT %2 OFFSET %3;")
+                        .arg(feedId).arg(limit).arg(offset),_db);
         while(query.next()) {
             //qDebug() << "readEntries, " << query.value(1).toString();
             Entry e;
@@ -1285,7 +1286,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater(const QString &dashboardId)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater(const QString &dashboardId, int offset, int limit)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -1293,9 +1294,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater(const QStrin
         QSqlQuery query(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.image, e.read, e.readlater, e.date "
                                 "FROM entries as e, feeds as f, tabs as t "
                                 "WHERE e.feed_id=f.id AND f.tab_id=t.id AND t.dashboard_id=%1 AND e.readlater=1 "
-                                "ORDER BY date DESC LIMIT %2;")
-                        .arg(dashboardId)
-                        .arg(entriesLimit),_db);
+                                "ORDER BY date DESC LIMIT %2 OFFSET %3;")
+                        .arg(dashboardId).arg(limit).arg(offset),_db);
 
         while(query.next()) {
             Entry e;
@@ -1317,14 +1317,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater(const QStrin
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnread(const QString &feedId)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnread(const QString &feedId, int offset, int limit)
 {
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, author, content, link, image, read, readlater, date FROM entries WHERE read=0 AND feed_id='%1' ORDER BY date DESC LIMIT %2;")
-                        .arg(feedId)
-                        .arg(entriesLimit),_db);
+        QSqlQuery query(QString("SELECT id, title, author, content, link, image, read, readlater, date "
+                                "FROM entries WHERE read=0 AND feed_id='%1' "
+                                "ORDER BY date DESC LIMIT %2 OFFSET %3;")
+                        .arg(feedId).arg(limit).arg(offset),_db);
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();

@@ -565,7 +565,6 @@ void NetvibesFetcher::fetchFeedsInfo(const QString &tabId)
 
 void NetvibesFetcher::fetchFeedsUpdate()
 {
-    //_data = QByteArray();
     _data.clear();
 
     QUrl url("http://www.netvibes.com/api/feeds/update");

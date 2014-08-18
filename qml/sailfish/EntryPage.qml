@@ -97,7 +97,13 @@ Page {
             cached: model.cached
             showMarkedAsRead: !root.readlater
 
-
+            Component.onCompleted: {
+                // Dynamic creation of new items if last item is compleated
+                if (index==entryModel.count()-1) {
+                    console.log(index);
+                    entryModel.createItems(index+1,index+settings.offsetLimit);
+                }
+            }
 
             onClicked: {
 

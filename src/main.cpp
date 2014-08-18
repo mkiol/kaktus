@@ -17,7 +17,7 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if defined(MEEGO_EDITION_HARMATTAN) || defined(SYMBIAN_OS)
+#if defined(MEEGO_EDITION_HARMATTAN)
 #include <QtGui/QApplication>
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
@@ -50,7 +50,7 @@ static const char *VERSION = "1.1.0";
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
   
-#if defined(MEEGO_EDITION_HARMATTAN) || defined(SYMBIAN_OS)
+#if defined(MEEGO_EDITION_HARMATTAN)
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     QmlApplicationViewer view;
 
@@ -90,15 +90,11 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     view.rootContext()->setContextProperty("settings", settings);
 
     view.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
-#endif
-#if defined(MEEGO_EDITION_HARMATTAN)
+
     view.setMainQmlFile(QLatin1String("qml/harmattan/main.qml"));
     view.showExpanded();
 #endif
-#if defined(SYMBIAN_OS)
-    view.setMainQmlFile(QLatin1String("qml/symbian/main.qml"));
-    view.showExpanded();
-#endif
+
 #if defined(SAILFISH)
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
@@ -137,6 +133,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     view->show();
 #endif
+
     return app->exec();
 
 }

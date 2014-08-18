@@ -48,6 +48,7 @@ class Settings: public QObject
     Q_PROPERTY (int lastUpdateDate READ getLastUpdateDate WRITE setLastUpdateDate NOTIFY lastUpdateDateChanged)
     Q_PROPERTY (int allowedOrientations READ getAllowedOrientations WRITE setAllowedOrientations NOTIFY allowedOrientationsChanged)
     Q_PROPERTY (bool powerSaveMode READ getPowerSaveMode WRITE setPowerSaveMode NOTIFY powerSaveModeChanged)
+    Q_PROPERTY (int offsetLimit READ getOffsetLimit WRITE setOffsetLimit NOTIFY offsetLimitChanged)
 
 public:
     static Settings* instance();
@@ -87,6 +88,9 @@ public:
 
     void setAllowedOrientations(int value);
     int getAllowedOrientations();
+
+    void setOffsetLimit(int value);
+    int getOffsetLimit();
 
     // ---
 
@@ -140,6 +144,7 @@ signals:
     void lastUpdateDateChanged();
     void allowedOrientationsChanged();
     void powerSaveModeChanged();
+    void offsetLimitChanged();
 
     /*
     501 - Unable create settings dir

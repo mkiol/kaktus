@@ -42,29 +42,31 @@ void EntryModel::init(const QString &feedId)
 {
     if(rowCount()>0) removeRows(0,rowCount());
     _feedId = feedId;
-    createItems(feedId);
+    Settings *s = Settings::instance();
+    createItems(0,s->getOffsetLimit());
 }
 
 void EntryModel::init()
 {
     reInit = false;
     if(rowCount()>0) removeRows(0,rowCount());
-    createItems(_feedId);
+    Settings *s = Settings::instance();
+    createItems(0,s->getOffsetLimit());
 }
 
-void EntryModel::createItems(const QString &feedId)
+void EntryModel::createItems(int offset, int limit)
 {
     QList<DatabaseManager::Entry> list;
 
     Settings *s = Settings::instance();
 
-    if (feedId == "readlater") {
-        list = _db->readEntriesReadlater(s->getDashboardInUse());
+    if (_feedId == "readlater") {
+        list = _db->readEntriesReadlater(s->getDashboardInUse(),offset,limit);
     } else {
         if (s->getShowOnlyUnread())
-            list = _db->readEntriesUnread(feedId);
+            list = _db->readEntriesUnread(_feedId,offset,limit);
         else
-            list = _db->readEntries(feedId);
+            list = _db->readEntries(_feedId,offset,limit);
     }
 
     QList<DatabaseManager::Entry>::iterator i = list.begin();
@@ -115,16 +117,6 @@ void EntryModel::createItems(const QString &feedId)
     }
 }
 
-/*int EntryModel::count()
-{
-    return this->rowCount();
-}
-
-QObject* EntryModel::get(int i)
-{
-    return (QObject*) this->readRow(i);
-}*/
-
 void EntryModel::setAllAsUnread()
 {
     int l = this->rowCount();
@@ -164,6 +156,11 @@ int EntryModel::countUnread()
     }
 
     return unread;
+}
+
+int EntryModel::count()
+{
+    return this->rowCount();
 }
 
 void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)

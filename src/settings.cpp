@@ -227,6 +227,20 @@ int Settings::getAllowedOrientations()
     return settings.value("allowedorientations", 0).toInt();
 }
 
+
+void Settings::setOffsetLimit(int value)
+{
+    if (getOffsetLimit() != value) {
+        settings.setValue("offsetLimit", value);
+        emit offsetLimitChanged();
+    }
+}
+
+int Settings::getOffsetLimit()
+{
+    return settings.value("offsetLimit", 20).toInt();
+}
+
 QString Settings::getSettingsDir()
 {
 

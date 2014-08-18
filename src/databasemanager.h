@@ -160,9 +160,9 @@ public:
     QMap<QString,QString> readAllFeedsIdsTabs();
     QString readFeedId(const QString &entryId);
 
-    QList<Entry> readEntries(const QString &feedId);
-    QList<Entry> readEntriesReadlater(const QString &dashboardId);
-    QList<Entry> readEntriesUnread(const QString &feedId);
+    QList<Entry> readEntries(const QString &feedId, int offset, int limit);
+    QList<Entry> readEntriesReadlater(const QString &dashboardId, int offset, int limit);
+    QList<Entry> readEntriesUnread(const QString &feedId, int offset, int limit);
     QList<Entry> readEntries();
     QList<Entry> readEntriesCachedOlderThan(int cacheDate, int limit);
     QList<QString> readCacheFinalUrlOlderThan(int cacheDate, int limit);
