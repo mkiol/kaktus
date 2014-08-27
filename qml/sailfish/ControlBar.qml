@@ -24,32 +24,21 @@ import Sailfish.Silica 1.0
 Item {
     id: root
 
-    property bool canBack: false
-    property bool canOffline: true
-    property bool canStar: false
-    property bool canOpenBrowser: false
-    property bool stared: false
     property bool open: false
     property int showTime: 6000
-    property bool transparent: true
 
     property real barShowMoveWidth: 20
     property Flickable flick: null
 
     property bool isPortrait: app.orientation==Orientation.Portrait
 
-    signal backClicked()
-    signal starClicked()
-    signal browserClicked()
-    signal offlineClicked()
+    enabled: open
+    opacity: open ? 1.0 : 0.0
+    visible: opacity > 0.0
 
     width: parent.width
-    height: isPortrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium
-    anchors.bottom: parent.bottom
-    anchors.left: parent.left
 
-    opacity: root.open ? 1.0 : 0.0
-    Behavior on opacity { FadeAnimation {duration: 300} }
+    Behavior on opacity { FadeAnimation {duration: 400} }
 
     function show() {
         if (!open)
@@ -64,41 +53,21 @@ Item {
         }
     }
 
+    /*Image {
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectFit
+        source: "image://theme/graphic-gradient-edge"
+    }*/
+
     Rectangle {
-        anchors.fill: parent
-        visible: root.transparent
-        color: Theme.rgba(Theme.highlightColor, 0.2)
-    }
-
-    Rectangle {
-        anchors.fill: parent
-        visible: !root.transparent
-        color: Theme.highlightBackgroundColor
-    }
-
-    Image {
-        anchors.fill: parent
-        //fillMode: Image.PreserveAspectFit
-        source: "image://theme/graphic-gradient-home-top"
-        visible: root.transparent
-    }
-
-    Item {
+        id: background
         anchors.fill: parent
 
-        MouseArea {
-            enabled: root.opacity > 0.0
-            anchors.fill: parent
-            onClicked: root.hide()
-        }
+        //color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
 
-        IconButton {
-            id: back
-            visible: root.canBack
-            anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://theme/icon-m-back?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-            onClicked: root.backClicked()
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightDimmerColor, 0.0) }
+            GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightDimmerColor, 0.5) }
         }
 
         Row {
@@ -106,33 +75,19 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
 
-            spacing: (parent.width - (back.width * 4)) / 3;
-
             IconButton {
-                visible: root.canStar
-                icon.source: root.stared ?
-                                 "image://theme/icon-m-favorite-selected?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-                               : "image://theme/icon-m-favorite?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-                onClicked: root.starClicked()
+                icon.source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.primaryColor : "image://theme/icon-m-wlan-4?"+Theme.primaryColor
+                onClicked: {
+                    if (settings.offlineMode) {
+                        if (dm.online)
+                            settings.offlineMode = false;
+                        else
+                            notification.show(qsTr("Cannot switch to Online mode\nNetwork connection is unavailable"));
+                    } else {
+                        settings.offlineMode = true;
+                    }
+                }
             }
-
-            IconButton {
-                width: back.width; height: back.height
-                visible: root.canOpenBrowser
-                icon.source: "image://theme/icon-m-region?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-                onClicked: root.browserClicked()
-            }
-
-        }
-
-        IconButton {
-            id: offline
-            visible: root.canOffline
-            anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-                                              : "image://theme/icon-m-wlan-4?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-            onClicked: root.offlineClicked()
         }
 
         MouseArea {
@@ -154,7 +109,6 @@ Item {
         property real lastContentY: 0.0
         property int vector: 0
     }
-
 
     Connections {
         target: flick

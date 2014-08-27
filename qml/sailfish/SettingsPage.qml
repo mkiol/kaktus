@@ -90,9 +90,7 @@ Page {
                                 notification.show(qsTr("Signed out!"));
                                 settings.signedIn = false;
                                 settings.setNetvibesPassword("");
-                                pageStack.clear();
-                                fetcher.cancel();
-                                dm.cancel();
+                                fetcher.cancel(); dm.cancel();
                                 db.init();
                             } else {
                                 pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": 0});
@@ -148,7 +146,7 @@ Page {
 
             ListItem {
                 contentHeight: flow3.height + 2*Theme.paddingLarge
-                enabled: false
+                enabled: true
 
                 Flow {
                     id: flow3
@@ -165,6 +163,18 @@ Page {
                     Label {
                         color: Theme.secondaryColor
                         text: utils.getHumanFriendlySizeString(dm.cacheSize);
+                    }
+                }
+
+                menu: ContextMenu {
+                    MenuItem {
+                        text: qsTr("Delete cache")
+                        onClicked: {
+                            //dm.cleanCache();
+                            notification.show(qsTr("Cache data deleted!"));
+                            fetcher.cancel(); dm.cancel();
+                            db.newInit();
+                        }
                     }
                 }
             }
@@ -211,6 +221,32 @@ Page {
 
             SectionHeader {
                 text: qsTr("UI")
+            }
+
+            ComboBox {
+                width: root.width
+                label: qsTr("Browsing mode")
+                currentIndex: settings.viewMode
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Tabs \u2192 Feeds \u2192 Items") }
+                    MenuItem { text: qsTr("Tabs \u2192 Items") }
+                    //MenuItem { text: qsTr("Feeds \u2192 Items") }
+                    //MenuItem { text: qsTr("Items") }
+                }
+
+                onCurrentIndexChanged: {
+                    settings.viewMode = currentIndex;
+                }
+
+                /*Connections {
+                    target: settings
+
+                    onViewModeChanged: {
+                        pageStack.replaceAbove(root,Qt.resolvedUrl("TabPage.qml"));
+                        notification.show(qsTr("Browsing mode changed!"));
+                    }
+                }*/
             }
 
             TextSwitch {

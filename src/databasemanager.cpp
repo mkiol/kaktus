@@ -22,7 +22,7 @@
 
 #include "databasemanager.h"
 
-const QString DatabaseManager::version = QString("1.2");
+const QString DatabaseManager::version = QString("1.3");
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
@@ -54,6 +54,16 @@ void DatabaseManager::init()
     }
 }
 
+void DatabaseManager::newInit()
+{
+    if (!createDB()) {
+        qWarning() << "Creation of new empty DB failed!";
+        emit error();
+    } else {
+        emit empty();
+    }
+}
+
 bool DatabaseManager::openDB()
 {
     _db = QSqlDatabase::addDatabase("QSQLITE","qt_sql_kaktus_connection");
@@ -77,6 +87,7 @@ QSqlError DatabaseManager::lastError()
 bool DatabaseManager::deleteDB()
 {
     _db.close();
+    QSqlDatabase::removeDatabase("qt_sql_kaktus_connection");
     return QFile::remove(dbFilePath);
 }
 
@@ -87,8 +98,9 @@ bool DatabaseManager::isTableExists(const QString &name)
         if (query.exec(QString("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='%1';").arg(name))) {
             while(query.next()) {
                 //qDebug() << query.value(0).toInt();
-                if (query.value(0).toInt() == 1)
+                if (query.value(0).toInt() == 1) {
                     return true;
+                }
                 return false;
             }
         }
@@ -128,7 +140,6 @@ bool DatabaseManager::checkParameters()
                     } else {
                         emit notEmpty();
                     }
-
                     return true;
                 }
             }
@@ -341,6 +352,8 @@ bool DatabaseManager::createFeedsStructure()
                          ");");
         ret = query.exec("CREATE INDEX IF NOT EXISTS feeds_id "
                          "ON feeds(id DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS tabs_id "
+                         "ON feeds(tab_id DESC);");
     } else {
         qWarning() << "DB is not opened!";
         return false;
@@ -367,6 +380,7 @@ bool DatabaseManager::createEntriesStructure()
                          "content TEXT, "
                          "link TEXT, "
                          "image TEXT, "
+                         "fresh INTEGER DEFAULT 0, "
                          "read INTEGER DEFAULT 0, "
                          "readlater INTEGER DEFAULT 0, "
                          "created_at TIMESTAMP, "
@@ -383,6 +397,8 @@ bool DatabaseManager::createEntriesStructure()
                          "ON entries(readlater, date);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_by_feed "
                          "ON entries(feed_id, read, date);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_readlater_by_feed "
+                         "ON entries(feed_id, read, readlater, date);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_feed_id "
                          "ON entries(feed_id);");
     } else {
@@ -565,7 +581,6 @@ bool DatabaseManager::removeFeed(const QString &feedId)
         ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE feed_id='%1');").arg(feedId));
         ret = query.exec(QString("DELETE FROM entries WHERE feed_id='%1'").arg(feedId));
         ret = query.exec(QString("DELETE FROM feeds WHERE id='%1'").arg(feedId));
-
     }
 
     return ret;
@@ -587,8 +602,8 @@ bool DatabaseManager::writeEntry(const QString &feedId, const Entry &entry)
     bool ret = false;
     if (_db.isOpen()) {
         QSqlQuery query(_db);
-        //qDebug() << "new, feedId=" << feedId << "readlater=" << entry.readlater;
-        ret = query.exec(QString("INSERT INTO entries (id, feed_id, title, author, content, link, image, read, readlater, date) VALUES('%1','%2','%3','%4','%5','%6','%7',%8,%9,'%10');")
+        //qDebug() << "new, feedId=" << feedId << " entryId=" << entry.id;
+        ret = query.exec(QString("INSERT INTO entries (id, feed_id, title, author, content, link, image, fresh, read, readlater, date) VALUES('%1','%2','%3','%4','%5','%6','%7',%8,%9,%10,'%11');")
                          .arg(entry.id)
                          .arg(feedId)
                          .arg(QString(entry.title.toUtf8().toBase64()))
@@ -596,14 +611,36 @@ bool DatabaseManager::writeEntry(const QString &feedId, const Entry &entry)
                          .arg(QString(entry.content.toUtf8().toBase64()))
                          .arg(entry.link)
                          .arg(entry.image)
-                         .arg(entry.read).arg(entry.readlater)
+                         .arg(1)
+                         .arg(entry.read)
+                         .arg(entry.readlater)
                          .arg(entry.date));
+        //qDebug() << "ret1=" << ret;
         if(!ret) {
-            ret = query.exec(QString("UPDATE entries SET read=%1, readlater=%2 WHERE id='%3';")
+            ret = query.exec(QString("UPDATE entries SET read=%2, readlater=%3 WHERE id='%4';")
                              .arg(entry.read)
                              .arg(entry.readlater)
                              .arg(entry.id));
+            //qDebug() << "ret2=" << ret;
         }
+    }
+
+    return ret;
+}
+
+bool DatabaseManager::updateAllEntriesFreshFlag(int fresh) {
+
+    bool ret = false;
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+
+        ret = query.exec(QString("UPDATE entries SET fresh=%1;").arg(fresh));
+
+        if (!ret)
+            qWarning() << "SQL Error!";
+
+    } else {
+        qWarning() << "DB is not open!";
     }
 
     return ret;
@@ -631,6 +668,26 @@ bool DatabaseManager::updateEntryReadFlag(const QString &entryId, int read)
         ret = query.exec(QString("UPDATE entries SET read=%1 WHERE id='%2';")
                          .arg(read)
                          .arg(entryId));
+        if (!ret)
+            qWarning() << "SQL Error!" << query.lastError().text();
+    }
+
+    return ret;
+}
+
+bool DatabaseManager::updateEntryReadFlagByTab(const QString &tabId, int read)
+{
+    bool ret = false;
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        ret = query.exec(QString("UPDATE entries SET read=%1 "
+                                 "WHERE feed_id IN "
+                                 "(SELECT id FROM feeds WHERE tab_id='%2');")
+                         .arg(read)
+                         .arg(tabId));
+
+        if (!ret)
+            qWarning() << "SQL Error!" << query.lastError().text();
     }
 
     return ret;
@@ -1261,10 +1318,17 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, author, content, link, image, read, readlater, date "
-                                "FROM entries WHERE feed_id='%1' "
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.image, f.icon, e.fresh, e.read, e.readlater, e.date "
+                                "FROM entries as e, feeds as f "
+                                "WHERE e.feed_id=f.id AND e.feed_id='%1' "
                                 "ORDER BY date DESC LIMIT %2 OFFSET %3;")
-                        .arg(feedId).arg(limit).arg(offset),_db);
+                        .arg(feedId).arg(limit).arg(offset));
+
+        if (!ret) {
+            qWarning() << "DB read error!";
+        }
+
         while(query.next()) {
             //qDebug() << "readEntries, " << query.value(1).toString();
             Entry e;
@@ -1274,9 +1338,87 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId
             decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
             e.image = query.value(5).toString();
-            e.read = query.value(6).toInt();
-            e.readlater= query.value(7).toInt();
-            e.date = query.value(8).toInt();
+            e.feedIcon = query.value(6).toString();
+            e.fresh = query.value(7).toInt();
+            e.read = query.value(8).toInt();
+            e.readlater= query.value(9).toInt();
+            e.date = query.value(10).toInt();
+            list.append(e);
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesByTab(const QString &tabId, int offset, int limit)
+{
+    QList<DatabaseManager::Entry> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.image, f.icon, e.fresh, e.read, e.readlater, e.date "
+                                "FROM entries as e, feeds as f "
+                                "WHERE e.feed_id=f.id AND f.tab_id='%1' "
+                                "ORDER BY date DESC LIMIT %2 OFFSET %3;")
+                        .arg(tabId).arg(limit).arg(offset),_db);
+
+        while(query.next()) {
+            //qDebug() << "readEntries, " << query.value(1).toString();
+            Entry e;
+            e.id = query.value(0).toString();
+            decodeBase64(query.value(1),e.title);
+            decodeBase64(query.value(2),e.author);
+            decodeBase64(query.value(3),e.content);
+            e.link = query.value(4).toString();
+            e.image = query.value(5).toString();
+            e.feedIcon = query.value(6).toString();
+            e.fresh = query.value(7).toInt();
+            e.read = query.value(8).toInt();
+            e.readlater= query.value(9).toInt();
+            e.date = query.value(10).toInt();
+            list.append(e);
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByTab(const QString &tabId, int offset, int limit)
+{
+    QList<DatabaseManager::Entry> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.image, f.icon, e.fresh, e.read, e.readlater, e.date "
+                                "FROM entries as e, feeds as f "
+                                "WHERE e.feed_id=f.id AND f.tab_id='%1' AND (e.read=0 OR e.readlater=1) "
+                                "ORDER BY date DESC LIMIT %2 OFFSET %3;")
+                        .arg(tabId).arg(limit).arg(offset));
+
+        //(e.read=0 OR e.readlater=1)
+
+        if (!ret) {
+            qWarning() << "SQL error!";
+            qWarning() << query.lastError();
+        }
+
+        while(query.next()) {
+            //qDebug() << "readEntries, " << query.value(1).toString();
+            Entry e;
+            e.id = query.value(0).toString();
+            decodeBase64(query.value(1),e.title);
+            decodeBase64(query.value(2),e.author);
+            decodeBase64(query.value(3),e.content);
+            e.link = query.value(4).toString();
+            e.image = query.value(5).toString();
+            e.feedIcon = query.value(6).toString();
+            e.fresh = query.value(7).toInt();
+            e.read = query.value(8).toInt();
+            e.readlater= query.value(9).toInt();
+            e.date = query.value(10).toInt();
             list.append(e);
         }
     } else {
@@ -1291,7 +1433,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater(const QStrin
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.image, e.read, e.readlater, e.date "
+        QSqlQuery query(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.image, f.icon, e.fresh, e.read, e.readlater, e.date "
                                 "FROM entries as e, feeds as f, tabs as t "
                                 "WHERE e.feed_id=f.id AND f.tab_id=t.id AND t.dashboard_id=%1 AND e.readlater=1 "
                                 "ORDER BY date DESC LIMIT %2 OFFSET %3;")
@@ -1305,9 +1447,11 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater(const QStrin
             decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
             e.image = query.value(5).toString();
-            e.read = query.value(6).toInt();
-            e.readlater= query.value(7).toInt();
-            e.date = query.value(8).toInt();
+            e.feedIcon = query.value(6).toString();
+            e.fresh = query.value(7).toInt();
+            e.read = query.value(8).toInt();
+            e.readlater= query.value(9).toInt();
+            e.date = query.value(10).toInt();
             list.append(e);
         }
     } else {
@@ -1322,10 +1466,13 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnread(const QString &
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, author, content, link, image, read, readlater, date "
-                                "FROM entries WHERE read=0 AND feed_id='%1' "
+
+        QSqlQuery query(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.image, f.icon, e.fresh, e.read, e.readlater, e.date "
+                                "FROM entries as e, feeds as f "
+                                "WHERE (e.read=0 OR e.readlater=1) AND e.feed_id=f.id AND e.feed_id='%1' "
                                 "ORDER BY date DESC LIMIT %2 OFFSET %3;")
                         .arg(feedId).arg(limit).arg(offset),_db);
+
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
@@ -1334,9 +1481,11 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnread(const QString &
             decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
             e.image = query.value(5).toString();
-            e.read = query.value(6).toInt();
-            e.readlater= query.value(7).toInt();
-            e.date = query.value(8).toInt();
+            e.feedIcon = query.value(6).toString();
+            e.fresh = query.value(7).toInt();
+            e.read = query.value(8).toInt();
+            e.readlater= query.value(9).toInt();
+            e.date = query.value(10).toInt();
             list.append(e);
         }
     } else {
@@ -1351,7 +1500,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries()
     QList<DatabaseManager::Entry> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query("SELECT id, title, author, content, link, image, read, readlater, date FROM entries ORDER BY date DESC;",_db);
+
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.image, f.icon, e.fresh, e.read, e.readlater, e.date "
+                                "FROM entries as e, feeds as f "
+                                "WHERE e.feed_id=f.id;"));
+        if (!ret) {
+            qWarning() << "DB read rerror!";
+        }
+
         while(query.next()) {
             Entry e;
             e.id = query.value(0).toString();
@@ -1360,9 +1517,11 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries()
             decodeBase64(query.value(3),e.content);
             e.link = query.value(4).toString();
             e.image = query.value(5).toString();
-            e.read = query.value(6).toInt();
-            e.readlater= query.value(7).toInt();
-            e.date = query.value(8).toInt();
+            e.feedIcon = query.value(6).toString();
+            e.fresh = query.value(7).toInt();
+            e.read = query.value(8).toInt();
+            e.readlater= query.value(9).toInt();
+            e.date = query.value(10).toInt();
             list.append(e);
         }
     } else {
@@ -1427,9 +1586,6 @@ QList<QString> DatabaseManager::readCacheFinalUrlOlderThan(int cacheDate, int li
     //bool ret = false;
     if (_db.isOpen()) {
         QSqlQuery query(_db);
-        /*qDebug() << QString("SELECT final_url FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
-                    .arg(cacheDate).arg(limit);*/
-
         query.exec(QString("SELECT final_url FROM cache WHERE entry_id IN (SELECT id FROM entries WHERE readlater!=1 AND cached_date<%1 AND feed_id IN (SELECT feed_id FROM entries GROUP BY feed_id HAVING count(*)>%2));")
                         .arg(cacheDate).arg(limit));
         while(query.next()) {
@@ -1543,6 +1699,178 @@ int DatabaseManager::readEntriesCount()
     return count;
 }
 
+int DatabaseManager::readEntriesByFeedCount(const QString &feedId)
+{
+    int count = 0;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT count(*) FROM entries "
+                                      "WHERE feed_id='%1';")
+                              .arg(feedId));
+
+        if (!ret) {
+            qWarning() << "SQL error!";
+        }
+
+        while(query.next()) {
+            count = query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return count;
+}
+
+int DatabaseManager::readEntriesUnreadByFeedCount(const QString &feedId)
+{
+    int count = 0;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT count(*) FROM entries "
+                                      "WHERE feed_id='%1' AND read=0;")
+                              .arg(feedId));
+
+        if (!ret) {
+            qWarning() << "SQL error!";
+        }
+
+        while(query.next()) {
+            count = query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return count;
+}
+
+int DatabaseManager::readEntriesReadCount()
+{
+    int count = 0;
+
+    Settings *s = Settings::instance();
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT count(*) FROM entries as e, feeds as f, tabs as t "
+                                      "WHERE e.feed_id=f.id AND f.tab_id=t.id AND t.dashboard_id='%1' AND e.read=1;")
+                              .arg(s->getDashboardInUse()));
+
+        if (!ret) {
+            qWarning() << "SQL error!" << query.lastError().text();
+        }
+
+        while(query.next()) {
+            count = query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return count;
+}
+
+int DatabaseManager::readEntriesUnreadCount()
+{
+    int count = 0;
+
+    Settings *s = Settings::instance();
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT count(*) FROM entries as e, feeds as f, tabs as t "
+                                      "WHERE e.feed_id=f.id AND f.tab_id=t.id AND t.dashboard_id='%1' AND e.read=0;")
+                              .arg(s->getDashboardInUse()));
+
+        if (!ret) {
+            qWarning() << "SQL error!" << query.lastError().text();
+        }
+
+        while(query.next()) {
+            count = query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return count;
+}
+
+int DatabaseManager::readEntriesUnreadByTabCount(const QString &tabId)
+{
+    int count = 0;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT count(*) FROM entries as e, feeds as f "
+                                      "WHERE e.read=0 AND e.feed_id=f.id AND f.tab_id='%1';")
+                              .arg(tabId));
+
+        if (!ret) {
+            qWarning() << "SQL error!";
+        }
+
+        while(query.next()) {
+            count = query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return count;
+}
+
+int DatabaseManager::readEntriesReadByFeedCount(const QString &feedId)
+{
+    int count = 0;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT count(*) FROM entries "
+                                      "WHERE feed_id='%1' AND read=1;")
+                              .arg(feedId));
+
+        if (!ret) {
+            qWarning() << "SQL error!";
+        }
+
+        while(query.next()) {
+            count = query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return count;
+}
+
+int DatabaseManager::readEntriesReadByTabCount(const QString &tabId)
+{
+    int count = 0;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT count(*) FROM entries as e, feeds as f "
+                                      "WHERE e.read=1 AND e.feed_id=f.id AND f.tab_id='%1';")
+                              .arg(tabId));
+
+        if (!ret) {
+            qWarning() << "SQL error!";
+        }
+
+        while(query.next()) {
+            count = query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return count;
+}
+
 int DatabaseManager::readFeedsCount()
 {
     int count = 0;
@@ -1559,7 +1887,7 @@ int DatabaseManager::readFeedsCount()
     return count;
 }
 
-DatabaseManager::Flags DatabaseManager::readTabFlags(const QString &tabId)
+/*DatabaseManager::Flags DatabaseManager::readTabFlags(const QString &tabId)
 {
     Flags flags = {0,0,0};
 
@@ -1568,11 +1896,6 @@ DatabaseManager::Flags DatabaseManager::readTabFlags(const QString &tabId)
         query.exec(QString("SELECT sum(unread) as unread, sum(read) as read, sum(readlater) as readlater FROM feeds WHERE tab_id='%1';")
                    .arg(tabId));
         while(query.next()) {
-
-            /*qDebug() << tabId;
-            qDebug() << "unread" << query.value(0).toInt();
-            qDebug() << "read" << query.value(1).toInt();
-            qDebug() << "readlater" << query.value(2).toInt();*/
 
             flags.unread = query.value(0).toInt();
             flags.read = query.value(1).toInt();
@@ -1584,9 +1907,9 @@ DatabaseManager::Flags DatabaseManager::readTabFlags(const QString &tabId)
     }
 
     return flags;
-}
+}*/
 
-int DatabaseManager::readUnreadCount(const QString &dashboardId)
+/*int DatabaseManager::readUnreadCount(const QString &dashboardId)
 {
     if (_db.isOpen()) {
         QSqlQuery query(_db);
@@ -1600,7 +1923,7 @@ int DatabaseManager::readUnreadCount(const QString &dashboardId)
     }
 
     return 0;
-}
+}*/
 
 void DatabaseManager::decodeBase64(const QVariant &source, QString &result)
 {

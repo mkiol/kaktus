@@ -36,8 +36,12 @@ Page {
 
     property string title
     property int index
-    property int read
-    property int unread
+
+    ActiveDetector {
+        onActivated: {
+            feedModel.updateFlags();
+        }
+    }
 
     SilicaListView {
         id: listView
@@ -47,8 +51,12 @@ Page {
         clip:true
 
         height: {
+            /*if ((dm.busy||fetcher.busy) && bar.open)
+                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-1.6*Theme.itemSizeMedium;*/
             if (dm.busy||fetcher.busy)
                 return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
+            /*if (bar.open)
+                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;*/
             return isPortrait ? app.height : app.width;
         }
 
@@ -56,23 +64,22 @@ Page {
             id: menu
 
             showAbout: false
-            showMarkAsRead: root.unread!=0
+            showMarkAsRead: false
             showMarkAsUnread: false
 
             onMarkedAsRead:    {
-                tabModel.markAsRead(root.index);
                 feedModel.setAllAsRead();
             }
 
             onMarkedAsUnread: {
-                tabModel.markAsUnread(root.index);
                 feedModel.setAllAsUnread();
             }
 
             onActiveChanged: {
                 if (active) {
-                    root.read = feedModel.countRead();
-                    root.unread = feedModel.countUnread();
+                    //showMarkAsUnread = feedModel.countRead()!=0;
+                    showMarkAsRead = feedModel.countUnread()!=0;
+                    console.log(showMarkAsRead);
                 }
             }
         }
@@ -126,10 +133,10 @@ Page {
 
             Image {
                 id: image
-                width: Theme.iconSizeSmall
-                height: Theme.iconSizeSmall
+                width: visible ? Theme.iconSizeSmall : 0
+                height: width
                 anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
-                anchors.verticalCenter: parent.verticalCenter
+                anchors.top: item.top; anchors.topMargin: Theme.paddingSmall
                 visible: status!=Image.Error && status!=Image.Null && settings.showTabIcons
             }
 
@@ -161,8 +168,7 @@ Page {
                     enabled: model.unread!=0
                     visible: enabled
                     onClicked: {
-                        feedModel.markAllAsRead(model.index);
-                        tabModel.updateFlags();
+                        feedModel.markAsRead(model.index);
                     }
                 }
                 MenuItem {
@@ -170,16 +176,11 @@ Page {
                     enabled: model.read!=0
                     visible: enabled
                     onClicked: {
-                        feedModel.markAllAsUnread(model.index);
-                        tabModel.updateFlags();
+                        feedModel.markAsUnread(model.index);
                     }
                 }
             }
 
-        }
-
-        OfflineIndicator {
-            active: menu.active
         }
 
         ViewPlaceholder {

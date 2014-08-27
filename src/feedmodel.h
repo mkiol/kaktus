@@ -101,16 +101,15 @@ public:
     explicit FeedModel(DatabaseManager* db, QObject *parent = 0);
     void init(const QString &tabId);
     void init();
-    //int count();
-    //QObject* get(int i);
-    void setData(int row, const QString &fieldName, QVariant newValue);
 
-    Q_INVOKABLE void decrementUnread(int row);
-    Q_INVOKABLE void incrementUnread(int row);
-    Q_INVOKABLE void markAllAsUnread(int row);
-    Q_INVOKABLE void markAllAsRead(int row);
+    Q_INVOKABLE void markAsUnread(int row);
+    Q_INVOKABLE void markAsRead(int row);
+
     Q_INVOKABLE void setAllAsUnread();
     Q_INVOKABLE void setAllAsRead();
+
+    Q_INVOKABLE void updateFlags();
+
     Q_INVOKABLE int countRead();
     Q_INVOKABLE int countUnread();
 

@@ -63,10 +63,23 @@ void EntryModel::createItems(int offset, int limit)
     if (_feedId == "readlater") {
         list = _db->readEntriesReadlater(s->getDashboardInUse(),offset,limit);
     } else {
-        if (s->getShowOnlyUnread())
-            list = _db->readEntriesUnread(_feedId,offset,limit);
-        else
-            list = _db->readEntries(_feedId,offset,limit);
+        int mode = s->getViewMode();
+        switch (mode) {
+        case 0:
+            // View mode: Tabs->Feeds->Entries
+            if (s->getShowOnlyUnread())
+                list = _db->readEntriesUnread(_feedId,offset,limit);
+            else
+                list = _db->readEntries(_feedId,offset,limit);
+            break;
+        case 1:
+            // View mode: Tabs->Entries
+            if (s->getShowOnlyUnread())
+                list = _db->readEntriesUnreadByTab(_feedId,offset,limit);
+            else
+                list = _db->readEntriesByTab(_feedId,offset,limit);
+            break;
+        }
     }
 
     QList<DatabaseManager::Entry>::iterator i = list.begin();
@@ -108,7 +121,9 @@ void EntryModel::createItems(int offset, int limit)
                                 content,
                                 (*i).link,
                                 (*i).image,
+                                (*i).feedIcon,
                                 _db->isCacheItemExistsByEntryId((*i).id),
+                                (*i).fresh,
                                 (*i).read,
                                 (*i).readlater,
                                 (*i).date
@@ -124,6 +139,33 @@ void EntryModel::setAllAsUnread()
         EntryItem* item = static_cast<EntryItem*>(readRow(i));
         item->setRead(0);
     }
+
+    // DB change & Action
+    Settings *s = Settings::instance();
+    DatabaseManager::Action action;
+    int mode = s->getViewMode();
+    switch (mode) {
+    case 0:
+        // View mode: Tabs->Feeds->Entries
+        _db->updateEntriesReadFlag(_feedId,0);
+
+        action.type = DatabaseManager::UnSetFeedReadAll;
+        action.feedId = _feedId;
+        action.olderDate = _db->readFeedLastUpadate(_feedId);
+
+        break;
+    case 1:
+        // View mode: Tabs->Entries
+        _db->updateEntriesReadFlagByTab(_feedId,0);
+
+        action.type = DatabaseManager::UnSetTabReadAll;
+        action.feedId = _feedId;
+        action.olderDate = _db->readTabLastUpadate(_feedId);
+
+        break;
+    }
+
+    _db->writeAction(action);
 }
 
 void EntryModel::setAllAsRead()
@@ -133,29 +175,84 @@ void EntryModel::setAllAsRead()
         EntryItem* item = static_cast<EntryItem*>(readRow(i));
         item->setRead(1);
     }
+
+    // DB change
+    Settings *s = Settings::instance();
+    DatabaseManager::Action action;
+    int mode = s->getViewMode();
+    switch (mode) {
+    case 0:
+        // View mode: Tabs->Feeds->Entries
+        _db->updateEntriesReadFlag(_feedId,1);
+
+        action.type = DatabaseManager::SetFeedReadAll;
+        action.feedId = _feedId;
+        action.olderDate = _db->readFeedLastUpadate(_feedId);
+
+        break;
+    case 1:
+        // View mode: Tabs->Entries
+        _db->updateEntriesReadFlagByTab(_feedId,1);
+
+        action.type = DatabaseManager::SetTabReadAll;
+        action.feedId = _feedId;
+        action.olderDate = _db->readTabLastUpadate(_feedId);
+
+        break;
+    }
+
+    _db->writeAction(action);
 }
 
 int EntryModel::countRead()
 {
-    int read = 0; int l = this->rowCount();
+    /*int read = 0; int l = this->rowCount();
     for (int i=0; i<l; ++i) {
         EntryItem* item = static_cast<EntryItem*>(readRow(i));
         read=read+item->read();
     }
+    return read;*/
 
-    return read;
+    Settings *s = Settings::instance();
+    int mode = s->getViewMode();
+    switch (mode) {
+    case 0:
+        // View mode: Tabs->Feeds->Entries
+        return _db->readEntriesReadByFeedCount(_feedId);
+        break;
+    case 1:
+        // View mode: Tabs->Entries
+        return _db->readEntriesReadByTabCount(_feedId);
+        break;
+    }
+
+    return 0;
 }
 
 int EntryModel::countUnread()
 {
-    int unread = 0; int l = this->rowCount();
+    /*int unread = 0; int l = this->rowCount();
     for (int i=0; i<l; ++i) {
         EntryItem* item = static_cast<EntryItem*>(readRow(i));
         if (item->read() == 0)
             ++unread;
     }
+    return unread;*/
 
-    return unread;
+    Settings *s = Settings::instance();
+    int mode = s->getViewMode();
+    switch (mode) {
+    case 0:
+        // View mode: Tabs->Feeds->Entries
+        return _db->readEntriesUnreadByFeedCount(_feedId);
+        break;
+    case 1:
+        // View mode: Tabs->Entries
+        return _db->readEntriesUnreadByTabCount(_feedId);
+        break;
+    }
+
+    return 0;
 }
 
 int EntryModel::count()
@@ -208,7 +305,9 @@ EntryItem::EntryItem(const QString &uid,
                    const QString &content,
                    const QString &link,
                    const QString &image,
+                   const QString &feedIcon,
                    const bool cached,
+                   const bool fresh,
                    const int read,
                    const int readlater,
                    const int date,
@@ -220,7 +319,9 @@ EntryItem::EntryItem(const QString &uid,
     m_content(content),
     m_link(link),
     m_image(image),
+    m_feedIcon(feedIcon),
     m_cached(cached),
+    m_fresh(fresh),
     m_read(read),
     m_readlater(readlater),
     m_date(date)
@@ -235,7 +336,9 @@ QHash<int, QByteArray> EntryItem::roleNames() const
     names[ContentRole] = "content";
     names[LinkRole] = "link";
     names[ImageRole] = "image";
+    names[FeedIconRole] = "feedIcon";
     names[CachedRole] = "cached";
+    names[FreshRole] = "fresh";
     names[ReadRole] = "read";
     names[ReadLaterRole] = "readlater";
     names[DateRole] = "date";
@@ -257,8 +360,12 @@ QVariant EntryItem::data(int role) const
         return link();
     case ImageRole:
         return image();
+    case FeedIconRole:
+        return feedIcon();
     case CachedRole:
         return cached();
+    case FreshRole:
+        return fresh();
     case ReadRole:
         return read();
     case ReadLaterRole:

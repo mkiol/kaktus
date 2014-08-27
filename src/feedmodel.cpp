@@ -53,154 +53,84 @@ void FeedModel::createItems(const QString &tabId)
                               (*i).url,
                               (*i).icon,
                               (*i).streamId,
-                              (*i).unread,
-                              (*i).read,
+                              //(*i).unread,
+                              //(*i).read,
+                              _db->readEntriesUnreadByFeedCount((*i).id),
+                              _db->readEntriesReadByFeedCount((*i).id),
                               (*i).readlater
                              ));
         ++i;
     }
 }
 
-/*void FeedModel::sort()
-{
-}
-
-int FeedModel::count()
-{
-    return this->rowCount();
-}
-
-QObject* FeedModel::get(int i)
-{
-    return (QObject*) this->readRow(i);
-}*/
-
-void FeedModel::setData(int row, const QString &fieldName, QVariant newValue)
+void FeedModel::markAsUnread(int row)
 {
     FeedItem* item = static_cast<FeedItem*>(readRow(row));
+    _db->updateEntriesReadFlag(item->id(),0);
+    item->setRead(0); item->setUnread(_db->readEntriesUnreadByFeedCount(item->id()));
 
-    if (fieldName=="readlater") {
-        item->setReadlater(newValue.toInt());
-        //_db->updateFeedReadlaterFlag(item->id(),newValue.toInt());
-    }
-
-    if (fieldName=="unread") {
-        item->setUnread(newValue.toInt());
-    }
-
-    if (fieldName=="read") {
-        item->setRead(newValue.toInt());
-    }
+    DatabaseManager::Action action;
+    action.type = DatabaseManager::UnSetFeedReadAll;
+    action.feedId = item->id();
+    action.olderDate = _db->readFeedLastUpadate(item->id());
+    _db->writeAction(action);
 }
 
-void FeedModel::decrementUnread(int row)
+void FeedModel::markAsRead(int row)
 {
     FeedItem* item = static_cast<FeedItem*>(readRow(row));
-    int unread = item->unread();
-    int read = item->read();
-    if (unread>0) {
-        item->setUnread(--unread);
-        item->setRead(++read);
-        _db->updateFeedReadFlag(item->id(),unread,read);
-    }
-}
+    _db->updateEntriesReadFlag(item->id(),1);
+    item->setUnread(0); item->setRead(_db->readEntriesReadByFeedCount(item->id()));
 
-void FeedModel::incrementUnread(int row)
-{
-    FeedItem* item = static_cast<FeedItem*>(readRow(row));
-    int unread = item->unread();
-    int read = item->read();
-    item->setUnread(++unread);
-    item->setRead(--read);
-    _db->updateFeedReadFlag(item->id(),unread,read);
-}
-
-void FeedModel::markAllAsUnread(int row)
-{
-    FeedItem* item = static_cast<FeedItem*>(readRow(row));
-    int unread = item->unread();
-    int read = item->read();
-    item->setUnread(unread+read);
-    item->setRead(0);
-
-    if (_db->updateFeedReadFlag(item->id(),unread+read,0) && _db->updateEntriesReadFlag(item->id(),0)) {
-        DatabaseManager::Action action;
-        action.type = DatabaseManager::UnSetFeedReadAll;
-        action.feedId = item->id();
-        //action.olderDate = _db->readLatestEntryDateByFeedId(item->id());
-        action.olderDate = _db->readFeedLastUpadate(item->id());
-        _db->writeAction(action);
-
-    } else {
-        qWarning() << "Unable to update Read flag";
-    }
-}
-
-void FeedModel::markAllAsRead(int row)
-{
-    FeedItem* item = static_cast<FeedItem*>(readRow(row));
-    int unread = item->unread();
-    int read = item->read();
-    item->setRead(unread+read);
-    item->setUnread(0);
-
-    if (_db->updateFeedReadFlag(item->id(),0,unread+read) && _db->updateEntriesReadFlag(item->id(),1)) {
-        DatabaseManager::Action action;
-        action.type = DatabaseManager::SetFeedReadAll;
-        action.feedId = item->id();
-        //action.olderDate = _db->readLatestEntryDateByFeedId(item->id());
-        action.olderDate = _db->readFeedLastUpadate(item->id());
-        _db->writeAction(action);
-
-    } else {
-        qWarning() << "Unable to update Read flag";
-    }
+    DatabaseManager::Action action;
+    action.type = DatabaseManager::SetFeedReadAll;
+    action.feedId = item->id();
+    action.olderDate = _db->readFeedLastUpadate(item->id());
+    _db->writeAction(action);
 }
 
 int FeedModel::countRead()
 {
-    int read = 0; int l = this->rowCount();
-    for (int i=0; i<l; ++i) {
-        FeedItem* item = static_cast<FeedItem*>(readRow(i));
-        read=read+item->read();
-    }
-
-    return read;
+    return _db->readEntriesReadByTabCount(_tabId);
 }
 
 int FeedModel::countUnread()
 {
-    int unread = 0; int l = this->rowCount();
-    for (int i=0; i<l; ++i) {
-        FeedItem* item = static_cast<FeedItem*>(readRow(i));
-        unread=unread+item->unread();
-    }
-
-    return unread;
+    return _db->readEntriesUnreadByTabCount(_tabId);
 }
 
 void FeedModel::setAllAsUnread()
 {
+    _db->updateEntryReadFlagByTab(_tabId,0);
+    updateFlags();
+
+    DatabaseManager::Action action;
+    action.type = DatabaseManager::UnSetTabReadAll;
+    action.feedId = _tabId;
+    action.olderDate = _db->readTabLastUpadate(_tabId);
+    _db->writeAction(action);
+}
+
+void FeedModel::updateFlags()
+{
     int l = this->rowCount();
     for (int i=0; i<l; ++i) {
         FeedItem* item = static_cast<FeedItem*>(readRow(i));
-        int unread = item->unread();
-        int read = item->read();
-        item->setUnread(unread+read);
-        item->setRead(0);
+        item->setUnread(_db->readEntriesUnreadByFeedCount(item->uid()));
+        item->setRead(_db->readEntriesReadByFeedCount(item->uid()));
     }
 }
 
 void FeedModel::setAllAsRead()
 {
-    int l = this->rowCount();
-    for (int i=0; i<l; ++i) {
-        FeedItem* item = static_cast<FeedItem*>(readRow(i));
-        int unread = item->unread();
-        int read = item->read();
-        item->setRead(unread+read);
-        item->setUnread(0);
-    }
+    _db->updateEntryReadFlagByTab(_tabId,1);
+    updateFlags();
+
+    DatabaseManager::Action action;
+    action.type = DatabaseManager::SetTabReadAll;
+    action.feedId = _tabId;
+    action.olderDate = _db->readTabLastUpadate(_tabId);
+    _db->writeAction(action);
 }
 
 

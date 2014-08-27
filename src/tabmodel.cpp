@@ -46,19 +46,18 @@ void TabModel::createItems(const QString &dashboardId)
     QList<DatabaseManager::Tab> list = _db->readTabs(dashboardId);
     QList<DatabaseManager::Tab>::iterator i = list.begin();
     while( i != list.end() ) {
-        DatabaseManager::Flags flags = _db->readTabFlags((*i).id);
         appendRow(new TabItem((*i).id,
                               (*i).title,
                               (*i).icon,
-                              flags.unread,
-                              flags.read,
-                              flags.readlater
+                              _db->readEntriesUnreadByTabCount((*i).id),
+                              _db->readEntriesReadByTabCount((*i).id),
+                              0
                              ));
         ++i;
     }
 }
 
-void TabModel::sort()
+/*void TabModel::sort()
 {
 }
 
@@ -72,58 +71,45 @@ void TabModel::updateFlags()
         //item.setRead(flags.read);
         //item.setReadlater(flags.readlater);
     }
+}*/
+
+void TabModel::updateFlags()
+{
+    int l = this->rowCount();
+    for (int i=0; i<l; ++i) {
+        TabItem* item = static_cast<TabItem*>(this->readRow(i));
+        item->setUnread(_db->readEntriesUnreadByTabCount(item->uid()));
+        item->setRead(_db->readEntriesReadByTabCount(item->uid()));
+    }
 }
 
 void TabModel::markAsUnread(int row)
 {
     TabItem* item = static_cast<TabItem*>(readRow(row));
-    int unread = item->unread();
-    int read = item->read();
-    item->setUnread(unread+read);
-    item->setRead(0);
+    _db->updateEntriesReadFlagByTab(item->id(),0);
+    item->setRead(0); item->setUnread(_db->readEntriesUnreadByTabCount(item->id()));
 
-    if (_db->updateFeedAllAsUnreadByTab(item->id()) &&
-        _db->updateEntriesReadFlagByTab(item->id(),0)) {
-
-        DatabaseManager::Action action;
-        action.type = DatabaseManager::UnSetTabReadAll;
-        action.feedId = item->id();
-        action.olderDate = _db->readTabLastUpadate(item->id());
-        _db->writeAction(action);
-
-    } else {
-        qWarning() << "Unable to update Read flag";
-    }
+    DatabaseManager::Action action;
+    action.type = DatabaseManager::UnSetTabReadAll;
+    action.feedId = item->id();
+    action.olderDate = _db->readTabLastUpadate(item->id());
+    _db->writeAction(action);
 }
 
 void TabModel::markAsRead(int row)
 {
     TabItem* item = static_cast<TabItem*>(readRow(row));
-    int unread = item->unread();
-    int read = item->read();
-    item->setRead(unread+read);
-    item->setUnread(0);
+    _db->updateEntriesReadFlagByTab(item->id(),1);
+    item->setUnread(0); item->setRead(_db->readEntriesReadByTabCount(item->id()));
 
-
-    //qDebug() << _db->updateTabReadFlag(item->id(),0,unread+read);
-    //qDebug() << _db->updateFeedAllAsReadByTab(item->id());
-    //qDebug() << _db->updateEntriesReadFlagByTab(item->id(),1);
-
-    if (_db->updateFeedAllAsReadByTab(item->id()) &&
-        _db->updateEntriesReadFlagByTab(item->id(),1)) {
-
-        DatabaseManager::Action action;
-        action.type = DatabaseManager::SetTabReadAll;
-        action.feedId = item->id();
-        action.olderDate = _db->readTabLastUpadate(item->id());
-        _db->writeAction(action);
-
-    } else {
-        qWarning() << "Unable to update Read flag";
-    }
+    DatabaseManager::Action action;
+    action.type = DatabaseManager::SetTabReadAll;
+    action.feedId = item->id();
+    action.olderDate = _db->readTabLastUpadate(item->id());
+    _db->writeAction(action);
 }
 
-void TabModel::markAllAsUnread()
+/*void TabModel::markAllAsUnread()
 {
     int l = this->rowCount();
     for (int i=0; i<l; ++i) {
@@ -137,26 +123,16 @@ void TabModel::markAllAsRead()
     for (int i=0; i<l; ++i) {
         markAsRead(i);
     }
-}
+}*/
 
 int TabModel::countRead()
 {
-    int read = 0; int l = this->rowCount();
-    for (int i=0; i<l; ++i) {
-        TabItem* item = static_cast<TabItem*>(readRow(i));
-        read=read+item->read();
-    }
-    return read;
+    return _db->readEntriesReadCount();
 }
 
 int TabModel::countUnread()
 {
-    int unread = 0; int l = this->rowCount();
-    for (int i=0; i<l; ++i) {
-        TabItem* item = static_cast<TabItem*>(readRow(i));
-        unread=unread+item->unread();
-    }
-    return unread;
+    return _db->readEntriesUnreadCount();
 }
 
 // ----------------------------------------------------------------

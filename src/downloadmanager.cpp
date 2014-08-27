@@ -107,7 +107,6 @@ void DownloadManager::removeCache()
 #endif
         qWarning() << "Unable to remove " << s->getDmCacheDir();
     }
-
 }
 
 void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility accessible)

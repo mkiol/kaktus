@@ -36,8 +36,6 @@ Page {
 
     property string title
     property int index
-    property int read
-    property int unread
     property bool readlater
 
     SilicaListView {
@@ -57,25 +55,23 @@ Page {
             id: menu
 
             showAbout: false
-            showMarkAsRead: root.readlater ? false : root.unread!=0
+            showMarkAsRead: false
             showMarkAsUnread: false
 
             onMarkedAsRead:    {
-                feedModel.markAllAsRead(root.index);
-                tabModel.updateFlags();
                 entryModel.setAllAsRead();
             }
 
             onMarkedAsUnread: {
-                feedModel.markAllAsUnread(root.index);
-                tabModel.updateFlags();
                 entryModel.setAllAsUnread();
             }
 
             onActiveChanged: {
                 if (active) {
-                    root.read = entryModel.countRead();
-                    root.unread = entryModel.countUnread();
+                    if (!root.readlater) {
+                        //showMarkAsUnread = entryModel.countRead()!=0;
+                        showMarkAsRead = entryModel.countUnread()!=0;
+                    }
                 }
             }
         }
@@ -90,17 +86,19 @@ Page {
             content: model.content
             date: model.date
             read: model.read
+            feedIcon: settings.viewMode==1 || root.readlater ? model.feedIcon : ""
             author: model.author
             image: model.image
             readlater: model.readlater
             index: model.index
             cached: model.cached
+            fresh: model.fresh
             showMarkedAsRead: !root.readlater
 
             Component.onCompleted: {
                 // Dynamic creation of new items if last item is compleated
                 if (index==entryModel.count()-1) {
-                    console.log(index);
+                    //console.log(index);
                     entryModel.createItems(index+1,index+settings.offsetLimit);
                 }
             }
@@ -115,8 +113,6 @@ Page {
 
                 // Entry not cached and offline mode enabled
                 if (settings.offlineMode && !model.cached) {
-                    /*pageStack.push(Qt.resolvedUrl("NoContentPage.qml"),
-                                   {"title": model.title,});*/
                     notification.show(qsTr("Offline version not available"));
                     return;
                 }
@@ -152,21 +148,19 @@ Page {
 
             onMarkedAsRead: {
                 entryModel.setData(model.index, "read", 1);
-                if (!readlater)
-                    feedModel.decrementUnread(root.index);
-                tabModel.updateFlags();
             }
 
             onMarkedAsUnread: {
                 entryModel.setData(model.index, "read", 0);
-                if (!readlater)
-                    feedModel.incrementUnread(root.index);
-                tabModel.updateFlags();
             }
-        }
 
-        OfflineIndicator {
-            active: menu.active
+            onMarkedReadlater: {
+                entryModel.setData(index, "readlater", 1);
+            }
+
+            onUnmarkedReadlater: {
+                entryModel.setData(index, "readlater", 0);
+            }
         }
 
         ViewPlaceholder {

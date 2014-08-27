@@ -30,9 +30,11 @@ ListItem {
     property int readlater: 0
     property string content
     property string image
+    property string feedIcon
     property int maxWords: 20
     property int maxChars: 200
     property bool cached: false
+    property bool fresh
     property bool expanded: false
     property int index
 
@@ -41,7 +43,7 @@ ListItem {
     signal markedAsRead
     signal markedAsUnread
     signal markedReadlater
-    signal umarkedReadlater
+    signal unmarkedReadlater
 
     function getUrlbyUrl(url){return cache.getUrlbyUrl(url)}
 
@@ -54,10 +56,23 @@ ListItem {
         color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
     }
 
+    Rectangle {
+        anchors.top: parent.top; anchors.bottom: parent.bottom; anchors.left: parent.left
+        //color: Theme.highlightColor
+        width: Theme.paddingSmall
+        visible: root.fresh
+        
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
+            GradientStop { position: 0.4; color: Theme.rgba(Theme.highlightColor, 0.0) }
+        }
+    }
+
     OpacityRampEffect {
         id: effect
         slope: 1
         offset: 0.1
+        //direction: fresh ? OpacityRamp.LeftToRight : OpacityRamp.BottomToTop
         direction: OpacityRamp.BottomToTop
         sourceItem: background
     }
@@ -70,9 +85,9 @@ ListItem {
 
         onClicked: {
             if (root.readlater) {
-                entryModel.setData(index, "readlater", 0);
+                root.unmarkedReadlater();
             } else {
-                entryModel.setData(index, "readlater", 1);
+                root.markedReadlater();
             }
         }
 
@@ -80,8 +95,16 @@ ListItem {
             anchors.centerIn: parent;
             width: Theme.iconSizeSmall
             height: Theme.iconSizeSmall
-            source: root.readlater>0 ? "image://theme/icon-m-favorite-selected"
-                                     : "image://theme/icon-m-favorite"
+            source: {
+                if (root.down) {
+                    if (root.readlater)
+                        return "image://theme/icon-m-favorite-selected?"+Theme.highlightColor;
+                    return "image://theme/icon-m-favorite?"+Theme.highlightColor;
+                }
+                if (root.readlater)
+                    return "image://theme/icon-m-favorite-selected?"+Theme.primaryColor;
+                return "image://theme/icon-m-favorite?"+Theme.primaryColor;
+            }
         }
     }
 
@@ -125,22 +148,63 @@ ListItem {
 
         // Title
 
-        Label {
+        Item {
             anchors.left: parent.left; anchors.right: parent.right;
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            font.pixelSize: Theme.fontSizeMedium
-            font.family: Theme.fontFamilyHeading
-            truncationMode: TruncationMode.Fade
-            wrapMode: Text.Wrap
-            text: title
+            //anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
+            height: Math.max(titleLabel.height, icon.height)
 
-            color: {
-                if (root.read>0 && root.readlater==0) {
+            Label {
+                id: titleLabel
+                anchors.right: parent.right; anchors.left: icon.right;
+                //anchors.rightMargin: Theme.paddingLarge;
+                anchors.leftMargin: icon.visible ? Theme.paddingMedium : 0
+                font.pixelSize: Theme.fontSizeMedium
+                font.family: Theme.fontFamilyHeading
+                font.bold: !root.read || root.readlater
+                truncationMode: TruncationMode.Fade
+                wrapMode: Text.Wrap
+                text: title
+
+                color: {
+                    if (root.read>0 && root.readlater==0) {
+                        if (root.down)
+                            return Theme.secondaryHighlightColor;
+                        return Theme.secondaryColor;
+                    }
                     if (root.down)
-                        return Theme.secondaryHighlightColor;
-                    return Theme.secondaryColor;
+                        return Theme.highlightColor;
+                    return Theme.primaryColor;
                 }
-                return Theme.highlightColor;
+            }
+
+            // Feed Icon
+
+            Image {
+                id: icon
+                width: visible ? Theme.iconSizeSmall : 0
+                height: width
+                anchors.left: parent.left;
+                anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
+                visible: status!=Image.Error && status!=Image.Null && settings.showTabIcons
+            }
+
+            Connections {
+                target: settings
+                onShowTabIconsChanged: {
+                    if (settings.showTabIcons && root.feedIcon!="")
+                        icon.source = cache.getUrlbyUrl(root.feedIcon);
+                    else
+                        icon.source = "";
+                }
+            }
+
+            Component.onCompleted: {
+                if (settings.showTabIcons && root.feedIcon!="") {
+                    icon.source = cache.getUrlbyUrl(root.feedIcon);
+                } else {
+                    icon.source = "";
+                }
             }
         }
 
@@ -150,8 +214,10 @@ ListItem {
             id: entryImage
             anchors.left: parent.left;
             anchors.leftMargin: Theme.paddingLarge;
+            //anchors.leftMargin: Theme.paddingMedium;
             fillMode: Image.PreserveAspectFit
             width: sourceSize.width>root.width-2*Theme.paddingLarge ? root.width-2*Theme.paddingLarge : sourceSize.width
+            //width: sourceSize.width>root.width-2*Theme.paddingMedium ? root.width-2*Theme.paddingMedium : sourceSize.width
             enabled: source!="" && status==Image.Ready && settings.showTabIcons &&
                      ((root.read==0 && root.readlater==0)||root.readlater>0)
             visible: opacity>0
@@ -174,6 +240,7 @@ ListItem {
             id: shortContent
             anchors.left: parent.left; anchors.right: parent.right;
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
+            //anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
             text: {
                 if (root.content.length > root.maxChars)
                     return root.content.substr(0,root.maxChars);
@@ -200,6 +267,7 @@ ListItem {
             id: fullContent
             anchors.left: parent.left; anchors.right: parent.right;
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
+            //anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
             visible: opacity > 0.0
             opacity: root.expanded ? 1.0 : 0.0
             Behavior on opacity { FadeAnimation {} }
@@ -230,6 +298,7 @@ ListItem {
         Label {
             anchors.left: parent.left; anchors.right: parent.right;
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingMedium
+            //anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
             font.pixelSize: Theme.fontSizeExtraSmall
             color: root.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
             truncationMode: TruncationMode.Fade
@@ -245,16 +314,6 @@ ListItem {
         id: contextMenu
         ContextMenu {
             MenuItem {
-                text: readlater ? qsTr("Unsave") : qsTr("Save")
-                onClicked: {
-                    if (readlater) {
-                        entryModel.setData(index, "readlater", 0);
-                    } else {
-                        entryModel.setData(index, "readlater", 1);
-                    }
-                }
-            }
-            MenuItem {
                 text: read ? qsTr("Mark as unread") : qsTr("Mark as read")
                 visible: enabled
                 enabled: root.showMarkedAsRead
@@ -265,6 +324,16 @@ ListItem {
                         root.markedAsRead();
                         if (lblMoreDetails.visible)
                             root.expanded = false;
+                    }
+                }
+            }
+            MenuItem {
+                text: readlater ? qsTr("Unsave") : qsTr("Save")
+                onClicked: {
+                    if (readlater) {
+                        root.unmarkedReadlater();
+                    } else {
+                        root.markedReadlater();
                     }
                 }
             }

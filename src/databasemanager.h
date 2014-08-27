@@ -78,6 +78,8 @@ public:
         QString content;
         QString feedId;
         QString image;
+        QString feedIcon;
+        int fresh;
         int read;
         int readlater;
         int date;
@@ -112,15 +114,16 @@ public:
         int date;
     };
 
-    struct Flags {
+    /*struct Flags {
         int unread;
         int read;
         int readlater;
-    };
+    };*/
 
     explicit DatabaseManager(QObject *parent = 0);
 
     Q_INVOKABLE void init();
+    Q_INVOKABLE void newInit();
 
     bool cleanDashboards();
     bool cleanTabs();
@@ -142,7 +145,11 @@ public:
 
     bool writeEntry(const QString &feedId, const Entry &entry);
     bool updateEntryReadFlag(const QString &entryId, int read);
+    bool updateEntryReadFlagByTab(const QString &tabId, int read);
+
+    bool updateAllEntriesFreshFlag(int fresh);
     bool updateEntryReadlaterFlag(const QString &entryId, int readlater);
+
     bool writeCache(const CacheItem &item, int cacheDate, int flag = 1);
     bool updateEntryCache(const QString &entryId, int cacheDate, int flag = 1);
 
@@ -161,8 +168,10 @@ public:
     QString readFeedId(const QString &entryId);
 
     QList<Entry> readEntries(const QString &feedId, int offset, int limit);
+    QList<Entry> readEntriesByTab(const QString &tabId, int offset, int limit);
     QList<Entry> readEntriesReadlater(const QString &dashboardId, int offset, int limit);
     QList<Entry> readEntriesUnread(const QString &feedId, int offset, int limit);
+    QList<Entry> readEntriesUnreadByTab(const QString &tabId, int offset, int limit);
     QList<Entry> readEntries();
     QList<Entry> readEntriesCachedOlderThan(int cacheDate, int limit);
     QList<QString> readCacheFinalUrlOlderThan(int cacheDate, int limit);
@@ -197,10 +206,18 @@ public:
 
     int readNotCachedEntriesCount();
     int readEntriesCount();
-    int readFeedsCount();
-    int readUnreadCount(const QString &dashboardId);
+    int readEntriesByFeedCount(const QString &feedId);
+    int readEntriesUnreadByFeedCount(const QString &feedId);
+    int readEntriesUnreadByTabCount(const QString &tabId);
+    int readEntriesReadByFeedCount(const QString &feedId);
+    int readEntriesReadByTabCount(const QString &tabId);
 
-    Flags readTabFlags(const QString &tabId);
+    int readEntriesReadCount();
+    int readEntriesUnreadCount();
+
+    int readFeedsCount();
+    //int readUnreadCount(const QString &dashboardId);
+    //Flags readTabFlags(const QString &tabId);
 
     QSqlError lastError();
 

@@ -43,6 +43,11 @@ ApplicationWindow {
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
             notification.show(qsTr("Dashboard changed!"));
         }
+
+        onViewModeChanged: {
+            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            notification.show(qsTr("Browsing mode changed!"));
+        }
     }
 
     Connections {
@@ -79,6 +84,11 @@ ApplicationWindow {
 
         onNetworkNotAccessible: {
             notification.show(qsTr("Download failed\nNetwork connection is unavailable"));
+        }
+
+        onBusyChanged: {
+            if (dm.busy && bar.open)
+                bar.open = false;
         }
     }
 
@@ -133,6 +143,10 @@ ApplicationWindow {
         }
 
         onBusyChanged: {
+
+            if (fetcher.busy && bar.open)
+                bar.open = false;
+
             switch(fetcher.busyType) {
             case 1:
                 progressPanel.text = qsTr("Initiating...");
@@ -167,6 +181,18 @@ ApplicationWindow {
         id: notification
     }
 
+    ControlBar {
+        id: bar
+        open: false
+
+        rotation: app.orientation==Orientation.Portrait ? 0 : 90
+        transformOrigin: Item.TopLeft
+        height: app.orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium
+        width: app.orientation==Orientation.Portrait ? app.width : app.height
+        y: app.orientation==Orientation.Portrait ? app.height-height : 0
+        x: app.orientation==Orientation.Portrait ? 0 : height
+    }
+
     ProgressPanel {
         id: progressPanelDm
         open: dm.busy && !fetcher.busy
@@ -183,6 +209,7 @@ ApplicationWindow {
     ProgressPanel {
         id: progressPanel
         open: fetcher.busy
+        //open: true
         onCloseClicked: fetcher.cancel();
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90

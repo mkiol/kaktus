@@ -34,8 +34,14 @@ Page {
         return Orientation.Landscape | Orientation.Portrait;
     }
 
-    property int read
-    property int unread
+    //property int read
+    //property int unread
+
+    ActiveDetector {
+        onActivated: {
+            tabModel.updateFlags();
+        }
+    }
 
     SilicaListView {
         id: listView
@@ -44,8 +50,12 @@ Page {
         anchors { top: parent.top; left: parent.left; right: parent.right }
 
         height: {
+            /*if ((dm.busy||fetcher.busy) && bar.open)
+                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-1.6*Theme.itemSizeMedium;*/
             if (dm.busy||fetcher.busy)
                 return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
+            /*if (bar.open)
+                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;*/
             return isPortrait ? app.height : app.width;
         }
 
@@ -55,25 +65,6 @@ Page {
             id: menu
             showMarkAsRead: false
             showMarkAsUnread: false
-
-            /*showMarkAsRead: root.unread!=0
-            showMarkAsUnread: false
-
-            onMarkedAsRead:    {
-                tabModel.markAllAsRead();
-            }
-
-            onMarkedAsUnread: {
-                tabModel.markAllAsUnread();
-            }
-
-            onActiveChanged: {
-                if (active) {
-                    root.read = tabModel.countRead();
-                    root.unread = tabModel.countUnread();
-                    //console.log("read: "+root.read+" unread: "+root.unread);
-                }
-            }*/
         }
 
         header: PageHeader {
@@ -156,10 +147,10 @@ Page {
 
                 Image {
                     id: image
-                    width: Theme.iconSizeSmall
-                    height: Theme.iconSizeSmall
+                    width: visible ? Theme.iconSizeSmall : 0
+                    height: width
                     anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.top: item.top; anchors.topMargin: Theme.paddingSmall
                     visible: status!=Image.Error && status!=Image.Null && settings.showTabIcons && !readlaterItem
                 }
 
@@ -189,7 +180,6 @@ Page {
                     height: Theme.iconSizeSmall
                     anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
                     anchors.verticalCenter: itemReadlater.verticalCenter
-                    //anchors.verticalCenter: item.verticalCenter
                     visible: readlaterItem
                     source: listItem.down ? "image://theme/icon-m-favorite-selected?"+Theme.highlightColor :
                                             "image://theme/icon-m-favorite-selected"
@@ -220,8 +210,14 @@ Page {
                         utils.setEntryModel(uid);
                         pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "readlater": true});
                     } else {
-                        utils.setFeedModel(uid);
-                        pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title, "index": model.index});
+                        if (settings.viewMode == 0) {
+                            utils.setFeedModel(uid);
+                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title, "index": model.index});
+                        }
+                        if (settings.viewMode == 1) {
+                            utils.setEntryModel(uid);
+                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "readlater": false});
+                        }
                     }
                 }
 
@@ -247,10 +243,6 @@ Page {
                     }
                 }
             }
-        }
-
-        OfflineIndicator {
-            active: menu.active
         }
 
         ViewPlaceholder {

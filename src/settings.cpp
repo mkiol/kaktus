@@ -367,3 +367,16 @@ int Settings::getFeedsUpdateAtOnce()
     return settings.value("feedsupdateatonce", 10).toInt();
 #endif
 }
+
+void Settings::setViewMode(int value)
+{
+    if (getViewMode() != value) {
+        settings.setValue("viewmode", value);
+        emit viewModeChanged();
+    }
+}
+
+int Settings::getViewMode()
+{
+    return settings.value("viewmode", 0).toInt();
+}

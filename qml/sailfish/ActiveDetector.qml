@@ -20,17 +20,20 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-Image {
-    id: root
+Item {
+    property int oldStatus: PageStatus.Active
+    signal activated()
 
-    property bool active: false
+    Connections {
+        target: parent
 
-    anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
-    anchors.bottom: parent.bottom; anchors.bottomMargin: Theme.paddingMedium
-
-    visible: opacity>0
-    opacity: active ? 1.0 : 0.0
-    Behavior on opacity { FadeAnimation {duration: 300} }
-
-    source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightColor : "image://theme/icon-m-wlan-4?"+Theme.highlightColor
+        onStatusChanged: {
+            if (oldStatus === PageStatus.Inactive
+                    && parent.status  === PageStatus.Active) {
+                activated();
+            }
+            if (parent.status === PageStatus.Inactive)
+                oldStatus = parent.status ;
+        }
+    }
 }

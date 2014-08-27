@@ -91,6 +91,33 @@ Page {
                 textFormat: Text.RichText
                 text: "Copyright &copy; 2014 Michał Kościesza"
             }
+
+            Item {
+                height: Theme.paddingLarge
+            }
+
+            /*SectionHeader {
+                text: qsTr("New in %1 release").arg("1.2.0");
+            }
+
+            Label {
+                wrapMode: Text.WordWrap
+                //horizontalAlignment: Text.AlignHCenter
+                anchors.left: parent.left; anchors.right: parent.right
+                font.pixelSize: Theme.fontSizeExtraSmall
+                textFormat: Text.StyledText
+                text:
+                '<ul>'+
+                '<li>Posibility to browse Items by Tabs (see "Browsing Mode" option)</li>'+
+                '<li>Indicator for Items that have been added since last sync</li>'+
+                '<li>Possibility to delete cache data (see "Cache size" option)</li>'+
+                '<li>Many UI improvements</li>'+
+                '</ul>';
+            }
+
+            Item {
+                height: Theme.paddingLarge
+            }*/
         }
 
         VerticalScrollDecorator {}

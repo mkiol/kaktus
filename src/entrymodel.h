@@ -42,7 +42,9 @@ public:
         ContentRole,
         LinkRole,
         ImageRole,
+        FeedIconRole,
         CachedRole,
+        FreshRole,
         ReadRole,
         ReadLaterRole,
         DateRole
@@ -56,7 +58,9 @@ public:
                       const QString &content,
                       const QString &link,
                       const QString &image,
+                      const QString &feedIcon,
                       const bool cached,
+                      const bool fresh,
                       const int read,
                       const int readlater,
                       const int date,
@@ -70,7 +74,9 @@ public:
     inline QString content() const { return m_content; }
     inline QString link() const { return m_link; }
     inline QString image() const { return m_image; }
+    inline QString feedIcon() const { return m_feedIcon; }
     inline bool cached() const { return m_cached; }
+    inline bool fresh() const { return m_fresh; }
     inline int read() const { return m_read; }
     inline int readlater() const { return m_readlater; }
     inline int date() const { return m_date; }
@@ -85,7 +91,9 @@ private:
     QString m_content;
     QString m_link;
     QString m_image;
+    QString m_feedIcon;
     bool m_cached;
+    bool m_fresh;
     int m_read;
     int m_readlater;
     int m_date;
@@ -105,8 +113,9 @@ public:
 
     Q_INVOKABLE void setAllAsUnread();
     Q_INVOKABLE void setAllAsRead();
+
     Q_INVOKABLE int countRead();
-    int countUnread();
+    Q_INVOKABLE int countUnread();
 
     Q_INVOKABLE void createItems(int offset, int limit);
     Q_INVOKABLE int count();

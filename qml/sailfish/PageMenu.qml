@@ -85,11 +85,16 @@ PullDownMenu {
 
     onActiveChanged: {
         if (active) {
+            if (!dm.busy && !fetcher.busy) {
+                bar.open = true;
+            }
             var lastSync = settings.lastUpdateDate;
             if (lastSync>0)
                 label.text = qsTr("Last sync: %1").arg(utils.getHumanFriendlyTimeString(lastSync));
             else
                 label.text = qsTr("Not yet synced");
+        } else {
+            bar.open = false;
         }
     }
 

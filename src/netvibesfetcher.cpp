@@ -837,6 +837,7 @@ void NetvibesFetcher::storeEntries()
                 e.read = read;
                 e.readlater = readlater;
                 e.date = (int) obj["date"].toDouble();
+                //qDebug() << "writeEntry id="+e.id;
                 s->db->writeEntry(obj["feed_id"].toString(), e);
 
                 // Downloading image file
@@ -1123,6 +1124,9 @@ void NetvibesFetcher::finishedTabs()
     QString dashboardId = _dashboardList.takeFirst();
 
     storeTabs(dashboardId);
+
+    // Set current entries as not fresh
+    s->db->updateAllEntriesFreshFlag(0);
 
     if(!_dashboardList.isEmpty()) {
         fetchTabs(_dashboardList.first());

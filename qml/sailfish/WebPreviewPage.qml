@@ -60,12 +60,24 @@ Page {
     SilicaWebView {
         id: view
 
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
+        anchors { top: parent.top; left: parent.left; right: parent.right; bottom: parent.bottom }
+
+        /*height: {
+            if ((dm.busy||fetcher.busy||controlbar.open) && bar.open)
+                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-1.6*Theme.itemSizeMedium;
+            if (dm.busy||fetcher.busy||controlbar.open)
+                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
+            if (bar.open)
+                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
+            return isPortrait ? app.height : app.width;
         }
+
+        Behavior on height {
+            enabled: !root.orientationTransitionRunning
+            NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
+        }
+
+        clip: true*/
 
         url:  {
             if (settings.offlineMode) {
@@ -129,6 +141,8 @@ Page {
         canStar: true
         canOpenBrowser: true
         stared: root.stared
+        transparent: false
+        //y: view.height
 
         onBackClicked: pageStack.pop()
 

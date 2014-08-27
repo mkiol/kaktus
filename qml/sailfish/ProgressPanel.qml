@@ -26,7 +26,7 @@ Item {
 
     property string text
     property bool cancelable: true
-    property bool open: false
+    property bool open: true
     property real progress: 0.0
     property bool transparent: true
     signal closeClicked
@@ -41,19 +41,22 @@ Item {
     Behavior on opacity { FadeAnimation {} }
 
     Rectangle {
-        id: background
         anchors.fill: parent
-        color: root.transparent ? Theme.rgba(Theme.highlightBackgroundColor, 0.2) : Theme.highlightBackgroundColor
+        visible: root.transparent
+
+        /*gradient: Gradient {
+            GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.1) }
+            GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.2) }
+        }*/
+	
+        color: Theme.rgba(Theme.highlightColor, 0.2)
     }
 
-    /*OpacityRampEffect {
-        id: effect
-        slope: 1
-        offset: 0.1
-        direction: OpacityRamp.TopToBottom
-        sourceItem: background
-        enabled: root.transparent
-    }*/
+    Rectangle {
+        anchors.fill: parent
+        visible: !root.transparent
+        color: Theme.highlightBackgroundColor
+    }
 
     function show(text) {
         root.text = text;
@@ -63,6 +66,13 @@ Item {
     function hide() {
         root.open = false;
         root.progress = 0.0;
+    }
+
+    Image {
+        anchors.fill: parent
+        //fillMode: Image.PreserveAspectFit
+        source: "image://theme/graphic-gradient-home-top"
+        visible: root.transparent
     }
 
     Rectangle {

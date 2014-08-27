@@ -86,10 +86,13 @@ public:
     void init();
 
     Q_INVOKABLE void updateFlags();
+
     Q_INVOKABLE void markAsUnread(int row);
     Q_INVOKABLE void markAsRead(int row);
-    Q_INVOKABLE void markAllAsUnread();
-    Q_INVOKABLE void markAllAsRead();
+
+    //Q_INVOKABLE void setAllAsUnread();
+    //Q_INVOKABLE void setAllAsRead();
+
     Q_INVOKABLE int countRead();
     Q_INVOKABLE int countUnread();
 

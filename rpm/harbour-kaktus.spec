@@ -13,8 +13,8 @@ Name:       harbour-kaktus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
-Version:    1.1.0
-Release:    5
+Version:    1.2.0
+Release:    0
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,12 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Wed Aug 27 2014 Michal Kosciesza 1.2.0-0
+- Posibility to browse Items by Tabs (see "Browsing Mode" option)
+- Indicator for Items that have been added since last sync
+- Possibility to delete cache data (see "Cache size" option)
+- Many UI improvements
 
 * Tue Aug 12 2014 Michal Kosciesza 1.1.0-5
 - New Offline mode indicator

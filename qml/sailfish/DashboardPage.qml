@@ -42,7 +42,11 @@ Page {
         clip:true
 
         height: {
+            if ((dm.busy||fetcher.busy) && bar.open)
+                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-1.6*Theme.itemSizeMedium;
             if (dm.busy||fetcher.busy)
+                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
+            if (bar.open)
                 return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
             return isPortrait ? app.height : app.width;
         }
