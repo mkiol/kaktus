@@ -46,7 +46,8 @@ public:
         StreamIdRole,
         UnreadRole,
         ReadRole,
-        ReadlaterRole
+        ReadlaterRole,
+        FreshRole
     };
 
 public:
@@ -61,6 +62,7 @@ public:
                       int unread,
                       int read,
                       int readlater,
+                      int fresh,
                       QObject *parent = 0);
     QVariant data(int role) const;
     QHash<int, QByteArray> roleNames() const;
@@ -75,6 +77,7 @@ public:
     inline int unread() const { return m_unread; }
     inline int read() const { return m_read; }
     inline int readlater() const { return m_readlater; }
+    inline int fresh() const { return m_fresh; }
 
     void setReadlater(int value);
     void setUnread(int value);
@@ -91,6 +94,7 @@ private:
     int m_unread;
     int m_read;
     int m_readlater;
+    int m_fresh;
 };
 
 class FeedModel : public ListModel

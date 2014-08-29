@@ -211,6 +211,8 @@ public:
     int readEntriesUnreadByTabCount(const QString &tabId);
     int readEntriesReadByFeedCount(const QString &feedId);
     int readEntriesReadByTabCount(const QString &tabId);
+    int readEntriesFreshByFeedCount(const QString &feedId);
+    int readEntriesFreshByTabCount(const QString &tabId);
 
     int readEntriesReadCount();
     int readEntriesUnreadCount();

@@ -92,6 +92,18 @@ Page {
             id: listItem
             contentHeight: item.height + 2 * Theme.paddingMedium
 
+            Rectangle {
+                anchors.top: parent.top; anchors.left: parent.left
+                width: Theme.paddingSmall; height: item.height
+                visible: model.fresh
+                radius: 10
+
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
+                    GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
+                }
+            }
+
             Column {
                 id: item
                 spacing: 0.5*Theme.paddingSmall

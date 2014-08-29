@@ -57,7 +57,8 @@ void FeedModel::createItems(const QString &tabId)
                               //(*i).read,
                               _db->readEntriesUnreadByFeedCount((*i).id),
                               _db->readEntriesReadByFeedCount((*i).id),
-                              (*i).readlater
+                              (*i).readlater,
+                              _db->readEntriesFreshByFeedCount((*i).id)
                              ));
         ++i;
     }
@@ -146,6 +147,7 @@ FeedItem::FeedItem(const QString &uid,
                    int unread,
                    int read,
                    int readlater,
+                   int fresh,
                    QObject *parent) :
     ListItem(parent),
     m_uid(uid),
@@ -157,7 +159,8 @@ FeedItem::FeedItem(const QString &uid,
     m_streamid(streamId),
     m_unread(unread),
     m_read(read),
-    m_readlater(readlater)
+    m_readlater(readlater),
+    m_fresh(fresh)
 {}
 
 QHash<int, QByteArray> FeedItem::roleNames() const
@@ -173,6 +176,7 @@ QHash<int, QByteArray> FeedItem::roleNames() const
     names[UnreadRole] = "unread";
     names[ReadRole] = "read";
     names[ReadlaterRole] = "readlater";
+    names[FreshRole] = "fresh";
     return names;
 }
 
@@ -199,6 +203,8 @@ QVariant FeedItem::data(int role) const
         return read();
     case ReadlaterRole:
         return readlater();
+    case FreshRole:
+        return fresh();
     default:
         return QVariant();
     }

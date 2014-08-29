@@ -50,13 +50,33 @@ ListItem {
     menu: contextMenu
     contentHeight: item.height + 2 * Theme.paddingMedium
 
-    Rectangle {
+    Image {
         id: background
+        visible: root.transparent
         anchors.fill: parent
-        color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
+        source: "image://theme/graphic-avatar-text-back?"+Theme.highlightBackgroundColor
+
     }
 
     Rectangle {
+        anchors.top: parent.top; anchors.left: parent.left
+        width: Theme.paddingSmall; height: titleLabel.height
+        visible: root.fresh
+        radius: 10
+
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
+            GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
+        }
+    }
+
+    /*Rectangle {
+        id: background
+        anchors.fill: parent
+        color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
+    }*/
+
+    /*Rectangle {
         anchors.top: parent.top; anchors.bottom: parent.bottom; anchors.left: parent.left
         //color: Theme.highlightColor
         width: Theme.paddingSmall
@@ -66,16 +86,16 @@ ListItem {
             GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
             GradientStop { position: 0.4; color: Theme.rgba(Theme.highlightColor, 0.0) }
         }
-    }
+    }*/
 
-    OpacityRampEffect {
+    /*OpacityRampEffect {
         id: effect
         slope: 1
         offset: 0.1
         //direction: fresh ? OpacityRamp.LeftToRight : OpacityRamp.BottomToTop
         direction: OpacityRamp.BottomToTop
         sourceItem: background
-    }
+    }*/
 
     BackgroundItem {
         id: star

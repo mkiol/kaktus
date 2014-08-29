@@ -34,13 +34,8 @@ Page {
         return Orientation.Landscape | Orientation.Portrait;
     }
 
-    //property int read
-    //property int unread
-
     ActiveDetector {
-        onActivated: {
-            tabModel.updateFlags();
-        }
+        onActivated: tabModel.updateFlags();
     }
 
     SilicaListView {
@@ -105,6 +100,18 @@ Page {
                     return true;
                 }
 
+                Rectangle {
+                    anchors.top: parent.top; anchors.left: parent.left
+                    width: Theme.paddingSmall; height: item.height
+                    visible: model.fresh
+                    radius: 10
+
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
+                        GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
+                    }
+                }
+
                 Column {
                     id: item
 
@@ -140,7 +147,6 @@ Page {
                         id: unreadlabel
                         anchors.centerIn: parent
                         text: model.unread
-                        //color: listItem.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
                         color: Theme.highlightColor
                     }
                 }

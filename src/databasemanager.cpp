@@ -1871,6 +1871,56 @@ int DatabaseManager::readEntriesReadByTabCount(const QString &tabId)
     return count;
 }
 
+int DatabaseManager::readEntriesFreshByFeedCount(const QString &feedId)
+{
+    int count = 0;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT count(*) FROM entries "
+                                      "WHERE feed_id='%1' AND fresh=1;")
+                              .arg(feedId));
+
+        if (!ret) {
+            qWarning() << "SQL error!";
+        }
+
+        while(query.next()) {
+            count = query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return count;
+}
+
+int DatabaseManager::readEntriesFreshByTabCount(const QString &tabId)
+{
+    int count = 0;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT count(*) FROM entries as e, feeds as f "
+                                      "WHERE e.fresh=1 AND e.feed_id=f.id AND f.tab_id='%1';")
+                              .arg(tabId));
+
+        if (!ret) {
+            qWarning() << "SQL error!";
+        }
+
+        while(query.next()) {
+            count = query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return count;
+}
+
+
+
 int DatabaseManager::readFeedsCount()
 {
     int count = 0;

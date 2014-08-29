@@ -83,7 +83,7 @@ Item {
         color: root.transparent ? Theme.rgba(Theme.highlightBackgroundColor, 0.3) : Theme.rgba(Theme.highlightDimmerColor, 0.2)
 
         Behavior on width {
-            enabled: root.opacity == 1.0
+            //enabled: root.opacity == 1.0
             SmoothedAnimation {
                 velocity: 480; duration: 200
             }

@@ -221,3 +221,9 @@ ApplicationWindow {
     }
 
 }
+
+//fillMode: Image.PreserveAspectFit
+//source: "image://theme/graphic-gradient-edge?"+Theme.highlightBackgroundColor
+//source: "image://theme/graphic-gradient-home-bottom?"+Theme.highlightBackgroundColor
+//source: "image://theme/graphic-gradient-home-top?"+Theme.highlightBackgroundColor
+

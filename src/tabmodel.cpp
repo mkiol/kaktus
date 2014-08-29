@@ -41,7 +41,7 @@ void TabModel::init()
 void TabModel::createItems(const QString &dashboardId)
 {
     // Readlater extra Tab, id="readlater"
-    appendRow(new TabItem("readlater",tr("Saved"),"",0,0,0));
+    appendRow(new TabItem("readlater",tr("Saved"),"",0,0,0,0));
 
     QList<DatabaseManager::Tab> list = _db->readTabs(dashboardId);
     QList<DatabaseManager::Tab>::iterator i = list.begin();
@@ -51,27 +51,12 @@ void TabModel::createItems(const QString &dashboardId)
                               (*i).icon,
                               _db->readEntriesUnreadByTabCount((*i).id),
                               _db->readEntriesReadByTabCount((*i).id),
-                              0
+                              0,
+                              _db->readEntriesFreshByTabCount((*i).id)
                              ));
         ++i;
     }
 }
-
-/*void TabModel::sort()
-{
-}
-
-void TabModel::updateFlags()
-{
-    int i, size = this->rowCount();
-    for (i=0; i<size; ++i) {
-        TabItem* item = static_cast<TabItem*>(this->readRow(i));
-        DatabaseManager::Flags flags = _db->readTabFlags(item->id());
-        item->setUnread(flags.unread);
-        //item.setRead(flags.read);
-        //item.setReadlater(flags.readlater);
-    }
-}*/
 
 void TabModel::updateFlags()
 {
@@ -109,22 +94,6 @@ void TabModel::markAsRead(int row)
     _db->writeAction(action);
 }
 
-/*void TabModel::markAllAsUnread()
-{
-    int l = this->rowCount();
-    for (int i=0; i<l; ++i) {
-        markAsUnread(i);
-    }
-}
-
-void TabModel::markAllAsRead()
-{
-    int l = this->rowCount();
-    for (int i=0; i<l; ++i) {
-        markAsRead(i);
-    }
-}*/
-
 int TabModel::countRead()
 {
     return _db->readEntriesReadCount();
@@ -143,6 +112,7 @@ TabItem::TabItem(const QString &uid,
                    int unread,
                    int read,
                    int readlater,
+                   int fresh,
                    QObject *parent) :
     ListItem(parent),
     m_uid(uid),
@@ -150,7 +120,8 @@ TabItem::TabItem(const QString &uid,
     m_icon(icon),
     m_unread(unread),
     m_read(read),
-    m_readlater(readlater)
+    m_readlater(readlater),
+    m_fresh(fresh)
 {}
 
 QHash<int, QByteArray> TabItem::roleNames() const
@@ -162,6 +133,7 @@ QHash<int, QByteArray> TabItem::roleNames() const
     names[UnreadRole] = "unread";
     names[ReadRole] = "read";
     names[ReadlaterRole] = "readlater";
+    names[FreshRole] = "fresh";
     return names;
 }
 
@@ -180,6 +152,8 @@ QVariant TabItem::data(int role) const
         return read();
     case ReadlaterRole:
         return readlater();
+    case FreshRole:
+        return fresh();
     default:
         return QVariant();
     }

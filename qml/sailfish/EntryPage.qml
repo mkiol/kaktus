@@ -104,46 +104,68 @@ Page {
             }
 
             onClicked: {
+                if (timer.running) {
+                    // Double click
+                    timer.stop();
 
-                // Not allowed while Syncing
-                if (dm.busy || fetcher.busy) {
-                    notification.show(qsTr("Please wait until Sync finishes"));
-                    return;
-                }
-
-                // Entry not cached and offline mode enabled
-                if (settings.offlineMode && !model.cached) {
-                    notification.show(qsTr("Offline version not available"));
-                    return;
-                }
-
-                // Switch to Offline mode if no network
-                if (!settings.offlineMode && !dm.online) {
-                    if (model.cached) {
-                        // Entry cached
-                        notification.show(qsTr("Network connection is unavailable\nSwitching to Offline mode"));
-                        settings.offlineMode = true;
+                    if (model.read==0) {
+                        entryModel.setData(model.index, "read", 1);
                     } else {
-                        // Entry not cached
-                        notification.show(qsTr("Network connection is unavailable"));
+                        entryModel.setData(model.index, "read", 0);
+                    }
+
+                } else {
+                    timer.start();
+                }
+            }
+
+            Timer {
+                id: timer
+                interval: 400
+                onTriggered: {
+                    // One click
+
+                    // Not allowed while Syncing
+                    if (dm.busy || fetcher.busy) {
+                        notification.show(qsTr("Please wait until Sync finishes"));
                         return;
                     }
-                }
 
-                expanded = false;
-                var onlineUrl = model.link;
-                var offlineUrl = cache.getUrlbyId(model.uid);
-                pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),
-                               {"entryId": model.uid,
-                                   "onlineUrl": onlineUrl,
-                                   "offlineUrl": offlineUrl,
-                                   "title": model.title,
-                                   "stared": model.readlater===1,
-                                   "index": model.index,
-                                   "feedindex": root.index,
-                                   "read" : model.read===1,
-                                   "cached" : model.cached
-                               });
+                    // Entry not cached and offline mode enabled
+                    if (settings.offlineMode && !model.cached) {
+                        notification.show(qsTr("Offline version not available"));
+                        return;
+                    }
+
+                    // Switch to Offline mode if no network
+                    if (!settings.offlineMode && !dm.online) {
+                        if (model.cached) {
+                            // Entry cached
+                            notification.show(qsTr("Network connection is unavailable\nSwitching to Offline mode"));
+                            settings.offlineMode = true;
+                        } else {
+                            // Entry not cached
+                            notification.show(qsTr("Network connection is unavailable"));
+                            return;
+                        }
+                    }
+
+                    expanded = false;
+                    var onlineUrl = model.link;
+                    var offlineUrl = cache.getUrlbyId(model.uid);
+                    pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),
+                                   {"entryId": model.uid,
+                                       "onlineUrl": onlineUrl,
+                                       "offlineUrl": offlineUrl,
+                                       "title": model.title,
+                                       "stared": model.readlater===1,
+                                       "index": model.index,
+                                       "feedindex": root.index,
+                                       "read" : model.read===1,
+                                       "cached" : model.cached
+                                   });
+
+                }
             }
 
             onMarkedAsRead: {
