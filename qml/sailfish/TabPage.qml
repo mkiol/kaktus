@@ -58,8 +58,19 @@ Page {
 
         PageMenu {
             id: menu
+            showAbout: true
             showMarkAsRead: false
             showMarkAsUnread: false
+
+            onMarkedAsRead: tabModel.setAllAsRead()
+            onMarkedAsUnread: tabModel.setAllAsUnread()
+
+            onActiveChanged: {
+                if (active) {
+                    showMarkAsRead = tabModel.countUnread()!=0;
+                    showMarkAsUnread = !showMarkAsRead
+                }
+            }
         }
 
         header: PageHeader {

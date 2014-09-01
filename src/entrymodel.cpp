@@ -18,12 +18,10 @@
 */
 
 #include <QList>
-//#include <QStringList>
 #include <QDebug>
 #include <QModelIndex>
 #include <QTextDocument>
 #include <QChar>
-//#include <QDateTime>
 #include <QRegExp>
 
 #include "entrymodel.h"
@@ -68,9 +66,9 @@ void EntryModel::createItems(int offset, int limit)
         case 0:
             // View mode: Tabs->Feeds->Entries
             if (s->getShowOnlyUnread())
-                list = _db->readEntriesUnread(_feedId,offset,limit);
+                list = _db->readEntriesUnreadByFeed(_feedId,offset,limit);
             else
-                list = _db->readEntries(_feedId,offset,limit);
+                list = _db->readEntriesByFeed(_feedId,offset,limit);
             break;
         case 1:
             // View mode: Tabs->Entries
@@ -78,6 +76,20 @@ void EntryModel::createItems(int offset, int limit)
                 list = _db->readEntriesUnreadByTab(_feedId,offset,limit);
             else
                 list = _db->readEntriesByTab(_feedId,offset,limit);
+            break;
+        case 2:
+            // View mode: Feeds->Entries
+            if (s->getShowOnlyUnread())
+                list = _db->readEntriesUnreadByFeed(_feedId,offset,limit);
+            else
+                list = _db->readEntriesByFeed(_feedId,offset,limit);
+            break;
+        case 3:
+            // View mode: Entries
+            if (s->getShowOnlyUnread())
+                list = _db->readEntriesUnread(s->getDashboardInUse(),offset,limit);
+            else
+                list = _db->readEntries(s->getDashboardInUse(),offset,limit);
             break;
         }
     }
@@ -147,11 +159,11 @@ void EntryModel::setAllAsUnread()
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        _db->updateEntriesReadFlag(_feedId,0);
+        _db->updateEntriesReadFlagByFeed(_feedId,0);
 
         action.type = DatabaseManager::UnSetFeedReadAll;
         action.feedId = _feedId;
-        action.olderDate = _db->readFeedLastUpadate(_feedId);
+        action.olderDate = _db->readFeedLastUpdateByFeed(_feedId);
 
         break;
     case 1:
@@ -161,6 +173,24 @@ void EntryModel::setAllAsUnread()
         action.type = DatabaseManager::UnSetTabReadAll;
         action.feedId = _feedId;
         action.olderDate = _db->readTabLastUpadate(_feedId);
+
+        break;
+    case 2:
+        // View mode: Feeds->Entries
+        _db->updateEntriesReadFlagByFeed(_feedId,0);
+
+        action.type = DatabaseManager::UnSetFeedReadAll;
+        action.feedId = _feedId;
+        action.olderDate = _db->readFeedLastUpdateByFeed(_feedId);
+
+        break;
+    case 3:
+        // View mode: Entries
+        _db->updateEntriesReadFlag(s->getDashboardInUse(),0);
+
+        action.type = DatabaseManager::UnSetAllRead;
+        action.feedId = s->getDashboardInUse();
+        action.olderDate = _db->readFeedLastUpdate(s->getDashboardInUse());
 
         break;
     }
@@ -183,11 +213,11 @@ void EntryModel::setAllAsRead()
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        _db->updateEntriesReadFlag(_feedId,1);
+        _db->updateEntriesReadFlagByFeed(_feedId,1);
 
         action.type = DatabaseManager::SetFeedReadAll;
         action.feedId = _feedId;
-        action.olderDate = _db->readFeedLastUpadate(_feedId);
+        action.olderDate = _db->readFeedLastUpdateByFeed(_feedId);
 
         break;
     case 1:
@@ -199,6 +229,24 @@ void EntryModel::setAllAsRead()
         action.olderDate = _db->readTabLastUpadate(_feedId);
 
         break;
+    case 2:
+        // View mode: Feeds->Entries
+        _db->updateEntriesReadFlagByFeed(_feedId,1);
+
+        action.type = DatabaseManager::SetFeedReadAll;
+        action.feedId = _feedId;
+        action.olderDate = _db->readFeedLastUpdateByFeed(_feedId);
+
+        break;
+    case 3:
+        // View mode: Entries
+        _db->updateEntriesReadFlag(s->getDashboardInUse(),1);
+
+        action.type = DatabaseManager::SetAllRead;
+        action.feedId = s->getDashboardInUse();
+        action.olderDate = _db->readFeedLastUpdate(s->getDashboardInUse());
+
+        break;
     }
 
     _db->writeAction(action);
@@ -206,13 +254,6 @@ void EntryModel::setAllAsRead()
 
 int EntryModel::countRead()
 {
-    /*int read = 0; int l = this->rowCount();
-    for (int i=0; i<l; ++i) {
-        EntryItem* item = static_cast<EntryItem*>(readRow(i));
-        read=read+item->read();
-    }
-    return read;*/
-
     Settings *s = Settings::instance();
     int mode = s->getViewMode();
     switch (mode) {
@@ -223,6 +264,14 @@ int EntryModel::countRead()
     case 1:
         // View mode: Tabs->Entries
         return _db->readEntriesReadByTabCount(_feedId);
+        break;
+    case 2:
+        // View mode: Feeds->Entries
+        return _db->readEntriesReadByFeedCount(_feedId);
+        break;
+    case 3:
+        // View mode: Entries
+        return _db->readEntriesReadCount(s->getDashboardInUse());
         break;
     }
 
@@ -249,6 +298,14 @@ int EntryModel::countUnread()
     case 1:
         // View mode: Tabs->Entries
         return _db->readEntriesUnreadByTabCount(_feedId);
+        break;
+    case 2:
+        // View mode: Feeds->Entries
+        return _db->readEntriesUnreadByFeedCount(_feedId);
+        break;
+    case 3:
+        // View mode: Entries
+        return _db->readEntriesUnreadCount(s->getDashboardInUse());
         break;
     }
 

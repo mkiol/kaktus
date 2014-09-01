@@ -42,7 +42,28 @@ void FeedModel::init()
 
 void FeedModel::createItems(const QString &tabId)
 {
-    QList<DatabaseManager::Feed> list = _db->readFeeds(tabId);
+    QList<DatabaseManager::Feed> list;
+    Settings *s = Settings::instance();
+    int mode = s->getViewMode();
+    switch (mode) {
+    case 0:
+        // View mode: Tabs->Feeds->Entries
+        list = _db->readFeedsByTab(tabId);
+        break;
+    case 1:
+        // View mode: Tabs->Entries
+        list = _db->readFeedsByTab(tabId);
+        break;
+    case 2:
+        // View mode: Feeds->Entries
+        list = _db->readFeeds(s->getDashboardInUse());
+        break;
+    case 3:
+        // View mode: Entries
+        qWarning() << "Error: This should never happened";
+        return;
+    }
+
     QList<DatabaseManager::Feed>::iterator i = list.begin();
     while( i != list.end() ) {
         //qDebug() << "feed: " << (*i).id << (*i).title << (*i).streamId;
@@ -73,7 +94,7 @@ void FeedModel::markAsUnread(int row)
     DatabaseManager::Action action;
     action.type = DatabaseManager::UnSetFeedReadAll;
     action.feedId = item->id();
-    action.olderDate = _db->readFeedLastUpadate(item->id());
+    action.olderDate = _db->readFeedLastUpdateByFeed(item->id());
     _db->writeAction(action);
 }
 
@@ -86,29 +107,139 @@ void FeedModel::markAsRead(int row)
     DatabaseManager::Action action;
     action.type = DatabaseManager::SetFeedReadAll;
     action.feedId = item->id();
-    action.olderDate = _db->readFeedLastUpadate(item->id());
+    action.olderDate = _db->readFeedLastUpdateByFeed(item->id());
     _db->writeAction(action);
 }
 
 int FeedModel::countRead()
 {
-    return _db->readEntriesReadByTabCount(_tabId);
+    Settings *s = Settings::instance();
+    int mode = s->getViewMode();
+    switch (mode) {
+    case 0:
+        // View mode: Tabs->Feeds->Entries
+        return _db->readEntriesReadByTabCount(_tabId);
+        break;
+    case 1:
+        // View mode: Tabs->Entries
+        qWarning() << "Error: This should never happened";
+        return 0;
+    case 2:
+        // View mode: Feeds->Entries
+        return _db->readEntriesReadCount(s->getDashboardInUse());
+    case 3:
+        // View mode: Entries
+        qWarning() << "Error: This should never happened";
+        return 0;
+    }
+
+    return 0;
 }
 
 int FeedModel::countUnread()
 {
-    return _db->readEntriesUnreadByTabCount(_tabId);
+    Settings *s = Settings::instance();
+    int mode = s->getViewMode();
+    switch (mode) {
+    case 0:
+        // View mode: Tabs->Feeds->Entries
+        return _db->readEntriesUnreadByTabCount(_tabId);
+        break;
+    case 1:
+        // View mode: Tabs->Entries
+        qWarning() << "Error: This should never happened";
+        return 0;
+    case 2:
+        // View mode: Feeds->Entries
+        return _db->readEntriesUnreadCount(s->getDashboardInUse());
+    case 3:
+        // View mode: Entries
+        qWarning() << "Error: This should never happened";
+        return 0;
+    }
+
+    return 0;
 }
 
 void FeedModel::setAllAsUnread()
 {
-    _db->updateEntryReadFlagByTab(_tabId,0);
+    Settings *s = Settings::instance();
+    DatabaseManager::Action action;
+    int mode = s->getViewMode();
+    switch (mode) {
+    case 0:
+        // View mode: Tabs->Feeds->Entries
+        _db->updateEntryReadFlagByTab(_tabId,0);
+
+        action.type = DatabaseManager::UnSetTabReadAll;
+        action.feedId = _tabId;
+        action.olderDate = _db->readTabLastUpadate(_tabId);
+
+        break;
+    case 1:
+        // View mode: Tabs->Entries
+        qWarning() << "Error: This should never happened";
+
+        return;
+    case 2:
+        // View mode: Feeds->Entries
+        _db->updateEntriesReadFlag(s->getDashboardInUse(),0);
+
+        action.type = DatabaseManager::UnSetAllRead;
+        action.feedId = s->getDashboardInUse();
+        action.olderDate = _db->readFeedLastUpdate(s->getDashboardInUse());
+
+        break;
+    case 3:
+        // View mode: Entries
+        qWarning() << "Error: This should never happened";
+
+        return;
+    }
+
     updateFlags();
 
+    _db->writeAction(action);
+}
+
+void FeedModel::setAllAsRead()
+{
+    Settings *s = Settings::instance();
     DatabaseManager::Action action;
-    action.type = DatabaseManager::UnSetTabReadAll;
-    action.feedId = _tabId;
-    action.olderDate = _db->readTabLastUpadate(_tabId);
+    int mode = s->getViewMode();
+    switch (mode) {
+    case 0:
+        // View mode: Tabs->Feeds->Entries
+        _db->updateEntryReadFlagByTab(_tabId,1);
+
+        action.type = DatabaseManager::SetTabReadAll;
+        action.feedId = _tabId;
+        action.olderDate = _db->readTabLastUpadate(_tabId);
+
+        break;
+    case 1:
+        // View mode: Tabs->Entries
+        qWarning() << "Error: This should never happened";
+
+        return;
+    case 2:
+        // View mode: Feeds->Entries
+        _db->updateEntriesReadFlag(s->getDashboardInUse(),1);
+
+        action.type = DatabaseManager::SetAllRead;
+        action.feedId = s->getDashboardInUse();
+        action.olderDate = _db->readFeedLastUpdate(s->getDashboardInUse());
+
+        break;
+    case 3:
+        // View mode: Entries
+        qWarning() << "Error: This should never happened";
+
+        return;
+    }
+
+    updateFlags();
+
     _db->writeAction(action);
 }
 
@@ -121,19 +252,6 @@ void FeedModel::updateFlags()
         item->setRead(_db->readEntriesReadByFeedCount(item->uid()));
     }
 }
-
-void FeedModel::setAllAsRead()
-{
-    _db->updateEntryReadFlagByTab(_tabId,1);
-    updateFlags();
-
-    DatabaseManager::Action action;
-    action.type = DatabaseManager::SetTabReadAll;
-    action.feedId = _tabId;
-    action.olderDate = _db->readTabLastUpadate(_tabId);
-    _db->writeAction(action);
-}
-
 
 // ----------------------------------------------------------------
 

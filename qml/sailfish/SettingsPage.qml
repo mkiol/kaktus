@@ -209,7 +209,7 @@ Page {
             }
 
             TextSwitch {
-                text: qsTr("Cache items")
+                text: qsTr("Cache articles")
                 description: qsTr("After sync the content of all items will be downloaded and cached for access in Offline mode.")
                 Component.onCompleted: {
                     checked = settings.getAutoDownloadOnUpdate();
@@ -229,10 +229,10 @@ Page {
                 currentIndex: settings.viewMode
 
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("Tabs \u2192 Feeds \u2192 Items") }
-                    MenuItem { text: qsTr("Tabs \u2192 Items") }
-                    //MenuItem { text: qsTr("Feeds \u2192 Items") }
-                    //MenuItem { text: qsTr("Items") }
+                    MenuItem { text: qsTr("Tabs \u2192 Feeds \u2192 Articles") }
+                    MenuItem { text: qsTr("Tabs \u2192 Articles") }
+                    MenuItem { text: qsTr("Feeds \u2192 Articles") }
+                    MenuItem { text: qsTr("All articles") }
                 }
 
                 onCurrentIndexChanged: {
@@ -250,7 +250,7 @@ Page {
             }
 
             TextSwitch {
-                text: qsTr("Show only unread items")
+                text: qsTr("Show only unread articles")
                 onCheckedChanged: {
                     settings.showOnlyUnread = checked;
                 }
@@ -270,7 +270,7 @@ Page {
             }
 
             TextSwitch {
-                text: qsTr("Show Tab with saved items")
+                text: qsTr("Show Tab with saved articles")
                 onCheckedChanged: {
                     settings.showStarredTab = checked;
                 }

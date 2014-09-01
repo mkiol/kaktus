@@ -48,17 +48,14 @@ public:
 
     Q_INVOKABLE void setEntryModel(const QString &feedId);
     Q_INVOKABLE void setFeedModel(const QString &tabId);
-    Q_INVOKABLE void setTabModel(const QString &dashboardId);
+    Q_INVOKABLE void setRootModel();
     Q_INVOKABLE void setDashboardModel();
     Q_INVOKABLE QList<QString> dashboards();
     Q_INVOKABLE void copyToClipboard(const QString &text);
     Q_INVOKABLE QString defaultDashboardName();
     Q_INVOKABLE QString getHumanFriendlyTimeString(int date);
     Q_INVOKABLE QString getHumanFriendlySizeString(int size);
-    //Q_INVOKABLE int getUnreadItemsCount();
-    /*Q_INVOKABLE bool showNotification(const QString previewSummary,
-                                      const QString previewBody = "",
-                                      const QString icon = "");*/
+    Q_INVOKABLE int countUnread();
 
 public slots:
     void updateModels();

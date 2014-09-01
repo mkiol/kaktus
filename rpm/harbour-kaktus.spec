@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.2.0
-Release:    0
+Release:    1
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -76,9 +76,14 @@ desktop-file-install --delete-original       \
 
 %changelog
 
+* Mon Sep 01 2014 Michal Kosciesza 1.2.0-1
+- New "Browsing Mode" options e.g. Option to show all feeds in one list
+- Double-click marks article as read/unread
+- Changelog page
+
 * Wed Aug 27 2014 Michal Kosciesza 1.2.0-0
-- Posibility to browse Items by Tabs (see "Browsing Mode" option)
-- Indicator for Items that have been added since last sync
+- Posibility to browse articles by Tabs (see "Browsing Mode" option)
+- Indicator for articles that have been added since last sync
 - Possibility to delete cache data (see "Cache size" option)
 - Many UI improvements
 
@@ -90,7 +95,7 @@ desktop-file-install --delete-original       \
 - Polkit update
 
 * Fri Jul 11 2014 Michal Kosciesza 1.1.0-3
-- Thumbnails in items view
+- Thumbnails in articles list
 - 'Mark as read' in Pull-down menu
 - Offline mode indicator in Pull-down menu
 - FIX: Sync Failed on every first sync attempt
@@ -108,21 +113,21 @@ desktop-file-install --delete-original       \
 * Sat Apr 19 2014 Michal Kosciesza 1.0.4-1
 - Landscape mode
 - 'Last sync' info on Cover
-- Possibility to mark all items in Tab as read/unread
+- Possibility to mark all articles in Tab as read/unread
 
 * Mon Apr 14 2014 Michal Kosciesza 1.0.3-4
 - Version for Openrepos.org
 
 * Mon Apr 14 2014 Michal Kosciesza 1.0.3-3
-- Showing number of unread items on Cover
+- Showing number of unread articles on Cover
 - Icon update
 
 * Sun Apr 13 2014 Michal Kosciesza 1.0.3-2
-- Showing number of unread items on Tabs
+- Showing number of unread articles on Tabs
 
 * Sat Apr 12 2014 Michal Kosciesza 1.0.3-1
 - 'Show only unread' option
-- Possibility to mark all items in Feed as read/unread
+- Possibility to mark all articles in Feed as read/unread
 - Auto cache cleaning algorithm
 - Cache size view in Settings
 - UI improvements
@@ -132,7 +137,7 @@ desktop-file-install --delete-original       \
 - Better error handling when ne twork connection fails
 * Sun Mar 30 2014 Michal Kosciesza 1.0.1-1
 - UI improvements
-- Extra Tab with Saved items
+- Extra Tab with Saved articles
 
 * Mon Mar 25 2014 Michal Kosciesza 1.0.0-1
 - First release

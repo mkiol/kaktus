@@ -96,12 +96,46 @@ void TabModel::markAsRead(int row)
 
 int TabModel::countRead()
 {
-    return _db->readEntriesReadCount();
+    Settings *s = Settings::instance();
+    return _db->readEntriesReadCount(s->getDashboardInUse());
 }
 
 int TabModel::countUnread()
 {
-    return _db->readEntriesUnreadCount();
+    Settings *s = Settings::instance();
+    return _db->readEntriesUnreadCount(s->getDashboardInUse());
+}
+
+void TabModel::setAllAsUnread()
+{
+    Settings *s = Settings::instance();
+    DatabaseManager::Action action;
+
+    _db->updateEntriesReadFlag(s->getDashboardInUse(),0);
+
+    action.type = DatabaseManager::UnSetAllRead;
+    action.feedId = s->getDashboardInUse();
+    action.olderDate = _db->readFeedLastUpdate(s->getDashboardInUse());
+
+    updateFlags();
+
+    _db->writeAction(action);
+}
+
+void TabModel::setAllAsRead()
+{
+    Settings *s = Settings::instance();
+    DatabaseManager::Action action;
+
+    _db->updateEntriesReadFlag(s->getDashboardInUse(),1);
+
+    action.type = DatabaseManager::SetAllRead;
+    action.feedId = s->getDashboardInUse();
+    action.olderDate = _db->readFeedLastUpdate(s->getDashboardInUse());
+
+    updateFlags();
+
+    _db->writeAction(action);
 }
 
 // ----------------------------------------------------------------

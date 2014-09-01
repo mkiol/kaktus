@@ -29,6 +29,24 @@ ApplicationWindow {
         db.init();
     }
 
+    function resetView() {
+        utils.setRootModel();
+        switch (settings.viewMode) {
+        case 0:
+            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            break;
+        case 1:
+            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            break;
+        case 2:
+            pageStack.replaceAbove(null,Qt.resolvedUrl("FeedPage.qml"),{"title": qsTr("Feeds")});
+            break;
+        case 3:
+            pageStack.replaceAbove(null,Qt.resolvedUrl("EntryPage.qml"));
+            break;
+        }
+    }
+
     Connections {
         target: settings
 
@@ -39,13 +57,12 @@ ApplicationWindow {
         }
 
         onDashboardInUseChanged: {
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            resetView();
             notification.show(qsTr("Dashboard changed!"));
         }
 
         onViewModeChanged: {
-            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            resetView();
             notification.show(qsTr("Browsing mode changed!"));
         }
     }
@@ -60,14 +77,16 @@ ApplicationWindow {
 
         onEmpty: {
             dm.removeCache();
-            utils.updateModels();
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            //utils.updateModels();
+            //utils.setTabModel(settings.dashboardInUse);
+            //pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            resetView();
         }
 
         onNotEmpty: {
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            //utils.setTabModel(settings.dashboardInUse);
+            //pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            resetView()
         }
     }
 
@@ -97,8 +116,7 @@ ApplicationWindow {
 
         onReady: {
             //notification.show(qsTr("Sync done!"));
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+            resetView();
 
             if (settings.getAutoDownloadOnUpdate())
                 dm.startFeedDownload();

@@ -62,30 +62,23 @@ Page {
 
         PageMenu {
             id: menu
-
-            showAbout: false
+            showAbout: settings.viewMode==2 ? true : false
             showMarkAsRead: false
             showMarkAsUnread: false
 
-            onMarkedAsRead:    {
-                feedModel.setAllAsRead();
-            }
-
-            onMarkedAsUnread: {
-                feedModel.setAllAsUnread();
-            }
+            onMarkedAsRead: feedModel.setAllAsRead()
+            onMarkedAsUnread: feedModel.setAllAsUnread()
 
             onActiveChanged: {
                 if (active) {
-                    //showMarkAsUnread = feedModel.countRead()!=0;
                     showMarkAsRead = feedModel.countUnread()!=0;
-                    console.log(showMarkAsRead);
+                    showMarkAsUnread = !showMarkAsRead
                 }
             }
         }
 
         header: PageHeader {
-            title: root.title
+            title: settings.viewMode==2 ? qsTr("Feeds") : root.title
         }
 
         delegate: ListItem {

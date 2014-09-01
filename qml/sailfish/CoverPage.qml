@@ -29,7 +29,7 @@ CoverBackground {
 
     onStatusChanged: {
         if (status==Cover.Active) {
-            root.unread = tabModel.countUnread();
+            root.unread = utils.countUnread();
             lastupdateLabel.text = utils.getHumanFriendlyTimeString(settings.lastUpdateDate);
             timer.setInterval();
             timer.restart()

@@ -103,7 +103,9 @@ public:
         SetFeedReadAll = 30,
         UnSetFeedReadAll= 31,
         SetTabReadAll = 40,
-        UnSetTabReadAll= 41
+        UnSetTabReadAll= 41,
+        SetAllRead = 51,
+        UnSetAllRead = 50
     };
 
     struct Action {
@@ -135,7 +137,9 @@ public:
     bool writeTab(const QString &dashboardId, const Tab &tab);
     bool writeFeed(const QString &tabId, const Feed &feed);
 
-    bool updateEntriesReadFlag(const QString &feedId, int read);
+    bool updateEntriesReadFlagByFeed(const QString &feedId, int read);
+    bool updateEntriesReadFlag(const QString &dashboardId, int read);
+
     bool updateFeedReadFlag(const QString &feedId, int unread, int read);
     bool updateFeedAllAsReadByTab(const QString &tabId);
     bool updateFeedAllAsUnreadByTab(const QString &tabId);
@@ -161,22 +165,35 @@ public:
     bool isDashborardExists();
 
     QList<Tab> readTabs(const QString &dashboardId);
-    QList<Feed> readFeeds(const QString &tabId);
+
+    QList<Feed> readFeedsByTab(const QString &tabId);
+    QList<Feed> readFeeds(const QString &dashboardId);
+
     QList<QString> readFeedsIdsByTab(const QString &tabId);
+    QList<QString> readFeedsIds(const QString &dashboardId);
     QList<QString> readAllFeedIds();
     QMap<QString,QString> readAllFeedsIdsTabs();
     QString readFeedId(const QString &entryId);
 
-    QList<Entry> readEntries(const QString &feedId, int offset, int limit);
-    QList<Entry> readEntriesByTab(const QString &tabId, int offset, int limit);
+    // Read Entries
+
+    //QList<Entry> readEntries();
+
+    QList<Entry> readEntries(const QString &dashboardId, int offset, int limit);
+    QList<Entry> readEntriesUnread(const QString &dashboardId, int offset, int limit);
     QList<Entry> readEntriesReadlater(const QString &dashboardId, int offset, int limit);
-    QList<Entry> readEntriesUnread(const QString &feedId, int offset, int limit);
+
+    QList<Entry> readEntriesByFeed(const QString &feedId, int offset, int limit);
+    QList<Entry> readEntriesUnreadByFeed(const QString &feedId, int offset, int limit);
+
+    QList<Entry> readEntriesByTab(const QString &tabId, int offset, int limit);
     QList<Entry> readEntriesUnreadByTab(const QString &tabId, int offset, int limit);
-    QList<Entry> readEntries();
+
     QList<Entry> readEntriesCachedOlderThan(int cacheDate, int limit);
     QList<QString> readCacheFinalUrlOlderThan(int cacheDate, int limit);
-    //QList<CacheItem> readCacheItems();
     QList<QString> readCacheIdsOlderThan(int cacheDate, int limit);
+
+    //---
 
     CacheItem readCacheItemFromOrigUrl(const QString &origUrl);
     CacheItem readCacheItemFromEntryId(const QString &entryId);
@@ -195,7 +212,8 @@ public:
     QMap<QString,int> readFeedsFirstUpdate();
 
     int readLatestEntryDateByFeedId(const QString &feedId);
-    int readFeedLastUpadate(const QString &feedId);
+    int readFeedLastUpdate(const QString &dashboardId);
+    int readFeedLastUpdateByFeed(const QString &feedId);
     int readTabLastUpadate(const QString &tabId);
 
     bool removeFeed(const QString &feedId);
@@ -206,6 +224,7 @@ public:
 
     int readNotCachedEntriesCount();
     int readEntriesCount();
+
     int readEntriesByFeedCount(const QString &feedId);
     int readEntriesUnreadByFeedCount(const QString &feedId);
     int readEntriesUnreadByTabCount(const QString &tabId);
@@ -214,8 +233,8 @@ public:
     int readEntriesFreshByFeedCount(const QString &feedId);
     int readEntriesFreshByTabCount(const QString &tabId);
 
-    int readEntriesReadCount();
-    int readEntriesUnreadCount();
+    int readEntriesReadCount(const QString &dashboardId);
+    int readEntriesUnreadCount(const QString &dashboardId);
 
     int readFeedsCount();
     //int readUnreadCount(const QString &dashboardId);

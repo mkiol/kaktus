@@ -308,6 +308,12 @@ void NetvibesFetcher::set()
     case DatabaseManager::SetTabReadAll:
         url.setUrl("http://www.netvibes.com/api/feeds/read/add");
         break;
+    case DatabaseManager::UnSetAllRead:
+        url.setUrl("http://www.netvibes.com/api/feeds/read/remove");
+        break;
+    case DatabaseManager::SetAllRead:
+        url.setUrl("http://www.netvibes.com/api/feeds/read/add");
+        break;
     }
 
     QNetworkRequest request(url);
@@ -337,6 +343,22 @@ void NetvibesFetcher::set()
         content = QString("feeds=%1&format=json").arg(feeds);
     }
 
+    if (action.type == DatabaseManager::SetAllRead||
+        action.type == DatabaseManager::UnSetAllRead) {
+
+        Settings *s = Settings::instance();
+        QStringList list = s->db->readFeedsIds(action.feedId);
+        QStringList::iterator i = list.begin();
+        QString feeds;
+        while (i != list.end()) {
+            if (i != list.begin())
+                feeds += ",";
+            feeds += *i+":"+QString::number(action.olderDate);
+            ++i;
+        }
+        content = QString("feeds=%1&format=json").arg(feeds);
+    }
+
     if (action.type == DatabaseManager::SetFeedReadAll ||
         action.type == DatabaseManager::UnSetFeedReadAll) {
         content = QString("feeds=%1:%2&format=json").arg(action.feedId).arg(action.olderDate);
@@ -345,7 +367,7 @@ void NetvibesFetcher::set()
     if (action.type == DatabaseManager::SetRead ||
         action.type == DatabaseManager::UnSetRead ||
         action.type == DatabaseManager::SetReadlater ||
-        action.type == DatabaseManager::UnSetReadlater) {
+        action.type == DatabaseManager::UnSetReadlater ) {
         content = QString("feeds=%1&items=%2&format=json").arg(action.feedId).arg(action.entryId);
     }
 

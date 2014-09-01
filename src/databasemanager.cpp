@@ -706,7 +706,7 @@ bool DatabaseManager::updateEntryReadlaterFlag(const QString &entryId, int readl
     return ret;
 }
 
-bool DatabaseManager::updateEntriesReadFlag(const QString &feedId, int read)
+bool DatabaseManager::updateEntriesReadFlagByFeed(const QString &feedId, int read)
 {
     bool ret = false;
     if (_db.isOpen()) {
@@ -718,6 +718,23 @@ bool DatabaseManager::updateEntriesReadFlag(const QString &feedId, int read)
 
     return ret;
 }
+
+bool DatabaseManager::updateEntriesReadFlag(const QString &dashboardId, int read)
+{
+    bool ret = false;
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        ret = query.exec(QString("UPDATE entries SET read=%1 WHERE feed_id IN "
+                                 "(SELECT f.id FROM feeds as f, tabs as t WHERE f.tab_id=t.id AND t.dashboard_id='%2');")
+                         .arg(read)
+                         .arg(dashboardId));
+        if (!ret)
+            qWarning() << "SQL Error!" << query.lastError().text();
+    }
+
+    return ret;
+}
+
 
 bool DatabaseManager::updateEntriesReadFlagByTab(const QString &tabId, int read)
 {
@@ -852,7 +869,7 @@ QList<DatabaseManager::Tab> DatabaseManager::readTabs(const QString &dashboardId
                         .arg(dashboardId)
                         .arg(tabsLimit));
         if (!ret)
-            qWarning() << "SQL Error!";
+            qWarning() << "SQL Error!" << query.lastError().text();
 
         while(query.next()) {
             //qDebug() << "readTabs, " << query.value(1).toString();
@@ -869,19 +886,60 @@ QList<DatabaseManager::Tab> DatabaseManager::readTabs(const QString &dashboardId
     return list;
 }
 
-QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &tabId)
+QList<DatabaseManager::Feed> DatabaseManager::readFeedsByTab(const QString &tabId)
 {
     QList<DatabaseManager::Feed> list;
 
     if (_db.isOpen()) {
-        QSqlQuery query(QString("SELECT id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update "
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update "
                                 "FROM feeds WHERE tab_id='%1' ORDER BY id DESC LIMIT %2;")
                         .arg(tabId)
-                        .arg(feedsLimit),_db);
-        /*QSqlQuery query(QString("SELECT id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update "
-                                "FROM feeds WHERE tab_id='%1' LIMIT %2;")
-                        .arg(tabId)
-                        .arg(feedsLimit),_db);*/
+                        .arg(feedsLimit));
+
+        if (!ret)
+            qWarning() << "SQL Error!" << query.lastError().text();
+
+
+        while(query.next()) {
+            //qDebug() << "readFeeds, " << query.value(1).toString();
+            Feed f;
+            f.id = query.value(0).toString();
+            decodeBase64(query.value(1),f.title);
+            decodeBase64(query.value(2),f.content);
+            f.link = query.value(3).toString();
+            f.url = query.value(4).toString();
+            f.icon = query.value(5).toString();
+            f.streamId = query.value(6).toString();
+            f.unread = query.value(7).toInt();
+            f.read = query.value(8).toInt();
+            f.readlater = query.value(9).toInt();
+            f.lastUpdate = query.value(10).toInt();
+            list.append(f);
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &dashboardId)
+{
+    QList<DatabaseManager::Feed> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT f.id, f.title, f.content, f.link, f.url, f.icon, f.stream_id, f.unread, f.read, f.readlater, f.last_update "
+                                "FROM feeds as f, tabs as t WHERE f.tab_id=t.id AND t.dashboard_id='%1' "
+                                "ORDER BY f.id DESC LIMIT %2;")
+                        .arg(dashboardId)
+                        .arg(feedsLimit));
+
+        if (!ret)
+            qWarning() << "SQL Error!" << query.lastError().text();
+
+
         while(query.next()) {
             //qDebug() << "readFeeds, " << query.value(1).toString();
             Feed f;
@@ -912,6 +970,30 @@ QList<QString> DatabaseManager::readFeedsIdsByTab(const QString &tabId)
     if (_db.isOpen()) {
         QSqlQuery query(QString("SELECT id FROM feeds WHERE tab_id='%1';")
                         .arg(tabId),_db);
+        while(query.next()) {
+            list.append(query.value(0).toString());
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<QString> DatabaseManager::readFeedsIds(const QString &dashboardId)
+{
+    QList<QString> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT f.id FROM feeds as f, tabs as t "
+                                      "WHERE f.tab_id=t.id AND t.dashboard_id='%1';")
+                        .arg(dashboardId));
+
+        if (!ret)
+            qWarning() << "SQL Error!" << query.lastError().text();
+
+
         while(query.next()) {
             list.append(query.value(0).toString());
         }
@@ -1283,11 +1365,31 @@ int DatabaseManager::readLatestEntryDateByFeedId(const QString &feedId)
     return 0;
 }
 
-int DatabaseManager::readFeedLastUpadate(const QString &feedId)
+int DatabaseManager::readFeedLastUpdateByFeed(const QString &feedId)
 {
     if (_db.isOpen()) {
         QSqlQuery query(_db);
         query.exec(QString("SELECT last_update FROM feeds WHERE id='%1';").arg(feedId));
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readFeedLastUpdate(const QString &dashboardId)
+{
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        bool ret = query.exec(QString("SELECT max(f.last_update) FROM feeds as f, tabs as t "
+                           "WHERE f.tab_id=t.id AND t.dashboard_id='%1';").arg(dashboardId));
+
+        if (!ret)
+            qWarning() << "SQL Error!" << query.lastError().text();
+
         while(query.next()) {
             return query.value(0).toInt();
         }
@@ -1313,7 +1415,7 @@ int DatabaseManager::readTabLastUpadate(const QString &tabId)
     return 0;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId, int offset, int limit)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesByFeed(const QString &feedId, int offset, int limit)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -1327,6 +1429,86 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &feedId
 
         if (!ret) {
             qWarning() << "DB read error!";
+        }
+
+        while(query.next()) {
+            //qDebug() << "readEntries, " << query.value(1).toString();
+            Entry e;
+            e.id = query.value(0).toString();
+            decodeBase64(query.value(1),e.title);
+            decodeBase64(query.value(2),e.author);
+            decodeBase64(query.value(3),e.content);
+            e.link = query.value(4).toString();
+            e.image = query.value(5).toString();
+            e.feedIcon = query.value(6).toString();
+            e.fresh = query.value(7).toInt();
+            e.read = query.value(8).toInt();
+            e.readlater= query.value(9).toInt();
+            e.date = query.value(10).toInt();
+            list.append(e);
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<DatabaseManager::Entry> DatabaseManager::readEntries(const QString &dashboardId, int offset, int limit)
+{
+    QList<DatabaseManager::Entry> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+
+        bool ret = query.exec(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.image, f.icon, e.fresh, e.read, e.readlater, e.date "
+                                "FROM entries as e, feeds as f, tabs as t "
+                                "WHERE e.feed_id=f.id AND f.tab_id=t.id AND t.dashboard_id=%1 "
+                                "ORDER BY date DESC LIMIT %2 OFFSET %3;")
+                        .arg(dashboardId).arg(limit).arg(offset));
+
+        if (!ret) {
+            qWarning() << "SQL error!" << query.lastError().text();
+        }
+
+        while(query.next()) {
+            //qDebug() << "readEntries, " << query.value(1).toString();
+            Entry e;
+            e.id = query.value(0).toString();
+            decodeBase64(query.value(1),e.title);
+            decodeBase64(query.value(2),e.author);
+            decodeBase64(query.value(3),e.content);
+            e.link = query.value(4).toString();
+            e.image = query.value(5).toString();
+            e.feedIcon = query.value(6).toString();
+            e.fresh = query.value(7).toInt();
+            e.read = query.value(8).toInt();
+            e.readlater= query.value(9).toInt();
+            e.date = query.value(10).toInt();
+            list.append(e);
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnread(const QString &dashboardId, int offset, int limit)
+{
+    QList<DatabaseManager::Entry> list;
+
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+
+        bool ret = query.exec(QString("SELECT e.id, e.title, e.author, e.content, e.link, e.image, f.icon, e.fresh, e.read, e.readlater, e.date "
+                                "FROM entries as e, feeds as f, tabs as t "
+                                "WHERE e.feed_id=f.id AND f.tab_id=t.id AND t.dashboard_id=%1 AND e.read=0 "
+                                "ORDER BY date DESC LIMIT %2 OFFSET %3;")
+                        .arg(dashboardId).arg(limit).arg(offset));
+
+        if (!ret) {
+            qWarning() << "SQL error!" << query.lastError().text();
         }
 
         while(query.next()) {
@@ -1461,7 +1643,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesReadlater(const QStrin
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnread(const QString &feedId, int offset, int limit)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByFeed(const QString &feedId, int offset, int limit)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -1495,7 +1677,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnread(const QString &
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntries()
+/*QList<DatabaseManager::Entry> DatabaseManager::readEntries()
 {
     QList<DatabaseManager::Entry> list;
 
@@ -1529,7 +1711,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntries()
     }
 
     return list;
-}
+}*/
 
 QList<DatabaseManager::Action> DatabaseManager::readActions()
 {
@@ -1747,7 +1929,7 @@ int DatabaseManager::readEntriesUnreadByFeedCount(const QString &feedId)
     return count;
 }
 
-int DatabaseManager::readEntriesReadCount()
+int DatabaseManager::readEntriesReadCount(const QString &dashboardId)
 {
     int count = 0;
 
@@ -1757,7 +1939,7 @@ int DatabaseManager::readEntriesReadCount()
         QSqlQuery query(_db);
         bool ret = query.exec(QString("SELECT count(*) FROM entries as e, feeds as f, tabs as t "
                                       "WHERE e.feed_id=f.id AND f.tab_id=t.id AND t.dashboard_id='%1' AND e.read=1;")
-                              .arg(s->getDashboardInUse()));
+                              .arg(dashboardId));
 
         if (!ret) {
             qWarning() << "SQL error!" << query.lastError().text();
@@ -1773,7 +1955,7 @@ int DatabaseManager::readEntriesReadCount()
     return count;
 }
 
-int DatabaseManager::readEntriesUnreadCount()
+int DatabaseManager::readEntriesUnreadCount(const QString &dashboardId)
 {
     int count = 0;
 
@@ -1783,7 +1965,7 @@ int DatabaseManager::readEntriesUnreadCount()
         QSqlQuery query(_db);
         bool ret = query.exec(QString("SELECT count(*) FROM entries as e, feeds as f, tabs as t "
                                       "WHERE e.feed_id=f.id AND f.tab_id=t.id AND t.dashboard_id='%1' AND e.read=0;")
-                              .arg(s->getDashboardInUse()));
+                              .arg(dashboardId));
 
         if (!ret) {
             qWarning() << "SQL error!" << query.lastError().text();

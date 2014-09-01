@@ -78,7 +78,7 @@ void Utils::copyToClipboard(const QString &text)
     clipboard->setText(text);
 }
 
-void Utils::setTabModel(const QString &dashboardId)
+/*void Utils::setTabModel(const QString &dashboardId)
 {
     TabModel *oldTabModel = tabModel;
     Settings *s = Settings::instance();
@@ -90,6 +90,77 @@ void Utils::setTabModel(const QString &dashboardId)
 
     if (oldTabModel != NULL)
         delete oldTabModel;
+}*/
+
+void Utils::setRootModel()
+{
+    TabModel *oldTabModel = tabModel;
+    FeedModel *oldFeedModel = feedModel;
+    EntryModel *oldEntryModel = entryModel;
+
+    Settings *s = Settings::instance();
+    int mode = s->getViewMode();
+
+    switch (mode) {
+    case 0:
+        // View mode: Tabs->Feeds->Entries
+        tabModel = new TabModel(s->db);
+        tabModel->init(s->getDashboardInUse());
+        s->view->rootContext()->setContextProperty("tabModel", tabModel);
+        if (oldTabModel != NULL) {
+            delete oldTabModel;
+        }
+        if (feedModel != NULL) {
+            delete feedModel; feedModel = NULL;
+        }
+        if (entryModel != NULL) {
+            delete entryModel; entryModel = NULL;
+        }
+        break;
+    case 1:
+        // View mode: Tabs->Entries
+        tabModel = new TabModel(s->db);
+        tabModel->init(s->getDashboardInUse());
+        s->view->rootContext()->setContextProperty("tabModel", tabModel);
+        if (oldTabModel != NULL) {
+            delete oldTabModel;
+        }
+        if (feedModel != NULL) {
+            delete feedModel; feedModel = NULL;
+        }
+        if (entryModel != NULL) {
+            delete entryModel; entryModel = NULL;
+        }
+        break;
+    case 2:
+        // View mode: Feeds->Entries
+        feedModel = new FeedModel(s->db);
+        feedModel->init("root");
+        s->view->rootContext()->setContextProperty("feedModel", feedModel);
+        if (tabModel != NULL)
+            delete tabModel; tabModel = NULL;
+        if (oldFeedModel != NULL) {
+            delete oldFeedModel;
+        }
+        if (entryModel != NULL) {
+            delete entryModel; entryModel = NULL;
+        }
+        break;
+    case 3:
+        // View mode: Entries
+        entryModel = new EntryModel(s->db);
+        entryModel->init("root");
+        s->view->rootContext()->setContextProperty("entryModel", entryModel);
+        if (tabModel != NULL)
+            delete tabModel; tabModel = NULL;
+        if (feedModel != NULL) {
+            delete feedModel; feedModel = NULL;
+        }
+        if (oldEntryModel != NULL) {
+            delete oldEntryModel;
+        }
+        break;
+    }
 }
 
 void Utils::setFeedModel(const QString &tabId)
@@ -102,8 +173,9 @@ void Utils::setFeedModel(const QString &tabId)
 
     s->view->rootContext()->setContextProperty("feedModel", feedModel);
 
-    if (oldFeedModel != NULL)
+    if (oldFeedModel != NULL) {
         delete oldFeedModel;
+    }
 }
 
 void Utils::setEntryModel(const QString &feedId)
@@ -116,8 +188,9 @@ void Utils::setEntryModel(const QString &feedId)
 
     s->view->rootContext()->setContextProperty("entryModel", entryModel);
 
-    if (oldEntryModel != NULL)
+    if (oldEntryModel != NULL) {
         delete oldEntryModel;
+    }
 }
 
 void Utils::setDashboardModel()
@@ -184,11 +257,11 @@ QString Utils::defaultDashboardName()
     return d.title;
 }
 
-/*int Utils::getUnreadItemsCount()
+int Utils::countUnread()
 {
     Settings *s = Settings::instance();
-    return s->db->readUnreadCount(s->getDashboardInUse());
-}*/
+    return s->db->readEntriesUnreadCount(s->getDashboardInUse());
+}
 
 /*bool Utils::showNotification(const QString previewSummary,
                              const QString previewBody,

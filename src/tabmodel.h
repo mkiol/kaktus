@@ -94,8 +94,8 @@ public:
     Q_INVOKABLE void markAsUnread(int row);
     Q_INVOKABLE void markAsRead(int row);
 
-    //Q_INVOKABLE void setAllAsUnread();
-    //Q_INVOKABLE void setAllAsRead();
+    Q_INVOKABLE void setAllAsUnread();
+    Q_INVOKABLE void setAllAsRead();
 
     Q_INVOKABLE int countRead();
     Q_INVOKABLE int countUnread();

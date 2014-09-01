@@ -53,31 +53,25 @@ Page {
 
         PageMenu {
             id: menu
-
-            showAbout: false
+            showAbout: settings.viewMode==3 ? true : false
             showMarkAsRead: false
             showMarkAsUnread: false
 
-            onMarkedAsRead:    {
-                entryModel.setAllAsRead();
-            }
-
-            onMarkedAsUnread: {
-                entryModel.setAllAsUnread();
-            }
+            onMarkedAsRead: entryModel.setAllAsRead()
+            onMarkedAsUnread: entryModel.setAllAsUnread()
 
             onActiveChanged: {
                 if (active) {
                     if (!root.readlater) {
-                        //showMarkAsUnread = entryModel.countRead()!=0;
                         showMarkAsRead = entryModel.countUnread()!=0;
+                        showMarkAsUnread = !showMarkAsRead;
                     }
                 }
             }
         }
 
         header: PageHeader {
-            title: root.title
+            title: settings.viewMode==3 ? qsTr("All articles") : root.title
         }
 
         delegate: EntryDelegate {
@@ -86,7 +80,7 @@ Page {
             content: model.content
             date: model.date
             read: model.read
-            feedIcon: settings.viewMode==1 || root.readlater ? model.feedIcon : ""
+            feedIcon: settings.viewMode==1 || settings.viewMode==3 || root.readlater ? model.feedIcon : ""
             author: model.author
             image: model.image
             readlater: model.readlater

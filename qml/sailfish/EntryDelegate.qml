@@ -52,7 +52,6 @@ ListItem {
 
     Image {
         id: background
-        visible: root.transparent
         anchors.fill: parent
         source: "image://theme/graphic-avatar-text-back?"+Theme.highlightBackgroundColor
 
