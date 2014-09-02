@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.2.0
-Release:    1
+Release:    2
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -76,6 +76,10 @@ desktop-file-install --delete-original       \
 
 %changelog
 
+* Tue Sep 02 2014 Michal Kosciesza 1.2.0-2
+- Netvibes Multi-Feed widget (initial) support
+- Improved display of images
+
 * Mon Sep 01 2014 Michal Kosciesza 1.2.0-1
 - New "Browsing Mode" options e.g. Option to show all feeds in one list
 - Double-click marks article as read/unread
@@ -98,7 +102,7 @@ desktop-file-install --delete-original       \
 - Thumbnails in articles list
 - 'Mark as read' in Pull-down menu
 - Offline mode indicator in Pull-down menu
-- FIX: Sync Failed on every first sync attempt
+- BUG FIX: Sync Failed on every first sync attempt
 
 * Sat May 03 2014 Michal Kosciesza 1.0.5-0
 - Sigin fix due to change in Netvibes API

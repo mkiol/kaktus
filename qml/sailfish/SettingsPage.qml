@@ -229,10 +229,10 @@ Page {
                 currentIndex: settings.viewMode
 
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("Tabs \u2192 Feeds \u2192 Articles") }
-                    MenuItem { text: qsTr("Tabs \u2192 Articles") }
-                    MenuItem { text: qsTr("Feeds \u2192 Articles") }
-                    MenuItem { text: qsTr("All articles") }
+                    MenuItem { text: qsTr("Tabs & feeds & articles") }
+                    MenuItem { text: qsTr("Tabs & articles") }
+                    MenuItem { text: qsTr("Feeds & articles") }
+                    MenuItem { text: qsTr("Only articles") }
                 }
 
                 onCurrentIndexChanged: {

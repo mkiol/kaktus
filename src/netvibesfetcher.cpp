@@ -717,12 +717,29 @@ void NetvibesFetcher::storeTabs(const QString &dashboardId)
         while (i != end) {
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonObject obj = (*i).toObject();
-            if (obj["name"].toString() == "RssReader") {
-                //qDebug() << obj["tab"].toString() << obj["data"].toObject()["streamIds"].toString();
-                QString streamId = obj["data"].toObject()["streamIds"].toString();
+
+            if (obj["name"].toString() == "RssReader" ||
+                obj["name"].toString() == "MultipleFeeds") {
+
+                if (obj["streams"].isArray()) {
+                    QJsonArray::const_iterator mi = obj["streams"].toArray().constBegin();
+                    QJsonArray::const_iterator mend = obj["streams"].toArray().constEnd();
+                    QString tabId = obj["tab"].toString();
+                    while (mi != mend) {
+                        QJsonObject mobj = (*mi).toObject();
+                        QString streamId = mobj["id"].toString();
+                        //QString title = mobj["title"].toString();
+
+                        _feedTabList.insert(streamId,tabId);
+                        _feedList.insert(streamId,tabId);
+                        ++mi;
+                    }
+                }
+
+                /*QString streamId = obj["data"].toObject()["streamIds"].toString();
                 QString tabId = obj["tab"].toString();
                 _feedTabList.insert(streamId,tabId);
-                _feedList.insert(streamId,tabId);
+                _feedList.insert(streamId,tabId);*/
             }
 #else
             QVariantMap obj = (*i).toMap();
@@ -859,18 +876,37 @@ void NetvibesFetcher::storeEntries()
                 e.read = read;
                 e.readlater = readlater;
                 e.date = (int) obj["date"].toDouble();
-                //qDebug() << "writeEntry id="+e.id;
-                s->db->writeEntry(obj["feed_id"].toString(), e);
 
                 // Downloading image file
-                if (image!="" && s->getAutoDownloadOnUpdate()) {
-                    if (!s->db->isCacheItemExistsByFinalUrl(hash(image))) {
-                        DatabaseManager::CacheItem item;
-                        item.origUrl = image;
-                        item.finalUrl = image;
-                        s->dm->addDownload(item);
+                if (s->getAutoDownloadOnUpdate()) {
+                    if (image!="") {
+                        // Image provided by Netvibes API :-)
+                        if (!s->db->isCacheItemExistsByFinalUrl(hash(image))) {
+                            DatabaseManager::CacheItem item;
+                            item.origUrl = image;
+                            item.finalUrl = image;
+                            s->dm->addDownload(item);
+                        }
+                    } else {
+                        // Checking if content contains image
+                        QRegExp rx("<img\\s[^>]*src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
+                        if (rx.indexIn(e.content)!=-1) {
+                            QString imgSrc = rx.cap(1); imgSrc = imgSrc.mid(1,imgSrc.length()-2);
+                            if (imgSrc!="") {
+                                if (!s->db->isCacheItemExistsByFinalUrl(hash(imgSrc))) {
+                                    DatabaseManager::CacheItem item;
+                                    item.origUrl = imgSrc;
+                                    item.finalUrl = imgSrc;
+                                    s->dm->addDownload(item);
+                                }
+                                e.image = imgSrc;
+                                //qDebug() << "cap:" << imgSrc;
+                            }
+                        }
                     }
                 }
+
+                s->db->writeEntry(obj["feed_id"].toString(), e);
 
                 ++ii;
             }

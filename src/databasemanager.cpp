@@ -615,13 +615,18 @@ bool DatabaseManager::writeEntry(const QString &feedId, const Entry &entry)
                          .arg(entry.read)
                          .arg(entry.readlater)
                          .arg(entry.date));
-        //qDebug() << "ret1=" << ret;
+
         if(!ret) {
-            ret = query.exec(QString("UPDATE entries SET read=%2, readlater=%3 WHERE id='%4';")
+            //qDebug() << "img=" << entry.image;
+            ret = query.exec(QString("UPDATE entries SET image='%1', read=%2, readlater=%3 WHERE id='%4';")
+                             .arg(entry.image)
                              .arg(entry.read)
                              .arg(entry.readlater)
                              .arg(entry.id));
-            //qDebug() << "ret2=" << ret;
+
+            if (!ret) {
+                qWarning() << "SQL error!" << query.lastError().text();
+            }
         }
     }
 

@@ -62,7 +62,7 @@ Page {
             showMarkAsRead: false
             showMarkAsUnread: false
 
-            onMarkedAsRead: tabModel.setAllAsRead()
+            /*onMarkedAsRead: tabModel.setAllAsRead()
             onMarkedAsUnread: tabModel.setAllAsUnread()
 
             onActiveChanged: {
@@ -70,7 +70,7 @@ Page {
                     showMarkAsRead = tabModel.countUnread()!=0;
                     showMarkAsUnread = !showMarkAsRead
                 }
-            }
+            }*/
         }
 
         header: PageHeader {

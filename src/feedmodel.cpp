@@ -88,7 +88,7 @@ void FeedModel::createItems(const QString &tabId)
 void FeedModel::markAsUnread(int row)
 {
     FeedItem* item = static_cast<FeedItem*>(readRow(row));
-    _db->updateEntriesReadFlag(item->id(),0);
+    _db->updateEntriesReadFlagByFeed(item->id(),0);
     item->setRead(0); item->setUnread(_db->readEntriesUnreadByFeedCount(item->id()));
 
     DatabaseManager::Action action;
@@ -101,7 +101,7 @@ void FeedModel::markAsUnread(int row)
 void FeedModel::markAsRead(int row)
 {
     FeedItem* item = static_cast<FeedItem*>(readRow(row));
-    _db->updateEntriesReadFlag(item->id(),1);
+    _db->updateEntriesReadFlagByFeed(item->id(),1);
     item->setUnread(0); item->setRead(_db->readEntriesReadByFeedCount(item->id()));
 
     DatabaseManager::Action action;

@@ -97,7 +97,7 @@ Page {
             }
 
             Button {
-                text: "Changelog"
+                text: qsTr("What's new")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: pageStack.push(Qt.resolvedUrl("ChangelogPage.qml"))
             }

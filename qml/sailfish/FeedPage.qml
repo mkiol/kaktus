@@ -70,9 +70,9 @@ Page {
             onMarkedAsUnread: feedModel.setAllAsUnread()
 
             onActiveChanged: {
-                if (active) {
+                if (active && settings.viewMode!=2) {
                     showMarkAsRead = feedModel.countUnread()!=0;
-                    showMarkAsUnread = !showMarkAsRead
+                    showMarkAsUnread = !showMarkAsRead;
                 }
             }
         }
@@ -82,7 +82,9 @@ Page {
         }
 
         delegate: ListItem {
+
             id: listItem
+
             contentHeight: item.height + 2 * Theme.paddingMedium
 
             Rectangle {

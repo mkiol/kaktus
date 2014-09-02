@@ -24,18 +24,61 @@
         <source>An unofficial Netvibes feed reader, specially designed to work offline.</source>
         <translation>Nieoficjalny czytnik kanałów RSS dla serwisu Netvibes.com. </translation>
     </message>
+    <message>
+        <location filename="../qml/sailfish/AboutPage.qml" line="100"/>
+        <source>What&apos;s new</source>
+        <translation>Co jest nowego</translation>
+    </message>
 </context>
 <context>
     <name>ChangelogPage</name>
     <message>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="48"/>
         <source>Changelog</source>
-        <translation>Dziennik zmian</translation>
+        <translation type="obsolete">Dziennik zmian</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="54"/>
         <source>1.2.0</source>
-        <translation>1.2.0</translation>
+        <translation type="obsolete">1.2.0</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="48"/>
+        <source>What&apos;s new</source>
+        <translation>Co jest nowego</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="58"/>
+        <source>Netvibes &quot;Multi-Feed&quot; widget support</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="62"/>
+        <source>Double-click marks article as read/unread</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="66"/>
+        <source>Option to show all feeds in one list (see &quot;Browsing Mode option&quot;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="70"/>
+        <source>Indicator for articles that have been added since last sync</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="74"/>
+        <source>Option to delete cache data (see &quot;Cache size&quot; option)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="78"/>
+        <source>Improved display of images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="82"/>
+        <source>Many UI improvements</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -241,21 +284,21 @@ Został włączony tryb Offline!</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="83"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="124"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="125"/>
         <location filename="../qml/symbian/EntryPage.qml" line="78"/>
         <source>Please wait until Sync finishes</source>
         <translation>Zaczekaj do zakończenia aktualizacji</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="91"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="130"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="131"/>
         <location filename="../qml/symbian/EntryPage.qml" line="86"/>
         <source>Offline version not available</source>
         <translation>Brak kopii Offline</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="99"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="138"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="139"/>
         <location filename="../qml/symbian/EntryPage.qml" line="94"/>
         <source>Network connection is unavailable
 Switching to Offline mode</source>
@@ -264,7 +307,7 @@ Został włączony tryb Offline</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="103"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="142"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="143"/>
         <location filename="../qml/symbian/EntryPage.qml" line="98"/>
         <source>Network connection is unavailable</source>
         <translation>Brak połączenia sieciowego</translation>
@@ -295,14 +338,14 @@ Został włączony tryb Offline</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="128"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="184"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="185"/>
         <location filename="../qml/symbian/EntryPage.qml" line="122"/>
         <source>No unread items</source>
         <translation>Brak nieprzeczytanych artykułów</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="128"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="184"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="185"/>
         <location filename="../qml/symbian/EntryPage.qml" line="122"/>
         <source>No items</source>
         <translation>Brak artykułów</translation>
@@ -346,14 +389,14 @@ Został włączony tryb Offline</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="119"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="172"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="174"/>
         <location filename="../qml/symbian/FeedPage.qml" line="112"/>
         <source>Mark all as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="128"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="180"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="182"/>
         <location filename="../qml/symbian/FeedPage.qml" line="121"/>
         <source>Mark all as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
@@ -388,7 +431,7 @@ Został włączony tryb Offline</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="100"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="193"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="195"/>
         <location filename="../qml/symbian/FeedPage.qml" line="93"/>
         <source>No feeds</source>
         <translation>Brak kanałów</translation>
@@ -611,23 +654,27 @@ Brak połączenia sieciowego</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="232"/>
-        <source>Tabs → Feeds → Articles</source>
-        <translation type="unfinished"></translation>
+        <source>Tabs &amp; feeds &amp; articles</source>
+        <translation>Zakładki &amp; kanały &amp; artykuły</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="233"/>
-        <source>Tabs → Articles</source>
-        <translation type="unfinished"></translation>
+        <source>Tabs &amp; articles</source>
+        <translation>Zakładki &amp; artykuły</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="234"/>
-        <source>Feeds → Articles</source>
-        <translation type="unfinished"></translation>
+        <source>Feeds &amp; articles</source>
+        <translation>Kanały &amp; artykuły</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="235"/>
+        <source>Only articles</source>
+        <translation>Tylko artykuły</translation>
+    </message>
+    <message>
         <source>All articles</source>
-        <translation>Wszystkie artykuły</translation>
+        <translation type="obsolete">Wszystkie artykuły</translation>
     </message>
     <message>
         <source>Tabs → Feeds → Items</source>

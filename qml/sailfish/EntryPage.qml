@@ -61,7 +61,7 @@ Page {
             onMarkedAsUnread: entryModel.setAllAsUnread()
 
             onActiveChanged: {
-                if (active) {
+                if (active && settings.viewMode!=3) {
                     if (!root.readlater) {
                         showMarkAsRead = entryModel.countUnread()!=0;
                         showMarkAsUnread = !showMarkAsRead;
@@ -90,6 +90,7 @@ Page {
             showMarkedAsRead: !root.readlater
 
             Component.onCompleted: {
+                //console.log(image);
                 // Dynamic creation of new items if last item is compleated
                 if (index==entryModel.count()-1) {
                     //console.log(index);

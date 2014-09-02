@@ -45,54 +45,43 @@ Page {
         }
 
         header: PageHeader {
-            title: qsTr("Changelog")
+            title: qsTr("What's new")
         }
 
         model: VisualItemModel {
 
             SectionHeader {
-                text: qsTr("1.2.0")
+                text: "1.2.0"
             }
 
-            Label {
-                wrapMode: Text.WordWrap
-                font.pixelSize: Theme.fontSizeExtraSmall
-                anchors.left: parent.left; anchors.right: parent.right
-                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                text: '* Double-click marks article as read/unread'
+            LogItem {
+                text: qsTr('Netvibes "Multi-Feed" widget support')
             }
 
-            Label {
-                wrapMode: Text.WordWrap
-                font.pixelSize: Theme.fontSizeExtraSmall
-                anchors.left: parent.left; anchors.right: parent.right
-                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                text: '* Option to show all feeds in one list (see "Browsing Mode option")'
+            LogItem {
+                text: qsTr('Double-click marks article as read/unread')
             }
 
-            Label {
-                wrapMode: Text.WordWrap
-                font.pixelSize: Theme.fontSizeExtraSmall
-                anchors.left: parent.left; anchors.right: parent.right
-                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                text: '* Indicator for articles that have been added since last sync'
+            LogItem {
+                text: qsTr('Option to show all feeds in one list (see "Browsing Mode option")')
             }
 
-            Label {
-                wrapMode: Text.WordWrap
-                font.pixelSize: Theme.fontSizeExtraSmall
-                anchors.left: parent.left; anchors.right: parent.right
-                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                text: '* Option to delete cache data (see "Cache size" option)'
+            LogItem {
+                text: qsTr('Indicator for articles that have been added since last sync')
             }
 
-            Label {
-                wrapMode: Text.WordWrap
-                font.pixelSize: Theme.fontSizeExtraSmall
-                anchors.left: parent.left; anchors.right: parent.right
-                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                text: '* Many UI improvements'
+            LogItem {
+                text: qsTr('Option to delete cache data (see "Cache size" option)')
             }
+
+            LogItem {
+                text: qsTr('Improved display of images')
+            }
+
+            LogItem {
+                text: qsTr('Many UI improvements')
+            }
+
         }
 
         VerticalScrollDecorator {}
