@@ -50,36 +50,41 @@ Page {
 
         model: VisualItemModel {
 
-            SectionHeader {
-                text: "1.2.0"
+            LogItem {
+                title: qsTr('Multi-Feed widget support')
+                description: qsTr('Kaktus can also read Feeds, which are aggregated in the Netvibes Multi-Feed widget.')
             }
 
             LogItem {
-                text: qsTr('Netvibes "Multi-Feed" widget support')
+                title: qsTr('Double-click marks article as read/unread')
+                description: qsTr('In addition to the context menu option, marking as read/unread can be done by double-click.')
             }
 
             LogItem {
-                text: qsTr('Double-click marks article as read/unread')
+                title: qsTr('New Browsing Modes')
+                description: qsTr('There are new Browsing Modes. '+
+                                  'It is possible to show all articles in the one list '+
+                                  'or group by Tabs or Feeds.')
             }
 
             LogItem {
-                text: qsTr('Option to show all feeds in one list (see "Browsing Mode option")')
+                title: qsTr('Indicator for new articles')
+                description: qsTr('Articles, that have been added since last sync, '+
+                                  'are marked with small dash on the right side of the list.')
             }
 
             LogItem {
-                text: qsTr('Indicator for articles that have been added since last sync')
+                title: qsTr('Option to delete cache data')
+                description: qsTr('Cache data can be deleted manually. The option is located on the settings page.')
             }
 
             LogItem {
-                text: qsTr('Option to delete cache data (see "Cache size" option)')
+                title: qsTr('Image caching improvements')
+                description: qsTr('Caching mechanism for images are improved. Files with images are downloaded more effectively.')
             }
 
-            LogItem {
-                text: qsTr('Improved display of images')
-            }
-
-            LogItem {
-                text: qsTr('Many UI improvements')
+            Item {
+                height: Theme.paddingMedium
             }
 
         }

@@ -53,7 +53,7 @@ Page {
         height: {
             /*if ((dm.busy||fetcher.busy) && bar.open)
                 return isPortrait ? app.height-Theme.itemSizeMedium : app.width-1.6*Theme.itemSizeMedium;*/
-            if (dm.busy||fetcher.busy)
+            if (dm.busy||fetcher.busy||dm.removerBusy)
                 return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
             /*if (bar.open)
                 return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;*/
@@ -193,6 +193,15 @@ Page {
         ViewPlaceholder {
             enabled: listView.count == 0
             text: qsTr("No feeds")
+
+            Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.secondaryHighlightColor
+                text: fetcher.busy ? qsTr("Wait until Sync finish") : qsTr("Pull down to do Sync")
+                visible: settings.viewMode==2
+            }
         }
 
         VerticalScrollDecorator {

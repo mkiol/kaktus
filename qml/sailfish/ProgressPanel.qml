@@ -40,17 +40,12 @@ Item {
 
     Behavior on opacity { FadeAnimation {} }
 
-    Rectangle {
+    /*Rectangle {
         anchors.fill: parent
         visible: root.transparent
-
-        /*gradient: Gradient {
-            GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.1) }
-            GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.2) }
-        }*/
 	
         color: Theme.rgba(Theme.highlightColor, 0.2)
-    }
+    }*/
 
     Rectangle {
         anchors.fill: parent
@@ -69,10 +64,15 @@ Item {
     }
 
     Image {
-        anchors.fill: parent
+        anchors.left: parent.left; anchors.right: parent.right
+        //anchors.fill: parent
         //fillMode: Image.PreserveAspectFit
-        source: "image://theme/graphic-gradient-home-top"
+        source: "image://theme/graphic-gradient-home-top?"+Theme.highlightBackgroundColor
+        //source: "image://theme/graphic-gradient-home-bottom?"+Theme.highlightBackgroundColor
+        //source: "image://theme/graphic-gradient-edge?"+Theme.highlightBackgroundColor
+        //source: "image://theme/graphic-keyboard-highlight-top?"+Theme.highlightBackgroundColor
         visible: root.transparent
+        opacity: 0.3
     }
 
     Rectangle {

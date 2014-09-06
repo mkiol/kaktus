@@ -44,7 +44,7 @@ public:
     explicit Utils(QObject *parent = 0);
     ~Utils();
 
-    static bool removeDir(const QString &dirName);
+    //static bool removeDir(const QString &dirName);
 
     Q_INVOKABLE void setEntryModel(const QString &feedId);
     Q_INVOKABLE void setFeedModel(const QString &tabId);

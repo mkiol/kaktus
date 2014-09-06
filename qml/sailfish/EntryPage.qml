@@ -46,7 +46,7 @@ Page {
         clip:true
 
         height: {
-            if (dm.busy||fetcher.busy)
+            if (dm.busy||fetcher.busy||dm.removerBusy)
                 return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
             return isPortrait ? app.height : app.width;
         }
@@ -121,8 +121,8 @@ Page {
                     // One click
 
                     // Not allowed while Syncing
-                    if (dm.busy || fetcher.busy) {
-                        notification.show(qsTr("Please wait until Sync finishes"));
+                    if (dm.busy || fetcher.busy || dm.removerBusy) {
+                        notification.show(qsTr("Please wait until current task is complete"));
                         return;
                     }
 
@@ -183,6 +183,15 @@ Page {
         ViewPlaceholder {
             enabled: listView.count == 0
             text: settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+
+            Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.secondaryHighlightColor
+                text: fetcher.busy ? qsTr("Wait until Sync finish") : qsTr("Pull down to do Sync")
+                visible: settings.viewMode==3
+            }
         }
 
         VerticalScrollDecorator {

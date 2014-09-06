@@ -1588,8 +1588,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByTab(const QStr
         //(e.read=0 OR e.readlater=1)
 
         if (!ret) {
-            qWarning() << "SQL error!";
-            qWarning() << query.lastError();
+            qWarning() << "SQL error!" << query.lastError();
         }
 
         while(query.next()) {
@@ -1784,6 +1783,29 @@ QList<QString> DatabaseManager::readCacheFinalUrlOlderThan(int cacheDate, int li
 
     return list;
 }
+
+
+bool DatabaseManager::removeAllCacheItems()
+{
+    bool ret = false;
+    if (_db.isOpen()) {
+        QSqlQuery query(_db);
+        ret = query.exec(QString("DELETE FROM cache;"));
+
+        if (!ret) {
+            qWarning() << "SQL error!" << query.lastError().text();
+        }
+
+        ret = query.exec(QString("UPDATE entries SET cached=0;"));
+
+        if (!ret) {
+            qWarning() << "SQL error!" << query.lastError().text();
+        }
+    }
+
+    return ret;
+}
+
 
 bool DatabaseManager::removeEntriesOlderThan(int cacheDate, int limit)
 {

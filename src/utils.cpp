@@ -44,7 +44,7 @@ Utils::Utils(QObject *parent) :
  * Copyright (c) 2009 John Schember <john@nachtimwald.com>
  * http://john.nachtimwald.com/2010/06/08/qt-remove-directory-and-its-contents/
  */
-bool Utils::removeDir(const QString &dirName)
+/*bool Utils::removeDir(const QString &dirName)
 {
     bool result = true;
     QDir dir(dirName);
@@ -66,7 +66,7 @@ bool Utils::removeDir(const QString &dirName)
     }
 
     return result;
-}
+}*/
 
 void Utils::copyToClipboard(const QString &text)
 {

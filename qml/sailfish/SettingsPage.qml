@@ -39,7 +39,7 @@ Page {
         clip: true
 
         height: {
-            if (dm.busy||fetcher.busy)
+            if (dm.busy||fetcher.busy||dm.removerBusy)
                 return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
             return isPortrait ? app.height : app.width;
         }
@@ -171,9 +171,10 @@ Page {
                         text: qsTr("Delete cache")
                         onClicked: {
                             //dm.cleanCache();
-                            notification.show(qsTr("Cache data deleted!"));
+                            //notification.show(qsTr("Cache data deleted!"));
                             fetcher.cancel(); dm.cancel();
-                            db.newInit();
+                            dm.removeCache();
+                            //db.newInit();
                         }
                     }
                 }
@@ -229,7 +230,7 @@ Page {
                 currentIndex: settings.viewMode
 
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("Tabs & feeds & articles") }
+                    MenuItem { text: qsTr("Tabs, Feeds & articles") }
                     MenuItem { text: qsTr("Tabs & articles") }
                     MenuItem { text: qsTr("Feeds & articles") }
                     MenuItem { text: qsTr("Only articles") }

@@ -23,21 +23,45 @@ import Sailfish.Silica 1.0
 Row {
     id: root
 
-    property alias text: label.text
+    property alias title: label1.text
+    property alias description: label2.text
 
     anchors.left: parent.left; anchors.right: parent.right
     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-    spacing: 1.5*Theme.paddingLarge
+    spacing: 1.0*Theme.paddingLarge
 
     Image {
         width: Theme.iconSizeSmall; height: width
         source: "image://theme/icon-s-new"
+        anchors.top: parent.top
     }
 
-    Label {
-        id: label
+    Column {
+        spacing: Theme.paddingSmall
+        anchors.top: parent.top
         width: parent.width-3*Theme.paddingLarge
-        wrapMode: Text.WordWrap
-        font.pixelSize: Theme.fontSizeSmall
+
+        Label {
+            id: label1
+            width: parent.width
+            wrapMode: Text.WordWrap
+            font.pixelSize: Theme.fontSizeSmall
+            color: Theme.primaryColor
+            font.bold: true
+
+        }
+
+        Label {
+            id: label2
+            width: parent.width
+            wrapMode: Text.WordWrap
+            font.pixelSize: Theme.fontSizeSmall
+            color: Theme.primaryColor
+        }
+
+        Item {
+            height: Theme.paddingMedium
+            width: parent.width
+        }
     }
 }

@@ -28,6 +28,7 @@
 #include <QMap>
 #include <QStringList>
 #include <QNetworkConfigurationManager>
+#include <QThread>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QJsonObject>
@@ -38,7 +39,7 @@
 #include "databasemanager.h"
 #include "downloadmanager.h"
 
-class NetvibesFetcher: public QObject
+class NetvibesFetcher : public QThread
 {
     Q_OBJECT
     Q_ENUMS(BusyType)
@@ -66,6 +67,9 @@ public:
     BusyType readBusyType();
     bool isBusy();
 
+protected:
+    void run();
+
 signals:
     void quit();
     void busyChanged();
@@ -73,6 +77,7 @@ signals:
     void networkNotAccessible();
     void uploading();
     void checkingCredentials();
+    void addDownload(DatabaseManager::CacheItem item);
 
     /*
     200 - Fether is busy
@@ -94,21 +99,30 @@ public slots:
     void finishedSignIn();
     void finishedSignInOnlyCheck();
     void finishedDashboards();
+    void finishedDashboards2();
     void finishedTabs();
+    void finishedTabs2();
     void finishedFeeds();
+    void finishedFeeds2();
     void finishedFeedsInfo();
+    void finishedFeedsInfo2();
     void finishedFeedsUpdate();
+    void finishedFeedsUpdate2();
     void finishedFeedsReadlater();
+    void finishedFeedsReadlater2();
 
     void finishedSet();
 
     void readyRead();
     void networkError(QNetworkReply::NetworkError);
     void networkAccessibleChanged (QNetworkAccessManager::NetworkAccessibility accessible);
-
     bool delayedUpdate(bool state);
 
 private:
+
+    enum Job { StoreDashboards, StoreTabs, StoreFeeds,
+               StoreFeedsInfo, StoreFeedsUpdate, StoreFeedsReadlater };
+
     static const int feedsAtOnce = 5;
     static const int limitFeeds = 50;
     static const int limitFeedsReadlater = 50;
@@ -136,13 +150,17 @@ private:
     int _total;
     QByteArray _cookie;
     QNetworkConfigurationManager ncm;
+    Job currentJob;
+    bool moreReadlaterEntries;
+
     int offset;
 
     bool parse();
 
     QString hash(const QString &url);
 
-    void storeTabs(const QString &dashboardId);
+    //void storeTabs(const QString &dashboardId);
+    void storeTabs();
     void storeFeeds();
     void storeDashboards();
     void storeEntries();
@@ -164,6 +182,7 @@ private:
     void downloadFeeds();
 
     void setBusy(bool busy, BusyType type = Unknown);
+    void startJob(Job job);
 };
 
 #endif // NETVIBESFETCHER_H

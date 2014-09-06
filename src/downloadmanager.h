@@ -37,6 +37,40 @@
 
 class QSslError;
 
+class DownloadAdder : public QThread
+{
+    Q_OBJECT
+public:
+    DownloadAdder(QObject * parent = 0);
+
+protected:
+    void run();
+
+signals:
+    void addDownload(DatabaseManager::CacheItem item);
+};
+
+class CacheRemover : public QThread
+{
+    Q_OBJECT
+public:
+    CacheRemover(QObject * parent = 0);
+    void cancel();
+
+protected:
+    void run();
+
+signals:
+    //void ready();
+    void progressChanged(int current, int total);
+
+private:
+    bool removeDir(const QString &dirName);
+    int total;
+    int current;
+    bool doCancel;
+};
+
 class CacheCleaner : public QThread
 {
     Q_OBJECT
@@ -44,8 +78,8 @@ class CacheCleaner : public QThread
 protected:
     void run();
 
-signals:
-    void ready();
+/*signals:
+    void ready();*/
 
 private:
     static const int entriesLimit = 100;
@@ -76,19 +110,21 @@ class DownloadManager: public QObject
     Q_PROPERTY (bool online READ isOnline NOTIFY onlineChanged)
     Q_PROPERTY (bool busy READ isBusy NOTIFY busyChanged)
     Q_PROPERTY (int cacheSize READ getCacheSize NOTIFY cacheSizeChanged)
+    Q_PROPERTY (bool removerBusy READ isRemoverBusy NOTIFY removerBusyChanged)
 
 public:
     DownloadManager(QObject *parent = 0);
 
-    void addDownload(DatabaseManager::CacheItem item);
     Q_INVOKABLE void cancel();
+    Q_INVOKABLE void removerCancel();
     Q_INVOKABLE int itemsToDownloadCount();
-    Q_INVOKABLE bool startFeedDownload();
+    Q_INVOKABLE void startFeedDownload();
     Q_INVOKABLE void cleanCache();
 
     bool isBusy();
     bool isOnline();
     int getCacheSize();
+    bool isRemoverBusy();
 
 signals:
     void cacheSizeChanged();
@@ -97,6 +133,8 @@ signals:
     void networkNotAccessible();
     void onlineChanged();
     void canceled();
+    void removerBusyChanged();
+    void removerProgressChanged(int current, int total);
     /*
     500 - Unknown error
     501 - Save to disk error
@@ -105,6 +143,7 @@ signals:
     void progress(int remaining);
 
 public slots:
+    void addDownload(DatabaseManager::CacheItem item);
     void downloadFinished(QNetworkReply *reply);
     void sslErrors(const QList<QSslError> &errors);
     void error(QNetworkReply::NetworkError code);
@@ -112,6 +151,8 @@ public slots:
     void removeCache();
     void onlineStateChanged(bool isOnline);
     void cacheCleaningFinished();
+    void cacheRemoverFinished();
+    void cacheRemoverProgressChanged(int current, int total);
 
 private:
     static const int entriesLimit = 200;
@@ -125,6 +166,8 @@ private:
     QMap<QNetworkReply*,Checker*> replyToCheckerMap;
     QNetworkConfigurationManager ncm;
     CacheCleaner cleaner;
+    CacheRemover remover;
+    DownloadAdder adder;
 
     void doDownload(DatabaseManager::CacheItem item);
     bool saveToDisk(const QString &filename, const QByteArray &content);

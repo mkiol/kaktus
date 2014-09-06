@@ -63,6 +63,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     view.rootContext()->setContextProperty("AUTHOR", AUTHOR);
     view.rootContext()->setContextProperty("PAGE", PAGE);
 
+    qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
+
     QTranslator *appTranslator = new QTranslator;
     appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
     app->installTranslator(appTranslator);
@@ -107,6 +109,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("AUTHOR", AUTHOR);
     view->rootContext()->setContextProperty("PAGE", PAGE);
 
+    qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
+
     QTranslator *appTranslator = new QTranslator;
     appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
     app->installTranslator(appTranslator);
@@ -114,12 +118,14 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     Settings* settings = Settings::instance();
     settings->view = view.data();
     DatabaseManager db; settings->db = &db;
-    DownloadManager dm; settings->dm = &dm;
+    DownloadManager dm;
+    settings->dm = &dm;
+
     CacheServer cache(&db); settings->cache = &cache;
     NetvibesFetcher fetcher; settings->fetcher = &fetcher;
     Utils utils;
 
-    QObject::connect(&fetcher, SIGNAL(ready()), &utils, SLOT(updateModels()));
+    //QObject::connect(&fetcher, SIGNAL(ready()), &utils, SLOT(updateModels()));
     QObject::connect(view->engine(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
 
     view->rootContext()->setContextProperty("db", &db);

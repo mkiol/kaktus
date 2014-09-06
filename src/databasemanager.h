@@ -33,6 +33,8 @@
 
 #include "settings.h"
 
+//typedef DatabaseManager::CacheItem Cache;
+
 class DatabaseManager : public QObject
 {
     Q_OBJECT
@@ -217,7 +219,7 @@ public:
     int readTabLastUpadate(const QString &tabId);
 
     bool removeFeed(const QString &feedId);
-    //bool removeCacheItems(const QString &feedId);
+    bool removeAllCacheItems();
     bool removeEntriesOlderThan(int cacheDate, int limit);
     //bool removeCacheItemsOlderThan(int cacheDate, int limit);
     bool removeAction(const QString &entryId);
@@ -268,5 +270,7 @@ private:
     bool isTableExists(const QString &name);
     void decodeBase64(const QVariant &source, QString &result);
 };
+
+Q_DECLARE_METATYPE(DatabaseManager::CacheItem)
 
 #endif // DATABASEMANAGER_H

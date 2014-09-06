@@ -38,7 +38,7 @@
 DownloadManager::DownloadManager(QObject *parent) :
     QObject(parent)
 {
-
+    qDebug() << "0";
     /*QList<QNetworkConfiguration> activeConfigs = ncm.allConfigurations(QNetworkConfiguration::Active);
     QList<QNetworkConfiguration>::iterator i = activeConfigs.begin();
     while (i != activeConfigs.end()) {
@@ -46,7 +46,9 @@ DownloadManager::DownloadManager(QObject *parent) :
         ++i;
     }*/
 
-    connect(&cleaner, SIGNAL(ready()), this, SLOT(cacheCleaningFinished()));
+    connect(&cleaner, SIGNAL(finished()), this, SLOT(cacheCleaningFinished()));
+    connect(&remover, SIGNAL(finished()), this, SLOT(cacheRemoverFinished()));
+    connect(&remover, SIGNAL(progressChanged(int,int)), this, SLOT(cacheRemoverProgressChanged(int,int)));
 #ifdef ONLINE_CHECK
     connect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(onlineStateChanged(bool)));
 #endif
@@ -54,6 +56,7 @@ DownloadManager::DownloadManager(QObject *parent) :
             this, SLOT(downloadFinished(QNetworkReply*)));
     connect(&manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
             this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
+    connect(&adder, SIGNAL(addDownload(DatabaseManager::CacheItem)), this, SLOT(addDownload(DatabaseManager::CacheItem)));
 }
 
 bool DownloadManager::isOnline()
@@ -72,6 +75,11 @@ void DownloadManager::onlineStateChanged(bool isOnline)
     emit onlineChanged();
 }
 
+void DownloadManager::removerCancel()
+{
+    remover.cancel();
+}
+
 int DownloadManager::getCacheSize()
 {
     int size = 0;
@@ -87,18 +95,31 @@ int DownloadManager::getCacheSize()
 
 void DownloadManager::cleanCache()
 {
-    cleaner.start();
+    cleaner.start(QThread::IdlePriority);
 }
 
 void DownloadManager::cacheCleaningFinished()
 {
-    qDebug() << "Cache cleaning finished!";
+    //qDebug() << "Cache cleaning finished!";
+    emit cacheSizeChanged();
+}
+
+void DownloadManager::cacheRemoverProgressChanged(int current, int total)
+{
+    //qDebug() << "Cache remover progress changed!";
+    emit removerProgressChanged(current, total);
+}
+
+void DownloadManager::cacheRemoverFinished()
+{
+    qDebug() << "Cache remover finished!";
+    emit removerBusyChanged();
     emit cacheSizeChanged();
 }
 
 void DownloadManager::removeCache()
 {
-    Settings *s = Settings::instance();
+    /*Settings *s = Settings::instance();
     QDir cache(s->getDmCacheDir());
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (!cache.removeRecursively()) {
@@ -106,7 +127,16 @@ void DownloadManager::removeCache()
     if (!Utils::removeDir(cache.absolutePath())) {
 #endif
         qWarning() << "Unable to remove " << s->getDmCacheDir();
-    }
+    }*/
+
+    if (isRemoverBusy())
+        return;
+
+    Settings *s = Settings::instance();
+    s->db->removeAllCacheItems();
+    //remover.start(QThread::IdlePriority);
+    remover.start(QThread::LowestPriority);
+    emit removerBusyChanged();
 }
 
 void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility accessible)
@@ -159,6 +189,7 @@ void DownloadManager::addNextDownload()
         emit progress(0);
         emit ready();
         emit busyChanged();
+        emit cacheSizeChanged();
         return;
     }
 
@@ -379,10 +410,13 @@ void DownloadManager::sslErrors(const QList<QSslError> &sslErrors)
 void DownloadManager::addDownload(DatabaseManager::CacheItem item)
 {
     Settings *s = Settings::instance();
+    bool busy = isBusy();
+
     if (downloads.count() < s->getDmConnections()) {
         doDownload(item);
-        emit busyChanged();
-        emit cacheSizeChanged();
+        if (!busy)
+            emit busyChanged();
+        //emit cacheSizeChanged();
     } else {
         queue.append(item);
     }
@@ -437,16 +471,10 @@ void Checker::metaDataChanged()
     }
 }
 
-bool DownloadManager::startFeedDownload()
+void DownloadManager::startFeedDownload()
 {
-    /*bool busy = !downloads.isEmpty() || !queue.isEmpty();
-    if (busy) {
-        qWarning() << "Download Manager is busy!";
-        return;
-    }*/
-
 #if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
-    //cleanCache();
+    cleanCache();
 #else
     cleanCache();
 #endif
@@ -457,31 +485,7 @@ bool DownloadManager::startFeedDownload()
         //return false;
     }
 
-    Settings *s = Settings::instance();
-    QMap<QString,QString> list = s->db->readNotCachedEntries();
-    //qDebug() << "startFeedDownload, list.count=" << list.count();
-
-    if (list.count() == 0) {
-        qWarning() << "No feeds to download!";
-        return false;
-    }
-
-    //replyToCachedItemMap.clear();
-    //replyToCheckerMap.clear();
-
-    QMap<QString,QString>::iterator i = list.begin();
-    while (i != list.end()) {
-
-        DatabaseManager::CacheItem item;
-        item.entryId = i.key();
-        item.origUrl = i.value();
-        item.finalUrl = i.value();
-
-        addDownload(item);
-        ++i;
-    }
-
-    return true;
+    adder.start();
 }
 
 QString DownloadManager::hash(const QString &url)
@@ -519,7 +523,11 @@ bool DownloadManager::isBusy()
     return true;
 }
 
-//void CacheCleaner::run() Q_DECL_OVERRIDE {
+bool DownloadManager::isRemoverBusy()
+{
+    return remover.isRunning();
+}
+
 void CacheCleaner::run() {
 
     Settings *s = Settings::instance();
@@ -538,7 +546,7 @@ void CacheCleaner::run() {
                 }
             }
             ++iii;
-            QThread::msleep(100);
+            QThread::msleep(10);
         }
 
         s->db->removeEntriesByLimit(*ii, entriesLimit);
@@ -546,5 +554,97 @@ void CacheCleaner::run() {
         ++ii;
     }
 
-    emit ready();
+    //emit ready();
+}
+
+CacheRemover::CacheRemover(QObject *parent) : QThread(parent)
+{
+    total = 100;
+    current = 0;
+    doCancel = false;
+}
+
+/*
+ * Copyright (c) 2009 John Schember <john@nachtimwald.com>
+ * http://john.nachtimwald.com/2010/06/08/qt-remove-directory-and-its-contents/
+ */
+bool CacheRemover::removeDir(const QString &dirName)
+{
+    bool result = true;
+    QDir dir(dirName);
+
+    emit progressChanged(0,total);
+
+    if (dir.exists(dirName)) {
+        QFileInfoList infoList = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst);
+        total = infoList.count();
+        Q_FOREACH(QFileInfo info, infoList) {
+            if (doCancel)
+                return result;
+
+            if (info.isDir()) {
+                result = removeDir(info.absoluteFilePath());
+            }
+            else {
+                result = QFile::remove(info.absoluteFilePath());
+                ++current;
+                if (current % 10 == 0)
+                    emit progressChanged(++current,total);
+            }
+
+            if (!result) {
+                return result;
+            }
+            //qDebug() << "File" << info.absoluteFilePath() << "removed. Result:" << result;
+            //QThread::msleep(5);
+        }
+        result = dir.rmdir(dirName);
+    }
+
+    emit progressChanged(total,total);
+
+    return result;
+}
+
+void CacheRemover::run()
+{
+    current=0; total = 100; doCancel = false;
+    Settings *s = Settings::instance();
+    if (!removeDir(s->getDmCacheDir())) {
+        qWarning() << "Unable to remove " << s->getDmCacheDir();
+    }
+
+    //emit ready();
+}
+
+void CacheRemover::cancel()
+{
+    doCancel = true;
+}
+
+DownloadAdder::DownloadAdder(QObject *parent) : QThread(parent)
+{}
+
+void DownloadAdder::run()
+{
+    Settings *s = Settings::instance();
+    QMap<QString,QString> list = s->db->readNotCachedEntries();
+    //qDebug() << "startFeedDownload, list.count=" << list.count();
+
+    if (list.count() == 0) {
+        qWarning() << "No feeds to download!";
+        return;
+    }
+
+    QMap<QString,QString>::iterator i = list.begin();
+    while (i != list.end()) {
+
+        DatabaseManager::CacheItem item;
+        item.entryId = i.key();
+        item.origUrl = i.value();
+        item.finalUrl = i.value();
+
+        emit addDownload(item);
+        ++i;
+    }
 }

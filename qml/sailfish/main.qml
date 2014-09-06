@@ -63,7 +63,7 @@ ApplicationWindow {
 
         onViewModeChanged: {
             resetView();
-            notification.show(qsTr("Browsing mode changed!"));
+            //notification.show(qsTr("Browsing mode changed!"));
         }
     }
 
@@ -108,6 +108,16 @@ ApplicationWindow {
         onBusyChanged: {
             if (dm.busy && bar.open)
                 bar.open = false;
+        }
+
+        onRemoverBusyChanged: {
+            if (dm.removerBusy && bar.open)
+                bar.open = false;
+        }
+
+        onRemoverProgressChanged: {
+            //console.log("Remover progress: " + current / total);
+            progressPanelRemover.progress = current / total;
         }
     }
 
@@ -209,6 +219,20 @@ ApplicationWindow {
         width: app.orientation==Orientation.Portrait ? app.width : app.height
         y: app.orientation==Orientation.Portrait ? app.height-height : 0
         x: app.orientation==Orientation.Portrait ? 0 : height
+    }
+
+    ProgressPanel {
+        id: progressPanelRemover
+        open: dm.removerBusy
+        onCloseClicked: dm.removerCancel();
+
+        rotation: app.orientation==Orientation.Portrait ? 0 : 90
+        transformOrigin: Item.TopLeft
+        height: app.orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium
+        width: app.orientation==Orientation.Portrait ? app.width : app.height
+        y: app.orientation==Orientation.Portrait ? app.height-height : 0
+        x: app.orientation==Orientation.Portrait ? 0 : height
+        text: qsTr("Removing cache data...");
     }
 
     ProgressPanel {
