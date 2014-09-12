@@ -121,7 +121,8 @@ public slots:
 private:
 
     enum Job { StoreDashboards, StoreTabs, StoreFeeds,
-               StoreFeedsInfo, StoreFeedsUpdate, StoreFeedsReadlater };
+               StoreFeedsInfo, StoreFeedsUpdate, StoreFeedsReadlater
+             };
 
     static const int feedsAtOnce = 5;
     static const int limitFeeds = 50;

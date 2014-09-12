@@ -41,6 +41,7 @@
 #include "netvibesfetcher.h"
 #include "utils.h"
 #include "settings.h"
+#include "iconprovider.h"
 
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michał Kościesza <michal@mkiol.net>";
@@ -108,6 +109,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("VERSION", VERSION);
     view->rootContext()->setContextProperty("AUTHOR", AUTHOR);
     view->rootContext()->setContextProperty("PAGE", PAGE);
+
+    view->engine()->addImageProvider(QLatin1String("icons"), new IconProvider);
 
     qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
 

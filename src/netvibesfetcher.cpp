@@ -218,7 +218,6 @@ bool NetvibesFetcher::checkCredentials()
 
 void NetvibesFetcher::signIn()
 {
-    //_data = QByteArray();
     _data.clear();
 
     Settings *s = Settings::instance();
@@ -235,7 +234,6 @@ void NetvibesFetcher::signIn()
         return;
     }
 
-    //QUrl url("http://www.netvibes.com/ajax/user/signIn.php");
     QUrl url("http://www.netvibes.com/api/auth/signin");
 
     QNetworkRequest request(url);
@@ -282,7 +280,6 @@ void NetvibesFetcher::set()
 {
     DatabaseManager::Action action = actionsList.first();
 
-    //_data = QByteArray();
     _data.clear();
 
     QUrl url;
@@ -396,7 +393,6 @@ void NetvibesFetcher::set()
 
 void NetvibesFetcher::fetchTabs(const QString &dashboardID)
 {
-    //_data = QByteArray();
     _data.clear();
 
     QUrl url("http://www.netvibes.com/api/my/dashboards/data");
@@ -416,7 +412,6 @@ void NetvibesFetcher::fetchTabs(const QString &dashboardID)
 
 void NetvibesFetcher::fetchFeeds()
 {
-    //_data = QByteArray();
     _data.clear();
 
     QUrl url("http://www.netvibes.com/api/feeds");
@@ -544,7 +539,6 @@ void NetvibesFetcher::fetchFeedsInfo(const QString &tabId)
 {
     Q_UNUSED(tabId)
 
-    //_data = QByteArray();
     _data.clear();
 
     QUrl url("http://www.netvibes.com/api/feeds/info");
@@ -701,7 +695,6 @@ void NetvibesFetcher::storeTabs()
                 item.origUrl = t.icon;
                 item.finalUrl = t.icon;
                 emit addDownload(item);
-                //s->dm->addDownload(item);
                 //qDebug() << "icon:" << t.icon;
             }
 
@@ -812,7 +805,6 @@ void NetvibesFetcher::storeFeeds()
                     DatabaseManager::CacheItem item;
                     item.origUrl = f.icon;
                     item.finalUrl = f.icon;
-                    //s->dm->addDownload(item);
                     emit addDownload(item);
                     //qDebug() << "favicon:" << f.icon;
                 }
@@ -891,7 +883,6 @@ void NetvibesFetcher::storeEntries()
                             DatabaseManager::CacheItem item;
                             item.origUrl = image;
                             item.finalUrl = image;
-                            //s->dm->addDownload(item);
                             emit addDownload(item);
                         }
                     } else {
@@ -904,7 +895,6 @@ void NetvibesFetcher::storeEntries()
                                     DatabaseManager::CacheItem item;
                                     item.origUrl = imgSrc;
                                     item.finalUrl = imgSrc;
-                                    //s->dm->addDownload(item);
                                     emit addDownload(item);
                                 }
                                 e.image = imgSrc;
@@ -1144,14 +1134,6 @@ void NetvibesFetcher::finishedSignIn()
 void NetvibesFetcher::finishedDashboards()
 {
     //qDebug() << this->_data;
-
-    if(!parse()) {
-        qWarning() << "Error parsing Json!";
-        emit error(600);
-        setBusy(false);
-        return;
-    }
-
     startJob(StoreDashboards);
 }
 
@@ -1178,17 +1160,6 @@ void NetvibesFetcher::finishedDashboards2()
 void NetvibesFetcher::finishedTabs()
 {
     //qDebug() << this->_data;
-
-    if(!parse()) {
-        qWarning() << "Error parsing Json!";
-        emit error(600);
-        setBusy(false);
-        return;
-    }
-
-    //QString dashboardId = _dashboardList.takeFirst();
-    //storeTabs(dashboardId);
-
     startJob(StoreTabs);
 }
 
@@ -1289,14 +1260,6 @@ void NetvibesFetcher::cleanRemovedFeeds()
 void NetvibesFetcher::finishedFeeds()
 {
     //qDebug() << this->_data;
-
-    if(!parse()) {
-        qWarning() << "Error parsing Json!";
-        emit error(600);
-        setBusy(false);
-        return;
-    }
-
     startJob(StoreFeeds);
 }
 
@@ -1366,13 +1329,6 @@ void NetvibesFetcher::finishedFeeds2()
 void NetvibesFetcher::finishedFeedsReadlater()
 {
     //qDebug() << this->_data;
-
-    if(!parse()) {
-        qWarning() << "Error parsing Json!";
-        emit error(600);
-        setBusy(false);
-        return;
-    }
 
     ++offset;
 
@@ -1446,13 +1402,6 @@ void NetvibesFetcher::finishedSet()
 void NetvibesFetcher::finishedFeedsUpdate()
 {
     //qDebug() << this->_data;
-
-    if(!parse()) {
-        qWarning() << "Error parsing Json!";
-        emit error(600);
-        setBusy(false);
-        return;
-    }
 
     startJob(StoreFeedsUpdate);
 }
@@ -1566,6 +1515,13 @@ void NetvibesFetcher::startJob(Job job)
     disconnect(this, SIGNAL(finished()), 0, 0);
     currentJob = job;
 
+    if(!parse()) {
+        qWarning() << "Error parsing Json!";
+        emit error(600);
+        setBusy(false);
+        return;
+    }
+
     switch (job) {
     case StoreDashboards:
         connect(this, SIGNAL(finished()), this, SLOT(finishedDashboards2()));
@@ -1590,5 +1546,5 @@ void NetvibesFetcher::startJob(Job job)
     }
 
     //start(QThread::IdlePriority);
-    start();
+    start(QThread::LowPriority);
 }

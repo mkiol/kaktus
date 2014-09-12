@@ -291,7 +291,8 @@ void Settings::setDmMaxSize(int value)
 
 int Settings::getDmMaxSize()
 {
-    return settings.value("maxsize", 1000000).toInt();
+
+    return settings.value("maxsize", 2000000).toInt();
 }
 
 QString Settings::getDmCacheDir()

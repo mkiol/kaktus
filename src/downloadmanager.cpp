@@ -112,30 +112,19 @@ void DownloadManager::cacheRemoverProgressChanged(int current, int total)
 
 void DownloadManager::cacheRemoverFinished()
 {
-    qDebug() << "Cache remover finished!";
+    //qDebug() << "Cache remover finished!";
     emit removerBusyChanged();
     emit cacheSizeChanged();
 }
 
 void DownloadManager::removeCache()
 {
-    /*Settings *s = Settings::instance();
-    QDir cache(s->getDmCacheDir());
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    if (!cache.removeRecursively()) {
-#else
-    if (!Utils::removeDir(cache.absolutePath())) {
-#endif
-        qWarning() << "Unable to remove " << s->getDmCacheDir();
-    }*/
-
     if (isRemoverBusy())
         return;
 
     Settings *s = Settings::instance();
     s->db->removeAllCacheItems();
-    //remover.start(QThread::IdlePriority);
-    remover.start(QThread::LowestPriority);
+    remover.start(QThread::LowPriority);
     emit removerBusyChanged();
 }
 
@@ -485,7 +474,7 @@ void DownloadManager::startFeedDownload()
         //return false;
     }
 
-    adder.start();
+    adder.start(QThread::LowestPriority);
 }
 
 QString DownloadManager::hash(const QString &url)
