@@ -22,7 +22,7 @@
 
 #include "databasemanager.h"
 
-const QString DatabaseManager::version = QString("1.3");
+const QString DatabaseManager::version = QString("1.4");
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
@@ -88,6 +88,14 @@ bool DatabaseManager::deleteDB()
 {
     _db.close();
     QSqlDatabase::removeDatabase("qt_sql_kaktus_connection");
+
+    if (dbFilePath=="") {
+        Settings *s = Settings::instance();
+        dbFilePath = s->getSettingsDir();
+        dbFilePath.append(QDir::separator()).append("settings.db");
+        dbFilePath = QDir::toNativeSeparators(dbFilePath);
+    }
+
     return QFile::remove(dbFilePath);
 }
 
@@ -340,9 +348,11 @@ bool DatabaseManager::createFeedsStructure()
                          "url TEXT, "
                          "icon TEXT, "
                          "stream_id VARCHAR(50), "
+                         "type VARCHAR(50) DEFAULT '', "
                          "unread INTEGER DEFAULT 0, "
                          "read INTEGER DEFAULT 0, "
                          "readlater INTEGER DEFAULT 0, "
+                         "slow INTEGER DEFAULT 0, "
                          "item_count INTEGER, "
                          "new_item_count INTEGER DEFAULT 0, "
                          "error_code INTEGER DEFAULT 0, "
@@ -352,6 +362,8 @@ bool DatabaseManager::createFeedsStructure()
                          ");");
         ret = query.exec("CREATE INDEX IF NOT EXISTS feeds_id "
                          "ON feeds(id DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS slow "
+                         "ON feeds(slow DESC);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS tabs_id "
                          "ON feeds(tab_id DESC);");
     } else {
@@ -545,7 +557,9 @@ bool DatabaseManager::writeFeed(const QString &tabId, const Feed &feed)
     if (_db.isOpen()) {
         QSqlQuery query(_db);
         //qDebug() << "writeFeed, " << feed.id << tabId << feed.title;
-        ret = query.exec(QString("INSERT INTO feeds (id, tab_id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update) VALUES('%1','%2','%3','%4','%5','%6','%7','%8',%9,%10,%11,'%12');")
+        ret = query.exec(QString("INSERT INTO feeds (id, tab_id, title, content, link, url, icon, "
+                                 "stream_id, type, unread, read, readlater, slow, last_update) "
+                                 "VALUES('%1','%2','%3','%4','%5','%6','%7','%8','%9',%10,%11,%12,%13,'%14');")
                          .arg(feed.id)
                          .arg(tabId)
                          .arg(QString(feed.title.toUtf8().toBase64()))
@@ -554,17 +568,21 @@ bool DatabaseManager::writeFeed(const QString &tabId, const Feed &feed)
                          .arg(feed.url)
                          .arg(feed.icon)
                          .arg(feed.streamId)
+                         .arg(feed.type)
                          .arg(feed.unread)
                          .arg(feed.read)
                          .arg(feed.readlater)
+                         .arg(feed.slow)
                          .arg(feed.lastUpdate));
         //qDebug() << "ret1" << ret;
         if(!ret) {
-            ret = query.exec(QString("UPDATE feeds SET last_update='%1', unread=%2, read=%3, readlater=%4 WHERE id='%5';")
+            ret = query.exec(QString("UPDATE feeds SET last_update='%1', unread=%2, read=%3, "
+                                     "readlater=%4, slow=%5 WHERE id='%6';")
                              .arg(feed.lastUpdate)
                              .arg(feed.unread)
                              .arg(feed.read)
                              .arg(feed.readlater)
+                             .arg(feed.slow)
                              .arg(feed.id));
         }
         //qDebug() << "ret2" << ret;
@@ -897,8 +915,9 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeedsByTab(const QString &tabI
 
     if (_db.isOpen()) {
         QSqlQuery query(_db);
-        bool ret = query.exec(QString("SELECT id, title, content, link, url, icon, stream_id, unread, read, readlater, last_update "
-                                "FROM feeds WHERE tab_id='%1' ORDER BY id DESC LIMIT %2;")
+        bool ret = query.exec(QString("SELECT id, title, content, link, url, icon, "
+                                      "stream_id, type, unread, read, readlater, slow, last_update "
+                                      "FROM feeds WHERE tab_id='%1' ORDER BY id DESC LIMIT %2;")
                         .arg(tabId)
                         .arg(feedsLimit));
 
@@ -916,10 +935,12 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeedsByTab(const QString &tabI
             f.url = query.value(4).toString();
             f.icon = query.value(5).toString();
             f.streamId = query.value(6).toString();
-            f.unread = query.value(7).toInt();
-            f.read = query.value(8).toInt();
-            f.readlater = query.value(9).toInt();
-            f.lastUpdate = query.value(10).toInt();
+            f.type = query.value(7).toString();
+            f.unread = query.value(8).toInt();
+            f.read = query.value(9).toInt();
+            f.readlater = query.value(10).toInt();
+            f.slow = query.value(11).toInt();
+            f.lastUpdate = query.value(12).toInt();
             list.append(f);
         }
     } else {
@@ -935,9 +956,10 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &dashboard
 
     if (_db.isOpen()) {
         QSqlQuery query(_db);
-        bool ret = query.exec(QString("SELECT f.id, f.title, f.content, f.link, f.url, f.icon, f.stream_id, f.unread, f.read, f.readlater, f.last_update "
-                                "FROM feeds as f, tabs as t WHERE f.tab_id=t.id AND t.dashboard_id='%1' "
-                                "ORDER BY f.id DESC LIMIT %2;")
+        bool ret = query.exec(QString("SELECT f.id, f.title, f.content, f.link, f.url, f.icon, "
+                                      "f.stream_id, f.type, f.unread, f.read, f.readlater, f.slow, f.last_update "
+                                      "FROM feeds as f, tabs as t WHERE f.tab_id=t.id AND t.dashboard_id='%1' "
+                                      "ORDER BY f.id DESC LIMIT %2;")
                         .arg(dashboardId)
                         .arg(feedsLimit));
 
@@ -955,10 +977,12 @@ QList<DatabaseManager::Feed> DatabaseManager::readFeeds(const QString &dashboard
             f.url = query.value(4).toString();
             f.icon = query.value(5).toString();
             f.streamId = query.value(6).toString();
-            f.unread = query.value(7).toInt();
-            f.read = query.value(8).toInt();
-            f.readlater = query.value(9).toInt();
-            f.lastUpdate = query.value(10).toInt();
+            f.type = query.value(7).toString();
+            f.unread = query.value(8).toInt();
+            f.read = query.value(9).toInt();
+            f.readlater = query.value(10).toInt();
+            f.slow = query.value(11).toInt();
+            f.lastUpdate = query.value(12).toInt();
             list.append(f);
         }
     } else {
@@ -1960,7 +1984,7 @@ int DatabaseManager::readEntriesReadCount(const QString &dashboardId)
 {
     int count = 0;
 
-    Settings *s = Settings::instance();
+    //Settings *s = Settings::instance();
 
     if (_db.isOpen()) {
         QSqlQuery query(_db);
@@ -1986,7 +2010,7 @@ int DatabaseManager::readEntriesUnreadCount(const QString &dashboardId)
 {
     int count = 0;
 
-    Settings *s = Settings::instance();
+    //Settings *s = Settings::instance();
 
     if (_db.isOpen()) {
         QSqlQuery query(_db);

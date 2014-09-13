@@ -66,9 +66,11 @@ public:
         QString url;
         QString streamId;
         QString icon;
+        QString type;
         int unread;
         int read;
         int readlater;
+        int slow;
         int lastUpdate;
     };
 

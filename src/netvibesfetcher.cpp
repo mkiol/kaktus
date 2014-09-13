@@ -189,7 +189,7 @@ bool NetvibesFetcher::update()
     actionsList.clear();
 
     signIn();
-    //emit progress(0,100);
+    emit progress(0,100);
     return true;
 }
 
@@ -258,7 +258,6 @@ void NetvibesFetcher::signIn()
 
 void NetvibesFetcher::fetchDashboards()
 {
-    //_data = QByteArray();
     _data.clear();
 
     QUrl url("http://www.netvibes.com/api/my/dashboards");
@@ -286,34 +285,34 @@ void NetvibesFetcher::set()
 
     switch (action.type) {
     case DatabaseManager::SetRead:
-        url.setUrl("http://www.netvibes.com/api/feeds/read/add");
+        url.setUrl("http://www.netvibes.com/api/streams/read/add");
         break;
     case DatabaseManager::SetReadlater:
-        url.setUrl("http://www.netvibes.com/api/feeds/readlater/add");
+        url.setUrl("http://www.netvibes.com/api/streams/saved/add");
         break;
     case DatabaseManager::UnSetRead:
-        url.setUrl("http://www.netvibes.com/api/feeds/read/remove");
+        url.setUrl("http://www.netvibes.com/api/streams/read/remove");
         break;
     case DatabaseManager::UnSetReadlater:
-        url.setUrl("http://www.netvibes.com/api/feeds/readlater/remove");
+        url.setUrl("http://www.netvibes.com/api/streams/saved/remove");
         break;
     case DatabaseManager::UnSetFeedReadAll:
-        url.setUrl("http://www.netvibes.com/api/feeds/read/remove");
+        url.setUrl("http://www.netvibes.com/api/streams/read/remove");
         break;
     case DatabaseManager::SetFeedReadAll:
-        url.setUrl("http://www.netvibes.com/api/feeds/read/add");
+        url.setUrl("http://www.netvibes.com/api/streams/read/add");
         break;
     case DatabaseManager::UnSetTabReadAll:
-        url.setUrl("http://www.netvibes.com/api/feeds/read/remove");
+        url.setUrl("http://www.netvibes.com/api/streams/read/remove");
         break;
     case DatabaseManager::SetTabReadAll:
-        url.setUrl("http://www.netvibes.com/api/feeds/read/add");
+        url.setUrl("http://www.netvibes.com/api/streams/read/add");
         break;
     case DatabaseManager::UnSetAllRead:
-        url.setUrl("http://www.netvibes.com/api/feeds/read/remove");
+        url.setUrl("http://www.netvibes.com/api/streams/read/remove");
         break;
     case DatabaseManager::SetAllRead:
-        url.setUrl("http://www.netvibes.com/api/feeds/read/add");
+        url.setUrl("http://www.netvibes.com/api/streams/read/add");
         break;
     }
 
@@ -326,69 +325,90 @@ void NetvibesFetcher::set()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Cookie", _cookie);
 
-    QString content;
+    Settings *s = Settings::instance();
+    QString actions = "[";
 
     if (action.type == DatabaseManager::SetTabReadAll ||
         action.type == DatabaseManager::UnSetTabReadAll) {
 
-        Settings *s = Settings::instance();
         QStringList list = s->db->readFeedsIdsByTab(action.feedId);
+
+        if (list.empty()) {
+            qWarning() << "No feeds found!";
+            emit error(502);
+            return;
+        }
+
+        actions += "{\"options\":{},\"streams\":[";
+
         QStringList::iterator i = list.begin();
-        QString feeds;
         while (i != list.end()) {
             if (i != list.begin())
-                feeds += ",";
-            feeds += *i+":"+QString::number(action.olderDate);
+                actions  += ",";
+
+            actions += QString("{\"id\":\"%1\"}").arg(*i);
+
             ++i;
         }
-        content = QString("feeds=%1&format=json").arg(feeds);
+
+        actions += "]}";
     }
 
     if (action.type == DatabaseManager::SetAllRead||
-        action.type == DatabaseManager::UnSetAllRead) {
+            action.type == DatabaseManager::UnSetAllRead) {
 
-        Settings *s = Settings::instance();
         QStringList list = s->db->readFeedsIds(action.feedId);
+
+        if (list.empty()) {
+            qWarning() << "No feeds found!";
+            emit error(502);
+            return;
+        }
+
+        actions += "{\"options\":{},\"streams\":[";
+
         QStringList::iterator i = list.begin();
-        QString feeds;
         while (i != list.end()) {
             if (i != list.begin())
-                feeds += ",";
-            feeds += *i+":"+QString::number(action.olderDate);
+                actions  += ",";
+
+            actions += QString("{\"id\":\"%1\"}").arg(*i);
+
             ++i;
         }
-        content = QString("feeds=%1&format=json").arg(feeds);
+
+        actions += "]}";
     }
 
     if (action.type == DatabaseManager::SetFeedReadAll ||
         action.type == DatabaseManager::UnSetFeedReadAll) {
-        content = QString("feeds=%1:%2&format=json").arg(action.feedId).arg(action.olderDate);
+
+        actions += "{\"options\":{},\"streams\":[";
+        actions += QString("{\"id\":\"%1\"}").arg(action.feedId);
+        actions += "]}";
     }
 
     if (action.type == DatabaseManager::SetRead ||
         action.type == DatabaseManager::UnSetRead ||
         action.type == DatabaseManager::SetReadlater ||
         action.type == DatabaseManager::UnSetReadlater ) {
-        content = QString("feeds=%1&items=%2&format=json").arg(action.feedId).arg(action.entryId);
+
+        actions = QString("{\"streams\":[{\"id\":\"%1\",\"items\":[{"
+                           "\"id\":\"%2\",\"publishedAt\":%3}]}]}")
+                .arg(action.feedId).arg(action.entryId).arg(action.olderDate);
     }
 
+    actions += "]";
+
+    qDebug() << "actions=" << actions;
+    QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
     //qDebug() << "content=" << content;
 
     _currentReply = _manager.post(request, content.toUtf8());
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedSet()));
     connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
-    connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
-
-    //Logging
-    /*Settings *s = Settings::instance();
-    QFile file(s->getSettingsDir() + "/log_request.txt");
-    if (!file.open(QIODevice::Append)) {
-        qWarning() << "Could not open" << file.fileName() << "for append: " << file.errorString();
-    } else {
-        file.write(("["+QDateTime::currentDateTime().toString()+"]\n").toUtf8());
-        file.write(content.toUtf8()+"\n");
-        file.close();
-    }*/
+    connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)),
+            this, SLOT(networkError(QNetworkReply::NetworkError)));
 }
 
 void NetvibesFetcher::fetchTabs(const QString &dashboardID)
@@ -407,14 +427,15 @@ void NetvibesFetcher::fetchTabs(const QString &dashboardID)
     _currentReply = _manager.post(request,"format=json&pageId="+dashboardID.toUtf8());
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedTabs()));
     connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
-    connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+    connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)),
+            this, SLOT(networkError(QNetworkReply::NetworkError)));
 }
 
 void NetvibesFetcher::fetchFeeds()
 {
     _data.clear();
 
-    QUrl url("http://www.netvibes.com/api/feeds");
+    QUrl url("http://www.netvibes.com/api/streams");
     QNetworkRequest request(url);
 
     if (_currentReply) {
@@ -427,26 +448,29 @@ void NetvibesFetcher::fetchFeeds()
     Settings *s = Settings::instance();
     int feedsAtOnce = s->getFeedsAtOnce();
 
-    QString feeds, limit; int ii = 0;
+    int ii = 0;
+    QString actions = "[";
     QMap<QString,QString>::iterator i = _feedList.begin();
     while (i != _feedList.end()) {
-        if (ii > feedsAtOnce) {
+        if (ii > feedsAtOnce)
             break;
-        }
 
-        if (ii != 0) {
-            feeds += ",";
-            limit += "&";
-        }
+        if (ii != 0)
+            actions += ",";
 
-        feeds += i.key();
-        limit += "limit[" + QString::number(ii) + "]=" + QString::number(limitFeeds);
+        /*actions += QString("{\"options\":{\"limit\":%1},\"streams\":[{\"id\":\"%2\",\"moduleId\":\"%3\"}]}")
+                .arg(limitFeeds).arg(i.key()).arg(i.value());*/
+
+        actions += QString("{\"options\":{\"limit\":%1},\"streams\":[{\"id\":\"%2\"}]}")
+                .arg(limitFeeds).arg(i.key());
 
         i = _feedList.erase(i);
         ++ii;
     }
+    actions += "]";
 
-    QString content = "feeds=" + QUrl::toPercentEncoding(feeds) + "&" + limit + "&merged=0&format=json";
+    //qDebug() << "actions=" << actions;
+    QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
     //qDebug() << "content=" << content;
 
     _currentReply = _manager.post(request, content.toUtf8());
@@ -455,52 +479,11 @@ void NetvibesFetcher::fetchFeeds()
     connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
 }
 
-/*void NetvibesFetcher::fetchFeeds2()
-{
-    //_data = QByteArray();
-    _data.clear();
-
-    QUrl url("http://www.netvibes.com/api/feeds");
-    QNetworkRequest request(url);
-
-    if (_currentReply) {
-        _currentReply->disconnect();
-        _currentReply->deleteLater();
-    }
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
-    request.setRawHeader("Cookie", _cookie);
-
-    Settings *s = Settings::instance();
-    int feedsAtOnce = s->getFeedsAtOnce();
-
-    QString feeds; int ii = 0;
-    QStringList::iterator i = _feedList.begin();
-    while (i != _feedList.end()) {
-        if (ii > feedsAtOnce) {
-            break;
-        }
-        if (ii != 0)
-            feeds += ",";
-        feeds += *i;
-        i = _feedList.erase(i);
-        ++ii;
-    }
-
-    QString content = "offset=0&limit=" +QString::number(feedsAtOnce*limitFeeds)+ "&feeds=" + QUrl::toPercentEncoding(feeds) + "&format=json";
-    qDebug() << "content=" << content;
-
-    _currentReply = _manager.post(request, content.toUtf8());
-    connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedFeeds()));
-    connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
-    connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
-}*/
-
 void NetvibesFetcher::fetchFeedsReadlater()
 {
-    //_data = QByteArray();
     _data.clear();
 
-    QUrl url("http://www.netvibes.com/api/feeds/readlater");
+    QUrl url("http://www.netvibes.com/api/streams/saved");
     QNetworkRequest request(url);
 
     if (_currentReply) {
@@ -511,22 +494,30 @@ void NetvibesFetcher::fetchFeedsReadlater()
     request.setRawHeader("Cookie", _cookie);
 
     Settings *s = Settings::instance();
-    QStringList list = s->db->readAllFeedIds();
-    QStringList::iterator i = list.begin();
-    QString feeds;
 
-    while (i != list.end()) {
-        if (i != list.begin())
-            feeds += ",";
-        feeds += *i;
-        ++i;
+    QString actions;
+    if (publishedBeforeDate==0) {
+        actions = QString("[{\"options\":{\"limit\":%1}}]").arg(limitFeedsReadlater);
+    } else {
+        /*actions = QString("[{\"options\":{\"limit\":%1, "
+                          "\"publishedBeforeDate\":%2, "
+                          "\"publishedBeforeItemId\":%3, "
+                          "\"publishedBeforeStreamId\":%4, "
+                          "\"streams\":[{\"id\":\"%4\"}]"
+                          "}}]")
+                .arg(limitFeedsReadlater)
+                .arg(publishedBeforeDate)
+                .arg(publishedBeforeItemId)
+                .arg(publishedBeforeStreamId);*/
+        actions = QString("[{\"options\":{\"limit\":%1, "
+                          "\"publishedBeforeDate\":%2"
+                          "}}]")
+                .arg(limitFeedsReadlater)
+                .arg(publishedBeforeDate);
     }
 
-    QString content = QString("offset=%1&limit=%2&feeds=%3&format=json")
-            .arg(offset*limitFeedsReadlater)
-            .arg(limitFeedsReadlater)
-            .arg(QUrl::toPercentEncoding(feeds).data());
-
+    //qDebug() << "actions=" << actions;
+    QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
     //qDebug() << "content=" << content;
 
     _currentReply = _manager.post(request, content.toUtf8());
@@ -535,59 +526,11 @@ void NetvibesFetcher::fetchFeedsReadlater()
     connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
 }
 
-void NetvibesFetcher::fetchFeedsInfo(const QString &tabId)
-{
-    Q_UNUSED(tabId)
-
-    _data.clear();
-
-    QUrl url("http://www.netvibes.com/api/feeds/info");
-    QNetworkRequest request(url);
-
-    if (_currentReply) {
-        _currentReply->disconnect();
-        _currentReply->deleteLater();
-    }
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
-    request.setRawHeader("Cookie", _cookie);
-
-    Settings *s = Settings::instance();
-    int feedsAtOnce = s->getFeedsAtOnce();
-
-    QString feeds, limit; int ii = 0;
-    QMap<QString,QString>::iterator i = _feedList.begin();
-    while (i != _feedList.end()) {
-        if (ii > feedsAtOnce) {
-            break;
-        }
-
-        if (ii != 0) {
-            feeds += ",";
-            limit += "&";
-        }
-
-        feeds += i.key();
-        limit += "limit[" + QString::number(ii) + "]=" + QString::number(limitFeeds);
-
-        i = _feedList.erase(i);
-        ++ii;
-    }
-
-    QString content = "feeds=" + QUrl::toPercentEncoding(feeds) + "&" + limit + "&merged=0&format=json";
-
-    //qDebug() << "content=" << content;
-
-    _currentReply = _manager.post(request, content.toUtf8());
-    connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedFeedsInfo()));
-    connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
-    connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
-}
-
 void NetvibesFetcher::fetchFeedsUpdate()
 {
     _data.clear();
 
-    QUrl url("http://www.netvibes.com/api/feeds/update");
+    QUrl url("http://www.netvibes.com/api/streams");
     QNetworkRequest request(url);
 
     if (_currentReply) {
@@ -600,24 +543,30 @@ void NetvibesFetcher::fetchFeedsUpdate()
     Settings *s = Settings::instance();
     int feedsUpdateAtOnce = s->getFeedsUpdateAtOnce();
 
-    QString feeds;  int ii = 0;
+    int ii = 0;
+    QString actions = "[";
     QMap<QString,int>::iterator i = _feedUpdateList.begin();
-    //qDebug() << "feedUpdateList.count=" << _feedUpdateList.count();
+    qDebug() << "feedUpdateList.count=" << _feedUpdateList.count();
     while (i != _feedUpdateList.end()) {
-        if (ii >= feedsUpdateAtOnce) {
+        if (ii >= feedsUpdateAtOnce)
             break;
-        }
-        if (ii != 0) {
-            feeds += ",";
-        }
-        feeds += i.key() + ":" + QString::number(i.value());
+
+        if (ii != 0)
+            actions += ",";
+
+        /*actions += QString("{\"options\":{\"limit\":%1},\"crawledAfterDate\":%2,\"streams\":[{\"id\":\"%3\",\"moduleId\":\"%4\"}]}")
+                       .arg(limitFeedsUpdate).arg(i.value()).arg(i.key()).arg(i.value());*/
+
+        actions += QString("{\"options\":{\"limit\":%1},\"crawledAfterDate\":%2,\"streams\":[{\"id\":\"%3\"}]}")
+                .arg(limitFeedsUpdate).arg(i.value()).arg(i.key());
 
         i = _feedUpdateList.erase(i);
         ++ii;
     }
+    actions += "]";
 
-    QString content = "feeds=" + QUrl::toPercentEncoding(feeds) + "&merged=0&format=json";
-
+    //qDebug() << "actions=" << actions;
+    QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
     //qDebug() << "content=" << content;
 
     _currentReply = _manager.post(request, content.toUtf8());
@@ -658,11 +607,15 @@ bool NetvibesFetcher::parse()
     }
 #endif
 
-   return true;
+    return true;
 }
 
 void NetvibesFetcher::storeTabs()
 {
+    if (checkError()) {
+        return;
+    }
+
     Settings *s = Settings::instance();
     QString dashboardId = _dashboardList.takeFirst();
 
@@ -734,13 +687,9 @@ void NetvibesFetcher::storeTabs()
                         ++mi;
                     }
                 }
-
-                /*QString streamId = obj["data"].toObject()["streamIds"].toString();
-                QString tabId = obj["tab"].toString();
-                _feedTabList.insert(streamId,tabId);
-                _feedList.insert(streamId,tabId);*/
             }
 #else
+            //TO-DO
             QVariantMap obj = (*i).toMap();
             if (obj["name"].toString() == "RssReader") {
                 QString streamId = obj["data"].toMap()["streamIds"].toString();
@@ -756,246 +705,229 @@ void NetvibesFetcher::storeTabs()
     }
 }
 
-void NetvibesFetcher::storeFeeds()
+int NetvibesFetcher::storeFeeds()
 {
+    if (checkError()) {
+        return 0;
+    }
+
     Settings *s = Settings::instance();
+    int entriesCount = 0;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    if (_jsonObj["feeds"].isArray()) {
-        QJsonArray::const_iterator i = _jsonObj["feeds"].toArray().constBegin();
-        QJsonArray::const_iterator end = _jsonObj["feeds"].toArray().constEnd();
+
+    if (_jsonObj["results"].isArray()) {
+        QJsonArray::const_iterator i = _jsonObj["results"].toArray().constBegin();
+        QJsonArray::const_iterator end = _jsonObj["results"].toArray().constEnd();
 #else
-    if (_jsonObj["feeds"].type()==QVariant::List) {
-        QVariantList::const_iterator i = _jsonObj["feeds"].toList().constBegin();
-        QVariantList::const_iterator end = _jsonObj["feeds"].toList().constEnd();
+    if (_jsonObj["results"].type()==QVariant::List) {
+        QVariantList::const_iterator i = _jsonObj["results"].toList().constBegin();
+        QVariantList::const_iterator end = _jsonObj["results"].toList().constEnd();
 #endif
         while (i != end) {
+            //qDebug() << "i" << i.i;
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-            QJsonObject obj = (*i).toObject();
-            int unread = obj["flags"].toObject()["unread"].toDouble();
-            int read = obj["flags"].toObject()["read"].toDouble();
-            int readlater = obj["flags"].toObject()["readlater"].toDouble();
+            if ((*i).isObject()) {
+                if ((*i).toObject()["streams"].isArray()) {
+                    QJsonArray::const_iterator ai = (*i).toObject()["streams"].toArray().constBegin();
+                    QJsonArray::const_iterator aend = (*i).toObject()["streams"].toArray().constEnd();
+                    while (ai != aend) {
+                        //qDebug() << "ai" << ai.i;
+                        QJsonObject obj = (*ai).toObject();
+
+                        //Check for errors
+                        if (obj["error"].isObject()) {
+                            qWarning() << "Error in Netvibes response!";
+                            qWarning() << "Code:" << (int) obj["error"].toObject()["code"].toDouble();
+                            qWarning() << "Message:" << obj["error"].toObject()["message"].toString();
+
+                        } else {
+
+                            int unread = 0;
+                            if (obj["flags"].isObject()) {
+                                unread = obj["flags"].toObject()["unread"].toBool() ? 1 : 0;
+                                //int read = obj["flags"].toObject()["read"].toBool() ? 1 : 0;
+                                //int readlater = obj["flags"].toObject()["readlater"].toBool() ? 1 : 0;
+                            }
+
+                            DatabaseManager::Feed f;
+                            f.id = obj["id"].toString();
+                            f.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
+                            f.link = obj["link"].toString();
+                            f.url = obj["query"].toString();
+                            //f.content = obj["content"].toString();
+                            f.streamId = f.id;
+                            f.type = obj["type"].toString();
+                            f.unread = unread;
+                            //f.read = read;
+                            //f.readlater = readlater;
+                            f.slow = obj["slow"].toBool() ? 1 : 0;
+
+                            f.lastUpdate = QDateTime::currentDateTimeUtc().toTime_t();
+
+                            /*qDebug() << ">>>>>>> Feed <<<<<<<";
+                            qDebug() << "id" << obj["id"].toString();
+                            qDebug() << "title" << obj["title"].toString();
+                            qDebug() << "query" << obj["query"].toString();
+                            qDebug() << "queue" << obj["queue"].toString();
+                            qDebug() << "content" << obj["content"].toString();
+                            qDebug() << "status" << obj["status"].toString();
+                            qDebug() << "slow" << obj["slow"].toBool();
+                            qDebug() << "type" << obj["type"].toString();*/
+
+                            QMap<QString,QString>::iterator it = _feedTabList.find(f.id);
+                            if (it!=_feedTabList.end()) {
+                                // Downloading fav icon file
+                                if (f.link!="") {
+                                    QUrl iconUrl(f.link);
+                                    f.icon = QString("http://avatars.netvibes.com/favicon/%1://%2")
+                                            .arg(iconUrl.scheme())
+                                            .arg(iconUrl.host());
+                                    DatabaseManager::CacheItem item;
+                                    item.origUrl = f.icon;
+                                    item.finalUrl = f.icon;
+                                    //s->dm->addDownload(item);
+                                    emit addDownload(item);
+                                    //qDebug() << "favicon:" << f.icon;
+                                }
+                                s->db->writeFeed(it.value(), f);
+
+                            } else {
+                                qWarning() << "No matching feed!";
+                            }
+
+                        }
+
+                        ++ai;
+                    }
+                } else {
+                    qWarning() << "No \"streams\" element found!";
+                }
+
+                if ((*i).toObject()["items"].isArray()) {
+                    QJsonArray::const_iterator ai = (*i).toObject()["items"].toArray().constBegin();
+                    QJsonArray::const_iterator aend = (*i).toObject()["items"].toArray().constEnd();
+                    while (ai != aend) {
+                        //qDebug() << "ai" << ai.i;
+
+                        QJsonObject obj = (*ai).toObject();
+
+                        int read = 0; int readlater = 0;
+                        if (obj["flags"].isObject()) {
+                            read = obj["flags"].toObject()["read"].toBool() ? 1 : 0;
+                            readlater = obj["flags"].toObject()["saved"].toBool() ? 1 : 0;
+                        }
+
+                        QString image = "";
+                        if (obj["enclosures"].isArray()) {
+                            if (!obj["enclosures"].toArray().empty()) {
+                                QString link = obj["enclosures"].toArray()[0].toObject()["link"].toString();
+                                QString type = obj["enclosures"].toArray()[0].toObject()["type"].toString();
+                                if (type=="image"||type=="html")
+                                    image = link;
+                            }
+                        }
+
+                        QString author = "";
+                        if (obj["authors"].isArray()) {
+                            if (!obj["authors"].toArray().empty())
+                                author = obj["authors"].toArray()[0].toObject()["name"].toString();
+                        }
+
+                        QString streamId = obj["stream"].toObject()["id"].toString();
+
+                        DatabaseManager::Entry e;
+                        e.id = obj["id"].toString();
+                        //e.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
+                        e.title = obj["title"].toString();
+                        e.author = author;
+                        e.link = obj["link"].toString();
+                        e.image = image;
+                        e.content = obj["content"].toString();
+                        e.read = read;
+                        e.readlater = readlater;
+                        e.date = (int) obj["publishedAt"].toDouble();
+
+                        // Downloading image file
+                        if (s->getAutoDownloadOnUpdate()) {
+                            if (image!="") {
+                                // Image provided by Netvibes API :-)
+                                if (!s->db->isCacheItemExistsByFinalUrl(hash(image))) {
+                                    DatabaseManager::CacheItem item;
+                                    item.origUrl = image;
+                                    item.finalUrl = image;
+                                    emit addDownload(item);
+                                }
+                            } else {
+                                // Checking if content contains image
+                                QRegExp rx("<img\\s[^>]*src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
+                                if (rx.indexIn(e.content)!=-1) {
+                                    QString imgSrc = rx.cap(1); imgSrc = imgSrc.mid(1,imgSrc.length()-2);
+                                    if (imgSrc!="") {
+                                        if (!s->db->isCacheItemExistsByFinalUrl(hash(imgSrc))) {
+                                            DatabaseManager::CacheItem item;
+                                            item.origUrl = imgSrc;
+                                            item.finalUrl = imgSrc;
+                                            emit addDownload(item);
+                                        }
+                                        e.image = imgSrc;
+                                        //qDebug() << "cap:" << imgSrc;
+                                    }
+                                }
+                            }
+                        }
+
+                        /*qDebug() << ">>>>>>> Entry <<<<<<<";
+                        qDebug() << "id" << obj["id"].toString();
+                        qDebug() << "title" << obj["title"].toString();
+                        qDebug() << "stream id" << streamId;
+                        qDebug() << "image" << image;*/
+
+                        /*if (e.read==1) {
+                            qDebug() << ">>>>>>> Entry <<<<<<<";
+                            qDebug() << "id" << obj["id"].toString();
+                            qDebug() << "title" << obj["title"].toString();
+                            qDebug() << obj["flags"];
+                        }*/
+
+                        s->db->writeEntry(streamId, e);
+                        ++entriesCount;
+                        publishedBeforeDate = e.date;
+                        //publishedBeforeItemId = e.id;
+                        //publishedBeforeStreamId = streamId;
+
+                        ++ai;
+                    }
+                } else {
+                    qWarning() << "No \"items\" element found!";
+                }
+            }
 #else
             QVariantMap obj = (*i).toMap();
             int unread = obj["flags"].toMap()["unread"].toDouble();
-            int read = obj["flags"].toMap()["read"].toDouble();
-            int readlater = obj["flags"].toMap()["readlater"].toDouble();
+            //int read = obj["flags"].toMap()["read"].toDouble();
+            //int readlater = obj["flags"].toMap()["readlater"].toDouble();
 #endif
-            DatabaseManager::Feed f;
-            f.id = obj["id"].toString();
-            f.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
-            f.link = obj["link"].toString();
-            f.url = obj["url"].toString();
-            f.content = obj["content"].toString();
-            f.streamId = f.id;
-            f.unread = unread;
-            f.read = read;
-            f.readlater = readlater;
-            //qDebug() << f.title;
-            f.lastUpdate = QDateTime::currentDateTimeUtc().toTime_t();
-
-            QMap<QString,QString>::iterator it = _feedTabList.find(f.id);
-            if (it!=_feedTabList.end()) {
-                // Downloading fav icon file
-                if (f.link!="") {
-                    QUrl iconUrl(f.link);
-                    f.icon = QString("http://avatars.netvibes.com/favicon/%1://%2")
-                            .arg(iconUrl.scheme())
-                            .arg(iconUrl.host());
-                    DatabaseManager::CacheItem item;
-                    item.origUrl = f.icon;
-                    item.finalUrl = f.icon;
-                    emit addDownload(item);
-                    //qDebug() << "favicon:" << f.icon;
-                }
-                s->db->writeFeed(it.value(), f);
-
-            } else {
-                qWarning() << "No matching feed!";
-            }
-
             ++i;
         }
     }  else {
-        qWarning() << "No feeds element found!";
-    }
-}
-
-void NetvibesFetcher::storeEntries()
-{
-    Settings *s = Settings::instance();
-
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    if (_jsonObj["items"].isArray()) {
-        QJsonArray::const_iterator i = _jsonObj["items"].toArray().constBegin();
-        QJsonArray::const_iterator end = _jsonObj["items"].toArray().constEnd();
-#else
-    if (_jsonObj["items"].type()==QVariant::List) {
-        QVariantList::const_iterator i = _jsonObj["items"].toList().constBegin();
-        QVariantList::const_iterator end = _jsonObj["items"].toList().constEnd();
-#endif
-        while (i != end) {
-            QString image = "";
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-            QJsonArray::const_iterator ii = (*i).toArray().constBegin();
-            while (ii != (*i).toArray().constEnd()) {
-                QJsonObject obj = (*ii).toObject();
-                int read = (int) obj["flags"].toObject()["read"].toDouble();
-                int readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
-
-                if (obj["enclosures"].isArray()) {
-                    if (!obj["enclosures"].toArray().empty()) {
-                        //qDebug() << obj["enclosures"].toArray()[0].toObject()["type"].toString() << obj["enclosures"].toArray()[0].toObject()["url"].toString();
-                        image = obj["enclosures"].toArray()[0].toObject()["url"].toString();
-                    }
-                }
-#else
-            QVariantList::const_iterator ii = (*i).toList().constBegin();
-            while (ii != (*i).toList().constEnd()) {
-                QVariantMap obj = (*ii).toMap();
-                int read = (int) obj["flags"].toMap()["read"].toDouble();
-                int readlater = (int) obj["flags"].toMap()["readlater"].toDouble();
-
-                if (obj["enclosures"].type()==QVariant::List) {
-                    if (!obj["enclosures"].toList().empty()) {
-                        //qDebug() << obj["enclosures"].toList()[0].toMap()["type"].toString() << obj["enclosures"].toList()[0].toMap()["url"].toString();
-                        image = obj["enclosures"].toList()[0].toMap()["url"].toString();
-                    }
-                }
-#endif
-                DatabaseManager::Entry e;
-                e.id = obj["id"].toString();
-                //e.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
-                e.title = obj["title"].toString();
-                e.author = obj["author"].toString();
-                e.link = obj["link"].toString();
-                e.image = image;
-                e.content = obj["content"].toString();
-                e.read = read;
-                e.readlater = readlater;
-                e.date = (int) obj["date"].toDouble();
-
-                // Downloading image file
-                if (s->getAutoDownloadOnUpdate()) {
-                    if (image!="") {
-                        // Image provided by Netvibes API :-)
-                        if (!s->db->isCacheItemExistsByFinalUrl(hash(image))) {
-                            DatabaseManager::CacheItem item;
-                            item.origUrl = image;
-                            item.finalUrl = image;
-                            emit addDownload(item);
-                        }
-                    } else {
-                        // Checking if content contains image
-                        QRegExp rx("<img\\s[^>]*src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
-                        if (rx.indexIn(e.content)!=-1) {
-                            QString imgSrc = rx.cap(1); imgSrc = imgSrc.mid(1,imgSrc.length()-2);
-                            if (imgSrc!="") {
-                                if (!s->db->isCacheItemExistsByFinalUrl(hash(imgSrc))) {
-                                    DatabaseManager::CacheItem item;
-                                    item.origUrl = imgSrc;
-                                    item.finalUrl = imgSrc;
-                                    emit addDownload(item);
-                                }
-                                e.image = imgSrc;
-                                //qDebug() << "cap:" << imgSrc;
-                            }
-                        }
-                    }
-                }
-
-                s->db->writeEntry(obj["feed_id"].toString(), e);
-
-                ++ii;
-            }
-            ++i;
-        }
-    }  else {
-        qWarning() << "No items element found!";
-    }
-}
-
-bool NetvibesFetcher::storeEntriesMerged()
-{
-    Settings *s = Settings::instance();
-
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    if (_jsonObj["items"].isArray()) {
-        QJsonArray::const_iterator i = _jsonObj["items"].toArray().constBegin();
-        QJsonArray::const_iterator end = _jsonObj["items"].toArray().constEnd();
-#else
-    if (_jsonObj["items"].type()==QVariant::List) {
-        QVariantList::const_iterator i = _jsonObj["items"].toList().constBegin();
-        QVariantList::const_iterator end = _jsonObj["items"].toList().constEnd();
-#endif
-        while (i != end) {
-            QString image = "";
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-            QJsonObject obj = (*i).toObject();
-            int read = (int) obj["flags"].toObject()["read"].toDouble();
-            int readlater = (int) obj["flags"].toObject()["readlater"].toDouble();
-
-            if (obj["enclosures"].isArray()) {
-                if (!obj["enclosures"].toArray().empty()) {
-                    //qDebug() << obj["enclosures"].toArray()[0].toObject()["type"].toString() << obj["enclosures"].toArray()[0].toObject()["url"].toString();
-                    image = obj["enclosures"].toArray()[0].toObject()["url"].toString();
-                }
-            }
-#else
-            QVariantMap obj = (*i).toMap();
-            int read = (int) obj["flags"].toMap()["read"].toDouble();
-            int readlater = (int) obj["flags"].toMap()["readlater"].toDouble();
-
-            if (obj["enclosures"].type()==QVariant::List) {
-                if (!obj["enclosures"].toList().empty()) {
-                    //qDebug() << obj["enclosures"].toList()[0].toMap()["type"].toString() << obj["enclosures"].toList()[0].toMap()["url"].toString();
-                    image = obj["enclosures"].toList()[0].toMap()["url"].toString();
-                }
-            }
-#endif
-
-            DatabaseManager::Entry e;
-            e.id = obj["id"].toString();
-            //e.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
-            e.title = obj["title"].toString();
-            e.author = obj["author"].toString();
-            e.link = obj["link"].toString();
-            e.image = image;
-            e.content = obj["content"].toString();
-            e.read = read;
-            e.readlater = readlater;
-            e.date = (int) obj["date"].toDouble();
-            s->db->writeEntry(obj["feed_id"].toString(), e);
-
-            // Downloading image file
-            if (image!="") {
-                DatabaseManager::CacheItem item;
-                item.origUrl = image;
-                item.finalUrl = image;
-                s->dm->addDownload(item);
-            }
-
-            ++i;
-        }
-
-    }  else {
-        qWarning() << "No items element found!";
+        qWarning() << "No \"relults\" element found!";
     }
 
-    //qDebug() << "hasMore:" << _jsonObj["hasMore"].toBool();
+    //qDebug() << "publishedBeforeDate:" << publishedBeforeDate;
+    //qDebug() << "publishedBeforeItemId:" << publishedBeforeItemId;
+    //qDebug() << "publishedBeforeStreamId:" << publishedBeforeStreamId;
+    //qDebug() << "entriesCount:" << entriesCount;
 
-    // returns true if has more
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    if (_jsonObj["hasMore"].isBool())
-#else
-    if (_jsonObj["hasMore"].type()==QVariant::Bool)
-#endif
-        return _jsonObj["hasMore"].toBool();
-    return false;
+    return entriesCount;
 }
 
 void NetvibesFetcher::storeDashboards()
 {
+    if (checkError()) {
+        return;
+    }
+
     Settings *s = Settings::instance();
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -1279,7 +1211,7 @@ void NetvibesFetcher::finishedFeeds2()
         }
 
         if(_busyType == Initiating) {
-            offset = 0;
+            publishedBeforeDate = 0;
             fetchFeedsReadlater();
         }
 
@@ -1287,105 +1219,37 @@ void NetvibesFetcher::finishedFeeds2()
         fetchFeeds();
     }
 }
-
-/*void NetvibesFetcher::finishedFeeds()
-{
-    //qDebug() << this->_data;
-
-    Settings *s = Settings::instance();
-    int feedsAtOnce = s->getFeedsAtOnce();
-    int feedsUpdateAtOnce = s->getFeedsUpdateAtOnce();
-
-    if(!parse()) {
-        qWarning() << "Error parsing Json!";
-        emit error(600);
-        setBusy(false);
-        return;
-    }
-
-    storeFeeds();
-    //storeEntries();
-    entriesStorer.start(QThread::IdlePriority);
-
-    emit progress(_total-((_feedList.count()/feedsAtOnce)+(_feedUpdateList.count()/feedsUpdateAtOnce)),_total);
-
-    if (_feedList.isEmpty()) {
-
-        if(_busyType == Updating) {
-            _feedUpdateList = s->db->readFeedsFirstUpdate();
-            fetchFeedsUpdate();
-        }
-
-        if(_busyType == Initiating) {
-            offset = 0;
-            fetchFeedsReadlater();
-        }
-
-    } else {
-        fetchFeeds();
-    }
-}*/
 
 void NetvibesFetcher::finishedFeedsReadlater()
 {
     //qDebug() << this->_data;
 
-    ++offset;
-
-    moreReadlaterEntries = false;
+    publishedBeforeDate = 0;
     startJob(StoreFeedsReadlater);
 }
 
 void NetvibesFetcher::finishedFeedsReadlater2()
 {
-    if (moreReadlaterEntries)
+    if (publishedBeforeDate!=0)
         fetchFeedsReadlater();
     else
         taskEnd();
 }
 
-void NetvibesFetcher::finishedFeedsInfo()
-{
-    //qDebug() << this->_data;
-
-    if(!parse()) {
-        qWarning() << "Error parsing Json!";
-        emit error(600);
-        setBusy(false);
-        return;
-    }
-
-    emit ready();
-    setBusy(false);
-}
-
-void NetvibesFetcher::finishedFeedsInfo2()
-{
-}
-
 void NetvibesFetcher::finishedSet()
 {
-    //qDebug() << this->_data;
+    qDebug() << this->_data;
 
     Settings *s = Settings::instance();
 
-    //Logging
-    /*Settings *s = Settings::instance();
-    QFile file(s->getSettingsDir() + "/log_reply.txt");
-    if (!file.open(QIODevice::Append)) {
-        qWarning() << "Could not open" << file.fileName() << "for append: " << file.errorString();
-    } else {
-        file.write(("["+QDateTime::currentDateTime().toString()+"]\n").toUtf8());
-        file.write(this->_data+"\n");
-        file.close();
-    }*/
-
     if(!parse()) {
         qWarning() << "Error parsing Json!";
         emit error(600);
         setBusy(false);
         return;
     }
+
+    checkError();
 
     // deleting action
     DatabaseManager::Action action = actionsList.takeFirst();
@@ -1413,10 +1277,14 @@ void NetvibesFetcher::finishedFeedsUpdate2()
 
     emit progress(_total-qCeil(_feedUpdateList.count()/feedsUpdateAtOnce),_total);
 
-    if (_feedUpdateList.isEmpty())
-        taskEnd();
-    else
+    if (_feedUpdateList.isEmpty()) {
+        // Fetching Saved items
+        publishedBeforeDate = 0;
+        fetchFeedsReadlater();
+        //taskEnd();
+    } else {
         fetchFeedsUpdate();
+    }
 }
 
 void NetvibesFetcher::networkError(QNetworkReply::NetworkError e)
@@ -1487,7 +1355,6 @@ void NetvibesFetcher::run() {
     case StoreFeeds:
     case StoreFeedsUpdate:
         storeFeeds();
-        storeEntries();
         break;
     case StoreDashboards:
         storeDashboards();
@@ -1495,10 +1362,12 @@ void NetvibesFetcher::run() {
     case StoreTabs:
         storeTabs();
         break;
-    case StoreFeedsInfo:
-        break;
     case StoreFeedsReadlater:
-        moreReadlaterEntries = storeEntriesMerged();
+        if (storeFeeds()<limitFeedsReadlater) {
+            publishedBeforeDate = 0;
+            //publishedBeforeItemId = "";
+            //publishedBeforeStreamId = "";
+        }
         break;
     default:
         break;
@@ -1547,4 +1416,15 @@ void NetvibesFetcher::startJob(Job job)
 
     //start(QThread::IdlePriority);
     start(QThread::LowPriority);
+}
+
+bool NetvibesFetcher::checkError()
+{
+    if(_jsonObj["error"].isObject()) {
+        qWarning() << "Error in Netvibes response!";
+        qWarning() << "Code:" << (int) _jsonObj["error"].toObject()["code"].toDouble();
+        qWarning() << "Message:" << _jsonObj["error"].toObject()["message"].toString();
+        return true;
+    }
+    return false;
 }

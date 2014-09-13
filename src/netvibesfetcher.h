@@ -86,6 +86,7 @@ signals:
     402 - SignIn user/password do no match
     500 - Network error
     501 - SignIn resposne is null
+    502 - Internal error
     600 - Error while parsing XML
     601 - Unknown XML response
      */
@@ -104,8 +105,6 @@ public slots:
     void finishedTabs2();
     void finishedFeeds();
     void finishedFeeds2();
-    void finishedFeedsInfo();
-    void finishedFeedsInfo2();
     void finishedFeedsUpdate();
     void finishedFeedsUpdate2();
     void finishedFeedsReadlater();
@@ -126,6 +125,7 @@ private:
 
     static const int feedsAtOnce = 5;
     static const int limitFeeds = 50;
+    static const int limitFeedsUpdate = 50;
     static const int limitFeedsReadlater = 50;
     static const int feedsUpdateAtOnce = 10;
 
@@ -142,7 +142,6 @@ private:
     bool _busy;
     BusyType _busyType;
     QStringList _dashboardList;
-    //QStringList _feedList;
     QMap<QString,QString> _feedList;
     QMap<QString,int> _feedUpdateList;
     QMap<QString,QString> _feedTabList;
@@ -152,25 +151,22 @@ private:
     QByteArray _cookie;
     QNetworkConfigurationManager ncm;
     Job currentJob;
-    bool moreReadlaterEntries;
 
-    int offset;
+    int publishedBeforeDate;
+    //QString publishedBeforeItemId;
+    //QString publishedBeforeStreamId;
 
     bool parse();
 
     QString hash(const QString &url);
 
-    //void storeTabs(const QString &dashboardId);
     void storeTabs();
-    void storeFeeds();
+    int storeFeeds();
     void storeDashboards();
-    void storeEntries();
-    bool storeEntriesMerged(); // returns true if has more
     void signIn();
     void fetchDashboards();
     void fetchTabs(const QString &dashboardId);
     void fetchFeeds();
-    void fetchFeedsInfo(const QString &tabId);
     void fetchFeedsUpdate();
     void fetchFeedsReadlater();
 
@@ -184,6 +180,8 @@ private:
 
     void setBusy(bool busy, BusyType type = Unknown);
     void startJob(Job job);
+
+    bool checkError();
 };
 
 #endif // NETVIBESFETCHER_H
