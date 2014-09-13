@@ -46,9 +46,13 @@ Page {
         clip:true
 
         height: {
-            if (dm.busy||fetcher.busy||dm.removerBusy)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
-            return isPortrait ? app.height : app.width;
+            var size = 0;
+            var d = isPortrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium;
+            if (bar.open)
+                size += d;
+            if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
+                size += d;
+            return isPortrait ? app.height-size : app.width-size;
         }
 
         PageMenu {
@@ -57,11 +61,18 @@ Page {
             showMarkAsRead: false
             showMarkAsUnread: false
 
-            onMarkedAsRead: entryModel.setAllAsRead()
+            onMarkedAsRead: {
+                if (settings.viewMode==3) {
+                    pageStack.push(Qt.resolvedUrl("ReadAllDialog.qml"));
+                } else {
+                    entryModel.setAllAsRead();
+                }
+            }
+
             onMarkedAsUnread: entryModel.setAllAsUnread()
 
             onActiveChanged: {
-                if (active && settings.viewMode!=3) {
+                if (active) {
                     if (!root.readlater) {
                         showMarkAsRead = entryModel.countUnread()!=0;
                         showMarkAsUnread = !showMarkAsRead;
@@ -199,4 +210,11 @@ Page {
         }
 
     }
+
+    /*ControlBar {
+        id: bar
+        open: false
+        flick: listView
+        transparent: false
+    }*/
 }
