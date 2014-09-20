@@ -24,31 +24,13 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
-    property bool showBar: false
-    property string message
-
-    ActiveDetector {}
-
-    SilicaListView {
-        anchors.fill: parent
-
-        header: PageHeader {
-            title: qsTr("Error")
+    allowedOrientations: {
+        switch (settings.allowedOrientations) {
+        case 1:
+            return Orientation.Portrait;
+        case 2:
+            return Orientation.Landscape;
         }
-
-        model: VisualItemModel {
-
-            Label {
-                text: qsTr("Sorry, something's gone wrong :-(")
-            }
-
-            Label {
-                color: Theme.secondaryColor
-                text: message
-            }
-
-        }
-
-        VerticalScrollDecorator {}
+        return Orientation.Landscape | Orientation.Portrait;
     }
 }

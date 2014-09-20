@@ -33,13 +33,13 @@ PullDownMenu {
     signal markedAsRead
     signal markedAsUnread
 
-    MenuItem {
+    /*MenuItem {
         text: settings.offlineMode ? qsTr("Set to: Online") : qsTr("Set to: Offline")
 
         onClicked: {
             settings.offlineMode = !settings.offlineMode;
         }
-    }
+    }*/
 
     MenuItem {
         text: qsTr("About")
@@ -67,8 +67,6 @@ PullDownMenu {
         enabled: !fetcher.busy && !dm.busy && !dm.removerBusy
     }
 
-
-
     MenuItem {
         text: qsTr("Mark all as read")
         enabled: root.showMarkAsRead
@@ -85,16 +83,18 @@ PullDownMenu {
 
     onActiveChanged: {
         if (active) {
-            if (!dm.busy && !fetcher.busy) {
-                bar.open = true;
-            }
+
+            bar.hideAndDisable();
+
             var lastSync = settings.lastUpdateDate;
             if (lastSync>0)
                 label.text = qsTr("Last sync: %1").arg(utils.getHumanFriendlyTimeString(lastSync));
             else
                 label.text = qsTr("Not yet synced");
+
         } else {
-            bar.open = false;
+
+            bar.openable = true;
         }
     }
 

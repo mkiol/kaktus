@@ -24,6 +24,8 @@ import Sailfish.Silica 1.0
 Dialog {
     id: root
 
+    property bool showBar: false
+
     allowedOrientations: {
         switch (settings.allowedOrientations) {
         case 1:
@@ -33,6 +35,8 @@ Dialog {
         }
         return Orientation.Landscape | Orientation.Portrait;
     }
+
+    ActiveDetector {}
 
     Column {
 

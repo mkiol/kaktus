@@ -30,16 +30,16 @@ Row {
     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
     spacing: 1.0*Theme.paddingLarge
 
-    Image {
+    /*Image {
         width: Theme.iconSizeSmall; height: width
         source: "image://theme/icon-s-new"
         anchors.top: parent.top
-    }
+    }*/
 
     Column {
         spacing: Theme.paddingSmall
         anchors.top: parent.top
-        width: parent.width-3*Theme.paddingLarge
+        width: parent.width-1*Theme.paddingLarge
 
         Label {
             id: label1
@@ -60,7 +60,7 @@ Row {
         }
 
         Item {
-            height: Theme.paddingMedium
+            height: Theme.paddingLarge
             width: parent.width
         }
     }

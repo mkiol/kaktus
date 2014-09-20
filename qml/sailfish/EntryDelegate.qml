@@ -50,12 +50,21 @@ ListItem {
     menu: contextMenu
     contentHeight: item.height + 2 * Theme.paddingMedium
 
-    Image {
+    Rectangle {
+        id: background
+        anchors.fill: parent
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
+            GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.2) }
+        }
+    }
+
+    /*Image {
         id: background
         anchors.fill: parent
         source: "image://theme/graphic-avatar-text-back?"+Theme.highlightBackgroundColor
 
-    }
+    }*/
 
     Rectangle {
         anchors.top: parent.top; anchors.left: parent.left
@@ -161,7 +170,7 @@ ListItem {
 
     Column {
         id: item
-        spacing: Theme.paddingSmall
+        spacing: Theme.paddingMedium
         anchors.verticalCenter: parent.verticalCenter
         width: parent.width-star.width+Theme.paddingLarge
 

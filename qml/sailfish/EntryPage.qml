@@ -34,9 +34,13 @@ Page {
         return Orientation.Landscape | Orientation.Portrait;
     }
 
+    property bool showBar: true
     property string title
     property int index
-    property bool readlater
+
+    ActiveDetector {
+        onInit: bar.flick = listView
+    }
 
     SilicaListView {
         id: listView
@@ -47,7 +51,7 @@ Page {
 
         height: {
             var size = 0;
-            var d = isPortrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium;
+            var d = isPortrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall;
             if (bar.open)
                 size += d;
             if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
@@ -73,7 +77,7 @@ Page {
 
             onActiveChanged: {
                 if (active) {
-                    if (!root.readlater) {
+                    if (settings.viewMode!=4) {
                         showMarkAsRead = entryModel.countUnread()!=0;
                         showMarkAsUnread = !showMarkAsRead;
                     }
@@ -82,7 +86,16 @@ Page {
         }
 
         header: PageHeader {
-            title: settings.viewMode==3 ? qsTr("All articles") : root.title
+            title: {
+                switch (settings.viewMode) {
+                case 3:
+                    return qsTr("All");
+                case 4:
+                    return qsTr("Saved");
+                default:
+                    return root.title;
+                }
+            }
         }
 
         delegate: EntryDelegate {
@@ -91,14 +104,14 @@ Page {
             content: model.content
             date: model.date
             read: model.read
-            feedIcon: settings.viewMode==1 || settings.viewMode==3 || root.readlater ? model.feedIcon : ""
+            feedIcon: settings.viewMode==1 || settings.viewMode==3 || settings.viewMode==4 ? model.feedIcon : ""
             author: model.author
             image: model.image
             readlater: model.readlater
             index: model.index
             cached: model.cached
             fresh: model.fresh
-            showMarkedAsRead: !root.readlater
+            showMarkedAsRead: settings.viewMode!=4 && model.read<2
 
             Component.onCompleted: {
                 //console.log(image);
@@ -130,6 +143,11 @@ Page {
                 interval: 400
                 onTriggered: {
                     // One click
+
+                    console.log("date: "+model.date);
+                    console.log("read: "+model.read);
+                    console.log("readlater: "+model.readlater);
+                    console.log("image: "+model.image);
 
                     // Not allowed while Syncing
                     if (dm.busy || fetcher.busy || dm.removerBusy) {
@@ -164,10 +182,10 @@ Page {
                                        "onlineUrl": onlineUrl,
                                        "offlineUrl": offlineUrl,
                                        "title": model.title,
-                                       "stared": model.readlater===1,
+                                       "stared": model.readlater==1,
                                        "index": model.index,
                                        "feedindex": root.index,
-                                       "read" : model.read===1,
+                                       "read" : model.read==1,
                                        "cached" : model.cached
                                    });
 
@@ -193,7 +211,8 @@ Page {
 
         ViewPlaceholder {
             enabled: listView.count == 0
-            text: settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+            text: settings.viewMode==4 ? qsTr("No saved items") :
+                  settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
 
             Label {
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -201,8 +220,13 @@ Page {
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.secondaryHighlightColor
                 text: fetcher.busy ? qsTr("Wait until Sync finish") : qsTr("Pull down to do Sync")
-                visible: settings.viewMode==3
+                visible: settings.viewMode==3 || settings.viewMode==4
             }
+        }
+
+        Component.onCompleted: {
+            if (listView.count == 0 && settings.viewMode==4)
+                bar.open();
         }
 
         VerticalScrollDecorator {
@@ -210,11 +234,4 @@ Page {
         }
 
     }
-
-    /*ControlBar {
-        id: bar
-        open: false
-        flick: listView
-        transparent: false
-    }*/
 }

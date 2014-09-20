@@ -24,6 +24,8 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
+    property bool showBar: false
+
     allowedOrientations: {
         switch (settings.allowedOrientations) {
         case 1:
@@ -34,13 +36,15 @@ Page {
         return Orientation.Landscape | Orientation.Portrait;
     }
 
+    ActiveDetector {}
+
     SilicaListView {
         anchors { top: parent.top; left: parent.left; right: parent.right }
         clip: true
 
         height: {
-            if (dm.busy||fetcher.busy)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
+            if (dm.busy||fetcher.busy||bar.open)
+                return isPortrait ? app.height-Theme.itemSizeSmall : app.width-0.9*Theme.itemSizeSmall;
             return isPortrait ? app.height : app.width;
         }
 
@@ -49,6 +53,10 @@ Page {
         }
 
         model: VisualItemModel {
+
+            SectionHeader {
+                text: qsTr("1.2.0 release")
+            }
 
             LogItem {
                 title: qsTr('Multi-Feed widget support')

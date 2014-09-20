@@ -21,9 +21,10 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 
-
 Page {
     id: root
+
+    property bool showBar: false
 
     allowedOrientations: {
         switch (settings.allowedOrientations) {
@@ -35,13 +36,15 @@ Page {
         return Orientation.Landscape | Orientation.Portrait;
     }
 
+    ActiveDetector {}
+
     SilicaListView {
         anchors { top: parent.top; left: parent.left; right: parent.right }
         clip: true
 
         height: {
-            if (dm.busy||fetcher.busy||dm.removerBusy)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
+            if (dm.busy||fetcher.busy||dm.removerBusy||bar.open)
+                return isPortrait ? app.height-Theme.itemSizeSmall : app.width-0.9*Theme.itemSizeSmall;
             return isPortrait ? app.height : app.width;
         }
 
@@ -106,7 +109,7 @@ Page {
             }
 
             Button {
-                text: qsTr("What's new in this release")
+                text: qsTr("What's new")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: pageStack.push(Qt.resolvedUrl("ChangelogPage.qml"))
             }

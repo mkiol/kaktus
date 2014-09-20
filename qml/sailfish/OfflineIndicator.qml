@@ -20,35 +20,17 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-
-Page {
+Image {
     id: root
 
-    property bool showBar: false
-    property string message
+    property bool active: false
 
-    ActiveDetector {}
+    anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
+    anchors.bottom: parent.bottom; anchors.bottomMargin: Theme.paddingMedium
 
-    SilicaListView {
-        anchors.fill: parent
+    visible: opacity>0
+    opacity: active ? 1.0 : 0.0
+    Behavior on opacity { FadeAnimation {duration: 300} }
 
-        header: PageHeader {
-            title: qsTr("Error")
-        }
-
-        model: VisualItemModel {
-
-            Label {
-                text: qsTr("Sorry, something's gone wrong :-(")
-            }
-
-            Label {
-                color: Theme.secondaryColor
-                text: message
-            }
-
-        }
-
-        VerticalScrollDecorator {}
-    }
+    source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+Theme.highlightColor : "image://theme/icon-m-wlan-4?"+Theme.highlightColor
 }

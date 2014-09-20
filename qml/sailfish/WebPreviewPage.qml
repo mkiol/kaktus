@@ -24,6 +24,8 @@ import QtWebKit 3.0
 Page {
     id: root
 
+    property bool showBar: false
+
     property string title
     property string entryId
     property string offlineUrl
@@ -34,6 +36,8 @@ Page {
     property int feedindex
     property bool cached
     property int markAsReadTime: 4000
+
+    ActiveDetector {}
 
     onForwardNavigationChanged: {
         if (forwardNavigation)

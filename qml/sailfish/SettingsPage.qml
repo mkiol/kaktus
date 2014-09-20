@@ -24,6 +24,8 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
+    property bool showBar: false
+
     allowedOrientations: {
         switch (settings.allowedOrientations) {
         case 1:
@@ -34,13 +36,15 @@ Page {
         return Orientation.Landscape | Orientation.Portrait;
     }
 
+    ActiveDetector {}
+
     SilicaListView {
         anchors { top: parent.top; left: parent.left; right: parent.right }
         clip: true
 
         height: {
-            if (dm.busy||fetcher.busy||dm.removerBusy)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
+            if (dm.busy||fetcher.busy||dm.removerBusy||bar.open)
+                return isPortrait ? app.height-Theme.itemSizeSmall : app.width-0.9*Theme.itemSizeSmall;
             return isPortrait ? app.height : app.width;
         }
 
@@ -170,26 +174,12 @@ Page {
                     MenuItem {
                         text: qsTr("Delete cache")
                         onClicked: {
-                            //dm.cleanCache();
-                            //notification.show(qsTr("Cache data deleted!"));
                             fetcher.cancel(); dm.cancel();
                             dm.removeCache();
-                            //db.newInit();
                         }
                     }
                 }
             }
-
-            /*TextSwitch {
-                text: qsTr("Offline mode")
-                description: qsTr("Content of items will be displayed from local cache, without a network usage.")
-                onCheckedChanged: {
-                    settings.offlineMode = checked;
-                }
-                Component.onCompleted: {
-                    checked = settings.offlineMode;
-                }
-            }*/
 
             ComboBox {
                 width: root.width
@@ -224,7 +214,7 @@ Page {
                 text: qsTr("UI")
             }
 
-            ComboBox {
+            /*ComboBox {
                 width: root.width
                 label: qsTr("Browsing mode")
                 currentIndex: settings.viewMode
@@ -234,21 +224,13 @@ Page {
                     MenuItem { text: qsTr("Tabs & articles") }
                     MenuItem { text: qsTr("Feeds & articles") }
                     MenuItem { text: qsTr("Only articles") }
+                    MenuItem { text: qsTr("Saved articles") }
                 }
 
                 onCurrentIndexChanged: {
                     settings.viewMode = currentIndex;
                 }
-
-                /*Connections {
-                    target: settings
-
-                    onViewModeChanged: {
-                        pageStack.replaceAbove(root,Qt.resolvedUrl("TabPage.qml"));
-                        notification.show(qsTr("Browsing mode changed!"));
-                    }
-                }*/
-            }
+            }*/
 
             TextSwitch {
                 text: qsTr("Show only unread articles")
@@ -267,16 +249,6 @@ Page {
                 }
                 Component.onCompleted: {
                     checked = settings.showTabIcons;
-                }
-            }
-
-            TextSwitch {
-                text: qsTr("Show Tab with saved articles")
-                onCheckedChanged: {
-                    settings.showStarredTab = checked;
-                }
-                Component.onCompleted: {
-                    checked = settings.showStarredTab;
                 }
             }
 

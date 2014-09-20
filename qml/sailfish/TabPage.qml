@@ -24,6 +24,8 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
+    property bool showBar: true
+
     allowedOrientations: {
         switch (settings.allowedOrientations) {
         case 1:
@@ -35,7 +37,8 @@ Page {
     }
 
     ActiveDetector {
-        onActivated: tabModel.updateFlags();
+        onActivated: tabModel.updateFlags()
+        onInit: bar.flick = listView
     }
 
     SilicaListView {
@@ -45,13 +48,13 @@ Page {
         anchors { top: parent.top; left: parent.left; right: parent.right }
 
         height: {
-            /*if ((dm.busy||fetcher.busy) && bar.open)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-1.6*Theme.itemSizeMedium;*/
-            if (dm.busy||fetcher.busy||dm.removerBusy)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
-            /*if (bar.open)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;*/
-            return isPortrait ? app.height : app.width;
+            var size = 0;
+            var d = isPortrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall;
+            if (bar.open)
+                size += d;
+            if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
+                size += d;
+            return isPortrait ? app.height-size : app.width-size;
         }
 
         clip:true
@@ -79,37 +82,14 @@ Page {
 
         delegate: Item {
 
-            property bool readlaterItem: model.uid==="readlater"
-
             anchors.left: parent.left; anchors.right: parent.right
-            height: readlaterItem ? listItem.height+Theme.paddingMedium : listItem.height
+            height: listItem.height
 
             ListItem {
                 id: listItem
 
                 anchors.top: parent.top
-
-                contentHeight: {
-                    if (visible) {
-                        if (readlaterItem)
-                            return itemReadlater.height + 2 * Theme.paddingMedium;
-                        else
-                            return item.height + 2 * Theme.paddingMedium;
-                    } else {
-                        return 0;
-                    }
-                }
-
-                visible: {
-                    if (readlaterItem) {
-                        if (listView.count==1)
-                            return false;
-                        if (settings.showStarredTab)
-                            return true
-                        return false;
-                    }
-                    return true;
-                }
+                contentHeight: item.height + 2 * Theme.paddingMedium;
 
                 Rectangle {
                     anchors.top: parent.top; anchors.left: parent.left
@@ -126,7 +106,6 @@ Page {
                 Column {
                     id: item
 
-                    visible: !readlaterItem
                     spacing: 0.5*Theme.paddingSmall
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: image.visible ? image.right : parent.left
@@ -168,46 +147,13 @@ Page {
                     height: width
                     anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
                     anchors.top: item.top; anchors.topMargin: Theme.paddingSmall
-                    visible: status!=Image.Error && status!=Image.Null && settings.showTabIcons && !readlaterItem
+                    visible: status!=Image.Error && status!=Image.Null && settings.showTabIcons
                 }
-
-                // readlater
-
-                Column {
-                    id: itemReadlater
-                    spacing: 1.0 * Theme.paddingSmall
-                    anchors.left: star.right; anchors.right: parent.right
-                    //anchors.top: parent.top
-                    anchors.verticalCenter: parent.verticalCenter
-                    visible: readlaterItem
-
-                    Label {
-                        wrapMode: Text.AlignLeft
-                        anchors.left: parent.left; anchors.right: parent.right;
-                        anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                        font.pixelSize: Theme.fontSizeMedium
-                        color: listItem.down ? Theme.highlightColor : Theme.primaryColor
-                        text: title
-                    }
-                }
-
-                Image {
-                    id: star
-                    width: Theme.iconSizeSmall
-                    height: Theme.iconSizeSmall
-                    anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
-                    anchors.verticalCenter: itemReadlater.verticalCenter
-                    visible: readlaterItem
-                    source: listItem.down ? "image://theme/icon-m-favorite-selected?"+Theme.highlightColor :
-                                            "image://theme/icon-m-favorite-selected"
-                }
-
-                // --
 
                 Connections {
                     target: settings
                     onShowTabIconsChanged: {
-                        if (settings.showTabIcons && !readlaterItem && iconUrl!="")
+                        if (settings.showTabIcons && iconUrl!="")
                             image.source = cache.getUrlbyUrl(iconUrl);
                         else
                             image.source = "";
@@ -215,7 +161,7 @@ Page {
                 }
 
                 Component.onCompleted: {
-                    if (settings.showTabIcons && !readlaterItem && iconUrl!="") {
+                    if (settings.showTabIcons && iconUrl!="") {
                         image.source = cache.getUrlbyUrl(iconUrl);
                     } else {
                         image.source = "";
@@ -223,22 +169,17 @@ Page {
                 }
 
                 onClicked: {
-                    if (readlaterItem) {
+                    if (settings.viewMode == 0) {
+                        utils.setFeedModel(uid);
+                        pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title, "index": model.index});
+                    }
+                    if (settings.viewMode == 1) {
                         utils.setEntryModel(uid);
-                        pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "readlater": true});
-                    } else {
-                        if (settings.viewMode == 0) {
-                            utils.setFeedModel(uid);
-                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title, "index": model.index});
-                        }
-                        if (settings.viewMode == 1) {
-                            utils.setEntryModel(uid);
-                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "readlater": false});
-                        }
+                        pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "readlater": false});
                     }
                 }
 
-                showMenuOnPressAndHold: !readlaterItem
+                showMenuOnPressAndHold: model.unread+model.read>0
 
                 menu: ContextMenu {
 
@@ -263,7 +204,7 @@ Page {
         }
 
         ViewPlaceholder {
-            enabled: listView.count == 1
+            enabled: listView.count < 1
             text: qsTr("No tabs")
 
             Label {
@@ -278,6 +219,5 @@ Page {
         VerticalScrollDecorator {
             flickable: listView
         }
-
     }
 }

@@ -23,6 +23,7 @@ import Sailfish.Silica 1.0
 Item {
     property int oldStatus: PageStatus.Active
     signal activated()
+    signal init()
 
     Connections {
         target: parent
@@ -30,10 +31,24 @@ Item {
         onStatusChanged: {
             if (oldStatus === PageStatus.Inactive
                     && parent.status  === PageStatus.Active) {
+                if (parent.showBar)
+                    bar.openable=true;
+                else
+                    bar.hideAndDisable();
                 activated();
+
             }
             if (parent.status === PageStatus.Inactive)
                 oldStatus = parent.status ;
         }
     }
+
+    Component.onCompleted: {
+        if (parent.showBar)
+            bar.openable=true;
+        else
+            bar.hideAndDisable();
+        init();
+    }
 }
+

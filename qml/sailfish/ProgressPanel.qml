@@ -35,7 +35,7 @@ Item {
     opacity: open ? 1.0 : 0.0
     visible: opacity > 0.0
 
-    height: Theme.itemSizeMedium
+    height: Theme.itemSizeSmall
     width: parent.width
 
     Behavior on opacity { FadeAnimation {} }
@@ -72,7 +72,7 @@ Item {
         //source: "image://theme/graphic-gradient-edge?"+Theme.highlightBackgroundColor
         //source: "image://theme/graphic-keyboard-highlight-top?"+Theme.highlightBackgroundColor
         visible: root.transparent
-        opacity: 0.3
+        opacity: 0.8
     }
 
     Rectangle {

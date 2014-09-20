@@ -24,6 +24,7 @@ import Sailfish.Silica 1.0
 Dialog {
     id: root
 
+    property bool showBar: false
     property int code
 
     canAccept: user.text!=="" && password.text !==""
@@ -37,6 +38,8 @@ Dialog {
         }
         return Orientation.Landscape | Orientation.Portrait;
     }
+
+    ActiveDetector {}
 
     Column {
         anchors {

@@ -26,6 +26,7 @@ Dialog {
     id: root
 
     canAccept: false
+    property bool showBar: false
 
     allowedOrientations: {
         switch (settings.allowedOrientations) {
@@ -36,6 +37,8 @@ Dialog {
         }
         return Orientation.Landscape | Orientation.Portrait;
     }
+
+    ActiveDetector {}
 
     SilicaListView {
         id: listView

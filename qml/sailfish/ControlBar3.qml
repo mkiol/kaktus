@@ -25,8 +25,8 @@ Item {
     id: root
 
     property bool open: false
-    property bool openable: true
     property int showTime: 6000
+    property bool transparent: true
 
     property real barShowMoveWidth: 20
     property Flickable flick: null
@@ -37,16 +37,9 @@ Item {
     width: parent.width
 
     function show() {
-        if (openable && pageStack.currentPage.showBar) {
-            if (!open)
-                root.open = true;
-            timer.restart();
-        }
-    }
-
-    function showAndEnable() {
-        openable = true
-        show();
+        if (!open)
+            root.open = true;
+        timer.restart();
     }
 
     function hide() {
@@ -56,10 +49,15 @@ Item {
         }
     }
 
-    function hideAndDisable() {
-        hide();
-        openable = false;
-    }
+    /*Rectangle {
+        anchors.fill: parent
+        visible: root.transparent
+        color: Theme.rgba(Theme.highlightColor, 0.2)
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightDimmerColor, 0.0) }
+            GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightDimmerColor, 0.5) }
+        }
+    }*/
 
     Item {
         id: bar
@@ -70,51 +68,17 @@ Item {
         Behavior on opacity { FadeAnimation {duration: 300} }
 
         Rectangle {
-            id: leftBg
-
-            Rectangle {
-                color: Theme.highlightBackgroundColor
-                anchors.left: parent.left;
-                height: parent.height
-                width: parent.width>parent.radius ? parent.radius : 0
-            }
-
-            anchors.left: parent.left;
-            width: settings.viewMode==0 ? 0 :
-                   settings.viewMode==1 ? vm1b.x-Theme.paddingSmall :
-                   settings.viewMode==3 ? vm3b.x-Theme.paddingSmall :
-                   settings.viewMode==4 ? vm4b.x-Theme.paddingSmall :
-                   settings.viewMode==5 ? vm5b.x-Theme.paddingSmall :
-                   0
-            height: 2*parent.height
-            radius: 10
+            anchors.fill: parent
+            visible: !root.transparent
             color: Theme.highlightBackgroundColor
-            Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
         }
 
-        Rectangle {
-            id: rightBg
-
-            Rectangle {
-                color: Theme.highlightBackgroundColor
-                anchors.right: parent.right;
-                height: parent.height
-                width: parent.radius
-            }
-
-            anchors.right: parent.right
-            width: settings.viewMode==0 ? parent.width-(vm0b.x+vm0b.width+Theme.paddingSmall) :
-                   settings.viewMode==1 ? parent.width-(vm1b.x+vm1b.width+Theme.paddingSmall) :
-                   settings.viewMode==3 ? parent.width-(vm3b.x+vm3b.width+Theme.paddingSmall) :
-                   settings.viewMode==4 ? parent.width-(vm4b.x+vm4b.width+Theme.paddingSmall) :
-                   settings.viewMode==5 ? parent.width-(vm5b.x+vm5b.width+Theme.paddingSmall) :
-                   parent.width-(vm0b.x+vm0b.width+Theme.paddingSmall)
-
-            height: 2*parent.height
-            radius: 10
-            color: Theme.highlightBackgroundColor
-            Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
-        }
+        /*Image {
+            anchors.left: parent.left; anchors.right: parent.right
+            source: "image://theme/graphic-gradient-home-top?"+Theme.highlightBackgroundColor
+            visible: root.transparent
+            opacity: 0.3
+        }*/
 
         MouseArea {
             enabled: bar.visible
@@ -122,69 +86,74 @@ Item {
             onClicked: root.hide()
         }
 
-        IconButton {
-            id: vm0b
-            x: 0*(width+Theme.paddingMedium)
+        Row {
+            id: toolbarRow
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://icons/vm0?"+Theme.highlightDimmerColor
-            highlighted: settings.viewMode==0
-            onClicked: {
-                settings.viewMode = 0;
-                show();
-            }
-        }
+            //anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: parent.left; anchors.right: offline.left;
+            anchors.leftMargin: Theme.paddingMedium
+            spacing: Theme.paddingSmall
 
-        IconButton {
-            id: vm1b
-            x: 1*(width+Theme.paddingMedium)
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://icons/vm1?"+Theme.highlightDimmerColor
-            highlighted: settings.viewMode==1
-            onClicked: {
-                settings.viewMode = 1;
-                show();
-            }
-        }
 
-        IconButton {
-            id: vm3b
-            x: 2*(width+Theme.paddingMedium)
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://icons/vm3?"+Theme.highlightDimmerColor
-            highlighted: settings.viewMode==3
-            onClicked: {
-                settings.viewMode = 3;
-                show();
+            IconButton {
+              icon.source: "image://icons/vm0?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+              highlighted: settings.viewMode==0
+              onClicked: {
+                    settings.viewMode = 0;
+                    show();
+              }
             }
-        }
 
-        IconButton {
-            id: vm4b
-            x: 3*(width+Theme.paddingMedium)
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://icons/vm4?"+Theme.highlightDimmerColor
-            highlighted: settings.viewMode==4
-            onClicked: {
-                settings.viewMode = 4;
-                show();
+            IconButton {
+                icon.source: "image://icons/vm1?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+                highlighted: settings.viewMode==1
+                onClicked: {
+                    settings.viewMode = 1;
+                    show();
+                }
             }
-        }
 
-        IconButton {
-            id: vm5b
-            x: 4*(width+Theme.paddingMedium)
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://icons/vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
-            highlighted: settings.viewMode==5
-            onClicked: {
-                settings.viewMode = 5;
-                show();
+            /*IconButton {
+                icon.source: "image://icons/vm2?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+                highlighted: settings.viewMode==2
+                onClicked: {
+                    settings.viewMode = 2;
+                    timer.restart();
+                }
+            }*/
+
+            IconButton {
+                icon.source: "image://icons/vm3?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+                highlighted: settings.viewMode==3
+                onClicked: {
+                    settings.viewMode = 3;
+                    show();
+                }
             }
+
+            IconButton {
+                icon.source: "image://icons/vm4?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+                highlighted: settings.viewMode==4
+                onClicked: {
+                    settings.viewMode = 4;
+                    show();
+                }
+            }
+
+            IconButton {
+                icon.source: "image://icons/vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+                highlighted: settings.viewMode==5
+                onClicked: {
+                    //settings.viewMode = 5;
+                    show();
+                }
+            }
+
         }
 
         IconButton {
             id: offline
-            anchors.right: parent.right; anchors.rightMargin: Theme.paddingSmall
+            anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
             icon.source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
                                               : "image://theme/icon-m-wlan-4?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
@@ -205,14 +174,14 @@ Item {
     MouseArea {
         enabled: !bar.visible
         anchors.bottom: parent.bottom; anchors.left: parent.left; anchors.right: parent.right
-        height: root.height/2
+        height: root.height/3
         onClicked: root.show();
     }
 
     Timer {
         id: timer
         interval: root.showTime
-        onTriggered: hide();
+        //onTriggered: hide();
     }
 
     QtObject {

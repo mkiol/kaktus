@@ -24,6 +24,8 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
+    property bool showBar: true
+
     allowedOrientations: {
         switch (settings.allowedOrientations) {
         case 1:
@@ -38,9 +40,8 @@ Page {
     property int index
 
     ActiveDetector {
-        onActivated: {
-            feedModel.updateFlags();
-        }
+        onActivated: feedModel.updateFlags()
+        onInit: bar.flick = listView
     }
 
     SilicaListView {
@@ -51,13 +52,13 @@ Page {
         clip:true
 
         height: {
-            /*if ((dm.busy||fetcher.busy) && bar.open)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-1.6*Theme.itemSizeMedium;*/
-            if (dm.busy||fetcher.busy||dm.removerBusy)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
-            /*if (bar.open)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;*/
-            return isPortrait ? app.height : app.width;
+            var size = 0;
+            var d = isPortrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall;
+            if (bar.open)
+                size += d;
+            if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
+                size += d;
+            return isPortrait ? app.height-size : app.width-size;
         }
 
         PageMenu {
@@ -169,6 +170,8 @@ Page {
                 pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index, "readlater": false});
             }
 
+            showMenuOnPressAndHold: model.unread+model.read>0
+
             menu: ContextMenu {
                 MenuItem {
                     text: qsTr("Mark all as read")
@@ -207,6 +210,12 @@ Page {
         VerticalScrollDecorator {
             flickable: listView
         }
-
     }
+
+    /*ControlBar {
+        id: bar
+        open: false
+        flick: listView
+        transparent: false
+    }*/
 }

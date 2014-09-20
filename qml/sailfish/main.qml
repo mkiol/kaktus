@@ -33,8 +33,6 @@ ApplicationWindow {
         utils.setRootModel();
         switch (settings.viewMode) {
         case 0:
-            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
-            break;
         case 1:
             pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
             break;
@@ -42,6 +40,7 @@ ApplicationWindow {
             pageStack.replaceAbove(null,Qt.resolvedUrl("FeedPage.qml"),{"title": qsTr("Feeds")});
             break;
         case 3:
+        case 4:
             pageStack.replaceAbove(null,Qt.resolvedUrl("EntryPage.qml"));
             break;
         }
@@ -77,15 +76,10 @@ ApplicationWindow {
 
         onEmpty: {
             dm.removeCache();
-            //utils.updateModels();
-            //utils.setTabModel(settings.dashboardInUse);
-            //pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
             resetView();
         }
 
         onNotEmpty: {
-            //utils.setTabModel(settings.dashboardInUse);
-            //pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
             resetView()
         }
     }
@@ -105,7 +99,7 @@ ApplicationWindow {
             notification.show(qsTr("Download failed\nNetwork connection is unavailable"));
         }
 
-        onBusyChanged: {
+        /*onBusyChanged: {
             if (dm.busy && bar.open)
                 bar.open = false;
         }
@@ -113,7 +107,7 @@ ApplicationWindow {
         onRemoverBusyChanged: {
             if (dm.removerBusy && bar.open)
                 bar.open = false;
-        }
+        }*/
 
         onRemoverProgressChanged: {
             //console.log("Remover progress: " + current / total);
@@ -172,8 +166,8 @@ ApplicationWindow {
 
         onBusyChanged: {
 
-            if (fetcher.busy && bar.open)
-                bar.open = false;
+            /*if (fetcher.busy && bar.open)
+                bar.open = false;*/
 
             switch(fetcher.busyType) {
             case 1:
@@ -209,16 +203,21 @@ ApplicationWindow {
         id: notification
     }
 
-    ControlBar {
-        id: bar
-        open: false
+    property int panelY: {
+        if (app.orientation==Orientation.Portrait) {
+            if (bar.open)
+                return app.height-2*Theme.itemSizeSmall;
+            return app.height-1*Theme.itemSizeSmall;
+        }
+        return 0;
+    }
 
-        rotation: app.orientation==Orientation.Portrait ? 0 : 90
-        transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium
-        width: app.orientation==Orientation.Portrait ? app.width : app.height
-        y: app.orientation==Orientation.Portrait ? app.height-height : 0
-        x: app.orientation==Orientation.Portrait ? 0 : height
+    property int panelX: {
+        if (app.orientation==Orientation.Portrait)
+            return 0;
+        if (bar.open)
+            return 1.8*Theme.itemSizeSmall;
+        return 0.9*Theme.itemSizeSmall;
     }
 
     ProgressPanel {
@@ -228,11 +227,13 @@ ApplicationWindow {
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium
+        height: app.orientation==Orientation.Portrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall
         width: app.orientation==Orientation.Portrait ? app.width : app.height
-        y: app.orientation==Orientation.Portrait ? app.height-height : 0
-        x: app.orientation==Orientation.Portrait ? 0 : height
+        y: panelY
+        x: panelX
         text: qsTr("Removing cache data...");
+        Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
+        Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
     }
 
     ProgressPanel {
@@ -242,21 +243,36 @@ ApplicationWindow {
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium
+        height: app.orientation==Orientation.Portrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall
         width: app.orientation==Orientation.Portrait ? app.width : app.height
-        y: app.orientation==Orientation.Portrait ? app.height-height : 0
-        x: app.orientation==Orientation.Portrait ? 0 : height
+        y: panelY
+        x: panelX
+        Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
+        Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
     }
 
     ProgressPanel {
         id: progressPanel
         open: fetcher.busy
-        //open: true
         onCloseClicked: fetcher.cancel();
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium
+        height: app.orientation==Orientation.Portrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall
+        width: app.orientation==Orientation.Portrait ? app.width : app.height
+        y: panelY
+        x: panelX
+        Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
+        Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
+    }
+
+    ControlBar {
+        id: bar
+        Component.onCompleted: show()
+
+        rotation: app.orientation==Orientation.Portrait ? 0 : 90
+        transformOrigin: Item.TopLeft
+        height: app.orientation==Orientation.Portrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall
         width: app.orientation==Orientation.Portrait ? app.width : app.height
         y: app.orientation==Orientation.Portrait ? app.height-height : 0
         x: app.orientation==Orientation.Portrait ? 0 : height
