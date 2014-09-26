@@ -42,11 +42,7 @@ Page {
         anchors { top: parent.top; left: parent.left; right: parent.right }
         clip: true
 
-        height: {
-            if (dm.busy||fetcher.busy||dm.removerBusy||bar.open)
-                return isPortrait ? app.height-Theme.itemSizeSmall : app.width-0.9*Theme.itemSizeSmall;
-            return isPortrait ? app.height : app.width;
-        }
+        height: app.flickHeight
 
 
         anchors.leftMargin: Theme.paddingLarge
@@ -109,7 +105,7 @@ Page {
             }
 
             Button {
-                text: qsTr("What's new")
+                text: qsTr("Changelog")
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: pageStack.push(Qt.resolvedUrl("ChangelogPage.qml"))
             }

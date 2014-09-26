@@ -33,8 +33,6 @@
 
 #include "settings.h"
 
-//typedef DatabaseManager::CacheItem Cache;
-
 class DatabaseManager : public QObject
 {
     Q_OBJECT
@@ -42,8 +40,15 @@ class DatabaseManager : public QObject
 public:
     static const int dashboardsLimit = 100;
     static const int tabsLimit = 100;
-    static const int feedsLimit = 100;
+    static const int streamLimit = 100;
     static const int entriesLimit = 100;
+
+    struct StreamModuleTab {
+        QString streamId;
+        QString moduleId;
+        QString tabId;
+        int date;
+    };
 
     struct Dashboard {
         QString id;
@@ -54,39 +59,55 @@ public:
 
     struct Tab {
         QString id;
+        QString dashboardId;
         QString title;
         QString icon;
     };
 
-    struct Feed {
+    struct Module {
+        QString id;
+        QString tabId;
+        QList<QString> streamList;
+        QString widgetId;
+        QString pageId;
+        QString name;
+        QString title;
+        QString status;
+        QString icon;
+    };
+
+    struct Stream {
         QString id;
         QString title;
         QString content;
         QString link;
-        QString url;
-        QString streamId;
+        QString query;
         QString icon;
         QString type;
         int unread;
         int read;
-        int readlater;
+        int saved;
         int slow;
+        int newestItemAddedAt;
+        int updateAt;
         int lastUpdate;
     };
 
     struct Entry {
         QString id;
+        QString streamId;
         QString title;
         QString author;
         QString link;
         QString content;
-        QString feedId;
         QString image;
         QString feedIcon;
         int fresh;
         int read;
-        int readlater;
-        int date;
+        int saved;
+        int cached;
+        int publishedAt;
+        int createdAt;
     };
 
     struct CacheItem {
@@ -96,155 +117,133 @@ public:
         QString type;
         QString contentType;
         QString entryId;
-        QString feedId;
+        QString streamId;
+        int date;
+        int flag;
     };
 
     enum ActionsTypes {
         SetRead = 11,
         UnSetRead = 10,
-        SetReadlater = 21,
-        UnSetReadlater = 20,
-        SetFeedReadAll = 30,
-        UnSetFeedReadAll= 31,
+        SetSaved = 21,
+        UnSetSaved = 20,
+        SetStreamReadAll = 30,
+        UnSetStreamReadAll= 31,
         SetTabReadAll = 40,
         UnSetTabReadAll= 41,
         SetAllRead = 51,
-        UnSetAllRead = 50
+        UnSetAllRead = 50,
+        SetSlowRead = 61,
+        UnSetSlowRead = 60
     };
 
     struct Action {
         ActionsTypes type;
-        QString feedId;
-        QString entryId;
-        int olderDate;
-        int date;
+        QString id1;
+        QString id2;
+        QString id3;
+        int date1;
+        int date2;
+        int date3;
     };
-
-    /*struct Flags {
-        int unread;
-        int read;
-        int readlater;
-    };*/
 
     explicit DatabaseManager(QObject *parent = 0);
 
     Q_INVOKABLE void init();
     Q_INVOKABLE void newInit();
 
-    bool cleanDashboards();
-    bool cleanTabs();
-    bool cleanFeeds();
-    bool cleanEntries();
-    bool cleanCache();
+    void cleanDashboards();
+    void cleanTabs();
+    void cleanModules();
+    void cleanStreams();
+    void cleanEntries();
+    void cleanCache();
 
-    bool writeDashboard(const Dashboard &dashboard);
-    bool writeTab(const QString &dashboardId, const Tab &tab);
-    bool writeFeed(const QString &tabId, const Feed &feed);
+    void writeDashboard(const Dashboard &item);
+    void writeTab(const Tab &item);
+    void writeModule(const Module &item);
+    void writeStream(const Stream &item);
+    void writeEntry(const Entry &item);
+    void writeCache(const CacheItem &item);
+    void writeAction(const Action &item);
 
-    bool updateEntriesReadFlagByFeed(const QString &feedId, int read);
-    bool updateEntriesReadFlag(const QString &dashboardId, int read);
+    void updateEntriesReadFlagByStream(const QString &id, int flag);
+    void updateEntriesReadFlagByDashboard(const QString &id, int flag);
+    void updateEntriesSlowReadFlagByDashboard(const QString &id, int flag);
+    void updateEntriesReadFlagByTab(const QString &id, int flag);
+    void updateEntriesReadFlagByEntry(const QString &id, int flag);
+    void updateEntriesSavedFlagByEntry(const QString &id, int flag);
+    void updateEntriesCachedFlagByEntry(const QString &id, int cacheDate, int flag);
+    void updateEntriesFreshFlag(int flag);
 
-    bool updateFeedReadFlag(const QString &feedId, int unread, int read);
-    bool updateFeedAllAsReadByTab(const QString &tabId);
-    bool updateFeedAllAsUnreadByTab(const QString &tabId);
-    //bool updateTabReadFlag(const QString &tabId, int unread, int read);
-    bool updateEntriesReadFlagByTab(const QString &tabId, int read);
-    bool updateFeedReadlaterFlag(const QString &feedId, int readlater);
+    bool isDashboardExists();
+    bool isCacheExists(const QString &id);
+    bool isCacheExistsByFinalUrl(const QString &id);
+    bool isCacheExistsByEntryId(const QString &id);
 
-    bool writeEntry(const QString &feedId, const Entry &entry);
-    bool updateEntryReadFlag(const QString &entryId, int read);
-    bool updateEntryReadFlagByTab(const QString &tabId, int read);
-
-    bool updateAllEntriesFreshFlag(int fresh);
-    bool updateEntryReadlaterFlag(const QString &entryId, int readlater);
-
-    bool writeCache(const CacheItem &item, int cacheDate, int flag = 1);
-    bool updateEntryCache(const QString &entryId, int cacheDate, int flag = 1);
-
-    bool writeAction(Action &action);
+    Dashboard readDashboard(const QString &id);
     QList<Action> readActions();
-
-    Dashboard readDashboard(const QString &dashboardId);
     QList<Dashboard> readDashboards();
-    bool isDashborardExists();
+    QList<Tab> readTabsByDashboard(const QString &id);
+    QList<Stream> readStreamsByTab(const QString &id);
+    QList<Stream> readStreamsByDashboard(const QString &id);
+    //QList<QString> readStreamIdsByTab(const QString &id);
+    //QList<QString> readStreamIdsByDashboard(const QString &id);
+    //QList<QString> readStreamSlowIdsByDashboard(const QString &id);
+    QList<QString> readStreamIds();
+    QString readStreamIdByEntry(const QString &id);
+    QList<QString> readModuleIdByStream(const QString &id);
+    QMap<QString,QString> readStreamIdsTabIds();
+    QList<StreamModuleTab> readStreamModuleTabList();
+    QList<StreamModuleTab> readStreamModuleTabListByTab(const QString &id);
+    QList<StreamModuleTab> readStreamModuleTabListByDashboard(const QString &id);
+    QList<StreamModuleTab> readSlowStreamModuleTabListByDashboard(const QString &id);
+    QList<StreamModuleTab> readStreamModuleTabListWithoutDate();
 
-    QList<Tab> readTabs(const QString &dashboardId);
-
-    QList<Feed> readFeedsByTab(const QString &tabId);
-    QList<Feed> readFeeds(const QString &dashboardId);
-
-    QList<QString> readFeedsIdsByTab(const QString &tabId);
-    QList<QString> readFeedsIds(const QString &dashboardId);
-    QList<QString> readAllFeedIds();
-    QMap<QString,QString> readAllFeedsIdsTabs();
-    QString readFeedId(const QString &entryId);
-
-    // Read Entries
-
-    //QList<Entry> readEntries();
-
-    QList<Entry> readEntries(const QString &dashboardId, int offset, int limit);
-    QList<Entry> readEntriesUnread(const QString &dashboardId, int offset, int limit);
-    QList<Entry> readEntriesReadlater(const QString &dashboardId, int offset, int limit);
-
-    QList<Entry> readEntriesByFeed(const QString &feedId, int offset, int limit);
-    QList<Entry> readEntriesUnreadByFeed(const QString &feedId, int offset, int limit);
-
-    QList<Entry> readEntriesByTab(const QString &tabId, int offset, int limit);
-    QList<Entry> readEntriesUnreadByTab(const QString &tabId, int offset, int limit);
-
+    QList<Entry> readEntriesByDashboard(const QString &id, int offset, int limit);
+    QList<Entry> readEntriesUnreadByDashboard(const QString &id, int offset, int limit);
+    QList<Entry> readEntriesSlowUnreadByDashboard(const QString &id, int offset, int limit);
+    QList<Entry> readEntriesSavedByDashboard(const QString &id, int offset, int limit);
+    QList<Entry> readEntriesSlowByDashboard(const QString &id, int offset, int limit);
+    QList<Entry> readEntriesByStream(const QString &id, int offset, int limit);
+    QList<Entry> readEntriesUnreadByStream(const QString &id, int offset, int limit);
+    QList<Entry> readEntriesByTab(const QString &id, int offset, int limit);
+    QList<Entry> readEntriesUnreadByTab(const QString &id, int offset, int limit);
     QList<Entry> readEntriesCachedOlderThan(int cacheDate, int limit);
     QList<QString> readCacheFinalUrlOlderThan(int cacheDate, int limit);
     QList<QString> readCacheIdsOlderThan(int cacheDate, int limit);
 
-    //---
-
-    CacheItem readCacheItemFromOrigUrl(const QString &origUrl);
-    CacheItem readCacheItemFromEntryId(const QString &entryId);
-    CacheItem readCacheItemFromFinalUrl(const QString &finalUrl);
-    CacheItem readCacheItem(const QString &cacheId);
-    bool isCacheItemExists(const QString &cacheId);
-    bool isCacheItemExistsByFinalUrl(const QString &cacheId);
-    bool isCacheItemExistsByEntryId(const QString &entryId);
-
-    QList<QString>  readCacheFinalUrlsByLimit(const QString &feedId, int limit);
-    bool removeEntriesByLimit(const QString &feedId, int limit);
-
+    CacheItem readCacheByOrigUrl(const QString &id);
+    CacheItem readCacheByEntry(const QString &id);
+    CacheItem readCacheByFinalUrl(const QString &id);
+    CacheItem readCacheByCache(const QString &id);//
+    QList<QString> readCacheFinalUrlsByStream(const QString &id, int limit);
     QMap<QString,QString> readNotCachedEntries();
-    QMap<QString,int> readFeedsLastUpdate();
+    int readLastUpdateByTab(const QString &id);
+    int readLastUpdateByDashboard(const QString &id);
+    int readLastUpdateByStream(const QString &id);
 
-    QMap<QString,int> readFeedsFirstUpdate();
+    void removeStreamsByStream(const QString &id);
+    void removeEntriesOlderThan(int cacheDate, int limit);
+    void removeEntriesByStream(const QString &id, int limit);
+    void removeActionsById(const QString &id);
+    void removeCacheItems();
 
-    int readLatestEntryDateByFeedId(const QString &feedId);
-    int readFeedLastUpdate(const QString &dashboardId);
-    int readFeedLastUpdateByFeed(const QString &feedId);
-    int readTabLastUpadate(const QString &tabId);
-
-    bool removeFeed(const QString &feedId);
-    bool removeAllCacheItems();
-    bool removeEntriesOlderThan(int cacheDate, int limit);
-    //bool removeCacheItemsOlderThan(int cacheDate, int limit);
-    bool removeAction(const QString &entryId);
-
-    int readNotCachedEntriesCount();
-    int readEntriesCount();
-
-    int readEntriesByFeedCount(const QString &feedId);
-    int readEntriesUnreadByFeedCount(const QString &feedId);
-    int readEntriesUnreadByTabCount(const QString &tabId);
-    int readEntriesReadByFeedCount(const QString &feedId);
-    int readEntriesReadByTabCount(const QString &tabId);
-    int readEntriesFreshByFeedCount(const QString &feedId);
-    int readEntriesFreshByTabCount(const QString &tabId);
-
-    int readEntriesReadCount(const QString &dashboardId);
-    int readEntriesUnreadCount(const QString &dashboardId);
-
-    int readFeedsCount();
-    //int readUnreadCount(const QString &dashboardId);
-    //Flags readTabFlags(const QString &tabId);
-
-    QSqlError lastError();
+    int countEntries();
+    int countStreams();
+    int countTabs();
+    int countEntriesByStream(const QString &id);
+    int countEntriesUnreadByStream(const QString &id);
+    int countEntriesUnreadByTab(const QString &id);
+    int countEntriesReadByStream(const QString &id);
+    int countEntriesReadByTab(const QString &id);
+    int countEntriesFreshByStream(const QString &id);
+    int countEntriesFreshByTab(const QString &id);
+    int countEntriesReadByDashboard(const QString &id);
+    int countEntriesUnreadByDashboard(const QString &id);
+    int countEntriesSlowReadByDashboard(const QString &id);
+    int countEntriesSlowUnreadByDashboard(const QString &id);
+    int countEntriesNotCached();
 
 signals:
     void error();
@@ -252,25 +251,25 @@ signals:
     void notEmpty();
 
 private:
-    QSqlDatabase _db;
     static const QString version;
-    QString settingsDir;
+    QSqlDatabase db;
     QString dbFilePath;
 
-    bool openDB();
-    bool createDB();
-    bool deleteDB();
+    bool openDB();//
+    bool createDB();//
+    bool deleteDB();//
 
-    bool createStructure();
-    bool createDashboardsStructure();
-    bool createTabsStructure();
-    bool createFeedsStructure();
-    bool createEntriesStructure();
-    bool createCacheStructure();
-    bool createActionsStructure();
-    bool checkParameters();
-    bool isTableExists(const QString &name);
-    void decodeBase64(const QVariant &source, QString &result);
+    bool createStructure();//
+    bool createDashboardsStructure();//
+    bool createTabsStructure();//
+    bool createModulesStructure();//
+    bool createStreamsStructure();//
+    bool createEntriesStructure();//
+    bool createCacheStructure();//
+    bool createActionsStructure();//
+    bool checkParameters();//
+    bool isTableExists(const QString &name);//
+    void decodeBase64(const QVariant &source, QString &result);//
 };
 
 Q_DECLARE_METATYPE(DatabaseManager::CacheItem)

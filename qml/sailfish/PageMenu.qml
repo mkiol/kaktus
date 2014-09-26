@@ -86,11 +86,16 @@ PullDownMenu {
 
             bar.hideAndDisable();
 
+            /*if (!settings.signedIn) {
+               label.text = qsTr("You are not signed in");
+               return;
+            }*/
+                
             var lastSync = settings.lastUpdateDate;
             if (lastSync>0)
                 label.text = qsTr("Last sync: %1").arg(utils.getHumanFriendlyTimeString(lastSync));
             else
-                label.text = qsTr("Not yet synced");
+                label.text = qsTr("You have never synced");
 
         } else {
 

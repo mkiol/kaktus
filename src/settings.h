@@ -50,6 +50,7 @@ class Settings: public QObject
     Q_PROPERTY (bool powerSaveMode READ getPowerSaveMode WRITE setPowerSaveMode NOTIFY powerSaveModeChanged)
     Q_PROPERTY (int offsetLimit READ getOffsetLimit WRITE setOffsetLimit NOTIFY offsetLimitChanged)
     Q_PROPERTY (int viewMode READ getViewMode WRITE setViewMode NOTIFY viewModeChanged)
+    Q_PROPERTY (bool helpDone READ getHelpDone WRITE setHelpDone NOTIFY helpDoneChanged)
 
 public:
     static Settings* instance();
@@ -78,6 +79,9 @@ public:
     void setSignedIn(bool value);
     bool getSignedIn();
 
+    void setHelpDone(bool value);
+    bool getHelpDone();
+
     bool getShowStarredTab();
     void setShowStarredTab(bool value);
 
@@ -101,6 +105,8 @@ public:
     void setShowOnlyUnread(bool value);
 
     Q_INVOKABLE QString getSettingsDir();
+
+    Q_INVOKABLE void reset();
 
     QString getDmCacheDir();
 
@@ -149,6 +155,7 @@ signals:
     void powerSaveModeChanged();
     void offsetLimitChanged();
     void viewModeChanged();
+    void helpDoneChanged();
 
     /*
     501 - Unable create settings dir

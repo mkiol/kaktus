@@ -45,7 +45,7 @@ Row {
             id: label1
             width: parent.width
             wrapMode: Text.WordWrap
-            font.pixelSize: Theme.fontSizeSmall
+            //font.pixelSize: Theme.fontSizeSmall
             color: Theme.primaryColor
             font.bold: true
 
@@ -55,7 +55,7 @@ Row {
             id: label2
             width: parent.width
             wrapMode: Text.WordWrap
-            font.pixelSize: Theme.fontSizeSmall
+            //font.pixelSize: Theme.fontSizeSmall
             color: Theme.primaryColor
         }
 

@@ -42,37 +42,44 @@ Page {
         anchors { top: parent.top; left: parent.left; right: parent.right }
         clip: true
 
-        height: {
-            if (dm.busy||fetcher.busy||bar.open)
-                return isPortrait ? app.height-Theme.itemSizeSmall : app.width-0.9*Theme.itemSizeSmall;
-            return isPortrait ? app.height : app.width;
-        }
+        height: app.flickHeight
 
         header: PageHeader {
-            title: qsTr("What's new")
+            title: qsTr("Changelog")
         }
 
         model: VisualItemModel {
 
             SectionHeader {
-                text: qsTr("1.2.0 release")
+                text: qsTr("Version %1").arg("1.2.0")
             }
 
             LogItem {
                 title: qsTr('Multi-Feed widget support')
-                description: qsTr('Kaktus can also read Feeds, which are aggregated in the Netvibes Multi-Feed widget.')
+                description: qsTr('Kaktus can read RSS feeds, which are aggregated with '+
+                                  'Netvibes Multi-Feed widget. So far, only simple Feed '+
+                                  'widget was supported.')
             }
 
             LogItem {
                 title: qsTr('Double-click marks article as read/unread')
-                description: qsTr('In addition to the context menu option, marking as read/unread can be done by double-click.')
+                description: qsTr('In addition to the context menu option, marking as '+
+                                  'read/unread now can be done by double-click.')
             }
 
             LogItem {
-                title: qsTr('New Browsing Modes')
-                description: qsTr('There are new Browsing Modes. '+
-                                  'It is possible to show all articles in the one list '+
-                                  'or group by Tabs or Feeds.')
+                title: qsTr('Bottom Bar & New View Modes')
+                description: qsTr('There are new View Modes, which enable you to '+
+                                  'show all articles in the one list or group articles '+
+                                  'using tabs. You can switch between modes by clicking '+
+                                  'on the appropriate icon on the Bottom Bar.')
+            }
+
+            LogItem {
+                title: qsTr('Slow feeds')
+                description: qsTr('One of the new view modes gives you option to '+
+                                  'view only articles from less frequently updated feeds '+
+                                  '- so called Slow feeds. ')
             }
 
             LogItem {
@@ -83,12 +90,13 @@ Page {
 
             LogItem {
                 title: qsTr('Option to delete cache data')
-                description: qsTr('Cache data can be deleted manually. The option is located on the settings page.')
+                description: qsTr('Cache data can be deleted manually. The option is located on the Settings page.')
             }
 
             LogItem {
-                title: qsTr('Image caching improvements')
-                description: qsTr('Caching mechanism for images are improved. Files with images are downloaded more effectively.')
+                title: qsTr('User Guide')
+                description: qsTr('User Guide contains information how to navigate the new UI elements like Bottom Bar. '+
+                                  'Option to show User Guide is located on the Settings page.')
             }
 
             Item {

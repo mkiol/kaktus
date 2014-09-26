@@ -214,13 +214,13 @@ ListItem {
                 height: width
                 anchors.left: parent.left;
                 anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
-                visible: status!=Image.Error && status!=Image.Null && settings.showTabIcons
+                visible: status!=Image.Error && status!=Image.Null
             }
 
             Connections {
                 target: settings
                 onShowTabIconsChanged: {
-                    if (settings.showTabIcons && root.feedIcon!="")
+                    if (root.feedIcon!="")
                         icon.source = cache.getUrlbyUrl(root.feedIcon);
                     else
                         icon.source = "";
@@ -228,7 +228,7 @@ ListItem {
             }
 
             Component.onCompleted: {
-                if (settings.showTabIcons && root.feedIcon!="") {
+                if (root.feedIcon!="") {
                     icon.source = cache.getUrlbyUrl(root.feedIcon);
                 } else {
                     icon.source = "";

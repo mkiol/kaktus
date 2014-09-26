@@ -40,34 +40,6 @@ Utils::Utils(QObject *parent) :
     feedModel = NULL;
 }
 
-/*
- * Copyright (c) 2009 John Schember <john@nachtimwald.com>
- * http://john.nachtimwald.com/2010/06/08/qt-remove-directory-and-its-contents/
- */
-/*bool Utils::removeDir(const QString &dirName)
-{
-    bool result = true;
-    QDir dir(dirName);
-
-    if (dir.exists(dirName)) {
-        Q_FOREACH(QFileInfo info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst)) {
-            if (info.isDir()) {
-                result = removeDir(info.absoluteFilePath());
-            }
-            else {
-                result = QFile::remove(info.absoluteFilePath());
-            }
-
-            if (!result) {
-                return result;
-            }
-        }
-        result = dir.rmdir(dirName);
-    }
-
-    return result;
-}*/
-
 void Utils::copyToClipboard(const QString &text)
 {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
@@ -77,20 +49,6 @@ void Utils::copyToClipboard(const QString &text)
 #endif
     clipboard->setText(text);
 }
-
-/*void Utils::setTabModel(const QString &dashboardId)
-{
-    TabModel *oldTabModel = tabModel;
-    Settings *s = Settings::instance();
-
-    tabModel = new TabModel(s->db);
-    tabModel->init(dashboardId);
-
-    s->view->rootContext()->setContextProperty("tabModel", tabModel);
-
-    if (oldTabModel != NULL)
-        delete oldTabModel;
-}*/
 
 void Utils::setRootModel()
 {
@@ -148,6 +106,10 @@ void Utils::setRootModel()
         break;
     case 3:
         // View mode: Entries
+    case 4:
+        // View mode: Saved
+    case 5:
+        // View mode: Slow
         entryModel = new EntryModel(s->db);
         entryModel->init("root");
         s->view->rootContext()->setContextProperty("entryModel", entryModel);
@@ -260,7 +222,7 @@ QString Utils::defaultDashboardName()
 int Utils::countUnread()
 {
     Settings *s = Settings::instance();
-    return s->db->readEntriesUnreadCount(s->getDashboardInUse());
+    return s->db->countEntriesUnreadByDashboard(s->getDashboardInUse());
 }
 
 /*bool Utils::showNotification(const QString previewSummary,

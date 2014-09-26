@@ -26,10 +26,18 @@ ApplicationWindow {
     cover: CoverPage {}
 
     Component.onCompleted: {
+        //console.log("Initiating DB!");
         db.init();
     }
 
     function resetView() {
+        //console.log("resetView, viewMode: "+settings.viewMode);
+
+        if (!settings.signedIn) {
+            pageStack.replaceAbove(null,Qt.resolvedUrl("FirstPage.qml"));
+            return;
+        }
+
         utils.setRootModel();
         switch (settings.viewMode) {
         case 0:
@@ -41,6 +49,7 @@ ApplicationWindow {
             break;
         case 3:
         case 4:
+        case 5:
             pageStack.replaceAbove(null,Qt.resolvedUrl("EntryPage.qml"));
             break;
         }
@@ -57,12 +66,21 @@ ApplicationWindow {
 
         onDashboardInUseChanged: {
             resetView();
-            notification.show(qsTr("Dashboard changed!"));
+            //notification.show(qsTr("Dashboard changed!"));
         }
 
         onViewModeChanged: {
             resetView();
             //notification.show(qsTr("Browsing mode changed!"));
+        }
+
+        onSignedInChanged: {
+            if (!settings.signedIn) {
+                notification.show(qsTr("Signed out!"));
+                fetcher.cancel(); dm.cancel();
+                settings.reset();
+                db.init();
+            }
         }
     }
 
@@ -76,10 +94,14 @@ ApplicationWindow {
 
         onEmpty: {
             dm.removeCache();
-            resetView();
+            if (settings.viewMode!=0)
+                settings.viewMode=0;
+            else
+                resetView();
         }
 
         onNotEmpty: {
+            //console.log("DB not empty!");
             resetView()
         }
     }
@@ -96,18 +118,8 @@ ApplicationWindow {
         }
 
         onNetworkNotAccessible: {
-            notification.show(qsTr("Download failed\nNetwork connection is unavailable"));
+            notification.show(qsTr("Download failed!\nNetwork connection is unavailable."));
         }
-
-        /*onBusyChanged: {
-            if (dm.busy && bar.open)
-                bar.open = false;
-        }
-
-        onRemoverBusyChanged: {
-            if (dm.removerBusy && bar.open)
-                bar.open = false;
-        }*/
 
         onRemoverProgressChanged: {
             //console.log("Remover progress: " + current / total);
@@ -127,7 +139,7 @@ ApplicationWindow {
         }
 
         onNetworkNotAccessible: {
-            notification.show(qsTr("Sync failed\nNetwork connection is unavailable"));
+            notification.show(qsTr("Sync failed!\nNetwork connection is unavailable."));
         }
 
         onError: {
@@ -138,7 +150,7 @@ ApplicationWindow {
                 return;
             if (code >= 400 && code < 500) {
                 if (code == 402)
-                    notification.show(qsTr("User & Password do not match!"));
+                    notification.show(qsTr("The user name or password is incorrect!"));
                 // Sign in
                 pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": code});
             } else {
@@ -148,11 +160,11 @@ ApplicationWindow {
         }
 
         onErrorCheckingCredentials: {
-            notification.show(qsTr("User & Password do not match!"));
+            notification.show(qsTr("The user name or password is incorrect!"));
         }
 
         onCredentialsValid: {
-            notification.show(qsTr("Successfully Signed In!"));
+            notification.show(qsTr("You are signed in!"));
         }
 
         onProgress: {
@@ -161,7 +173,7 @@ ApplicationWindow {
         }
 
         onUploading: {
-            progressPanel.text = qsTr("Sending data to Netvibes...");
+            progressPanel.text = qsTr("Sending data...");
         }
 
         onBusyChanged: {
@@ -203,21 +215,31 @@ ApplicationWindow {
         id: notification
     }
 
-    property int panelY: {
-        if (app.orientation==Orientation.Portrait) {
-            if (bar.open)
-                return app.height-2*Theme.itemSizeSmall;
-            return app.height-1*Theme.itemSizeSmall;
-        }
-        return 0;
+    property int panelHeightPortrait: 1.1*Theme.itemSizeSmall
+    property int panelHeightLandscape: Theme.itemSizeSmall
+    property int flickHeight: {
+        var size = 0;
+        var d = app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape;
+        if (bar.open)
+            size += d;
+        if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
+            size += d;
+        return app.orientation==Orientation.Portrait ? app.height-size : app.width-size;
     }
-
     property int panelX: {
         if (app.orientation==Orientation.Portrait)
             return 0;
         if (bar.open)
-            return 1.8*Theme.itemSizeSmall;
-        return 0.9*Theme.itemSizeSmall;
+            return 2*app.panelHeightLandscape;
+        return app.panelHeightLandscape;
+    }
+    property int panelY: {
+        if (app.orientation==Orientation.Portrait) {
+            if (bar.open)
+                return app.height-2*app.panelHeightPortrait;
+            return app.height-app.panelHeightPortrait;
+        }
+        return 0;
     }
 
     ProgressPanel {
@@ -227,7 +249,7 @@ ApplicationWindow {
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall
+        height: app.orientation==Orientation.Portrait ? panelHeightPortrait : panelHeightLandscape
         width: app.orientation==Orientation.Portrait ? app.width : app.height
         y: panelY
         x: panelX
@@ -243,7 +265,7 @@ ApplicationWindow {
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall
+        height: app.orientation==Orientation.Portrait ? panelHeightPortrait : panelHeightLandscape
         width: app.orientation==Orientation.Portrait ? app.width : app.height
         y: panelY
         x: panelX
@@ -258,7 +280,7 @@ ApplicationWindow {
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall
+        height: app.orientation==Orientation.Portrait ? panelHeightPortrait : panelHeightLandscape
         width: app.orientation==Orientation.Portrait ? app.width : app.height
         y: panelY
         x: panelX
@@ -268,16 +290,29 @@ ApplicationWindow {
 
     ControlBar {
         id: bar
-        Component.onCompleted: show()
+        rotation: app.orientation==Orientation.Portrait ? 0 : 90
+        transformOrigin: Item.TopLeft
+        height: app.orientation==Orientation.Portrait ? panelHeightPortrait : panelHeightLandscape
+        width: app.orientation==Orientation.Portrait ? app.width : app.height
+        y: app.orientation==Orientation.Portrait ? app.height-height : 0
+        x: app.orientation==Orientation.Portrait ? 0 : height
+
+        onOpenChanged: {
+            if(open && !settings.helpDone)
+                guide.showDelayed();
+        }
+    }
+
+    Guide {
+        id: guide
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall
+        height: app.orientation==Orientation.Portrait ? app.height : app.width
         width: app.orientation==Orientation.Portrait ? app.width : app.height
         y: app.orientation==Orientation.Portrait ? app.height-height : 0
         x: app.orientation==Orientation.Portrait ? 0 : height
     }
-
 }
 
 //fillMode: Image.PreserveAspectFit

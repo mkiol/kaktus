@@ -44,7 +44,7 @@ Item {
     signal offlineClicked()
 
     width: parent.width
-    height: isPortrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium
+    height: isPortrait ? app.panelHeightPortrait : app.panelHeightLandscape
     anchors.bottom: parent.bottom
     anchors.left: parent.left
 

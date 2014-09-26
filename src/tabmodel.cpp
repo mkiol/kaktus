@@ -40,19 +40,16 @@ void TabModel::init()
 
 void TabModel::createItems(const QString &dashboardId)
 {
-    // Readlater extra Tab, id="readlater"
-    appendRow(new TabItem("readlater",tr("Saved"),"",0,0,0,0));
-
-    QList<DatabaseManager::Tab> list = _db->readTabs(dashboardId);
+    QList<DatabaseManager::Tab> list = _db->readTabsByDashboard(dashboardId);
     QList<DatabaseManager::Tab>::iterator i = list.begin();
     while( i != list.end() ) {
         appendRow(new TabItem((*i).id,
                               (*i).title,
                               (*i).icon,
-                              _db->readEntriesUnreadByTabCount((*i).id),
-                              _db->readEntriesReadByTabCount((*i).id),
+                              _db->countEntriesUnreadByTab((*i).id),
+                              _db->countEntriesReadByTab((*i).id),
                               0,
-                              _db->readEntriesFreshByTabCount((*i).id)
+                              _db->countEntriesFreshByTab((*i).id)
                              ));
         ++i;
     }
@@ -63,8 +60,8 @@ void TabModel::updateFlags()
     int l = this->rowCount();
     for (int i=0; i<l; ++i) {
         TabItem* item = static_cast<TabItem*>(this->readRow(i));
-        item->setUnread(_db->readEntriesUnreadByTabCount(item->uid()));
-        item->setRead(_db->readEntriesReadByTabCount(item->uid()));
+        item->setUnread(_db->countEntriesUnreadByTab(item->uid()));
+        item->setRead(_db->countEntriesReadByTab(item->uid()));
     }
 }
 
@@ -72,12 +69,12 @@ void TabModel::markAsUnread(int row)
 {
     TabItem* item = static_cast<TabItem*>(readRow(row));
     _db->updateEntriesReadFlagByTab(item->id(),0);
-    item->setRead(0); item->setUnread(_db->readEntriesUnreadByTabCount(item->id()));
+    item->setRead(0); item->setUnread(_db->countEntriesUnreadByTab(item->id()));
 
     DatabaseManager::Action action;
     action.type = DatabaseManager::UnSetTabReadAll;
-    action.feedId = item->id();
-    action.olderDate = _db->readTabLastUpadate(item->id());
+    action.id1 = item->id();
+    action.date1 = _db->readLastUpdateByTab(item->id());
     _db->writeAction(action);
 }
 
@@ -85,25 +82,25 @@ void TabModel::markAsRead(int row)
 {
     TabItem* item = static_cast<TabItem*>(readRow(row));
     _db->updateEntriesReadFlagByTab(item->id(),1);
-    item->setUnread(0); item->setRead(_db->readEntriesReadByTabCount(item->id()));
+    item->setUnread(0); item->setRead(_db->countEntriesReadByTab(item->id()));
 
     DatabaseManager::Action action;
     action.type = DatabaseManager::SetTabReadAll;
-    action.feedId = item->id();
-    action.olderDate = _db->readTabLastUpadate(item->id());
+    action.id1 = item->id();
+    action.date1 = _db->readLastUpdateByTab(item->id());
     _db->writeAction(action);
 }
 
 int TabModel::countRead()
 {
     Settings *s = Settings::instance();
-    return _db->readEntriesReadCount(s->getDashboardInUse());
+    return _db->countEntriesReadByDashboard(s->getDashboardInUse());
 }
 
 int TabModel::countUnread()
 {
     Settings *s = Settings::instance();
-    return _db->readEntriesUnreadCount(s->getDashboardInUse());
+    return _db->countEntriesUnreadByDashboard(s->getDashboardInUse());
 }
 
 void TabModel::setAllAsUnread()
@@ -111,11 +108,11 @@ void TabModel::setAllAsUnread()
     Settings *s = Settings::instance();
     DatabaseManager::Action action;
 
-    _db->updateEntriesReadFlag(s->getDashboardInUse(),0);
+    _db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),0);
 
     action.type = DatabaseManager::UnSetAllRead;
-    action.feedId = s->getDashboardInUse();
-    action.olderDate = _db->readFeedLastUpdate(s->getDashboardInUse());
+    action.id1 = s->getDashboardInUse();
+    action.date1 = _db->readLastUpdateByDashboard(s->getDashboardInUse());
 
     updateFlags();
 
@@ -127,11 +124,11 @@ void TabModel::setAllAsRead()
     Settings *s = Settings::instance();
     DatabaseManager::Action action;
 
-    _db->updateEntriesReadFlag(s->getDashboardInUse(),1);
+    _db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),1);
 
     action.type = DatabaseManager::SetAllRead;
-    action.feedId = s->getDashboardInUse();
-    action.olderDate = _db->readFeedLastUpdate(s->getDashboardInUse());
+    action.id1 = s->getDashboardInUse();
+    action.date1 = _db->readLastUpdateByDashboard(s->getDashboardInUse());
 
     updateFlags();
 

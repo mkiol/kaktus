@@ -20,7 +20,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-
 Item {
     id: root
 
@@ -69,51 +68,18 @@ Item {
         visible: opacity > 0.0
         Behavior on opacity { FadeAnimation {duration: 300} }
 
-        Rectangle {
-            id: leftBg
-
-            Rectangle {
-                color: Theme.highlightBackgroundColor
-                anchors.left: parent.left;
-                height: parent.height
-                width: parent.width>parent.radius ? parent.radius : 0
-            }
-
-            anchors.left: parent.left;
-            width: settings.viewMode==0 ? 0 :
-                   settings.viewMode==1 ? vm1b.x-Theme.paddingSmall :
-                   settings.viewMode==3 ? vm3b.x-Theme.paddingSmall :
-                   settings.viewMode==4 ? vm4b.x-Theme.paddingSmall :
-                   settings.viewMode==5 ? vm5b.x-Theme.paddingSmall :
-                   0
-            height: 2*parent.height
-            radius: 10
-            color: Theme.highlightBackgroundColor
-            Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
-        }
-
-        Rectangle {
-            id: rightBg
-
-            Rectangle {
-                color: Theme.highlightBackgroundColor
-                anchors.right: parent.right;
-                height: parent.height
-                width: parent.radius
-            }
-
-            anchors.right: parent.right
-            width: settings.viewMode==0 ? parent.width-(vm0b.x+vm0b.width+Theme.paddingSmall) :
-                   settings.viewMode==1 ? parent.width-(vm1b.x+vm1b.width+Theme.paddingSmall) :
-                   settings.viewMode==3 ? parent.width-(vm3b.x+vm3b.width+Theme.paddingSmall) :
-                   settings.viewMode==4 ? parent.width-(vm4b.x+vm4b.width+Theme.paddingSmall) :
-                   settings.viewMode==5 ? parent.width-(vm5b.x+vm5b.width+Theme.paddingSmall) :
-                   parent.width-(vm0b.x+vm0b.width+Theme.paddingSmall)
-
-            height: 2*parent.height
-            radius: 10
-            color: Theme.highlightBackgroundColor
-            Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
+        Image {
+            property int off: 85
+            property int size: 93
+            source: "image://icons/bar?"+Theme.highlightBackgroundColor
+            y: 0
+            x: settings.viewMode==0 ? -off-4*size :
+               settings.viewMode==1 ? -off-3*size :
+               settings.viewMode==3 ? -off-2*size :
+               settings.viewMode==4 ? -off-1*size :
+               settings.viewMode==5 ? -off :
+               -off-5*size
+            Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
         }
 
         MouseArea {
@@ -194,7 +160,7 @@ Item {
                     if (dm.online)
                         settings.offlineMode = false;
                     else
-                        notification.show(qsTr("Cannot switch to Online mode\nNetwork connection is unavailable"));
+                        notification.show(qsTr("Can't switch to Online mode.\nNetwork connection is unavailable."));
                 } else {
                     settings.offlineMode = true;
                 }
@@ -203,7 +169,7 @@ Item {
     }
 
     MouseArea {
-        enabled: !bar.visible
+        enabled: !bar.visible && pageStack.currentPage.showBar
         anchors.bottom: parent.bottom; anchors.left: parent.left; anchors.right: parent.right
         height: root.height/2
         onClicked: root.show();
@@ -212,7 +178,9 @@ Item {
     Timer {
         id: timer
         interval: root.showTime
-        onTriggered: hide();
+        onTriggered: {
+            hide();
+        }
     }
 
     QtObject {

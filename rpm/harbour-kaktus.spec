@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.2.0
-Release:    3
+Release:    4
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -76,6 +76,12 @@ desktop-file-install --delete-original       \
 
 %changelog
 
+* Fri Sep 26 2014 Michal Kosciesza 1.2.0-4
+- New Netvibes APi support
+- Bottom Bar
+- Slow feeds view mode
+- User Guide
+
 * Sat Sep 06 2014 Michal Kosciesza 1.2.0-3
 - Caching and downloading improvements
 
@@ -84,12 +90,12 @@ desktop-file-install --delete-original       \
 - Improved display of images
 
 * Mon Sep 01 2014 Michal Kosciesza 1.2.0-1
-- New "Browsing Mode" options e.g. Option to show all feeds in one list
+- New "View Mode" options e.g. Option to show all feeds in one list
 - Double-click marks article as read/unread
 - Changelog page
 
 * Wed Aug 27 2014 Michal Kosciesza 1.2.0-0
-- Posibility to browse articles by Tabs (see "Browsing Mode" option)
+- Posibility to browse articles by Tabs (see "View Mode" option)
 - Indicator for articles that have been added since last sync
 - Possibility to delete cache data (see "Cache size" option)
 - Many UI improvements

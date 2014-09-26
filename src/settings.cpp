@@ -143,6 +143,19 @@ bool Settings::getSignedIn()
     return settings.value("signedin", false).toBool();
 }
 
+void Settings::setHelpDone(bool value)
+{
+    if (getHelpDone() != value) {
+        settings.setValue("helpdone", value);
+        emit helpDoneChanged();
+    }
+}
+
+bool Settings::getHelpDone()
+{
+    return settings.value("helpdone", false).toBool();
+}
+
 void Settings::setAutoDownloadOnUpdate(bool value)
 {
     settings.setValue("autodownloadonupdate", value);
@@ -270,7 +283,7 @@ int Settings::getDmConnections()
 #if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
     return settings.value("connections", 1).toInt();
 #else
-    return settings.value("connections", 20).toInt();
+    return settings.value("connections", 10).toInt();
 #endif
 }
 
@@ -380,4 +393,10 @@ void Settings::setViewMode(int value)
 int Settings::getViewMode()
 {
     return settings.value("viewmode", 0).toInt();
+}
+
+void Settings::reset()
+{
+    setNetvibesPassword("");
+    setHelpDone(false);
 }

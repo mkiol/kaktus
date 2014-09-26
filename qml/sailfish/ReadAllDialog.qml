@@ -44,20 +44,12 @@ Dialog {
 
         clip:true
 
-        height: {
-            var size = 0;
-            var d = isPortrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium;
-            if (bar.open)
-                size += d;
-            if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
-                size += d;
-            return isPortrait ? app.height-size : app.width-size;
-        }
+        height: app.flickHeight
 
         spacing: Theme.paddingSmall
 
         DialogHeader {
-            title: qsTr("Mark all as read")
+            title: qsTr("Mark as read")
             acceptText : qsTr("Yes")
         }
 
@@ -67,7 +59,9 @@ Dialog {
             wrapMode: Text.WordWrap
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.primaryColor
-            text: qsTr("Do you really want to mark all your articles as read?")
+            text: settings.viewMode == 3 ? qsTr("Do you really want to mark all your articles as read?") : 
+                  settings.viewMode == 4 ? qsTr("Do you want to mark all saved articles as read?") : 
+                  qsTr("Do you want to mark articles as read?")
         }
     }
 

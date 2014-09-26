@@ -1,7 +1,6 @@
 TARGET = harbour-kaktus
 
 DEFINES += SAILFISH
-
 DEFINES += ONLINE_CHECK
 
 ## sailfishapp.prf ##
@@ -19,7 +18,8 @@ CONFIG += link_pkgconfig
 PKGCONFIG += sailfishapp
 INCLUDEPATH += /usr/include/sailfishapp
 QMAKE_RPATHDIR += /usr/share/$${TARGET}/lib
-OTHER_FILES += $$files(rpm/*)
+OTHER_FILES += $$files(rpm/*) \
+    qml/sailfish/Guide.qml
 
 ##
 
@@ -50,7 +50,8 @@ HEADERS += \
     src/dashboardmodel.h \
     src/cacheserver.h \
     src/settings.h \
-    src/simplecrypt.h
+    src/simplecrypt.h \
+    src/iconprovider.h
     
 #QJson if Qt < 5
 lessThan(QT_MAJOR_VERSION, 5) {
@@ -62,6 +63,8 @@ include(qhttpserver/qhttpserver.pri)
 
 OTHER_FILES += \
     qml/sailfish/*.qml \
+    qml/harmattan/*.qml \
+    qml/symbian/*.qml \
     rpm/harbour-kaktus.spec \
     harbour-kaktus.desktop \
     i18n_paths.lst \

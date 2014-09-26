@@ -26,7 +26,7 @@
 #include <QString>
 #include <QList>
 #include <QMap>
-#include <QStringList>
+#include <QMultiMap>
 #include <QNetworkConfigurationManager>
 #include <QThread>
 
@@ -47,6 +47,7 @@ class NetvibesFetcher : public QThread
     Q_PROPERTY (BusyType busyType READ readBusyType NOTIFY busyChanged)
 
 public:
+
     enum BusyType {
         Unknown = 0,
         Initiating = 1,
@@ -109,7 +110,6 @@ public slots:
     void finishedFeedsUpdate2();
     void finishedFeedsReadlater();
     void finishedFeedsReadlater2();
-
     void finishedSet();
 
     void readyRead();
@@ -141,46 +141,36 @@ private:
 
     bool _busy;
     BusyType _busyType;
-    QStringList _dashboardList;
-    QMap<QString,QString> _feedList;
-    QMap<QString,int> _feedUpdateList;
-    QMap<QString,QString> _feedTabList;
-    QStringList _tabList;
+    QList<QString> _dashboardList;
+    QList<QString> _tabList;
+    QList<DatabaseManager::StreamModuleTab> _streamList;
+    QList<DatabaseManager::StreamModuleTab> _streamUpdateList;
     QList<DatabaseManager::Action> actionsList;
     int _total;
     QByteArray _cookie;
     QNetworkConfigurationManager ncm;
     Job currentJob;
-
     int publishedBeforeDate;
-    //QString publishedBeforeItemId;
-    //QString publishedBeforeStreamId;
 
     bool parse();
-
     QString hash(const QString &url);
-
     void storeTabs();
     int storeFeeds();
     void storeDashboards();
     void signIn();
     void fetchDashboards();
-    void fetchTabs(const QString &dashboardId);
+    void fetchTabs();
     void fetchFeeds();
     void fetchFeedsUpdate();
     void fetchFeedsReadlater();
-
     void uploadActions();
     void set();
-
     void cleanNewFeeds();
     void cleanRemovedFeeds();
     void taskEnd();
     void downloadFeeds();
-
     void setBusy(bool busy, BusyType type = Unknown);
     void startJob(Job job);
-
     bool checkError();
 };
 

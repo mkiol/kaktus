@@ -46,11 +46,7 @@ Dialog {
         anchors { top: parent.top; left: parent.left; right: parent.right }
         clip: true
 
-        height: {
-            if (dm.busy||fetcher.busy||dm.removerBusy)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
-            return isPortrait ? app.height : app.width;
-        }
+        height: app.flickHeight
 
         spacing: Theme.paddingMedium
         model: dashboardModel

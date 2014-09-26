@@ -56,13 +56,13 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
     if (entryId.at(0) == '/')
         entryId = entryId.right(entryId.length()-1);
 
-    DatabaseManager::CacheItem item = s->db->readCacheItemFromEntryId(entryId);
+    DatabaseManager::CacheItem item = s->db->readCacheByEntry(entryId);
 
     QString filename;
     QByteArray data;
 
     if (item.id == "") {
-        item = s->db->readCacheItemFromFinalUrl(entryId);
+        item = s->db->readCacheByFinalUrl(entryId);
         filename = entryId;
     } else {
         filename = item.finalUrl;

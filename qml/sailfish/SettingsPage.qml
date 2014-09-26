@@ -42,11 +42,7 @@ Page {
         anchors { top: parent.top; left: parent.left; right: parent.right }
         clip: true
 
-        height: {
-            if (dm.busy||fetcher.busy||dm.removerBusy||bar.open)
-                return isPortrait ? app.height-Theme.itemSizeSmall : app.width-0.9*Theme.itemSizeSmall;
-            return isPortrait ? app.height : app.width;
-        }
+        height: app.flickHeight
 
         header: PageHeader {
             title: qsTr("Settings")
@@ -91,11 +87,7 @@ Page {
                         //enabled: settings.signedIn ? true : dm.online
                         onClicked: {
                             if (settings.signedIn) {
-                                notification.show(qsTr("Signed out!"));
                                 settings.signedIn = false;
-                                settings.setNetvibesPassword("");
-                                fetcher.cancel(); dm.cancel();
-                                db.init();
                             } else {
                                 pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": 0});
                             }
@@ -183,7 +175,7 @@ Page {
 
             ComboBox {
                 width: root.width
-                label: qsTr("Mode")
+                label: qsTr("Network mode")
                 currentIndex: settings.offlineMode ? 1 : 0
 
                 menu: ContextMenu {
@@ -201,7 +193,8 @@ Page {
 
             TextSwitch {
                 text: qsTr("Cache articles")
-                description: qsTr("After sync the content of all items will be downloaded and cached for access in Offline mode.")
+                description: qsTr("After sync the content of all items will be downloaded "+
+                                  "and cached for access in the Offline mode.")
                 Component.onCompleted: {
                     checked = settings.getAutoDownloadOnUpdate();
                 }
@@ -214,23 +207,47 @@ Page {
                 text: qsTr("UI")
             }
 
-            /*ComboBox {
+            ComboBox {
                 width: root.width
-                label: qsTr("Browsing mode")
-                currentIndex: settings.viewMode
+                label: qsTr("View mode")
+                currentIndex: {
+                    switch (settings.viewMode) {
+                    case 0:
+                        return 0;
+                    case 1:
+                        return 1;
+                    case 3:
+                        return 2;
+                    case 4:
+                        return 3;
+                    case 5:
+                        return 4;
+                    }
+                }
 
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("Tabs, Feeds & articles") }
-                    MenuItem { text: qsTr("Tabs & articles") }
-                    MenuItem { text: qsTr("Feeds & articles") }
-                    MenuItem { text: qsTr("Only articles") }
-                    MenuItem { text: qsTr("Saved articles") }
+                    MenuItem { text: qsTr("Tabs & Feeds") }
+                    MenuItem { text: qsTr("Only Tabs") }
+                    MenuItem { text: qsTr("All feeds") }
+                    MenuItem { text: qsTr("Saved") }
+                    MenuItem { text: qsTr("Slow") }
                 }
 
                 onCurrentIndexChanged: {
-                    settings.viewMode = currentIndex;
+                    switch (currentIndex) {
+                    case 0:
+                        settings.viewMode = 0; break;
+                    case 1:
+                        settings.viewMode = 1; break;
+                    case 2:
+                        settings.viewMode = 3; break;
+                    case 3:
+                        settings.viewMode = 4; break;
+                    case 4:
+                        settings.viewMode = 5; break;
+                    }
                 }
-            }*/
+            }
 
             TextSwitch {
                 text: qsTr("Show only unread articles")
@@ -243,7 +260,7 @@ Page {
             }
 
             TextSwitch {
-                text: qsTr("Show icons & images")
+                text: qsTr("Show images")
                 onCheckedChanged: {
                     settings.showTabIcons = checked;
                 }
@@ -254,7 +271,8 @@ Page {
 
             TextSwitch {
                 text: qsTr("Power save mode")
-                description: qsTr("When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.")
+                description: qsTr("When the phone or app goes to the idle state, "+
+                                  "all opened web pages will be closed to lower power consumption.")
                 onCheckedChanged: {
                     settings.powerSaveMode = checked;
                 }
@@ -290,7 +308,7 @@ Page {
             ComboBox {
                 width: root.width
                 label: qsTr("Offline viewer style")
-                //description: qsTr("Style which will be used to display articles in offline mode.")
+                //description: qsTr("Style which will be used to display articles in the Offline mode.")
                 currentIndex: {
                     var theme = settings.getCsTheme();
                     if (theme === "black")
@@ -313,6 +331,33 @@ Page {
                         break;
                     }
                 }
+            }
+
+            SectionHeader {
+                text: qsTr("Other")
+            }
+
+            Button {
+                text: qsTr("Show User Guide")
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: {
+                    guide.show();
+                }
+            }
+
+            /*TextSwitch {
+                text: qsTr("Show guide on startup")
+                onCheckedChanged: {
+                    settings.helpDone = !checked;
+                }
+                Component.onCompleted: {
+                    checked = !settings.helpDone;
+                }
+            }*/
+
+            Item {
+                height: Theme.paddingMedium
+                width: height
             }
 
         }

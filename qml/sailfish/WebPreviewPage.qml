@@ -170,12 +170,12 @@ Page {
                 if (dm.online)
                     settings.offlineMode = false;
                 else
-                    notification.show(qsTr("Cannot switch to Online mode\nNetwork connection is unavailable"));
+                    notification.show(qsTr("Cannot switch to Online mode.\nNetwork connection is unavailable."));
             } else {
                 if (root.cached)
                     settings.offlineMode = true;
                 else
-                  notification.show(qsTr("Offline version not available"));
+                  notification.show(qsTr("Offline version not available."));
             }
         }
     }
@@ -185,7 +185,7 @@ Page {
         transparent: false
         anchors.left: parent.left
         anchors.bottom: parent.bottom
-        height: isPortrait ? Theme.itemSizeMedium : 0.8*Theme.itemSizeMedium
+        height: isPortrait ? app.panelHeightPortrait : app.panelHeightLandscape
         cancelable: true
         onCloseClicked: view.stop()
     }
@@ -197,9 +197,6 @@ Page {
             if (!root.read && settings.getAutoMarkAsRead()) {
                 read=true;
                 entryModel.setData(root.index, "read", 1);
-                feedModel.decrementUnread(feedindex);
-                tabModel.updateFlags();
-                //notification.show(qsTr("Marked as read!"));
             }
         }
     }

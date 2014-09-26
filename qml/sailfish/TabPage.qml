@@ -37,8 +37,12 @@ Page {
     }
 
     ActiveDetector {
-        onActivated: tabModel.updateFlags()
-        onInit: bar.flick = listView
+        onActivated: {
+            tabModel.updateFlags();
+        }
+        onInit: {
+            bar.flick = listView;
+        }
     }
 
     SilicaListView {
@@ -47,15 +51,7 @@ Page {
 
         anchors { top: parent.top; left: parent.left; right: parent.right }
 
-        height: {
-            var size = 0;
-            var d = isPortrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall;
-            if (bar.open)
-                size += d;
-            if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
-                size += d;
-            return isPortrait ? app.height-size : app.width-size;
-        }
+        height: app.flickHeight
 
         clip:true
 
@@ -147,13 +143,13 @@ Page {
                     height: width
                     anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
                     anchors.top: item.top; anchors.topMargin: Theme.paddingSmall
-                    visible: status!=Image.Error && status!=Image.Null && settings.showTabIcons
+                    visible: status!=Image.Error && status!=Image.Null
                 }
 
                 Connections {
                     target: settings
                     onShowTabIconsChanged: {
-                        if (settings.showTabIcons && iconUrl!="")
+                        if (iconUrl!="")
                             image.source = cache.getUrlbyUrl(iconUrl);
                         else
                             image.source = "";
@@ -161,7 +157,7 @@ Page {
                 }
 
                 Component.onCompleted: {
-                    if (settings.showTabIcons && iconUrl!="") {
+                    if (iconUrl!="") {
                         image.source = cache.getUrlbyUrl(iconUrl);
                     } else {
                         image.source = "";
@@ -212,7 +208,7 @@ Page {
                 anchors.bottom: parent.bottom
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.secondaryHighlightColor
-                text: fetcher.busy ? qsTr("Wait until Sync finish") : qsTr("Pull down to do Sync")
+                text: fetcher.busy ? qsTr("Wait until Sync finish.") : settings.signedIn ? "" : qsTr("You are not signed in.")
             }
         }
 

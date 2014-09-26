@@ -39,7 +39,7 @@ Page {
     property int index
 
     ActiveDetector {
-        onInit: bar.flick = listView
+        onInit: { bar.flick = listView;}
     }
 
     SilicaListView {
@@ -49,24 +49,19 @@ Page {
         anchors { top: parent.top; left: parent.left; right: parent.right }
         clip:true
 
-        height: {
-            var size = 0;
-            var d = isPortrait ? Theme.itemSizeSmall : 0.9*Theme.itemSizeSmall;
-            if (bar.open)
-                size += d;
-            if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
-                size += d;
-            return isPortrait ? app.height-size : app.width-size;
-        }
+        height: app.flickHeight
 
         PageMenu {
             id: menu
-            showAbout: settings.viewMode==3 ? true : false
+            showAbout: settings.viewMode==3 || settings.viewMode==4 || settings.viewMode==5 ? true : false
             showMarkAsRead: false
             showMarkAsUnread: false
 
             onMarkedAsRead: {
-                if (settings.viewMode==3) {
+                if (settings.viewMode==1 ||
+                        settings.viewMode==3 ||
+                        settings.viewMode==4 ||
+                        settings.viewMode==5) {
                     pageStack.push(Qt.resolvedUrl("ReadAllDialog.qml"));
                 } else {
                     entryModel.setAllAsRead();
@@ -79,7 +74,8 @@ Page {
                 if (active) {
                     if (settings.viewMode!=4) {
                         showMarkAsRead = entryModel.countUnread()!=0;
-                        showMarkAsUnread = !showMarkAsRead;
+                        /*if (!settings.showOnlyUnread)
+                            showMarkAsUnread = !showMarkAsRead;*/
                     }
                 }
             }
@@ -89,9 +85,11 @@ Page {
             title: {
                 switch (settings.viewMode) {
                 case 3:
-                    return qsTr("All");
+                    return qsTr("All feeds");
                 case 4:
                     return qsTr("Saved");
+                case 5:
+                    return qsTr("Slow");
                 default:
                     return root.title;
                 }
@@ -104,7 +102,7 @@ Page {
             content: model.content
             date: model.date
             read: model.read
-            feedIcon: settings.viewMode==1 || settings.viewMode==3 || settings.viewMode==4 ? model.feedIcon : ""
+            feedIcon: settings.viewMode==1 || settings.viewMode==3 || settings.viewMode==4 || settings.viewMode==5 ? model.feedIcon : ""
             author: model.author
             image: model.image
             readlater: model.readlater
@@ -144,20 +142,22 @@ Page {
                 onTriggered: {
                     // One click
 
-                    console.log("date: "+model.date);
+                    /*console.log("date: "+model.date);
                     console.log("read: "+model.read);
                     console.log("readlater: "+model.readlater);
                     console.log("image: "+model.image);
+                    console.log("feedIcon: "+feedIcon+" model.feedIcon: "+model.feedIcon);
+                    console.log("showMarkedAsRead: "+showMarkedAsRead);*/
 
                     // Not allowed while Syncing
                     if (dm.busy || fetcher.busy || dm.removerBusy) {
-                        notification.show(qsTr("Please wait until current task is complete"));
+                        notification.show(qsTr("Please wait until current task is complete."));
                         return;
                     }
 
                     // Entry not cached and offline mode enabled
                     if (settings.offlineMode && !model.cached) {
-                        notification.show(qsTr("Offline version not available"));
+                        notification.show(qsTr("Offline version not available."));
                         return;
                     }
 
@@ -165,11 +165,11 @@ Page {
                     if (!settings.offlineMode && !dm.online) {
                         if (model.cached) {
                             // Entry cached
-                            notification.show(qsTr("Network connection is unavailable\nSwitching to Offline mode"));
+                            notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode."));
                             settings.offlineMode = true;
                         } else {
                             // Entry not cached
-                            notification.show(qsTr("Network connection is unavailable"));
+                            notification.show(qsTr("Network connection is unavailable."));
                             return;
                         }
                     }
@@ -212,15 +212,15 @@ Page {
         ViewPlaceholder {
             enabled: listView.count == 0
             text: settings.viewMode==4 ? qsTr("No saved items") :
-                  settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+                                         settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
 
             Label {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.secondaryHighlightColor
-                text: fetcher.busy ? qsTr("Wait until Sync finish") : qsTr("Pull down to do Sync")
-                visible: settings.viewMode==3 || settings.viewMode==4
+                text: fetcher.busy ? qsTr("Wait until Sync finish.") : settings.signedIn ? "" : qsTr("You are not signed in.")
+                //visible: settings.viewMode==3 || settings.viewMode==4
             }
         }
 

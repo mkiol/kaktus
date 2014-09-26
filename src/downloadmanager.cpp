@@ -38,7 +38,6 @@
 DownloadManager::DownloadManager(QObject *parent) :
     QObject(parent)
 {
-    qDebug() << "0";
     /*QList<QNetworkConfiguration> activeConfigs = ncm.allConfigurations(QNetworkConfiguration::Active);
     QList<QNetworkConfiguration>::iterator i = activeConfigs.begin();
     while (i != activeConfigs.end()) {
@@ -123,7 +122,7 @@ void DownloadManager::removeCache()
         return;
 
     Settings *s = Settings::instance();
-    s->db->removeAllCacheItems();
+    s->db->removeCacheItems();
     remover.start(QThread::LowPriority);
     emit removerBusyChanged();
 }
@@ -147,6 +146,8 @@ void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAcc
 
 void DownloadManager::doDownload(DatabaseManager::CacheItem item)
 {   
+    //qDebug() << "item.finalUrl: "+item.finalUrl;
+
     QNetworkRequest request(QUrl(item.finalUrl));
     Settings *s = Settings::instance();
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -210,20 +211,20 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
         /*qWarning() << "Download of " << url.toEncoded().constData()
                    << " failed: " << reply->errorString();*/
 
-        if (item.entryId != "") {
+        if (item.entryId!="") {
             switch (error) {
             case QNetworkReply::OperationCanceledError:
                 if (!checkIfHeadersAreValid(reply))
-                    s->db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),2);
+                    s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),2);
                 break;
             case QNetworkReply::HostNotFoundError:
-                //s->db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),4);
+                //s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),4);
                 break;
             case QNetworkReply::AuthenticationRequiredError:
-                s->db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),5);
+                s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),5);
                 break;
             case QNetworkReply::ContentNotFoundError:
-                s->db->updateEntryCache(item.entryId,QDateTime::currentDateTime().toTime_t(),6);
+                s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),6);
                 break;
             default:
                 break;
@@ -235,27 +236,32 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
             item.contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
             item.type = item.contentType.section('/', 0, 0);
         }
+
         item.id = hash(item.finalUrl);
         item.origUrl = hash(item.origUrl);
         item.finalUrl = hash(item.finalUrl);
+        item.date = QDateTime::currentDateTime().toTime_t();
+        item.flag = 0;
 
         switch (error) {
         case QNetworkReply::OperationCanceledError:
             if (!checkIfHeadersAreValid(reply))
-                s->db->writeCache(item, QDateTime::currentDateTime().toTime_t(),2);
+                item.flag = 2;
             break;
         case QNetworkReply::HostNotFoundError:
-            s->db->writeCache(item, QDateTime::currentDateTime().toTime_t(),4);
+            item.flag = 4;
             break;
         case QNetworkReply::AuthenticationRequiredError:
-            s->db->writeCache(item, QDateTime::currentDateTime().toTime_t(),5);
+            item.flag = 5;
             break;
         case QNetworkReply::ContentNotFoundError:
-            s->db->writeCache(item, QDateTime::currentDateTime().toTime_t(),6);
+            item.flag = 6;
             break;
         default:
-            break;
+            item.flag = 9;
         }
+
+        s->db->writeCache(item);
 
     } else {
 
@@ -284,13 +290,15 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
                     //qDebug() << "hash(item.finalUrl): " << hash(item.finalUrl);
                     item.origUrl = hash(item.origUrl);
                     item.finalUrl = hash(item.finalUrl);
-                    s->db->writeCache(item, QDateTime::currentDateTime().toTime_t());
+                    item.date = QDateTime::currentDateTime().toTime_t();
+                    item.flag = 1;
+                    s->db->writeCache(item);
 
-                    if (item.entryId != "") {
+                    if (item.entryId!="") {
                         // Scan for other resouces, only text files
                         //if (item.type == "text")
                         //    scanHtml(content, url);
-                        s->db->updateEntryCache(item.entryId, QDateTime::currentDateTime().toTime_t());
+                        s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),1);
                     }
 
                 } else {
@@ -500,7 +508,7 @@ void DownloadManager::cancel()
 int DownloadManager::itemsToDownloadCount()
 {
     Settings *s = Settings::instance();
-    return s->db->readNotCachedEntriesCount();
+    return s->db->countEntriesNotCached();
 }
 
 bool DownloadManager::isBusy()
@@ -522,10 +530,10 @@ void CacheCleaner::run() {
     Settings *s = Settings::instance();
     QString cacheDir = s->getDmCacheDir();
 
-    QList<QString> feedList = s->db->readAllFeedIds();
-    QList<QString>::iterator ii = feedList.begin();
-    while (ii!=feedList.end()) {
-        QList<QString> cacheList = s->db->readCacheFinalUrlsByLimit(*ii, entriesLimit);
+    QList<QString> streamList = s->db->readStreamIds();
+    QList<QString>::iterator ii = streamList.begin();
+    while (ii!=streamList.end()) {
+        QList<QString> cacheList = s->db->readCacheFinalUrlsByStream(*ii, entriesLimit);
         QList<QString>::iterator iii = cacheList.begin();
         while (iii!=cacheList.end()) {
             QString filepath = cacheDir + "/" + *iii;
@@ -538,12 +546,10 @@ void CacheCleaner::run() {
             QThread::msleep(10);
         }
 
-        s->db->removeEntriesByLimit(*ii, entriesLimit);
+        s->db->removeEntriesByStream(*ii, entriesLimit);
 
         ++ii;
     }
-
-    //emit ready();
 }
 
 CacheRemover::CacheRemover(QObject *parent) : QThread(parent)
@@ -620,7 +626,7 @@ void DownloadAdder::run()
     QMap<QString,QString> list = s->db->readNotCachedEntries();
     //qDebug() << "startFeedDownload, list.count=" << list.count();
 
-    if (list.count() == 0) {
+    if (list.isEmpty()) {
         qWarning() << "No feeds to download!";
         return;
     }
