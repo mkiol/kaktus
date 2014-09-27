@@ -44,7 +44,7 @@
 #include "iconprovider.h"
 
 static const char *APP_NAME = "Kaktus";
-static const char *AUTHOR = "Michał Kościesza <michal@mkiol.net>";
+static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github/mkiol/kaktus";
 static const char *VERSION = "1.2.0";
 

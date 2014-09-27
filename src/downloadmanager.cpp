@@ -283,27 +283,34 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
 
             if (item.type == "text" || item.type == "image") {
                 QByteArray content = reply->readAll();
-                if (saveToDisk(hash(url.toString()), content)) {
 
-                    // Write Cache item to DB
-                    item.id = hash(item.entryId+item.finalUrl);
-                    //qDebug() << "hash(item.finalUrl): " << hash(item.finalUrl);
-                    item.origUrl = hash(item.origUrl);
-                    item.finalUrl = hash(item.finalUrl);
-                    item.date = QDateTime::currentDateTime().toTime_t();
-                    item.flag = 1;
-                    s->db->writeCache(item);
-
-                    if (item.entryId!="") {
-                        // Scan for other resouces, only text files
-                        //if (item.type == "text")
-                        //    scanHtml(content, url);
-                        s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),1);
-                    }
-
+                // Check if tiny image, we do not want it
+                if (item.type == "image" && content.size()<minImageSize) {
+                    qDebug() << "Tiny image found:"<<item.finalUrl;
                 } else {
-                    emit this->error(501);
-                    qWarning() << "Save to disk failed!";
+
+                    if (saveToDisk(hash(url.toString()), content)) {
+
+                        // Write Cache item to DB
+                        item.id = hash(item.entryId+item.finalUrl);
+                        //qDebug() << "hash(item.finalUrl): " << hash(item.finalUrl);
+                        item.origUrl = hash(item.origUrl);
+                        item.finalUrl = hash(item.finalUrl);
+                        item.date = QDateTime::currentDateTime().toTime_t();
+                        item.flag = 1;
+                        s->db->writeCache(item);
+
+                        if (item.entryId!="") {
+                            // Scan for other resouces, only text files
+                            //if (item.type == "text")
+                            //    scanHtml(content, url);
+                            s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),1);
+                        }
+
+                    } else {
+                        emit this->error(501);
+                        qWarning() << "Save to disk failed!";
+                    }
                 }
             }
         }

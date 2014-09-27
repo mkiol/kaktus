@@ -25,14 +25,6 @@
         <translation>Nieoficjalny czytnik kanałów RSS dla serwisu Netvibes.com. </translation>
     </message>
     <message>
-        <source>What&apos;s new</source>
-        <translation type="obsolete">Co jest nowego</translation>
-    </message>
-    <message>
-        <source>What&apos;s new in this release</source>
-        <translation type="obsolete">Co nowego w tej wersji</translation>
-    </message>
-    <message>
         <location filename="../qml/sailfish/AboutPage.qml" line="108"/>
         <source>Changelog</source>
         <translation>Dziennik zmian</translation>
@@ -44,14 +36,6 @@
         <location filename="../qml/sailfish/ChangelogPage.qml" line="48"/>
         <source>Changelog</source>
         <translation>Dziennik zmian</translation>
-    </message>
-    <message>
-        <source>1.2.0</source>
-        <translation type="obsolete">1.2.0</translation>
-    </message>
-    <message>
-        <source>What&apos;s new</source>
-        <translation type="obsolete">Co jest nowego</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="58"/>
@@ -116,7 +100,7 @@
     <message>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="97"/>
         <source>User Guide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Przewodnik użytkownika</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="98"/>
@@ -141,20 +125,6 @@
 <context>
     <name>ControlBar</name>
     <message>
-        <source>Offline mode</source>
-        <translation type="obsolete">Tryb Offline</translation>
-    </message>
-    <message>
-        <source>Online mode</source>
-        <translation type="obsolete">Tryb Online</translation>
-    </message>
-    <message>
-        <source>Cannot switch to Online mode
-Network connection is unavailable</source>
-        <translation type="obsolete">Nie można przejść do trybu Online
-Brak połączenia sieciowego</translation>
-    </message>
-    <message>
         <location filename="../qml/sailfish/ControlBar.qml" line="163"/>
         <source>Can&apos;t switch to Online mode.
 Network connection is unavailable.</source>
@@ -163,39 +133,11 @@ Brak połączenia sieciowego.</translation>
     </message>
 </context>
 <context>
-    <name>ControlBarWebPreview</name>
-    <message>
-        <source>Switching to Online mode...</source>
-        <translation type="obsolete">Tryb Online! </translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable!</source>
-        <translation type="obsolete">Brak połączenia sieciowego!</translation>
-    </message>
-    <message>
-        <source>Switching to Offline mode...</source>
-        <translation type="obsolete">Tryb Offline!</translation>
-    </message>
-</context>
-<context>
     <name>CoverPage</name>
-    <message>
-        <source>all read</source>
-        <translation type="obsolete">wszytkie
-przeczytane</translation>
-    </message>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="85"/>
         <source>Not signed in</source>
         <translation>Niezalogowany</translation>
-    </message>
-    <message>
-        <source>Uread</source>
-        <translation type="obsolete">Nieprze-</translation>
-    </message>
-    <message>
-        <source>items</source>
-        <translation type="obsolete">czytanych</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="123"/>
@@ -219,10 +161,6 @@ przeczytane</translation>
         <source>Unread items</source>
         <comment>more or equal 5 articles are unread</comment>
         <translation>Nieprzeczytanych</translation>
-    </message>
-    <message>
-        <source>Last sync</source>
-        <translation type="obsolete">Ostatnia aktualizacja</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="261"/>
@@ -275,10 +213,6 @@ przeczytane</translation>
         <source>No dashboards</source>
         <translation>Brak tablic</translation>
     </message>
-    <message>
-        <source>Dashboard changed!</source>
-        <translation type="obsolete">Zmieniono tablicę!</translation>
-    </message>
 </context>
 <context>
     <name>DashboardPage</name>
@@ -295,14 +229,6 @@ przeczytane</translation>
 </context>
 <context>
     <name>EntryDelegate</name>
-    <message>
-        <source>Unstar</source>
-        <translation type="obsolete">Usuń z ulubionych</translation>
-    </message>
-    <message>
-        <source>Star</source>
-        <translation type="obsolete">Dodaj do ulubionych</translation>
-    </message>
     <message>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="359"/>
         <source>Unsave</source>
@@ -326,16 +252,6 @@ przeczytane</translation>
 </context>
 <context>
     <name>EntryPage</name>
-    <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode!</source>
-        <translation type="obsolete">Brak połączenia sieciowego.
-Został włączony tryb Offline!</translation>
-    </message>
-    <message>
-        <source>Please wait until Syncing finished</source>
-        <translation type="obsolete">Zaczekaj do zakończenia aktualizacji</translation>
-    </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="83"/>
         <location filename="../qml/symbian/EntryPage.qml" line="78"/>
@@ -399,30 +315,6 @@ Został włączony tryb Offline</translation>
         <location filename="../qml/symbian/EntryPage.qml" line="122"/>
         <source>No items</source>
         <translation>Brak artykułów</translation>
-    </message>
-    <message>
-        <source>No entries</source>
-        <translation type="obsolete">Brak artykułów</translation>
-    </message>
-    <message>
-        <source>Items</source>
-        <translation type="obsolete">Artykuły</translation>
-    </message>
-    <message>
-        <source>All articles</source>
-        <translation type="obsolete">Wszystkie artykuły</translation>
-    </message>
-    <message>
-        <source>Please wait until current task is complete</source>
-        <translation type="obsolete">Zaczekaj do zakończenia obecnego zadania</translation>
-    </message>
-    <message>
-        <source>Wait until Sync finish</source>
-        <translation type="obsolete">Zaczekaj do zakończenia aktualizacji</translation>
-    </message>
-    <message>
-        <source>Pull down to do Sync</source>
-        <translation type="obsolete">Wykonaj aktualizacje kanałów</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="88"/>
@@ -493,14 +385,6 @@ Został włączony tryb Offline.</translation>
 <context>
     <name>FeedPage</name>
     <message>
-        <source>all read</source>
-        <translation type="obsolete">wszytkie przeczytane</translation>
-    </message>
-    <message>
-        <source>1 unread</source>
-        <translation type="obsolete">1 nieprzeczytany</translation>
-    </message>
-    <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="119"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="169"/>
         <location filename="../qml/symbian/FeedPage.qml" line="112"/>
@@ -513,34 +397,6 @@ Został włączony tryb Offline.</translation>
         <location filename="../qml/symbian/FeedPage.qml" line="121"/>
         <source>Mark all as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
-    </message>
-    <message>
-        <source>%1 unread</source>
-        <comment>less than 5 articles are unread</comment>
-        <translation type="obsolete">%1 nieprzeczytane</translation>
-    </message>
-    <message>
-        <source>%1 unread</source>
-        <comment>more or equal 5 articles are unread</comment>
-        <translation type="obsolete">%1 nieprzeczytanych</translation>
-    </message>
-    <message>
-        <source>%1 unread</source>
-        <comment>less than 5 items are unread</comment>
-        <translation type="obsolete">%1 nieprzeczytane</translation>
-    </message>
-    <message>
-        <source>%1 unread</source>
-        <comment>more or equal 5 items are unread</comment>
-        <translation type="obsolete">%1 nieprzeczytanych</translation>
-    </message>
-    <message>
-        <source>Mark as read</source>
-        <translation type="obsolete">Oznacz jako przeczytane</translation>
-    </message>
-    <message>
-        <source>Mark as unread</source>
-        <translation type="obsolete">Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="100"/>
@@ -563,14 +419,6 @@ Został włączony tryb Offline.</translation>
         <location filename="../qml/sailfish/FeedPage.qml" line="197"/>
         <source>You are not signed in.</source>
         <translation>Nie jesteś zalogowany.</translation>
-    </message>
-    <message>
-        <source>Wait until Sync finish</source>
-        <translation type="obsolete">Zaczekaj do zakończenia aktualizacji</translation>
-    </message>
-    <message>
-        <source>Pull down to do Sync</source>
-        <translation type="obsolete">Wykonaj aktualizacje kanałów</translation>
     </message>
 </context>
 <context>
@@ -686,29 +534,6 @@ Jeżeli chcesz jeszcze raz zobaczyć ten przewodnik, kliknij na &apos;Pokaż prz
     </message>
 </context>
 <context>
-    <name>MainMenu</name>
-    <message>
-        <source>About</source>
-        <translation type="obsolete">O Programie</translation>
-    </message>
-    <message>
-        <source>Settings</source>
-        <translation type="obsolete">Ustawienia</translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation type="obsolete">Aktualizuj</translation>
-    </message>
-    <message>
-        <source>Last sync: %1</source>
-        <translation type="obsolete">Ostatnia aktualizacja: %1</translation>
-    </message>
-    <message>
-        <source>Not yet synced</source>
-        <translation type="obsolete">Jeszcze nie aktualizowano</translation>
-    </message>
-</context>
-<context>
     <name>MainPage</name>
     <message>
         <location filename="../qml/harmattan/MainPage.qml" line="19"/>
@@ -733,43 +558,7 @@ Brak połączenia sieciowego</translation>
     </message>
 </context>
 <context>
-    <name>NoContentPage</name>
-    <message>
-        <source>Offline version not available :-(</source>
-        <translation type="obsolete">Brak kopii Offline :-(</translation>
-    </message>
-    <message>
-        <source>Cannot switch to Online mode
-Network connection is unavailable</source>
-        <translation type="obsolete">Nie można przejść do trybu Online
-Brak połączenia sieciowego</translation>
-    </message>
-</context>
-<context>
-    <name>NotSignedCoverPage</name>
-    <message>
-        <source>Not signed in</source>
-        <translation type="obsolete">Niezalogowany</translation>
-    </message>
-</context>
-<context>
     <name>PageMenu</name>
-    <message>
-        <source>Mode: Offline</source>
-        <translation type="obsolete">Tryb: Offline</translation>
-    </message>
-    <message>
-        <source>Mode: Online</source>
-        <translation type="obsolete">Tryb: Online</translation>
-    </message>
-    <message>
-        <source>Set to: Online</source>
-        <translation type="obsolete">Przełącz w tryb: Online </translation>
-    </message>
-    <message>
-        <source>Set to: Offline</source>
-        <translation type="obsolete">Przełącz w tryb: Offline</translation>
-    </message>
     <message>
         <location filename="../qml/sailfish/PageMenu.qml" line="45"/>
         <source>About</source>
@@ -796,10 +585,6 @@ Brak połączenia sieciowego</translation>
         <translation>Jeszcze nie wykonałeś aktualizacji</translation>
     </message>
     <message>
-        <source>Syncing...</source>
-        <translation type="obsolete">Aktualizacja...</translation>
-    </message>
-    <message>
         <location filename="../qml/sailfish/PageMenu.qml" line="71"/>
         <source>Mark all as read</source>
         <translation>Oznacz jako przeczytane</translation>
@@ -813,10 +598,6 @@ Brak połączenia sieciowego</translation>
         <location filename="../qml/sailfish/PageMenu.qml" line="96"/>
         <source>Last sync: %1</source>
         <translation>Ostatnia aktualizacja: %1</translation>
-    </message>
-    <message>
-        <source>Not yet synced</source>
-        <translation type="obsolete">Jeszcze nie aktualizowano</translation>
     </message>
 </context>
 <context>
@@ -950,17 +731,9 @@ Brak połączenia sieciowego</translation>
         <translation>Pokazuj obrazki</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="349"/>
-        <source>Show guide on startup</source>
-        <translation>Pokazuj przewodnik użytkownika przy starcie</translation>
-    </message>
-    <message>
-        <source>Cache data deleted!</source>
-        <translation type="obsolete">Lokalna kopia usunięta!</translation>
-    </message>
-    <message>
-        <source>Mode</source>
-        <translation type="obsolete">Tryb</translation>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="341"/>
+        <source>Show User Guide</source>
+        <translation>Pokaż przewodnik użytkownika</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="182"/>
@@ -971,50 +744,6 @@ Brak połączenia sieciowego</translation>
         <location filename="../qml/sailfish/SettingsPage.qml" line="183"/>
         <source>Offline</source>
         <translation>Offline</translation>
-    </message>
-    <message>
-        <source>Browsing mode</source>
-        <translation type="obsolete">Tryb przeglądania</translation>
-    </message>
-    <message>
-        <source>Tabs, Feeds &amp; articles</source>
-        <translation type="obsolete">Zakładki, Kanały i artykuły</translation>
-    </message>
-    <message>
-        <source>Tabs &amp; feeds &amp; articles</source>
-        <translation type="obsolete">Zakładki &amp; kanały &amp; artykuły</translation>
-    </message>
-    <message>
-        <source>Tabs &amp; articles</source>
-        <translation type="obsolete">Zakładki i artykuły</translation>
-    </message>
-    <message>
-        <source>Feeds &amp; articles</source>
-        <translation type="obsolete">Kanały i artykuły</translation>
-    </message>
-    <message>
-        <source>Only articles</source>
-        <translation type="obsolete">Tylko artykuły</translation>
-    </message>
-    <message>
-        <source>All articles</source>
-        <translation type="obsolete">Wszystkie artykuły</translation>
-    </message>
-    <message>
-        <source>Tabs → Feeds → Items</source>
-        <translation type="obsolete">Zakładki \u2192 Kanały \u2192 Artykuły</translation>
-    </message>
-    <message>
-        <source>Tabs → Items</source>
-        <translation type="obsolete">Zakładki \u2192 Artykuły</translation>
-    </message>
-    <message>
-        <source>Feeds → Items</source>
-        <translation type="obsolete">Kanały \u2192 Artykuły</translation>
-    </message>
-    <message>
-        <source>Items</source>
-        <translation type="obsolete">Artykuły</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="143"/>
@@ -1118,10 +847,6 @@ Brak połączenia sieciowego</translation>
         <translation>Dynamiczna</translation>
     </message>
     <message>
-        <source>Auto</source>
-        <translation type="obsolete">Dynamiczna</translation>
-    </message>
-    <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="301"/>
         <source>Portrait</source>
         <translation>Pionowa</translation>
@@ -1157,17 +882,9 @@ Brak połączenia sieciowego</translation>
         <translation>Tryb Offline</translation>
     </message>
     <message>
-        <source>Content of articles will be displayed from local cache, without a network usage.</source>
-        <translation type="obsolete">Treść aktykułów będzie pobierana z lokalnej kopi, czyli bez użycia połączenia internetowego.</translation>
-    </message>
-    <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="195"/>
         <source>Cache articles</source>
         <translation>Twórz lokalną kopię</translation>
-    </message>
-    <message>
-        <source>After sync the content of all articles will be downloaded and cached for access in Offline mode.</source>
-        <translation type="obsolete">Każdorazowa podczas aktualizacji treść aktykułów będzie pobierana i zapisywana lokalnie, tak aby była dostępna podczas pracy w trybie Offline.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="129"/>
@@ -1180,18 +897,6 @@ Brak połączenia sieciowego</translation>
         <location filename="../qml/sailfish/SettingsPage.qml" line="253"/>
         <source>Show only unread articles</source>
         <translation>Pokazuj tylko nieprzeczytane artykuły</translation>
-    </message>
-    <message>
-        <source>Show icons</source>
-        <translation type="obsolete">Pokazuj ikony</translation>
-    </message>
-    <message>
-        <source>Show Tab with saved articles</source>
-        <translation type="obsolete">Pokazuj zakładkę z zapisanymi artykułami </translation>
-    </message>
-    <message>
-        <source>Show Tab with starred articles</source>
-        <translation type="obsolete">Pokazuj zakładkę z ulubionymi </translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="320"/>
@@ -1258,10 +963,6 @@ Brak połączenia sieciowego</translation>
         <translation>Wprowadź nazwę użytkownika!</translation>
     </message>
     <message>
-        <source>Netvibes&apos;s username</source>
-        <translation type="obsolete">Nazwa użytkownika Netvibes</translation>
-    </message>
-    <message>
         <location filename="../qml/harmattan/SignInDialog.qml" line="80"/>
         <location filename="../qml/sailfish/SignInDialog.qml" line="79"/>
         <location filename="../qml/symbian/SignInDialog.qml" line="72"/>
@@ -1274,17 +975,6 @@ Brak połączenia sieciowego</translation>
         <location filename="../qml/symbian/SignInDialog.qml" line="64"/>
         <source>Password</source>
         <translation>Hasło</translation>
-    </message>
-</context>
-<context>
-    <name>TabModel</name>
-    <message>
-        <source>Starred articles</source>
-        <translation type="obsolete">Ulubione</translation>
-    </message>
-    <message>
-        <source>Saved</source>
-        <translation type="obsolete">Zapisane</translation>
     </message>
 </context>
 <context>
@@ -1303,10 +993,6 @@ Brak połączenia sieciowego</translation>
         <location filename="../qml/sailfish/TabPage.qml" line="211"/>
         <source>You are not signed in.</source>
         <translation>Nie jesteś zalogowany.</translation>
-    </message>
-    <message>
-        <source>Pull down to do Sync</source>
-        <translation type="obsolete">Wykonaj aktualizacje kanałów</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="158"/>
@@ -1334,10 +1020,6 @@ Brak połączenia sieciowego</translation>
         <location filename="../qml/symbian/TabPage.qml" line="144"/>
         <source>Press button to do first Sync</source>
         <translation>Wykonaj pierwszą aktualizacje kanałów</translation>
-    </message>
-    <message>
-        <source>Pull down to do first Sync</source>
-        <translation type="obsolete">Wykonaj pierwszą aktualizacje kanałów</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="179"/>
@@ -1447,10 +1129,6 @@ Brak połączenia sieciowego</translation>
         <translation>Wczytywanie artykułu...</translation>
     </message>
     <message>
-        <source>Failed to load article from local cache :-(</source>
-        <translation type="obsolete">Nie udało się pobrać artukułu z lokalnej kopii :-(</translation>
-    </message>
-    <message>
         <location filename="../qml/sailfish/WebPreviewPage.qml" line="109"/>
         <source>Failed to load item from local cache :-(</source>
         <translation>Nie udało się pobrać artykułu z lokalnej kopii :-(</translation>
@@ -1497,74 +1175,6 @@ Brak połączenia sieciowego</translation>
 <context>
     <name>main</name>
     <message>
-        <source>just now</source>
-        <translation type="obsolete">przed chwilą</translation>
-    </message>
-    <message>
-        <source>1 second ago</source>
-        <translation type="obsolete">sekundę temu</translation>
-    </message>
-    <message>
-        <source>1 minute ago</source>
-        <translation type="obsolete">minutę temu</translation>
-    </message>
-    <message>
-        <source>1 hour ago</source>
-        <translation type="obsolete">godzinę temu</translation>
-    </message>
-    <message>
-        <source>yesterday</source>
-        <translation type="obsolete">wczoraj</translation>
-    </message>
-    <message>
-        <source>%1 seconds ago</source>
-        <comment>less than 5 seconds</comment>
-        <translation type="obsolete">%1 sekundy temu</translation>
-    </message>
-    <message>
-        <source>%1 seconds ago</source>
-        <comment>more or equal 5 seconds</comment>
-        <translation type="obsolete">%1 sekund temu</translation>
-    </message>
-    <message>
-        <source>%1 minutes ago</source>
-        <comment>less than 5 minutes</comment>
-        <translation type="obsolete">%1 minuty temu</translation>
-    </message>
-    <message>
-        <source>%1 minutes ago</source>
-        <comment>more or equal 5 minutes</comment>
-        <translation type="obsolete">%1 minut temu</translation>
-    </message>
-    <message>
-        <source>%1 hours ago</source>
-        <comment>less than 5 hours</comment>
-        <translation type="obsolete">%1 godziny temu</translation>
-    </message>
-    <message>
-        <source>%1 hours ago</source>
-        <comment>more or equal 5 hours</comment>
-        <translation type="obsolete">%1 godzin temu</translation>
-    </message>
-    <message>
-        <source>%1 days ago</source>
-        <comment>less than 5 days</comment>
-        <translation type="obsolete">%1 dni temu</translation>
-    </message>
-    <message>
-        <source>%1 days ago</source>
-        <comment>more or equal 5 days</comment>
-        <translation type="obsolete">%1 dni temu</translation>
-    </message>
-    <message>
-        <source>1 week ago</source>
-        <translation type="obsolete">tydzień temu</translation>
-    </message>
-    <message>
-        <source>%1 weeks ago</source>
-        <translation type="obsolete">%1 tygodnie temu</translation>
-    </message>
-    <message>
         <location filename="../qml/harmattan/main.qml" line="123"/>
         <location filename="../qml/symbian/main.qml" line="120"/>
         <source>An unknown error occurred! :-(</source>
@@ -1587,14 +1197,6 @@ Brak połączenia sieciowego</translation>
         <location filename="../qml/symbian/main.qml" line="82"/>
         <source>All done!</source>
         <translation>Gotowe!</translation>
-    </message>
-    <message>
-        <source>Caching...</source>
-        <translation type="obsolete">Pobieranie do lokalnej kopii...</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable!</source>
-        <translation type="obsolete">Brak połączenia sieciowego!</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="90"/>
@@ -1685,18 +1287,6 @@ Brak połączenia sieciowego</translation>
         <location filename="../qml/symbian/main.qml" line="167"/>
         <source>Waiting for network...</source>
         <translation>Oczekiwanie na połączenie...</translation>
-    </message>
-    <message>
-        <source>Feeds</source>
-        <translation type="obsolete">Kanały</translation>
-    </message>
-    <message>
-        <source>Removing cache data...</source>
-        <translation type="obsolete">Usuwanie kopii lokalnej...</translation>
-    </message>
-    <message>
-        <source>Browsing mode changed!</source>
-        <translation type="obsolete">Tryb przeglądania został zmieniony!</translation>
     </message>
 </context>
 <context>

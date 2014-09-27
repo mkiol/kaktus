@@ -1057,6 +1057,12 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readStreamModuleTabList
                               "WHERE ms.module_id=m.id AND m.tab_id='%1';")
                               .arg(id));
 
+        /*bool ret = query.exec(QString("SELECT e.stream_id, m.id, m.tab_id, max(e.published_at) "
+                              "FROM entries as e, module_stream as ms, modules as m "
+                              "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id='%1' "
+                              "GROUP BY e.stream_id;")
+                              .arg(id));*/
+
         if (!ret) {
             qWarning() << "SQL error!" << query.lastError().text();
         }
@@ -1089,6 +1095,12 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readStreamModuleTabList
                               "FROM module_stream as ms, modules as m, tabs as t "
                               "WHERE ms.module_id=m.id AND m.tab_id=t.id AND t.dashboard_id='%1';")
                               .arg(id));
+
+        /*bool ret = query.exec(QString("SELECT e.stream_id, m.id, m.tab_id, max(e.published_at) "
+                              "FROM entries as e, module_stream as ms, modules as m, tabs as t "
+                              "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id AND t.dashboard_id='%1' "
+                              "GROUP BY e.stream_id;")
+                              .arg(id));*/
 
         if (!ret) {
             qWarning() << "SQL error!" << query.lastError().text();
@@ -1123,6 +1135,13 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readSlowStreamModuleTab
                               "WHERE s.id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                               "AND t.dashboard_id='%1' AND s.slow=1;")
                               .arg(id));
+
+        /*bool ret = query.exec(QString("SELECT e.stream_id, m.id, m.tab_id, max(e.published_at) "
+                              "FROM entries as e, module_stream as ms, modules as m, tabs as t "
+                              "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
+                              "AND t.dashboard_id='%1' AND s.slow=1 "
+                              "GROUP BY e.stream_id;")
+                              .arg(id));*/
 
 
         if (!ret) {
@@ -1801,6 +1820,121 @@ int DatabaseManager::readLastUpdateByTab(const QString &id)
 
         bool ret = query.exec(QString("SELECT max(s.last_update) FROM streams as s, module_stream as ms, modules as m "
                                       "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1';").arg(id));
+
+        if (!ret) {
+            qWarning() << "SQL error!" << query.lastError().text();
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastPublishedAtByTab(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        /*bool ret = query.exec(QString("SELECT max(s.last_update) FROM streams as s, module_stream as ms, modules as m "
+                                      "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1';").arg(id));*/
+
+        bool ret = query.exec(QString("SELECT max(e.published_at) "
+                                      "FROM entries as e, module_stream as ms, modules as m "
+                                      "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id='%1';")
+                                      .arg(id));
+
+        if (!ret) {
+            qWarning() << "SQL error!" << query.lastError().text();
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastPublishedAtByDashboard(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        /*bool ret = query.exec(QString("SELECT max(s.last_update) FROM streams as s, module_stream as ms, modules as m "
+                                      "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1';").arg(id));*/
+
+        bool ret = query.exec(QString("SELECT max(e.published_at) "
+                                      "FROM entries as e, module_stream as ms, modules as m, tabs as t "
+                                      "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
+                                      "AND t.dashboard_id='%1';")
+                                      .arg(id));
+
+        if (!ret) {
+            qWarning() << "SQL error!" << query.lastError().text();
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastPublishedAtSlowByDashboard(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        /*bool ret = query.exec(QString("SELECT max(s.last_update) FROM streams as s, module_stream as ms, modules as m "
+                                      "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1';").arg(id));*/
+
+        bool ret = query.exec(QString("SELECT max(e.published_at) "
+                                      "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
+                                      "WHERE e.stream_id=s.id AND s.id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
+                                      "AND t.dashboard_id='%1' AND s.slow=1;")
+                                      .arg(id));
+
+        if (!ret) {
+            qWarning() << "SQL error!" << query.lastError().text();
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastPublishedAtByStream(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        /*bool ret = query.exec(QString("SELECT max(s.last_update) FROM streams as s, module_stream as ms, modules as m "
+                                      "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1';").arg(id));*/
+
+        bool ret = query.exec(QString("SELECT max(e.published_at) "
+                                      "FROM entries as e, module_stream as ms "
+                                      "WHERE e.stream_id=ms.stream_id "
+                                      "AND e.stream_id='%1';")
+                                      .arg(id));
 
         if (!ret) {
             qWarning() << "SQL error!" << query.lastError().text();

@@ -158,6 +158,7 @@ private:
     static const int entriesLimit = 200;
     static const int cacheRetencyFeedLimit = 20;
     static const int maxCacheRetency = 604800; // 1 week
+    static const int minImageSize = 100;
 
     QNetworkAccessManager manager;
     QList<DatabaseManager::CacheItem> queue;

@@ -216,12 +216,18 @@ public:
     CacheItem readCacheByOrigUrl(const QString &id);
     CacheItem readCacheByEntry(const QString &id);
     CacheItem readCacheByFinalUrl(const QString &id);
-    CacheItem readCacheByCache(const QString &id);//
+    CacheItem readCacheByCache(const QString &id);
     QList<QString> readCacheFinalUrlsByStream(const QString &id, int limit);
     QMap<QString,QString> readNotCachedEntries();
+
     int readLastUpdateByTab(const QString &id);
     int readLastUpdateByDashboard(const QString &id);
     int readLastUpdateByStream(const QString &id);
+
+    int readLastPublishedAtByTab(const QString &id);
+    int readLastPublishedAtByDashboard(const QString &id);
+    int readLastPublishedAtByStream(const QString &id);
+    int readLastPublishedAtSlowByDashboard(const QString &id);
 
     void removeStreamsByStream(const QString &id);
     void removeEntriesOlderThan(int cacheDate, int limit);

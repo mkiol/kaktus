@@ -336,7 +336,7 @@ void NetvibesFetcher::set()
     Settings *s = Settings::instance();
     QString actions = "[";
 
-    if (action.type == DatabaseManager::SetTabReadAll||
+    if (action.type == DatabaseManager::SetTabReadAll ||
         action.type == DatabaseManager::UnSetTabReadAll) {
 
         QList<DatabaseManager::StreamModuleTab> list = s->db->readStreamModuleTabListByTab(action.id1);
@@ -347,7 +347,9 @@ void NetvibesFetcher::set()
             return;
         }
 
-        actions += "{\"options\":{},\"streams\":[";
+        int lastPublishedAt = s->db->readLastPublishedAtByTab(action.id1)+1;
+
+        actions += QString("{\"options\":{\"publishedBeforeDate\":%1},\"streams\":[").arg(lastPublishedAt);
 
         QList<DatabaseManager::StreamModuleTab>::iterator i = list.begin();
         while (i != list.end()) {
@@ -373,7 +375,9 @@ void NetvibesFetcher::set()
             return;
         }
 
-        actions += "{\"options\":{},\"streams\":[";
+        int lastPublishedAt = s->db->readLastPublishedAtByDashboard(s->getDashboardInUse())+1;
+
+        actions += QString("{\"options\":{\"publishedBeforeDate\":%1},\"streams\":[").arg(lastPublishedAt);
 
         QList<DatabaseManager::StreamModuleTab>::iterator i = list.begin();
         while (i != list.end()) {
@@ -399,7 +403,9 @@ void NetvibesFetcher::set()
             return;
         }
 
-        actions += "{\"options\":{},\"streams\":[";
+        int lastPublishedAt = s->db->readLastPublishedAtSlowByDashboard(s->getDashboardInUse())+1;
+
+        actions += QString("{\"options\":{\"publishedBeforeDate\":%1},\"streams\":[").arg(lastPublishedAt);
 
         QList<DatabaseManager::StreamModuleTab>::iterator i = list.begin();
         while (i != list.end()) {
@@ -417,7 +423,9 @@ void NetvibesFetcher::set()
     if (action.type == DatabaseManager::SetStreamReadAll ||
         action.type == DatabaseManager::UnSetStreamReadAll) {
 
-        actions += "{\"options\":{},\"streams\":[";
+        int lastPublishedAt = s->db->readLastPublishedAtByStream(action.id1)+1;
+
+        actions += QString("{\"options\":{\"publishedBeforeDate\":%1},\"streams\":[").arg(lastPublishedAt);
         actions += QString("{\"id\":\"%1\"}").arg(action.id1);
         actions += "]}";
     }
@@ -438,7 +446,7 @@ void NetvibesFetcher::set()
 
     actions += "]";
 
-    //qDebug() << "actions=" << actions;
+    //qDebug() << "action.type="<<action.type<<"actions=" << actions;
     QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
     //qDebug() << "content=" << content;
 
