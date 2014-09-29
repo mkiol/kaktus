@@ -286,7 +286,7 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
 
                 // Check if tiny image, we do not want it
                 if (item.type == "image" && content.size()<minImageSize) {
-                    qDebug() << "Tiny image found:"<<item.finalUrl;
+                    //qDebug() << "Tiny image found:"<<item.finalUrl;
                 } else {
 
                     if (saveToDisk(hash(url.toString()), content)) {

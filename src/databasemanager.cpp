@@ -1226,6 +1226,31 @@ QString DatabaseManager::readStreamIdByEntry(const QString &id)
     return "";
 }
 
+QString DatabaseManager::readEntryImageById(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT image FROM entries WHERE id='%1';")
+                              .arg(id));
+
+        if (!ret) {
+            qWarning() << "SQL Error!" << query.lastError().text();
+        }
+
+        while(query.next()) {
+            QString image;
+            decodeBase64(query.value(0),image);
+            return image;
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return "";
+}
+
 QList<QString> DatabaseManager::readModuleIdByStream(const QString &id)
 {
     QList<QString> list;

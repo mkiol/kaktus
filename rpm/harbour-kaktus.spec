@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.2.0
-Release:    4
+Release:    6
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,14 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Mon Sep 29 2014 Michal Kosciesza 1.2.0-5
+- BUG FIX: Very old saved items not syncec correctly
+- Image in offline web view
+
+* Sat Sep 27 2014 Michal Kosciesza 1.2.0-5
+- BUG FIX: Read all on Tabs does not work as should
+- Image download improvement
 
 * Fri Sep 26 2014 Michal Kosciesza 1.2.0-4
 - New Netvibes APi support

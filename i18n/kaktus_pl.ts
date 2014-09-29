@@ -100,11 +100,11 @@
     <message>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="97"/>
         <source>User Guide</source>
-        <translation type="unfinished">Przewodnik użytkownika</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="98"/>
-        <source>User Guide contains information how to navigate the new UI elements like Bottom Bar. Option to show User Guide is located on the Settings page.</source>
+        <source>User Guide contains information how to navigate the new UI elements like Bottom Bar and View Modes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -430,13 +430,13 @@ Został włączony tryb Offline.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/FirstPage.qml" line="126"/>
-        <source>Signed in :-)</source>
-        <translation>Zalogowany :-)</translation>
+        <source>Not signed in</source>
+        <translation>Niezalogowany</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/FirstPage.qml" line="126"/>
-        <source>Not signed in</source>
-        <translation>Niezalogowany</translation>
+        <source>Signed in</source>
+        <translation>Zalogowany</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/FirstPage.qml" line="133"/>
@@ -452,23 +452,23 @@ Został włączony tryb Offline.</translation>
         <translation>Przewodnik użytkownika</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="144"/>
+        <location filename="../qml/sailfish/Guide.qml" line="122"/>
         <source>This guide will explain you how to use Bottom Bar and View Modes.</source>
         <translation>Ten przewodnik wyjaśni ci jak korzystać z dolnego paska narzędzi oraz różnych trybów przeglądania. </translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="159"/>
+        <location filename="../qml/sailfish/Guide.qml" line="137"/>
         <source>Tap anywhere to continue.</source>
         <translation>Pacnij gdziekolwiek aby kontunuować.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="182"/>
+        <location filename="../qml/sailfish/Guide.qml" line="159"/>
         <source>Bottom Bar lets you switch between 5 available View Modes.
 </source>
         <translation>Dolny pasek narzędzi pozwoli ci przełączać się pomiędzy pięcioma trybami przeglądania.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="205"/>
+        <location filename="../qml/sailfish/Guide.qml" line="181"/>
         <source>Mode #1 - Tabs &amp; Feeds
 
 List all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.</source>
@@ -477,7 +477,7 @@ List all your tabs. Feeds are grouped by the tabs they belong to and articles ar
 Wyświetla twoje wszystkie zakładki. Kanały są pogrupowane w odpowiadających im zakładkach a artykuły znajdują się wewnatrz kanałów.  </translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="228"/>
+        <location filename="../qml/sailfish/Guide.qml" line="204"/>
         <source>Mode #2 - Only tabs
 
 List all your tabs. All articles are grouped only by the tabs they belong to.</source>
@@ -486,7 +486,7 @@ List all your tabs. All articles are grouped only by the tabs they belong to.</s
 Wyświetla twoje wszystkie zakładki. Wszystkie artykuły pogrupowane są tylko poprzez odpowiadające im zakładki.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="252"/>
+        <location filename="../qml/sailfish/Guide.qml" line="227"/>
         <source>Mode #3 - All feeds
 
 List all articles from all your feeds. Items are ordered by publication date.</source>
@@ -495,7 +495,7 @@ List all articles from all your feeds. Items are ordered by publication date.</s
 Wyświetla wszystkie artykuły ze wszystkich kanałów. Artykuły są posortowane datą publikacji. </translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="276"/>
+        <location filename="../qml/sailfish/Guide.qml" line="250"/>
         <source>Mode #4 - Saved
 
 List all the articles you have saved.</source>
@@ -504,7 +504,7 @@ List all the articles you have saved.</source>
 Wyświetla wszystkie artykuły, które zapisałeś.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="299"/>
+        <location filename="../qml/sailfish/Guide.qml" line="272"/>
         <source>Mode #5 - Slow
 
 List all articles from less frequently updated feeds. A feed is considered slow when it publishes less than 5 articles in a month.
@@ -515,7 +515,7 @@ List all articles from less frequently updated feeds. A feed is considered slow 
 Wyświetla wszystkie artykuły z kanałów, ktore są rzadko aktualizowane. Kanał należy do tej kategorii jeśli publikuje artykuły rzadziej niż 5 w ciągu miesiąca.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="323"/>
+        <location filename="../qml/sailfish/Guide.qml" line="295"/>
         <source>Bottom Bar also contains Network Indicator.
 
 This indicator enables you to switch between the Online and Offline mode. In the Offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
@@ -524,13 +524,15 @@ This indicator enables you to switch between the Online and Offline mode. In the
 Ten wskaźnik pozwala na przełączanie pomiędzy trybem Online i Offline. W trybie Offline, Kaktus będzie korzystał tylko z lokalnej kopii aby pobrać stronę internetową lub obrazki. Połaczenie sieciowe nie będzie wtedy potrzebne. </translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="350"/>
+        <location filename="../qml/sailfish/Guide.qml" line="321"/>
         <source>That&apos;s all!
 
-If you want to see this guide one more time, click on &apos;Show User Guide&apos; in Settings page.</source>
-        <translation>To wszystkie informacje.
+If you want to see this guide one more time, click on
+Show User Guide
+on the Settings page.</source>
+        <translation>To wszystkie informacje
 
-Jeżeli chcesz jeszcze raz zobaczyć ten przewodnik, kliknij na &apos;Pokaż przewodnik użytkownika&apos; na stronie Ustawień.</translation>
+Jeśli chcesz zobaczyć ten przewodnik jeszcze raz, naciśnij Pokaż przewodnik na stronie ustawień.</translation>
     </message>
 </context>
 <context>
@@ -1024,6 +1026,25 @@ Brak połączenia sieciowego</translation>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="179"/>
         <location filename="../qml/symbian/TabPage.qml" line="144"/>
+        <source>Wait until Sync finish</source>
+        <translation>Zaczekaj do zakończenia aktualizacji</translation>
+    </message>
+</context>
+<context>
+    <name>TourPage</name>
+    <message>
+        <location filename="../qml/sailfish/TourPage.qml" line="61"/>
+        <source></source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/TourPage.qml" line="66"/>
+        <location filename="../qml/sailfish/TourPage.qml" line="73"/>
+        <source>You are not signed in</source>
+        <translation>Nie jesteś zalogowany</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/TourPage.qml" line="73"/>
         <source>Wait until Sync finish</source>
         <translation>Zaczekaj do zakończenia aktualizacji</translation>
     </message>

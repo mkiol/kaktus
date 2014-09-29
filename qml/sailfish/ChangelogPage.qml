@@ -95,8 +95,7 @@ Page {
 
             LogItem {
                 title: qsTr('User Guide')
-                description: qsTr('User Guide contains information how to navigate the new UI elements like Bottom Bar. '+
-                                  'Option to show User Guide is located on the Settings page.')
+                description: qsTr('User Guide contains information how to navigate the new UI elements like Bottom Bar and View Modes.')
             }
 
             Item {

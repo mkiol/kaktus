@@ -104,7 +104,7 @@
     </message>
     <message>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="98"/>
-        <source>User Guide contains information how to navigate the new UI elements like Bottom Bar. Option to show User Guide is located on the Settings page.</source>
+        <source>User Guide contains information how to navigate the new UI elements like Bottom Bar and View Modes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -427,12 +427,12 @@ Switching to Offline mode.</source>
     </message>
     <message>
         <location filename="../qml/sailfish/FirstPage.qml" line="126"/>
-        <source>Signed in :-)</source>
+        <source>Not signed in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/FirstPage.qml" line="126"/>
-        <source>Not signed in</source>
+        <source>Signed in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -449,51 +449,51 @@ Switching to Offline mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="144"/>
+        <location filename="../qml/sailfish/Guide.qml" line="122"/>
         <source>This guide will explain you how to use Bottom Bar and View Modes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="159"/>
+        <location filename="../qml/sailfish/Guide.qml" line="137"/>
         <source>Tap anywhere to continue.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="182"/>
+        <location filename="../qml/sailfish/Guide.qml" line="159"/>
         <source>Bottom Bar lets you switch between 5 available View Modes.
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="205"/>
+        <location filename="../qml/sailfish/Guide.qml" line="181"/>
         <source>Mode #1 - Tabs &amp; Feeds
 
 List all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="228"/>
+        <location filename="../qml/sailfish/Guide.qml" line="204"/>
         <source>Mode #2 - Only tabs
 
 List all your tabs. All articles are grouped only by the tabs they belong to.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="252"/>
+        <location filename="../qml/sailfish/Guide.qml" line="227"/>
         <source>Mode #3 - All feeds
 
 List all articles from all your feeds. Items are ordered by publication date.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="276"/>
+        <location filename="../qml/sailfish/Guide.qml" line="250"/>
         <source>Mode #4 - Saved
 
 List all the articles you have saved.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="299"/>
+        <location filename="../qml/sailfish/Guide.qml" line="272"/>
         <source>Mode #5 - Slow
 
 List all articles from less frequently updated feeds. A feed is considered slow when it publishes less than 5 articles in a month.
@@ -502,17 +502,19 @@ List all articles from less frequently updated feeds. A feed is considered slow 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="323"/>
+        <location filename="../qml/sailfish/Guide.qml" line="295"/>
         <source>Bottom Bar also contains Network Indicator.
 
 This indicator enables you to switch between the Online and Offline mode. In the Offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="350"/>
+        <location filename="../qml/sailfish/Guide.qml" line="321"/>
         <source>That&apos;s all!
 
-If you want to see this guide one more time, click on &apos;Show User Guide&apos; in Settings page.</source>
+If you want to see this guide one more time, click on
+Show User Guide
+on the Settings page.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1006,6 +1008,25 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="179"/>
         <location filename="../qml/symbian/TabPage.qml" line="144"/>
+        <source>Wait until Sync finish</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TourPage</name>
+    <message>
+        <location filename="../qml/sailfish/TourPage.qml" line="61"/>
+        <source></source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/TourPage.qml" line="66"/>
+        <location filename="../qml/sailfish/TourPage.qml" line="73"/>
+        <source>You are not signed in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/TourPage.qml" line="73"/>
         <source>Wait until Sync finish</source>
         <translation type="unfinished"></translation>
     </message>

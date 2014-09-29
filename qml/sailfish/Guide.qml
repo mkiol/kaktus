@@ -94,17 +94,6 @@ Rectangle {
         text: qsTr("User Guide");
     }
 
-    /*Label {
-        anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
-        anchors.top: parent.top; anchors.topMargin: Theme.paddingLarge
-        font.pixelSize: Theme.fontSizeMedium
-        color: Theme.highlightColor
-        font.family: Theme.fontFamily
-        wrapMode: Text.WordWrap
-        horizontalAlignment: Text.AlignLeft
-        text: qsTr("Bottom Bar");
-    }*/
-
     Rectangle {
         color: Theme.secondaryHighlightColor
         anchors.left: parent.left; anchors.right: parent.right
@@ -112,17 +101,6 @@ Rectangle {
         anchors.top: title.bottom; anchors.topMargin: Theme.paddingMedium
         height: 1
     }
-
-    /*IconButton {
-        anchors.bottom: parent.bottom; anchors.bottomMargin: Theme.paddingMedium
-        anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
-        icon.source: "image://theme/icon-m-close?"+Theme.highlightColor
-        onClicked: {
-                // Help finished
-                // settings.helpDone = true;
-                root.open = false;
-        }
-    }*/
 
     Item {
         id: content0
@@ -171,7 +149,6 @@ Rectangle {
         Label {
             anchors.left: parent.left; anchors.right: parent.right
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            //anchors.top: parent.top; anchors.topMargin: 2*Theme.paddingLarge
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.highlightColor
@@ -194,7 +171,6 @@ Rectangle {
         Label {
             anchors.left: parent.left; anchors.right: parent.right
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            //anchors.top: parent.top; anchors.topMargin: 2*Theme.paddingLarge
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.highlightColor
@@ -241,7 +217,6 @@ Rectangle {
         Label {
             anchors.left: parent.left; anchors.right: parent.right
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            //anchors.top: parent.top; anchors.topMargin: 2*Theme.paddingLarge
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.highlightColor
@@ -265,7 +240,6 @@ Rectangle {
         Label {
             anchors.left: parent.left; anchors.right: parent.right
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            //anchors.top: parent.top; anchors.topMargin: 2*Theme.paddingLarge
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.highlightColor
@@ -288,7 +262,6 @@ Rectangle {
         Label {
             anchors.left: parent.left; anchors.right: parent.right
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            //anchors.top: parent.top; anchors.topMargin: 2*Theme.paddingLarge
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.highlightColor
@@ -312,7 +285,6 @@ Rectangle {
         Label {
             anchors.left: parent.left; anchors.right: parent.right
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            //anchors.top: parent.top; anchors.topMargin: 2*Theme.paddingLarge
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.highlightColor
@@ -339,7 +311,6 @@ Rectangle {
         Label {
             anchors.left: parent.left; anchors.right: parent.right
             anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            //anchors.top: parent.top; anchors.topMargin: 2*Theme.paddingLarge
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.highlightColor
@@ -348,7 +319,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
 
             text: qsTr("That's all!\n\n"+
-                       "If you want to see this guide one more time, click on 'Show User Guide' in Settings page.");
+                       "If you want to see this guide one more time, click on\nShow User Guide\non the Settings page.");
         }
     }
 

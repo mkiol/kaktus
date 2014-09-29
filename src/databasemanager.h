@@ -198,6 +198,7 @@ public:
     QList<StreamModuleTab> readSlowStreamModuleTabListByDashboard(const QString &id);
     QList<StreamModuleTab> readStreamModuleTabListWithoutDate();
 
+    QString readEntryImageById(const QString &id);
     QList<Entry> readEntriesByDashboard(const QString &id, int offset, int limit);
     QList<Entry> readEntriesUnreadByDashboard(const QString &id, int offset, int limit);
     QList<Entry> readEntriesSlowUnreadByDashboard(const QString &id, int offset, int limit);

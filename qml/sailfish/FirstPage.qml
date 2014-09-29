@@ -123,7 +123,7 @@ Page {
 
         ViewPlaceholder {
             enabled: listView.count < 1
-            text: settings.signedIn ? qsTr("Signed in :-)") : qsTr("Not signed in")
+            text: settings.signedIn ? qsTr("Signed in") : qsTr("Not signed in")
 
             Label {
                 anchors.horizontalCenter: parent.horizontalCenter

@@ -26,13 +26,10 @@ ApplicationWindow {
     cover: CoverPage {}
 
     Component.onCompleted: {
-        //console.log("Initiating DB!");
         db.init();
     }
 
     function resetView() {
-        //console.log("resetView, viewMode: "+settings.viewMode);
-
         if (!settings.signedIn) {
             pageStack.replaceAbove(null,Qt.resolvedUrl("FirstPage.qml"));
             return;
@@ -101,7 +98,6 @@ ApplicationWindow {
         }
 
         onNotEmpty: {
-            //console.log("DB not empty!");
             resetView()
         }
     }
@@ -122,7 +118,6 @@ ApplicationWindow {
         }
 
         onRemoverProgressChanged: {
-            //console.log("Remover progress: " + current / total);
             progressPanelRemover.progress = current / total;
         }
     }
@@ -131,7 +126,6 @@ ApplicationWindow {
         target: fetcher
 
         onReady: {
-            //notification.show(qsTr("Sync done!"));
             resetView();
 
             if (settings.getAutoDownloadOnUpdate())
@@ -177,10 +171,6 @@ ApplicationWindow {
         }
 
         onBusyChanged: {
-
-            /*if (fetcher.busy && bar.open)
-                bar.open = false;*/
-
             switch(fetcher.busyType) {
             case 1:
                 progressPanel.text = qsTr("Initiating...");
