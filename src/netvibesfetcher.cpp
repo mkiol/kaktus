@@ -1375,10 +1375,16 @@ void NetvibesFetcher::finishedFeedsReadlater()
 
 void NetvibesFetcher::finishedFeedsReadlater2()
 {
-    if (publishedBeforeDate!=0)
+    if (publishedBeforeDate!=0) {
         fetchFeedsReadlater();
-    else
+    } else {
+
+        // Fix for very old entries. Mark as unsaved entries unmarked on server
+        Settings *s = Settings::instance();
+        s->db->updateEntriesSavedFlagByFlagAndDashboard(s->getDashboardInUse(),9,0);
+
         taskEnd();
+    }
 }
 
 void NetvibesFetcher::finishedSet()
@@ -1425,6 +1431,7 @@ void NetvibesFetcher::finishedFeedsUpdate2()
     if (_streamUpdateList.isEmpty()) {
         // Fetching Saved items
         publishedBeforeDate = 0;
+        s->db->updateEntriesSavedFlagByFlagAndDashboard(s->getDashboardInUse(),1,9);
         fetchFeedsReadlater();
         //taskEnd();
     } else {

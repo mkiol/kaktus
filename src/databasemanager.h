@@ -175,6 +175,7 @@ public:
     void updateEntriesSavedFlagByEntry(const QString &id, int flag);
     void updateEntriesCachedFlagByEntry(const QString &id, int cacheDate, int flag);
     void updateEntriesFreshFlag(int flag);
+    void updateEntriesSavedFlagByFlagAndDashboard(const QString &id, int flagOld, int flagNew);
 
     bool isDashboardExists();
     bool isCacheExists(const QString &id);
@@ -187,9 +188,6 @@ public:
     QList<Tab> readTabsByDashboard(const QString &id);
     QList<Stream> readStreamsByTab(const QString &id);
     QList<Stream> readStreamsByDashboard(const QString &id);
-    //QList<QString> readStreamIdsByTab(const QString &id);
-    //QList<QString> readStreamIdsByDashboard(const QString &id);
-    //QList<QString> readStreamSlowIdsByDashboard(const QString &id);
     QList<QString> readStreamIds();
     QString readStreamIdByEntry(const QString &id);
     QList<QString> readModuleIdByStream(const QString &id);
@@ -233,6 +231,7 @@ public:
     void removeEntriesOlderThan(int cacheDate, int limit);
     void removeEntriesByStream(const QString &id, int limit);
     void removeActionsById(const QString &id);
+    //void removeEntriesBySavedFlag(int flag);
     void removeCacheItems();
 
     int countEntries();
@@ -261,21 +260,21 @@ private:
     QSqlDatabase db;
     QString dbFilePath;
 
-    bool openDB();//
-    bool createDB();//
-    bool deleteDB();//
+    bool openDB();
+    bool createDB();
+    bool deleteDB();
 
-    bool createStructure();//
-    bool createDashboardsStructure();//
-    bool createTabsStructure();//
-    bool createModulesStructure();//
-    bool createStreamsStructure();//
-    bool createEntriesStructure();//
-    bool createCacheStructure();//
-    bool createActionsStructure();//
-    bool checkParameters();//
-    bool isTableExists(const QString &name);//
-    void decodeBase64(const QVariant &source, QString &result);//
+    bool createStructure();
+    bool createDashboardsStructure();
+    bool createTabsStructure();
+    bool createModulesStructure();
+    bool createStreamsStructure();
+    bool createEntriesStructure();
+    bool createCacheStructure();
+    bool createActionsStructure();
+    bool checkParameters();
+    bool isTableExists(const QString &name);
+    void decodeBase64(const QVariant &source, QString &result);
 };
 
 Q_DECLARE_METATYPE(DatabaseManager::CacheItem)
