@@ -86,7 +86,11 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
             tc = QTextCodec::codecForHtml(data);
         QString content = tc->toUnicode(data);
 
-        filter(content,req->url());
+        QString image = "";
+        if(item.entryId!="")
+            image = s->db->readEntryImageById(item.entryId);
+
+        filter(content,req->url(),image);
         data = tc->fromUnicode(content);
     }
 
@@ -124,10 +128,12 @@ bool CacheServer::readFile(const QString &filename, QByteArray &data)
     return true;
 }
 
-void CacheServer::filter(QString &content, const QUrl &query)
+void CacheServer::filter(QString &content, const QUrl &query, const QString &image)
 {
     //QRegExp rxImg("(<img\\s[^>]*)src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
     QRegExp rxImgAll("<img[^>]*>", Qt::CaseInsensitive);
+    QRegExp rxBody("(<body[^>]*>)", Qt::CaseInsensitive);
+    //QRegExp rxImgUrl(image, Qt::CaseInsensitive);
     QRegExp rxLinkAll("<link[^>]*>", Qt::CaseInsensitive);
     QRegExp rxFormAll("<form[^>]*>((?!<\\/form>).)*<\\/form>", Qt::CaseInsensitive);
     QRegExp rxInputAll("<input[^>]*>", Qt::CaseInsensitive);
@@ -146,7 +152,6 @@ void CacheServer::filter(QString &content, const QUrl &query)
     QRegExp rxHeight("\\s*height\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
     QRegExp rxHeadEnd("</head>", Qt::CaseInsensitive);
 
-    //content = content.replace(rxImg,"\\1");
     content = content.replace(rxImgAll,"");
     content = content.replace(rxLinkAll,"");
     content = content.replace(rxScript,"\\1");
@@ -184,14 +189,21 @@ void CacheServer::filter(QString &content, const QUrl &query)
 
     if (s->getCsTheme() == "white") {
         style = QString("<meta name='viewport' content='width=%1'>"
-                        "<style>body{background:#FFF;color:#000;font-size:%2;}</style></head>")
-                .arg(width).arg(fontsize);
+                        "<style>body{background:#FFF;color:#000;font-size:%2;}img{max-width:%3;}</style></head>")
+                .arg(width).arg(fontsize).arg(width);
     } else {
         style = QString("<meta name='viewport' content='width=%1'>"
-                "<style>body{background:#000;color:#FFF;font-size:%2;}</style></head>")
-                .arg(width).arg(fontsize);
+                "<style>body{background:#000;color:#FFF;font-size:%2;}img{max-width:%3;}</style></head>")
+                .arg(width).arg(fontsize).arg(width);
     }
+
+    // Inserting image after <body> tag
+    if (image!="")
+        content = content.replace(rxBody,QString("\\1<img src=\"%1\"/>").arg(getUrlbyUrl(image)));
+
     content = content.replace(rxHeadEnd,style);
+
+    //qDebug() << content;
 
     // Change CSS link
     /*

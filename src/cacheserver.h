@@ -51,7 +51,7 @@ private:
 
     bool readFile(const QString &filename, QByteArray &data);
     QString hash(const QString &url);
-    void filter(QString &content, const QUrl &query);
+    void filter(QString &content, const QUrl &query, const QString &image);
 };
 
 #endif // CACHESERVER_H
