@@ -83,8 +83,6 @@ bool NetvibesFetcher::delayedUpdate(bool state)
     }
 
     _streamList.clear();
-    //_moduleList.clear();
-    //_feedTabList.clear();
     actionsList.clear();
     signIn();
 
@@ -110,8 +108,6 @@ bool NetvibesFetcher::init()
 
     setBusy(true, Initiating);
     _streamList.clear();
-    //_moduleList.clear();
-    //_feedTabList.clear();
 
     signIn();
     return true;
@@ -187,7 +183,6 @@ bool NetvibesFetcher::update()
     }
 
     _streamList.clear();
-    //_moduleList.clear();
     actionsList.clear();
 
     signIn();
@@ -713,9 +708,12 @@ void NetvibesFetcher::storeTabs()
         while (i != end) {
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonObject obj = (*i).toObject();
+#else
+            QVariantMap obj = (*i).toMap();
+#endif
 
             if (obj["name"].toString() == "RssReader" ||
-                    obj["name"].toString() == "MultipleFeeds") {
+                obj["name"].toString() == "MultipleFeeds") {
 
                 // Module
                 DatabaseManager::Module m;
@@ -727,21 +725,25 @@ void NetvibesFetcher::storeTabs()
                 m.pageId = obj["pageId"].toString();
                 m.tabId = obj["tab"].toString();
 
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                 if (obj["streams"].isArray()) {
                     QJsonArray::const_iterator mi = obj["streams"].toArray().constBegin();
                     QJsonArray::const_iterator mend = obj["streams"].toArray().constEnd();
                     while (mi != mend) {
                         QJsonObject mobj = (*mi).toObject();
+#else
+                if (obj["streams"].type()==QVariant::List) {
+                    QVariantList::const_iterator mi = obj["streams"].toList().constBegin();
+                    QVariantList::const_iterator mend = obj["streams"].toList().constEnd();
+                    while (mi != mend) {
+                        QVariantMap mobj = (*mi).toMap();
+#endif
                         DatabaseManager::StreamModuleTab smt;
                         smt.streamId = mobj["id"].toString();
                         smt.moduleId = m.id;
                         smt.tabId = obj["tab"].toString();
                         _streamList.append(smt);
                         m.streamList.append(smt.streamId);
-                        //_streamList.insertMulti(streamId,tabId);
-                        //_moduleList.insertMulti(streamId,m.id);
-                        //qDebug() << "Adding stream:" << streamId << m.title;
-                        //_feedTabList.insert(streamId,tabId);
                         //qDebug() << "Writing module: " << smt.moduleId << m.title << "streamId:" << smt.streamId;
                         ++mi;
                     }
@@ -752,16 +754,7 @@ void NetvibesFetcher::storeTabs()
 
                 s->db->writeModule(m);
             }
-#else
-            //TO-DO
-            QVariantMap obj = (*i).toMap();
-            if (obj["name"].toString() == "RssReader") {
-                QString streamId = obj["data"].toMap()["streamIds"].toString();
-                QString tabId = obj["tab"].toString();
-                _feedTabList.insert(streamId,tabId);
-                _feedList.insert(streamId,tabId);
-            }
-#endif
+
             ++i;
         }
     }  else {
@@ -779,7 +772,6 @@ int NetvibesFetcher::storeFeeds()
     int entriesCount = 0;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-
     if (_jsonObj["results"].isArray()) {
         QJsonArray::const_iterator i = _jsonObj["results"].toArray().constBegin();
         QJsonArray::const_iterator end = _jsonObj["results"].toArray().constEnd();
@@ -789,30 +781,33 @@ int NetvibesFetcher::storeFeeds()
         QVariantList::const_iterator end = _jsonObj["results"].toList().constEnd();
 #endif
         while (i != end) {
-            //qDebug() << "i" << i.i;
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             if ((*i).isObject()) {
                 if ((*i).toObject()["streams"].isArray()) {
                     QJsonArray::const_iterator ai = (*i).toObject()["streams"].toArray().constBegin();
                     QJsonArray::const_iterator aend = (*i).toObject()["streams"].toArray().constEnd();
+#else
+            if ((*i).type()==QVariant::Map) {
+                if ((*i).toMap()["streams"].type()==QVariant::List) {
+                    QVariantList::const_iterator ai = (*i).toMap()["streams"].toList().constBegin();
+                    QVariantList::const_iterator aend = (*i).toMap()["streams"].toList().constEnd();
+#endif
                     while (ai != aend) {
-                        //qDebug() << "ai" << ai.i;
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                         QJsonObject obj = (*ai).toObject();
-
-                        //Check for errors
                         if (obj["error"].isObject()) {
                             qWarning() << "Nested error in Netvibes response!";
                             qWarning() << "Code:" << (int) obj["error"].toObject()["code"].toDouble();
                             qWarning() << "Message:" << obj["error"].toObject()["message"].toString();
-
                         } else {
-
-                            /*int unread = 0;
-                            if (obj["flags"].isObject()) {
-                                if (obj["flags"].toObject().contains("unread"))
-                                    unread = (int) obj["flags"].toObject()["unread"].toDouble();
-                            }*/
-
+#else
+                        QVariantMap obj = (*ai).toMap();
+                        if (obj["error"].type()==QVariant::Map) {
+                            qWarning() << "Nested error in Netvibes response!";
+                            qWarning() << "Code:" << (int) obj["error"].toMap()["code"].toDouble();
+                            qWarning() << "Message:" << obj["error"].toMap()["message"].toString();
+                        } else {
+#endif
                             int slow = 0;
                             if (obj.contains("slow"))
                                 slow = obj["slow"].toBool() ? 1 : 0;
@@ -896,14 +891,24 @@ int NetvibesFetcher::storeFeeds()
                 } else {
                     qWarning() << "No \"streams\" element found!";
                 }
-
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                 if ((*i).toObject()["items"].isArray()) {
                     QJsonArray::const_iterator ai = (*i).toObject()["items"].toArray().constBegin();
                     QJsonArray::const_iterator aend = (*i).toObject()["items"].toArray().constEnd();
-                    while (ai != aend) {
-                        QJsonObject obj = (*ai).toObject();
+#else
 
+                if ((*i).toMap()["items"].type()==QVariant::List) {
+                    QVariantList::const_iterator ai = (*i).toMap()["items"].toList().constBegin();
+                    QVariantList::const_iterator aend = (*i).toMap()["items"].toList().constEnd();
+#endif
+                    while (ai != aend) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+                        QJsonObject obj = (*ai).toObject();
+#else
+                        QVariantMap obj = (*ai).toMap();
+#endif
                         int read = 1; int saved = 0;
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                         if (obj["flags"].isObject()) {
 
                             if (!obj["flags"].toObject().contains("read")) {
@@ -918,31 +923,58 @@ int NetvibesFetcher::storeFeeds()
                                 saved = obj["flags"].toObject()["saved"].toBool() ? 1 : 0;
                             }
                         }
+#else
+                        if (obj["flags"].type()==QVariant::Map) {
 
+                            if (!obj["flags"].toMap().contains("read")) {
+                                read = 2;
+                            } else {
+                                read = obj["flags"].toMap()["read"].toBool() ? 1 : 0;
+                            }
+
+                            if (!obj["flags"].toMap().contains("saved")) {
+                                saved = 0;
+                            } else {
+                                saved = obj["flags"].toMap()["saved"].toBool() ? 1 : 0;
+                            }
+                        }
+#endif
                         QString image = "";
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                         if (obj["enclosures"].isArray()) {
                             if (!obj["enclosures"].toArray().empty()) {
                                 QString link = obj["enclosures"].toArray()[0].toObject()["link"].toString();
                                 QString type = obj["enclosures"].toArray()[0].toObject()["type"].toString();
+#else
+                        if (obj["enclosures"].type()==QVariant::List) {
+                            if (!obj["enclosures"].toList().isEmpty()) {
+                                QString link = obj["enclosures"].toList()[0].toMap()["link"].toString();
+                                QString type = obj["enclosures"].toList()[0].toMap()["type"].toString();
+#endif
                                 if (type=="image"||type=="html")
                                     image = link;
                             }
                         }
 
                         QString author = "";
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                         if (obj["authors"].isArray()) {
                             if (!obj["authors"].toArray().empty())
                                 author = obj["authors"].toArray()[0].toObject()["name"].toString();
                         }
-
-                        if (obj["authors"].isArray()) {
-                            if (!obj["authors"].toArray().empty())
-                                author = obj["authors"].toArray()[0].toObject()["name"].toString();
+#else
+                        if (obj["authors"].type()==QVariant::List) {
+                            if (!obj["authors"].toList().isEmpty())
+                                author = obj["authors"].toList()[0].toMap()["name"].toString();
                         }
-
+#endif
                         DatabaseManager::Entry e;
                         e.id = obj["id"].toString();
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                         e.streamId = obj["stream"].toObject()["id"].toString();
+#else
+                        e.streamId = obj["stream"].toMap()["id"].toString();
+#endif
                         //e.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
                         e.title = obj["title"].toString();
                         e.author = author;
@@ -1003,22 +1035,12 @@ int NetvibesFetcher::storeFeeds()
                     qWarning() << "No \"items\" element found!";
                 }
             }
-#else
-            QVariantMap obj = (*i).toMap();
-            int unread = obj["flags"].toMap()["unread"].toDouble();
-            //int read = obj["flags"].toMap()["read"].toDouble();
-            //int readlater = obj["flags"].toMap()["readlater"].toDouble();
-#endif
+
             ++i;
         }
     }  else {
         qWarning() << "No \"relults\" element found!";
     }
-
-    //qDebug() << "publishedBeforeDate:" << publishedBeforeDate;
-    //qDebug() << "publishedBeforeItemId:" << publishedBeforeItemId;
-    //qDebug() << "publishedBeforeStreamId:" << publishedBeforeStreamId;
-    //qDebug() << "entriesCount:" << entriesCount;
 
     return entriesCount;
 }
@@ -1062,7 +1084,6 @@ void NetvibesFetcher::storeDashboards()
                 d.description = obj["description"].toString();
                 s->db->writeDashboard(d);
                 _dashboardList.append(d.id);
-
                 //qDebug() << "Writing dashboard: " << d.title;
 
                 // Search lowest id
@@ -1077,9 +1098,6 @@ void NetvibesFetcher::storeDashboards()
         }
 
         // Set default dashboard if not set
-        //qDebug() << "defaultDashboardId" << defaultDashboardId;
-        //qDebug() << "defaultDashboardIdExists" << defaultDashboardIdExists;
-        //qDebug() << "lowestDashboardId" << lowestDashboardId;
         if (defaultDashboardId=="" || defaultDashboardIdExists==false) {
             s->setDashboardInUse(QString::number(lowestDashboardId));
         }
@@ -1572,10 +1590,17 @@ void NetvibesFetcher::startJob(Job job)
 
 bool NetvibesFetcher::checkError()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if(_jsonObj["error"].isObject()) {
         qWarning() << "Error in Netvibes response!";
         qWarning() << "Code:" << (int) _jsonObj["error"].toObject()["code"].toDouble();
         qWarning() << "Message:" << _jsonObj["error"].toObject()["message"].toString();
+#else
+    if (_jsonObj["error"].type()==QVariant::Map) {
+        qWarning() << "Error in Netvibes response!";
+        qWarning() << "Code:" << (int) _jsonObj["error"].toMap()["code"].toDouble();
+        qWarning() << "Message:" << _jsonObj["error"].toMap()["message"].toString();
+#endif
         qWarning() << "JSON:" << _jsonObj;
         return true;
     }
