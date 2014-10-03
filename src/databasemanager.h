@@ -252,7 +252,14 @@ public:
     int countEntriesNotCached();
 
 signals:
-    void error();
+    /*
+    500 - DB can not be opened
+    501 - Creation of new empty DB failed
+    502 - Check DB parameters failed
+    511 - The database disk image is malformed
+    */
+    void error(int code);
+
     void empty();
     void notEmpty();
 
@@ -260,6 +267,8 @@ private:
     static const QString version;
     QSqlDatabase db;
     QString dbFilePath;
+
+    void checkError(const QSqlError &error);
 
     bool openDB();
     bool createDB();

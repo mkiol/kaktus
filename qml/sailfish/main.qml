@@ -85,7 +85,13 @@ ApplicationWindow {
         target: db
 
         onError: {
-            console.log("DB error!");
+            console.log("DB error! code="+code);
+
+            if (code==511) {
+                notification.show(qsTr("Cache data seams to be broken, so will be rebuilt on next startup."));
+                return;
+            }
+
             Qt.quit();
         }
 
