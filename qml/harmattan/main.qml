@@ -34,6 +34,33 @@ PageStackWindow {
         db.init();
     }
 
+    function resetView() {
+        if (!settings.signedIn) {
+            //pageStack.clear();
+            pageStack.push(null,Qt.resolvedUrl("FirstPage.qml"));
+            return;
+        }
+
+        utils.setRootModel();
+        switch (settings.viewMode) {
+        case 0:
+        case 1:
+            //pageStack.clear();
+            pageStack.push(null,Qt.resolvedUrl("TabPage.qml"));
+            break;
+        case 2:
+            //pageStack.clear();
+            pageStack.push(null,Qt.resolvedUrl("FeedPage.qml"),{"title": qsTr("Feeds")});
+            break;
+        case 3:
+        case 4:
+        case 5:
+            //pageStack.clear();
+            pageStack.push(null,Qt.resolvedUrl("EntryPage.qml"));
+            break;
+        }
+    }
+
     Connections {
         target: settings
 
@@ -44,11 +71,20 @@ PageStackWindow {
         }
 
         onDashboardInUseChanged: {
-            //console.log("onDashboardInUseChanged");
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.clear();
-            pageStack.replace(Qt.resolvedUrl("TabPage.qml"));
-            notification.show(qsTr("Dashboard changed!"));
+            resetView();
+        }
+
+        onViewModeChanged: {
+            resetView();
+        }
+
+        onSignedInChanged: {
+            if (!settings.signedIn) {
+                notification.show(qsTr("Signed out!"));
+                fetcher.cancel(); dm.cancel();
+                settings.reset();
+                db.init();
+            }
         }
     }
 
@@ -61,17 +97,15 @@ PageStackWindow {
         }
 
         onEmpty: {
-            //console.log("DB empty");
             dm.removeCache();
-            utils.updateModels();
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.replace(Qt.resolvedUrl("TabPage.qml"));
+            if (settings.viewMode!=0)
+                settings.viewMode=0;
+            else
+                resetView();
         }
 
         onNotEmpty: {
-            //console.log("DB not empty");
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.replace(Qt.resolvedUrl("TabPage.qml"));
+            resetView()
         }
     }
 
@@ -87,7 +121,11 @@ PageStackWindow {
         }
 
         onNetworkNotAccessible: {
-            notification.show(qsTr("Download failed\nNetwork connection is unavailable"));
+            notification.show(qsTr("Download failed!\nNetwork connection is unavailable."));
+        }
+
+        onRemoverProgressChanged: {
+            progressPanelRemover.progress = current / total;
         }
     }
 
@@ -95,16 +133,14 @@ PageStackWindow {
         target: fetcher
 
         onReady: {
-            //notification.show(qsTr("Sync done!"));
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.replace(Qt.resolvedUrl("TabPage.qml"));
+            resetView();
 
             if (settings.getAutoDownloadOnUpdate())
                 dm.startFeedDownload();
         }
 
         onNetworkNotAccessible: {
-            notification.show(qsTr("Sync failed\nNetwork connection is unavailable"));
+            notification.show(qsTr("Sync failed!\nNetwork connection is unavailable."));
         }
 
         onError: {
@@ -115,7 +151,7 @@ PageStackWindow {
                 return;
             if (code >= 400 && code < 500) {
                 if (code == 402)
-                    notification.show(qsTr("User & Password do not match!"));
+                    notification.show(qsTr("The user name or password is incorrect!"));
                 // Sign in
                 pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": code});
             } else {
@@ -125,26 +161,23 @@ PageStackWindow {
         }
 
         onErrorCheckingCredentials: {
-            notification.show(qsTr("User & Password do not match!"));
+            notification.show(qsTr("The user name or password is incorrect!"));
         }
 
         onCredentialsValid: {
-            notification.show(qsTr("Successfully Signed In!"));
+            notification.show(qsTr("You are signed in!"));
         }
 
         onProgress: {
-            //console.log("Receiving data... " + current / total);
             progressPanel.text = qsTr("Receiving data... ");
             progressPanel.progress = current / total;
         }
 
         onUploading: {
-            //console.log("Sending data to Netvibes...");
-            progressPanel.text = qsTr("Sending data to Netvibes...");
+            progressPanel.text = qsTr("Sending data...");
         }
 
         onBusyChanged: {
-
             switch(fetcher.busyType) {
             case 1:
                 progressPanel.text = qsTr("Initiating...");
@@ -183,6 +216,17 @@ PageStackWindow {
     }
 
     property bool isPortrait: screen.currentOrientation==Screen.Portrait || screen.currentOrientation==Screen.PortraitInverted
+
+    ProgressPanel {
+        id: progressPanelRemover
+        open: dm.removerBusy
+        onCloseClicked: dm.removerCancel();
+
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: isPortrait ? Theme.navigationBarPortrait : Theme.navigationBarLanscape
+        anchors.right: parent.right
+        anchors.left: parent.left
+    }
 
     ProgressPanel {
         id: progressPanelDm

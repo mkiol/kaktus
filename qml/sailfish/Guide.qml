@@ -119,7 +119,9 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("This guide will explain you how to use Bottom Bar and View Modes.");
+            //textFormat: Text.StyledText
+
+            text: qsTr("This guide will explain you how to use bottom bar and view modes.");
         }
 
         Label {
@@ -155,8 +157,9 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            //textFormat: Text.StyledText
 
-            text: qsTr("Bottom Bar lets you switch between 5 available View Modes.\n");
+            text: qsTr("Bottom bar lets you switch between 5 available view modes.\n");
         }
     }
 
@@ -177,6 +180,7 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            //textFormat: Text.StyledText
 
             text: qsTr("Mode #1 - Tabs & Feeds\n\nList all your tabs. "+
                        "Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.");
@@ -200,6 +204,7 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            //textFormat: Text.StyledText
 
             text: qsTr("Mode #2 - Only tabs\n\nList all your tabs. "+
                        "All articles are grouped only by the tabs they belong to.");
@@ -223,6 +228,7 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            //textFormat: Text.StyledText
 
             text: qsTr("Mode #3 - All feeds\n\nList all articles from all your feeds. "+
                        "Items are ordered by publication date.");
@@ -246,6 +252,7 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            //textFormat: Text.StyledText
 
             text: qsTr("Mode #4 - Saved\n\nList all the articles you have saved.");
         }
@@ -268,9 +275,10 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            //textFormat: Text.StyledText
 
             text: qsTr("Mode #5 - Slow\n\nList all articles from less frequently updated feeds. "+
-                       "A feed is considered slow when it publishes less than 5 articles in a month.\n\n");
+                       "A feed is considered slow when it publishes less than 5 articles in a month.");
         }
     }
 
@@ -291,10 +299,11 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            //textFormat: Text.StyledText
 
-            text: qsTr("Bottom Bar also contains Network Indicator.\n\n"+
-                       "This indicator enables you to switch between the Online and Offline mode. "+
-                       "In the Offline mode, Kaktus will only use local cache to get web pages and images, so "+
+            text: qsTr("Bottom bar also contains network indicator.\n\n"+
+                       "This indicator enables you to switch between the online and offline mode. "+
+                       "In the offline mode, Kaktus will only use local cache to get web pages and images, so "+
                        "network connection won't be needed."
                        );
         }
@@ -317,9 +326,11 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            textFormat: Text.StyledText
 
-            text: qsTr("That's all!\n\n"+
-                       "If you want to see this guide one more time, click on\nShow User Guide\non the Settings page.");
+            text: qsTr("That's all!<br/><br/>"+
+                       "If you want to see this guide one more time, click on\n"+
+                       "<i>Show User Guide</i>\non the settings page.");
         }
     }
 

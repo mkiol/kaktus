@@ -51,6 +51,15 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("1.2.1")
+            }
+
+            LogItem {
+                title: qsTr('User Interface improvements')
+                description: qsTr('Few user interface improvements on page with articles were added.')
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("1.2.0")
             }
 

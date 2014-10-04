@@ -13,8 +13,8 @@ Name:       harbour-kaktus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
-Version:    1.2.0
-Release:    6
+Version:    1.2.1
+Release:    0
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,10 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Sat Oct 03 2014 Michal Kosciesza 1.2.1-0
+- Minor UI improvements
+- Handling for 'malformed database file' error
 
 * Mon Sep 29 2014 Michal Kosciesza 1.2.0-5
 - BUG FIX: Very old saved items not syncec correctly

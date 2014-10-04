@@ -59,9 +59,9 @@ Dialog {
             wrapMode: Text.WordWrap
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.primaryColor
-            text: settings.viewMode == 3 ? qsTr("Do you really want to mark all your articles as read?") : 
-                  settings.viewMode == 4 ? qsTr("Do you want to mark all saved articles as read?") : 
-                  qsTr("Do you want to mark articles as read?")
+            text: settings.viewMode == 3 ? qsTr("Mark all your articles as read?") :
+                  settings.viewMode == 4 ? qsTr("Mark all saved articles as read?") :
+                  qsTr("Mark articles as read?")
         }
     }
 

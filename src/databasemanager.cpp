@@ -34,6 +34,7 @@ void DatabaseManager::init()
 
     // Request to reInint DB
     if (s->getReinitDB()) {
+        s->setReinitDB(false);
         newInit();
         return;
     }

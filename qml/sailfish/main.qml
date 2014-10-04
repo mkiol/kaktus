@@ -56,8 +56,7 @@ ApplicationWindow {
         target: settings
 
         onError: {
-            console.log("Settings error!");
-            console.log("code=" + code);
+            console.log("Settings error! code=" + code);
             Qt.quit();
         }
 
@@ -88,7 +87,7 @@ ApplicationWindow {
             console.log("DB error! code="+code);
 
             if (code==511) {
-                notification.show(qsTr("Cache data seams to be broken, so will be rebuilt on next startup."));
+                notification.show(qsTr("Something went wrong :-(\nRestart the app to rebuild cache data."));
                 return;
             }
 
@@ -155,7 +154,7 @@ ApplicationWindow {
                 pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": code});
             } else {
                 // Unknown error
-                notification.show(qsTr("An unknown error occurred! :-("));
+                notification.show(qsTr("Something went wrong :-(\nAn unknown error occurred."));
             }
         }
 

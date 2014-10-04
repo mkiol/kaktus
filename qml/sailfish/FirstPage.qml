@@ -40,28 +40,6 @@ Page {
         timer.start();
     }
 
-    /*Connections {
-        target: settings
-        onSignedInChanged: {
-            if (settings.signedIn) {
-                timer.stop();
-                menu.busy = false;
-                help.open = false;
-            }
-        }
-    }
-
-    Connections {
-        target: fetcher
-        onBusyChanged: {
-            if (settings.signedIn || fetcher.busy || dm.busy) {
-                timer.stop();
-                menu.busy = false;
-                help.open = false;
-            }
-        }
-    }*/
-
     Timer {
         id: timer
         interval: 3000
@@ -91,7 +69,7 @@ Page {
         visible: opacity > 0.0
         Behavior on opacity { FadeAnimation {duration: 400} }
 
-        text: qsTr("To sign in and do first feeds synchronisation with Netvibes, pull down and select Sync.")
+        text: qsTr("To sign in and do feeds synchronisation with Netvibes, pull down and select Sync.")
     }
 
     SilicaListView {

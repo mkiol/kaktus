@@ -110,6 +110,7 @@ Page {
             cached: model.cached
             fresh: model.fresh
             showMarkedAsRead: settings.viewMode!=4 && model.read<2
+            objectName: "EntryDelegate"
 
             Component.onCompleted: {
                 //console.log(image);
@@ -127,8 +128,10 @@ Page {
 
                     if (model.read==0) {
                         entryModel.setData(model.index, "read", 1);
+                        //read = 1;
                     } else {
                         entryModel.setData(model.index, "read", 0);
+                        //read = 0;
                     }
 
                 } else {
@@ -189,6 +192,20 @@ Page {
                                        "cached" : model.cached
                                    });
 
+                }
+            }
+
+            onExpandedChanged: {
+                // Collapsing all other items on expand
+                if (expanded) {
+                    for (var i = 0; i < listView.contentItem.children.length; i++) {
+                        var curItem = listView.contentItem.children[i];
+                        if (curItem !== delegate) {
+                            if (curItem.objectName==="EntryDelegate")
+                                curItem.expanded = false;
+                        }
+                    }
+                    listView.positionViewAtIndex(model.index, ListView.Visible);
                 }
             }
 

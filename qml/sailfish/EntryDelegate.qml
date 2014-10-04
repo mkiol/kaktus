@@ -40,6 +40,8 @@ ListItem {
 
     property bool showMarkedAsRead: true
 
+    property bool hidden: read>0 && readlater==0
+
     signal markedAsRead
     signal markedAsUnread
     signal markedReadlater
@@ -48,7 +50,9 @@ ListItem {
     function getUrlbyUrl(url){return cache.getUrlbyUrl(url)}
 
     menu: contextMenu
-    contentHeight: item.height + 2 * Theme.paddingMedium
+    contentHeight: box.height + expander.height
+
+
 
     Rectangle {
         id: background
@@ -58,13 +62,6 @@ ListItem {
             GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.2) }
         }
     }
-
-    /*Image {
-        id: background
-        anchors.fill: parent
-        source: "image://theme/graphic-avatar-text-back?"+Theme.highlightBackgroundColor
-
-    }*/
 
     Rectangle {
         anchors.top: parent.top; anchors.left: parent.left
@@ -77,33 +74,6 @@ ListItem {
             GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
         }
     }
-
-    /*Rectangle {
-        id: background
-        anchors.fill: parent
-        color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
-    }*/
-
-    /*Rectangle {
-        anchors.top: parent.top; anchors.bottom: parent.bottom; anchors.left: parent.left
-        //color: Theme.highlightColor
-        width: Theme.paddingSmall
-        visible: root.fresh
-        
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
-            GradientStop { position: 0.4; color: Theme.rgba(Theme.highlightColor, 0.0) }
-        }
-    }*/
-
-    /*OpacityRampEffect {
-        id: effect
-        slope: 1
-        offset: 0.1
-        //direction: fresh ? OpacityRamp.LeftToRight : OpacityRamp.BottomToTop
-        direction: OpacityRamp.BottomToTop
-        sourceItem: background
-    }*/
 
     BackgroundItem {
         id: star
@@ -136,64 +106,125 @@ ListItem {
         }
     }
 
-    BackgroundItem {
-        id: expander
-        anchors.right: background.right; anchors.bottom: background.bottom
-        height: visible ? lblMoreDetails.height : 0
-        anchors.left: item.left
-        enabled: lblMoreDetails.visible
-        onClicked: {
-            if (lblMoreDetails.visible)
-                root.expanded = !root.expanded;
+    Item {
+        id: box
+
+        property int sizeHidden: Theme.paddingMedium + titleItem.height
+        property int sizeNormal: sizeHidden + (contentLabel.visible ? Math.min(Theme.itemSizeLarge,contentLabel.height) : 0) +
+                                 (entryImage.enabled ? entryImage.height + contentItem.spacing : 0) +
+                                 (contentLabel.visible ? contentItem.spacing : 0)
+        property int sizeExpanded: sizeHidden + (contentLabel.visible ? contentLabel.height : 0) +
+                                   (entryImage.enabled ? entryImage.height + contentItem.spacing : 0) +
+                                   (contentLabel.visible ? contentItem.spacing : 0)
+        property bool expandable: root.hidden ? sizeHidden<sizeExpanded : sizeNormal<sizeExpanded
+
+        height: root.expanded ? sizeExpanded : root.hidden ? sizeHidden : sizeNormal
+
+        clip: true
+        anchors.left: parent.left; anchors.right: parent.right;
+
+        Behavior on height {
+            NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
         }
 
-        Label {
-            id: lblMoreDetails
-            visible: root.content.length>root.maxChars
-            anchors.right: parent.right
-            anchors.rightMargin: Theme.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-            font.pixelSize: Theme.fontSizeLarge
-            text: "•••"
-            color: {
-                if (root.read>0 && root.readlater==0) {
-                    if (root.down)
-                        return Theme.secondaryHighlightColor;
-                    return Theme.secondaryColor;
+        Column {
+            id: contentItem
+            spacing: Theme.paddingMedium
+            anchors.top: parent.top; anchors.topMargin: Theme.paddingMedium
+            anchors.left: parent.left; anchors.right: parent.right
+
+            Item {
+                id: titleItem
+                anchors.left: parent.left; anchors.right: parent.right;
+                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: star.width+Theme.paddingMedium
+                height: Math.max(titleLabel.height, icon.height)
+
+                // Title
+
+                Label {
+                    id: titleLabel
+                    anchors.right: parent.right; anchors.left: icon.right;
+                    anchors.leftMargin: icon.visible ? Theme.paddingMedium : 0
+                    font.pixelSize: Theme.fontSizeMedium
+                    font.family: Theme.fontFamilyHeading
+                    font.bold: !root.read || root.readlater
+                    truncationMode: TruncationMode.Fade
+                    wrapMode: Text.Wrap
+                    text: title
+
+                    color: {
+                        if (root.read>0 && root.readlater==0) {
+                            if (root.down)
+                                return Theme.secondaryHighlightColor;
+                            return Theme.secondaryColor;
+                        }
+                        if (root.down)
+                            return Theme.highlightColor;
+                        return Theme.primaryColor;
+                    }
                 }
-                if (root.down)
-                    return Theme.highlightColor;
-                return Theme.primaryColor;
+
+                // Feed Icon
+
+                Image {
+                    id: icon
+                    width: visible ? Theme.iconSizeSmall : 0
+                    height: width
+                    anchors.left: parent.left;
+                    anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
+                    visible: status!=Image.Error && status!=Image.Null
+                }
+
+                Connections {
+                    target: settings
+                    onShowTabIconsChanged: {
+                        if (root.feedIcon!="")
+                            icon.source = cache.getUrlbyUrl(root.feedIcon);
+                        else
+                            icon.source = "";
+                    }
+                }
+
+                Component.onCompleted: {
+                    if (root.feedIcon!="") {
+                        icon.source = cache.getUrlbyUrl(root.feedIcon);
+                    } else {
+                        icon.source = "";
+                    }
+                }
             }
-        }
-    }
 
-    Column {
-        id: item
-        spacing: Theme.paddingMedium
-        anchors.verticalCenter: parent.verticalCenter
-        width: parent.width-star.width+Theme.paddingLarge
+            Image {
+                id: entryImage
+                anchors.left: parent.left;
+                anchors.leftMargin: Theme.paddingLarge;
+                fillMode: Image.PreserveAspectFit
+                width: sourceSize.width>root.width-2*Theme.paddingLarge ? root.width-2*Theme.paddingLarge : sourceSize.width
+                enabled: source!="" && status==Image.Ready && settings.showTabIcons
+                visible: opacity>0
+                opacity: enabled ? 1.0 : 0.0
+                Behavior on opacity { FadeAnimation {} }
 
-        // Title
+                source: {
+                    if (settings.showTabIcons && image!="")
+                        return settings.offlineMode ? getUrlbyUrl(image) : dm.online ? image : getUrlbyUrl(image);
+                    else
+                        return "";
+                }
 
-        Item {
-            anchors.left: parent.left; anchors.right: parent.right;
-            anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            //anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
-            height: Math.max(titleLabel.height, icon.height)
+            }
 
             Label {
-                id: titleLabel
-                anchors.right: parent.right; anchors.left: icon.right;
-                //anchors.rightMargin: Theme.paddingLarge;
-                anchors.leftMargin: icon.visible ? Theme.paddingMedium : 0
-                font.pixelSize: Theme.fontSizeMedium
-                font.family: Theme.fontFamilyHeading
-                font.bold: !root.read || root.readlater
-                truncationMode: TruncationMode.Fade
-                wrapMode: Text.Wrap
-                text: title
+                id: contentLabel
+                anchors.left: parent.left; anchors.right: parent.right;
+                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
 
+                text: root.content
+
+                wrapMode: Text.Wrap
+                textFormat: Text.PlainText
+                font.pixelSize: Theme.fontSizeSmall
+                visible: root.content!=""
                 color: {
                     if (root.read>0 && root.readlater==0) {
                         if (root.down)
@@ -205,128 +236,50 @@ ListItem {
                     return Theme.primaryColor;
                 }
             }
+        }
+    }
 
-            // Feed Icon
+    Item {
+        x: box.x
+        y: box.y
+        OpacityRampEffect {
+            sourceItem: box
+            enabled: !root.expanded && box.expandable
+            direction: OpacityRamp.TopToBottom
+            slope: 3.0
+            offset: 5 / 7
+            width: box.width
+            height: box.height
+            anchors.fill: null
+        }
+    }
 
-            Image {
-                id: icon
-                width: visible ? Theme.iconSizeSmall : 0
-                height: width
-                anchors.left: parent.left;
-                anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
-                visible: status!=Image.Error && status!=Image.Null
-            }
+    BackgroundItem {
+        id: expander
 
-            Connections {
-                target: settings
-                onShowTabIconsChanged: {
-                    if (root.feedIcon!="")
-                        icon.source = cache.getUrlbyUrl(root.feedIcon);
-                    else
-                        icon.source = "";
-                }
-            }
-
-            Component.onCompleted: {
-                if (root.feedIcon!="") {
-                    icon.source = cache.getUrlbyUrl(root.feedIcon);
-                } else {
-                    icon.source = "";
-                }
-            }
+        anchors {
+            right: parent.right
+            left: parent.left
+            bottom: parent.bottom
         }
 
-        // Image
+        height: Math.max(expanderIcon.height,expanderLabel.height)+Theme.paddingMedium
 
         Image {
-            id: entryImage
-            anchors.left: parent.left;
-            anchors.leftMargin: Theme.paddingLarge;
-            //anchors.leftMargin: Theme.paddingMedium;
-            fillMode: Image.PreserveAspectFit
-            width: sourceSize.width>root.width-2*Theme.paddingLarge ? root.width-2*Theme.paddingLarge : sourceSize.width
-            //width: sourceSize.width>root.width-2*Theme.paddingMedium ? root.width-2*Theme.paddingMedium : sourceSize.width
-            enabled: source!="" && status==Image.Ready && settings.showTabIcons &&
-                     ((root.read==0 && root.readlater==0)||root.readlater>0)
-            visible: opacity>0
-            opacity: enabled ? 1.0 : 0.0
-            Behavior on opacity { FadeAnimation {} }
-            //Behavior on opacity {NumberAnimation { duration: 500 }}
-
-            source: {
-                if (settings.showTabIcons && image!="")
-                    return settings.offlineMode ? getUrlbyUrl(image) : dm.online ? image : getUrlbyUrl(image);
-                else
-                    return "";
-            }
-
-        }
-
-        // Content
-
-        Label {
-            id: shortContent
-            anchors.left: parent.left; anchors.right: parent.right;
-            anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            //anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
-            text: {
-                if (root.content.length > root.maxChars)
-                    return root.content.substr(0,root.maxChars);
-                return root.content;
-            }
-
-            wrapMode: Text.Wrap
-            textFormat: Text.PlainText
-            font.pixelSize: Theme.fontSizeSmall
-            visible: root.content!="" && (root.read==0 || root.readlater>0)
-            color: {
-                if (root.read>0 && root.readlater==0) {
-                    if (root.down)
-                        return Theme.secondaryHighlightColor;
-                    return Theme.secondaryColor;
-                }
-                if (root.down)
-                    return Theme.highlightColor;
-                return Theme.primaryColor;
-            }
+            id: expanderIcon
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: Theme.paddingMedium
+            source: "image://theme/icon-lock-more"
+            visible: box.expandable
         }
 
         Label {
-            id: fullContent
-            anchors.left: parent.left; anchors.right: parent.right;
-            anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-            //anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
-            visible: opacity > 0.0
-            opacity: root.expanded ? 1.0 : 0.0
-            Behavior on opacity { FadeAnimation {} }
-            text : {
-                if (root.read>0 && root.readlater==0)
-                    return root.content;
-                if (root.content.length > root.maxChars) {
-                    return root.content.substr(root.maxChars);
-                }
-                return "";
-            }
-
-            wrapMode: Text.Wrap
-            textFormat: Text.PlainText
-            font.pixelSize: Theme.fontSizeSmall
-            color: {
-                if (root.read>0 && root.readlater==0) {
-                    if (root.down)
-                        return Theme.secondaryHighlightColor;
-                    return Theme.secondaryColor;
-                }
-                if (root.down)
-                    return Theme.highlightColor;
-                return Theme.primaryColor;
-            }
-        }
-
-        Label {
-            anchors.left: parent.left; anchors.right: parent.right;
-            anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingMedium
-            //anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
+            id: expanderLabel
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left; anchors.right: expanderIcon.left;
+            anchors.leftMargin: Theme.paddingLarge
+            anchors.rightMargin: Theme.paddingMedium
             font.pixelSize: Theme.fontSizeExtraSmall
             color: root.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
             truncationMode: TruncationMode.Fade
@@ -336,6 +289,11 @@ ListItem {
 
         }
 
+        onClicked: {
+            if (box.expandable) {
+                root.expanded = !root.expanded
+            }
+        }
     }
 
     Component {
@@ -355,6 +313,7 @@ ListItem {
                     }
                 }
             }
+
             MenuItem {
                 text: readlater ? qsTr("Unsave") : qsTr("Save")
                 onClicked: {
@@ -363,6 +322,14 @@ ListItem {
                     } else {
                         root.markedReadlater();
                     }
+                }
+            }
+
+            MenuItem {
+                visible: box.expandable
+                text: root.expanded ? qsTr("Collapse") : qsTr("Expand")
+                onClicked: {
+                    root.expanded = !root.expanded;
                 }
             }
         }
