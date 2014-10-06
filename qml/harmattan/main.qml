@@ -36,8 +36,8 @@ PageStackWindow {
 
     function resetView() {
         if (!settings.signedIn) {
-            //pageStack.clear();
-            pageStack.push(null,Qt.resolvedUrl("FirstPage.qml"));
+            pageStack.clear();
+            pageStack.push(Qt.resolvedUrl("FirstPage.qml"));
             return;
         }
 
@@ -45,18 +45,18 @@ PageStackWindow {
         switch (settings.viewMode) {
         case 0:
         case 1:
-            //pageStack.clear();
-            pageStack.push(null,Qt.resolvedUrl("TabPage.qml"));
+            pageStack.clear();
+            pageStack.push(Qt.resolvedUrl("TabPage.qml"));
             break;
         case 2:
-            //pageStack.clear();
-            pageStack.push(null,Qt.resolvedUrl("FeedPage.qml"),{"title": qsTr("Feeds")});
+            pageStack.clear();
+            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": qsTr("Feeds")});
             break;
         case 3:
         case 4:
         case 5:
-            //pageStack.clear();
-            pageStack.push(null,Qt.resolvedUrl("EntryPage.qml"));
+            pageStack.clear();
+            pageStack.push(Qt.resolvedUrl("EntryPage.qml"));
             break;
         }
     }
@@ -92,7 +92,13 @@ PageStackWindow {
         target: db
 
         onError: {
-            console.log("DB error!");
+            console.log("DB error! code="+code);
+
+            if (code===511) {
+                notification.show(qsTr("Something went wrong :-(\nRestart the app to rebuild cache data."));
+                return;
+            }
+
             Qt.quit();
         }
 
@@ -105,7 +111,7 @@ PageStackWindow {
         }
 
         onNotEmpty: {
-            resetView()
+            resetView();
         }
     }
 
@@ -223,7 +229,9 @@ PageStackWindow {
         onCloseClicked: dm.removerCancel();
 
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: isPortrait ? Theme.navigationBarPortrait : Theme.navigationBarLanscape
+        anchors.bottomMargin: isPortrait ?
+                                  bar.open ? 2*Theme.navigationBarPortrait : Theme.navigationBarPortrait :
+                                  bar.open ? 2*Theme.navigationBarLanscape : Theme.navigationBarLanscape
         anchors.right: parent.right
         anchors.left: parent.left
     }
@@ -234,7 +242,9 @@ PageStackWindow {
         onCloseClicked: dm.cancel();
 
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: isPortrait ? Theme.navigationBarPortrait : Theme.navigationBarLanscape
+        anchors.bottomMargin: isPortrait ?
+                                  bar.open ? 2*Theme.navigationBarPortrait : Theme.navigationBarPortrait :
+                                  bar.open ? 2*Theme.navigationBarLanscape : Theme.navigationBarLanscape
         anchors.right: parent.right
         anchors.left: parent.left
     }
@@ -249,9 +259,39 @@ PageStackWindow {
         anchors.left: parent.left
     }
 
+    ControlBar {
+        id: bar
+        open: false
+
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: isPortrait ? Theme.navigationBarPortrait : Theme.navigationBarLanscape
+        anchors.right: parent.right
+        anchors.left: parent.left
+    }
+
+    /*Selector {
+        id: selector
+        open: false
+
+        x: (app.width/4)-selector.width/4+4;
+        y: app.height+2-(app.isPortrait ? Theme.navigationBarPortrait : Theme.navigationBarLanscape);
+    }*/
+
     Menu {
         id: menu
         visualParent: pageStack
+
+        onStatusChanged: {
+            if (progressPanelDm.open) {
+                if (status===DialogStatus.Opening) {
+                    progressPanelDm.visible = false;
+                }
+                if (status===DialogStatus.Closed) {
+                    progressPanelDm.visible = true;
+                }
+            }
+        }
+
         MenuLayout {
             MenuItem {
                 text: qsTr("About")

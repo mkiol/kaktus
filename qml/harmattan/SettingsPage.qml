@@ -25,6 +25,8 @@ import "Theme.js" as Theme
 Page {
     id: root
 
+    property bool showBar: false
+
     tools: SimpleToolbar {}
 
     orientationLock: {
@@ -37,23 +39,18 @@ Page {
         return PageOrientation.Automatic;
     }
 
-    /*PageHeader {
-        id: header
-        title: qsTr("Settings")
-    }*/
+    ActiveDetector {}
 
     ListView {
         id: listView
 
-        /*anchors {
-            top: header.bottom; topMargin: Theme.paddingMedium
-            left: parent.left; right: parent.right;
-            bottom: parent.bottom; bottomMargin: Theme.paddingMedium
-        }*/
-
         anchors.fill: parent
 
         spacing: Theme.paddingLarge
+
+        header: PageHeader {
+            title: qsTr("Settings")
+        }
 
         model: VisualItemModel {
 
@@ -71,13 +68,7 @@ Page {
                 text: settings.signedIn ? qsTr("Sign out") : qsTr("Sign in")
                 onClicked: {
                     if (settings.signedIn) {
-                        notification.show(qsTr("Signed out!"));
                         settings.signedIn = false;
-                        settings.setNetvibesPassword("");
-                        pageStack.clear();
-                        fetcher.cancel();
-                        dm.cancel();
-                        db.init();
                     } else {
                         pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": 0});
                     }
@@ -103,20 +94,39 @@ Page {
                 value: utils.getHumanFriendlySizeString(dm.cacheSize);
             }
 
-            TextSwitch {
-                text: qsTr("Offline mode")
-                description: qsTr("Content of items will be displayed from local cache, without a network usage.")
-                onCheckedChanged: {
-                    settings.offlineMode = checked;
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Delete cache")
+                enabled: dm.cacheSize>0
+                onClicked: {
+                    fetcher.cancel(); dm.cancel();
+                    dm.removeCache();
                 }
-                Component.onCompleted: {
-                    checked = settings.offlineMode;
+            }
+
+            ComboBox {
+                label: qsTr("Network mode")
+                currentIndex: settings.offlineMode ? 1 : 0
+
+                menu: ListModel {
+                    Component.onCompleted: {
+                        append({text: qsTr("Online")});
+                        append({text: qsTr("Offline")});
+                    }
+                }
+
+                onCurrentIndexChanged: {
+                    if (currentIndex==0)
+                        settings.offlineMode = false;
+                    else
+                        settings.offlineMode = true;
                 }
             }
 
             TextSwitch {
-                text: qsTr("Cache items")
-                description: qsTr("After sync the content of all items will be downloaded and cached for access in Offline mode.")
+                text: qsTr("Cache articles")
+                description: qsTr("After sync the content of all items will be downloaded "+
+                                  "and cached for access in the Offline mode.")
                 Component.onCompleted: {
                     checked = settings.getAutoDownloadOnUpdate();
                 }
@@ -129,8 +139,51 @@ Page {
                 text: qsTr("UI")
             }
 
+            ComboBox {
+                label: qsTr("View mode")
+                currentIndex: {
+                    switch (settings.viewMode) {
+                    case 0:
+                        return 0;
+                    case 1:
+                        return 1;
+                    case 3:
+                        return 2;
+                    case 4:
+                        return 3;
+                    case 5:
+                        return 4;
+                    }
+                }
+
+                menu: ListModel {
+                    Component.onCompleted: {
+                        append({text: qsTr("Tabs & Feeds")});
+                        append({text: qsTr("Only Tabs")});
+                        append({text: qsTr("All feeds")});
+                        append({text: qsTr("Saved")});
+                        append({text: qsTr("Slow")});
+                    }
+                }
+
+                onCurrentIndexChanged: {
+                    switch (currentIndex) {
+                    case 0:
+                        settings.viewMode = 0; break;
+                    case 1:
+                        settings.viewMode = 1; break;
+                    case 2:
+                        settings.viewMode = 3; break;
+                    case 3:
+                        settings.viewMode = 4; break;
+                    case 4:
+                        settings.viewMode = 5; break;
+                    }
+                }
+            }
+
             TextSwitch {
-                text: qsTr("Show only unread items")
+                text: qsTr("Show only unread articles")
                 onCheckedChanged: {
                     settings.showOnlyUnread = checked;
                 }
@@ -140,22 +193,12 @@ Page {
             }
 
             TextSwitch {
-                text: qsTr("Show icons & images")
+                text: qsTr("Show images")
                 onCheckedChanged: {
                     settings.showTabIcons = checked;
                 }
                 Component.onCompleted: {
                     checked = settings.showTabIcons;
-                }
-            }
-
-            TextSwitch {
-                text: qsTr("Show Tab with saved items")
-                onCheckedChanged: {
-                    settings.showStarredTab = checked;
-                }
-                Component.onCompleted: {
-                    checked = settings.showStarredTab;
                 }
             }
 
@@ -185,9 +228,11 @@ Page {
                 currentIndex: settings.allowedOrientations
 
                 menu: ListModel {
-                    ListElement { text: "Dynamic" }
-                    ListElement { text: "Portrait" }
-                    ListElement { text: "Landscape" }
+                    Component.onCompleted: {
+                        append({text: qsTr("Dynamic")});
+                        append({text: qsTr("Portrait")});
+                        append({text: qsTr("Landscape")});
+                    }
                 }
 
                 onCurrentIndexChanged: {
@@ -206,8 +251,10 @@ Page {
                 }
 
                 menu: ListModel {
-                    ListElement { text: "Black" }
-                    ListElement { text: "White" }
+                    Component.onCompleted: {
+                        append({text: qsTr("Black")});
+                        append({text: qsTr("White")});
+                    }
                 }
 
                 onCurrentIndexChanged: {
@@ -221,6 +268,20 @@ Page {
                     }
                 }
             }
+
+            SectionHeader {
+                text: qsTr("Other")
+            }
+
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Show User Guide")
+                onClicked: {
+                    //guide.show();
+                    notification.show(qsTr("Not yet implemented :-("));
+                }
+            }
+
 
             Item {
                 height: Theme.paddingMedium

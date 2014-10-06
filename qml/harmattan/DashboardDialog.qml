@@ -25,9 +25,13 @@ import "Theme.js" as Theme
 Page {
     id: root
 
+    property bool showBar: false
+
     property string title
 
     tools: MainToolbar {}
+
+    ActiveDetector {}
 
     orientationLock: {
         switch (settings.allowedOrientations) {

@@ -37,106 +37,67 @@ Page {
         return PageOrientation.Automatic;
     }
 
-    /*PageHeader {
-        id: header
-        title: qsTr("Tabs")
-    }*/
+    ActiveDetector {
+        onActivated: {
+            tabModel.updateFlags();
+        }
+    }
 
     ListView {
         id: listView
-
         model: tabModel
 
-        //anchors { top: header.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
         anchors.fill: parent
 
         clip: true
 
         PullBar {}
 
+        header: PageHeader {
+            title: qsTr("Tabs")
+        }
+
         delegate: ListDelegate {
             id: listItem
 
-            property bool readlaterItem: model.uid==="readlater"
-
             iconSize: Theme.iconSizeSmall
-            iconVisible: settings.showTabIcons && !readlaterItem
+            iconVisible: settings.showTabIcons
             titleText: model.title
-            iconSource: readlaterItem ? "image://theme/icon-m-toolbar-favorite-mark-white" : ""
             unread: model.unread
             showUnread: true
-            titleColor: model.unread>0 || readlaterItem ? Theme.primaryColor : Theme.secondaryColor
+            titleColor: model.unread>0 ? Theme.primaryColor : Theme.secondaryColor
 
-            visible: {
-                if (readlaterItem) {
-                    if (listView.count==1)
-                        return false;
-                    if (settings.showStarredTab)
-                        return true
-                    return false;
-                }
-                return true;
-            }
+            FreshDash {}
 
             onClicked: {
-                if (readlaterItem) {
-                    utils.setEntryModel(uid);
-                    pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.title, "index": model.index});
-                } else {
-                    utils.setFeedModel(uid);
-                    pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.title});
+                if (settings.viewMode == 0) {
+                    utils.setFeedModel(model.uid);
+                    pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.title, "index": model.index});
+                }
+                if (settings.viewMode == 1) {
+                    utils.setEntryModel(model.uid);
+                    pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.title, "readlater": false});
                 }
             }
 
-            onHolded: !readlaterItem ? contextMenu.openMenu(model.index, model.read, model.unread) : {}
+            onHolded: contextMenu.openMenu(model.index, model.read, model.unread)
 
             Connections {
                 target: settings
                 onShowTabIconsChanged: {
-                    if (!readlaterItem) {
-                        if (settings.showTabIcons && iconUrl!=="")
-                            iconSource = cache.getUrlbyUrl(iconUrl);
-                        else
-                            iconSource = "";
-                    }
-                }
-            }
-
-            Component.onCompleted: {
-                if (!readlaterItem) {
-                    if (settings.showTabIcons && iconUrl!=="")
+                    if (iconUrl!=="")
                         iconSource = cache.getUrlbyUrl(iconUrl);
                     else
                         iconSource = "";
                 }
             }
 
-            /*Dialog {
-                id: contextMenu
-                buttons: Column {
-                    spacing: UiConstants.DefaultMargin
-
-                    Button {
-                        text: qsTr("Mark all as read")
-                        enabled: model.unread!=0
-                        visible: enabled
-                        onClicked: {
-                            tabModel.markAllAsRead(model.index);
-                            contextMenu.accept();
-                        }
-                    }
-
-                    Button {
-                        text: qsTr("Mark all as unread")
-                        enabled: model.read!=0
-                        visible: enabled
-                        onClicked: {
-                            tabModel.markAllAsUnread(model.index);
-                            contextMenu.accept();
-                        }
-                    }
-                }
-            }*/
+            Component.onCompleted: {
+                if (iconUrl!=="")
+                    iconSource = cache.getUrlbyUrl(iconUrl);
+                else
+                    iconSource = "";
+            }
         }
     }
 
@@ -153,11 +114,21 @@ Page {
             open();
         }
 
+        onStatusChanged: {
+            if (progressPanelDm.open) {
+                if (status===DialogStatus.Opening) {
+                    progressPanelDm.visible = false;
+                }
+                if (status===DialogStatus.Closed) {
+                    progressPanelDm.visible = true;
+                }
+            }
+        }
+
         MenuLayout {
             MenuItem {
                 text: qsTr("Mark all as read")
                 enabled: contextMenu.unread!=0
-                //visible: enabled
                 onClicked: {
                     tabModel.markAsRead(contextMenu.index);
                 }
@@ -165,7 +136,6 @@ Page {
             MenuItem {
                 text: qsTr("Mark all as unread")
                 enabled: contextMenu.read!=0
-                //visible: enabled
                 onClicked: {
                     tabModel.markAsUnread(contextMenu.index);
                 }
@@ -174,16 +144,10 @@ Page {
     }
 
     ViewPlaceholder {
-        enabled: listView.count == 1
+        enabled: listView.count < 1
         text: qsTr("No tabs")
-        secondaryText: fetcher.busy ? qsTr("Wait until Sync finish") : qsTr("Press button to do first Sync")
-    }
-
-    Image {
-        visible: listView.count == 1 && !fetcher.busy && !dm.busy
-        source: "arrow.png"
-        anchors.bottom: parent.bottom; anchors.bottomMargin: Theme.paddingLarge
-        x: (parent.width/3)-UiConstants.DefaultMargin;
+        secondaryText: fetcher.busy ? qsTr("Wait until Sync finish.") :
+                                      settings.signedIn ? "" : qsTr("You are not signed in.")
     }
 
     ScrollDecorator { flickableItem: listView }

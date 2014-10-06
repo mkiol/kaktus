@@ -39,28 +39,31 @@ Page {
         return PageOrientation.Automatic;
     }
 
-    /*PageHeader {
-        id: header
-        title: root.title
-    }*/
+    ActiveDetector {
+        onActivated: {
+            feedModel.updateFlags();
+        }
+    }
 
     ListView {
         id: listView
 
         model: feedModel
 
-        //anchors { top: header.bottom; left: parent.left; right: parent.right; bottom: parent.bottom }
         anchors.fill: parent
 
         clip: true
 
         PullBar {}
 
+        header: PageHeader {
+            title: settings.viewMode==2 ? qsTr("Feeds") : root.title
+        }
+
         delegate: ListDelegate {
             id: listItem
 
             anchors { left: parent.left; right: parent.right }
-
             iconSize: Theme.iconSizeSmall
             iconVisible: settings.showTabIcons
             titleText: model.title
@@ -68,9 +71,11 @@ Page {
             showUnread: true
             titleColor: model.unread>0 ? Theme.primaryColor : Theme.secondaryColor
 
+            FreshDash {}
+
             onClicked: {
-                utils.setEntryModel(uid);
-                pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index});
+                utils.setEntryModel(model.uid);
+                pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.title, "index": model.index});
             }
 
             onHolded: contextMenu.openMenu(model.index, model.read, model.unread)
@@ -78,7 +83,7 @@ Page {
             Connections {
                 target: settings
                 onShowTabIconsChanged: {
-                    if (settings.showTabIcons && model.icon!=="")
+                    if (model.icon!=="")
                         iconSource = cache.getUrlbyUrl(model.icon);
                     else
                         iconSource = "";
@@ -86,7 +91,7 @@ Page {
             }
 
             Component.onCompleted: {
-                if (settings.showTabIcons && model.icon!=="") {
+                if (model.icon!=="") {
                     iconSource = cache.getUrlbyUrl(model.icon);
                 } else {
                     iconSource = "";
@@ -114,14 +119,24 @@ Page {
             open();
         }
 
+        onStatusChanged: {
+            if (progressPanelDm.open) {
+                if (status===DialogStatus.Opening) {
+                    progressPanelDm.visible = false;
+                }
+                if (status===DialogStatus.Closed) {
+                    progressPanelDm.visible = true;
+                }
+            }
+        }
+
         MenuLayout {
             MenuItem {
                 text: qsTr("Mark all as read")
                 enabled: contextMenu.unread!=0
                 //visible: enabled
                 onClicked: {
-                    feedModel.markAllAsRead(contextMenu.index);
-                    tabModel.updateFlags();
+                    feedModel.markAsRead(contextMenu.index);
                 }
             }
             MenuItem {
@@ -129,8 +144,7 @@ Page {
                 enabled: contextMenu.read!=0
                 //visible: enabled
                 onClicked: {
-                    feedModel.markAllAsUnread(contextMenu.index);
-                    tabModel.updateFlags();
+                    feedModel.markAsUnread(contextMenu.index);
                 }
             }
         }

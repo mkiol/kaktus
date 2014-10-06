@@ -26,6 +26,7 @@ ToolBarLayout {
     ToolIcon {
         iconId: pageStack.depth > 1 ? "toolbar-back" : "toolbar-close"
         onClicked: {
+            bar.hide();
             if(pageStack.depth>1) {
                 pageStack.pop();
             } else {
@@ -37,7 +38,25 @@ ToolBarLayout {
     ToolIcon {
         iconId: "toolbar-refresh"
         enabled: !fetcher.busy && !dm.busy
-        onClicked: fetcher.update()
+        onClicked: {
+            bar.hide();selector.open=false;
+            fetcher.update();
+        }
+    }
+
+    ToolIcon {
+        iconSource: settings.viewMode==0 ? "vm0.png" :
+                    settings.viewMode==1 ? "vm1.png" :
+                    settings.viewMode==3 ? "vm3.png" :
+                    settings.viewMode==4 ? "vm4.png" :
+                    settings.viewMode==5 ? "vm5.png" :
+                    "vm0.png"
+        onClicked: {
+            if (bar.open)
+                bar.hide();
+            else
+                bar.show();
+        }
     }
 
     ToolIcon {
@@ -45,6 +64,7 @@ ToolBarLayout {
                         (theme.inverted ? "offline-inverted.png" : "offline.png") :
                         (theme.inverted ? "online-inverted.png" : "online.png")
         onClicked: {
+            bar.hide();
             if (settings.offlineMode) {
                 if (dm.online)
                     settings.offlineMode = false;
@@ -58,7 +78,13 @@ ToolBarLayout {
 
     ToolIcon {
         iconId: "toolbar-view-menu"
-        onClicked: (menu.status == DialogStatus.Closed) ? menu.open() : menu.close()
+        onClicked: {
+            bar.hide();
+            if (menu.status === DialogStatus.Closed)
+                menu.open();
+            else
+                menu.close();
+        }
     }
 
 }

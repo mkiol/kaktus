@@ -39,8 +39,8 @@ Item {
     opacity: open ? 1.0 : 0.0
     visible: opacity > 0.0
 
-    //width: parent.width
-
+    //Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
+    Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
     Behavior on opacity { NumberAnimation { duration: 300 } }
 
     Rectangle {

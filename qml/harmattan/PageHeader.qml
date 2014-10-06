@@ -22,29 +22,16 @@ import com.nokia.meego 1.0
 
 import "Theme.js" as Theme
 
-Rectangle {
+Item {
     id: root
 
     property alias title: label.text
     property bool isPortrait: screen.currentOrientation==Screen.Portrait || screen.currentOrientation==Screen.PortraitInverted
 
-    z: 100
-    anchors { top: parent.top; left: parent.left; right: parent.right }
+    //z: 100
+    //anchors { top: parent.top; left: parent.left; right: parent.right }
+    anchors { left: parent.left; right: parent.right }
     height: isPortrait ? UiConstants.HeaderDefaultHeightPortrait: UiConstants.HeaderDefaultHeightLandscape
-
-    /*gradient: Gradient {
-        GradientStop {
-            position: 0.00
-            color: Theme.highlightBackgroundColor
-        }
-        GradientStop {
-            position: 1.0
-            color: Qt.darker(Theme.highlightBackgroundColor)
-        }
-    }*/
-
-    //color: Qt.darker(Theme.highlightBackgroundColor)
-    color: Theme.highlightBackgroundColor
 
     Label {
         id: label
@@ -58,14 +45,6 @@ Rectangle {
         color: Theme.primaryColor
         font: UiConstants.HeaderFont
         elide: Text.ElideRight
+        horizontalAlignment: Text.AlignRight
     }
-
-    /*Image {
-        source: "common-no-internet-connection.png"
-
-        anchors {
-            verticalCenter: parent.verticalCenter;
-            right: parent.right; rightMargin: UiConstants.DefaultMargin
-        }
-    }*/
 }

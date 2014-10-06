@@ -1,3 +1,21 @@
+kaktus (1.2.1-0) unstable; urgency=low
+
+  * New Netvibes APi support
+  * Netvibes Multi-Feed widget support
+  * New "View Mode" options e.g. Option to show all feeds in one list
+  * Double-click marks article as read/unread
+  * Indicator for articles that have been added since last sync
+  * Slow feeds view mode
+  * Image in offline web view
+  * UI improvements
+  * Caching and downloading improvements
+  * Possibility to delete cache data
+  * Changelog page
+  * BUG FIX: Handling for 'malformed database file' error
+  * BUG FIX: Very old saved items not syncec correctly
+
+ -- Michal Kosciesza <michal@mkiol.net>  Mon, 06 Oct 2014 21:26:05 +0200
+
 kaktus (1.1.0-1) unstable; urgency=low
 
   * FIX: Sync Failed on every first sync attempt

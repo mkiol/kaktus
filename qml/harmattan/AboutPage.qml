@@ -25,6 +25,8 @@ import "Theme.js" as Theme
 Page {
     id: root
 
+    property bool showBar: false
+
     tools: SimpleToolbar {}
 
     orientationLock: {
@@ -36,6 +38,8 @@ Page {
         }
         return PageOrientation.Automatic;
     }
+
+    ActiveDetector {}
 
     PageHeader {
         id: header
@@ -116,6 +120,21 @@ Page {
                 font.pixelSize: Theme.fontSizeExtraSmall
                 textFormat: Text.RichText
                 text: "Copyright &copy; 2014 Michał Kościesza"
+            }
+
+
+            Item {
+                height: Theme.paddingLarge
+            }
+
+            Button {
+                text: qsTr("Changelog")
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: pageStack.push(Qt.resolvedUrl("ChangelogPage.qml"))
+            }
+
+            Item {
+                height: Theme.paddingLarge
             }
         }
     }

@@ -25,9 +25,13 @@ import "Theme.js" as Theme
 Page {
     id: root
 
+    property bool showBar: false
+
     property int code
 
     tools: SimpleToolbar {}
+
+    ActiveDetector {}
 
     PageHeader {
         id: header
