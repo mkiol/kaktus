@@ -52,7 +52,11 @@ ListItem {
     menu: contextMenu
     contentHeight: box.height + expander.height
 
-
+    onHiddenChanged: {
+        if (hidden && expanded) {
+            expanded = false;
+        }
+    }
 
     Rectangle {
         id: background
@@ -246,7 +250,7 @@ ListItem {
             sourceItem: box
             enabled: !root.expanded && box.expandable
             direction: OpacityRamp.TopToBottom
-            slope: 3.0
+            slope: 2.0
             offset: 5 / 7
             width: box.width
             height: box.height
