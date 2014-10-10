@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.2.1
-Release:    0
+Release:    1
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -76,8 +76,13 @@ desktop-file-install --delete-original       \
 
 %changelog
 
+* Fri Oct 10 2014 Michal Kosciesza 1.2.1-1
+- UI improvements
+- Language settings
+- Farsi language
+
 * Sat Oct 03 2014 Michal Kosciesza 1.2.1-0
-- Minor UI improvements
+- UI improvements
 - Handling for 'malformed database file' error
 
 * Mon Sep 29 2014 Michal Kosciesza 1.2.0-5
