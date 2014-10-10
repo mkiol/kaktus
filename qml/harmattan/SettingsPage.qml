@@ -140,6 +140,50 @@ Page {
             }
 
             ComboBox {
+                label: qsTr("Language")
+                currentIndex: {
+                    if (settings.locale === "")
+                        return 0;
+                    if (settings.locale === "en")
+                        return 1;
+                    if (settings.locale === "fa")
+                        return 2;
+                    if (settings.locale === "pl")
+                        return 3;
+                }
+
+                menu: ListModel {
+                    Component.onCompleted: {
+                        append({text: qsTr("Default")});
+                        append({text: "English"});
+                        append({text: "فارسی"});
+                        append({text: "Polski"});
+                    }
+                }
+
+                onCurrentIndexChanged: {
+                    switch (currentIndex) {
+                    case 0:
+                        settings.locale = "";
+                        break;
+                    case 1:
+                        settings.locale = "en";
+                        break;
+                    case 2:
+                        settings.locale = "fa";
+                        break;
+                    case 3:
+                        settings.locale = "pl";
+                        break;
+                    }
+                }
+
+                onAccepted: {
+                    notification.show(qsTr("Changes will take effect after you restart Kaktus."));
+                }
+            }
+
+            ComboBox {
                 label: qsTr("View mode")
                 currentIndex: {
                     switch (settings.viewMode) {

@@ -51,6 +51,8 @@ class Settings: public QObject
     Q_PROPERTY (int offsetLimit READ getOffsetLimit WRITE setOffsetLimit NOTIFY offsetLimitChanged)
     Q_PROPERTY (int viewMode READ getViewMode WRITE setViewMode NOTIFY viewModeChanged)
     Q_PROPERTY (bool helpDone READ getHelpDone WRITE setHelpDone NOTIFY helpDoneChanged)
+    Q_PROPERTY (bool reinitDB READ getReinitDB WRITE setReinitDB)
+    Q_PROPERTY (QString locale READ getLocale WRITE setLocale NOTIFY localeChanged)
 
 public:
     static Settings* instance();
@@ -88,6 +90,9 @@ public:
     void setDashboardInUse(const QString &value);
     QString getDashboardInUse();
 
+    void setLocale(const QString &value);
+    QString getLocale();
+
     void setLastUpdateDate(int value);
     int getLastUpdateDate();
 
@@ -99,6 +104,9 @@ public:
 
     void setViewMode(int value);
     int getViewMode();
+
+    void setReinitDB(bool value);
+    bool getReinitDB();
     // ---
 
     bool getShowOnlyUnread();
@@ -112,9 +120,6 @@ public:
 
     Q_INVOKABLE void setAutoDownloadOnUpdate(bool value);
     Q_INVOKABLE bool getAutoDownloadOnUpdate();
-
-    Q_INVOKABLE bool getAutoMarkAsRead();
-    Q_INVOKABLE void setAutoMarkAsRead(bool value);
 
     Q_INVOKABLE void setNetvibesUsername(const QString &value);
     Q_INVOKABLE QString getNetvibesUsername();
@@ -156,6 +161,7 @@ signals:
     void offsetLimitChanged();
     void viewModeChanged();
     void helpDoneChanged();
+    void localeChanged();
 
     /*
     501 - Unable create settings dir

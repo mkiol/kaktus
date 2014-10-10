@@ -412,8 +412,6 @@ bool DatabaseManager::createStreamsStructure()
 
 bool DatabaseManager::createModulesStructure()
 {
-    qDebug() << "createModulesTable";
-
     bool ret = true;
     if (db.isOpen()) {
         QSqlQuery query(db);
@@ -2966,8 +2964,10 @@ void DatabaseManager::checkError(const QSqlError &error)
         // The database disk image is malformed
         if (error.number() == 11) {
             Settings *s = Settings::instance();
-            s->setReinitDB(true);
-            emit this->error(511);
+            if (!s->getReinitDB()) {
+                s->setReinitDB(true);
+                emit this->error(511);
+            }
         }
     }
 

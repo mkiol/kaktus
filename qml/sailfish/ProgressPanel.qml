@@ -116,8 +116,8 @@ Item {
         id: titleBar
         height: icon.height
         anchors.verticalCenter: parent.verticalCenter
-        anchors.left: icon.right; anchors.right: closeButton.right
-        anchors.leftMargin: Theme.paddingMedium
+        anchors.left: icon.right; anchors.right: closeButton.left
+        anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
         font.pixelSize: Theme.fontSizeSmall
         font.family: Theme.fontFamily
         text: root.text

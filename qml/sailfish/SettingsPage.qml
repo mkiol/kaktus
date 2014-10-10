@@ -208,6 +208,50 @@ Page {
             }
 
             ComboBox {
+                id: locale
+                width: root.width
+                label: qsTr("Language")
+                currentIndex: {
+                    if (settings.locale === "")
+                        return 0;
+                    if (settings.locale === "en")
+                        return 1;
+                    if (settings.locale === "fa")
+                        return 2;
+                    if (settings.locale === "pl")
+                        return 3;
+                }
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Default"); onClicked: locale.showMessage() }
+                    MenuItem { text: "English"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "فارسی"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "Polski"; onClicked: locale.showMessage()  }
+                }
+
+                onCurrentIndexChanged: {
+                    switch (currentIndex) {
+                    case 0:
+                        settings.locale = "";
+                        break;
+                    case 1:
+                        settings.locale = "en";
+                        break;
+                    case 2:
+                        settings.locale = "fa";
+                        break;
+                    case 3:
+                        settings.locale = "pl";
+                        break;
+                    }
+                }
+
+                function showMessage() {
+                    notification.show(qsTr("Changes will take effect after you restart Kaktus."));
+                }
+            }
+
+            ComboBox {
                 width: root.width
                 label: qsTr("View mode")
                 currentIndex: {
@@ -280,16 +324,6 @@ Page {
                     checked = settings.powerSaveMode;
                 }
             }
-
-            /*TextSwitch {
-                text: qsTr("Auto mark as read")
-                description: qsTr("All opened articles will be marked as read.")
-                checked: settings.getAutoMarkAsRead();
-
-                onCheckedChanged: {
-                    settings.setAutoMarkAsRead(checked);
-                }
-            }*/
 
             ComboBox {
                 width: root.width

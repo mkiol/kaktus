@@ -270,7 +270,6 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
             item.finalUrl = url.resolved(reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl()).toString();
             //qDebug() << "RedirectionTarget: " << url.toString() << "entryId" << item.entryId;
             downloads.removeOne(reply);
-            //replyToCachedItemMap.remove(reply);
             addDownload(item);
             reply->deleteLater();
             return;
@@ -446,7 +445,7 @@ Checker::~Checker()
 
 void Checker::timeout()
 {
-    qDebug() << "timeout";
+    //qDebug() << "timeout";
     reply->close();
 }
 

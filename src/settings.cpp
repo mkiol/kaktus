@@ -106,17 +106,6 @@ bool Settings::getOfflineMode()
     return settings.value("offlinemode", false).toBool();
 }
 
-void Settings::setAutoMarkAsRead(bool value)
-{
-    settings.setValue("automarkasread", value);
-}
-
-bool Settings::getAutoMarkAsRead()
-{
-    return settings.value("automarkasread", true).toBool();
-}
-
-
 void Settings::setShowTabIcons(bool value)
 {
     if (getShowTabIcons() != value) {
@@ -212,6 +201,19 @@ void Settings::setDashboardInUse(const QString &value)
 QString Settings::getDashboardInUse()
 {
     return settings.value("dafaultdashboard", "").toString();
+}
+
+void Settings::setLocale(const QString &value)
+{
+    if (getLocale() != value) {
+        settings.setValue("locale", value);
+        emit localeChanged();
+    }
+}
+
+QString Settings::getLocale()
+{
+    return settings.value("locale", "").toString();
 }
 
 void Settings::setLastUpdateDate(int value)
@@ -393,6 +395,16 @@ void Settings::setViewMode(int value)
 int Settings::getViewMode()
 {
     return settings.value("viewmode", 0).toInt();
+}
+
+void Settings::setReinitDB(bool value)
+{
+    settings.setValue("reinitdb", value);
+}
+
+bool Settings::getReinitDB()
+{
+    return settings.value("reinitdb", false).toBool();
 }
 
 void Settings::reset()

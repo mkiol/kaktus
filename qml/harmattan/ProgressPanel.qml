@@ -100,28 +100,14 @@ Item {
         id: titleBar
         height: icon.height
         anchors.verticalCenter: parent.verticalCenter
-        anchors.left: icon.right; anchors.right: closeButton.right
-        anchors.leftMargin: Theme.paddingMedium
+        anchors.left: icon.right; anchors.right: closeButton.left
+        anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
         font.pixelSize: Theme.fontSizeSmall
         font.family: Theme.fontFamily
         text: root.text
         color: Theme.primaryColor
         verticalAlignment: Text.AlignVCenter
     }
-
-    /*Image {
-        id: closeButton
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
-        source: "icon-m-close.png"
-        source: "image://icon-m-common-dialog-close"
-        visible: root.cancelable
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: root.closeClicked()
-        }
-    }*/
 
     ToolIcon {
         id: closeButton

@@ -30,6 +30,7 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <sailfishapp.h>
+#include "iconprovider.h"
 #endif
 
 #include <QtDebug>
@@ -41,12 +42,11 @@
 #include "netvibesfetcher.h"
 #include "utils.h"
 #include "settings.h"
-#include "iconprovider.h"
 
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github/mkiol/kaktus";
-static const char *VERSION = "1.2.0";
+static const char *VERSION = "1.2.1";
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
@@ -82,7 +82,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     NetvibesFetcher fetcher; settings->fetcher = &fetcher;
     Utils utils;
 
-    QObject::connect(&fetcher, SIGNAL(ready()), &utils, SLOT(updateModels()));
+    //QObject::connect(&fetcher, SIGNAL(ready()), &utils, SLOT(updateModels()));
     QObject::connect(view.engine(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
 
     view.rootContext()->setContextProperty("db", &db);
@@ -114,16 +114,18 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
 
+    Settings* settings = Settings::instance();
+
     QTranslator *appTranslator = new QTranslator;
-    appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
+    if (settings->getLocale() == "")
+        appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
+    else
+        appTranslator->load(":/i18n/kaktus_" + settings->getLocale() + ".qm");
     app->installTranslator(appTranslator);
 
-    Settings* settings = Settings::instance();
     settings->view = view.data();
     DatabaseManager db; settings->db = &db;
-    DownloadManager dm;
-    settings->dm = &dm;
-
+    DownloadManager dm; settings->dm = &dm;
     CacheServer cache(&db); settings->cache = &cache;
     NetvibesFetcher fetcher; settings->fetcher = &fetcher;
     Utils utils;
