@@ -107,6 +107,9 @@ Item {
         text: root.text
         color: Theme.primaryColor
         verticalAlignment: Text.AlignVCenter
+        maximumLineCount: 1
+        //elide: settings.rightToLeftLayout ? Text.ElideLeft : Text.ElideRight
+        elide: Text.ElideRight
     }
 
     ToolIcon {
