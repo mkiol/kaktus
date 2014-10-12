@@ -116,9 +116,8 @@ Page {
                 proggressPanel.open = false;
 
                 // Start timer to mark as read
-                if (!root.read && settings.getAutoMarkAsRead())
+                if (!root.read)
                     timer.start();
-
             }
         }
 
@@ -194,7 +193,7 @@ Page {
         id: timer
         interval: root.markAsReadTime
         onTriggered: {
-            if (!root.read && settings.getAutoMarkAsRead()) {
+            if (!root.read) {
                 read=true;
                 entryModel.setData(root.index, "read", 1);
             }

@@ -101,106 +101,17 @@ Page {
                 proggressPanel.open = false;
 
                 // Start timer to mark as read
-                if (!root.read && settings.getAutoMarkAsRead())
+                if (!root.read)
                     timer.start();
             }
         }
 
-        onLoadFailed: console.log("LoadFailed")
-        onLoadFinished: console.log("LoadFinished")
-        onLoadStarted: console.log("LoadStarted")
+        //onLoadFailed: console.log("LoadFailed")
+        //onLoadFinished: console.log("LoadFinished")
+        //onLoadStarted: console.log("LoadStarted")
 
         anchors.fill: parent
     }
-
-    //property variant globalSettings: settings
-
-    /*Flickable {
-        id: flickable
-
-        contentHeight: view.height
-        contentWidth: view.width
-
-        width: parent.width
-        height: parent.height
-
-        WebView {
-            id: view
-            anchors.fill: parent
-            //preferredHeight: isPortrait ? (appWindow.showStatusBar ? 819 : 854) : (appWindow.showStatusBar ? 445 : 480)
-            //preferredHeight: isPortrait ? 819 : 445
-            //preferredWidth: isPortrait ? 480 : 854
-
-            preferredWidth: flickable.width
-            preferredHeight: flickable.height
-
-            url:  {
-                console.log("settings.offlineMode: "+globalSettings.offlineMode);
-                if (globalSettings.offlineMode) {
-                    console.log("offline");
-                    if (isPortrait)
-                        return offlineUrl+"?width=455px";
-                    return offlineUrl+"?width=854px";
-                }
-                return onlineUrl;
-            }
-
-            //experimental.userAgent: settings.getDmUserAgent()
-
-            /*onLoadingChanged: {
-            if (loadRequest.status == WebView.LoadStartedStatus) {
-
-                proggressPanel.text = qsTr("Loading page content...");
-                proggressPanel.open = true;
-
-            } else if (loadRequest.status == WebView.LoadFailedStatus) {
-
-                if (settings.offlineMode)
-                    notification.show(qsTr("Failed to load item from local cache :-("));
-                else
-                    notification.show(qsTr("Failed to load page content :-("));
-                proggressPanel.open = false;
-
-            } else {
-
-                proggressPanel.open = false;
-
-                // Start timer to mark as read
-                if (!root.read && settings.getAutoMarkAsRead())
-                    timer.start();
-
-            }
-        }*/
-
-            /*onLoadStarted: {
-                //proggressPanel.text = qsTr("Loading page content...");
-                //proggressPanel.open = true;
-            }
-
-            onLoadFailed: {
-                if (globalSettings.offlineMode)
-                    notification.show(qsTr("Failed to load item from local cache :-("));
-                else
-                    notification.show(qsTr("Failed to load page content :-("));
-                //proggressPanel.open = false;
-            }
-
-            onLoadFinished: {
-                //proggressPanel.open = false;
-
-                // Start timer to mark as read
-                if (!root.read && globalSettings.getAutoMarkAsRead())
-                    timer.start();
-            }
-
-            /*onNavigationRequested: {
-            // In Off-Line mode navigation is disabled
-            if (settings.offlineMode) {
-                if (request.url != offlineUrl) {
-                    request.action = WebView.IgnoreRequest;
-                }
-            }
-        }*/
 
     ProgressPanel {
         id: proggressPanel
@@ -215,12 +126,9 @@ Page {
         id: timer
         interval: root.markAsReadTime
         onTriggered: {
-            if (!root.read && settings.getAutoMarkAsRead()) {
+            if (!root.read) {
                 read=true;
                 entryModel.setData(root.index, "read", 1);
-                feedModel.decrementUnread(feedindex);
-                tabModel.updateFlags();
-                //notification.show(qsTr("Marked as read!"));
             }
         }
     }
