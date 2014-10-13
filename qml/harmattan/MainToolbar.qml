@@ -22,10 +22,16 @@ import com.nokia.meego 1.0
 
 ToolBarLayout {
     id: commonTools
+    property Item menu
+
+    function clean() {
+        menu.close();
+    }
 
     ToolIcon {
         iconId: pageStack.depth > 1 ? "toolbar-back" : "toolbar-close"
         onClicked: {
+            clean();
             bar.hide();
             if(pageStack.depth>1) {
                 pageStack.pop();
@@ -39,6 +45,7 @@ ToolBarLayout {
         iconId: "toolbar-refresh"
         enabled: !fetcher.busy && !dm.busy
         onClicked: {
+            clean();
             bar.hide();selector.open=false;
             fetcher.update();
         }
@@ -52,6 +59,7 @@ ToolBarLayout {
                     settings.viewMode==5 ? "vm5.png" :
                     "vm0.png"
         onClicked: {
+            clean();
             if (bar.open)
                 bar.hide();
             else
@@ -64,6 +72,7 @@ ToolBarLayout {
                         (theme.inverted ? "offline-inverted.png" : "offline.png") :
                         (theme.inverted ? "online-inverted.png" : "online.png")
         onClicked: {
+            clean();
             bar.hide();
             if (settings.offlineMode) {
                 if (dm.online)

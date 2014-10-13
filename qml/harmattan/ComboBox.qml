@@ -29,6 +29,8 @@ Item {
     property variant menu
     property int currentIndex
 
+    signal accepted()
+
     onCurrentIndexChanged: {
         comboboxButton.text = comboboxDialog.model.get(currentIndex).text;
     }
@@ -48,6 +50,7 @@ Item {
         id: label
         color: Theme.primaryColor
         wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignLeft
         anchors { left: parent.left; right: comboboxButton.left;
             verticalCenter: parent.verticalCenter; rightMargin: UiConstants.DefaultMargin}
     }
@@ -75,7 +78,7 @@ Item {
             titleText: qsTr("Select")
 
             model: root.menu
-            onAccepted: { currentIndex = comboboxDialog.selectedIndex }
+            onAccepted: { currentIndex = comboboxDialog.selectedIndex; root.accepted(); }
         }
 
     }

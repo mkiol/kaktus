@@ -25,7 +25,13 @@ import "Theme.js" as Theme
 Page {
     id: root
 
-    tools: MainToolbar {}
+    tools: MainToolbar {
+        menu: menuItem
+    }
+
+    MainMenu {
+        id: menuItem
+    }
 
     ActiveDetector {}    
 
@@ -46,10 +52,10 @@ Page {
             if (settings.signedIn || fetcher.busy || dm.busy) {
                 timer.stop();
                 help.open = false;
-                //selector.open = false;
+                selector.open = false;
             } else {
                 help.open = true;
-                //selector.open = true;
+                selector.open = true;
             }
         }
     }
@@ -62,13 +68,19 @@ Page {
     }
 
     onStatusChanged: {
+        //console.log("status: "+status);
         if (status===PageStatus.Active) {
             timer.start();
         }
-        if (status===PageStatus.Deactivating||status===PageStatus.NotActive) {
+        if (status===PageStatus.Deactivating||status===PageStatus.Inactive) {
+            timer.stop();
             help.open=false;
-            //selector.open = false;
+            selector.open = false;
         }
+    }
+
+    Component.onDestruction: {
+        selector.open = false;
     }
 
     Item {

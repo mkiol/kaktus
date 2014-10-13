@@ -28,7 +28,13 @@ Page {
     property string title
     property int index
 
-    tools: MainToolbar {}
+    tools: MainToolbar {
+        menu: menuItem
+    }
+
+    MainMenu {
+        id: menuItem
+    }
 
     orientationLock: {
         switch (settings.allowedOrientations) {
@@ -91,7 +97,6 @@ Page {
             }
 
             Component.onCompleted: {
-                //console.log(image);
                 // Dynamic creation of new items if last item is compleated
                 if (model.index==entryModel.count()-1) {
                     //console.log(index);
@@ -197,13 +202,29 @@ Page {
         property int readlater
 
         function openMenu(i, r, rl) {
-            if (settings.viewMode!=4 && read<2)
-                readMenuItem.enabled = true;
-            else
+
+            if (settings.viewMode!=4) {
+                var unread = entryModel.countUnread();
+                if (unread>0) {
+                    readAllMenuItem.enabled = true;
+                } else {
+                    readAllMenuItem.enabled = false;
+                }
+
+                if (read<2) {
+                    readMenuItem.enabled = true;
+                } else {
+                    readMenuItem.enabled = false;
+                }
+            } else {
                 readMenuItem.enabled = false;
+                readAllMenuItem.enabled = false;
+            }
+
             index = i;
             read = r;
             readlater = rl;
+
             open();
         }
 
@@ -240,7 +261,25 @@ Page {
                     }
                 }
             }
+            MenuItem {
+                id: readAllMenuItem
+                text: contextMenu.read ? qsTr("Mark all as unread") : qsTr("Mark all as read")
+                onClicked: {
+                    if (settings.viewMode==1 ||
+                            settings.viewMode==3 ||
+                            settings.viewMode==4 ||
+                            settings.viewMode==5) {
+                        readAllDialog.open();
+                    } else {
+                        entryModel.setAllAsRead();
+                    }
+                }
+            }
         }
+    }
+
+    ReadAllDialog {
+        id: readAllDialog
     }
 
     ScrollDecorator { flickableItem: listView }

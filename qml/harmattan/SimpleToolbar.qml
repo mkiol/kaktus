@@ -33,10 +33,4 @@ ToolBarLayout {
             }
         }
     }
-
-    /*ToolIcon {
-        iconId: "toolbar-view-menu"
-        onClicked: (simpleMenu.status == DialogStatus.Closed) ? simpleMenu.open() : simpleMenu.close()
-    }*/
-
 }

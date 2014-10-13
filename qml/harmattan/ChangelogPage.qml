@@ -27,8 +27,6 @@ Page {
 
     tools: SimpleToolbar {}
 
-    property bool showBar: false
-
     ActiveDetector {}
 
     orientationLock: {

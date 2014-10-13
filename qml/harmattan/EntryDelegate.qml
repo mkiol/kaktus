@@ -52,14 +52,20 @@ Item {
     height: box.height + expander.height
     width: parent.width
 
-    /*Rectangle {
+    onHiddenChanged: {
+        if (hidden && expanded) {
+            expanded = false;
+        }
+    }
+
+    Rectangle {
         id: background
         anchors.fill: parent
         gradient: Gradient {
             GradientStop { position: 0.0; color: Qt.rgba(255,255,255,0.05) }
             GradientStop { position: 0.5; color: Qt.rgba(0,0,0,0) }
         }
-    }*/
+    }
 
     BorderImage {
         anchors.fill: parent
@@ -185,9 +191,9 @@ Item {
             Image {
                 id: entryImage
                 anchors.left: parent.left;
-                anchors.leftMargin: Theme.paddingLarge;
+                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge;
                 fillMode: Image.PreserveAspectFit
-                width: sourceSize.width>parent.width ? parent.width : sourceSize.width
+                width: sourceSize.width>parent.width-2*Theme.paddingLarge ? parent.width-2*Theme.paddingLarge : sourceSize.width
 
                 enabled: source!="" && status==Image.Ready && settings.showTabIcons &&
                          ((root.read==0 && root.readlater==0)||root.readlater>0)
@@ -233,7 +239,7 @@ Item {
         visible: !root.expanded && box.expandable && !root.pressed
 
         gradient: Gradient {
-            GradientStop { position: 0.50; color: Qt.rgba(0,0,0,0) }
+            GradientStop { position: 0.60; color: Qt.rgba(0,0,0,0) }
             GradientStop { position: 0.99; color: Qt.rgba(0,0,0,1)}
         }
     }
@@ -289,6 +295,10 @@ Item {
 
         }
 
+    }
+
+    FreshDash {
+        visible: root.fresh>0
     }
 }
 

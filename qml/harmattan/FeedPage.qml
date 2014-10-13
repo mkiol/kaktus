@@ -26,8 +26,15 @@ Page {
     id: root
 
     property string title
+    property int index
 
-    tools: MainToolbar {}
+    tools: MainToolbar {
+        menu: menuItem
+    }
+
+    MainMenu {
+        id: menuItem
+    }
 
     orientationLock: {
         switch (settings.allowedOrientations) {
@@ -71,7 +78,9 @@ Page {
             showUnread: true
             titleColor: model.unread>0 ? Theme.primaryColor : Theme.secondaryColor
 
-            FreshDash {}
+            FreshDash {
+                visible: model.fresh>0
+            }
 
             onClicked: {
                 utils.setEntryModel(model.uid);

@@ -4,7 +4,13 @@ import com.nokia.meego 1.0
 Page {
     id: root
 
-    tools: MainToolbar {}
+    tools: MainToolbar {
+        menu: menuItem
+    }
+
+    MainMenu {
+        id: menuItem
+    }
 
     Column {
 

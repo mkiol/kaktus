@@ -44,6 +44,7 @@ Column {
             id: label
             color: Theme.primaryColor
             wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignLeft
             anchors { left: parent.left; right: sw.left }
         }
 

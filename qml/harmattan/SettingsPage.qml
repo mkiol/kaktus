@@ -25,8 +25,6 @@ import "Theme.js" as Theme
 Page {
     id: root
 
-    property bool showBar: false
-
     tools: SimpleToolbar {}
 
     orientationLock: {
@@ -256,16 +254,6 @@ Page {
                     checked = settings.powerSaveMode;
                 }
             }
-
-            /*TextSwitch {
-                        text: qsTr("Auto mark as read")
-                        description: qsTr("All opened articles will be marked as read.")
-                        checked: settings.getAutoMarkAsRead();
-
-                        onCheckedChanged: {
-                            settings.setAutoMarkAsRead(checked);
-                        }
-            }*/
 
             ComboBox {
                 label: qsTr("Orientation")

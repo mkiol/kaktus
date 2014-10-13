@@ -26,8 +26,6 @@ import "Theme.js" as Theme
 Page {
     id: root
 
-    property bool showBar: false
-
     property string title
     property string entryId
     property string offlineUrl

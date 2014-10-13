@@ -18,17 +18,19 @@
 */
 
 import QtQuick 1.1
+import com.nokia.meego 1.0
 
-import "Theme.js" as Theme
+QueryDialog {
+    id: root
 
-Rectangle {
-    anchors.top: parent.top; anchors.left: parent.left
-    width: Theme.paddingSmall; height: parent.height
-    //visible: model.fresh>0
-    radius: 10
-    opacity: 0.4
-    gradient: Gradient {
-        GradientStop { position: 0.0; color: Theme.highlightColor }
-        GradientStop { position: 1.0; color: "#00000000" }
+    message: settings.viewMode == 3 ? qsTr("Mark all your articles as read?") :
+             settings.viewMode == 4 ? qsTr("Mark all saved articles as read?") :
+                                      qsTr("Mark articles as read?")
+
+    acceptButtonText: qsTr("Yes")
+    rejectButtonText: qsTr("No")
+
+    onAccepted: {
+        entryModel.setAllAsRead();
     }
 }

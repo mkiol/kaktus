@@ -107,6 +107,7 @@ Item {
         text: root.text
         color: Theme.primaryColor
         verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignLeft
         maximumLineCount: 1
         //elide: settings.rightToLeftLayout ? Text.ElideLeft : Text.ElideRight
         elide: Text.ElideRight

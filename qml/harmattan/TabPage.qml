@@ -25,7 +25,13 @@ import "Theme.js" as Theme
 Page {
     id: root
 
-    tools: MainToolbar {}
+    tools: MainToolbar {
+        menu: menuItem
+    }
+
+    MainMenu {
+        id: menuItem
+    }
 
     orientationLock: {
         switch (settings.allowedOrientations) {
@@ -61,13 +67,14 @@ Page {
             id: listItem
 
             iconSize: Theme.iconSizeSmall
-            iconVisible: settings.showTabIcons
             titleText: model.title
             unread: model.unread
             showUnread: true
             titleColor: model.unread>0 ? Theme.primaryColor : Theme.secondaryColor
 
-            FreshDash {}
+            FreshDash {
+                visible: model.fresh>0
+            }
 
             onClicked: {
                 if (settings.viewMode == 0) {

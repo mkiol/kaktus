@@ -269,15 +269,29 @@ PageStackWindow {
         anchors.left: parent.left
     }
 
-    /*Selector {
+    Selector {
         id: selector
         open: false
 
-        x: (app.width/4)-selector.width/4+4;
-        y: app.height+2-(app.isPortrait ? Theme.navigationBarPortrait : Theme.navigationBarLanscape);
+        x: app.isPortrait ? 109 : 202
+        y: app.isPortrait ? 787 : 421
+
+        /*Label {
+            text: "x="+selector.x+" y="+selector.y
+            color: "red"
+        }*/
+
+    }
+
+    /*MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            selector.x = mouse.x;
+            selector.y = mouse.y;
+        }
     }*/
 
-    Menu {
+    /*Menu {
         id: menu
         visualParent: pageStack
 
@@ -306,9 +320,9 @@ PageStackWindow {
                 onClicked: Qt.quit()
             }
         }
-    }
+    }*/
 
-    Menu {
+    /*Menu {
         id: simpleMenu
         visualParent: pageStack
         MenuLayout {
@@ -317,5 +331,5 @@ PageStackWindow {
                 onClicked: Qt.quit()
             }
         }
-    }
+    }*/
 }

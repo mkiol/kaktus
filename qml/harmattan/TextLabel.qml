@@ -37,6 +37,7 @@ Item {
 
     Label {
         id: label
+        horizontalAlignment: Text.AlignLeft
         anchors {left: parent.left; right: value.left; rightMargin: UiConstants.DefaultMargin}
     }
 
