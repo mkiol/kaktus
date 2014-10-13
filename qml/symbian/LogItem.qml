@@ -20,27 +20,38 @@
 import QtQuick 1.1
 import com.nokia.symbian 1.1
 
-Item {
+Row {
     id: root
 
-    property alias title: label.text
+    property alias title: label1.text
+    property alias description: label2.text
 
-    //z: 100
-    //anchors { top: parent.top; left: parent.left; right: parent.right }
-    anchors { left: parent.left; right: parent.right }
-    height: inPortrait ? privateStyle.toolBarHeightPortrait : privateStyle.toolBarHeightLandscape
+    anchors.left: parent.left; anchors.right: parent.right
+    anchors.leftMargin: platformStyle.paddingLarge; anchors.rightMargin: platformStyle.paddingLarge
+    spacing: 1.0*platformStyle.paddingLarge
 
-    Label {
-        id: label
+    Column {
+        spacing: platformStyle.paddingSmall
+        anchors.top: parent.top
+        width: parent.width-1*platformStyle.paddingLarge
 
-        anchors {
-            verticalCenter: parent.verticalCenter;
-            left: parent.left; //leftMargin: platformStyle.paddingMedium
-            right: parent.right; //rightMargin: platformStyle.paddingMedium
+        Label {
+            id: label1
+            width: parent.width
+            wrapMode: Text.WordWrap
+            font.bold: true
+
         }
 
-        elide: Text.ElideRight
-        horizontalAlignment: Text.AlignRight
-        font.pixelSize: 1.2*platformStyle.fontSizeLarge
+        Label {
+            id: label2
+            width: parent.width
+            wrapMode: Text.WordWrap
+        }
+
+        Item {
+            height: platformStyle.paddingSmall
+            width: parent.width
+        }
     }
 }

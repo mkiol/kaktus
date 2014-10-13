@@ -23,7 +23,13 @@ import com.nokia.symbian 1.1
 Page {
     id: root
 
-    tools: MainToolbar {}
+    tools: MainToolbar {
+        menu: menuItem
+    }
+
+    MainMenu {
+        id: menuItem
+    }
 
     orientationLock: {
         switch (settings.allowedOrientations) {
@@ -35,9 +41,14 @@ Page {
         return PageOrientation.Automatic;
     }
 
+    ActiveDetector {
+        onActivated: {
+            tabModel.updateFlags();
+        }
+    }
+
     ListView {
         id: listView
-
         model: tabModel
 
         anchors.fill: parent
@@ -47,60 +58,50 @@ Page {
 
         PullBar {}
 
+        header: PageHeader {
+            title: qsTr("Tabs")
+        }
+
         delegate: ListDelegate {
             id: listItem
 
-            property bool readlaterItem: model.uid==="readlater"
-
             titleText: model.title
-            iconSource: readlaterItem ? "favourite-selected.png" : ""
             unread: model.unread
             showUnread: true
-            titleColor: model.unread>0 || readlaterItem ? platformStyle.colorNormalLight : platformStyle.colorNormalMid
-            margins: readlaterItem ? platformStyle.paddingLarge : 0
+            titleColor: model.unread>0 ? platformStyle.colorNormalLight : platformStyle.colorNormalMid
 
-            visible: {
-                if (readlaterItem) {
-                    if (listView.count==1)
-                        return false;
-                    if (settings.showStarredTab)
-                        return true
-                    return false;
-                }
-                return true;
+            FreshDash {
+                visible: model.fresh>0
             }
 
             onClicked: {
-                if (readlaterItem) {
-                    utils.setEntryModel(uid);
-                    pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.title, "index": model.index});
-                } else {
-                    utils.setFeedModel(uid);
-                    pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.title});
+                if (settings.viewMode == 0) {
+                    utils.setFeedModel(model.uid);
+                    pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.title, "index": model.index});
+                }
+                if (settings.viewMode == 1) {
+                    utils.setEntryModel(model.uid);
+                    pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.title});
                 }
             }
 
-            onHolded: !readlaterItem ? contextMenu.openMenu(model.index, model.read, model.unread) : {}
+            onHolded: contextMenu.openMenu(model.index, model.read, model.unread)
 
             Connections {
                 target: settings
                 onShowTabIconsChanged: {
-                    if (!readlaterItem) {
-                        if (settings.showTabIcons && iconUrl!=="")
-                            iconSource = cache.getUrlbyUrl(iconUrl);
-                        else
-                            iconSource = "";
-                    }
-                }
-            }
-
-            Component.onCompleted: {
-                if (!readlaterItem) {
-                    if (settings.showTabIcons && iconUrl!=="")
+                    if (iconUrl!=="")
                         iconSource = cache.getUrlbyUrl(iconUrl);
                     else
                         iconSource = "";
                 }
+            }
+
+            Component.onCompleted: {
+                if (iconUrl!=="")
+                    iconSource = cache.getUrlbyUrl(iconUrl);
+                else
+                    iconSource = "";
             }
         }
     }
@@ -118,11 +119,21 @@ Page {
             open();
         }
 
+        onStatusChanged: {
+            if (progressPanelDm.open) {
+                if (status===DialogStatus.Opening) {
+                    progressPanelDm.visible = false;
+                }
+                if (status===DialogStatus.Closed) {
+                    progressPanelDm.visible = true;
+                }
+            }
+        }
+
         MenuLayout {
             MenuItem {
                 text: qsTr("Mark all as read")
                 enabled: contextMenu.unread!=0
-                //visible: enabled
                 onClicked: {
                     tabModel.markAsRead(contextMenu.index);
                 }
@@ -130,7 +141,6 @@ Page {
             MenuItem {
                 text: qsTr("Mark all as unread")
                 enabled: contextMenu.read!=0
-                //visible: enabled
                 onClicked: {
                     tabModel.markAsUnread(contextMenu.index);
                 }
@@ -139,16 +149,10 @@ Page {
     }
 
     ViewPlaceholder {
-        enabled: listView.count == 1
+        enabled: listView.count < 1
         text: qsTr("No tabs")
-        secondaryText: fetcher.busy ? qsTr("Wait until Sync finish") : qsTr("Press button to do first Sync")
-    }
-
-    Image {
-        visible: listView.count == 1 && !fetcher.busy && !dm.busy
-        source: "arrow.png"
-        anchors.bottom: parent.bottom; anchors.bottomMargin: platformStyle.paddingLarge
-        x: (parent.width/3)-platformStyle.paddingMedium;
+        secondaryText: fetcher.busy ? qsTr("Wait until Sync finish.") :
+                                      settings.signedIn ? "" : qsTr("You are not signed in.")
     }
 
     ScrollDecorator { flickableItem: listView }

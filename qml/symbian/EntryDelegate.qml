@@ -25,10 +25,6 @@ import "Theme.js" as Theme
 ListItem {
     id: root
 
-    signal clicked
-    signal holded
-    property bool pressed: mode=="pressed"
-    property bool down: mode=="pressed"
     property string title
     property string author
     property int date
@@ -36,24 +32,43 @@ ListItem {
     property int readlater: 0
     property string content
     property string image
+    property string feedIcon
     property int maxWords: 20
     property int maxChars: 200
     property bool cached: false
+    property bool fresh
     property bool expanded: false
     property int index
-    property int feedindex
+    property bool showMarkedAsRead: true
+    property bool hidden: read>0 && readlater==0
+
+    property bool pressed: mode=="pressed"
+    property bool down: mode=="pressed"
+    signal clicked
+    signal holded
+
+    function getUrlbyUrl(url){return cache.getUrlbyUrl(url)}
+
+    onHiddenChanged: {
+        if (hidden && expanded) {
+            expanded = false;
+        }
+    }
 
     onPressAndHold: {
         holded();
     }
 
-    height: item.height + 2 * platformStyle.paddingMedium
+    height: box.height + expander.height
     width: parent.width
 
     ToolButton {
         id: star
-        anchors.horizontalCenter: mainText.horizontalCenter
-        anchors.right: parent.right
+        anchors.right: parent.right;
+        anchors.top: parent.top; anchors.topMargin: platformStyle.paddingMedium
+        height: Theme.iconSizeSmall
+        width: height
+
         iconSource: readlater>0 ? "favourite-selected.png" : "favourite.png"
 
         onClicked: {
@@ -65,188 +80,200 @@ ListItem {
         }
     }
 
-    Column {
-        id: item
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left; anchors.leftMargin: platformStyle.paddingMedium
-        anchors.right: parent.right; anchors.rightMargin: platformStyle.paddingMedium
-        spacing: platformStyle.paddingMedium
+    Item {
+        id: box
 
-        // Title
+        property int sizeHidden: platformStyle.paddingMedium + titleItem.height
+        property int sizeNormal: sizeHidden + (contentLabel.visible ? Math.min(Theme.itemSizeLarge,contentLabel.height) : 0) +
+                                 (entryImage.enabled ? entryImage.height + contentItem.spacing : 0) +
+                                 (contentLabel.visible ? contentItem.spacing : 0)
+        property int sizeExpanded: sizeHidden + (contentLabel.visible ? contentLabel.height : 0) +
+                                   (entryImage.enabled ? entryImage.height + contentItem.spacing : 0) +
+                                   (contentLabel.visible ? contentItem.spacing : 0)
+        property bool expandable: root.hidden ? sizeHidden<sizeExpanded : sizeNormal<sizeExpanded
 
-        Label {
-            id: mainText
-            anchors { left: parent.left; right: parent.right }
-            anchors.rightMargin: star.width
-            text: root.title
+        height: root.expanded ? sizeExpanded : root.hidden ? sizeHidden : sizeNormal
 
-            color: {
-                if (root.read>0 && root.readlater==0) {
-                    if (root.down)
-                        return platformStyle.colorHighlighted;
-                    return platformStyle.colorNormalMid;
-                }
+        clip: true
+        anchors.left: parent.left; anchors.right: parent.right;
+        y: platformStyle.paddingMedium
+        anchors.leftMargin: root.fresh ? 2*platformStyle.paddingSmall : 0
 
-                if (root.down)
-                    return platformStyle.colorHighlighted;
-                return Theme.highlightColor;
-            }
-
-            font.pixelSize: platformStyle.fontSizeMedium
-            font.bold: true
-            maximumLineCount: 4
-            wrapMode: Text.Wrap
-            elide: Text.ElideRight
+        Behavior on height {
+            NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
         }
 
-        // Image
-
-        Image {
-            id: entryImage
-            anchors.left: parent.left;
-            visible: source!="" && status!=Image.Error && status!=Image.Null && settings.showTabIcons && ((root.read==0 && root.readlater==0)||root.readlater>0)
-            fillMode: Image.PreserveAspectFit
-            width: sourceSize.width>parent.width ? parent.width : sourceSize.width
-        }
-
-        Connections {
-            target: settings
-            onShowTabIconsChanged: {
-                if (settings.showTabIcons && image!="")
-                    entryImage.source = settings.offlineMode ? cache.getUrlbyUrl(image) : dm.online ? image : cache.getUrlbyUrl(image);
-                else
-                    entryImage.source = "";
-            }
-        }
-
-        Component.onCompleted: {
-            if (settings.showTabIcons && image!="")
-                entryImage.source = settings.offlineMode ? cache.getUrlbyUrl(image) : dm.online ? image : cache.getUrlbyUrl(image);
-            else
-                entryImage.source = "";
-        }
-
-        // Content
-
-        Label {
-            id: shortContent
-            anchors { left: parent.left; right: parent.right }
-            text: {
-                if (root.content.length > root.maxChars)
-                    return root.content.substr(0,root.maxChars);
-                return root.content;
-            }
-            visible: root.content!="" && (root.read==0 || root.readlater>0)
-
-            color: {
-                if (root.read>0 && root.readlater==0) {
-                    if (root.down)
-                        return platformStyle.colorHighlighted;
-                    return platformStyle.colorNormalMid;
-                }
-                if (root.down)
-                    return platformStyle.colorHighlighted;
-                return platformStyle.colorNormalLight;
-            }
-
-            wrapMode: Text.WordWrap
-        }
-
-
-        Label {
-            id: fullContent
-            anchors { left: parent.left; right: parent.right }
-
-            text : {
-                if (root.read>0 && root.readlater==0)
-                    return root.content;
-                if (root.content.length > root.maxChars) {
-                    return root.content.substr(root.maxChars);
-                }
-                return "";
-            }
-
-            visible: opacity > 0.0
-            opacity: root.expanded ? 1.0 : 0.0
-            Behavior on opacity { NumberAnimation { duration: 300 } }
-
-            color: {
-                if (root.read>0 && root.readlater==0) {
-                    if (root.down)
-                        return platformStyle.colorHighlighted;
-                    return platformStyle.colorNormalMid;
-                }
-                if (root.down)
-                    return platformStyle.colorHighlighted
-                return platformStyle.colorNormalLight;
-            }
-
-            wrapMode: Text.WordWrap
-        }
-
-        Item {
-            anchors.left: parent.left; anchors.right: parent.right;
-            height: dateLabel.height + platformStyle.paddingMedium
-
-            /*Rectangle {
-                anchors.fill: parent
-                color: mouseExpander.pressed ? Qt.rgba(255,255,255,0.1) : Qt.rgba(255,255,255,0.0)
-            }*/
-
-            MouseArea {
-                id: mouseExpander
-                anchors.fill: parent
-                onClicked: {
-                    if (lblMoreDetails.visible)
-                        root.expanded = !root.expanded;
-                }
-            }
-
-            Label {
-                id: dateLabel
-                anchors.left: parent.left; anchors.right: expander.left;
-                anchors.rightMargin: platformStyle.paddingLarge
-                anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: platformStyle.fontSizeSmall
-                color: root.down ? platformStyle.colorHighlighted : platformStyle.colorNormalMid
-                elide: Text.ElideRight
-                text: root.author!=""
-                      ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
-                      : utils.getHumanFriendlyTimeString(date)
-            }
+        Column {
+            id: contentItem
+            spacing: platformStyle.paddingMedium
+            anchors.left: parent.left; anchors.topMargin: platformStyle.paddingMedium
+            anchors.right: parent.right
 
             Item {
-                id: expander
-                anchors.right: parent.right;
-                anchors.verticalCenter: parent.verticalCenter
-                height: visible ? lblMoreDetails.height : 0
-                width: lblMoreDetails.width
-                anchors.left: root.left
-                enabled: lblMoreDetails.visible
+                id: titleItem
+                anchors.left: parent.left; anchors.right: parent.right;
+                anchors.rightMargin: star.width+platformStyle.paddingSmall
+                height: Math.max(titleLabel.height, icon.height)
+
+                // Title
 
                 Label {
-                    id: lblMoreDetails
-                    anchors.right: parent.right
-                    anchors.rightMargin: platformStyle.paddingMedium
-                    anchors.verticalCenter: parent.verticalCenter
-                    font.pixelSize: platformStyle.fontSizeSmall
-                    text: "•••"
-                    visible: root.content.length>root.maxChars
+                    id: titleLabel
+                    anchors.right: parent.right; anchors.left: icon.right;
+                    anchors.leftMargin: icon.visible ? platformStyle.paddingMedium : 0
+                    font.pixelSize: platformStyle.fontSizeMedium
+                    font.bold: true
+                    maximumLineCount: 4
+                    elide: Text.ElideRight
+                    wrapMode: Text.Wrap
+                    text: root.title
+
                     color: {
-                        if (root.read>0 && root.readlater==0) {
+                        if (hidden) {
                             if (root.down)
-                                return platformStyle.colorHighlighted
-                            return platformStyle.colorNormalMid
+                                return platformStyle.colorHighlighted;
+                            return platformStyle.colorNormalMid;
                         }
+
                         if (root.down)
-                            return platformStyle.colorHighlighted
-                        return platformStyle.colorNormalLight
+                            return platformStyle.colorHighlighted;
+                        return Theme.highlightColor;
+                    }
+                }
+
+                // Feed Icon
+
+                Image {
+                    id: icon
+                    width: visible ? Theme.iconSizeSmall : 0
+                    height: width
+                    anchors.left: parent.left;
+                    anchors.top: titleLabel.top; anchors.topMargin: platformStyle.paddingSmall
+                    visible: status!=Image.Error && status!=Image.Null
+                }
+
+                Connections {
+                    target: settings
+                    onShowTabIconsChanged: {
+                        if (root.feedIcon!="")
+                            icon.source = cache.getUrlbyUrl(root.feedIcon);
+                        else
+                            icon.source = "";
+                    }
+                }
+
+                Component.onCompleted: {
+                    if (root.feedIcon!="") {
+                        icon.source = cache.getUrlbyUrl(root.feedIcon);
+                    } else {
+                        icon.source = "";
                     }
                 }
             }
 
+
+            Image {
+                id: entryImage
+                anchors.left: parent.left;
+                //anchors.leftMargin: platformStyle.paddingLarge; anchors.rightMargin: platformStyle.paddingLarge;
+                fillMode: Image.PreserveAspectFit
+                //width: sourceSize.width>parent.width-2*platformStyle.paddingLarge ? parent.width-2*platformStyle.paddingLarge : sourceSize.width
+                width: sourceSize.width>parent.width ? parent.width : sourceSize.width
+                enabled: source!="" && status==Image.Ready && settings.showTabIcons &&
+                         ((root.read==0 && root.readlater==0)||root.readlater>0)
+                visible: opacity>0
+                opacity: enabled ? 1.0 : 0.0
+
+                source: {
+                    if (settings.showTabIcons && image!="")
+                        return settings.offlineMode ? getUrlbyUrl(image) : dm.online ? image : getUrlbyUrl(image);
+                    else
+                        return "";
+                }
+            }
+
+            Label {
+                id: contentLabel
+                anchors { left: parent.left; right: parent.right }
+
+                text: root.content
+                wrapMode: Text.WordWrap
+                textFormat: Text.PlainText
+                visible: root.content!=""
+
+                color: {
+                    if (hidden) {
+                        if (root.down)
+                            return platformStyle.colorHighlighted;
+                        return platformStyle.colorNormalMid;
+                    }
+                    if (root.down)
+                        return platformStyle.colorHighlighted;
+                    return platformStyle.colorNormalLight;
+                }
+            }
         }
     }
 
+    Rectangle {
+        anchors.bottom: box.bottom
+        width: box.width
+        height: Theme.itemSizeSmall
+        visible: !root.expanded && box.expandable && !root.pressed
+
+        gradient: Gradient {
+            GradientStop { position: 0.60; color: Qt.rgba(0,0,0,0) }
+            GradientStop { position: 0.99; color: Qt.rgba(0,0,0,1)}
+        }
+    }
+
+    Item {
+        id: expander
+
+        anchors {
+            right: parent.right
+            left: parent.left
+            bottom: parent.bottom
+        }
+
+        height: Math.max(expanderIcon.height,expanderLabel.height)
+
+        MouseArea {
+            id: expanderMouse
+            anchors.fill: parent
+            onClicked: {
+                if (box.expandable) {
+                    root.expanded = !root.expanded
+                }
+            }
+        }
+
+        Image {
+            id: expanderIcon
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            //anchors.rightMargin: platformStyle.paddingMedium
+            source: "icon-lock-more.png"
+            visible: box.expandable
+        }
+
+        Label {
+            id: expanderLabel
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left; anchors.right: expanderIcon.left;
+            font.pixelSize: platformStyle.fontSizeSmall
+            color: root.down ? platformStyle.colorNormalLight : platformStyle.colorNormalMid
+            elide: Text.ElideRight
+            text: root.author!=""
+                  ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
+                  : utils.getHumanFriendlyTimeString(date)
+
+        }
+
+    }
+
+    FreshDash {
+        visible: root.fresh>0
+    }
 
 }

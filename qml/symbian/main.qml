@@ -31,6 +31,33 @@ PageStackWindow {
         db.init();
     }
 
+    function resetView() {
+        if (!settings.signedIn) {
+            pageStack.clear();
+            pageStack.push(Qt.resolvedUrl("FirstPage.qml"));
+            return;
+        }
+
+        utils.setRootModel();
+        switch (settings.viewMode) {
+        case 0:
+        case 1:
+            pageStack.clear();
+            pageStack.push(Qt.resolvedUrl("TabPage.qml"));
+            break;
+        case 2:
+            pageStack.clear();
+            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": qsTr("Feeds")});
+            break;
+        case 3:
+        case 4:
+        case 5:
+            pageStack.clear();
+            pageStack.push(Qt.resolvedUrl("EntryPage.qml"));
+            break;
+        }
+    }
+
     Connections {
         target: settings
 
@@ -41,11 +68,20 @@ PageStackWindow {
         }
 
         onDashboardInUseChanged: {
-            //console.log("onDashboardInUseChanged");
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.clear();
-            pageStack.replace(Qt.resolvedUrl("TabPage.qml"));
-            notification.show(qsTr("Dashboard changed!"));
+            resetView();
+        }
+
+        onViewModeChanged: {
+            resetView();
+        }
+
+        onSignedInChanged: {
+            if (!settings.signedIn) {
+                notification.show(qsTr("Signed out!"));
+                fetcher.cancel(); dm.cancel();
+                settings.reset();
+                db.init();
+            }
         }
     }
 
@@ -53,22 +89,26 @@ PageStackWindow {
         target: db
 
         onError: {
-            console.log("DB error!");
+            console.log("DB error! code="+code);
+
+            if (code===511) {
+                notification.show(qsTr("Something went wrong :-(\nRestart the app to rebuild cache data."));
+                return;
+            }
+
             Qt.quit();
         }
 
         onEmpty: {
-            console.log("DB empty");
             dm.removeCache();
-            utils.updateModels();
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.replace(Qt.resolvedUrl("TabPage.qml"));
+            if (settings.viewMode!=0)
+                settings.viewMode=0;
+            else
+                resetView();
         }
 
         onNotEmpty: {
-            console.log("DB not empty");
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.replace(Qt.resolvedUrl("TabPage.qml"));
+            resetView();
         }
     }
 
@@ -84,7 +124,11 @@ PageStackWindow {
         }
 
         onNetworkNotAccessible: {
-            notification.show(qsTr("Download failed\nNetwork connection is unavailable"));
+            notification.show(qsTr("Download failed!\nNetwork connection is unavailable."));
+        }
+
+        onRemoverProgressChanged: {
+            progressPanelRemover.progress = current / total;
         }
     }
 
@@ -92,16 +136,14 @@ PageStackWindow {
         target: fetcher
 
         onReady: {
-            //notification.show(qsTr("Sync done!"));
-            utils.setTabModel(settings.dashboardInUse);
-            pageStack.replace(Qt.resolvedUrl("TabPage.qml"));
+            resetView();
 
             if (settings.getAutoDownloadOnUpdate())
                 dm.startFeedDownload();
         }
 
         onNetworkNotAccessible: {
-            notification.show(qsTr("Sync failed\nNetwork connection is unavailable"));
+            notification.show(qsTr("Sync failed!\nNetwork connection is unavailable."));
         }
 
         onError: {
@@ -112,7 +154,7 @@ PageStackWindow {
                 return;
             if (code >= 400 && code < 500) {
                 if (code == 402)
-                    notification.show(qsTr("User & Password do not match!"));
+                    notification.show(qsTr("The user name or password is incorrect!"));
                 // Sign in
                 pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": code});
             } else {
@@ -122,26 +164,23 @@ PageStackWindow {
         }
 
         onErrorCheckingCredentials: {
-            notification.show(qsTr("User & Password do not match!"));
+            notification.show(qsTr("The user name or password is incorrect!"));
         }
 
         onCredentialsValid: {
-            notification.show(qsTr("Successfully Signed In!"));
+            notification.show(qsTr("You are signed in!"));
         }
 
         onProgress: {
-            //console.log("Receiving data... " + current / total);
             progressPanel.text = qsTr("Receiving data... ");
             progressPanel.progress = current / total;
         }
 
         onUploading: {
-            //console.log("Sending data to Netvibes...");
-            progressPanel.text = qsTr("Sending data to Netvibes...");
+            progressPanel.text = qsTr("Sending data...");
         }
 
         onBusyChanged: {
-
             switch(fetcher.busyType) {
             case 1:
                 progressPanel.text = qsTr("Initiating...");
@@ -180,6 +219,17 @@ PageStackWindow {
     }
 
     ProgressPanel {
+        id: progressPanelRemover
+        open: dm.removerBusy
+        onCloseClicked: dm.removerCancel();
+
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: inPortrait ? privateStyle.toolBarHeightPortrait : privateStyle.toolBarHeightLandscape
+        anchors.right: parent.right
+        anchors.left: parent.left
+    }
+
+    ProgressPanel {
         id: progressPanelDm
         open: dm.busy && !fetcher.busy
         onCloseClicked: dm.cancel();
@@ -200,7 +250,39 @@ PageStackWindow {
         anchors.left: parent.left
     }
 
-    Menu {
+    ControlBar {
+        id: bar
+        open: false
+
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: inPortrait ? privateStyle.toolBarHeightPortrait : privateStyle.toolBarHeightLandscape
+        anchors.right: parent.right
+        anchors.left: parent.left
+    }
+
+    Selector {
+        id: selector
+        open: false
+
+        x: inPortrait ? 74 : 154
+        y: inPortrait ? 579 : 304
+
+        /*Label {
+            text: "x="+selector.x+" y="+selector.y
+            color: "red"
+        }*/
+
+    }
+
+    /*MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            selector.x = mouse.x;
+            selector.y = mouse.y;
+        }
+    }*/
+
+    /*Menu {
         id: menu
         visualParent: pageStack
         MenuLayout {
@@ -228,5 +310,5 @@ PageStackWindow {
                 onClicked: Qt.quit()
             }
         }
-    }
+    }*/
 }

@@ -20,27 +20,32 @@
 import QtQuick 1.1
 import com.nokia.symbian 1.1
 
-Item {
-    id: root
+Menu {
+    id: menu
 
-    property alias title: label.text
-
-    //z: 100
-    //anchors { top: parent.top; left: parent.left; right: parent.right }
-    anchors { left: parent.left; right: parent.right }
-    height: inPortrait ? privateStyle.toolBarHeightPortrait : privateStyle.toolBarHeightLandscape
-
-    Label {
-        id: label
-
-        anchors {
-            verticalCenter: parent.verticalCenter;
-            left: parent.left; //leftMargin: platformStyle.paddingMedium
-            right: parent.right; //rightMargin: platformStyle.paddingMedium
+    /*onStatusChanged: {
+        if (progressPanelDm.open) {
+            if (status===DialogStatus.Opening) {
+                progressPanelDm.visible = false;
+            }
+            if (status===DialogStatus.Closed) {
+                progressPanelDm.visible = true;
+            }
         }
+    }*/
 
-        elide: Text.ElideRight
-        horizontalAlignment: Text.AlignRight
-        font.pixelSize: 1.2*platformStyle.fontSizeLarge
+    MenuLayout {
+        MenuItem {
+            text: qsTr("About")
+            onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"));
+        }
+        MenuItem {
+            text: qsTr("Settings")
+            onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"));
+        }
+        MenuItem {
+            text: qsTr("Exit")
+            onClicked: Qt.quit()
+        }
     }
 }

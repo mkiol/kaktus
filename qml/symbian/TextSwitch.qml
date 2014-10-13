@@ -41,6 +41,7 @@ Column {
         Label {
             id: label
             wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignLeft
             anchors { left: parent.left; right: sw.left; verticalCenter: parent.verticalCenter}
         }
 

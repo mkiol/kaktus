@@ -21,26 +21,32 @@ import QtQuick 1.1
 import com.nokia.symbian 1.1
 
 Item {
-    id: root
+    property int oldStatus: PageStatus.Active
+    signal activated()
+    signal init()
 
-    property alias title: label.text
+    Connections {
+        target: parent
 
-    //z: 100
-    //anchors { top: parent.top; left: parent.left; right: parent.right }
-    anchors { left: parent.left; right: parent.right }
-    height: inPortrait ? privateStyle.toolBarHeightPortrait : privateStyle.toolBarHeightLandscape
+        onStatusChanged: {
+            if (oldStatus === PageStatus.Inactive
+                    && parent.status  === PageStatus.Active) {
+                //if (!parent.showBar)
+                bar.hide();
+                //selector.open=false;
+                activated();
 
-    Label {
-        id: label
-
-        anchors {
-            verticalCenter: parent.verticalCenter;
-            left: parent.left; //leftMargin: platformStyle.paddingMedium
-            right: parent.right; //rightMargin: platformStyle.paddingMedium
+            }
+            if (parent.status === PageStatus.Inactive)
+                oldStatus = parent.status ;
         }
+    }
 
-        elide: Text.ElideRight
-        horizontalAlignment: Text.AlignRight
-        font.pixelSize: 1.2*platformStyle.fontSizeLarge
+    Component.onCompleted: {
+        //if (!parent.showBar)
+        bar.hide();
+        //selector.open=false;
+        init();
     }
 }
+

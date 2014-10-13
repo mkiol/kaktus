@@ -18,29 +18,19 @@
 */
 
 import QtQuick 1.1
-import com.nokia.symbian 1.1
+import com.nokia.meego 1.0
 
-Item {
+QueryDialog {
     id: root
 
-    property alias title: label.text
+    message: settings.viewMode == 3 ? qsTr("Mark all your articles as read?") :
+             settings.viewMode == 4 ? qsTr("Mark all saved articles as read?") :
+                                      qsTr("Mark articles as read?")
 
-    //z: 100
-    //anchors { top: parent.top; left: parent.left; right: parent.right }
-    anchors { left: parent.left; right: parent.right }
-    height: inPortrait ? privateStyle.toolBarHeightPortrait : privateStyle.toolBarHeightLandscape
+    acceptButtonText: qsTr("Yes")
+    rejectButtonText: qsTr("No")
 
-    Label {
-        id: label
-
-        anchors {
-            verticalCenter: parent.verticalCenter;
-            left: parent.left; //leftMargin: platformStyle.paddingMedium
-            right: parent.right; //rightMargin: platformStyle.paddingMedium
-        }
-
-        elide: Text.ElideRight
-        horizontalAlignment: Text.AlignRight
-        font.pixelSize: 1.2*platformStyle.fontSizeLarge
+    onAccepted: {
+        entryModel.setAllAsRead();
     }
 }

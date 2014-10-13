@@ -18,29 +18,24 @@
 */
 
 import QtQuick 1.1
-import com.nokia.symbian 1.1
 
-Item {
+Image {
     id: root
+    property bool open: false
 
-    property alias title: label.text
+    opacity: open ? 1.0 : 0.0
+    visible: opacity > 0.0
+    Behavior on opacity { NumberAnimation {duration: 300} }
 
-    //z: 100
-    //anchors { top: parent.top; left: parent.left; right: parent.right }
-    anchors { left: parent.left; right: parent.right }
-    height: inPortrait ? privateStyle.toolBarHeightPortrait : privateStyle.toolBarHeightLandscape
+    source: "selector.png"
 
-    Label {
-        id: label
+    Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
 
-        anchors {
-            verticalCenter: parent.verticalCenter;
-            left: parent.left; //leftMargin: platformStyle.paddingMedium
-            right: parent.right; //rightMargin: platformStyle.paddingMedium
-        }
-
-        elide: Text.ElideRight
-        horizontalAlignment: Text.AlignRight
-        font.pixelSize: 1.2*platformStyle.fontSizeLarge
+    PropertyAnimation on opacity {
+        loops: Animation.Infinite
+        from: 0.0
+        to: 1.0
+        duration: 1200
+        running: root.open && Qt.application.active
     }
 }

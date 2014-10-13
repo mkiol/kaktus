@@ -35,6 +35,8 @@ Page {
         return PageOrientation.Automatic;
     }
 
+    ActiveDetector {}
+
     PageHeader {
         id: header
         title: qsTr("About")
@@ -114,6 +116,20 @@ Page {
                 font.pixelSize: platformStyle.fontSizeSmall
                 textFormat: Text.RichText
                 text: "Copyright &copy; 2014 Michał Kościesza"
+            }
+
+            Item {
+                height: Theme.paddingLarge
+            }
+
+            Button {
+                text: qsTr("Changelog")
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: pageStack.push(Qt.resolvedUrl("ChangelogPage.qml"))
+            }
+
+            Item {
+                height: Theme.paddingLarge
             }
         }
     }

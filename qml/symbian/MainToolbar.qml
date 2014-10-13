@@ -22,10 +22,16 @@ import com.nokia.symbian 1.1
 
 ToolBarLayout {
     id: commonTools
+    property Item menu
+
+    function clean() {
+        menu.close();
+    }
 
     ToolButton {
         iconSource: pageStack.depth > 1 ? "toolbar-back" : "close.png"
         onClicked: {
+            clean();
             if(pageStack.depth>1) {
                 pageStack.pop();
             } else {
@@ -37,12 +43,34 @@ ToolBarLayout {
     ToolButton {
         iconSource: "toolbar-refresh"
         enabled: !fetcher.busy && !dm.busy
-        onClicked: fetcher.update()
+        onClicked: {
+            clean();
+            bar.hide();selector.open=false;
+            fetcher.update();
+        }
+    }
+
+    ToolButton {
+        iconSource: settings.viewMode==0 ? "vm0.png" :
+                    settings.viewMode==1 ? "vm1.png" :
+                    settings.viewMode==3 ? "vm3.png" :
+                    settings.viewMode==4 ? "vm4.png" :
+                    settings.viewMode==5 ? "vm5.png" :
+                    "vm0.png"
+        onClicked: {
+            clean();
+            if (bar.open)
+                bar.hide();
+            else
+                bar.show();
+        }
     }
 
     ToolButton {
         iconSource: settings.offlineMode ? "offline.png" : "online.png"
         onClicked: {
+            clean();
+            bar.hide();
             if (settings.offlineMode) {
                 if (dm.online)
                     settings.offlineMode = false;
@@ -56,7 +84,13 @@ ToolBarLayout {
 
     ToolButton {
         iconSource: "toolbar-view-menu"
-        onClicked: (menu.status == DialogStatus.Closed) ? menu.open() : menu.close()
+        onClicked: {
+            bar.hide();
+            if (menu.status === DialogStatus.Closed)
+                menu.open();
+            else
+                menu.close();
+        }
     }
 
 }

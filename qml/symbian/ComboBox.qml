@@ -27,6 +27,8 @@ Item {
     property variant menu
     property int currentIndex
 
+    signal accepted()
+
     onCurrentIndexChanged: {
         comboboxButton.text = comboboxDialog.model.get(currentIndex).text;
     }
@@ -45,6 +47,7 @@ Item {
     Label {
         id: label
         wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignLeft
         anchors { left: parent.left; right: comboboxButton.left;
             verticalCenter: parent.verticalCenter; rightMargin: platformStyle.paddingMedium}
     }
@@ -58,13 +61,15 @@ Item {
         text: comboboxDialog.model.get(currentIndex).name
         onClicked: comboboxDialog.open();
 
-        width: text!=="" ? parent.width/2 : 0
+        width: text!=="" ?
+                   privateStyle.textWidth(text, font)+image.width+2*platformStyle.paddingLarge :
+                   0
 
-        ToolButton {
-            id: filterImage
+        Image {
+            id: image
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            iconSource: "combobox-arrow.png"
+            source: "combobox-arrow.png"
         }
 
         SelectionDialog {
@@ -72,7 +77,7 @@ Item {
             titleText: qsTr("Select")
 
             model: root.menu
-            onAccepted: { currentIndex = comboboxDialog.selectedIndex }
+            onAccepted: { currentIndex = comboboxDialog.selectedIndex; root.accepted(); }
         }
 
     }

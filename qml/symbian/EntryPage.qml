@@ -28,7 +28,13 @@ Page {
     property string title
     property int index
 
-    tools: MainToolbar {}
+    tools: MainToolbar {
+        menu: menuItem
+    }
+
+    MainMenu {
+        id: menuItem
+    }
 
     orientationLock: {
         switch (settings.allowedOrientations) {
@@ -45,12 +51,27 @@ Page {
 
         model: entryModel
 
-        PullBar {}
+        clip: true
 
         anchors.fill: parent
         anchors.margins: platformStyle.paddingMedium
 
-        clip: true
+        PullBar {}
+
+        header: PageHeader {
+            title: {
+                switch (settings.viewMode) {
+                case 3:
+                    return qsTr("All feeds");
+                case 4:
+                    return qsTr("Saved");
+                case 5:
+                    return qsTr("Slow");
+                default:
+                    return root.title;
+                }
+            }
+        }
 
         delegate: EntryDelegate {
 
@@ -63,63 +84,113 @@ Page {
             image: model.image
             date: model.date
             read: model.read
+            feedIcon: settings.viewMode==1 || settings.viewMode==3 || settings.viewMode==4 || settings.viewMode==5 ? model.feedIcon : ""
             author: model.author
             readlater: model.readlater
             index: model.index
             cached: model.cached
-            feedindex: root.index
+            fresh: model.fresh
+            objectName: "EntryDelegate"
 
-            onHolded: contextMenu.openMenu(model.index, model.read, model.readlater)
+            onHolded: {
+                contextMenu.openMenu(model.index, model.read, model.readlater);
+            }
+
+            Component.onCompleted: {
+                // Dynamic creation of new items if last item is compleated
+                if (model.index==entryModel.count()-1) {
+                    //console.log(index);
+                    entryModel.createItems(model.index+1,model.index+settings.offsetLimit);
+                }
+            }
 
             onClicked: {
+                if (timer.running) {
+                    // Double click
+                    timer.stop();
 
-                // Not allowed while Syncing
-                if (dm.busy || fetcher.busy) {
-                    notification.show(qsTr("Please wait until Sync finishes"));
-                    return;
-                }
-
-                // Entry not cached and offline mode enabled
-                if (settings.offlineMode && !model.cached) {
-                    /*pageStack.push(Qt.resolvedUrl("NoContentPage.qml"),
-                                   {"title": model.title,});*/
-                    notification.show(qsTr("Offline version not available"));
-                    return;
-                }
-
-                // Switch to Offline mode if no network
-                if (!settings.offlineMode && !dm.online) {
-                    if (model.cached) {
-                        // Entry cached
-                        notification.show(qsTr("Network connection is unavailable\nSwitching to Offline mode"));
-                        settings.offlineMode = true;
+                    if (model.read==0) {
+                        entryModel.setData(model.index, "read", 1);
                     } else {
-                        // Entry not cached
-                        notification.show(qsTr("Network connection is unavailable"));
+                        entryModel.setData(model.index, "read", 0);
+                    }
+
+                } else {
+                    timer.start();
+                }
+            }
+
+            Timer {
+                id: timer
+                interval: 400
+                onTriggered: {
+                    // One click
+
+                    // Not allowed while Syncing
+                    if (dm.busy || fetcher.busy || dm.removerBusy) {
+                        notification.show(qsTr("Please wait until current task is complete."));
                         return;
                     }
-                }
 
-                //expanded = false;
-                var onlineUrl = model.link;
-                var offlineUrl = cache.getUrlbyId(model.uid);
-                pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),
-                               {"entryId": model.uid,
-                                   "onlineUrl": onlineUrl,
-                                   "offlineUrl": offlineUrl,
-                                   "title": model.title,
-                                   "stared": model.readlater===1,
-                                   "index": model.index,
-                                   "feedindex": root.index,
-                                   "read" : model.read===1,
-                                   "cached" : model.cached
-                               });
+                    // Entry not cached and offline mode enabled
+                    if (settings.offlineMode && !model.cached) {
+                        notification.show(qsTr("Offline version not available."));
+                        return;
+                    }
+
+                    // Switch to Offline mode if no network
+                    if (!settings.offlineMode && !dm.online) {
+                        if (model.cached) {
+                            // Entry cached
+                            notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode."));
+                            settings.offlineMode = true;
+                        } else {
+                            // Entry not cached
+                            notification.show(qsTr("Network connection is unavailable."));
+                            return;
+                        }
+                    }
+
+                    expanded = false;
+                    var onlineUrl = model.link;
+                    var offlineUrl = cache.getUrlbyId(model.uid);
+                    pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),
+                                   {"entryId": model.uid,
+                                       "onlineUrl": onlineUrl,
+                                       "offlineUrl": offlineUrl,
+                                       "title": model.title,
+                                       "stared": model.readlater==1,
+                                       "index": model.index,
+                                       "feedindex": root.index,
+                                       "read" : model.read==1,
+                                       "cached" : model.cached
+                                   });
+
+                }
+            }
+
+            onExpandedChanged: {
+                // Collapsing all other items on expand
+                if (expanded) {
+                    for (var i = 0; i < listView.contentItem.children.length; i++) {
+                        var curItem = listView.contentItem.children[i];
+                        //console.log(curItem);
+                        if (curItem !== listItem) {
+                            if (curItem.objectName==="EntryDelegate")
+                                curItem.expanded = false;
+                        }
+                    }
+                    listView.positionViewAtIndex(model.index, ListView.Visible);
+                    //listView.positionViewAtIndex(model.index, ListView.Beginning);
+                }
             }
         }
 
         ViewPlaceholder {
             enabled: listView.count == 0
-            text: settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+            text: settings.viewMode==4 ? qsTr("No saved items") :
+                  settings.showOnlyUnread ? qsTr("No unread items") :
+                                            qsTr("No items")
         }
     }
 
@@ -130,10 +201,41 @@ Page {
         property int readlater
 
         function openMenu(i, r, rl) {
+
+            if (settings.viewMode!=4) {
+                var unread = entryModel.countUnread();
+                if (unread>0) {
+                    readAllMenuItem.enabled = true;
+                } else {
+                    readAllMenuItem.enabled = false;
+                }
+
+                if (read<2) {
+                    readMenuItem.enabled = true;
+                } else {
+                    readMenuItem.enabled = false;
+                }
+            } else {
+                readMenuItem.enabled = false;
+                readAllMenuItem.enabled = false;
+            }
+
             index = i;
             read = r;
             readlater = rl;
+
             open();
+        }
+
+        onStatusChanged: {
+            if (progressPanelDm.open) {
+                if (status===DialogStatus.Opening) {
+                    progressPanelDm.visible = false;
+                }
+                if (status===DialogStatus.Closed) {
+                    progressPanelDm.visible = true;
+                }
+            }
         }
 
         MenuLayout {
@@ -148,21 +250,36 @@ Page {
                 }
             }
             MenuItem {
+                id: readMenuItem
                 text: contextMenu.read ? qsTr("Mark as unread") : qsTr("Mark as read")
                 onClicked: {
                     if (contextMenu.read) {
                         entryModel.setData(contextMenu.index, "read", 0);
-                        feedModel.incrementUnread(root.index);
                     } else {
                         entryModel.setData(contextMenu.index, "read", 1);
-                        feedModel.decrementUnread(root.index);
-                        /*if (lblMoreDetails.visible)
-                            root.expanded = false;*/
                     }
-                    tabModel.updateFlags();
+                }
+            }
+
+            MenuItem {
+                id: readAllMenuItem
+                text: contextMenu.read ? qsTr("Mark all as unread") : qsTr("Mark all as read")
+                onClicked: {
+                    if (settings.viewMode==1 ||
+                            settings.viewMode==3 ||
+                            settings.viewMode==4 ||
+                            settings.viewMode==5) {
+                        readAllDialog.open();
+                    } else {
+                        entryModel.setAllAsRead();
+                    }
                 }
             }
         }
+    }
+
+    ReadAllDialog {
+        id: readAllDialog
     }
 
     ScrollDecorator { flickableItem: listView }

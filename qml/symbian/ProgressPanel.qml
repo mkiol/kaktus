@@ -96,11 +96,12 @@ Item {
         id: titleBar
         height: icon.height
         anchors.verticalCenter: parent.verticalCenter
-        anchors.left: icon.right; anchors.right: closeButton.right
+        anchors.left: icon.right; anchors.right: closeButton.left
         anchors.leftMargin: platformStyle.paddingMedium
         font.pixelSize: platformStyle.fontSizeSmall
         text: root.text
         verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignLeft
     }
 
     ToolButton {

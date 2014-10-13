@@ -36,6 +36,7 @@ Item {
     Label {
         id: label
         anchors {left: parent.left; right: value.left; rightMargin: platformStyle.paddingMedium}
+        horizontalAlignment: Text.AlignLeft
     }
 
     Label {

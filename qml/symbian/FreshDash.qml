@@ -19,28 +19,16 @@
 
 import QtQuick 1.1
 import com.nokia.symbian 1.1
+import "Theme.js" as Theme
 
-Item {
-    id: root
-
-    property alias title: label.text
-
-    //z: 100
-    //anchors { top: parent.top; left: parent.left; right: parent.right }
-    anchors { left: parent.left; right: parent.right }
-    height: inPortrait ? privateStyle.toolBarHeightPortrait : privateStyle.toolBarHeightLandscape
-
-    Label {
-        id: label
-
-        anchors {
-            verticalCenter: parent.verticalCenter;
-            left: parent.left; //leftMargin: platformStyle.paddingMedium
-            right: parent.right; //rightMargin: platformStyle.paddingMedium
-        }
-
-        elide: Text.ElideRight
-        horizontalAlignment: Text.AlignRight
-        font.pixelSize: 1.2*platformStyle.fontSizeLarge
+Rectangle {
+    anchors.top: parent.top; anchors.left: parent.left
+    width: platformStyle.paddingSmall; height: parent.height
+    //visible: model.fresh>0
+    radius: 10
+    opacity: 0.4
+    gradient: Gradient {
+        GradientStop { position: 0.0; color: Theme.highlightColor }
+        GradientStop { position: 1.0; color: "#00000000" }
     }
 }
