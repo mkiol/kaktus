@@ -53,6 +53,7 @@ class Settings: public QObject
     Q_PROPERTY (bool helpDone READ getHelpDone WRITE setHelpDone NOTIFY helpDoneChanged)
     Q_PROPERTY (bool reinitDB READ getReinitDB WRITE setReinitDB)
     Q_PROPERTY (QString locale READ getLocale WRITE setLocale NOTIFY localeChanged)
+    Q_PROPERTY (bool rightToLeftLayout READ getRightToLeftLayout)
 
 public:
     static Settings* instance();
@@ -107,6 +108,8 @@ public:
 
     void setReinitDB(bool value);
     bool getReinitDB();
+
+    bool getRightToLeftLayout();
     // ---
 
     bool getShowOnlyUnread();

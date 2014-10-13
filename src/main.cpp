@@ -55,6 +55,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     QmlApplicationViewer view;
 
+    Settings* settings = Settings::instance();
+
     app->setApplicationName("kaktus");
     app->setOrganizationName("mkiol");
     app->setApplicationVersion(VERSION);
@@ -67,10 +69,12 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
 
     QTranslator *appTranslator = new QTranslator;
-    appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
+    if (settings->getLocale() == "")
+        appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
+    else
+        appTranslator->load(":/i18n/kaktus_" + settings->getLocale() + ".qm");
     app->installTranslator(appTranslator);
 
-    Settings* settings = Settings::instance();
     settings->view = &view;
 
     NetworkAccessManagerFactory factory(settings->getDmUserAgent());
@@ -94,7 +98,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     view.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
 
-    view.setMainQmlFile(QLatin1String("qml/harmattan/main.qml"));
+    //view.setMainQmlFile(QLatin1String("qml/harmattan/main.qml"));
+    view.setMainQmlFile(QLatin1String("qml/symbian/main.qml"));
     view.showExpanded();
 #endif
 

@@ -22,8 +22,11 @@
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QStandardPaths>
+#include <QGuiApplication>
 #else
 #include <QDesktopServices>
+#include <QApplication>
+#include <QCoreApplication>
 #endif
 
 #include "settings.h"
@@ -52,6 +55,13 @@ Settings* Settings::instance()
     }
 
     return Settings::inst;
+}
+
+bool Settings::getRightToLeftLayout()
+{
+    if (QCoreApplication::instance()->tr("LTR")=="RTL")
+        return true;
+    return false;
 }
 
 void Settings::setShowStarredTab(bool value)
