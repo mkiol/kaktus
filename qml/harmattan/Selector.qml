@@ -25,6 +25,11 @@ Image {
     id: root
     property bool open: false
 
+    function reset() {
+        x = app.isPortrait ? 109 : 202;
+        y = app.isPortrait ? 787 : 421;
+    }
+
     opacity: open ? 1.0 : 0.0
     visible: opacity > 0.0
     Behavior on opacity { NumberAnimation {duration: 300} }

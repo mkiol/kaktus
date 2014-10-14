@@ -309,8 +309,8 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: qsTr("Show User Guide")
                 onClicked: {
-                    //guide.show();
-                    notification.show(qsTr("Not yet implemented :-("));
+                    guide.show();
+                    //notification.show(qsTr("Not yet implemented :-("));
                 }
             }
 
