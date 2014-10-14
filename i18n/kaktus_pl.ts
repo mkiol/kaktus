@@ -4,29 +4,34 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../qml/harmattan/AboutPage.qml" line="46"/>
+        <location filename="../qml/harmattan/AboutPage.qml" line="44"/>
         <location filename="../qml/sailfish/AboutPage.qml" line="53"/>
-        <location filename="../qml/symbian/AboutPage.qml" line="40"/>
+        <location filename="../qml/symbian/AboutPage.qml" line="42"/>
+        <location filename="../qml/symbian-copy/AboutPage.qml" line="42"/>
         <source>About</source>
         <translation>O Programie</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/AboutPage.qml" line="86"/>
+        <location filename="../qml/harmattan/AboutPage.qml" line="84"/>
         <location filename="../qml/sailfish/AboutPage.qml" line="74"/>
-        <location filename="../qml/symbian/AboutPage.qml" line="80"/>
+        <location filename="../qml/symbian/AboutPage.qml" line="82"/>
+        <location filename="../qml/symbian-copy/AboutPage.qml" line="82"/>
         <source>Version: %1</source>
         <translation>Wersja: %1</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/AboutPage.qml" line="97"/>
+        <location filename="../qml/harmattan/AboutPage.qml" line="95"/>
         <location filename="../qml/sailfish/AboutPage.qml" line="82"/>
-        <location filename="../qml/symbian/AboutPage.qml" line="91"/>
+        <location filename="../qml/symbian/AboutPage.qml" line="93"/>
+        <location filename="../qml/symbian-copy/AboutPage.qml" line="93"/>
         <source>An unofficial Netvibes feed reader, specially designed to work offline.</source>
         <translation>Nieoficjalny czytnik kanałów RSS dla serwisu Netvibes.com. </translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/AboutPage.qml" line="131"/>
+        <location filename="../qml/harmattan/AboutPage.qml" line="129"/>
         <location filename="../qml/sailfish/AboutPage.qml" line="108"/>
+        <location filename="../qml/symbian/AboutPage.qml" line="126"/>
+        <location filename="../qml/symbian-copy/AboutPage.qml" line="126"/>
         <source>Changelog</source>
         <translation>Dziennik zmian</translation>
     </message>
@@ -34,15 +39,19 @@
 <context>
     <name>ChangelogPage</name>
     <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="52"/>
+        <location filename="../qml/harmattan/ChangelogPage.qml" line="50"/>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="48"/>
+        <location filename="../qml/symbian/ChangelogPage.qml" line="50"/>
+        <location filename="../qml/symbian-copy/ChangelogPage.qml" line="50"/>
         <source>Changelog</source>
         <translation>Dziennik zmian</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="58"/>
+        <location filename="../qml/harmattan/ChangelogPage.qml" line="56"/>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="54"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="63"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="73"/>
+        <location filename="../qml/symbian/ChangelogPage.qml" line="56"/>
+        <location filename="../qml/symbian-copy/ChangelogPage.qml" line="56"/>
         <source>Version %1</source>
         <translation>Wersja %1</translation>
     </message>
@@ -50,8 +59,9 @@
 <context>
     <name>ComboBox</name>
     <message>
-        <location filename="../qml/harmattan/ComboBox.qml" line="77"/>
-        <location filename="../qml/symbian/ComboBox.qml" line="72"/>
+        <location filename="../qml/harmattan/ComboBox.qml" line="78"/>
+        <location filename="../qml/symbian/ComboBox.qml" line="77"/>
+        <location filename="../qml/symbian-copy/ComboBox.qml" line="77"/>
         <source>Select</source>
         <translation>Wybierz</translation>
     </message>
@@ -135,15 +145,17 @@ Brak połączenia sieciowego.</translation>
         <translation>Zmień</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/DashboardDialog.qml" line="48"/>
-        <location filename="../qml/symbian/DashboardDialog.qml" line="52"/>
+        <location filename="../qml/harmattan/DashboardDialog.qml" line="46"/>
+        <location filename="../qml/symbian/DashboardDialog.qml" line="58"/>
+        <location filename="../qml/symbian-copy/DashboardDialog.qml" line="58"/>
         <source>Select Dashboard</source>
         <translation>Wybierz tablicę</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/DashboardDialog.qml" line="77"/>
+        <location filename="../qml/harmattan/DashboardDialog.qml" line="75"/>
         <location filename="../qml/sailfish/DashboardDialog.qml" line="89"/>
-        <location filename="../qml/symbian/DashboardDialog.qml" line="71"/>
+        <location filename="../qml/symbian/DashboardDialog.qml" line="77"/>
+        <location filename="../qml/symbian-copy/DashboardDialog.qml" line="77"/>
         <source>No dashboards</source>
         <translation>Brak tablic</translation>
     </message>
@@ -164,32 +176,32 @@ Brak połączenia sieciowego.</translation>
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="318"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="322"/>
         <source>Unsave</source>
         <translation>Usuń z zapisanych</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="318"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="322"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="330"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="334"/>
         <source>Collapse</source>
         <translation>Zwiń</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="330"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="334"/>
         <source>Expand</source>
         <translation>Rozwiń</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="303"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="307"/>
         <source>Mark as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="303"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="307"/>
         <source>Mark as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
@@ -216,114 +228,146 @@ Brak połączenia sieciowego.</translation>
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/symbian/EntryPage.qml" line="78"/>
         <source>Please wait until Sync finishes</source>
-        <translation>Zaczekaj do zakończenia aktualizacji</translation>
+        <translation type="vanished">Zaczekaj do zakończenia aktualizacji</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/EntryPage.qml" line="86"/>
         <source>Offline version not available</source>
-        <translation>Brak kopii Offline</translation>
+        <translation type="vanished">Brak kopii Offline</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/EntryPage.qml" line="94"/>
         <source>Network connection is unavailable
 Switching to Offline mode</source>
-        <translation>Brak połączenia sieciowego.
+        <translation type="vanished">Brak połączenia sieciowego.
 Został włączony tryb Offline</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/EntryPage.qml" line="98"/>
         <source>Network connection is unavailable</source>
-        <translation>Brak połączenia sieciowego</translation>
+        <translation type="vanished">Brak połączenia sieciowego</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="223"/>
-        <location filename="../qml/symbian/EntryPage.qml" line="141"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="244"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="243"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="243"/>
         <source>Unsave</source>
         <translation>Usuń z zapisanych</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="223"/>
-        <location filename="../qml/symbian/EntryPage.qml" line="141"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="244"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="243"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="243"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="234"/>
-        <location filename="../qml/symbian/EntryPage.qml" line="151"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="255"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="254"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="254"/>
         <source>Mark as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="234"/>
-        <location filename="../qml/symbian/EntryPage.qml" line="151"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="255"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="254"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="254"/>
         <source>Mark as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="188"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="193"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="232"/>
-        <location filename="../qml/symbian/EntryPage.qml" line="122"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="192"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="192"/>
         <source>No unread items</source>
         <translation>Brak nieprzeczytanych artykułów</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="189"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="194"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="232"/>
-        <location filename="../qml/symbian/EntryPage.qml" line="122"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="193"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="193"/>
         <source>No items</source>
         <translation>Brak artykułów</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="54"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="60"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="88"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="65"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="65"/>
         <source>All feeds</source>
         <translation>Wszystkie kanały</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="56"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="62"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="90"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="67"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="67"/>
         <source>Saved</source>
         <translation>Zapisane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="58"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="64"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="92"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="69"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="69"/>
         <source>Slow</source>
         <translation>Rzadko aktualizowane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="126"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="131"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="157"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="131"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="131"/>
         <source>Please wait until current task is complete.</source>
         <translation>Zaczekaj do zakończenia obecnego zadania.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="132"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="137"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="163"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="137"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="137"/>
         <source>Offline version not available.</source>
         <translation>Brak kopii Offline.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="140"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="145"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="171"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="145"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="145"/>
         <source>Network connection is unavailable.
 Switching to Offline mode.</source>
         <translation>Brak połączenia sieciowego.
 Został włączony tryb Offline.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="144"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="149"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="175"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="149"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="149"/>
         <source>Network connection is unavailable.</source>
         <translation>Brak połączenia sieciowego.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="187"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="192"/>
         <location filename="../qml/sailfish/EntryPage.qml" line="231"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="191"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="191"/>
         <source>No saved items</source>
         <translation>Brak zapisanych artykułów</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/EntryPage.qml" line="266"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="266"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="266"/>
+        <source>Mark all as unread</source>
+        <translation>Oznacz jako nieprzeczytane</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/EntryPage.qml" line="266"/>
+        <location filename="../qml/symbian/EntryPage.qml" line="266"/>
+        <location filename="../qml/symbian-copy/EntryPage.qml" line="266"/>
+        <source>Mark all as read</source>
+        <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="239"/>
@@ -352,29 +396,34 @@ Został włączony tryb Offline.</translation>
 <context>
     <name>FeedPage</name>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="135"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="144"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="169"/>
-        <location filename="../qml/symbian/FeedPage.qml" line="112"/>
+        <location filename="../qml/symbian/FeedPage.qml" line="143"/>
+        <location filename="../qml/symbian-copy/FeedPage.qml" line="143"/>
         <source>Mark all as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="143"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="152"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="177"/>
-        <location filename="../qml/symbian/FeedPage.qml" line="121"/>
+        <location filename="../qml/symbian/FeedPage.qml" line="151"/>
+        <location filename="../qml/symbian-copy/FeedPage.qml" line="151"/>
         <source>Mark all as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="105"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="114"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="190"/>
-        <location filename="../qml/symbian/FeedPage.qml" line="93"/>
+        <location filename="../qml/symbian/FeedPage.qml" line="113"/>
+        <location filename="../qml/symbian-copy/FeedPage.qml" line="113"/>
         <source>No feeds</source>
         <translation>Brak kanałów</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="60"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="67"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="74"/>
+        <location filename="../qml/symbian/FeedPage.qml" line="68"/>
+        <location filename="../qml/symbian-copy/FeedPage.qml" line="68"/>
         <source>Feeds</source>
         <translation>Kanały</translation>
     </message>
@@ -397,25 +446,33 @@ Został włączony tryb Offline.</translation>
         <translation>Aby zalogować się i wykonać synchronizacje z Netvibes, wybierz Aktualizuj z górnego menu.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FirstPage.qml" line="97"/>
+        <location filename="../qml/harmattan/FirstPage.qml" line="104"/>
+        <location filename="../qml/symbian/FirstPage.qml" line="103"/>
+        <location filename="../qml/symbian-copy/FirstPage.qml" line="103"/>
         <source>Press the button below to sign in and do feeds sync with Netvibes.</source>
         <translation>Aby zalogować się i wykonać synchronizacje z Netvibes, naciśnij wskazany poniżej przycisk.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FirstPage.qml" line="113"/>
+        <location filename="../qml/harmattan/FirstPage.qml" line="120"/>
         <location filename="../qml/sailfish/FirstPage.qml" line="104"/>
+        <location filename="../qml/symbian/FirstPage.qml" line="119"/>
+        <location filename="../qml/symbian-copy/FirstPage.qml" line="119"/>
         <source>Not signed in</source>
         <translation>Niezalogowany</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FirstPage.qml" line="113"/>
+        <location filename="../qml/harmattan/FirstPage.qml" line="120"/>
         <location filename="../qml/sailfish/FirstPage.qml" line="104"/>
+        <location filename="../qml/symbian/FirstPage.qml" line="119"/>
+        <location filename="../qml/symbian-copy/FirstPage.qml" line="119"/>
         <source>Signed in</source>
         <translation>Zalogowany</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FirstPage.qml" line="114"/>
+        <location filename="../qml/harmattan/FirstPage.qml" line="121"/>
         <location filename="../qml/sailfish/FirstPage.qml" line="111"/>
+        <location filename="../qml/symbian/FirstPage.qml" line="120"/>
+        <location filename="../qml/symbian-copy/FirstPage.qml" line="120"/>
         <source>Wait until Sync finish.</source>
         <translation>Zaczekaj do zakończenia aktualizacji.</translation>
     </message>
@@ -423,27 +480,32 @@ Został włączony tryb Offline.</translation>
 <context>
     <name>Guide</name>
     <message>
+        <location filename="../qml/harmattan/Guide.qml" line="88"/>
         <location filename="../qml/sailfish/Guide.qml" line="94"/>
         <source>User Guide</source>
         <translation>Przewodnik użytkownika</translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/Guide.qml" line="133"/>
         <location filename="../qml/sailfish/Guide.qml" line="139"/>
         <source>Tap anywhere to continue.</source>
         <translation>Pacnij gdziekolwiek aby kontunuować.</translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/Guide.qml" line="118"/>
         <location filename="../qml/sailfish/Guide.qml" line="124"/>
         <source>This guide will explain you how to use bottom bar and view modes.</source>
         <translation>Ten przewodnik wyjaśni jak korzystać z dolnego paska narzędzi oraz różnych trybów przeglądania. </translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/Guide.qml" line="155"/>
         <location filename="../qml/sailfish/Guide.qml" line="162"/>
         <source>Bottom bar lets you switch between 5 available view modes.
 </source>
         <translation>Dolny pasek narzędzi pozwala przełączać się pomiędzy pięcioma trybami przeglądania.</translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/Guide.qml" line="178"/>
         <location filename="../qml/sailfish/Guide.qml" line="185"/>
         <source>Mode #1 - Tabs &amp; Feeds
 
@@ -453,6 +515,7 @@ List all your tabs. Feeds are grouped by the tabs they belong to and articles ar
 Wyświetla twoje wszystkie zakładki. Kanały są pogrupowane w odpowiadających im zakładkach a artykuły znajdują się wewnatrz kanałów.  </translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/Guide.qml" line="202"/>
         <location filename="../qml/sailfish/Guide.qml" line="209"/>
         <source>Mode #2 - Only tabs
 
@@ -462,6 +525,7 @@ List all your tabs. All articles are grouped only by the tabs they belong to.</s
 Wyświetla twoje wszystkie zakładki. Wszystkie artykuły pogrupowane są tylko poprzez odpowiadające im zakładki.</translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/Guide.qml" line="226"/>
         <location filename="../qml/sailfish/Guide.qml" line="233"/>
         <source>Mode #3 - All feeds
 
@@ -471,6 +535,7 @@ List all articles from all your feeds. Items are ordered by publication date.</s
 Wyświetla wszystkie artykuły ze wszystkich kanałów. Artykuły są posortowane datą publikacji. </translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/Guide.qml" line="249"/>
         <location filename="../qml/sailfish/Guide.qml" line="257"/>
         <source>Mode #4 - Saved
 
@@ -480,6 +545,7 @@ List all the articles you have saved.</source>
 Wyświetla wszystkie artykuły, które zapisałeś.</translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/Guide.qml" line="272"/>
         <location filename="../qml/sailfish/Guide.qml" line="280"/>
         <source>Mode #5 - Slow
 
@@ -489,6 +555,7 @@ List all articles from less frequently updated feeds. A feed is considered slow 
 Wyświetla wszystkie artykuły z kanałów, ktore są rzadko aktualizowane. Kanał należy do tej kategorii jeśli publikuje artykuły rzadziej niż 5 w ciągu miesiąca.</translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/Guide.qml" line="296"/>
         <location filename="../qml/sailfish/Guide.qml" line="304"/>
         <source>Bottom bar also contains network indicator.
 
@@ -496,6 +563,11 @@ This indicator enables you to switch between the online and offline mode. In the
         <translation>Dolny pasek zawiera także wskaźnik trybu sieci.
 
 Wskaźnik pozwala na przełączanie pomiędzy trybem online i offline. W trybie offline, Kaktus będzie korzystał tylko z lokalnej kopii aby pobrać stronę internetową lub obrazki. Połaczenie sieciowe nie będzie wtedy potrzebne. </translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/Guide.qml" line="323"/>
+        <source>That&apos;s all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on &lt;i&gt;Show User Guide&lt;/i&gt; on the settings page.</source>
+        <translation>To wszystkie informacje!&lt;br/&gt;&lt;br/&gt;Jeśli chcesz zobaczyć ten przewodnik jeszcze raz, naciśnij &lt;i&gt;Pokaż przewodnik&lt;/i&gt; na stronie z ustawieniami.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="331"/>
@@ -517,14 +589,38 @@ Jeśli chcesz zobaczyć ten przewodnik jeszcze raz, naciśnij &lt;i&gt;Pokaż pr
     </message>
 </context>
 <context>
+    <name>MainMenu</name>
+    <message>
+        <location filename="../qml/harmattan/MainMenu.qml" line="67"/>
+        <location filename="../qml/symbian/MainMenu.qml" line="39"/>
+        <location filename="../qml/symbian-copy/MainMenu.qml" line="39"/>
+        <source>About</source>
+        <translation>O Programie</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/MainMenu.qml" line="71"/>
+        <location filename="../qml/symbian/MainMenu.qml" line="43"/>
+        <location filename="../qml/symbian-copy/MainMenu.qml" line="43"/>
+        <source>Settings</source>
+        <translation>Ustawienia</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/MainMenu.qml" line="75"/>
+        <location filename="../qml/symbian/MainMenu.qml" line="47"/>
+        <location filename="../qml/symbian-copy/MainMenu.qml" line="47"/>
+        <source>Exit</source>
+        <translation>Wyjście</translation>
+    </message>
+</context>
+<context>
     <name>MainPage</name>
     <message>
-        <location filename="../qml/harmattan/MainPage.qml" line="19"/>
+        <location filename="../qml/harmattan/MainPage.qml" line="25"/>
         <source>Show Tabs</source>
         <translation>Pokaż Zakładki</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/MainPage.qml" line="27"/>
+        <location filename="../qml/harmattan/MainPage.qml" line="33"/>
         <source>Sync</source>
         <translation>Aktualizuj</translation>
     </message>
@@ -532,8 +628,9 @@ Jeśli chcesz zobaczyć ten przewodnik jeszcze raz, naciśnij &lt;i&gt;Pokaż pr
 <context>
     <name>MainToolbar</name>
     <message>
-        <location filename="../qml/harmattan/MainToolbar.qml" line="72"/>
-        <location filename="../qml/symbian/MainToolbar.qml" line="50"/>
+        <location filename="../qml/harmattan/MainToolbar.qml" line="81"/>
+        <location filename="../qml/symbian/MainToolbar.qml" line="78"/>
+        <location filename="../qml/symbian-copy/MainToolbar.qml" line="78"/>
         <source>Cannot switch to Online mode
 Network connection is unavailable</source>
         <translation>Nie można przejść do trybu Online
@@ -588,12 +685,14 @@ Brak połączenia sieciowego</translation>
     <message>
         <location filename="../qml/harmattan/PullBar.qml" line="44"/>
         <location filename="../qml/symbian/PullBar.qml" line="46"/>
+        <location filename="../qml/symbian-copy/PullBar.qml" line="46"/>
         <source>Last sync: %1</source>
         <translation>Ostatnia aktualizacja: %1</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/PullBar.qml" line="46"/>
         <location filename="../qml/symbian/PullBar.qml" line="48"/>
+        <location filename="../qml/symbian-copy/PullBar.qml" line="48"/>
         <source>Not yet synced</source>
         <translation>Jeszcze nie aktualizowano</translation>
     </message>
@@ -606,46 +705,76 @@ Brak połączenia sieciowego</translation>
         <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/ReadAllDialog.qml" line="30"/>
         <location filename="../qml/sailfish/ReadAllDialog.qml" line="53"/>
+        <location filename="../qml/symbian/ReadAllDialog.qml" line="30"/>
+        <location filename="../qml/symbian-copy/ReadAllDialog.qml" line="30"/>
         <source>Yes</source>
         <translation>Tak</translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/ReadAllDialog.qml" line="26"/>
         <location filename="../qml/sailfish/ReadAllDialog.qml" line="62"/>
+        <location filename="../qml/symbian/ReadAllDialog.qml" line="26"/>
+        <location filename="../qml/symbian-copy/ReadAllDialog.qml" line="26"/>
         <source>Mark all your articles as read?</source>
         <translation>Oznaczyć wszystkie artykuły jako przeczytane? </translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/ReadAllDialog.qml" line="27"/>
         <location filename="../qml/sailfish/ReadAllDialog.qml" line="63"/>
+        <location filename="../qml/symbian/ReadAllDialog.qml" line="27"/>
+        <location filename="../qml/symbian-copy/ReadAllDialog.qml" line="27"/>
         <source>Mark all saved articles as read?</source>
         <translation>Oznaczyć wszystkie zapisane artykuły jako przeczytane? </translation>
     </message>
     <message>
+        <location filename="../qml/harmattan/ReadAllDialog.qml" line="28"/>
         <location filename="../qml/sailfish/ReadAllDialog.qml" line="64"/>
+        <location filename="../qml/symbian/ReadAllDialog.qml" line="28"/>
+        <location filename="../qml/symbian-copy/ReadAllDialog.qml" line="28"/>
         <source>Mark articles as read?</source>
         <translation>Oznaczyć artykuły jako przeczytane?</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/ReadAllDialog.qml" line="31"/>
+        <location filename="../qml/symbian/ReadAllDialog.qml" line="31"/>
+        <location filename="../qml/symbian-copy/ReadAllDialog.qml" line="31"/>
+        <source>No</source>
+        <translation>Nie</translation>
+    </message>
+</context>
+<context>
+    <name>Settings</name>
+    <message>
+        <location filename="../src/settings.cpp" line="62"/>
+        <source>LTR</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="52"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="50"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="48"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="48"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="49"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="49"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="79"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="77"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="116"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="81"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="82"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="82"/>
         <source>Dashboard in use</source>
         <translation>Aktualna tablica</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="79"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="77"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="116"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="81"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="82"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="82"/>
         <source>Dashboard not selected</source>
         <translation>Nie wybrano tablicy</translation>
     </message>
@@ -665,273 +794,328 @@ Brak połączenia sieciowego</translation>
         <translation>Niezalogowany</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="99"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="97"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="167"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="102"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="102"/>
         <source>Delete cache</source>
         <translation>Usuń lokalną kopię</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="108"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="106"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="178"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="111"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="111"/>
         <source>Network mode</source>
         <translation>Tryb sieci</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="128"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="126"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="196"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="142"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="142"/>
         <source>After sync the content of all items will be downloaded and cached for access in the Offline mode.</source>
         <translation>Każdorazowo podczas aktualizacji, treść aktykułów będzie pobierana i zapisywana lokalnie, tak aby była dostępna podczas pracy w trybie Offline.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="143"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="141"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="213"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="157"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="157"/>
         <source>Language</source>
         <translation>Język</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="157"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="155"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="226"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="171"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="171"/>
         <source>Default</source>
         <translation>Domyślny</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="182"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="180"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="250"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="196"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="196"/>
         <source>Changes will take effect after you restart Kaktus.</source>
         <translation>Zmiany zadziałają po ponownym uruchomieniu Kaktusa.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="187"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="185"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="256"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="201"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="201"/>
         <source>View mode</source>
         <translation>Tryb przeglądania</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="205"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="203"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="273"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="219"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="219"/>
         <source>Tabs &amp; Feeds</source>
         <translation>Zakładki i Kanały</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="206"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="204"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="274"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="220"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="220"/>
         <source>Only Tabs</source>
         <translation>Tylko zakładki</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="207"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="205"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="275"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="221"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="221"/>
         <source>All feeds</source>
         <translation>Wszystkie kanały</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="208"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="206"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="276"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="222"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="222"/>
         <source>Saved</source>
         <translation>Zapisane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="209"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="207"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="277"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="223"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="223"/>
         <source>Slow</source>
         <translation>Rzadko aktualizowane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="240"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="238"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="307"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="254"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="254"/>
         <source>Show images</source>
         <translation>Pokazuj obrazki</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="322"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="310"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="375"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="326"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="326"/>
         <source>Show User Guide</source>
         <translation>Pokaż przewodnik</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="325"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="329"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="329"/>
         <source>Not yet implemented :-(</source>
         <translation>Jeszcze nie zaimplementowane :-(</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="113"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="111"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="182"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="116"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="116"/>
         <source>Online</source>
         <translation>Online</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="114"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="112"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="183"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="117"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="117"/>
         <source>Offline</source>
         <translation>Offline</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/SettingsPage.qml" line="136"/>
         <source>Show icons &amp; images</source>
-        <translation>Pokazuj ikony i obrazki</translation>
+        <translation type="vanished">Pokazuj ikony i obrazki</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="58"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="54"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="56"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="55"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="55"/>
         <source>Netvibes</source>
         <translation>Netvibes</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="62"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="60"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="74"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="58"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="59"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="59"/>
         <source>Signed in as</source>
         <translation>Zalogowany jako</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="62"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="58"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="60"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="59"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="59"/>
         <source>Not signed in</source>
         <translation>Niezalogowany</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="68"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="66"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="86"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="64"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="65"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="65"/>
         <source>Sign out</source>
         <translation>Wyloguj</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="68"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="66"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="86"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="64"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="65"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="65"/>
         <source>Sign in</source>
         <translation>Zaloguj</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/SettingsPage.qml" line="67"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="68"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="68"/>
         <source>Signed out!</source>
         <translation>Wylogowany!</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/SettingsPage.qml" line="101"/>
         <source>Content of items will be displayed from local cache, without a network usage.</source>
-        <translation>Treść aktykułów będzie pobierana z lokalnej kopi, czyli bez użycia połączenia internetowego.</translation>
+        <translation type="vanished">Treść aktykułów będzie pobierana z lokalnej kopi, czyli bez użycia połączenia internetowego.</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/SettingsPage.qml" line="111"/>
         <source>Cache items</source>
-        <translation>Twórz lokalną kopię</translation>
+        <translation type="vanished">Twórz lokalną kopię</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/SettingsPage.qml" line="112"/>
         <source>After sync the content of all items will be downloaded and cached for access in Offline mode.</source>
-        <translation>Każdorazowa podczas aktualizacji treść aktykułów będzie pobierana i zapisywana lokalnie, tak aby była dostępna podczas pracy w trybie Offline.</translation>
+        <translation type="vanished">Każdorazowa podczas aktualizacji treść aktykułów będzie pobierana i zapisywana lokalnie, tak aby była dostępna podczas pracy w trybie Offline.</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/SettingsPage.qml" line="126"/>
         <source>Show only unread items</source>
-        <translation>Pokazuj tylko nieprzeczytane artykuły</translation>
+        <translation type="vanished">Pokazuj tylko nieprzeczytane artykuły</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/SettingsPage.qml" line="146"/>
         <source>Show Tab with saved items</source>
-        <translation>Pokazuj zakładkę z zapisanymi artykułami </translation>
+        <translation type="vanished">Pokazuj zakładkę z zapisanymi artykułami </translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="250"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="248"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="317"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="156"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="264"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="264"/>
         <source>Power save mode</source>
         <translation>Tryb oszczędności energii</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="251"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="249"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="318"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="157"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="265"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="265"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
         <translation>Gdy aplikacja przełączy się w tryb nieaktywny, wszystkie otwarte strony internetowe zostaną zamknięte aby zmniejszyć zużycie energii.   </translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="271"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="259"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="330"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="177"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="275"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="275"/>
         <source>Orientation</source>
         <translation>Orientacja</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="276"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="264"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="334"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="280"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="280"/>
         <source>Dynamic</source>
         <translation>Dynamiczna</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="277"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="265"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="335"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="281"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="281"/>
         <source>Portrait</source>
         <translation>Pionowa</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="278"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="266"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="336"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="282"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="282"/>
         <source>Landscape</source>
         <translation>Pozioma</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="317"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="305"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="371"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="321"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="321"/>
         <source>Other</source>
         <translation>Inne</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="89"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="87"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="140"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="91"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="92"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="92"/>
         <source>Cache</source>
         <translation>Lokalna kopia</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="93"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="91"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="156"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="95"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="96"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="96"/>
         <source>Current cache size</source>
         <translation>Rozmiar lokalnej kopii</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/SettingsPage.qml" line="100"/>
         <source>Offline mode</source>
-        <translation>Tryb Offline</translation>
+        <translation type="vanished">Tryb Offline</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="127"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="125"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="195"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="141"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="141"/>
         <source>Cache articles</source>
         <translation>Twórz lokalną kopię</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="139"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="137"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="207"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="122"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="153"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="153"/>
         <source>UI</source>
         <translation>Interfejs</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="230"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="228"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="297"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="244"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="244"/>
         <source>Show only unread articles</source>
         <translation>Pokazuj tylko nieprzeczytane artykuły</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="299"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="287"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="354"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="303"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="303"/>
         <source>Black</source>
         <translation>Czarny</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="300"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="288"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="355"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="304"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="304"/>
         <source>White</source>
         <translation>Biały</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="288"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="276"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="344"/>
-        <location filename="../qml/symbian/SettingsPage.qml" line="192"/>
+        <location filename="../qml/symbian/SettingsPage.qml" line="292"/>
+        <location filename="../qml/symbian-copy/SettingsPage.qml" line="292"/>
         <source>Offline viewer style</source>
         <translation>Styl wyświetlania w trybie Offline</translation>
     </message>
@@ -939,31 +1123,34 @@ Brak połączenia sieciowego</translation>
 <context>
     <name>SignInDialog</name>
     <message>
-        <location filename="../qml/harmattan/SignInDialog.qml" line="38"/>
+        <location filename="../qml/harmattan/SignInDialog.qml" line="36"/>
         <location filename="../qml/sailfish/SignInDialog.qml" line="52"/>
         <location filename="../qml/symbian/SignInDialog.qml" line="37"/>
+        <location filename="../qml/symbian-copy/SignInDialog.qml" line="37"/>
         <source>Netvibes account</source>
         <translation>Konto Netvibes</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SignInDialog.qml" line="57"/>
+        <location filename="../qml/harmattan/SignInDialog.qml" line="55"/>
         <source>Username (E-mail)</source>
         <translation>Nazwa użytkownika (E-mail)</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SignInDialog.qml" line="65"/>
+        <location filename="../qml/harmattan/SignInDialog.qml" line="63"/>
         <location filename="../qml/sailfish/SignInDialog.qml" line="61"/>
         <source>Enter username (E-mail) here!</source>
         <translation>Wprowadź nazwę (E-mail) użytkownika!</translation>
     </message>
     <message>
         <location filename="../qml/symbian/SignInDialog.qml" line="45"/>
+        <location filename="../qml/symbian-copy/SignInDialog.qml" line="45"/>
         <source>Username</source>
         <translation>Nazwa użytkownika</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SignInDialog.qml" line="108"/>
+        <location filename="../qml/harmattan/SignInDialog.qml" line="106"/>
         <location filename="../qml/symbian/SignInDialog.qml" line="95"/>
+        <location filename="../qml/symbian-copy/SignInDialog.qml" line="95"/>
         <source>Sign in</source>
         <translation>Zaloguj</translation>
     </message>
@@ -979,20 +1166,23 @@ Brak połączenia sieciowego</translation>
     </message>
     <message>
         <location filename="../qml/symbian/SignInDialog.qml" line="53"/>
+        <location filename="../qml/symbian-copy/SignInDialog.qml" line="53"/>
         <source>Enter username here!</source>
         <translation>Wprowadź nazwę użytkownika!</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SignInDialog.qml" line="84"/>
+        <location filename="../qml/harmattan/SignInDialog.qml" line="82"/>
         <location filename="../qml/sailfish/SignInDialog.qml" line="79"/>
         <location filename="../qml/symbian/SignInDialog.qml" line="72"/>
+        <location filename="../qml/symbian-copy/SignInDialog.qml" line="72"/>
         <source>Enter password here!</source>
         <translation>Wprowadź hasło!</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SignInDialog.qml" line="76"/>
+        <location filename="../qml/harmattan/SignInDialog.qml" line="74"/>
         <location filename="../qml/sailfish/SignInDialog.qml" line="80"/>
         <location filename="../qml/symbian/SignInDialog.qml" line="64"/>
+        <location filename="../qml/symbian-copy/SignInDialog.qml" line="64"/>
         <source>Password</source>
         <translation>Hasło</translation>
     </message>
@@ -1000,53 +1190,60 @@ Brak połączenia sieciowego</translation>
 <context>
     <name>TabPage</name>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="57"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="63"/>
         <location filename="../qml/sailfish/TabPage.qml" line="76"/>
+        <location filename="../qml/symbian/TabPage.qml" line="62"/>
+        <location filename="../qml/symbian-copy/TabPage.qml" line="62"/>
         <source>Tabs</source>
         <translation>Zakładki</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="149"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="156"/>
         <location filename="../qml/sailfish/TabPage.qml" line="211"/>
+        <location filename="../qml/symbian/TabPage.qml" line="154"/>
+        <location filename="../qml/symbian-copy/TabPage.qml" line="154"/>
         <source>Wait until Sync finish.</source>
         <translation>Zaczekaj do zakończenia aktualizacji.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="150"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="157"/>
         <location filename="../qml/sailfish/TabPage.qml" line="211"/>
+        <location filename="../qml/symbian/TabPage.qml" line="155"/>
+        <location filename="../qml/symbian-copy/TabPage.qml" line="155"/>
         <source>You are not signed in.</source>
         <translation>Nie jesteś zalogowany.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="130"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="137"/>
         <location filename="../qml/sailfish/TabPage.qml" line="183"/>
-        <location filename="../qml/symbian/TabPage.qml" line="123"/>
+        <location filename="../qml/symbian/TabPage.qml" line="135"/>
+        <location filename="../qml/symbian-copy/TabPage.qml" line="135"/>
         <source>Mark all as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="137"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="144"/>
         <location filename="../qml/sailfish/TabPage.qml" line="191"/>
-        <location filename="../qml/symbian/TabPage.qml" line="131"/>
+        <location filename="../qml/symbian/TabPage.qml" line="142"/>
+        <location filename="../qml/symbian-copy/TabPage.qml" line="142"/>
         <source>Mark all as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="148"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="155"/>
         <location filename="../qml/sailfish/TabPage.qml" line="204"/>
-        <location filename="../qml/symbian/TabPage.qml" line="143"/>
+        <location filename="../qml/symbian/TabPage.qml" line="153"/>
+        <location filename="../qml/symbian-copy/TabPage.qml" line="153"/>
         <source>No tabs</source>
         <translation>Brak zakładek</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/TabPage.qml" line="144"/>
         <source>Press button to do first Sync</source>
-        <translation>Wykonaj pierwszą aktualizacje kanałów</translation>
+        <translation type="vanished">Wykonaj pierwszą aktualizacje kanałów</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/TabPage.qml" line="144"/>
         <source>Wait until Sync finish</source>
-        <translation>Zaczekaj do zakończenia aktualizacji</translation>
+        <translation type="vanished">Zaczekaj do zakończenia aktualizacji</translation>
     </message>
 </context>
 <context>
@@ -1162,9 +1359,10 @@ Brak połączenia sieciowego</translation>
 <context>
     <name>WebPreviewPage</name>
     <message>
-        <location filename="../qml/harmattan/WebPreviewPage.qml" line="108"/>
+        <location filename="../qml/harmattan/WebPreviewPage.qml" line="106"/>
         <location filename="../qml/sailfish/WebPreviewPage.qml" line="103"/>
         <location filename="../qml/symbian/WebPreviewPage.qml" line="98"/>
+        <location filename="../qml/symbian-copy/WebPreviewPage.qml" line="98"/>
         <source>Loading page content...</source>
         <translation>Wczytywanie artykułu...</translation>
     </message>
@@ -1179,35 +1377,38 @@ Brak połączenia sieciowego</translation>
         <translation>Nie udało się pobrać treści :-(</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="173"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="172"/>
         <source>Cannot switch to Online mode.
 Network connection is unavailable.</source>
         <translation>Nie można przejść do trybu Online.
 Brak połączenia sieciowego.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="178"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="177"/>
         <source>Offline version not available.</source>
         <translation>Brak kopii Offline.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/WebPreviewPage.qml" line="60"/>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="164"/>
+        <location filename="../qml/harmattan/WebPreviewPage.qml" line="58"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="163"/>
         <location filename="../qml/symbian/WebPreviewPage.qml" line="54"/>
+        <location filename="../qml/symbian-copy/WebPreviewPage.qml" line="54"/>
         <source>Launching an external browser...</source>
         <translation>Uruchamianie zewnętrznej przeglądarki...</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/WebPreviewPage.qml" line="69"/>
+        <location filename="../qml/harmattan/WebPreviewPage.qml" line="67"/>
         <location filename="../qml/symbian/WebPreviewPage.qml" line="63"/>
+        <location filename="../qml/symbian-copy/WebPreviewPage.qml" line="63"/>
         <source>Cannot switch to Online mode
 Network connection is unavailable</source>
         <translation>Nie można przejść do trybu Online
 Brak połączenia sieciowego</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/WebPreviewPage.qml" line="74"/>
+        <location filename="../qml/harmattan/WebPreviewPage.qml" line="72"/>
         <location filename="../qml/symbian/WebPreviewPage.qml" line="68"/>
+        <location filename="../qml/symbian-copy/WebPreviewPage.qml" line="68"/>
         <source>Offline version not available</source>
         <translation>Brak kopii Offline</translation>
     </message>
@@ -1216,69 +1417,72 @@ Brak połączenia sieciowego</translation>
     <name>main</name>
     <message>
         <location filename="../qml/harmattan/main.qml" line="165"/>
-        <location filename="../qml/symbian/main.qml" line="120"/>
+        <location filename="../qml/symbian/main.qml" line="162"/>
+        <location filename="../qml/symbian-copy/main.qml" line="162"/>
         <source>An unknown error occurred! :-(</source>
         <translation>Wystąpił nieznany błąd! :-(</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="123"/>
         <location filename="../qml/sailfish/main.qml" line="115"/>
-        <location filename="../qml/symbian/main.qml" line="80"/>
+        <location filename="../qml/symbian/main.qml" line="120"/>
+        <location filename="../qml/symbian-copy/main.qml" line="120"/>
         <source>%1 more items left...</source>
         <translation>Pozostało do pobrania: %1... </translation>
     </message>
     <message>
-        <location filename="../qml/symbian/main.qml" line="48"/>
         <source>Dashboard changed!</source>
-        <translation>Zmieniono tablicę!</translation>
+        <translation type="vanished">Zmieniono tablicę!</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="125"/>
         <location filename="../qml/sailfish/main.qml" line="117"/>
-        <location filename="../qml/symbian/main.qml" line="82"/>
+        <location filename="../qml/symbian/main.qml" line="122"/>
+        <location filename="../qml/symbian-copy/main.qml" line="122"/>
         <source>All done!</source>
         <translation>Gotowe!</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/main.qml" line="87"/>
         <source>Download failed
 Network connection is unavailable</source>
-        <translation>Nie udało się pobrać
+        <translation type="vanished">Nie udało się pobrać
 Brak połączenia sieciowego</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/main.qml" line="104"/>
         <source>Sync failed
 Network connection is unavailable</source>
-        <translation>Aktualizacja nie powiodła się
+        <translation type="vanished">Aktualizacja nie powiodła się
 Brak połączenia sieciowego</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/main.qml" line="115"/>
-        <location filename="../qml/symbian/main.qml" line="125"/>
         <source>User &amp; Password do not match!</source>
-        <translation>Nazwa użytkownika nie pasuje do hasła!</translation>
+        <translation type="vanished">Nazwa użytkownika nie pasuje do hasła!</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/main.qml" line="129"/>
         <source>Successfully Signed In!</source>
-        <translation>Zalogowano!</translation>
+        <translation type="vanished">Zalogowano!</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="53"/>
         <location filename="../qml/sailfish/main.qml" line="45"/>
+        <location filename="../qml/symbian/main.qml" line="50"/>
+        <location filename="../qml/symbian-copy/main.qml" line="50"/>
         <source>Feeds</source>
         <translation>Kanały</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="83"/>
         <location filename="../qml/sailfish/main.qml" line="75"/>
+        <location filename="../qml/symbian/main.qml" line="80"/>
+        <location filename="../qml/symbian-copy/main.qml" line="80"/>
         <source>Signed out!</source>
         <translation>Wylogowany!</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="130"/>
         <location filename="../qml/sailfish/main.qml" line="122"/>
+        <location filename="../qml/symbian/main.qml" line="127"/>
+        <location filename="../qml/symbian-copy/main.qml" line="127"/>
         <source>Download failed!
 Network connection is unavailable.</source>
         <translation>Nie udało się pobrać!
@@ -1287,6 +1491,8 @@ Brak połączenia sieciowego.</translation>
     <message>
         <location filename="../qml/harmattan/main.qml" line="149"/>
         <location filename="../qml/sailfish/main.qml" line="141"/>
+        <location filename="../qml/symbian/main.qml" line="146"/>
+        <location filename="../qml/symbian-copy/main.qml" line="146"/>
         <source>Sync failed!
 Network connection is unavailable.</source>
         <translation>Aktualizacja nie powiodła się!
@@ -1297,71 +1503,74 @@ Brak połączenia sieciowego.</translation>
         <location filename="../qml/harmattan/main.qml" line="170"/>
         <location filename="../qml/sailfish/main.qml" line="152"/>
         <location filename="../qml/sailfish/main.qml" line="162"/>
+        <location filename="../qml/symbian/main.qml" line="157"/>
+        <location filename="../qml/symbian/main.qml" line="167"/>
+        <location filename="../qml/symbian-copy/main.qml" line="157"/>
+        <location filename="../qml/symbian-copy/main.qml" line="167"/>
         <source>The user name or password is incorrect!</source>
         <translation>Nazwa użytkownika lub hasło jest niepoprawne!</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="174"/>
         <location filename="../qml/sailfish/main.qml" line="166"/>
+        <location filename="../qml/symbian/main.qml" line="171"/>
+        <location filename="../qml/symbian-copy/main.qml" line="171"/>
         <source>You are signed in!</source>
         <translation>Zalogowany!</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="178"/>
         <location filename="../qml/sailfish/main.qml" line="170"/>
-        <location filename="../qml/symbian/main.qml" line="134"/>
+        <location filename="../qml/symbian/main.qml" line="175"/>
+        <location filename="../qml/symbian-copy/main.qml" line="175"/>
         <source>Receiving data... </source>
         <translation>Pobieranie danych...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="183"/>
         <location filename="../qml/sailfish/main.qml" line="175"/>
+        <location filename="../qml/symbian/main.qml" line="180"/>
+        <location filename="../qml/symbian-copy/main.qml" line="180"/>
         <source>Sending data...</source>
         <translation>Wysyłanie danych...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="189"/>
         <location filename="../qml/sailfish/main.qml" line="181"/>
-        <location filename="../qml/symbian/main.qml" line="147"/>
+        <location filename="../qml/symbian/main.qml" line="186"/>
+        <location filename="../qml/symbian-copy/main.qml" line="186"/>
         <source>Initiating...</source>
         <translation>Pierwsza aktualizacja...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="193"/>
         <location filename="../qml/sailfish/main.qml" line="185"/>
-        <location filename="../qml/symbian/main.qml" line="151"/>
+        <location filename="../qml/symbian/main.qml" line="190"/>
+        <location filename="../qml/symbian-copy/main.qml" line="190"/>
         <source>Updating...</source>
         <translation>Aktualizacja...</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/main.qml" line="311"/>
-        <location filename="../qml/symbian/main.qml" line="208"/>
         <source>About</source>
-        <translation>O Programie</translation>
+        <translation type="vanished">O Programie</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/main.qml" line="315"/>
-        <location filename="../qml/symbian/main.qml" line="212"/>
         <source>Settings</source>
-        <translation>Ustawienia</translation>
+        <translation type="vanished">Ustawienia</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/main.qml" line="319"/>
-        <location filename="../qml/harmattan/main.qml" line="330"/>
-        <location filename="../qml/symbian/main.qml" line="216"/>
-        <location filename="../qml/symbian/main.qml" line="227"/>
         <source>Exit</source>
-        <translation>Wyjście</translation>
+        <translation type="vanished">Wyjście</translation>
     </message>
     <message>
-        <location filename="../qml/symbian/main.qml" line="140"/>
         <source>Sending data to Netvibes...</source>
-        <translation>Wysyłanie danych do Netvibes...</translation>
+        <translation type="vanished">Wysyłanie danych do Netvibes...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="197"/>
         <location filename="../qml/sailfish/main.qml" line="189"/>
-        <location filename="../qml/symbian/main.qml" line="155"/>
+        <location filename="../qml/symbian/main.qml" line="194"/>
+        <location filename="../qml/symbian-copy/main.qml" line="194"/>
         <source>Signing in...</source>
         <translation>Logowanie...</translation>
     </message>
@@ -1372,15 +1581,20 @@ Brak połączenia sieciowego.</translation>
         <location filename="../qml/sailfish/main.qml" line="193"/>
         <location filename="../qml/sailfish/main.qml" line="197"/>
         <location filename="../qml/sailfish/main.qml" line="201"/>
-        <location filename="../qml/symbian/main.qml" line="159"/>
-        <location filename="../qml/symbian/main.qml" line="163"/>
-        <location filename="../qml/symbian/main.qml" line="167"/>
+        <location filename="../qml/symbian/main.qml" line="198"/>
+        <location filename="../qml/symbian/main.qml" line="202"/>
+        <location filename="../qml/symbian/main.qml" line="206"/>
+        <location filename="../qml/symbian-copy/main.qml" line="198"/>
+        <location filename="../qml/symbian-copy/main.qml" line="202"/>
+        <location filename="../qml/symbian-copy/main.qml" line="206"/>
         <source>Waiting for network...</source>
         <translation>Oczekiwanie na połączenie...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="98"/>
         <location filename="../qml/sailfish/main.qml" line="90"/>
+        <location filename="../qml/symbian/main.qml" line="95"/>
+        <location filename="../qml/symbian-copy/main.qml" line="95"/>
         <source>Something went wrong :-(
 Restart the app to rebuild cache data.</source>
         <translation>Coś poszło nie tak :-(
@@ -1403,6 +1617,7 @@ Wystąpił nieznany błąd.</translation>
     <name>test</name>
     <message>
         <location filename="../qml/symbian/test.qml" line="40"/>
+        <location filename="../qml/symbian-copy/test.qml" line="40"/>
         <source>Exit</source>
         <translation>Wyjście</translation>
     </message>

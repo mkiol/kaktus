@@ -22,7 +22,7 @@
         <location filename="../qml/sailfish/AboutPage.qml" line="82"/>
         <location filename="../qml/symbian/AboutPage.qml" line="91"/>
         <source>An unofficial Netvibes feed reader, specially designed to work offline.</source>
-        <translation>یک خبر مشهور غیر رسمی خوانده شد، ویژه طراحی برای کار آفلاین</translation>
+        <translation>یک خبرخوان غیر رسمی مشهور،طراحی شده و  ویژه برای کار آفلاین</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/AboutPage.qml" line="131"/>
@@ -33,18 +33,6 @@
 </context>
 <context>
     <name>ChangelogPage</name>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="62"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="67"/>
-        <source>Multi-Feed widget support</source>
-        <translation>پشتیبانی ویجت چند خبره</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="91"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="96"/>
-        <source>Articles, that have been added since last sync, are marked with small dash on the right side of the list.</source>
-        <translation>مقالات، که از همگام سازی سال گذشته اضافه شده است، با خط تیره کوچک در سمت راست از لیست مشخص شده اند.</translation>
-    </message>
     <message>
         <location filename="../qml/harmattan/ChangelogPage.qml" line="52"/>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="48"/>
@@ -58,107 +46,11 @@
         <source>Version %1</source>
         <translation>نسخه: %1</translation>
     </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="75"/>
-        <source>New View Modes</source>
-        <translation>حالت های جدید نمایش</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="76"/>
-        <source>There are new View Modes, which enable you to show all articles in the one list or group articles using tabs. You can switch between modes by clicking on the appropriate icon on the bottom bar.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="106"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="58"/>
-        <source>User Interface improvements</source>
-        <translation>بهبود رابط کاربری</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="59"/>
-        <source>Few user interface improvements on page with articles were added.</source>
-        <translation>تعداد کمی از بهبود رابط کاربری در صفحه با مقالات اضافه شده است.</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="63"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="68"/>
-        <source>Kaktus can read RSS feeds, which are aggregated with Netvibes Multi-Feed widget. So far, only simple Feed widget was supported.</source>
-        <translation>کاکتوس خبرهای RSS را میتواند بخواند، که با ویجت مشهور چند خبره جمع شده اند. تا کنون، فقط خبرهای ساده در ویجت پیشتبانی شده اند.</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="70"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="75"/>
-        <source>In addition to the context menu option, marking as read/unread now can be done by double-click.</source>
-        <translation>علاوه بر گزینه های منوی زمینه، مارک به عنوان خوانده شده / خوانده نشده اکنون را می توان با دو کلیک انجام داد.</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="80"/>
-        <source>Bottom Bar &amp; New View Modes</source>
-        <translation>نوار پایین و حالت های جدید نمایش</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="81"/>
-        <source>There are new View Modes, which enable you to show all articles in the one list or group articles using tabs. You can switch between modes by clicking on the appropriate icon on the Bottom Bar.</source>
-        <translation>چندین حالت جدید مشاهده وجود دارد، که شما را قادر به نشان دادن تمام مقالات در یک لیست و یا در یک گروه مقالات با استفاده از زبانه ها میسازد شما می توانید حالت را با کلیک کردن بر روی آیکون مناسب در نوار پایین تغییر دهید.</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="83"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="88"/>
-        <source>Slow feeds</source>
-        <translation>خبرهای آهسته</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="84"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="89"/>
-        <source>One of the new view modes gives you option to view only articles from less frequently updated feeds - so called Slow feeds. </source>
-        <translation>یکی از حالت های جدید نمایش به شما گزینه ای برای مشاهده مقالاتی را میدهد که در خبرها کمتر به روز می شوند - خبرهای به اصطلاح آهسته.</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="90"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="95"/>
-        <source>Indicator for new articles</source>
-        <translation>شاخص برای مقالات جدید</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="96"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="101"/>
-        <source>Option to delete cache data</source>
-        <translation>گزینه ای برای حذف اطلاعات حافظه پنهان</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="97"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="102"/>
-        <source>Cache data can be deleted manually. The option is located on the Settings page.</source>
-        <translation>اطلاعات حافظه پنهان می تواند به صورت دستی حذف شدوند. گزینه ای در صفحه تنظیمات واقع شده است.</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="101"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="106"/>
-        <source>User Guide</source>
-        <translation>راهنمای کاربر</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="102"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="107"/>
-        <source>User Guide contains information how to navigate the new UI elements like Bottom Bar and View Modes.</source>
-        <translation>راهنمای کاربر حاوی اطلاعاتی برای  چگونگی حرکت به UI جدید عناصر مانند نوار پایین و حالت های نمایش.</translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="107"/>
-        <source>Few user interface improvements were added.</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../qml/harmattan/ChangelogPage.qml" line="69"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="74"/>
-        <source>Double-click marks article as read/unread</source>
-        <translation>دوبار کلیک برای علامت مقاله به عنوان خوانده شده / خوانده نشده</translation>
-    </message>
 </context>
 <context>
     <name>ComboBox</name>
     <message>
-        <location filename="../qml/harmattan/ComboBox.qml" line="75"/>
+        <location filename="../qml/harmattan/ComboBox.qml" line="77"/>
         <location filename="../qml/symbian/ComboBox.qml" line="72"/>
         <source>Select</source>
         <translation>انتخاب</translation>
@@ -167,7 +59,7 @@
 <context>
     <name>ControlBar</name>
     <message>
-        <location filename="../qml/sailfish/ControlBar.qml" line="163"/>
+        <location filename="../qml/sailfish/ControlBar.qml" line="164"/>
         <source>Can&apos;t switch to Online mode.
 Network connection is unavailable.</source>
         <translation>نمی توان به حالت آنلاین تغییر دهید
@@ -272,57 +164,34 @@ Network connection is unavailable.</source>
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="315"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="318"/>
         <source>Unsave</source>
         <translation>ذخیره نکردن</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="315"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="318"/>
         <source>Save</source>
         <translation>ذخیره</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="327"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="330"/>
         <source>Collapse</source>
         <translation>فروپاشی</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="327"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="330"/>
         <source>Expand</source>
         <translation>باز</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="300"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="303"/>
         <source>Mark as unread</source>
         <translation>علامت گذاری به عنوان خوانده نشده</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="300"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="303"/>
         <source>Mark as read</source>
         <translation>علامت گذاری به عنوان خوانده شده</translation>
-    </message>
-</context>
-<context>
-    <name>EntryDelegate0</name>
-    <message>
-        <location filename="../qml/sailfish/EntryDelegate0.qml" line="345"/>
-        <source>Mark as unread</source>
-        <translation>علامت گذاری به عنوان خوانده نشده</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/EntryDelegate0.qml" line="345"/>
-        <source>Mark as read</source>
-        <translation>علامت گذاری به عنوان خوانده شده</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/EntryDelegate0.qml" line="359"/>
-        <source>Unsave</source>
-        <translation>ذخیره نکردن</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/EntryDelegate0.qml" line="359"/>
-        <source>Save</source>
-        <translation>ذخیره</translation>
     </message>
 </context>
 <context>
@@ -350,25 +219,25 @@ Switching to Offline mode</source>
         <translation>اتصال شبکه در دسترس نیست</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="212"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="223"/>
         <location filename="../qml/symbian/EntryPage.qml" line="141"/>
         <source>Unsave</source>
         <translation>ذخیره نکردن</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="212"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="223"/>
         <location filename="../qml/symbian/EntryPage.qml" line="141"/>
         <source>Save</source>
         <translation>ذخیره</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="223"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="234"/>
         <location filename="../qml/symbian/EntryPage.qml" line="151"/>
         <source>Mark as unread</source>
         <translation>علامت گذاری به عنوان خوانده نشده</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="223"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="234"/>
         <location filename="../qml/symbian/EntryPage.qml" line="151"/>
         <source>Mark as read</source>
         <translation>علامت گذاری به عنوان خوانده شده</translation>
@@ -464,14 +333,14 @@ Switching to Offline mode.</source>
 <context>
     <name>FeedPage</name>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="124"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="135"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="169"/>
         <location filename="../qml/symbian/FeedPage.qml" line="112"/>
         <source>Mark all as read</source>
         <translation>علامت گذاری به عنوان خوانده شده</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="132"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="143"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="177"/>
         <location filename="../qml/symbian/FeedPage.qml" line="121"/>
         <source>Mark all as unread</source>
@@ -509,24 +378,24 @@ Switching to Offline mode.</source>
         <translation>برای ورود به سیستم و انجام اولین هماهنگ سازی خبرها با مشهور، جلو و پایین و همگام سازی انتخاب کنید.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FirstPage.qml" line="91"/>
+        <location filename="../qml/harmattan/FirstPage.qml" line="97"/>
         <source>Press the button below to sign in and do feeds sync with Netvibes.</source>
-        <translation></translation>
+        <translation>با فشار دادن دکمه زیر به سیستم وارد شوید و خبرها را با سرور همگام سازی کنید.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FirstPage.qml" line="107"/>
+        <location filename="../qml/harmattan/FirstPage.qml" line="113"/>
         <location filename="../qml/sailfish/FirstPage.qml" line="104"/>
         <source>Not signed in</source>
         <translation>به سیستم وارد نشده اید</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FirstPage.qml" line="107"/>
+        <location filename="../qml/harmattan/FirstPage.qml" line="113"/>
         <location filename="../qml/sailfish/FirstPage.qml" line="104"/>
         <source>Signed in</source>
         <translation>به سیستم وارد شده اید</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FirstPage.qml" line="108"/>
+        <location filename="../qml/harmattan/FirstPage.qml" line="114"/>
         <location filename="../qml/sailfish/FirstPage.qml" line="111"/>
         <source>Wait until Sync finish.</source>
         <translation>صبر کنید تا همگام سازی به پایان برسد.</translation>
@@ -606,14 +475,18 @@ List all articles from less frequently updated feeds. A feed is considered slow 
         <source>Bottom bar also contains network indicator.
 
 This indicator enables you to switch between the online and offline mode. In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation></translation>
+        <translation>نوار پایین دارای شاخص شبکه می باشد.
+
+این شاخص شما را برای تغییر حالت بین آنلاین و آفلاین قادر میسازند. در حالت آفلاین، کاکتوس فقط بوسیله حافظه پنهان صفحات وب و تصاویر را دریافت میکند، به طوری که اتصال به شبکه مورد نیاز نمی باشد.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="331"/>
         <source>That&apos;s all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on
 &lt;i&gt;Show User Guide&lt;/i&gt;
 on the settings page.</source>
-        <translation type="unfinished"></translation>
+        <translation>این همه!&lt;br/&gt;&lt;br/&gt;اگر می خواهید یک بار دیگر این راهنما را ببینید، روی آن کلیک کنید
+&lt;i&gt;نمایش راهنمای کاربر&lt;/i&gt;
+در صفحه تنظیمات.</translation>
     </message>
 </context>
 <context>
@@ -784,60 +657,78 @@ Network connection is unavailable</source>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="143"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="212"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="213"/>
+        <source>Language</source>
+        <translation>زبان</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="157"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="226"/>
+        <source>Default</source>
+        <translation>پیش فرض</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="182"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="250"/>
+        <source>Changes will take effect after you restart Kaktus.</source>
+        <translation>ایجاد تغییرات پس از راه اندازی مجدد کاکتوس.</translation>
+    </message>
+    <message>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="187"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="256"/>
         <source>View mode</source>
         <translation>حالت مشاهده</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="161"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="229"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="205"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="273"/>
         <source>Tabs &amp; Feeds</source>
         <translation>زبانه ها و خبرها</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="162"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="230"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="206"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="274"/>
         <source>Only Tabs</source>
         <translation>فقط زبانه ها</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="163"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="231"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="207"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="275"/>
         <source>All feeds</source>
         <translation>همه خبرها</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="164"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="232"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="208"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="276"/>
         <source>Saved</source>
         <translation>ذخیره شد</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="165"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="233"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="209"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="277"/>
         <source>Slow</source>
         <translation>آهسته</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="196"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="263"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="240"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="307"/>
         <source>Show images</source>
         <translation>نمایش تصاویر</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="273"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="337"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="317"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="371"/>
         <source>Other</source>
         <translation>دیگر</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="278"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="341"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="322"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="375"/>
         <source>Show User Guide</source>
         <translation>نمایش راهنمای کاربر</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="281"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="325"/>
         <source>Not yet implemented :-(</source>
         <translation>هنوز اجرا نشده: (</translation>
     </message>
@@ -860,8 +751,8 @@ Network connection is unavailable</source>
         <translation>مقالات حافظه پنهان</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="186"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="253"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="230"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="297"/>
         <source>Show only unread articles</source>
         <translation>فقط نمایش مقالات خوانده نشده</translation>
     </message>
@@ -953,22 +844,22 @@ Network connection is unavailable</source>
         <translation>نمایش نوار با موارد ذخیره شده</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="206"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="273"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="250"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="317"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="156"/>
         <source>Power save mode</source>
         <translation>حالت ذخیره انرژی</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="207"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="274"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="251"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="318"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="157"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
         <translation>هنگامی که تلفن و یا برنامه به حالت غیر فعال می رود، همه صفحات وب باز برای کاهش مصرف برق بسته خواهد شد.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="232"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="300"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="276"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="334"/>
         <source>Dynamic</source>
         <translation>پویا</translation>
     </message>
@@ -980,40 +871,40 @@ Network connection is unavailable</source>
         <translation>UI</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="227"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="296"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="271"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="330"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="177"/>
         <source>Orientation</source>
         <translation>جهت</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="233"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="301"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="277"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="335"/>
         <source>Portrait</source>
         <translation>تصویر</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="234"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="302"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="278"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="336"/>
         <source>Landscape</source>
         <translation>چشم انداز</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="244"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="310"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="288"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="344"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="192"/>
         <source>Offline viewer style</source>
         <translation>حالت تماشای آفلاین</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="255"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="320"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="299"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="354"/>
         <source>Black</source>
         <translation>سیاه</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="256"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="321"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="300"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="355"/>
         <source>White</source>
         <translation>سفید</translation>
     </message>
@@ -1088,33 +979,33 @@ Network connection is unavailable</source>
         <translation>زبانه ها</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="138"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="149"/>
         <location filename="../qml/sailfish/TabPage.qml" line="211"/>
         <source>Wait until Sync finish.</source>
         <translation>تا پایان همگام سازی صبر کنید.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="139"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="150"/>
         <location filename="../qml/sailfish/TabPage.qml" line="211"/>
         <source>You are not signed in.</source>
         <translation>شما به سیستم وارد نشده اید.</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="119"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="130"/>
         <location filename="../qml/sailfish/TabPage.qml" line="183"/>
         <location filename="../qml/symbian/TabPage.qml" line="123"/>
         <source>Mark all as read</source>
         <translation>علامت گذاری به عنوان خوانده شده</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="126"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="137"/>
         <location filename="../qml/sailfish/TabPage.qml" line="191"/>
         <location filename="../qml/symbian/TabPage.qml" line="131"/>
         <source>Mark all as unread</source>
         <translation>علامت همه به عنوان خوانده نشده</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="137"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="148"/>
         <location filename="../qml/sailfish/TabPage.qml" line="204"/>
         <location filename="../qml/symbian/TabPage.qml" line="143"/>
         <source>No tabs</source>
@@ -1136,7 +1027,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="66"/>
@@ -1416,20 +1307,20 @@ Network connection is unavailable.</source>
         <translation>در حال به روز رسانی ...</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/main.qml" line="298"/>
+        <location filename="../qml/harmattan/main.qml" line="311"/>
         <location filename="../qml/symbian/main.qml" line="208"/>
         <source>About</source>
         <translation>درباره</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/main.qml" line="302"/>
+        <location filename="../qml/harmattan/main.qml" line="315"/>
         <location filename="../qml/symbian/main.qml" line="212"/>
         <source>Settings</source>
         <translation>تنظیمات</translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/main.qml" line="306"/>
-        <location filename="../qml/harmattan/main.qml" line="317"/>
+        <location filename="../qml/harmattan/main.qml" line="319"/>
+        <location filename="../qml/harmattan/main.qml" line="330"/>
         <location filename="../qml/symbian/main.qml" line="216"/>
         <location filename="../qml/symbian/main.qml" line="227"/>
         <source>Exit</source>
