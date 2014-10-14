@@ -129,6 +129,7 @@ Page {
         }
 
         onStatusChanged: {
+            bar.hide();
             if (progressPanelDm.open) {
                 if (status===DialogStatus.Opening) {
                     progressPanelDm.visible = false;
