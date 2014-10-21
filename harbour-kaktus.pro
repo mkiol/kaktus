@@ -1,6 +1,5 @@
 TARGET = harbour-kaktus
 
-DEFINES += SAILFISH
 DEFINES += ONLINE_CHECK
 
 ## sailfishapp.prf ##
@@ -18,13 +17,12 @@ CONFIG += link_pkgconfig
 PKGCONFIG += sailfishapp
 INCLUDEPATH += /usr/include/sailfishapp
 QMAKE_RPATHDIR += /usr/share/$${TARGET}/lib
-OTHER_FILES += $$files(rpm/*) \
-    qml/sailfish/Guide.qml
+OTHER_FILES += $$files(rpm/*)
 
 ##
 
 SOURCES += \
-    src/main.cpp \
+    src/main_sailfish.cpp \
     src/utils.cpp \
     src/tabmodel.cpp \
     src/netvibesfetcher.cpp \
@@ -74,7 +72,9 @@ OTHER_FILES += \
 CODECFORTR = UTF-8
 
 TRANSLATIONS = i18n/kaktus_en.ts \
-               i18n/kaktus_pl.ts
+               i18n/kaktus_pl.ts \
+               i18n/kaktus_fa.ts \
+               i18n/kaktus_ru.ts
 
 RESOURCES += \
     resources.qrc
