@@ -105,10 +105,10 @@ Page {
                 description: 'Cache data can be deleted manually. The option is located on the Settings page.'
             }
 
-            /*LogItem {
+            LogItem {
                 title: 'User Guide'
                 description: 'User Guide contains information how to navigate the new UI elements like Bottom Bar and View Modes.'
-            }*/
+            }
 
             LogItem {
                 title: 'User Interface improvements'

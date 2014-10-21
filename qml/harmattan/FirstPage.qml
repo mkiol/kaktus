@@ -55,6 +55,7 @@ Page {
                 selector.open = false;
             } else {
                 help.open = true;
+                selector.reset();
                 selector.open = true;
             }
         }

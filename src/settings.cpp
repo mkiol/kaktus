@@ -355,16 +355,31 @@ QString Settings::getDmUserAgent()
     return settings.value("useragent", value).toString();
 }
 
-QString Settings::getCsTheme()
+QString Settings::getOfflineTheme()
 {
     return settings.value("theme", "black").toString();
 }
 
-void Settings::setCsTheme(const QString &value)
+void Settings::setOfflineTheme(const QString &value)
 {
-    settings.setValue("theme", value);
+    if (getOfflineTheme() != value) {
+        settings.setValue("theme", value);
+        emit offlineThemeChanged();
+    }
 }
 
+int Settings::getFontSize()
+{
+    return settings.value("fontsize", 1).toInt();
+}
+
+void Settings::setFontSize(int value)
+{
+    if (getFontSize() != value) {
+        settings.setValue("fontsize", value);
+        emit fontSizeChanged();
+    }
+}
 
 void Settings::setFeedsAtOnce(int value)
 {

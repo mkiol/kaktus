@@ -28,6 +28,7 @@ Item {
     property int showTime: 6000
 
     property real barShowMoveWidth: 20
+    property real barShowMoveWidthBack: height
     property Flickable flick: null
 
     property bool isPortrait: app.orientation==Orientation.Portrait
@@ -195,7 +196,8 @@ Item {
 
         onMovementStarted: {
             m.vector = 0;
-            m.lastContentY = 0.0;
+            //m.lastContentY = 0.0;
+            m.lastContentY=flick.contentY;
             m.initialContentY=flick.contentY;
         }
 
@@ -206,9 +208,9 @@ Item {
                 var lastV = m.vector;
                 if (dInit<-barShowMoveWidth)
                     root.show();
-                if (dInit>barShowMoveWidth)
+                if (dInit>barShowMoveWidthBack)
                     root.hide();
-                if (dLast>barShowMoveWidth)
+                if (dLast>barShowMoveWidthBack)
                     root.hide();
                 if (m.lastContentY!=0) {
                     if (dLast<0)

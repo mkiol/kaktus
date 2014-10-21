@@ -54,6 +54,8 @@ class Settings: public QObject
     Q_PROPERTY (bool reinitDB READ getReinitDB WRITE setReinitDB)
     Q_PROPERTY (QString locale READ getLocale WRITE setLocale NOTIFY localeChanged)
     Q_PROPERTY (bool rightToLeftLayout READ getRightToLeftLayout)
+    Q_PROPERTY (int fontSize READ getFontSize WRITE setFontSize NOTIFY fontSizeChanged)
+    Q_PROPERTY (QString offlineTheme READ getOfflineTheme WRITE setOfflineTheme NOTIFY offlineThemeChanged)
 
 public:
     static Settings* instance();
@@ -110,6 +112,13 @@ public:
     bool getReinitDB();
 
     bool getRightToLeftLayout();
+
+    void setFontSize(int value);
+    int getFontSize();
+
+    void setOfflineTheme(const QString &value);
+    QString getOfflineTheme();
+
     // ---
 
     bool getShowOnlyUnread();
@@ -132,9 +141,6 @@ public:
 
     Q_INVOKABLE void setDmUserAgent(const QString &value);
     Q_INVOKABLE QString getDmUserAgent();
-
-    Q_INVOKABLE QString getCsTheme();
-    Q_INVOKABLE void setCsTheme(const QString &value);
 
     void setDmConnections(int value);
     int getDmConnections();
@@ -165,6 +171,8 @@ signals:
     void viewModeChanged();
     void helpDoneChanged();
     void localeChanged();
+    void offlineThemeChanged();
+    void fontSizeChanged();
 
     /*
     501 - Unable create settings dir

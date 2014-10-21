@@ -37,6 +37,9 @@ Page {
     property bool cached
     property int markAsReadTime: 4000
 
+    property bool updateViewPortDone: false
+    signal updateViewPort
+
     ActiveDetector {}
 
     onForwardNavigationChanged: {
@@ -61,6 +64,27 @@ Page {
         return Orientation.Landscape | Orientation.Portrait;
     }
 
+    onUpdateViewPort: {
+        var viewport = 1;
+        if (settings.fontSize==1)
+            viewport = 1.5;
+        if (settings.fontSize==2)
+            viewport = 2.0;
+        view.experimental.evaluateJavaScript(
+        "(function(){
+           var viewport = document.querySelector(\"meta[name=viewport]\");
+           if (viewport) {
+             viewport.setAttribute('content','initial-scale="+viewport+"');
+             return 1;
+           }
+           document.getElementsByTagName('head')[0].appendChild('<meta name=\"viewport\" content=\"initial-scale="+viewport+"\">');
+           return 0;
+         })()",
+         function(result) {
+             console.log("viewport present:",result);
+         });
+    }
+
     SilicaWebView {
         id: view
 
@@ -83,25 +107,33 @@ Page {
 
         clip: true*/
 
-        url:  {
+        /*url:  {
             if (settings.offlineMode) {
-                /*console.log(view.width);
-                if (isPortrait)
-                    return offlineUrl+"?width=540px";
-                return offlineUrl+"?width=960px";*/
                 if (settings.offlineMode)
                     return offlineUrl+"?width="+view.width+"px"+"&fontsize=24px";
             }
             return onlineUrl;
-        }
+        }*/
+
+        url: settings.offlineMode ? offlineUrl+"?fontsize=18px" : onlineUrl
 
         experimental.userAgent: settings.getDmUserAgent()
 
+        onLoadProgressChanged: {
+            // Changing viewport in online WebView to increase font size
+            // !settings.offlineMode &&
+            if (!root.updateViewPortDone &&
+                    loadProgress>20 && settings.fontSize>0) {
+                root.updateViewPort();
+                root.updateViewPortDone = true;
+            }
+        }
+
         onLoadingChanged: {
             if (loadRequest.status == WebView.LoadStartedStatus) {
-
                 proggressPanel.text = qsTr("Loading page content...");
                 proggressPanel.open = true;
+                root.updateViewPortDone = false;
 
             } else if (loadRequest.status == WebView.LoadFailedStatus) {
 

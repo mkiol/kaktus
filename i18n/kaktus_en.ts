@@ -49,7 +49,8 @@
     <message>
         <location filename="../qml/harmattan/ChangelogPage.qml" line="56"/>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="54"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="73"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="63"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="82"/>
         <location filename="../qml/symbian/ChangelogPage.qml" line="56"/>
         <location filename="../qml/symbian-copy/ChangelogPage.qml" line="56"/>
         <source>Version %1</source>
@@ -208,28 +209,28 @@ Network connection is unavailable.</source>
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="244"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="245"/>
         <location filename="../qml/symbian/EntryPage.qml" line="243"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="243"/>
         <source>Unsave</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="244"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="245"/>
         <location filename="../qml/symbian/EntryPage.qml" line="243"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="243"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="255"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="256"/>
         <location filename="../qml/symbian/EntryPage.qml" line="254"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="254"/>
         <source>Mark as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="255"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="256"/>
         <location filename="../qml/symbian/EntryPage.qml" line="254"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="254"/>
         <source>Mark as read</source>
@@ -317,14 +318,14 @@ Switching to Offline mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="266"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="267"/>
         <location filename="../qml/symbian/EntryPage.qml" line="266"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="266"/>
         <source>Mark all as unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/EntryPage.qml" line="266"/>
+        <location filename="../qml/harmattan/EntryPage.qml" line="267"/>
         <location filename="../qml/symbian/EntryPage.qml" line="266"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="266"/>
         <source>Mark all as read</source>
@@ -357,7 +358,7 @@ Switching to Offline mode.</source>
 <context>
     <name>FeedPage</name>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="144"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="145"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="169"/>
         <location filename="../qml/symbian/FeedPage.qml" line="143"/>
         <location filename="../qml/symbian-copy/FeedPage.qml" line="143"/>
@@ -365,7 +366,7 @@ Switching to Offline mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/FeedPage.qml" line="152"/>
+        <location filename="../qml/harmattan/FeedPage.qml" line="153"/>
         <location filename="../qml/sailfish/FeedPage.qml" line="177"/>
         <location filename="../qml/symbian/FeedPage.qml" line="151"/>
         <location filename="../qml/symbian-copy/FeedPage.qml" line="151"/>
@@ -731,6 +732,26 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="372"/>
+        <source>Web viewer font size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="376"/>
+        <source>-50%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="377"/>
+        <source>Normal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="378"/>
+        <source>+50%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="97"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="167"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="102"/>
@@ -835,16 +856,16 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="305"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="371"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="304"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="387"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="321"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="321"/>
         <source>Other</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="310"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="375"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="309"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="391"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="326"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="326"/>
         <source>Show User Guide</source>
@@ -1013,7 +1034,7 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="287"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="286"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="354"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="303"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="303"/>
@@ -1021,7 +1042,7 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/SettingsPage.qml" line="288"/>
+        <location filename="../qml/harmattan/SettingsPage.qml" line="287"/>
         <location filename="../qml/sailfish/SettingsPage.qml" line="355"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="304"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="304"/>
@@ -1107,7 +1128,7 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="156"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="157"/>
         <location filename="../qml/sailfish/TabPage.qml" line="211"/>
         <location filename="../qml/symbian/TabPage.qml" line="154"/>
         <location filename="../qml/symbian-copy/TabPage.qml" line="154"/>
@@ -1115,7 +1136,7 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="157"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="158"/>
         <location filename="../qml/sailfish/TabPage.qml" line="211"/>
         <location filename="../qml/symbian/TabPage.qml" line="155"/>
         <location filename="../qml/symbian-copy/TabPage.qml" line="155"/>
@@ -1123,7 +1144,7 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="137"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="138"/>
         <location filename="../qml/sailfish/TabPage.qml" line="183"/>
         <location filename="../qml/symbian/TabPage.qml" line="135"/>
         <location filename="../qml/symbian-copy/TabPage.qml" line="135"/>
@@ -1131,7 +1152,7 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="144"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="145"/>
         <location filename="../qml/sailfish/TabPage.qml" line="191"/>
         <location filename="../qml/symbian/TabPage.qml" line="142"/>
         <location filename="../qml/symbian-copy/TabPage.qml" line="142"/>
@@ -1139,7 +1160,7 @@ Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/harmattan/TabPage.qml" line="155"/>
+        <location filename="../qml/harmattan/TabPage.qml" line="156"/>
         <location filename="../qml/sailfish/TabPage.qml" line="204"/>
         <location filename="../qml/symbian/TabPage.qml" line="153"/>
         <location filename="../qml/symbian-copy/TabPage.qml" line="153"/>
@@ -1261,36 +1282,36 @@ Network connection is unavailable</source>
     <name>WebPreviewPage</name>
     <message>
         <location filename="../qml/harmattan/WebPreviewPage.qml" line="106"/>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="103"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="134"/>
         <location filename="../qml/symbian/WebPreviewPage.qml" line="98"/>
         <location filename="../qml/symbian-copy/WebPreviewPage.qml" line="98"/>
         <source>Loading page content...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="109"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="141"/>
         <source>Failed to load item from local cache :-(</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="111"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="143"/>
         <source>Failed to load page content :-(</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="172"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="204"/>
         <source>Cannot switch to Online mode.
 Network connection is unavailable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="177"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="209"/>
         <source>Offline version not available.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/harmattan/WebPreviewPage.qml" line="58"/>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="163"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="195"/>
         <location filename="../qml/symbian/WebPreviewPage.qml" line="54"/>
         <location filename="../qml/symbian-copy/WebPreviewPage.qml" line="54"/>
         <source>Launching an external browser...</source>

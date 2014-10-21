@@ -13,8 +13,8 @@ Name:       harbour-kaktus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
-Version:    1.2.1
-Release:    1
+Version:    1.2.2
+Release:    0
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -76,10 +76,16 @@ desktop-file-install --delete-original       \
 
 %changelog
 
+* Sun Oct 12 2014 Michal Kosciesza 1.2.2-0
+- Option to increase viewport in web viewer
+
+* Sun Oct 12 2014 Michal Kosciesza 1.2.1-2
+- BUG FIX: Auto mark as read does not work
+
 * Fri Oct 10 2014 Michal Kosciesza 1.2.1-1
 - UI improvements
 - Language settings
-- Farsi language
+- Farsi language (thanks to Ali Adineh)
 
 * Sat Oct 03 2014 Michal Kosciesza 1.2.1-0
 - UI improvements

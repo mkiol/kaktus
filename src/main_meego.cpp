@@ -17,21 +17,11 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#if defined(MEEGO_EDITION_HARMATTAN)
 #include <QtGui/QApplication>
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
 #include "qmlapplicationviewer.h"
 #include "networkaccessmanagerfactory.h"
-#endif
-#ifdef SAILFISH
-#include <QGuiApplication>
-#include <QScopedPointer>
-#include <QQmlEngine>
-#include <QQmlContext>
-#include <sailfishapp.h>
-#include "iconprovider.h"
-#endif
 
 #include <QtDebug>
 #include <QTranslator>
@@ -51,7 +41,6 @@ static const char *VERSION = "1.2.1";
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
   
-#if defined(MEEGO_EDITION_HARMATTAN)
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     QmlApplicationViewer view;
 
@@ -98,57 +87,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     view.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
 
-    //view.setMainQmlFile(QLatin1String("qml/harmattan/main.qml"));
-    view.setMainQmlFile(QLatin1String("qml/symbian/main.qml"));
+    view.setMainQmlFile(QLatin1String("qml/harmattan/main.qml"));
+    //view.setMainQmlFile(QLatin1String("qml/symbian/main.qml"));
     view.showExpanded();
-#endif
-
-#if defined(SAILFISH)
-    QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
-    QScopedPointer<QQuickView> view(SailfishApp::createView());
-
-    app->setApplicationDisplayName(APP_NAME);
-    app->setApplicationVersion(VERSION);
-
-    view->rootContext()->setContextProperty("APP_NAME", APP_NAME);
-    view->rootContext()->setContextProperty("VERSION", VERSION);
-    view->rootContext()->setContextProperty("AUTHOR", AUTHOR);
-    view->rootContext()->setContextProperty("PAGE", PAGE);
-
-    view->engine()->addImageProvider(QLatin1String("icons"), new IconProvider);
-
-    qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
-
-    Settings* settings = Settings::instance();
-
-    QTranslator *appTranslator = new QTranslator;
-    if (settings->getLocale() == "")
-        appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
-    else
-        appTranslator->load(":/i18n/kaktus_" + settings->getLocale() + ".qm");
-    app->installTranslator(appTranslator);
-
-    settings->view = view.data();
-    DatabaseManager db; settings->db = &db;
-    DownloadManager dm; settings->dm = &dm;
-    CacheServer cache(&db); settings->cache = &cache;
-    NetvibesFetcher fetcher; settings->fetcher = &fetcher;
-    Utils utils;
-
-    //QObject::connect(&fetcher, SIGNAL(ready()), &utils, SLOT(updateModels()));
-    QObject::connect(view->engine(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
-
-    view->rootContext()->setContextProperty("db", &db);
-    view->rootContext()->setContextProperty("fetcher", &fetcher);
-    view->rootContext()->setContextProperty("utils", &utils);
-    view->rootContext()->setContextProperty("dm", &dm);
-    view->rootContext()->setContextProperty("cache", &cache);
-    view->rootContext()->setContextProperty("settings", settings);
-
-    view->setSource(SailfishApp::pathTo("qml/sailfish/main.qml"));
-
-    view->show();
-#endif
 
     return app->exec();
 

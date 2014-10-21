@@ -77,7 +77,6 @@
          settings.javascriptCanOpenWindows: false
          settings.pluginsEnabled: false
 
-
          onLoadStarted: flickable.loadStarted()
          onLoadFailed: flickable.loadFailed()
          onLoadFinished: flickable.loadFinished()

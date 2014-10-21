@@ -51,12 +51,31 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("1.2.2")
+            }
+
+            LogItem {
+                title: 'Option to increase font size in web viewer'
+                description: 'Web viewer font size can be changed on settings page.'
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("1.2.1")
             }
 
             LogItem {
-                title: qsTr('User Interface improvements')
-                description: qsTr('Few user interface improvements on page with articles were added.')
+                title: 'User Interface improvements'
+                description: 'Few user interface improvements were added.'
+            }
+
+            LogItem {
+                title: 'Option to change language'
+                description: 'UI language can be changed on settings page.'
+            }
+
+            LogItem {
+                title: 'Farsi language'
+                description: 'Persian language is supported (thanks to Ali Adineh).'
             }
 
             SectionHeader {
@@ -64,47 +83,47 @@ Page {
             }
 
             LogItem {
-                title: qsTr('Multi-Feed widget support')
-                description: qsTr('Kaktus can read RSS feeds, which are aggregated with '+
+                title: 'Multi-Feed widget support'
+                description: 'Kaktus can read RSS feeds, which are aggregated with '+
                                   'Netvibes Multi-Feed widget. So far, only simple Feed '+
-                                  'widget was supported.')
+                                  'widget was supported.'
             }
 
             LogItem {
-                title: qsTr('Double-click marks article as read/unread')
-                description: qsTr('In addition to the context menu option, marking as '+
-                                  'read/unread now can be done by double-click.')
+                title: 'Double-click marks article as read/unread'
+                description: 'In addition to the context menu option, marking as '+
+                                  'read/unread now can be done by double-click.'
             }
 
             LogItem {
-                title: qsTr('Bottom Bar & New View Modes')
-                description: qsTr('There are new View Modes, which enable you to '+
+                title: 'Bottom Bar & New View Modes'
+                description: 'There are new View Modes, which enable you to '+
                                   'show all articles in the one list or group articles '+
                                   'using tabs. You can switch between modes by clicking '+
-                                  'on the appropriate icon on the Bottom Bar.')
+                                  'on the appropriate icon on the Bottom Bar.'
             }
 
             LogItem {
-                title: qsTr('Slow feeds')
-                description: qsTr('One of the new view modes gives you option to '+
+                title: 'Slow feeds'
+                description: 'One of the new view modes gives you option to '+
                                   'view only articles from less frequently updated feeds '+
-                                  '- so called Slow feeds. ')
+                                  '- so called Slow feeds. '
             }
 
             LogItem {
-                title: qsTr('Indicator for new articles')
-                description: qsTr('Articles, that have been added since last sync, '+
-                                  'are marked with small dash on the right side of the list.')
+                title: 'Indicator for new articles'
+                description: 'Articles, that have been added since last sync, '+
+                                  'are marked with small dash on the right side of the list.'
             }
 
             LogItem {
-                title: qsTr('Option to delete cache data')
-                description: qsTr('Cache data can be deleted manually. The option is located on the Settings page.')
+                title: 'Option to delete cache data'
+                description: 'Cache data can be deleted manually. The option is located on the Settings page.'
             }
 
             LogItem {
-                title: qsTr('User Guide')
-                description: qsTr('User Guide contains information how to navigate the new UI elements like Bottom Bar and View Modes.')
+                title: 'User Guide'
+                description: 'User Guide contains information how to navigate the new UI elements like Bottom Bar and View Modes.'
             }
 
             Item {

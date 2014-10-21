@@ -187,15 +187,29 @@ void CacheServer::filter(QString &content, const QUrl &query, const QString &ima
         fontsize= query.queryItemValue("fontsize");
 #endif
 
-    if (s->getCsTheme() == "white") {
+    /*if (s->getOfflineTheme() == "white") {
         style = QString("<meta name='viewport' content='width=%1'>"
                         "<style>body{background:#FFF;color:#000;font-size:%2;}img{max-width:%3;}</style></head>")
                 .arg(width).arg(fontsize).arg(width);
-    } else {
+    }
+
+    if (s->getOfflineTheme() == "black") {
         style = QString("<meta name='viewport' content='width=%1'>"
                 "<style>body{background:#000;color:#FFF;font-size:%2;}img{max-width:%3;}</style></head>")
                 .arg(width).arg(fontsize).arg(width);
-    }
+    }*/
+
+    if (s->getOfflineTheme() == "white") {
+            style = QString("<meta name='viewport' content='device-width'>"
+                            "<style>body{background:#FFF;color:#000;font-size:%2;}img{max-width:%3;}</style></head>")
+                    .arg(fontsize).arg(width);
+        }
+
+        if (s->getOfflineTheme() == "black") {
+            style = QString("<meta name='viewport' content='device-width'>"
+                            "<style>body{background:#000;color:#FFF;font-size:%2;}img{max-width:%3;}</style></head>")
+                    .arg(fontsize).arg(width);
+        }
 
     // Inserting image after <body> tag
     if (image!="")

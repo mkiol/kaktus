@@ -123,6 +123,7 @@ Item {
         text: root.text
         color: root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor
         verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignLeft
     }
 
     IconButton {

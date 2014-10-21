@@ -275,10 +275,9 @@ Page {
             ComboBox {
                 label: qsTr("Offline viewer style")
                 currentIndex: {
-                    var theme = settings.getCsTheme();
-                    if (theme === "black")
+                    if (settings.offlineTheme === "black")
                         return 0;
-                    if (theme === "white")
+                    if (settings.offlineTheme === "white")
                         return 1;
                 }
 
@@ -292,10 +291,10 @@ Page {
                 onCurrentIndexChanged: {
                     switch (currentIndex) {
                     case 0:
-                        settings.setCsTheme("black");
+                        settings.offlineTheme = "black";
                         break;
                     case 1:
-                        settings.setCsTheme("white");
+                        settings.offlineTheme = "white";
                         break;
                     }
                 }
