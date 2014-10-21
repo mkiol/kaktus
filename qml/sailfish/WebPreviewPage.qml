@@ -72,16 +72,16 @@ Page {
             viewport = 2.0;
         view.experimental.evaluateJavaScript(
         "(function(){
-           var viewport = document.querySelector(\"meta[name=viewport]\");
+           var viewport = document.querySelector('meta[name=\"viewport\"]');
            if (viewport) {
-             viewport.setAttribute('content','initial-scale="+viewport+"');
+             viewport.content = 'initial-scale="+viewport+"';
              return 1;
            }
            document.getElementsByTagName('head')[0].appendChild('<meta name=\"viewport\" content=\"initial-scale="+viewport+"\">');
            return 0;
          })()",
          function(result) {
-             console.log("viewport present:",result);
+             //console.log("viewport present:",result);
          });
     }
 
@@ -115,15 +115,24 @@ Page {
             return onlineUrl;
         }*/
 
-        url: settings.offlineMode ? offlineUrl+"?fontsize=18px" : onlineUrl
+        property int imgWidth: {
+            switch (settings.fontSize) {
+            case 1:
+                return view.width/(1.5);
+            case 2:
+                return view.width/(2.0);
+            }
+            return view.width
+        }
+
+        url: settings.offlineMode ? offlineUrl+"?fontsize=18px&width="+imgWidth+"px" : onlineUrl
 
         experimental.userAgent: settings.getDmUserAgent()
 
         onLoadProgressChanged: {
-            // Changing viewport in online WebView to increase font size
-            // !settings.offlineMode &&
+            // Changing viewport in WebView to increase font size
             if (!root.updateViewPortDone &&
-                    loadProgress>20 && settings.fontSize>0) {
+                    loadProgress>50 && settings.fontSize>0) {
                 root.updateViewPort();
                 root.updateViewPortDone = true;
             }
@@ -146,6 +155,9 @@ Page {
             } else {
 
                 proggressPanel.open = false;
+
+                // Changing viewport in WebView to increase font size
+                root.updateViewPort();
 
                 // Start timer to mark as read
                 if (!root.read)
@@ -177,7 +189,6 @@ Page {
         canOpenBrowser: true
         stared: root.stared
         transparent: false
-        //y: view.height
 
         onBackClicked: pageStack.pop()
 
