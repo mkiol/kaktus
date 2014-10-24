@@ -59,29 +59,6 @@ Rectangle {
         }
     }
 
-    MouseArea {
-        enabled: root.clickable
-        anchors.fill: parent
-        onClicked: {
-            if (root.progress==0) {
-                bar.open = true;
-                selector.open = true;
-            }
-            if (root.progress==7) {
-                bar.open = false;
-                selector.open = false;
-            }
-
-            if (root.progress==8) {
-                // Help finished
-                settings.helpDone = true;
-                root.open = false;
-            } else {
-                root.progress++;
-            }
-        }
-    }
-
     Label {
         id: title
         anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge;
@@ -424,5 +401,27 @@ Rectangle {
         }
     }
 
+    MouseArea {
+        enabled: root.clickable
+        anchors.fill: parent
+        onClicked: {
+            if (root.progress==0) {
+                bar.open = true;
+                selector.open = true;
+            }
+            if (root.progress==7) {
+                bar.open = false;
+                selector.open = false;
+            }
+
+            if (root.progress==8) {
+                // Help finished
+                settings.helpDone = true;
+                root.open = false;
+            } else {
+                root.progress++;
+            }
+        }
+    }
 
 }
