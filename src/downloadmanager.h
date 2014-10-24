@@ -37,6 +37,19 @@
 
 class QSslError;
 
+class CacheDeterminer : public QThread
+{
+    Q_OBJECT
+public:
+    CacheDeterminer(QObject * parent = 0);
+
+protected:
+    void run();
+
+signals:
+    void cacheDetermined(int size);
+};
+
 class DownloadAdder : public QThread
 {
     Q_OBJECT
@@ -153,6 +166,7 @@ public slots:
     void cacheCleaningFinished();
     void cacheRemoverFinished();
     void cacheRemoverProgressChanged(int current, int total);
+    void cacheSizeDetermined(int size);
 
 private:
     static const int entriesLimit = 200;
@@ -169,6 +183,10 @@ private:
     CacheCleaner cleaner;
     CacheRemover remover;
     DownloadAdder adder;
+    CacheDeterminer cacheDeterminer;
+
+    int lastCacheSize;
+    bool cacheSizeFreshFlag;
 
     void doDownload(DatabaseManager::CacheItem item);
     bool saveToDisk(const QString &filename, const QByteArray &content);

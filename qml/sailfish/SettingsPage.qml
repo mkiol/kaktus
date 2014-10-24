@@ -144,6 +144,8 @@ Page {
                 contentHeight: flow3.height + 2*Theme.paddingLarge
                 enabled: true
 
+                onClicked: showMenu()
+
                 Flow {
                     id: flow3
                     spacing: Theme.paddingMedium

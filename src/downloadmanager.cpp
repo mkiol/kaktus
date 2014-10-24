@@ -45,6 +45,10 @@ DownloadManager::DownloadManager(QObject *parent) :
         ++i;
     }*/
 
+    lastCacheSize = 0;
+    cacheSizeFreshFlag = false;
+
+    connect(&cacheDeterminer, SIGNAL(cacheDetermined(int)), this, SLOT(cacheSizeDetermined(int)));
     connect(&cleaner, SIGNAL(finished()), this, SLOT(cacheCleaningFinished()));
     connect(&remover, SIGNAL(finished()), this, SLOT(cacheRemoverFinished()));
     connect(&remover, SIGNAL(progressChanged(int,int)), this, SLOT(cacheRemoverProgressChanged(int,int)));
@@ -79,17 +83,23 @@ void DownloadManager::removerCancel()
     remover.cancel();
 }
 
+void DownloadManager::cacheSizeDetermined(int size)
+{
+    if (size!=lastCacheSize) {
+        lastCacheSize = size;
+        cacheSizeFreshFlag = true;
+        emit cacheSizeChanged();
+    }
+}
+
 int DownloadManager::getCacheSize()
 {
-    int size = 0;
-    Settings *s = Settings::instance();
-    QDirIterator i(s->getDmCacheDir());
-    while (i.hasNext()) {
-        if (i.fileInfo().isFile())
-            size += i.fileInfo().size();
-        i.next();
+    if (!cacheSizeFreshFlag) {
+        cacheDeterminer.start(QThread::IdlePriority);
+    } else {
+        cacheSizeFreshFlag = false;
     }
-    return size;
+    return lastCacheSize;
 }
 
 void DownloadManager::cleanCache()
@@ -99,19 +109,16 @@ void DownloadManager::cleanCache()
 
 void DownloadManager::cacheCleaningFinished()
 {
-    //qDebug() << "Cache cleaning finished!";
     emit cacheSizeChanged();
 }
 
 void DownloadManager::cacheRemoverProgressChanged(int current, int total)
 {
-    //qDebug() << "Cache remover progress changed!";
     emit removerProgressChanged(current, total);
 }
 
 void DownloadManager::cacheRemoverFinished()
 {
-    //qDebug() << "Cache remover finished!";
     emit removerBusyChanged();
     emit cacheSizeChanged();
 }
@@ -146,8 +153,6 @@ void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAcc
 
 void DownloadManager::doDownload(DatabaseManager::CacheItem item)
 {   
-    //qDebug() << "item.finalUrl: "+item.finalUrl;
-
     QNetworkRequest request(QUrl(item.finalUrl));
     Settings *s = Settings::instance();
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -648,4 +653,20 @@ void DownloadAdder::run()
         emit addDownload(item);
         ++i;
     }
+}
+
+CacheDeterminer::CacheDeterminer(QObject *parent) : QThread(parent)
+{}
+
+void CacheDeterminer::run()
+{
+    int size = 0;
+    Settings *s = Settings::instance();
+    QDirIterator i(s->getDmCacheDir());
+    while (i.hasNext()) {
+        if (i.fileInfo().isFile())
+            size += i.fileInfo().size();
+        i.next();
+    }
+    emit cacheDetermined(size);
 }
