@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.2.2
-Release:    0
+Release:    1
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -76,7 +76,18 @@ desktop-file-install --delete-original       \
 
 %changelog
 
-* Sun Oct 12 2014 Michal Kosciesza 1.2.2-0
+* Tue Oct 21 2014 Michal Kosciesza 1.2.2-2
+- Small UI improvements
+- BUG FIX: Huge cache size take too long to calculate
+- QtWebKit cache file removal on 'Delete cache' action
+- Persian and Russian translation update
+
+* Tue Oct 21 2014 Michal Kosciesza 1.2.2-1
+- Russian language
+- Updated Persian translation
+- Better increase viewport implementation
+
+* Tue Oct 21 2014 Michal Kosciesza 1.2.2-0
 - Option to increase viewport in web viewer
 
 * Sun Oct 12 2014 Michal Kosciesza 1.2.1-2
@@ -171,6 +182,7 @@ desktop-file-install --delete-original       \
 * Thu Apr 03 2014 Michal Kosciesza 1.0.2-1
 - Increased performance
 - Better error handling when ne twork connection fails
+
 * Sun Mar 30 2014 Michal Kosciesza 1.0.1-1
 - UI improvements
 - Extra Tab with Saved articles

@@ -130,7 +130,7 @@ Page {
         experimental.userAgent: settings.getDmUserAgent()
 
         onLoadProgressChanged: {
-            // Changing viewport in WebView to increase font size
+            // Changing viewport on 50% load proggress in WebView to increase font size
             if (!root.updateViewPortDone &&
                     loadProgress>50 && settings.fontSize>0) {
                 root.updateViewPort();
@@ -139,21 +139,18 @@ Page {
         }
 
         onLoadingChanged: {
-            if (loadRequest.status == WebView.LoadStartedStatus) {
+
+            switch (loadRequest.status) {
+            case WebView.LoadStartedStatus:
                 proggressPanel.text = qsTr("Loading page content...");
                 proggressPanel.open = true;
+
+                // Reseting viewport flag
                 root.updateViewPortDone = false;
 
-            } else if (loadRequest.status == WebView.LoadFailedStatus) {
+                break;
 
-                if (settings.offlineMode)
-                    notification.show(qsTr("Failed to load item from local cache :-("));
-                else
-                    notification.show(qsTr("Failed to load page content :-("));
-                proggressPanel.open = false;
-
-            } else {
-
+            case WebView.LoadSucceededStatus:
                 proggressPanel.open = false;
 
                 // Changing viewport in WebView to increase font size
@@ -162,7 +159,31 @@ Page {
                 // Start timer to mark as read
                 if (!root.read)
                     timer.start();
+
+                break;
+
+            case WebView.LoadFailedStatus:
+                proggressPanel.open = false;
+
+                console.log("LoadFailedStatus");
+
+                if (settings.offlineMode)
+                    notification.show(qsTr("Failed to load item from local cache :-("));
+                else
+                    notification.show(qsTr("Failed to load page content :-("));
+                break;
+
+            default:
+                proggressPanel.open = false;
             }
+
+            /*console.log("-= onLoadingChanged =-");
+            console.log(loadRequest.status==WebView.LoadStartedStatus ? "LoadStartedStatus" : loadRequest.status==WebView.LoadFailedStatus ? "LoadFailedStatus" : loadRequest.status==WebView.LoadSucceededStatus ? "LoadSucceededStatus" : "Unknown");
+            console.log("loadRequest.url: "+loadRequest.url);
+            console.log("loadRequest.status: "+loadRequest.status);
+            console.log("loadRequest.errorString: "+loadRequest.errorString);
+            console.log("loadRequest.errorCode: "+loadRequest.errorCode);
+            console.log("loadRequest.errorDomain: "+loadRequest.errorDomain);*/
         }
 
         /*onNavigationRequested: {
