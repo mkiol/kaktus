@@ -581,9 +581,11 @@ bool CacheRemover::removeDir(const QString &dirName)
 
     emit progressChanged(0,total);
 
+    //qDebug() << "dirName" << dirName;
     if (dir.exists(dirName)) {
         QFileInfoList infoList = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst);
         total = infoList.count();
+        //qDebug() << "total" << total;
         Q_FOREACH(QFileInfo info, infoList) {
             if (doCancel)
                 return result;
@@ -618,6 +620,13 @@ void CacheRemover::run()
     Settings *s = Settings::instance();
     if (!removeDir(s->getDmCacheDir())) {
         qWarning() << "Unable to remove " << s->getDmCacheDir();
+    }
+
+    // Remove QtWebKit cache files
+    QString cacheDir = s->getSettingsDir();
+    cacheDir.append(QDir::separator()).append(".QtWebKit");
+    if (!removeDir(cacheDir)) {
+        qWarning() << "Unable to remove " << cacheDir;
     }
 
     //emit ready();
