@@ -99,18 +99,18 @@ Network connection is unavailable.</source>
         <location filename="../qml/sailfish/CoverPage.qml" line="127"/>
         <source>Unread items</source>
         <comment>less than 5 articles are unread</comment>
-        <translation>Непрочитанных статей</translation>
+        <translation>Непрочит. статей</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="128"/>
         <source>Unread items</source>
         <comment>more or equal 5 articles are unread</comment>
-        <translation>Непрочитанных статей</translation>
+        <translation>Непрочит. статей</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="261"/>
         <source>Syncing</source>
-        <translation>Синхронизация</translation>
+        <translation>Обновление</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="268"/>
@@ -130,7 +130,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="295"/>
         <source>Caching</source>
-        <translation>Кэширование</translation>
+        <translation>Сохранение в кэш</translation>
     </message>
 </context>
 <context>
@@ -138,7 +138,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/sailfish/DashboardDialog.qml" line="55"/>
         <source>Dashboards</source>
-        <translation>Изменить</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/DashboardDialog.qml" line="56"/>
@@ -199,12 +199,12 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="307"/>
         <source>Mark as unread</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить как непрочитанное</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="307"/>
         <source>Mark as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить как прочитанное</translation>
     </message>
 </context>
 <context>
@@ -228,14 +228,14 @@ Network connection is unavailable.</source>
         <location filename="../qml/symbian/EntryPage.qml" line="254"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="254"/>
         <source>Mark as unread</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить как непрочитанное</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="256"/>
         <location filename="../qml/symbian/EntryPage.qml" line="254"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="254"/>
         <source>Mark as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить как прочитанное</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="193"/>
@@ -259,7 +259,7 @@ Network connection is unavailable.</source>
         <location filename="../qml/symbian/EntryPage.qml" line="65"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="65"/>
         <source>All feeds</source>
-        <translation type="unfinished"></translation>
+        <translation>Все ленты</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="62"/>
@@ -283,7 +283,7 @@ Network connection is unavailable.</source>
         <location filename="../qml/symbian/EntryPage.qml" line="131"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="131"/>
         <source>Please wait until current task is complete.</source>
-        <translation type="unfinished"></translation>
+        <translation>Подождите, пока текущая задача не завершится.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="137"/>
@@ -291,7 +291,7 @@ Network connection is unavailable.</source>
         <location filename="../qml/symbian/EntryPage.qml" line="137"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="137"/>
         <source>Offline version not available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Офлайн версия недоступна.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="145"/>
@@ -300,7 +300,8 @@ Network connection is unavailable.</source>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="145"/>
         <source>Network connection is unavailable.
 Switching to Offline mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Отсутствует соединение с сетью.
+Переход в автономный режим.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="149"/>
@@ -308,7 +309,7 @@ Switching to Offline mode.</source>
         <location filename="../qml/symbian/EntryPage.qml" line="149"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="149"/>
         <source>Network connection is unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Отсутствует соединение с сетью.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="192"/>
@@ -323,14 +324,14 @@ Switching to Offline mode.</source>
         <location filename="../qml/symbian/EntryPage.qml" line="266"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="266"/>
         <source>Mark all as unread</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить все как непрочитанные</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/EntryPage.qml" line="267"/>
         <location filename="../qml/symbian/EntryPage.qml" line="266"/>
         <location filename="../qml/symbian-copy/EntryPage.qml" line="266"/>
         <source>Mark all as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить все как прочитанные</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="239"/>
@@ -380,7 +381,7 @@ Switching to Offline mode.</source>
         <location filename="../qml/symbian/FeedPage.qml" line="113"/>
         <location filename="../qml/symbian-copy/FeedPage.qml" line="113"/>
         <source>No feeds</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет лент</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="67"/>
@@ -388,7 +389,7 @@ Switching to Offline mode.</source>
         <location filename="../qml/symbian/FeedPage.qml" line="68"/>
         <location filename="../qml/symbian-copy/FeedPage.qml" line="68"/>
         <source>Feeds</source>
-        <translation type="unfinished"></translation>
+        <translation>Ленты</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/FeedPage.qml" line="197"/>
@@ -406,7 +407,7 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/sailfish/FirstPage.qml" line="72"/>
         <source>To sign in and do feeds synchronisation with Netvibes, pull down and select Sync.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы войти и синхронизировать ленты с Netvibes, потяните вниз и выберите пункт &quot;Синхронизировать&quot;</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FirstPage.qml" line="104"/>
@@ -446,13 +447,13 @@ Switching to Offline mode.</source>
         <location filename="../qml/harmattan/Guide.qml" line="88"/>
         <location filename="../qml/sailfish/Guide.qml" line="94"/>
         <source>User Guide</source>
-        <translation type="unfinished"></translation>
+        <translation>Руководство пользователя</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/Guide.qml" line="118"/>
         <location filename="../qml/sailfish/Guide.qml" line="124"/>
         <source>This guide will explain you how to use bottom bar and view modes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это руководство объяснит вам как использовать нижнюю панель и режимы просмотра.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/Guide.qml" line="133"/>
@@ -465,7 +466,8 @@ Switching to Offline mode.</source>
         <location filename="../qml/sailfish/Guide.qml" line="162"/>
         <source>Bottom bar lets you switch between 5 available view modes.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Нижния панель позволяет переключаться между 5 доступными режимами просмотра.
+</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/Guide.qml" line="178"/>
@@ -473,7 +475,9 @@ Switching to Offline mode.</source>
         <source>Mode #1 - Tabs &amp; Feeds
 
 List all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим #1 - Категории и ленты
+
+Список всех категорий. Ленты сгруппированы по категориям, которым они принадлежат, а статьи сгруппированы в ленты.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/Guide.qml" line="202"/>
@@ -481,7 +485,9 @@ List all your tabs. Feeds are grouped by the tabs they belong to and articles ar
         <source>Mode #2 - Only tabs
 
 List all your tabs. All articles are grouped only by the tabs they belong to.</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим # 2 - Только категории
+
+Список всех категорий. Статьи сгруппированы только по категориям, которым они принадлежат.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/Guide.qml" line="226"/>
@@ -489,7 +495,8 @@ List all your tabs. All articles are grouped only by the tabs they belong to.</s
         <source>Mode #3 - All feeds
 
 List all articles from all your feeds. Items are ordered by publication date.</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим # 3 - Все ленты
+Список всех статей из всех ваших лент. Статьи упорядочены по дате публикации.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/Guide.qml" line="249"/>
@@ -513,19 +520,23 @@ List all articles from less frequently updated feeds. A feed is considered slow 
         <source>Bottom bar also contains network indicator.
 
 This indicator enables you to switch between the online and offline mode. In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нижняя панель также содержит индикатор сети.
+
+Этот индикатор позволяет переключаться между онлайн и офлайн режимом. В режиме офлайн, для получения веб-страниц и изображений, Kaktus будет использовать только локальный кэш , поэтому подключение к сети не требуется.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/Guide.qml" line="323"/>
         <source>That&apos;s all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on &lt;i&gt;Show User Guide&lt;/i&gt; on the settings page.</source>
-        <translation type="unfinished"></translation>
+        <translation>That&apos;s all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on &lt;i&gt;Show User Guide&lt;/i&gt; on the settings page.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="331"/>
         <source>That&apos;s all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on
 &lt;i&gt;Show User Guide&lt;/i&gt;
 on the settings page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вот и все!&lt;br/&gt;&lt;br/&gt;Если вы хотите увидеть это руководство еще раз, нажмите на
+&lt;i&gt;Руководство пользователя&lt;/i&gt;
+в меню настроек.</translation>
     </message>
 </context>
 <context>
@@ -535,7 +546,7 @@ on the settings page.</source>
         <location filename="../qml/symbian/MainMenu.qml" line="39"/>
         <location filename="../qml/symbian-copy/MainMenu.qml" line="39"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>О программе</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/MainMenu.qml" line="71"/>
@@ -557,7 +568,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/harmattan/MainPage.qml" line="25"/>
         <source>Show Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать категории</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/MainPage.qml" line="33"/>
@@ -573,7 +584,8 @@ on the settings page.</source>
         <location filename="../qml/symbian-copy/MainToolbar.qml" line="78"/>
         <source>Cannot switch to Online mode
 Network connection is unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно переключиться в онлайн режим
+Отсутствует соединение с сетью</translation>
     </message>
 </context>
 <context>
@@ -581,7 +593,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/PageMenu.qml" line="45"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>О программе</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/PageMenu.qml" line="54"/>
@@ -601,12 +613,12 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/PageMenu.qml" line="71"/>
         <source>Mark all as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить все как прочитанные</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/PageMenu.qml" line="78"/>
         <source>Mark all as unread</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить все как непрочитанные</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/PageMenu.qml" line="96"/>
@@ -641,7 +653,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/ReadAllDialog.qml" line="52"/>
         <source>Mark as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить как прочитанное</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/ReadAllDialog.qml" line="30"/>
@@ -665,7 +677,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/ReadAllDialog.qml" line="27"/>
         <location filename="../qml/symbian-copy/ReadAllDialog.qml" line="27"/>
         <source>Mark all saved articles as read?</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить все сохраненные статьи как прочитанные?</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/ReadAllDialog.qml" line="28"/>
@@ -673,7 +685,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/ReadAllDialog.qml" line="28"/>
         <location filename="../qml/symbian-copy/ReadAllDialog.qml" line="28"/>
         <source>Mark articles as read?</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить статьи как прочитанные?</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/ReadAllDialog.qml" line="31"/>
@@ -725,7 +737,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="54"/>
         <source>Netvibes account</source>
-        <translation type="unfinished"></translation>
+        <translation>Аккаунт Netvibes </translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="70"/>
@@ -758,7 +770,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="102"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="102"/>
         <source>Delete cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить кэш</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="106"/>
@@ -766,7 +778,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="111"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="111"/>
         <source>Network mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим сети</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="126"/>
@@ -774,7 +786,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="142"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="142"/>
         <source>After sync the content of all items will be downloaded and cached for access in the Offline mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>После синхронизации все данные будут загружаться и кэшироваться для доступа в автономном режиме.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="141"/>
@@ -782,7 +794,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="157"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="157"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="155"/>
@@ -790,7 +802,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="171"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="171"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>По умолчанию</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="180"/>
@@ -806,7 +818,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="201"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="201"/>
         <source>View mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим просмотра</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="203"/>
@@ -814,7 +826,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="219"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="219"/>
         <source>Tabs &amp; Feeds</source>
-        <translation type="unfinished"></translation>
+        <translation>Категории и ленты</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="204"/>
@@ -822,7 +834,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="220"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="220"/>
         <source>Only Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Только категории</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="205"/>
@@ -830,7 +842,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="221"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="221"/>
         <source>All feeds</source>
-        <translation type="unfinished"></translation>
+        <translation>Все ленты</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="206"/>
@@ -854,7 +866,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="254"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="254"/>
         <source>Show images</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать изображения</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="304"/>
@@ -870,7 +882,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="326"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="326"/>
         <source>Show User Guide</source>
-        <translation type="unfinished"></translation>
+        <translation>Руководство пользователя</translation>
     </message>
     <message>
         <location filename="../qml/symbian/SettingsPage.qml" line="329"/>
@@ -884,7 +896,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="116"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="116"/>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>Онлайн</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="112"/>
@@ -892,7 +904,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="117"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="117"/>
         <source>Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Офлайн</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="125"/>
@@ -900,7 +912,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="141"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="141"/>
         <source>Cache articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Кэширование статей</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="228"/>
@@ -908,7 +920,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="244"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="244"/>
         <source>Show only unread articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Показывать только непрочитанные статьи</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="56"/>
@@ -923,7 +935,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="59"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="59"/>
         <source>Signed in as</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы вошли как</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="60"/>
@@ -960,7 +972,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="92"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="92"/>
         <source>Cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Кэш</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="91"/>
@@ -968,7 +980,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="96"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="96"/>
         <source>Current cache size</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущий размер кэша</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="248"/>
@@ -976,7 +988,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="264"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="264"/>
         <source>Power save mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим экономии энергии</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="249"/>
@@ -984,7 +996,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="265"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="265"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
-        <translation type="unfinished"></translation>
+        <translation>Когда телефон или приложение переходит в спящий режим, все открытые веб-страницы будут закрыты с целью снижения энергопотребления.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="264"/>
@@ -992,7 +1004,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="280"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="280"/>
         <source>Dynamic</source>
-        <translation type="unfinished"></translation>
+        <translation>Свободная</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="137"/>
@@ -1000,7 +1012,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="153"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="153"/>
         <source>UI</source>
-        <translation type="unfinished"></translation>
+        <translation>Интерфейс</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="259"/>
@@ -1008,7 +1020,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="275"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="275"/>
         <source>Orientation</source>
-        <translation type="unfinished"></translation>
+        <translation>Ориентация экрана</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="265"/>
@@ -1016,7 +1028,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="281"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="281"/>
         <source>Portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Портретная</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="266"/>
@@ -1024,7 +1036,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SettingsPage.qml" line="282"/>
         <location filename="../qml/symbian-copy/SettingsPage.qml" line="282"/>
         <source>Landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Ландшафтная</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="276"/>
@@ -1059,7 +1071,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/SignInDialog.qml" line="37"/>
         <location filename="../qml/symbian-copy/SignInDialog.qml" line="37"/>
         <source>Netvibes account</source>
-        <translation type="unfinished"></translation>
+        <translation>Аккаунт Netvibes</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SignInDialog.qml" line="55"/>
@@ -1126,7 +1138,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/TabPage.qml" line="62"/>
         <location filename="../qml/symbian-copy/TabPage.qml" line="62"/>
         <source>Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Категории</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="157"/>
@@ -1150,7 +1162,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/TabPage.qml" line="135"/>
         <location filename="../qml/symbian-copy/TabPage.qml" line="135"/>
         <source>Mark all as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить все как непрочитанные</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="145"/>
@@ -1158,7 +1170,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/TabPage.qml" line="142"/>
         <location filename="../qml/symbian-copy/TabPage.qml" line="142"/>
         <source>Mark all as unread</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить все как непрочитанные</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="156"/>
@@ -1166,7 +1178,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/TabPage.qml" line="153"/>
         <location filename="../qml/symbian-copy/TabPage.qml" line="153"/>
         <source>No tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Нет категорий</translation>
     </message>
 </context>
 <context>
@@ -1203,53 +1215,53 @@ Network connection is unavailable</source>
     <message>
         <location filename="../src/utils.cpp" line="287"/>
         <source>1 second ago</source>
-        <translation type="unfinished"></translation>
+        <translation>1 секунду назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="290"/>
         <source>%1 seconds ago</source>
         <comment>less than 5 seconds</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 секунды назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="293"/>
         <source>%1 seconds ago</source>
         <comment>more or equal 5 seconds</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 секунд назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="296"/>
         <source>1 minute ago</source>
-        <translation type="unfinished"></translation>
+        <translation>1 минуту назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="299"/>
         <source>%1 minutes ago</source>
         <comment>less than 5 minutes</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 минуты назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="302"/>
         <source>%1 minutes ago</source>
         <comment>more or equal 5 minutes</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 минут назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="305"/>
         <source>1 hour ago</source>
-        <translation type="unfinished"></translation>
+        <translation>1 час назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="308"/>
         <source>%1 hours ago</source>
         <comment>less than 5 hours</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 часа назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="311"/>
         <source>%1 hours ago</source>
         <comment>more or equal 5 hours</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 часов назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="314"/>
@@ -1260,23 +1272,23 @@ Network connection is unavailable</source>
         <location filename="../src/utils.cpp" line="317"/>
         <source>%1 days ago</source>
         <comment>less than 5 days</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 дня назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="320"/>
         <source>%1 days ago</source>
         <comment>more or equal 5 days</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 дней назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="323"/>
         <source>1 week ago</source>
-        <translation type="unfinished"></translation>
+        <translation>1 неделю назад</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="326"/>
         <source>%1 weeks ago</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 недели назад</translation>
     </message>
 </context>
 <context>
@@ -1292,7 +1304,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/WebPreviewPage.qml" line="141"/>
         <source>Failed to load item from local cache :-(</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось загрузить данные из локального кэша :-(</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/WebPreviewPage.qml" line="143"/>
@@ -1303,7 +1315,8 @@ Network connection is unavailable</source>
         <location filename="../qml/sailfish/WebPreviewPage.qml" line="204"/>
         <source>Cannot switch to Online mode.
 Network connection is unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно переключиться в онлайн режим.
+Отсутствует соединение с сетью.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/WebPreviewPage.qml" line="209"/>
@@ -1324,7 +1337,8 @@ Network connection is unavailable.</source>
         <location filename="../qml/symbian-copy/WebPreviewPage.qml" line="63"/>
         <source>Cannot switch to Online mode
 Network connection is unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно переключиться в онлайн режим
+Отсутствует соединение с сетью</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/WebPreviewPage.qml" line="72"/>
@@ -1365,7 +1379,7 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian/main.qml" line="50"/>
         <location filename="../qml/symbian-copy/main.qml" line="50"/>
         <source>Feeds</source>
-        <translation type="unfinished"></translation>
+        <translation>Ленты</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="83"/>
@@ -1382,7 +1396,8 @@ Network connection is unavailable</source>
         <location filename="../qml/symbian-copy/main.qml" line="127"/>
         <source>Download failed!
 Network connection is unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка не удалась!
+Отсутствует соединение с сетью.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="149"/>
@@ -1391,7 +1406,7 @@ Network connection is unavailable.</source>
         <location filename="../qml/symbian-copy/main.qml" line="146"/>
         <source>Sync failed!
 Network connection is unavailable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка синхронизации! Отсутствует соединение с сетью.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="160"/>

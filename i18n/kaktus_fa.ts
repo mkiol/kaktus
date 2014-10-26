@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fa" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="fa">
 <context>
     <name>AboutPage</name>
     <message>
@@ -69,7 +71,7 @@
     <name>ControlBar</name>
     <message>
         <location filename="../qml/sailfish/ControlBar.qml" line="164"/>
-        <source>Can't switch to Online mode.
+        <source>Can&apos;t switch to Online mode.
 Network connection is unavailable.</source>
         <translation>نمی توان به حالت آنلاین تغییر دهید
 اتصال شبکه در دسترس نیست</translation>
@@ -536,7 +538,7 @@ This indicator enables you to switch between the online and offline mode. In the
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="331"/>
-        <source>That's all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on
+        <source>That&apos;s all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on
 &lt;i&gt;Show User Guide&lt;/i&gt;
 on the settings page.</source>
         <translation>این همه!&lt;br/&gt;&lt;br/&gt;اگر می خواهید یک بار دیگر این راهنما را ببینید، روی آن کلیک کنید
@@ -752,22 +754,22 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="372"/>
         <source>Web viewer font size</source>
-        <translation type="unfinished"/>
+        <translation> اندازه فونت بیننده وب</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="376"/>
         <source>-50%</source>
-        <translation type="unfinished"/>
+        <translation>-50%</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="377"/>
         <source>Normal</source>
-        <translation type="unfinished"/>
+        <translation>عادی</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="378"/>
         <source>+50%</source>
-        <translation type="unfinished"/>
+        <translation>+50%</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="97"/>
@@ -1190,8 +1192,8 @@ Network connection is unavailable</source>
     <name>TourPage</name>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
-        <source/>
-        <translation type="unfinished"/>
+        <source></source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="66"/>
