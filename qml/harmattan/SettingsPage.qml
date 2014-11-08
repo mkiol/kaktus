@@ -142,20 +142,29 @@ Page {
                 currentIndex: {
                     if (settings.locale === "")
                         return 0;
-                    if (settings.locale === "en")
+                    if (settings.locale === "cs")
                         return 1;
-                    if (settings.locale === "fa")
+                    if (settings.locale === "en")
                         return 2;
-                    if (settings.locale === "pl")
+                    if (settings.locale === "fa")
                         return 3;
+                    if (settings.locale === "nl")
+                        return 4;
+                    if (settings.locale === "pl")
+                        return 5;
+                    if (settings.locale === "ru")
+                        return 6;
                 }
 
                 menu: ListModel {
                     Component.onCompleted: {
                         append({text: qsTr("Default")});
+                        append({text: "Čeština"});
                         append({text: "English"});
                         append({text: "فارسی"});
+                        append({text: "Nederlands"});
                         append({text: "Polski"});
+                        append({text: "Русский"});
                     }
                 }
 
@@ -165,13 +174,22 @@ Page {
                         settings.locale = "";
                         break;
                     case 1:
-                        settings.locale = "en";
+                        settings.locale = "cs";
                         break;
                     case 2:
-                        settings.locale = "fa";
+                        settings.locale = "en";
                         break;
                     case 3:
+                        settings.locale = "fa";
+                        break;
+                    case 4:
+                        settings.locale = "nl";
+                        break;
+                    case 5:
                         settings.locale = "pl";
+                        break;
+                    case 6:
+                        settings.locale = "ru";
                         break;
                     }
                 }
@@ -297,6 +315,23 @@ Page {
                         settings.offlineTheme = "white";
                         break;
                     }
+                }
+            }
+
+            ComboBox {
+                label: qsTr("Web viewer font size")
+                currentIndex: settings.fontSize
+
+                menu: ListModel {
+                    Component.onCompleted: {
+                        append({text: qsTr("-50%")});
+                        append({text: qsTr("Normal")});
+                        append({text: qsTr("+50%")});
+                    }
+                }
+
+                onCurrentIndexChanged: {
+                    settings.fontSize = currentIndex;
                 }
             }
 

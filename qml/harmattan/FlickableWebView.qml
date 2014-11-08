@@ -51,6 +51,7 @@
      property alias stop: webView.stop
      property alias reload: webView.reload
      property alias forward: webView.forward
+     property alias webview: webView
 
      signal loadFinished()
      signal loadFailed()
@@ -72,7 +73,7 @@
          id: webView
          transformOrigin: Item.TopLeft
 
-         settings.javascriptEnabled: false
+         settings.javascriptEnabled: true
          settings.javaEnabled: false
          settings.javascriptCanOpenWindows: false
          settings.pluginsEnabled: false

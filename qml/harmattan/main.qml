@@ -269,7 +269,7 @@ PageStackWindow {
         anchors.left: parent.left
 
         onOpenChanged: {
-            if(open && !settings.helpDone) {
+            if(open && !settings.helpDone && settings.signedIn) {
                 guide.showDelayed();
             }
         }
