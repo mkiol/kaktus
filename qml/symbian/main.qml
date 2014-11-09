@@ -258,6 +258,12 @@ PageStackWindow {
         anchors.bottomMargin: inPortrait ? privateStyle.toolBarHeightPortrait : privateStyle.toolBarHeightLandscape
         anchors.right: parent.right
         anchors.left: parent.left
+
+        onOpenChanged: {
+            if(open && !settings.helpDone && settings.signedIn) {
+                guide.showDelayed();
+            }
+        }
     }
 
     Selector {
@@ -277,38 +283,15 @@ PageStackWindow {
     /*MouseArea {
         anchors.fill: parent
         onClicked: {
+            bar.show();
             selector.x = mouse.x;
             selector.y = mouse.y;
         }
     }*/
 
-    /*Menu {
-        id: menu
-        visualParent: pageStack
-        MenuLayout {
-            MenuItem {
-                text: qsTr("About")
-                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"));
-            }
-            MenuItem {
-                text: qsTr("Settings")
-                onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"));
-            }
-            MenuItem {
-                text: qsTr("Exit")
-                onClicked: Qt.quit()
-            }
-        }
+    Guide {
+        id: guide
+        open: false
+        //Component.onCompleted: show()
     }
-
-    Menu {
-        id: simpleMenu
-        visualParent: pageStack
-        MenuLayout {
-            MenuItem {
-                text: qsTr("Exit")
-                onClicked: Qt.quit()
-            }
-        }
-    }*/
 }

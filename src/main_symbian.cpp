@@ -20,11 +20,11 @@
 #include <QtGui/QApplication>
 #include <QDeclarativeContext>
 #include <QDeclarativeEngine>
-#include "qmlapplicationviewer.h"
-#include "networkaccessmanagerfactory.h"
-
 #include <QtDebug>
 #include <QTranslator>
+
+#include "qmlapplicationviewer.h"
+#include "networkaccessmanagerfactory.h"
 
 #include "databasemanager.h"
 #include "downloadmanager.h"
@@ -36,12 +36,14 @@
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github/mkiol/kaktus";
-static const char *VERSION = "1.2.2";
+static const char *VERSION = "1.2.1";
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
     QScopedPointer<QApplication> app(createApplication(argc, argv));
     QmlApplicationViewer view;
+
+    Settings* settings = Settings::instance();
 
     app->setApplicationName("kaktus");
     app->setOrganizationName("mkiol");
@@ -53,8 +55,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     view.rootContext()->setContextProperty("PAGE", PAGE);
 
     qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
-
-    Settings* settings = Settings::instance();
 
     QTranslator *appTranslator = new QTranslator;
     if (settings->getLocale() == "")
@@ -86,10 +86,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     view.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
 
-    view.setMainQmlFile(QLatin1String("qml/harmattan/main.qml"));
-    //view.setMainQmlFile(QLatin1String("qml/symbian/main.qml"));
+    view.setMainQmlFile(QLatin1String("qml/kaktus/main.qml"));
     view.showExpanded();
 
     return app->exec();
-
 }

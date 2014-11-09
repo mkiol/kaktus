@@ -292,7 +292,8 @@ void Settings::setDmConnections(int value)
 
 int Settings::getDmConnections()
 {
-#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
+//#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
+#if defined(Q_OS_SYMBIAN)
     return settings.value("connections", 1).toInt();
 #else
     return settings.value("connections", 10).toInt();

@@ -122,7 +122,7 @@ ListItem {
                     anchors.right: parent.right; anchors.left: icon.right;
                     anchors.leftMargin: icon.visible ? platformStyle.paddingMedium : 0
                     font.pixelSize: platformStyle.fontSizeMedium
-                    font.bold: true
+                    font.bold: false
                     maximumLineCount: 4
                     elide: Text.ElideRight
                     wrapMode: Text.Wrap
@@ -217,6 +217,7 @@ ListItem {
 
     Rectangle {
         anchors.bottom: box.bottom
+        anchors.left: box.left
         width: box.width
         height: Theme.itemSizeSmall
         visible: !root.expanded && box.expandable && !root.pressed

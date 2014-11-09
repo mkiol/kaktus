@@ -37,6 +37,8 @@ Page {
     property bool cached
     property int markAsReadTime: 4000
 
+    signal updateViewPort
+
     tools:  WebToolbar {
         stared: root.stared
 
@@ -80,18 +82,37 @@ Page {
         return PageOrientation.Automatic;
     }
 
+    onUpdateViewPort: {
+        //console.log("onUpdateViewPort");
+        var viewport = 1;
+        if (settings.fontSize==1)
+            viewport = 1.5;
+        if (settings.fontSize==2)
+            viewport = 2.0;
+
+        /*console.log(view.webview.evaluateJavaScript(
+        "(function(){var viewport = document.querySelector('meta[name=\"viewport\"]');
+        if (viewport){viewport.content = 'initial-scale="+viewport+", maximum-scale=2.0, user-scalable=no';
+        return 1;} document.getElementsByTagName('head')[0].appendChild('<meta name=\"viewport\"
+        content=\"initial-scale="+viewport+"\">');return 0;})()"));*/
+
+        view.webview.settings.defaultFontSize = 14*viewport;
+        view.webview.settings.minimumFontSize = 14*viewport;
+    }
+
     FlickableWebView {
         id: view
 
-        url:  {
-            if (settings.offlineMode)
-                return offlineUrl+"?width="+view.width+"px"+"&fontsize=20px";
-            return onlineUrl;
-        }
+        property int imgWidth: view.width
+
+        /*onImgWidthChanged: {
+            console.log("imgWidth:", imgWidth);
+        }*/
+
+        url: settings.offlineMode ? offlineUrl+"?width="+imgWidth+"px" : onlineUrl
 
         onProgressChanged: {
-            console.log("progress:"+progress);
-
+            //console.log("progress:"+progress);
             proggressPanel.progress = progress;
 
             if (progress<1) {
@@ -106,9 +127,21 @@ Page {
             }
         }
 
-        //onLoadFailed: console.log("LoadFailed")
-        //onLoadFinished: console.log("LoadFinished")
-        //onLoadStarted: console.log("LoadStarted")
+        onLoadFailed: {
+            //console.log("LoadFailed");
+            proggressPanel.open = false;
+        }
+
+        onLoadFinished: {
+            //console.log("LoadFinished");
+            proggressPanel.open = false;
+
+        }
+
+        onLoadStarted: {
+            //console.log("LoadStarted");
+            root.updateViewPort();
+        }
 
         anchors.fill: parent
     }
@@ -119,7 +152,7 @@ Page {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         cancelable: true
-        onCloseClicked: view.stop()
+        onCloseClicked: view.stop.trigger()
     }
 
     Timer {
