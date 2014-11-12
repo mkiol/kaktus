@@ -216,20 +216,26 @@ Page {
                 currentIndex: {
                     if (settings.locale === "")
                         return 0;
-                    if (settings.locale === "en")
+                    if (settings.locale === "cs")
                         return 1;
-                    if (settings.locale === "fa")
+                    if (settings.locale === "en")
                         return 2;
-                    if (settings.locale === "pl")
+                    if (settings.locale === "fa")
                         return 3;
-                    if (settings.locale === "ru")
+                    if (settings.locale === "nl")
                         return 4;
+                    if (settings.locale === "pl")
+                        return 5;
+                    if (settings.locale === "ru")
+                        return 6;
                 }
 
                 menu: ContextMenu {
                     MenuItem { text: qsTr("Default"); onClicked: locale.showMessage() }
+                    MenuItem { text: "Čeština"; onClicked: locale.showMessage()  }
                     MenuItem { text: "English"; onClicked: locale.showMessage()  }
                     MenuItem { text: "فارسی"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "Nederlands"; onClicked: locale.showMessage()  }
                     MenuItem { text: "Polski"; onClicked: locale.showMessage()  }
                     MenuItem { text: "Русский"; onClicked: locale.showMessage()  }
                 }
@@ -240,15 +246,21 @@ Page {
                         settings.locale = "";
                         break;
                     case 1:
-                        settings.locale = "en";
+                        settings.locale = "cs";
                         break;
                     case 2:
-                        settings.locale = "fa";
+                        settings.locale = "en";
                         break;
                     case 3:
-                        settings.locale = "pl";
+                        settings.locale = "fa";
                         break;
                     case 4:
+                        settings.locale = "nl";
+                        break;
+                    case 5:
+                        settings.locale = "pl";
+                        break;
+                    case 6:
                         settings.locale = "ru";
                         break;
                     }

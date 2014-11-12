@@ -49,7 +49,7 @@ Dialog {
         spacing: Theme.paddingSmall
 
         DialogHeader {
-            title: qsTr("Mark as read")
+            //title: qsTr("Mark as read")
             acceptText : qsTr("Yes")
         }
 

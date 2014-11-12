@@ -200,16 +200,17 @@ Page {
         }
 
         ViewPlaceholder {
+            id: placeholder
             enabled: listView.count < 1
             text: qsTr("No tabs")
-
-            Label {
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.bottom
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.secondaryHighlightColor
-                text: fetcher.busy ? qsTr("Wait until Sync finish.") : settings.signedIn ? "" : qsTr("You are not signed in.")
-            }
+        }
+        Label {
+            visible: placeholder.enabled
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: placeholder.bottom; anchors.bottomMargin: Theme.paddingMedium
+            font.pixelSize: Theme.fontSizeSmall
+            color: Theme.secondaryHighlightColor
+            text: fetcher.busy ? qsTr("Wait until Sync finish.") : settings.signedIn ? "" : qsTr("You are not signed in.")
         }
 
         VerticalScrollDecorator {

@@ -43,13 +43,14 @@ Dialog {
 
     Column {
         anchors {
-            left: parent.left; leftMargin: Theme.paddingMedium
-            right: parent.right; rightMargin: Theme.paddingMedium
+            left: parent.left; //leftMargin: Theme.paddingMedium
+            right: parent.right; //rightMargin: Theme.paddingMedium
         }
+
         spacing: Theme.paddingSmall
 
         DialogHeader {
-            title: qsTr("Netvibes account")
+            //title: qsTr("Netvibes account")
             acceptText : qsTr("Sign In")
         }
 

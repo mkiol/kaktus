@@ -85,6 +85,7 @@ Dialog {
         }
 
         ViewPlaceholder {
+            id: placeholder
             enabled: listView.count == 0
             text: qsTr("No dashboards")
         }
