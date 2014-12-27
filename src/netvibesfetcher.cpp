@@ -51,6 +51,7 @@ NetvibesFetcher::NetvibesFetcher(QObject *parent) :
             this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
 
     connect(this, SIGNAL(addDownload(DatabaseManager::CacheItem)), s->dm, SLOT(addDownload(DatabaseManager::CacheItem)));
+    connect(this, SIGNAL(busyChanged()), s->dm, SLOT(startDownload()));
 }
 
 bool NetvibesFetcher::delayedUpdate(bool state)
@@ -332,13 +333,13 @@ void NetvibesFetcher::set()
     QString actions = "[";
 
     if (action.type == DatabaseManager::SetTabReadAll ||
-        action.type == DatabaseManager::UnSetTabReadAll) {
+            action.type == DatabaseManager::UnSetTabReadAll) {
 
         QList<DatabaseManager::StreamModuleTab> list = s->db->readStreamModuleTabListByTab(action.id1);
 
         if (list.empty()) {
-            qWarning() << "No streams found!";
-            emit error(502);
+            qWarning() << "Action is broken!";
+            removeAction();
             return;
         }
 
@@ -360,13 +361,13 @@ void NetvibesFetcher::set()
     }
 
     if (action.type == DatabaseManager::SetAllRead ||
-        action.type == DatabaseManager::UnSetAllRead) {
+            action.type == DatabaseManager::UnSetAllRead) {
 
         QList<DatabaseManager::StreamModuleTab> list = s->db->readStreamModuleTabListByDashboard(s->getDashboardInUse());
 
         if (list.empty()) {
-            qWarning() << "No streams found!";
-            emit error(502);
+            qWarning() << "Action is broken!";
+            removeAction();
             return;
         }
 
@@ -388,13 +389,13 @@ void NetvibesFetcher::set()
     }
 
     if (action.type == DatabaseManager::SetSlowRead ||
-        action.type == DatabaseManager::UnSetSlowRead) {
+            action.type == DatabaseManager::UnSetSlowRead) {
 
         QList<DatabaseManager::StreamModuleTab> list = s->db->readSlowStreamModuleTabListByDashboard(s->getDashboardInUse());
 
         if (list.empty()) {
-            qWarning() << "No streams found!";
-            emit error(502);
+            qWarning() << "Action is broken!";
+            removeAction();
             return;
         }
 
@@ -416,7 +417,7 @@ void NetvibesFetcher::set()
     }
 
     if (action.type == DatabaseManager::SetStreamReadAll ||
-        action.type == DatabaseManager::UnSetStreamReadAll) {
+            action.type == DatabaseManager::UnSetStreamReadAll) {
 
         int lastPublishedAt = s->db->readLastPublishedAtByStream(action.id1)+1;
 
@@ -426,16 +427,16 @@ void NetvibesFetcher::set()
     }
 
     if (action.type == DatabaseManager::SetRead ||
-        action.type == DatabaseManager::UnSetRead ||
-        action.type == DatabaseManager::SetSaved ||
-        action.type == DatabaseManager::UnSetSaved ) {
+            action.type == DatabaseManager::UnSetRead ||
+            action.type == DatabaseManager::SetSaved ||
+            action.type == DatabaseManager::UnSetSaved ) {
 
         if (action.date1==0) {
             qWarning() << "PublishedAt date is 0!";
         }
 
         actions += QString("{\"streams\":[{\"id\":\"%1\",\"items\":[{"
-                          "\"id\":\"%2\",\"publishedAt\":%3}]}]}")
+                           "\"id\":\"%2\",\"publishedAt\":%3}]}]}")
                 .arg(action.id2).arg(action.id1).arg(action.date1);
     }
 
@@ -450,6 +451,21 @@ void NetvibesFetcher::set()
     connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(networkError(QNetworkReply::NetworkError)));
+}
+
+void NetvibesFetcher::removeAction()
+{
+    DatabaseManager::Action action = actionsList.takeFirst();
+
+    Settings *s = Settings::instance();
+    s->db->removeActionsById(action.id1);
+
+    if (actionsList.isEmpty()) {
+        s->db->cleanDashboards();
+        fetchDashboards();
+    } else {
+        uploadActions();
+    }
 }
 
 void NetvibesFetcher::fetchTabs()
@@ -686,6 +702,7 @@ void NetvibesFetcher::storeTabs()
                 DatabaseManager::CacheItem item;
                 item.origUrl = t.icon;
                 item.finalUrl = t.icon;
+                item.type = "icon";
                 emit addDownload(item);
                 //qDebug() << "icon:" << t.icon;
             }
@@ -713,7 +730,7 @@ void NetvibesFetcher::storeTabs()
 #endif
 
             if (obj["name"].toString() == "RssReader" ||
-                obj["name"].toString() == "MultipleFeeds") {
+                    obj["name"].toString() == "MultipleFeeds") {
 
                 // Module
                 DatabaseManager::Module m;
@@ -799,23 +816,27 @@ int NetvibesFetcher::storeFeeds()
                             qWarning() << "Nested error in Netvibes response!";
                             qWarning() << "Code:" << (int) obj["error"].toObject()["code"].toDouble();
                             qWarning() << "Message:" << obj["error"].toObject()["message"].toString();
-                        } else {
+                            qWarning() << "JSON obj:" << obj;
+                            qWarning() << "id:" << obj["id"].toString();
+                        }
 #else
                         QVariantMap obj = (*ai).toMap();
                         if (obj["error"].type()==QVariant::Map) {
                             qWarning() << "Nested error in Netvibes response!";
                             qWarning() << "Code:" << (int) obj["error"].toMap()["code"].toDouble();
                             qWarning() << "Message:" << obj["error"].toMap()["message"].toString();
-                        } else {
+                            qWarning() << "JSON obj:" << obj;
+                            qWarning() << "id:" << obj["id"].toString();
+                        }
 #endif
-                            int slow = 0;
-                            if (obj.contains("slow"))
-                                slow = obj["slow"].toBool() ? 1 : 0;
+                        int slow = 0;
+                        if (obj.contains("slow"))
+                            slow = obj["slow"].toBool() ? 1 : 0;
 
-                            DatabaseManager::Stream st;
-                            st.id = obj["id"].toString();
+                        DatabaseManager::Stream st;
+                        st.id = obj["id"].toString();
 
-                            /*QList<DatabaseManager::StreamModuleTab>::iterator smti = _streamList.begin();
+                        /*QList<DatabaseManager::StreamModuleTab>::iterator smti = _streamList.begin();
                             while (smti != _streamList.end()) {
                                 qDebug() << "search| streamId > moduleId > tabId" << (*smti).streamId << (*smti).moduleId << (*smti).tabId;
                                 if ((*smti).streamId == st.id)
@@ -825,19 +846,19 @@ int NetvibesFetcher::storeFeeds()
                             if (st.moduleId=="")
                                 qWarning() << "Stream moduleId is Empty!";*/
 
-                            st.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
-                            st.link = obj["link"].toString();
-                            st.query = obj["query"].toString();
-                            st.content = obj["content"].toString();
-                            st.type = obj["type"].toString();
-                            st.unread = 0;
-                            st.read = 0;
-                            st.slow = slow;
-                            st.newestItemAddedAt = (int) obj["newestItemAddedAt"].toDouble();
-                            st.updateAt = (int) obj["updateAt"].toDouble();
-                            st.lastUpdate = QDateTime::currentDateTimeUtc().toTime_t();
+                        st.title = obj["title"].toString().remove(QRegExp("<[^>]*>"));
+                        st.link = obj["link"].toString();
+                        st.query = obj["query"].toString();
+                        st.content = obj["content"].toString();
+                        st.type = obj["type"].toString();
+                        st.unread = 0;
+                        st.read = 0;
+                        st.slow = slow;
+                        st.newestItemAddedAt = (int) obj["newestItemAddedAt"].toDouble();
+                        st.updateAt = (int) obj["updateAt"].toDouble();
+                        st.lastUpdate = QDateTime::currentDateTimeUtc().toTime_t();
 
-                            /*qDebug() << ">>>>>>> Feed <<<<<<<";
+                        /*qDebug() << ">>>>>>> Feed <<<<<<<";
                             qDebug() << "id" << obj["id"].toString();
                             qDebug() << "title" << obj["title"].toString();
                             qDebug() << "query" << obj["query"].toString();
@@ -847,7 +868,7 @@ int NetvibesFetcher::storeFeeds()
                             qDebug() << "slow" << obj["slow"].toBool();
                             qDebug() << "type" << obj["type"].toString();*/
 
-                            /*QMap<QString,QString>::iterator it = _feedTabList.find(f.id);
+                        /*QMap<QString,QString>::iterator it = _feedTabList.find(f.id);
                             if (it!=_feedTabList.end()) {
                                 // Downloading fav icon file
                                 if (s.link!="") {
@@ -868,23 +889,23 @@ int NetvibesFetcher::storeFeeds()
                                 qWarning() << "No matching feed!";
                             }*/
 
-                            // Downloading fav icon file
-                            if (st.link!="") {
-                                QUrl iconUrl(st.link);
-                                st.icon = QString("http://avatars.netvibes.com/favicon/%1://%2")
-                                        .arg(iconUrl.scheme())
-                                        .arg(iconUrl.host());
-                                DatabaseManager::CacheItem item;
-                                item.origUrl = st.icon;
-                                item.finalUrl = st.icon;
-                                emit addDownload(item);
-                                //qDebug() << "favicon:" << st.icon;
-                            }
-
-                            s->db->writeStream(st);
-
-                            //qDebug() << "Writing stream: " << st.id << st.title;
+                        // Downloading fav icon file
+                        if (st.link!="") {
+                            QUrl iconUrl(st.link);
+                            st.icon = QString("http://avatars.netvibes.com/favicon/%1://%2")
+                                    .arg(iconUrl.scheme())
+                                    .arg(iconUrl.host());
+                            DatabaseManager::CacheItem item;
+                            item.origUrl = st.icon;
+                            item.finalUrl = st.icon;
+                            item.type = "icon";
+                            emit addDownload(item);
+                            //qDebug() << "favicon:" << st.icon;
                         }
+
+                        s->db->writeStream(st);
+
+                        //qDebug() << "Writing stream: " << st.id << st.title;
 
                         ++ai;
                     }
@@ -991,11 +1012,13 @@ int NetvibesFetcher::storeFeeds()
                         // Downloading image file
                         if (s->getAutoDownloadOnUpdate()) {
                             if (image!="") {
+                                //qDebug() << "netvibes image:" << image;
                                 // Image provided by Netvibes API :-)
                                 if (!s->db->isCacheExistsByFinalUrl(hash(image))) {
                                     DatabaseManager::CacheItem item;
                                     item.origUrl = image;
                                     item.finalUrl = image;
+                                    item.type = "entry-image";
                                     emit addDownload(item);
                                 }
                             } else {
@@ -1008,10 +1031,11 @@ int NetvibesFetcher::storeFeeds()
                                             DatabaseManager::CacheItem item;
                                             item.origUrl = imgSrc;
                                             item.finalUrl = imgSrc;
+                                            item.type = "entry-image";
                                             emit addDownload(item);
                                         }
                                         e.image = imgSrc;
-                                        //qDebug() << "cap:" << imgSrc;
+                                        //qDebug() << "cap image:" << imgSrc;
                                     }
                                 }
                             }

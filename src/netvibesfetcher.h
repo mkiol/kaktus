@@ -172,6 +172,7 @@ private:
     void setBusy(bool busy, BusyType type = Unknown);
     void startJob(Job job);
     bool checkError();
+    void removeAction();
 };
 
 #endif // NETVIBESFETCHER_H
