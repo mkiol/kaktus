@@ -62,7 +62,7 @@ Page {
                         settings.viewMode==3 ||
                         settings.viewMode==4 ||
                         settings.viewMode==5) {
-                    pageStack.push(Qt.resolvedUrl("ReadAllDialog.qml"));
+                    pageStack.push(Qt.resolvedUrl("ReadAllDialog.qml"),{"type": 2});
                 } else {
                     entryModel.setAllAsRead();
                 }
@@ -229,17 +229,19 @@ Page {
         ViewPlaceholder {
             id: placeholder
             enabled: listView.count == 0
-            text: settings.viewMode==4 ? qsTr("No saved items") :
-                                         settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+            text: fetcher.busy ? qsTr("Wait until Sync finish.") :
+                      settings.viewMode==4 ? qsTr("No saved items") :
+                      settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }
-        Label {
+
+        /*Label {
             visible: placeholder.enabled
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: placeholder.bottom; anchors.bottomMargin: Theme.paddingMedium
             font.pixelSize: Theme.fontSizeSmall
             color: Theme.secondaryHighlightColor
             text: fetcher.busy ? qsTr("Wait until Sync finish.") : settings.signedIn ? "" : qsTr("You are not signed in.")
-        }
+        }*/
 
         Component.onCompleted: {
             if (listView.count == 0 && settings.viewMode==4)

@@ -87,7 +87,7 @@ Page {
                         //enabled: settings.signedIn ? true : dm.online
                         onClicked: {
                             if (settings.signedIn) {
-                                settings.signedIn = false;
+                                pageStack.push(Qt.resolvedUrl("SignOutDialog.qml"));
                             } else {
                                 pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": 0});
                             }
@@ -195,13 +195,11 @@ Page {
 
             TextSwitch {
                 text: qsTr("Cache articles")
+                checked: settings.autoDownloadOnUpdate
                 description: qsTr("After sync the content of all items will be downloaded "+
                                   "and cached for access in the Offline mode.")
-                Component.onCompleted: {
-                    checked = settings.getAutoDownloadOnUpdate();
-                }
                 onCheckedChanged: {
-                    settings.setAutoDownloadOnUpdate(checked);
+                    settings.autoDownloadOnUpdate = checked;
                 }
             }
 

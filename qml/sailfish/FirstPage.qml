@@ -69,7 +69,7 @@ Page {
         visible: opacity > 0.0
         Behavior on opacity { FadeAnimation {duration: 400} }
 
-        text: qsTr("To sign in and do feeds synchronisation with Netvibes, pull down and select Sync.")
+        text: qsTr("To sign in and do feeds synchronisation, pull down and select Sync.")
     }
 
     SilicaListView {
@@ -102,16 +102,20 @@ Page {
         ViewPlaceholder {
             id: placeholder
             enabled: listView.count < 1
-            text: settings.signedIn ? qsTr("Signed in") : qsTr("Not signed in")
+            text: settings.signedIn ?
+                      fetcher.busy||dm.busy ? qsTr("You are signed in!\nWait until Sync finish.") :
+                                              qsTr("To do feeds synchronisation, pull down and select Sync.") :
+                      qsTr("Not signed in")
         }
-        Label {
+
+        /*Label {
             visible: placeholder.enabled
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: placeholder.bottom; anchors.bottomMargin: Theme.paddingMedium
             font.pixelSize: Theme.fontSizeSmall
             color: Theme.secondaryHighlightColor
             text: fetcher.busy ? qsTr("Wait until Sync finish.") : ""
-        }
+        }*/
 
         VerticalScrollDecorator {
             flickable: listView

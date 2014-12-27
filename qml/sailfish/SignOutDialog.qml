@@ -25,7 +25,6 @@ Dialog {
     id: root
 
     property bool showBar: false
-    property int type: 2 // tabs=0, feeds=1, entries=2
 
     allowedOrientations: {
         switch (settings.allowedOrientations) {
@@ -50,7 +49,7 @@ Dialog {
         spacing: Theme.paddingSmall
 
         DialogHeader {
-            //title: qsTr("Mark as read")
+            //title: qsTr("Sign out")
             acceptText : qsTr("Yes")
         }
 
@@ -60,36 +59,12 @@ Dialog {
             wrapMode: Text.WordWrap
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.primaryColor
-            text: {
-                if (type==0) {
-                    return qsTr("Mark tab as read?");
-                }
-                if (type==1) {
-                    return qsTr("Mark feed as read?");
-                }
-                if (type==2) {
-                    return settings.viewMode == 3 ? qsTr("Mark all your articles as read?") :
-                                settings.viewMode == 4 ?
-                                    qsTr("Mark all saved articles as read?") :
-                                    qsTr("Mark articles as read?");
-                }
-            }
+            text: qsTr("Disconnect Kaktus from your Netvibes account?")
         }
     }
 
     onAccepted: {
-        if (type==0) {
-            tabModel.setAllAsRead();
-            return;
-        }
-        if (type==1) {
-            feedModel.setAllAsRead();
-            return;
-        }
-        if (type==2) {
-            entryModel.setAllAsRead();
-            return;
-        }
+        settings.signedIn = false;
     }
 
 }

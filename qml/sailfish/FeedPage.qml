@@ -59,13 +59,15 @@ Page {
             showMarkAsRead: false
             showMarkAsUnread: false
 
-            onMarkedAsRead: feedModel.setAllAsRead()
+            onMarkedAsRead: {
+                pageStack.push(Qt.resolvedUrl("ReadAllDialog.qml"),{"type": 1});
+            }
             onMarkedAsUnread: feedModel.setAllAsUnread()
 
             onActiveChanged: {
                 if (active && settings.viewMode!=2) {
                     showMarkAsRead = feedModel.countUnread()!=0;
-                    showMarkAsUnread = !showMarkAsRead;
+                    showMarkAsUnread = feedModel.countRead()!=0;
                 }
             }
         }
@@ -188,16 +190,17 @@ Page {
         ViewPlaceholder {
             id: placeholder
             enabled: listView.count == 0
-            text: qsTr("No feeds")
+            text: fetcher.busy ? qsTr("Wait until Sync finish.") : qsTr("No feeds")
         }
-        Label {
+
+        /*Label {
             visible: placeholder.enabled
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: placeholder.bottom; anchors.bottomMargin: Theme.paddingMedium
             font.pixelSize: Theme.fontSizeSmall
             color: Theme.secondaryHighlightColor
             text: fetcher.busy ? qsTr("Wait until Sync finish.") : settings.signedIn ? "" : qsTr("You are not signed in.")
-        }
+        }*/
 
         VerticalScrollDecorator {
             flickable: listView

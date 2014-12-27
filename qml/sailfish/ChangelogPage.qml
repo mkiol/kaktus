@@ -51,11 +51,20 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("1.2.3")
+            }
+
+            LogItem {
+                title: 'Caching improvements'
+                description: 'Caching process has been optimized and is now faster.'
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("1.2.2")
             }
 
             LogItem {
-                title: 'UI performance tuning'
+                title: 'Performance improvements'
                 description: 'Some UI functions were optimized for faster performance.'
             }
 
@@ -68,18 +77,8 @@ Page {
             }
 
             LogItem {
-                title: 'Russian language'
-                description: 'Russian language is supported thanks to Kiratonin.'
-            }
-
-            LogItem {
-                title: 'Czech language'
-                description: 'Czech language is supported thanks to fri.'
-            }
-
-            LogItem {
-                title: 'Dutch language'
-                description: 'Dutch language is supported thanks to Heimen Stoffels.'
+                title: 'Russian, Czech and Dutch translations'
+                description: 'Russian, Czech and Dutch languages are supported thanks to Kiratonin, fri & Stoffels.'
             }
 
             SectionHeader {
@@ -97,7 +96,7 @@ Page {
             }
 
             LogItem {
-                title: 'Farsi language'
+                title: 'Farsi translation'
                 description: 'Persian language is supported (thanks to Ali Adineh).'
             }
 

@@ -50,7 +50,7 @@ Dialog {
         spacing: Theme.paddingSmall
 
         DialogHeader {
-            //title: qsTr("Netvibes account")
+            title: qsTr("Netvibes account")
             acceptText : qsTr("Sign In")
         }
 
@@ -59,8 +59,8 @@ Dialog {
             anchors.left: parent.left; anchors.right: parent.right
 
             inputMethodHints: Qt.ImhEmailCharactersOnly| Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-            placeholderText: qsTr("Enter username (E-mail) here!")
-            label: qsTr("Netvibes's username (E-mail)")
+            placeholderText: qsTr("Enter username (e-mail) here!")
+            label: qsTr("Username (e-mail)")
 
             Component.onCompleted: {
                 text = settings.getNetvibesUsername();

@@ -72,7 +72,7 @@ ApplicationWindow {
 
         onSignedInChanged: {
             if (!settings.signedIn) {
-                notification.show(qsTr("Signed out!"));
+                //notification.show(qsTr("Signed out!"));
                 fetcher.cancel(); dm.cancel();
                 settings.reset();
                 db.init();
@@ -133,7 +133,7 @@ ApplicationWindow {
         onReady: {
             resetView();
 
-            if (settings.getAutoDownloadOnUpdate())
+            if (settings.autoDownloadOnUpdate)
                 dm.startFeedDownload();
         }
 
