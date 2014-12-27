@@ -24,10 +24,14 @@
 #include <QSettings>
 #include <QString>
 
+#ifdef BB10
+#include <bb/cascades/QmlDocument>
+#else
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QQuickView>
 #else
 #include <QDeclarativeView>
+#endif
 #endif
 
 class DatabaseManager;
@@ -53,9 +57,9 @@ class Settings: public QObject
     Q_PROPERTY (bool helpDone READ getHelpDone WRITE setHelpDone NOTIFY helpDoneChanged)
     Q_PROPERTY (bool reinitDB READ getReinitDB WRITE setReinitDB)
     Q_PROPERTY (QString locale READ getLocale WRITE setLocale NOTIFY localeChanged)
-    Q_PROPERTY (bool rightToLeftLayout READ getRightToLeftLayout)
     Q_PROPERTY (int fontSize READ getFontSize WRITE setFontSize NOTIFY fontSizeChanged)
     Q_PROPERTY (QString offlineTheme READ getOfflineTheme WRITE setOfflineTheme NOTIFY offlineThemeChanged)
+    Q_PROPERTY (bool autoDownloadOnUpdate READ getAutoDownloadOnUpdate WRITE setAutoDownloadOnUpdate NOTIFY autoDownloadOnUpdateChanged)
 
 public:
     static Settings* instance();
@@ -65,10 +69,14 @@ public:
     DownloadManager* dm;
     NetvibesFetcher* fetcher;
 
+#ifdef BB10
+    bb::cascades::QmlDocument* qml;
+#else
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     QQuickView* view;
 #else
     QDeclarativeView* view;
+#endif
 #endif
 
     //Properties
@@ -111,13 +119,14 @@ public:
     void setReinitDB(bool value);
     bool getReinitDB();
 
-    bool getRightToLeftLayout();
-
     void setFontSize(int value);
     int getFontSize();
 
     void setOfflineTheme(const QString &value);
     QString getOfflineTheme();
+
+    void setAutoDownloadOnUpdate(bool value);
+    bool getAutoDownloadOnUpdate();
 
     // ---
 
@@ -129,9 +138,6 @@ public:
     Q_INVOKABLE void reset();
 
     QString getDmCacheDir();
-
-    Q_INVOKABLE void setAutoDownloadOnUpdate(bool value);
-    Q_INVOKABLE bool getAutoDownloadOnUpdate();
 
     Q_INVOKABLE void setNetvibesUsername(const QString &value);
     Q_INVOKABLE QString getNetvibesUsername();
@@ -173,6 +179,7 @@ signals:
     void localeChanged();
     void offlineThemeChanged();
     void fontSizeChanged();
+    void autoDownloadOnUpdateChanged();
 
     /*
     501 - Unable create settings dir

@@ -335,19 +335,25 @@ QVariant FeedItem::data(int role) const
 
 void FeedItem::setReadlater(int value)
 {
-    m_readlater = value;
-    emit dataChanged();
+    if (m_readlater!=value) {
+        m_readlater = value;
+        emit dataChanged();
+    }
 }
 
 void FeedItem::setUnread(int value)
 {
-    m_unread = value;
-    emit dataChanged();
+    if (m_unread!=value) {
+        m_unread = value;
+        emit dataChanged();
+    }
 }
 
 void FeedItem::setRead(int value)
 {
-    m_read = value;
-    emit dataChanged();
+    if (m_read!=value) {
+        m_read = value;
+        emit dataChanged();
+    }
 }
 

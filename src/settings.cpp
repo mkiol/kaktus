@@ -24,8 +24,8 @@
 #include <QStandardPaths>
 #include <QGuiApplication>
 #else
-#include <QDesktopServices>
-#include <QApplication>
+#include <QtGui/QDesktopServices>
+//#include <QApplication>
 #include <QCoreApplication>
 #endif
 
@@ -55,13 +55,6 @@ Settings* Settings::instance()
     }
 
     return Settings::inst;
-}
-
-bool Settings::getRightToLeftLayout()
-{
-    if (QCoreApplication::instance()->tr("LTR")=="RTL")
-        return true;
-    return false;
 }
 
 void Settings::setShowStarredTab(bool value)
@@ -157,7 +150,10 @@ bool Settings::getHelpDone()
 
 void Settings::setAutoDownloadOnUpdate(bool value)
 {
-    settings.setValue("autodownloadonupdate", value);
+    if (getAutoDownloadOnUpdate() != value) {
+        settings.setValue("autodownloadonupdate", value);
+        emit autoDownloadOnUpdateChanged();
+    }
 }
 
 bool Settings::getAutoDownloadOnUpdate()

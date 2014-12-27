@@ -20,7 +20,7 @@
 #include <QList>
 #include <QDebug>
 #include <QModelIndex>
-#include <QTextDocument>
+#include <QtGui/QTextDocument>
 #include <QChar>
 #include <QRegExp>
 
@@ -481,12 +481,16 @@ QVariant EntryItem::data(int role) const
 
 void EntryItem::setReadlater(int value)
 {
-    m_readlater = value;
-    emit dataChanged();
+    if(m_readlater!=value) {
+        m_readlater = value;
+        emit dataChanged();
+    }
 }
 
 void EntryItem::setRead(int value)
 {
-    m_read = value;
-    emit dataChanged();
+    if(m_read!=value) {
+        m_read = value;
+        emit dataChanged();
+    }
 }

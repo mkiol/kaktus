@@ -22,7 +22,7 @@
 
 #include "databasemanager.h"
 
-const QString DatabaseManager::version = QString("1.7");
+const QString DatabaseManager::version = QString("1.8");
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
@@ -2689,6 +2689,9 @@ int DatabaseManager::countEntriesUnreadByStream(const QString &id)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
+        /*qDebug() << QString("SELECT COUNT(*) FROM entries WHERE stream_id='%1' AND read=0;")
+                    .arg(id);*/
+
         bool ret = query.exec(QString("SELECT COUNT(*) FROM entries WHERE stream_id='%1' AND read=0;")
                               .arg(id));
 
@@ -2826,6 +2829,11 @@ int DatabaseManager::countEntriesUnreadByTab(const QString &id)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
+        /*qDebug() << QString("SELECT COUNT(*) FROM entries as e, module_stream as ms, modules as m "
+                            "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id "
+                            "AND m.tab_id='%1' AND e.read=0;")
+                    .arg(id);*/
+
         bool ret = query.exec(QString("SELECT COUNT(*) FROM entries as e, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id "
                                       "AND m.tab_id='%1' AND e.read=0;")
@@ -2877,6 +2885,11 @@ int DatabaseManager::countEntriesReadByTab(const QString &id)
 
     if (db.isOpen()) {
         QSqlQuery query(db);
+
+        /*qDebug() << QString("SELECT COUNT(*) FROM entries as e, module_stream as ms, modules as m "
+                            "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id "
+                            "AND m.tab_id='%1' AND e.read>0;")
+                    .arg(id);*/
 
         bool ret = query.exec(QString("SELECT COUNT(*) FROM entries as e, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id "

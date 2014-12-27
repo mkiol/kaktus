@@ -62,6 +62,8 @@ void TabModel::updateFlags()
         TabItem* item = static_cast<TabItem*>(this->readRow(i));
         item->setUnread(_db->countEntriesUnreadByTab(item->uid()));
         item->setRead(_db->countEntriesReadByTab(item->uid()));
+        //qDebug() << "unread:" << _db->countEntriesUnreadByTab(item->uid());
+        //qDebug() << "read:" << _db->countEntriesReadByTab(item->uid());
     }
 }
 
@@ -198,13 +200,17 @@ void TabItem::setReadlater(int value)
 
 void TabItem::setUnread(int value)
 {
-    m_unread = value;
-    emit dataChanged();
+    if (m_unread!=value) {
+        m_unread = value;
+        emit dataChanged();
+    }
 }
 
 void TabItem::setRead(int value)
 {
-    m_read = value;
-    emit dataChanged();
+    if (m_read!=value) {
+        m_read = value;
+        emit dataChanged();
+    }
 }
 

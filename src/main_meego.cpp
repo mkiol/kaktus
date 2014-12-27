@@ -86,8 +86,8 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
 
     view.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
 
-    view.setMainQmlFile(QLatin1String("qml/harmattan/main.qml"));
-    //view.setMainQmlFile(QLatin1String("qml/symbian/main.qml"));
+    //view.setMainQmlFile(QLatin1String("qml/harmattan/main.qml"));
+    view.setMainQmlFile(QLatin1String("qml/symbian/main.qml"));
     view.showExpanded();
 
     return app->exec();

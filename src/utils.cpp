@@ -17,16 +17,22 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QClipboard>
+#include <QtGui/QClipboard>
 #include <QDebug>
 #include <QDateTime>
 #include <QtCore/qmath.h>
+
+#ifdef BB10
+#include <QtGui/QApplication>
+#include <bb/cascades/QmlDocument>
+#else
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QGuiApplication>
 #include <QQmlContext>
 #else
-#include <QApplication>
+#include <QtGui/QApplication>
 #include <QDeclarativeContext>
+#endif
 #endif
 
 #include "utils.h"
@@ -64,7 +70,11 @@ void Utils::setRootModel()
         // View mode: Tabs->Feeds->Entries
         tabModel = new TabModel(s->db);
         tabModel->init(s->getDashboardInUse());
+#ifdef BB10
+        s->qml->setContextProperty("tabModel", tabModel);
+#else
         s->view->rootContext()->setContextProperty("tabModel", tabModel);
+#endif
         if (oldTabModel != NULL) {
             delete oldTabModel;
         }
@@ -79,7 +89,11 @@ void Utils::setRootModel()
         // View mode: Tabs->Entries
         tabModel = new TabModel(s->db);
         tabModel->init(s->getDashboardInUse());
+#ifdef BB10
+        s->qml->setContextProperty("tabModel", tabModel);
+#else
         s->view->rootContext()->setContextProperty("tabModel", tabModel);
+#endif
         if (oldTabModel != NULL) {
             delete oldTabModel;
         }
@@ -94,7 +108,11 @@ void Utils::setRootModel()
         // View mode: Feeds->Entries
         feedModel = new FeedModel(s->db);
         feedModel->init("root");
+#ifdef BB10
+        s->qml->setContextProperty("feedModel", feedModel);
+#else
         s->view->rootContext()->setContextProperty("feedModel", feedModel);
+#endif
         if (tabModel != NULL)
             delete tabModel; tabModel = NULL;
         if (oldFeedModel != NULL) {
@@ -112,7 +130,11 @@ void Utils::setRootModel()
         // View mode: Slow
         entryModel = new EntryModel(s->db);
         entryModel->init("root");
+#ifdef BB10
+        s->qml->setContextProperty("entryModel", entryModel);
+#else
         s->view->rootContext()->setContextProperty("entryModel", entryModel);
+#endif
         if (tabModel != NULL)
             delete tabModel; tabModel = NULL;
         if (feedModel != NULL) {
@@ -133,7 +155,11 @@ void Utils::setFeedModel(const QString &tabId)
     feedModel = new FeedModel(s->db);
     feedModel->init(tabId);
 
-    s->view->rootContext()->setContextProperty("feedModel", feedModel);
+#ifdef BB10
+        s->qml->setContextProperty("feedModel", feedModel);
+#else
+        s->view->rootContext()->setContextProperty("feedModel", feedModel);
+#endif
 
     if (oldFeedModel != NULL) {
         delete oldFeedModel;
@@ -148,7 +174,11 @@ void Utils::setEntryModel(const QString &feedId)
     entryModel = new EntryModel(s->db);
     entryModel->init(feedId);
 
-    s->view->rootContext()->setContextProperty("entryModel", entryModel);
+#ifdef BB10
+        s->qml->setContextProperty("entryModel", entryModel);
+#else
+        s->view->rootContext()->setContextProperty("entryModel", entryModel);
+#endif
 
     if (oldEntryModel != NULL) {
         delete oldEntryModel;
@@ -163,7 +193,11 @@ void Utils::setDashboardModel()
     dashboardModel = new DashboardModel(s->db);
     dashboardModel->init();
 
-    s->view->rootContext()->setContextProperty("dashboardModel", dashboardModel);
+#ifdef BB10
+        s->qml->setContextProperty("dashboardModel", dashboardModel);
+#else
+        s->view->rootContext()->setContextProperty("dashboardModel", dashboardModel);
+#endif
 
     if (oldDashboardModel != NULL)
         delete oldDashboardModel;

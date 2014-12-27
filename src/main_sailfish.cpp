@@ -37,7 +37,7 @@
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github/mkiol/kaktus";
-static const char *VERSION = "1.2.2";
+static const char *VERSION = "1.2.3";
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
 {
@@ -72,7 +72,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     NetvibesFetcher fetcher; settings->fetcher = &fetcher;
     Utils utils;
 
-    //QObject::connect(&fetcher, SIGNAL(ready()), &utils, SLOT(updateModels()));
     QObject::connect(view->engine(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
 
     view->rootContext()->setContextProperty("db", &db);
