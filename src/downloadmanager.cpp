@@ -26,8 +26,10 @@
 #include <QUrl>
 #include <QDebug>
 #include <QDir>
+#include <QDateTime>
 
 #include "downloadmanager.h"
+#include "netvibesfetcher.h"
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #else
@@ -59,7 +61,6 @@ DownloadManager::DownloadManager(QObject *parent) :
             this, SLOT(downloadFinished(QNetworkReply*)));
     connect(&manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
             this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
-    connect(&adder, SIGNAL(addDownload(DatabaseManager::CacheItem)), this, SLOT(addDownload(DatabaseManager::CacheItem)));
 }
 
 bool DownloadManager::isOnline()
@@ -76,6 +77,21 @@ void DownloadManager::onlineStateChanged(bool isOnline)
 {
     Q_UNUSED(isOnline)
     emit onlineChanged();
+}
+
+void DownloadManager::startDownload()
+{
+    Settings *s = Settings::instance();
+
+    qDebug() << s->fetcher->isBusy() << queue.isEmpty();
+
+    if (s->fetcher->isBusy() ||
+            queue.isEmpty()) {
+        return;
+    }
+
+    emit busyChanged();
+    addNextDownload();
 }
 
 void DownloadManager::removerCancel()
@@ -152,7 +168,7 @@ void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAcc
 }
 
 void DownloadManager::doDownload(DatabaseManager::CacheItem item)
-{   
+{
     QNetworkRequest request(QUrl(item.finalUrl));
     Settings *s = Settings::instance();
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -239,7 +255,8 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
         // Write Cache item to DB
         if (reply->header(QNetworkRequest::ContentTypeHeader).isValid()) {
             item.contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-            item.type = item.contentType.section('/', 0, 0);
+            if (item.type == "")
+                item.type = item.contentType.section('/', 0, 0);
         }
 
         item.id = hash(item.finalUrl);
@@ -283,14 +300,28 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
         // Download ok -> save to file
         if (reply->header(QNetworkRequest::ContentTypeHeader).isValid()) {
             item.contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-            item.type = item.contentType.section('/', 0, 0);
+            if (item.type == "")
+                item.type = item.contentType.section('/', 0, 0);
 
-            if (item.type == "text" || item.type == "image") {
+            if (item.type == "text" ||
+                    item.type == "image" ||
+                    item.type == "icon" ||
+                    item.type == "entry-image") {
+
                 QByteArray content = reply->readAll();
 
                 // Check if tiny image, we do not want it
-                if (item.type == "image" && content.size()<minImageSize) {
+                if (item.type == "entry-image" && content.size()<minImageSize) {
                     //qDebug() << "Tiny image found:"<<item.finalUrl;
+
+                    // Write Cache item to DB with flag=10
+                    item.id = hash(item.entryId+item.finalUrl);
+                    item.origUrl = hash(item.origUrl);
+                    item.finalUrl = hash(item.finalUrl);
+                    item.date = QDateTime::currentDateTime().toTime_t();
+                    item.flag = 10;
+                    s->db->writeCache(item);
+
                 } else {
 
                     if (saveToDisk(hash(url.toString()), content)) {
@@ -420,7 +451,13 @@ void DownloadManager::addDownload(DatabaseManager::CacheItem item)
     Settings *s = Settings::instance();
     bool busy = isBusy();
 
-    if (downloads.count() < s->getDmConnections()) {
+    // Starting icon downloading immediately,
+    // other files when fetcher is not busy
+    if (
+            item.type=="icon" ||
+            (!s->fetcher->isBusy() &&
+            downloads.count() < s->getDmConnections())
+    ) {
         doDownload(item);
         if (!busy)
             emit busyChanged();

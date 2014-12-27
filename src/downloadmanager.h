@@ -157,6 +157,7 @@ signals:
 
 public slots:
     void addDownload(DatabaseManager::CacheItem item);
+    void startDownload();
     void downloadFinished(QNetworkReply *reply);
     void sslErrors(const QList<QSslError> &errors);
     void error(QNetworkReply::NetworkError code);
@@ -172,7 +173,7 @@ private:
     static const int entriesLimit = 200;
     static const int cacheRetencyFeedLimit = 20;
     static const int maxCacheRetency = 604800; // 1 week
-    static const int minImageSize = 100;
+    static const int minImageSize = 2000;
 
     QNetworkAccessManager manager;
     QList<DatabaseManager::CacheItem> queue;
