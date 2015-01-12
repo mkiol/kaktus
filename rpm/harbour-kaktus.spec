@@ -78,7 +78,9 @@ desktop-file-install --delete-original       \
 
 * Sat Dec 27 2014 Michal Kosciesza 1.2.3-0
 - Caching improvements
+- Support for new Netvibes tabs icons
 - Detecting and not displaying tiny images in offline mode
+- Show only unread option in Pull-down menu
 - BUG FIX: Handling Netvibes errors: 700 & 702
 
 * Wed Nov 12 2014 Michal Kosciesza 1.2.2-3

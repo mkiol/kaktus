@@ -34,7 +34,8 @@ SOURCES += \
     src/dashboardmodel.cpp \
     src/cacheserver.cpp \
     src/settings.cpp \
-    src/simplecrypt.cpp
+    src/simplecrypt.cpp \
+    src/nviconprovider.cpp
     
 HEADERS += \
     src/utils.h \
@@ -49,7 +50,8 @@ HEADERS += \
     src/cacheserver.h \
     src/settings.h \
     src/simplecrypt.h \
-    src/iconprovider.h
+    src/iconprovider.h \
+    src/nviconprovider.h
     
 #QJson if Qt < 5
 lessThan(QT_MAJOR_VERSION, 5) {
@@ -74,7 +76,9 @@ CODECFORTR = UTF-8
 TRANSLATIONS = i18n/kaktus_en.ts \
                i18n/kaktus_pl.ts \
                i18n/kaktus_fa.ts \
-               i18n/kaktus_ru.ts
+               i18n/kaktus_ru.ts \
+               i18n/kaktus_cs.ts \
+               i18n/kaktus_nl.ts
 
 RESOURCES += \
     resources.qrc
