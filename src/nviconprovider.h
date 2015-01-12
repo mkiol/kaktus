@@ -1,0 +1,4 @@
+#ifndef NVICONPROVIDER_H
+#define NVICONPROVIDER_H
+
+#endif // NVICONPROVIDER_H
