@@ -35,7 +35,6 @@
 #include "databasemanager.h"
 #include "settings.h"
 
-
 class Utils : public QObject
 {
     Q_OBJECT
@@ -56,10 +55,13 @@ public:
     Q_INVOKABLE QString getHumanFriendlyTimeString(int date);
     Q_INVOKABLE QString getHumanFriendlySizeString(int size);
     Q_INVOKABLE int countUnread();
+#ifdef BB10
+    Q_INVOKABLE void launchBrowser(const QString &url);
+#endif
 
 public slots:
     void updateModels();
-    
+
 private:
     EntryModel* entryModel;
     FeedModel* feedModel;

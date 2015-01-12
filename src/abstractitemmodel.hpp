@@ -39,6 +39,7 @@ class AbstractItemModel : public bb::cascades::DataModel
 
     Q_PROPERTY(QAbstractItemModel *sourceModel READ sourceModel WRITE setSourceModel NOTIFY sourceModelChanged)
     Q_PROPERTY(QString itemTypeRole READ itemTypeRole WRITE setItemTypeRole NOTIFY itemTypeRoleChanged)
+    Q_PROPERTY(int count READ readCount NOTIFY countChanged)
 
 public:
     AbstractItemModel(QObject *parent = 0);
@@ -54,6 +55,7 @@ public:
     bool hasChildren(const QVariantList &indexPath);
     QString itemType(const QVariantList &indexPath);
     QVariant data(const QVariantList &indexPath);
+    int readCount();
 
 public Q_SLOTS:
     void fetchMore(const QVariantList &indexPath);
@@ -61,6 +63,7 @@ public Q_SLOTS:
 Q_SIGNALS:
     void sourceModelChanged();
     void itemTypeRoleChanged();
+    void countChanged();
 
 private:
     class Private;

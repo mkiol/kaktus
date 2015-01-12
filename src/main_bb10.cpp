@@ -25,6 +25,7 @@
 #include <QtGui/QFileSystemModel>
 #include <QLocale>
 #include <QTranslator>
+#include <QTimer>
 
 #include "databasemanager.h"
 #include "downloadmanager.h"
@@ -34,20 +35,19 @@
 #include "settings.h"
 #include "networkaccessmanagerfactory.h"
 #include "abstractitemmodel.hpp"
-//#include "standardweblistitem.h"
 #include "webimageview.h"
 
 using namespace bb::cascades;
 
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
-static const char *PAGE = "https://github/mkiol/kaktus";
-static const char *VERSION = "1.2.2";
+static const char *PAGE = "https://github.com/mkiol/kaktus";
+static const char *VERSION = "1.2.3";
 
 Q_DECL_EXPORT int main(int argc, char **argv)
 {
     qmlRegisterType<QAbstractItemModel>();
-    //qmlRegisterType<StandardWebListItem>("net.mkiol.kaktus", 1, 0, "StandardWebListItem");
+    qmlRegisterType<QTimer>("net.mkiol.kaktus", 1, 0, "QTimer");
     qmlRegisterType < AbstractItemModel > ("com.kdab.components", 1, 0, "AbstractItemModel");
     qmlRegisterType < WebImageView > ("org.labsquare", 1, 0, "WebImageView");
     qRegisterMetaType < DatabaseManager::CacheItem > ("CacheItem");

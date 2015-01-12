@@ -23,6 +23,7 @@
 #include <QtGui/QTextDocument>
 #include <QChar>
 #include <QRegExp>
+#include <QUrl>
 
 #include "entrymodel.h"
 
@@ -118,6 +119,7 @@ void EntryModel::createItems(int offset, int limit)
             content = content.left(997)+"...";
 
         doc.setHtml((*i).title);
+        //QString title = doc.toPlainText().remove(QRegExp("<[^>]*>"))
         QString title = doc.toPlainText()
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                 .replace(QChar::ObjectReplacementCharacter,QChar::Space)
@@ -128,18 +130,27 @@ void EntryModel::createItems(int offset, int limit)
         if (title.length()>200)
             title = title.left(197)+QString("...");
 
+        //qDebug() << title;
+
         /*QRegExp rx("(\\S*)\\s*\((\\S*)\)", Qt::CaseInsensitive);
         if (rx.indexIn((*i).author)!=-1) {
             qDebug() << "(*i).author:" << (*i).author << "cap:" << rx.cap(1).toUtf8();
             //(*i).author = rx.cap(1).toUtf8();
         }*/
 
+        // Detecting transparent images
+        bool imageOk = true;
+        QUrl imageUrl((*i).image);
+        //qDebug() << imageUrl.path();
+        if (imageUrl.path() == "/assets/images/transparent.png")
+            imageOk = false;
+
         appendRow(new EntryItem((*i).id,
                                 title,
                                 (*i).author,
                                 content,
                                 (*i).link,
-                                (*i).image,
+                                imageOk? (*i).image : "",
                                 (*i).feedIcon,
                                 _db->isCacheExistsByEntryId((*i).id),
                                 (*i).fresh,

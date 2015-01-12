@@ -59,6 +59,16 @@ Page {
                 description: 'Caching process has been optimized and is now faster.'
             }
 
+            LogItem {
+                title: 'Show only unread option in Pull-down menu'
+                description: 'Option to show only uread articles can be changed in Pull-down menu.'
+            }
+
+            LogItem {
+                title: 'Support for new Tabs icons'
+                description: 'Netvibes recently has changed stock Tab icons. Now, Kaktus is able to display them properly.'
+            }
+
             SectionHeader {
                 text: qsTr("Version %1").arg("1.2.2")
             }

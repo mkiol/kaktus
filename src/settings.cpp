@@ -19,6 +19,7 @@
 
 #include <QDir>
 #include <QDebug>
+#include <QVariant>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QStandardPaths>
@@ -55,6 +56,11 @@ Settings* Settings::instance()
     }
 
     return Settings::inst;
+}
+
+const QList<QVariant> Settings::viewModeHistory()
+{
+    return settings.value("viewmodehistory").toList();
 }
 
 void Settings::setShowStarredTab(bool value)
@@ -314,7 +320,7 @@ void Settings::setDmMaxSize(int value)
 int Settings::getDmMaxSize()
 {
 
-    return settings.value("maxsize", 2000000).toInt();
+    return settings.value("maxsize", 500000).toInt();
 }
 
 QString Settings::getDmCacheDir()
@@ -354,6 +360,9 @@ QString Settings::getDmUserAgent()
 
 QString Settings::getOfflineTheme()
 {
+/*#ifdef BB10
+    return settings.value("theme", "white").toString();
+#endif*/
     return settings.value("theme", "black").toString();
 }
 
@@ -375,6 +384,20 @@ void Settings::setFontSize(int value)
     if (getFontSize() != value) {
         settings.setValue("fontsize", value);
         emit fontSizeChanged();
+    }
+}
+
+int Settings::getTheme()
+{
+    // Default is Dark theme
+    return settings.value("apptheme", 2).toInt();
+}
+
+void Settings::setTheme(int value)
+{
+    if (getTheme() != value) {
+        settings.setValue("apptheme", value);
+        emit themeChanged();
     }
 }
 
@@ -410,6 +433,15 @@ void Settings::setViewMode(int value)
 {
     if (getViewMode() != value) {
         settings.setValue("viewmode", value);
+
+        //update history
+        QList<QVariant> list = settings.value("viewmodehistory").toList();
+        if (list.indexOf(value)==-1)
+            list.prepend(value);
+        if (list.length()>3)
+            list.removeLast();
+        settings.setValue("viewmodehistory", list);
+
         emit viewModeChanged();
     }
 }

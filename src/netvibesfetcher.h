@@ -124,9 +124,9 @@ private:
              };
 
     static const int feedsAtOnce = 5;
-    static const int limitFeeds = 50;
-    static const int limitFeedsUpdate = 50;
-    static const int limitFeedsReadlater = 50;
+    static const int limitFeeds = 25;
+    static const int limitFeedsUpdate = 25;
+    static const int limitFeedsReadlater = 25;
     static const int feedsUpdateAtOnce = 10;
 
     QNetworkAccessManager _manager;

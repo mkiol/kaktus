@@ -23,6 +23,8 @@
 #include <QObject>
 #include <QSettings>
 #include <QString>
+#include <QList>
+#include <QVariant>
 
 #ifdef BB10
 #include <bb/cascades/QmlDocument>
@@ -60,6 +62,7 @@ class Settings: public QObject
     Q_PROPERTY (int fontSize READ getFontSize WRITE setFontSize NOTIFY fontSizeChanged)
     Q_PROPERTY (QString offlineTheme READ getOfflineTheme WRITE setOfflineTheme NOTIFY offlineThemeChanged)
     Q_PROPERTY (bool autoDownloadOnUpdate READ getAutoDownloadOnUpdate WRITE setAutoDownloadOnUpdate NOTIFY autoDownloadOnUpdateChanged)
+    Q_PROPERTY (int theme READ getTheme WRITE setTheme NOTIFY themeChanged)
 
 public:
     static Settings* instance();
@@ -128,6 +131,9 @@ public:
     void setAutoDownloadOnUpdate(bool value);
     bool getAutoDownloadOnUpdate();
 
+    void setTheme(int value);
+    int getTheme();
+
     // ---
 
     bool getShowOnlyUnread();
@@ -163,6 +169,8 @@ public:
     void setFeedsUpdateAtOnce(int value);
     int getFeedsUpdateAtOnce();
 
+    Q_INVOKABLE const QList<QVariant> viewModeHistory();
+
 signals:
     void offlineModeChanged();
     void showTabIconsChanged();
@@ -180,6 +188,7 @@ signals:
     void offlineThemeChanged();
     void fontSizeChanged();
     void autoDownloadOnUpdateChanged();
+    void themeChanged();
 
     /*
     501 - Unable create settings dir

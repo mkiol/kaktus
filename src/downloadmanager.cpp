@@ -50,6 +50,7 @@ DownloadManager::DownloadManager(QObject *parent) :
     lastCacheSize = 0;
     cacheSizeFreshFlag = false;
 
+    connect(&adder, SIGNAL(addDownload(DatabaseManager::CacheItem)), this, SLOT(addDownload(DatabaseManager::CacheItem)));
     connect(&cacheDeterminer, SIGNAL(cacheDetermined(int)), this, SLOT(cacheSizeDetermined(int)));
     connect(&cleaner, SIGNAL(finished()), this, SLOT(cacheCleaningFinished()));
     connect(&remover, SIGNAL(finished()), this, SLOT(cacheRemoverFinished()));
@@ -83,7 +84,7 @@ void DownloadManager::startDownload()
 {
     Settings *s = Settings::instance();
 
-    qDebug() << s->fetcher->isBusy() << queue.isEmpty();
+    //qDebug() << "DownloadManager::startDownload" << s->fetcher->isBusy() << queue.isEmpty();
 
     if (s->fetcher->isBusy() ||
             queue.isEmpty()) {
@@ -228,8 +229,8 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
 
     if (error) {
 
-        //qDebug() << "DM, Errorcode: " << error << "entryId=" << item.entryId;
-        /*qWarning() << "Download of " << url.toEncoded().constData()
+        /*qDebug() << "DM, Errorcode: " << error << "entryId=" << item.entryId;
+        qWarning() << "Download of " << url.toEncoded().constData()
                    << " failed: " << reply->errorString();*/
 
         if (item.entryId!="") {
@@ -327,6 +328,7 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
                     if (saveToDisk(hash(url.toString()), content)) {
 
                         // Write Cache item to DB
+                        //qDebug() << "Write Cache item to DB" << item.type << item.finalUrl;
                         item.id = hash(item.entryId+item.finalUrl);
                         //qDebug() << "hash(item.finalUrl): " << hash(item.finalUrl);
                         item.origUrl = hash(item.origUrl);
@@ -453,6 +455,13 @@ void DownloadManager::addDownload(DatabaseManager::CacheItem item)
 
     // Starting icon downloading immediately,
     // other files when fetcher is not busy
+    /*qDebug() << ">>>>>>>>>> addDownload";
+    qDebug() << "item:" << item.finalUrl << item.type;
+    qDebug() << "downloads.count():" <<  downloads.count();
+    qDebug() << "queue.size():" <<  queue.size();
+    qDebug() << "s->fetcher->isBusy():" <<  s->fetcher->isBusy();
+    qDebug() << "busy:" <<  busy;*/
+
     if (
             item.type=="icon" ||
             (!s->fetcher->isBusy() &&
@@ -524,6 +533,7 @@ void DownloadManager::startFeedDownload()
     cleanCache();
 #endif
 
+    //qDebug() << "DownloadManager::startFeedDownload()";
     if (!ncm.isOnline()) {
         qWarning() << "Network is Offline!";
         //emit networkNotAccessible();
@@ -695,7 +705,7 @@ void DownloadAdder::run()
         item.entryId = i.key();
         item.origUrl = i.value();
         item.finalUrl = i.value();
-
+        //qDebug() << "adding to download" << item.finalUrl;
         emit addDownload(item);
         ++i;
     }

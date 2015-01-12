@@ -56,6 +56,7 @@ Page {
             showAbout: settings.viewMode==3 || settings.viewMode==4 || settings.viewMode==5 ? true : false
             showMarkAsRead: false
             showMarkAsUnread: false
+            showShowOnlyUnread: true
 
             onMarkedAsRead: {
                 if (settings.viewMode==1 ||
@@ -68,14 +69,23 @@ Page {
                 }
             }
 
-            onMarkedAsUnread: entryModel.setAllAsUnread()
+            /*onMarkedAsUnread:  {
+                if (settings.viewMode==1 ||
+                        settings.viewMode==3 ||
+                        settings.viewMode==4 ||
+                        settings.viewMode==5) {
+                    pageStack.push(Qt.resolvedUrl("UnreadAllDialog.qml"),{"type": 2});
+                } else {
+                    entryModel.setAllAsUnread();
+                }
+            }*/
 
             onActiveChanged: {
                 if (active) {
                     if (settings.viewMode!=4) {
                         showMarkAsRead = entryModel.countUnread()!=0;
                         /*if (!settings.showOnlyUnread)
-                            showMarkAsUnread = !showMarkAsRead;*/
+                            showMarkAsUnread = entryModel.countRead()!=0;*/
                     }
                 }
             }
@@ -233,15 +243,6 @@ Page {
                       settings.viewMode==4 ? qsTr("No saved items") :
                       settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }
-
-        /*Label {
-            visible: placeholder.enabled
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: placeholder.bottom; anchors.bottomMargin: Theme.paddingMedium
-            font.pixelSize: Theme.fontSizeSmall
-            color: Theme.secondaryHighlightColor
-            text: fetcher.busy ? qsTr("Wait until Sync finish.") : settings.signedIn ? "" : qsTr("You are not signed in.")
-        }*/
 
         Component.onCompleted: {
             if (listView.count == 0 && settings.viewMode==4)

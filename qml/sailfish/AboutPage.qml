@@ -87,8 +87,21 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeExtraSmall
-                textFormat: Text.StyledText
-                text: PAGE;
+                text: PAGE
+                /*textFormat: Text.StyledText
+                text: "<a href='%1'>%2</a>".arg(PAGE).arg(PAGE)
+                onLinkActivated: {
+                    notification.show(qsTr("Launching an external browser..."));
+                    Qt.openUrlExternally(link);
+                }*/
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        notification.show(qsTr("Launching an external browser..."));
+                        Qt.openUrlExternally(PAGE);
+                    }
+                }
             }
 
             Label {

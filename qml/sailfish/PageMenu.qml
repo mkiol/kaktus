@@ -29,6 +29,7 @@ PullDownMenu {
     property bool showSync: true
     property bool showMarkAsRead: true
     property bool showMarkAsUnread: true
+    property bool showShowOnlyUnread: false
 
     signal markedAsRead
     signal markedAsUnread
@@ -68,10 +69,12 @@ PullDownMenu {
     }
 
     MenuItem {
-        text: qsTr("Mark all as read")
-        enabled: root.showMarkAsRead
+        text: settings.showOnlyUnread ? qsTr("Showing: only unread") : qsTr("Showing: all articles")
+        enabled: root.showShowOnlyUnread
         visible: enabled
-        onClicked: markedAsRead()
+        onClicked: {
+            settings.showOnlyUnread = !settings.showOnlyUnread;
+        }
     }
 
     MenuItem {
@@ -79,6 +82,13 @@ PullDownMenu {
         enabled: root.showMarkAsUnread
         visible: enabled
         onClicked: markedAsUnread()
+    }
+
+    MenuItem {
+        text: qsTr("Mark all as read")
+        enabled: root.showMarkAsRead
+        visible: enabled
+        onClicked: markedAsRead()
     }
 
     onActiveChanged: {

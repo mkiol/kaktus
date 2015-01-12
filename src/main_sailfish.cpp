@@ -23,6 +23,7 @@
 #include <QQmlContext>
 #include <sailfishapp.h>
 #include "iconprovider.h"
+#include "nviconprovider.h"
 
 #include <QtDebug>
 #include <QTranslator>
@@ -36,7 +37,7 @@
 
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
-static const char *PAGE = "https://github/mkiol/kaktus";
+static const char *PAGE = "https://github.com/mkiol/kaktus";
 static const char *VERSION = "1.2.3";
 
 Q_DECL_EXPORT int main(int argc, char *argv[])
@@ -45,6 +46,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QScopedPointer<QQuickView> view(SailfishApp::createView());
 
     app->setApplicationDisplayName(APP_NAME);
+    //app->setApplicationVersion(QString(APP_VERSION));
     app->setApplicationVersion(VERSION);
 
     view->rootContext()->setContextProperty("APP_NAME", APP_NAME);
@@ -53,6 +55,7 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("PAGE", PAGE);
 
     view->engine()->addImageProvider(QLatin1String("icons"), new IconProvider);
+    view->engine()->addImageProvider(QLatin1String("nvicons"), new NvIconProvider);
 
     qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
 

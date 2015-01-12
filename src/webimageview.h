@@ -5,6 +5,10 @@
 #include <QNetworkAccessManager>
 #include <QNetworkDiskCache>
 #include <QUrl>
+#include <QRect>
+#include <bb/ImageData>
+#include <QtGui/QImage>
+
 using namespace bb::cascades;
 
 class WebImageView: public bb::cascades::ImageView {
@@ -36,12 +40,20 @@ public:
 private:
 	static QNetworkAccessManager * mNetManager;
 	static QNetworkDiskCache * mNetworkDiskCache;
+
 	QUrl mUrl;
 	float mLoading;
 	bool mIsLoaded;
 
 	bool isARedirectedUrl(QNetworkReply *reply);
 	void setURLToRedirectedUrl(QNetworkReply *reply);
+
+    const static QString availableColors[5];
+    const static QString spriteMap[5][8];
+
+    bb::ImageData fromQImage(const QImage &qImage);
+    int getOffsetByColor(const QString &color);
+    QRect getPosition(const QString &icon, const QString &color);
 };
 
 #endif /* WEBIMAGEVIEW_H_ */

@@ -23,6 +23,7 @@
 #include <QtCore/qmath.h>
 
 #ifdef BB10
+#include <bps/navigator.h>
 #include <QtGui/QApplication>
 #include <bb/cascades/QmlDocument>
 #else
@@ -35,6 +36,8 @@
 #endif
 #endif
 
+
+
 #include "utils.h"
 
 Utils::Utils(QObject *parent) :
@@ -45,6 +48,13 @@ Utils::Utils(QObject *parent) :
     tabModel = NULL;
     feedModel = NULL;
 }
+
+#ifdef BB10
+void Utils::launchBrowser(const QString &url)
+{
+    navigator_invoke(url.toStdString().c_str(),0);
+}
+#endif
 
 void Utils::copyToClipboard(const QString &text)
 {

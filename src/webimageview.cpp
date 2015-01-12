@@ -2,12 +2,22 @@
 #include <QNetworkReply>
 #include <QNetworkDiskCache>
 #include <QtGui/QDesktopServices>
+#include <QStringList>
 #include <bb/cascades/Image>
 
 using namespace bb::cascades;
 
 QNetworkAccessManager * WebImageView::mNetManager = new QNetworkAccessManager();
 QNetworkDiskCache * WebImageView::mNetworkDiskCache = new QNetworkDiskCache();
+
+const QString WebImageView::availableColors[5] = {"green", "blue", "orange", "pink", "grey"};
+const QString WebImageView::spriteMap[5][8] = {
+    {"plus", "home", "label-2", "star", "label", "pin", "sheet", "power"},
+    {"enveloppe", "happy-face", "rss", "calc", "clock", "pen", "bug"},
+    {"cloud", "cog", "vbar", "pie", "table", "line", "magnifier"},
+    {"lightbulb", "movie", "note", "camera", "mobile", "computer", "heart"},
+    {"alert", "bill", "funnel", "eye", "bubble", "calendar", "check"}
+};
 
 WebImageView::WebImageView() {
     // Initialize network cache
@@ -25,6 +35,26 @@ const QUrl& WebImageView::url() const {
     return mUrl;
 }
 
+bb::ImageData WebImageView::fromQImage(const QImage &qImage)
+{
+    bb::ImageData imageData(bb::PixelFormat::RGBA_Premultiplied, qImage.width(), qImage.height());
+
+    unsigned char *dstLine = imageData.pixels();
+    for (int y = 0; y < imageData.height(); y++) {
+        unsigned char * dst = dstLine;
+        for (int x = 0; x < imageData.width(); x++) {
+            QRgb srcPixel = qImage.pixel(x, y);
+            *dst++ = qRed(srcPixel) * qAlpha(srcPixel) / 255;
+            *dst++ = qGreen(srcPixel) * qAlpha(srcPixel) / 255;
+            *dst++ = qBlue(srcPixel) * qAlpha(srcPixel) / 255;
+            *dst++ = qAlpha(srcPixel);
+        }
+        dstLine += imageData.bytesPerLine();
+    }
+
+    return imageData;
+}
+
 void WebImageView::setUrl(const QUrl& url) {
     // Variables
     mUrl = url;
@@ -33,6 +63,19 @@ void WebImageView::setUrl(const QUrl& url) {
 
     // Reset the image
     resetImage();
+
+    // Detecting if url is "image://nvicons/"
+    if (url.toString().startsWith("image://nvicons/")) {
+        QStringList parts = url.toString().split('?');
+        QString color = parts.at(1);
+        parts = parts.at(0).split('/');
+        QString icon = parts.at(3);
+
+        setImage(Image(fromQImage(QImage("app/native/assets/sprite-icons.png").copy(getPosition(icon, color)))));
+        mIsLoaded = true;
+        emit isLoadedChanged();
+        return;
+    }
 
     // Create request
     QNetworkRequest request;
@@ -98,4 +141,32 @@ void WebImageView::dowloadProgressed(qint64 bytes, qint64 total) {
     mLoading = double(bytes) / double(total);
 
     emit loadingChanged();
+}
+
+QRect WebImageView::getPosition(const QString &icon, const QString &color)
+{
+    int n = 16, s = 20, a = 16;
+    for (int i = 0; i < 5; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            if (spriteMap[i][j] == icon) {
+                n += 100 * i;
+                a += j * s;
+                return QRect(n + getOffsetByColor(color), a, 16, 16);
+            }
+        }
+    }
+    qWarning() << "getPosition failed!";
+    return QRect(0,0,0,0);
+}
+
+int WebImageView::getOffsetByColor(const QString &color)
+{
+    int index = 0;
+    for (int i = 0; i < 5; ++i) {
+        if (availableColors[i] == color) {
+            index = i;
+            break;
+        }
+    }
+    return index * 20;
 }

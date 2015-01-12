@@ -110,6 +110,7 @@ void AbstractItemModel::Private::rowsInserted(const QModelIndex &parent, int fir
         QVariantList indexPath = parentPath;
         emit q->itemAdded(indexPath << pos);
     }
+    emit q->countChanged();
 }
 
 void AbstractItemModel::Private::rowsAboutToBeRemoved(const QModelIndex&, int, int)
@@ -124,6 +125,7 @@ void AbstractItemModel::Private::rowsRemoved(const QModelIndex &parent, int firs
         QVariantList indexPath = parentPath;
         emit q->itemRemoved(indexPath << pos);
     }
+    emit q->countChanged();
 }
 
 void AbstractItemModel::Private::columnsAboutToBeInserted(const QModelIndex&, int, int)
@@ -365,6 +367,15 @@ void AbstractItemModel::fetchMore(const QVariantList &indexPath)
 
     if (d->m_sourceModel->canFetchMore(index))
         d->m_sourceModel->fetchMore(index);
+}
+
+// Only for QAbstractListModel
+int AbstractItemModel::readCount()
+{
+    if (!d->m_sourceModel)
+        return 0;
+
+    return d->m_sourceModel->rowCount();
 }
 
 #include "moc_abstractitemmodel.cpp"

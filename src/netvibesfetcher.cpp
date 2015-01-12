@@ -557,7 +557,6 @@ void NetvibesFetcher::fetchFeedsReadlater()
 
     if (publishedBeforeDate==0) {
         actions = QString("[{\"options\":{\"limit\":%1}}]").arg(limitFeedsReadlater);
-
     } else {
         actions = QString("[{\"options\":{\"limit\":%1, "
                           "\"publishedBeforeDate\":%2"
@@ -689,8 +688,25 @@ void NetvibesFetcher::storeTabs()
             DatabaseManager::Tab t;
             t.id = obj["id"].toString();
             t.dashboardId = dashboardId;
-            t.icon = obj["icon"].toString();
             t.title = obj["title"].toString();
+
+            // tab icon detection
+            bool doDownloadIcon = true;
+            t.icon = obj["icon"].toString();
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+            if (t.icon=="" && obj["iconConfig"].isObject()) {
+                doDownloadIcon = false;
+                QJsonObject iconObj = obj["iconConfig"].toObject();
+                t.icon = QString("image://nvicons/%1?%2").arg(iconObj["icon"].toString()).arg(iconObj["color"].toString());
+            }
+#else
+            if (t.icon=="" && obj["iconConfig"].type()==QVariant::Map) {
+                doDownloadIcon = false;
+                QVariantMap iconObj = obj["iconConfig"].toMap();
+                t.icon = QString("image://nvicons/%1?%2").arg(iconObj["icon"].toString()).arg(iconObj["color"].toString());
+            }
+#endif
 
             s->db->writeTab(t);
             _tabList.append(t.id);
@@ -698,7 +714,7 @@ void NetvibesFetcher::storeTabs()
             //qDebug() << "Writing tab: " << t.id << t.title;
 
             // Downloading icon file
-            if (t.icon!="") {
+            if (doDownloadIcon && t.icon!="") {
                 DatabaseManager::CacheItem item;
                 item.origUrl = t.icon;
                 item.finalUrl = t.icon;
@@ -1409,8 +1425,8 @@ void NetvibesFetcher::finishedFeeds2()
 
 void NetvibesFetcher::finishedFeedsReadlater()
 {
-    //qDebug() << this->_data;
-
+    //qDebug() << "finishedFeedsReadlater";
+    //qDebug() << QString(this->_data);
     publishedBeforeDate = 0;
     startJob(StoreFeedsReadlater);
 }
@@ -1420,7 +1436,6 @@ void NetvibesFetcher::finishedFeedsReadlater2()
     if (publishedBeforeDate!=0) {
         fetchFeedsReadlater();
     } else {
-
         // Fix for very old entries. Mark as unsaved entries unmarked on server
         Settings *s = Settings::instance();
         s->db->updateEntriesSavedFlagByFlagAndDashboard(s->getDashboardInUse(),9,0);
@@ -1459,7 +1474,6 @@ void NetvibesFetcher::finishedSet()
 void NetvibesFetcher::finishedFeedsUpdate()
 {
     //qDebug() << this->_data;
-
     startJob(StoreFeedsUpdate);
 }
 
@@ -1495,7 +1509,6 @@ void NetvibesFetcher::networkError(QNetworkReply::NetworkError e)
     }
 
     _data.clear();
-
     setBusy(false);
 }
 
@@ -1545,6 +1558,7 @@ QString NetvibesFetcher::hash(const QString &url)
 
 void NetvibesFetcher::run() {
 
+    int count =0;
     switch (currentJob) {
     case StoreFeeds:
     case StoreFeedsUpdate:
@@ -1557,7 +1571,8 @@ void NetvibesFetcher::run() {
         storeTabs();
         break;
     case StoreFeedsReadlater:
-        if (storeFeeds()<limitFeedsReadlater) {
+        count = storeFeeds();
+        if (count<limitFeedsReadlater) {
             publishedBeforeDate = 0;
             //publishedBeforeItemId = "";
             //publishedBeforeStreamId = "";

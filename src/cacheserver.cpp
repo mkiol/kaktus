@@ -96,6 +96,9 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
 
     //qDebug() << data;
 
+    /*fprintf(stdout, "%s\n", data.constData());
+    fflush(stdout);*/
+
     resp->setHeader("Content-Length", QString::number(data.size()));
     //qDebug() << "Content-Type:"<<item.contentType;
     resp->setHeader("Content-Type", item.contentType);
@@ -256,5 +259,10 @@ QString CacheServer::getUrlbyId(const QString &item)
 
 QString CacheServer::getUrlbyUrl(const QString &url)
 {
+    // If url is "image://" will not be hashed
+    if (url.startsWith("image://")) {
+        return url;
+    }
+
     return "http://127.0.0.1:" + QString::number(port) + "/" + hash(url);
 }

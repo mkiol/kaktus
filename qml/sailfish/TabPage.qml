@@ -20,7 +20,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-
 Page {
     id: root
 
@@ -149,19 +148,20 @@ Page {
                 Connections {
                     target: settings
                     onShowTabIconsChanged: {
-                        if (iconUrl!="")
-                            image.source = cache.getUrlbyUrl(iconUrl);
-                        else
+                        if (iconUrl=="") {
                             image.source = "";
+                            return;
+                        }
+                        image.source = cache.getUrlbyUrl(iconUrl);
                     }
                 }
 
                 Component.onCompleted: {
-                    if (iconUrl!="") {
-                        image.source = cache.getUrlbyUrl(iconUrl);
-                    } else {
+                    if (iconUrl=="") {
                         image.source = "";
+                        return;
                     }
+                    image.source = cache.getUrlbyUrl(iconUrl);
                 }
 
                 onClicked: {
@@ -204,15 +204,6 @@ Page {
             enabled: listView.count < 1
             text: fetcher.busy ? qsTr("Wait until Sync finish.") : qsTr("No tabs")
         }
-
-        /*Label {
-            visible: placeholder.enabled
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: placeholder.bottom; anchors.bottomMargin: Theme.paddingMedium
-            font.pixelSize: Theme.fontSizeSmall
-            color: Theme.secondaryHighlightColor
-            text: fetcher.busy ? qsTr("Wait until Sync finish.") : settings.signedIn ? "" : qsTr("You are not signed in.")
-        }*/
 
         VerticalScrollDecorator {
             flickable: listView
