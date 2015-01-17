@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.2.3
-Release:    0
+Release:    1
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,9 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Sat Jan 17 2015 Michal Kosciesza 1.2.3-1
+- Turkish translation (thanks to Mesut Aktaş)
 
 * Sat Dec 27 2014 Michal Kosciesza 1.2.3-0
 - Caching improvements

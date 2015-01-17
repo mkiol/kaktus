@@ -55,6 +55,11 @@ Page {
             }
 
             LogItem {
+                title: 'Turkish translation'
+                description: 'Turkish language is supported thanks to Mesut Aktaş.'
+            }
+
+            LogItem {
                 title: 'Caching improvements'
                 description: 'Caching process has been optimized and is now faster.'
             }

@@ -78,7 +78,8 @@ TRANSLATIONS = i18n/kaktus_en.ts \
                i18n/kaktus_fa.ts \
                i18n/kaktus_ru.ts \
                i18n/kaktus_cs.ts \
-               i18n/kaktus_nl.ts
+               i18n/kaktus_nl.ts \
+               i18n/kaktus_tr.ts
 
 RESOURCES += \
     resources.qrc

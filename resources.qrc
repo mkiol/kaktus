@@ -4,5 +4,8 @@
         <file>i18n/kaktus_en.qm</file>
         <file>i18n/kaktus_fa.qm</file>
         <file>i18n/kaktus_ru.qm</file>
+        <file>i18n/kaktus_cs.qm</file>
+        <file>i18n/kaktus_nl.qm</file>
+        <file>i18n/kaktus_tr.qm</file>
     </qresource>
 </RCC>
