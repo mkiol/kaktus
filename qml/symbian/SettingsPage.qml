@@ -170,6 +170,8 @@ Page {
                         return 5;
                     if (settings.locale === "ru")
                         return 6;
+                    if (settings.locale === "tr")
+                        return 6;
                 }
 
                 menu: ListModel {
@@ -181,6 +183,7 @@ Page {
                         append({text: "Nederlands"});
                         append({text: "Polski"});
                         append({text: "Русский"});
+                        append({text: "Türkçe"});
                     }
                 }
 
@@ -206,6 +209,9 @@ Page {
                         break;
                     case 6:
                         settings.locale = "ru";
+                        break;
+                    case 7:
+                        settings.locale = "tr";
                         break;
                     }
                 }

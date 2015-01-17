@@ -226,6 +226,8 @@ Page {
                         return 5;
                     if (settings.locale === "ru")
                         return 6;
+                    if (settings.locale === "tr")
+                        return 7;
                 }
 
                 menu: ContextMenu {
@@ -236,6 +238,7 @@ Page {
                     MenuItem { text: "Nederlands"; onClicked: locale.showMessage()  }
                     MenuItem { text: "Polski"; onClicked: locale.showMessage()  }
                     MenuItem { text: "Русский"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "Türkçe"; onClicked: locale.showMessage()  }
                 }
 
                 onCurrentIndexChanged: {
@@ -260,6 +263,9 @@ Page {
                         break;
                     case 6:
                         settings.locale = "ru";
+                        break;
+                    case 7:
+                        settings.locale = "tr";
                         break;
                     }
                 }
