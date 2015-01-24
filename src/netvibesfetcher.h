@@ -123,11 +123,19 @@ private:
                StoreFeedsInfo, StoreFeedsUpdate, StoreFeedsReadlater
              };
 
+#if defined(Q_OS_SYMBIAN)
+    static const int feedsAtOnce = 2;
+    static const int limitFeeds = 10;
+    static const int limitFeedsUpdate = 10;
+    static const int limitFeedsReadlater = 10;
+    static const int feedsUpdateAtOnce = 5;
+#else
     static const int feedsAtOnce = 5;
     static const int limitFeeds = 25;
     static const int limitFeedsUpdate = 25;
     static const int limitFeedsReadlater = 25;
     static const int feedsUpdateAtOnce = 10;
+#endif
 
     QNetworkAccessManager _manager;
     QNetworkReply* _currentReply;

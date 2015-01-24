@@ -1,3 +1,5 @@
+// Based on: https://github.com/RileyGB/BlackBerry10-Samples
+
 #ifndef WEBIMAGEVIEW_H_
 #define WEBIMAGEVIEW_H_
 

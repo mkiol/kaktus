@@ -1,3 +1,5 @@
+// Based on: https://github.com/RileyGB/BlackBerry10-Samples
+
 #include "webimageview.h"
 #include <QNetworkReply>
 #include <QNetworkDiskCache>

@@ -16,6 +16,7 @@
   You should have received a copy of the GNU General Public License
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
+
 #include "dashboardmodel.h"
 
 DashboardModel::DashboardModel(DatabaseManager *db, QObject *parent) :
