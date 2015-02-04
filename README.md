@@ -21,8 +21,6 @@ Currently only sign in with Netvibes credentials is
 supported - sign in with Twitter, Facebook or Google+ will be 
 added in the future releases.
 
-## Disclaimer
-
 Kaktus is an application that was not developed by Netvibes, 
 and developer of this app have no relationship to Netvibes. 
 Despite this, please be aware that the functioning of this 
@@ -33,9 +31,8 @@ changed or access to API, for some reason, is limited.
 ## Copyrights
 
 This software is distributed under the terms of the
-[GNU General Public Licence version 3 (GPL Version 3)]
-(https://www.gnu.org/licenses/gpl-3.0.txt)GNU General Public 
-Licence version 3 (GPL Version 3)
+GNU General Public Licence version 3 (GPL Version 3) 
+https://www.gnu.org/licenses/gpl-3.0.txt
 
 Copyright &copy; 2014-2015 Michal Kosciesza
 
