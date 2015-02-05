@@ -1,7 +1,7 @@
 # Kaktus
 
-Unofficial mobile feed reader for [Netvibes.com](http://www.netvibes.com/). Works on
-Sailfish OS, Symbian, Meego & BlackBerry 10 devices.
+Unofficial mobile feed reader for [Netvibes.com](http://www.netvibes.com/).
+Works on Sailfish OS, Symbian, Meego & BlackBerry 10 devices.
 
 Using this app you can fetch, browse and read all your RSS feeds
 in convenient way. App recognizes Feed and Multi-Feed widgets
@@ -12,6 +12,8 @@ required all the time. The significant feature is possibility
 to read articles in offline mode, so without a network usage.
 In such mode, previously downloaded content of web pages are
 displayed from local cache.
+
+![Screenshots: Sailfish OS, BlackBerry 10, Meego](https://raw.githubusercontent.com/mkiol/kaktus/master/screenshots/00.png)
 
 ## Downloads
 
@@ -30,7 +32,9 @@ and developer of this app have no relationship to Netvibes.
 
 Copyright &copy; 2014-2015 Michal Kosciesza
 
-Kaktus is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3 of the License.
+Kaktus is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License as published by the Free Software
+Foundation, version 3 of the License.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
