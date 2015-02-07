@@ -18,19 +18,16 @@ displayed from local cache.
 ## Downloads
 
 The binary packages can be downloaded from:
-- Symbian: http://applist.schumi1331.de/content/128
-- Meego (N9 phone): https://openrepos.net/content/mkiol/kaktus-0
-- Sailfish (Jolla phone): Jolla Store or https://openrepos.net/content/mkiol/kaktus
-- BlackBerry 10: BlackBerry World
-
-## Disclaimer
-
-Kaktus is an application that was not developed by Netvibes,
-and developer of this app have no relationship to Netvibes.
+- Symbian: [AppList](http://applist.schumi1331.de/content/128) (Be aware that this is very unstable, beta release!)
+- Meego (N9 phone): [OpenRepos](https://openrepos.net/content/mkiol/kaktus-0)
+- Sailfish (Jolla phone): Jolla Store or [OpenRepos](https://openrepos.net/content/mkiol/kaktus)
+- BlackBerry 10: BlackBerry World (Coming soon!)
 
 ## Copyrights
 
-Copyright &copy; 2014-2015 Michal Kosciesza
+Be aware that Kaktus is an *unofficial* application. It means that it was not developed by Netvibes, and developer of this app have no relationship to Netvibes.
+
+**Copyright &copy; 2014-2015 Michal Kosciesza**
 
 Kaktus is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -46,15 +43,15 @@ GNU General Public License for more details.
 Kaktus utilizes third party software. Such third party software
 is copyrighted by their owners as indicated below.
 
-### AbstractItemModel
+##### AbstractItemModel
 Copyright &copy; 2013, Kläralvdalens Datakonsult AB, a KDAB
 Group company, <info@kdab.com>
 
-### SimpleCrypt
+##### SimpleCrypt
 Copyright &copy; 2011, Andre Somers
 
-### QHttpServer
+##### QHttpServer
 Copyright &copy; 2011-2013 Nikhil Marathe <nsm.nikhil@gmail.com>
 
-### QJson
+##### QJson
 Copyright &copy; 2008 Flavio Castelli <flavio.castelli@gmail.com>
