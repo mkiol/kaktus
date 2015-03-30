@@ -46,6 +46,7 @@ class Settings: public QObject
     Q_OBJECT
 
     Q_PROPERTY (bool offlineMode READ getOfflineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
+    Q_PROPERTY (bool readerMode READ getReaderMode WRITE setReaderMode NOTIFY readerModeChanged)
     Q_PROPERTY (bool showTabIcons READ getShowTabIcons WRITE setShowTabIcons NOTIFY showTabIconsChanged)
     Q_PROPERTY (bool signedIn READ getSignedIn WRITE setSignedIn NOTIFY signedInChanged)
     Q_PROPERTY (bool showStarredTab READ getShowStarredTab WRITE setShowStarredTab NOTIFY showStarredTabChanged)
@@ -62,6 +63,7 @@ class Settings: public QObject
     Q_PROPERTY (int fontSize READ getFontSize WRITE setFontSize NOTIFY fontSizeChanged)
     Q_PROPERTY (QString offlineTheme READ getOfflineTheme WRITE setOfflineTheme NOTIFY offlineThemeChanged)
     Q_PROPERTY (bool autoDownloadOnUpdate READ getAutoDownloadOnUpdate WRITE setAutoDownloadOnUpdate NOTIFY autoDownloadOnUpdateChanged)
+    Q_PROPERTY (int cachingMode READ getCachingMode WRITE setCachingMode NOTIFY cachingModeChanged)
     Q_PROPERTY (int theme READ getTheme WRITE setTheme NOTIFY themeChanged)
 
 public:
@@ -86,6 +88,9 @@ public:
     void setOfflineMode(bool value);
     bool getOfflineMode();
 
+    void setReaderMode(bool value);
+    bool getReaderMode();
+
     void setPowerSaveMode(bool value);
     bool getPowerSaveMode();
 
@@ -109,6 +114,9 @@ public:
 
     void setLastUpdateDate(int value);
     int getLastUpdateDate();
+
+    void setCachingMode(int value);
+    int getCachingMode();
 
     void setAllowedOrientations(int value);
     int getAllowedOrientations();
@@ -145,11 +153,27 @@ public:
 
     QString getDmCacheDir();
 
+    // Sign in
+    // 0 - Netvibes
+    // 1 - Twitter
+    Q_INVOKABLE void setSigninType(int);
+    Q_INVOKABLE int getSigninType();
+    Q_INVOKABLE void setCookie(const QString &value);
+    Q_INVOKABLE QString getCookie();
+
+    // Netvibes
     Q_INVOKABLE void setNetvibesUsername(const QString &value);
     Q_INVOKABLE QString getNetvibesUsername();
-
     Q_INVOKABLE void setNetvibesPassword(const QString &value);
     Q_INVOKABLE QString getNetvibesPassword();
+
+    // Twitter & FB
+    Q_INVOKABLE void setTwitterCookie(const QString &value);
+    Q_INVOKABLE QString getTwitterCookie();
+    Q_INVOKABLE void setAuthUrl(const QString &value);
+    Q_INVOKABLE QString getAuthUrl();
+
+    // --------
 
     Q_INVOKABLE void setDmUserAgent(const QString &value);
     Q_INVOKABLE QString getDmUserAgent();
@@ -173,6 +197,7 @@ public:
 
 signals:
     void offlineModeChanged();
+    void readerModeChanged();
     void showTabIconsChanged();
     void signedInChanged();
     void showStarredTabChanged();
@@ -189,6 +214,7 @@ signals:
     void fontSizeChanged();
     void autoDownloadOnUpdateChanged();
     void themeChanged();
+    void cachingModeChanged();
 
     /*
     501 - Unable create settings dir

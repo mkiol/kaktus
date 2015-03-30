@@ -20,7 +20,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-
 Page {
     id: root
 
@@ -79,8 +78,14 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeSmall
-                text: qsTr("An unofficial Netvibes feed reader, specially designed to work offline.");
+                text: qsTr("Unofficial feed reader for Netvibes.com, specially designed to work offline.");
             }
+
+            /*Separator {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                color: Theme.primaryColor
+            }*/
 
             Label {
                 wrapMode: Text.WordWrap
@@ -88,8 +93,8 @@ Page {
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeExtraSmall
                 text: PAGE
-                /*textFormat: Text.StyledText
-                text: "<a href='%1'>%2</a>".arg(PAGE).arg(PAGE)
+                textFormat: Text.StyledText
+                /*text: "<a href='%1'>%2</a>".arg(PAGE).arg(PAGE)
                 onLinkActivated: {
                     notification.show(qsTr("Launching an external browser..."));
                     Qt.openUrlExternally(link);
@@ -104,13 +109,43 @@ Page {
                 }
             }
 
+            Separator {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                color: Theme.primaryColor
+            }
+
             Label {
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeExtraSmall
                 textFormat: Text.RichText
-                text: "Copyright &copy; 2014 Michał Kościesza"
+                text: "Copyright &copy; 2014-2015 Michal Kosciesza"
+            }
+
+            Label {
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+                anchors.left: parent.left; anchors.right: parent.right
+                font.pixelSize: Theme.fontSizeExtraSmall
+                textFormat: Text.RichText
+                text: qsTr("This software is distributed under the terms of the "+
+                           "GNU General Public Licence version 3.")
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        notification.show(qsTr("Launching an external browser..."));
+                        Qt.openUrlExternally("https://www.gnu.org/licenses/gpl-3.0.txt");
+                    }
+                }
+
+            }
+
+            Separator {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                color: Theme.primaryColor
             }
 
             Item {
@@ -128,6 +163,6 @@ Page {
             }
         }
 
-        VerticalScrollDecorator {}
+        //VerticalScrollDecorator {}
     }
 }

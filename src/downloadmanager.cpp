@@ -27,6 +27,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QDateTime>
+#include <QNetworkConfiguration>
 
 #include "downloadmanager.h"
 #include "netvibesfetcher.h"
@@ -40,7 +41,8 @@
 DownloadManager::DownloadManager(QObject *parent) :
     QObject(parent)
 {
-    /*QList<QNetworkConfiguration> activeConfigs = ncm.allConfigurations(QNetworkConfiguration::Active);
+    /*QList<QNetworkConfiguration> activeConfigs = ncm.allConfigurations();
+    qDebug() << "activeConfigs" << activeConfigs.length();
     QList<QNetworkConfiguration>::iterator i = activeConfigs.begin();
     while (i != activeConfigs.end()) {
         qDebug() << (*i).bearerTypeName();
@@ -62,6 +64,26 @@ DownloadManager::DownloadManager(QObject *parent) :
             this, SLOT(downloadFinished(QNetworkReply*)));
     connect(&manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
             this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
+}
+
+DownloadManager::~DownloadManager()
+{}
+
+bool DownloadManager::isWLANConnected()
+{
+    QList<QNetworkConfiguration> activeConfigs = ncm.allConfigurations(QNetworkConfiguration::Active);
+    QList<QNetworkConfiguration>::iterator i = activeConfigs.begin();
+    while (i != activeConfigs.end()) {
+        QNetworkConfiguration c = (*i);
+        //qDebug() << c.bearerTypeName() << c.identifier() << c.name();
+        if (c.bearerType()==QNetworkConfiguration::BearerWLAN ||
+            c.bearerType()==QNetworkConfiguration::BearerEthernet) {
+            return true;
+        }
+        ++i;
+    }
+
+    return false;
 }
 
 bool DownloadManager::isOnline()
@@ -225,6 +247,7 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
     QUrl url = reply->url();
     QNetworkReply::NetworkError error = reply->error();
     DatabaseManager::CacheItem item = replyToCachedItemMap.take(reply);
+    //qDebug() << "baseUrl" << item.baseUrl;
     delete replyToCheckerMap.take(reply);
 
     if (error) {
@@ -232,6 +255,15 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
         /*qDebug() << "DM, Errorcode: " << error << "entryId=" << item.entryId;
         qWarning() << "Download of " << url.toEncoded().constData()
                    << " failed: " << reply->errorString();*/
+
+        if (item.type == "online-item") {
+            // Quick download in online mode
+            emit onlineDownloadFailed();
+            downloads.removeOne(reply);
+            reply->deleteLater();
+            addNextDownload();
+            return;
+        }
 
         if (item.entryId!="") {
             switch (error) {
@@ -262,6 +294,7 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
 
         item.id = hash(item.finalUrl);
         item.origUrl = hash(item.origUrl);
+        item.baseUrl = item.finalUrl;
         item.finalUrl = hash(item.finalUrl);
         item.date = QDateTime::currentDateTime().toTime_t();
         item.flag = 0;
@@ -301,6 +334,14 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
         // Download ok -> save to file
         if (reply->header(QNetworkRequest::ContentTypeHeader).isValid()) {
             item.contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
+
+            bool onlineItem = false;
+            if (item.type == "online-item") {
+                // Quick download in online mode
+                onlineItem = true;
+                item.type = "";
+            }
+
             if (item.type == "")
                 item.type = item.contentType.section('/', 0, 0);
 
@@ -318,20 +359,24 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
                     // Write Cache item to DB with flag=10
                     item.id = hash(item.entryId+item.finalUrl);
                     item.origUrl = hash(item.origUrl);
+                    item.baseUrl = item.finalUrl;
                     item.finalUrl = hash(item.finalUrl);
                     item.date = QDateTime::currentDateTime().toTime_t();
                     item.flag = 10;
                     s->db->writeCache(item);
 
                 } else {
-
-                    if (saveToDisk(hash(url.toString()), content)) {
-
+                    //qDebug() << "url" << url.toString() << "finalUrl" << item.finalUrl;
+                    //qDebug() << "hash" << hash(url.toString()) << "finalUrl" << hash(item.finalUrl);
+                    //if (saveToDisk(hash(url.toString()), content)) {
+                    if (saveToDisk(hash(item.finalUrl), content)) {
                         // Write Cache item to DB
                         //qDebug() << "Write Cache item to DB" << item.type << item.finalUrl;
                         item.id = hash(item.entryId+item.finalUrl);
                         //qDebug() << "hash(item.finalUrl): " << hash(item.finalUrl);
                         item.origUrl = hash(item.origUrl);
+                        item.baseUrl = item.finalUrl;
+                        //qDebug() << "baseUrl2" << item.baseUrl;
                         item.finalUrl = hash(item.finalUrl);
                         item.date = QDateTime::currentDateTime().toTime_t();
                         item.flag = 1;
@@ -344,7 +389,14 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
                             s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),1);
                         }
 
+                        if (onlineItem) {
+                            emit this->onlineDownloadReady(item.entryId,item.baseUrl);
+                            //qDebug() << "emit onlineDownloadReady, item.entryId" << item.entryId << "item.baseUrl" << item.baseUrl << "filename" << hash(url.toString()) << "hash(item.finalUrl)" << hash(item.finalUrl) << "finalurl" << item.finalUrl;
+                        }
+
                     } else {
+                        if (onlineItem)
+                            emit this->onlineDownloadFailed();
                         emit this->error(501);
                         qWarning() << "Save to disk failed!";
                     }
@@ -468,7 +520,7 @@ void DownloadManager::addDownload(DatabaseManager::CacheItem item)
             downloads.count() < s->getDmConnections())
     ) {
         doDownload(item);
-        if (!busy)
+        if (!busy && item.type!="online-item")
             emit busyChanged();
         //emit cacheSizeChanged();
     } else {
@@ -581,6 +633,59 @@ bool DownloadManager::isBusy()
 bool DownloadManager::isRemoverBusy()
 {
     return remover.isRunning();
+}
+
+void DownloadManager::onlineDownload(const QString& id, const QString& url)
+{
+    Settings *s = Settings::instance();
+    DatabaseManager::CacheItem item;
+
+    // Search by entryId
+    if (id != "") {
+        item = s->db->readCacheByEntry(id);
+        if (item.id == "") {
+            //qDebug() << "Search by id not found";
+            // No cache item -> downloaing
+            //qDebug() << "No cache item -> downloaing";
+            item.entryId = id;
+            item.origUrl = url;
+            item.finalUrl = url;
+            item.baseUrl = url;
+            item.type = "online-item";
+            emit addDownload(item);
+            return;
+        }
+        //qDebug() << "Item found by entryId! baseUrl=" << item.baseUrl;
+        emit onlineDownloadReady(id, "");
+
+    } else {
+
+        // Downloading
+        item.entryId = id;
+        item.origUrl = url;
+        item.finalUrl = url;
+        item.baseUrl = url;
+        item.type = "online-item";
+        emit addDownload(item);
+        return;
+
+        // Search by origUrl
+        /*item = s->db->readCacheByOrigUrl(url);
+        if (item.id == "") {
+            qDebug() << "Search by origUrl not found";
+            // No cache item -> downloaing
+            //qDebug() << "No cache item -> downloaing";
+            item.entryId = id;
+            item.origUrl = url;
+            item.finalUrl = url;
+            item.baseUrl = url;
+            item.type = "online-item";
+            emit addDownload(item);
+            return;
+        }
+        qDebug() << "Item found by origUrl! baseUrl=" << item.finalUrl;
+        emit onlineDownloadReady("", item.baseUrl);*/
+    }
 }
 
 void CacheCleaner::run() {

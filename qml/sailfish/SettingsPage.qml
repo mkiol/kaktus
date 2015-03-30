@@ -20,7 +20,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-
 Page {
     id: root
 
@@ -71,13 +70,17 @@ Page {
                         visible: !settings.signedIn
                     }
                     Label {
-                        text: qsTr("Signed in as")
+                        text: qsTr("Signed in with")
                         visible: settings.signedIn
                     }
                     Label {
                         color: Theme.highlightColor
                         visible: settings.signedIn
-                        text: settings.signedIn ? settings.getNetvibesUsername() : ""
+                        text: settings.signedIn ?
+                                  settings.getSigninType()==0 ? settings.getNetvibesUsername() :
+                                  settings.getSigninType()==1 ? "Twitter" :
+                                  settings.getSigninType()==2 ? "Facebook" : "" :
+                                  ""
                     }
                 }
 
@@ -193,7 +196,26 @@ Page {
                 }
             }
 
-            TextSwitch {
+            ComboBox {
+                width: root.width
+                label: qsTr("Cache articles")
+                currentIndex: settings.cachingMode
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Never") }
+                    MenuItem { text: qsTr("WiFi only") }
+                    MenuItem { text: qsTr("Always") }
+                }
+
+                onCurrentIndexChanged: {
+                    settings.cachingMode = currentIndex;
+                }
+
+                description: qsTr("After sync the content of all items will be downloaded "+
+                                  "and cached for access in the Offline mode.")
+            }
+
+            /*TextSwitch {
                 text: qsTr("Cache articles")
                 checked: settings.autoDownloadOnUpdate
                 description: qsTr("After sync the content of all items will be downloaded "+
@@ -201,7 +223,7 @@ Page {
                 onCheckedChanged: {
                     settings.autoDownloadOnUpdate = checked;
                 }
-            }
+            }*/
 
             SectionHeader {
                 text: qsTr("UI")
@@ -324,6 +346,18 @@ Page {
                 }
                 Component.onCompleted: {
                     checked = settings.showOnlyUnread;
+                }
+            }
+
+            TextSwitchWithIcon {
+                text: qsTr("Read mode")
+                description: qsTr("Web pages will be reformatted into an easy to read version.")
+                iconSource: "reader.png"
+                onCheckedChanged: {
+                    settings.readerMode = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.readerMode;
                 }
             }
 

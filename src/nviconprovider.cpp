@@ -66,6 +66,8 @@ QRect NvIconProvider::getPosition(const QString &icon, const QString &color)
             }
         }
     }
+
+    return QRect();
 }
 
 int NvIconProvider::getOffsetByColor(const QString &color)

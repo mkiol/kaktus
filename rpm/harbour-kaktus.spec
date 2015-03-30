@@ -13,7 +13,7 @@ Name:       harbour-kaktus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
-Version:    1.2.3
+Version:    1.3
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE
@@ -75,6 +75,11 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Sun Mar 15 2015 Michal Kosciesza 1.3-1
+- Sign in with Twitter and Facebook
+- New caching option: WiFi only
+- Reader view mode
 
 * Sat Jan 17 2015 Michal Kosciesza 1.2.3-1
 - Turkish translation (thanks to Mesut Aktaş)

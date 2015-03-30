@@ -21,32 +21,38 @@
 #include <QScopedPointer>
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QQuickView>
 #include <sailfishapp.h>
-#include "iconprovider.h"
-#include "nviconprovider.h"
-
 #include <QtDebug>
 #include <QTranslator>
 
+#include "iconprovider.h"
+#include "nviconprovider.h"
 #include "databasemanager.h"
 #include "downloadmanager.h"
 #include "cacheserver.h"
 #include "netvibesfetcher.h"
 #include "utils.h"
 #include "settings.h"
+#include "proxy.h"
 
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
-static const char *VERSION = "1.2.3";
+#ifdef KAKTUS_LIGHT
+static const char *VERSION = "1.3 (light edition)";
+#else
+static const char *VERSION = "1.3";
+#endif
 
-Q_DECL_EXPORT int main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
+    //qmlRegisterType<Proxy>("harbour.net.mkiol.kaktus", 1, 0, "Proxy");
+
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
 
     app->setApplicationDisplayName(APP_NAME);
-    //app->setApplicationVersion(QString(APP_VERSION));
     app->setApplicationVersion(VERSION);
 
     view->rootContext()->setContextProperty("APP_NAME", APP_NAME);
@@ -85,7 +91,6 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("settings", settings);
 
     view->setSource(SailfishApp::pathTo("qml/sailfish/main.qml"));
-
     view->show();
 
     return app->exec();

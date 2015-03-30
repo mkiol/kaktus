@@ -18,8 +18,10 @@
 */
 
 #include <QAbstractListModel>
+#include <QNetworkCookie>
 #include <QBuffer>
 #include <QUrl>
+#include <QPair>
 #include <QDebug>
 #include <QModelIndex>
 #include <QDateTime>
@@ -38,12 +40,24 @@
 
 #include "netvibesfetcher.h"
 
+NetvibesCookieJar::NetvibesCookieJar(QObject *parent) :
+    QNetworkCookieJar(parent)
+{}
+
+bool NetvibesCookieJar::setCookiesFromUrl(const QList<QNetworkCookie> & cookieList, const QUrl & url)
+{
+    Q_UNUSED(cookieList)
+    Q_UNUSED(url)
+    return false;
+}
+
 NetvibesFetcher::NetvibesFetcher(QObject *parent) :
     QThread(parent)
 {
     _currentReply = NULL;
     _busy = false;
     _busyType = Unknown;
+    _manager.setCookieJar(new NetvibesCookieJar(this));
 
     Settings *s = Settings::instance();
 
@@ -53,6 +67,9 @@ NetvibesFetcher::NetvibesFetcher(QObject *parent) :
     connect(this, SIGNAL(addDownload(DatabaseManager::CacheItem)), s->dm, SLOT(addDownload(DatabaseManager::CacheItem)));
     connect(this, SIGNAL(busyChanged()), s->dm, SLOT(startDownload()));
 }
+
+NetvibesFetcher::~NetvibesFetcher()
+{}
 
 bool NetvibesFetcher::delayedUpdate(bool state)
 {
@@ -132,6 +149,8 @@ void NetvibesFetcher::setBusy(bool busy, BusyType type)
     if (!busy)
         _busyType = Unknown;
 
+    //qDebug() << "busyType=" << _busyType << type;
+
     emit busyChanged();
 }
 
@@ -200,7 +219,7 @@ bool NetvibesFetcher::checkCredentials()
 
 #ifdef ONLINE_CHECK
     if (!ncm.isOnline()) {
-        qDebug() << "Network is Offline. Waiting...";
+        //qDebug() << "Network is Offline. Waiting...";
         setBusy(true, CheckingCredentialsWaiting);
         connect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(delayedUpdate(bool)));
         return true;
@@ -214,36 +233,149 @@ bool NetvibesFetcher::checkCredentials()
     return true;
 }
 
-void NetvibesFetcher::signIn()
+bool NetvibesFetcher::setConnectUrl(const QString &url)
 {
-    _data.clear();
+    //qDebug() << QUrl(url).path();
+    if (QUrl(url).path()=="/connect/facebook") {
+        Settings *s = Settings::instance();
+        s->setAuthUrl(url);
+        return true;
+        /*if (url.contains("#access_token=")) {
+            s->setAuthUrl(QString(url).replace("#access_token=","access_token="));
+            return true;
+        }*/
+    }
 
-    Settings *s = Settings::instance();
-    QString password = s->getNetvibesPassword();
-    QString username = s->getNetvibesUsername();
+    if (QUrl(url).path()=="/connect/twitter") {
+        Settings *s = Settings::instance();
+        /*QList< QPair<QString, QString> > list = _url.queryItems();
+        QList< QPair<QString, QString> >::iterator i = list.begin();
+        while (i != list.end()) {
+           QPair<QString, QString> pair = *i;
+           if (pair.first=="oauth_token")
+               s->setTwitterToken(pair.second);
+           else if (pair.first=="oauth_verifier")
+               s->setTwitterVerifier(pair.second);
+           ++i;
+        }*/
+        s->setAuthUrl(url);
+        return true;
+    }
+    return false;
+}
 
-    if (password == "" || username == "") {
-        qWarning() << "Netvibes username & password do not match!";
-        if (_busyType == CheckingCredentials)
-            emit errorCheckingCredentials(400);
-        else
-            emit error(400);
-        setBusy(false);
+void NetvibesFetcher::getConnectUrl(int type)
+{
+    if (_busy) {
+        qWarning() << "Fetcher is busy!";
         return;
     }
 
-    QUrl url("http://www.netvibes.com/api/auth/signin");
+/*#ifdef ONLINE_CHECK
+    if (!ncm->isOnline()) {
+        //qDebug() << "Network is Offline.";
+        emit networkNotAccessible();
+        return;
+    }
+#endif*/
 
-    QNetworkRequest request(url);
+    _data.clear();
 
     if (_currentReply) {
         _currentReply->disconnect();
         _currentReply->deleteLater();
     }
 
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
-    QString body = "email="+QUrl::toPercentEncoding(username)+"&password="+QUrl::toPercentEncoding(password)+"&session_only=1";
-    _currentReply = _manager.post(request,body.toUtf8());
+    QNetworkRequest request;
+    switch (type) {
+    case 1:
+        request.setUrl(QUrl("http://www.netvibes.com/api/auth/get-url"));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
+        _currentReply = _manager.post(request,"callbackUrl=%2Fconnect%2Ftwitter&service=twitter");
+        break;
+    case 2:
+        request.setUrl(QUrl("http://www.netvibes.com/api/auth/get-url"));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
+        _currentReply = _manager.post(request,"callbackUrl=%2Fconnect%2Ffacebook&service=facebook");
+        break;
+        //emit newAuthUrl("https://www.facebook.com/dialog/oauth?client_id=30599107238&response_type=token&redirect_uri=http%3A%2F%2Fwww.netvibes.com%2Fconnect%2Ffacebook",2);
+        return;
+    default:
+        qWarning() << "Wrong sign in type!";
+        return;
+    }
+
+    setBusy(true, GettingAuthUrl);
+
+    connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedGetAuthUrl()));
+    connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+}
+
+void NetvibesFetcher::signIn()
+{
+    _data.clear();
+
+    Settings *s = Settings::instance();
+
+    // Check is already have cookie
+    if (s->getCookie()!="") {
+        prepareUploadActions();
+        return;
+    }
+
+    QString password = s->getNetvibesPassword();
+    QString username = s->getNetvibesUsername();
+    QString twitterCookie = s->getTwitterCookie();
+    QString authUrl = s->getAuthUrl();
+    int type = s->getSigninType();
+
+    if (_currentReply) {
+        _currentReply->disconnect();
+        _currentReply->deleteLater();
+    }
+
+    QString body;
+    QNetworkRequest request;
+
+    switch (type) {
+    case 0:
+        if (password == "" || username == "") {
+            qWarning() << "Netvibes username & password do not match!";
+            if (_busyType == CheckingCredentials)
+                emit errorCheckingCredentials(400);
+            else
+                emit error(400);
+            setBusy(false);
+            return;
+        }
+
+        request.setUrl(QUrl("http://www.netvibes.com/api/auth/signin"));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
+        body = "email="+QUrl::toPercentEncoding(username)+"&password="+QUrl::toPercentEncoding(password)+"&session_only=1";
+        _currentReply = _manager.post(request,body.toUtf8());
+        break;
+    case 1:
+    case 2:
+        if (twitterCookie == "" || authUrl == "") {
+            qWarning() << "Twitter or Facebook sign in failed!";
+            if (_busyType == CheckingCredentials)
+                emit errorCheckingCredentials(400);
+            else
+                emit error(400);
+            setBusy(false);
+            return;
+        }
+        request.setUrl(QUrl(authUrl));
+        setCookie(request,twitterCookie);
+        _currentReply = _manager.get(request);
+        break;
+    default:
+        qWarning() << "Invalid sign in type!";
+        emit error(500);
+        setBusy(false);
+        return;
+    }
 
     if (_busyType == CheckingCredentials)
         connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedSignInOnlyCheck()));
@@ -256,6 +388,8 @@ void NetvibesFetcher::signIn()
 
 void NetvibesFetcher::fetchDashboards()
 {
+    Settings *s = Settings::instance();
+
     _data.clear();
 
     QUrl url("http://www.netvibes.com/api/my/dashboards");
@@ -266,7 +400,8 @@ void NetvibesFetcher::fetchDashboards()
         _currentReply->deleteLater();
     }
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
-    request.setRawHeader("Cookie", _cookie);
+    //request.setRawHeader("Cookie", _cookie);
+    setCookie(request, s->getCookie().toLatin1());
     _currentReply = _manager.post(request,"format=json");
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedDashboards()));
     connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
@@ -275,6 +410,7 @@ void NetvibesFetcher::fetchDashboards()
 
 void NetvibesFetcher::set()
 {
+    Settings *s = Settings::instance();
     DatabaseManager::Action action = actionsList.first();
 
     _data.clear();
@@ -327,9 +463,8 @@ void NetvibesFetcher::set()
         _currentReply->deleteLater();
     }
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
-    request.setRawHeader("Cookie", _cookie);
+    setCookie(request, s->getCookie().toLatin1());
 
-    Settings *s = Settings::instance();
     QString actions = "[";
 
     if (action.type == DatabaseManager::SetTabReadAll ||
@@ -470,6 +605,7 @@ void NetvibesFetcher::removeAction()
 
 void NetvibesFetcher::fetchTabs()
 {
+    Settings *s = Settings::instance();
     _data.clear();
 
     QString dashbordId = _dashboardList.first();
@@ -482,7 +618,7 @@ void NetvibesFetcher::fetchTabs()
         _currentReply->deleteLater();
     }
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
-    request.setRawHeader("Cookie", _cookie);
+    setCookie(request, s->getCookie().toLatin1());
     _currentReply = _manager.post(request,"format=json&pageId="+dashbordId.toUtf8());
     connect(_currentReply, SIGNAL(finished()), this, SLOT(finishedTabs()));
     connect(_currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
@@ -492,6 +628,7 @@ void NetvibesFetcher::fetchTabs()
 
 void NetvibesFetcher::fetchFeeds()
 {
+    Settings *s = Settings::instance();
     _data.clear();
 
     QUrl url("http://www.netvibes.com/api/streams");
@@ -502,9 +639,8 @@ void NetvibesFetcher::fetchFeeds()
         _currentReply->deleteLater();
     }
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
-    request.setRawHeader("Cookie", _cookie);
+    setCookie(request, s->getCookie().toLatin1());
 
-    Settings *s = Settings::instance();
     int feedsAtOnce = s->getFeedsAtOnce();
 
     int ii = 0;
@@ -539,6 +675,7 @@ void NetvibesFetcher::fetchFeeds()
 
 void NetvibesFetcher::fetchFeedsReadlater()
 {
+    Settings *s = Settings::instance();
     _data.clear();
 
     QUrl url("http://www.netvibes.com/api/streams/saved");
@@ -549,9 +686,7 @@ void NetvibesFetcher::fetchFeedsReadlater()
         _currentReply->deleteLater();
     }
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
-    request.setRawHeader("Cookie", _cookie);
-
-    Settings *s = Settings::instance();
+    setCookie(request, s->getCookie().toLatin1());
 
     QString actions;
 
@@ -577,6 +712,7 @@ void NetvibesFetcher::fetchFeedsReadlater()
 
 void NetvibesFetcher::fetchFeedsUpdate()
 {
+    Settings *s = Settings::instance();
     _data.clear();
 
     QUrl url("http://www.netvibes.com/api/streams");
@@ -587,9 +723,8 @@ void NetvibesFetcher::fetchFeedsUpdate()
         _currentReply->deleteLater();
     }
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
-    request.setRawHeader("Cookie", _cookie);
+    setCookie(request, s->getCookie().toLatin1());
 
-    Settings *s = Settings::instance();
     int feedsUpdateAtOnce = s->getFeedsUpdateAtOnce();
 
     int ii = 0;
@@ -1147,7 +1282,7 @@ void NetvibesFetcher::storeDashboards()
     }
 }
 
-void NetvibesFetcher::finishedSignInOnlyCheck()
+void NetvibesFetcher::finishedGetAuthUrl()
 {
     //qDebug() << this->_data;
 
@@ -1155,24 +1290,151 @@ void NetvibesFetcher::finishedSignInOnlyCheck()
 
     if (parse()) {
         if (_jsonObj["success"].toBool()) {
-            s->setSignedIn(true);
-            emit credentialsValid();
+
+            QString url = _jsonObj["url"].toString();
+
+            if (url == "") {
+                qWarning() << "Authentication URL is empty!";
+                setBusy(false);
+                emit errorGettingAuthUrl();
+                return;
+            }
+
+            QNetworkReply* reply = dynamic_cast<QNetworkReply*>(sender());
+            s->setTwitterCookie(QString(reply->rawHeader("Set-Cookie")));
+
+            //QVariant setCookieHeader = reply->header(QNetworkRequest::SetCookieHeader);
+            /*if (setCookieHeader.type()==QVariant::List) {
+                QList<QNetworkCookie> list = setCookieHeader.toL;
+                QList<QNetworkCookie>::iterator i = list.begin();
+                while (i != list.end()) {
+                    qDebug() << static_cast<QNetworkCookie>(*i).toRawForm(QNetworkCookie::Full);
+                    ++i;
+                }
+            }*/
+
             setBusy(false);
+
+            if (url.contains("twitter"))
+                emit newAuthUrl(url,1);
+            else if (url.contains("facebook"))
+                emit newAuthUrl(url,2);
+
+            return;
+        }
+    }
+
+    qWarning() << "Can not get Authentication URL!";
+    setBusy(false);
+    emit errorGettingAuthUrl();
+}
+
+void NetvibesFetcher::finishedSignInOnlyCheck()
+{
+    //qDebug() << this->_data;
+
+    Settings *s = Settings::instance();
+    QString cookie(_currentReply->rawHeader("Set-Cookie"));
+
+    switch (s->getSigninType()) {
+    case 0:
+        if (parse()) {
+            if (_jsonObj["success"].toBool()) {
+                s->setSignedIn(true);
+                s->setCookie(cookie);
+                emit credentialsValid();
+                setBusy(false);
+            } else {
+                s->setSignedIn(false);
+                QString message = _jsonObj["message"].toString();
+                if (message == "nomatch")
+                    emit errorCheckingCredentials(402);
+                else
+                    emit errorCheckingCredentials(401);
+                setBusy(false);
+                qWarning() << "Sign in check failed!" << "Messsage: " << message;
+            }
         } else {
             s->setSignedIn(false);
-            QString message = _jsonObj["message"].toString();
-            if (message == "nomatch")
-                emit errorCheckingCredentials(402);
-            else
-                emit errorCheckingCredentials(401);
+            qWarning() << "Sign in check failed!";
+            emit errorCheckingCredentials(501);
             setBusy(false);
-            qWarning() << "SignIn check error, messsage: " << message;
         }
-    } else {
-        s->setSignedIn(false);
-        qWarning() << "SignIn check error!";
+        break;
+    case 1:
+    case 2:
+        if (!checkCookie(cookie)) {
+            s->setSignedIn(false);
+            qWarning() << "Sign in check failed!";
+            emit errorCheckingCredentials(501);
+            setBusy(false);
+            return;
+        }
+        s->setCookie(cookie);
+        s->setSignedIn(true);
+        emit credentialsValid();
+        setBusy(false);
+        break;
+    default:
+        qWarning() << "Invalid sign in type!";
         emit errorCheckingCredentials(501);
         setBusy(false);
+        s->setSignedIn(false);
+        return;
+    }
+}
+
+void NetvibesFetcher::setCookie(QNetworkRequest &request, const QString &cookie)
+{
+    QString value;
+    QStringList list = cookie.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+    QStringList::iterator i = list.begin();
+    bool start = true;
+    while (i != list.end()) {
+        //qDebug() << "setCookie" << (*i);
+        QStringList parts = (*i).split(';');
+        //qDebug() << parts.at(0).split('=').at(1);
+        if (parts.at(0).split('=').at(1) != "deleted") {
+            if (!start)
+                value = parts.at(0) + "; " + value;
+            else
+                value = parts.at(0);
+            start = false;
+        }
+        ++i;
+    }
+    value = "lang=en_US; tz=2; "+value;
+    //qDebug() << "setCookie value" << value;
+    request.setRawHeader("Cookie",value.toLatin1());
+}
+
+bool NetvibesFetcher::checkCookie(const QString &cookie)
+{
+    QStringList list = cookie.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
+    QStringList::iterator i = list.begin();
+    while (i != list.end()) {
+        //qDebug() << "checkCookie" << (*i);
+        if ((*i).contains("activeSessionID",Qt::CaseSensitive)) {
+            return true;
+        }
+        ++i;
+    }
+
+    return false;
+}
+
+void NetvibesFetcher::prepareUploadActions()
+{
+    // upload actions
+    Settings *s = Settings::instance();
+    actionsList =s->db->readActions();
+    if (actionsList.isEmpty()) {
+        //qDebug() << "No actions to upload!";
+        s->db->cleanDashboards();
+        fetchDashboards();
+    } else {
+        //qDebug() << actionsList.count() << " actions to upload!";
+        uploadActions();
     }
 }
 
@@ -1182,45 +1444,74 @@ void NetvibesFetcher::finishedSignIn()
 
     Settings *s = Settings::instance();
 
-    if (parse()) {
-        if (_jsonObj["success"].toBool()) {
-
-            s->setSignedIn(true);
-
-            _cookie = _currentReply->rawHeader("Set-Cookie");
-
-            // upload actions
-            actionsList =s->db->readActions();
-            if (actionsList.isEmpty()) {
-                //qDebug() << "No actions to upload!";
-                s->db->cleanDashboards();
-                fetchDashboards();
-            } else {
-                //qDebug() << actionsList.count() << " actions to upload!";
-                uploadActions();
-            }
-
-        } else {
-            s->setSignedIn(false);
-
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-            QString message = _jsonObj["error"].toObject()["message"].toString();
-#else
-            QString message = _jsonObj["error"].toMap()["message"].toString();
-#endif
-            if (message == "no match")
-                emit error(402);
-            else
-                emit error(401);
+    if (_currentReply->error() &&
+            _currentReply->error()!=QNetworkReply::OperationCanceledError) {
+        //qWarning() << _currentReply->errorString();
+        if (s->getSigninType()>0) {
+            qWarning() << "Sign in with social service failed!";
+            emit error(403);
             setBusy(false);
-            qWarning() << "SignIn error, messsage: " << message;
+            return;
         }
-    } else {
-        s->setSignedIn(false);
 
-        qWarning() << "SignIn error!";
+        qWarning() << "Sign in failed!";
         emit error(501);
         setBusy(false);
+        return;
+    }
+
+    QString cookie(_currentReply->rawHeader("Set-Cookie"));
+
+    switch (s->getSigninType()) {
+    case 0:
+        if (parse()) {
+            if (_jsonObj["success"].toBool()) {
+                s->setSignedIn(true);
+                s->setCookie(cookie);
+                prepareUploadActions();
+            } else {
+                s->setSignedIn(false);
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+                QString message = _jsonObj["error"].toObject()["message"].toString();
+#else
+                QString message = _jsonObj["error"].toMap()["message"].toString();
+#endif
+                if (message == "no match")
+                    emit error(402);
+                else
+                    emit error(401);
+                setBusy(false);
+                qWarning() << "Sign in failed!" << "Messsage: " << message;
+            }
+        } else {
+            s->setSignedIn(false);
+            qWarning() << "Sign in failed!";
+            emit error(501);
+            setBusy(false);
+        }
+        break;
+    case 1:
+    case 2:
+        if (!checkCookie(cookie)) {
+            s->setSignedIn(false);
+            qWarning() << "Sign in failed!";
+            emit error(501);
+            setBusy(false);
+            return;
+        }
+
+        s->setCookie(cookie);
+        s->setSignedIn(true);
+        prepareUploadActions();
+
+        break;
+    default:
+        qWarning() << "Invalid sign in type!";
+        emit error(501);
+        setBusy(false);
+        s->setSignedIn(false);
+        return;
     }
 }
 
@@ -1497,19 +1788,17 @@ void NetvibesFetcher::finishedFeedsUpdate2()
 
 void NetvibesFetcher::networkError(QNetworkReply::NetworkError e)
 {
-    _currentReply->disconnect(this);
-    _currentReply->deleteLater();
-    _currentReply = 0;
-
     if (e == QNetworkReply::OperationCanceledError) {
+        _currentReply->disconnect(this);
+        _currentReply->deleteLater();
+        _currentReply = 0;
         emit canceled();
+        _data.clear();
+        setBusy(false);
     } else {
         emit error(500);
         qWarning() << "Network error!, error code: " << e;
     }
-
-    _data.clear();
-    setBusy(false);
 }
 
 void NetvibesFetcher::taskEnd()
@@ -1539,7 +1828,7 @@ void NetvibesFetcher::uploadActions()
 
 void NetvibesFetcher::cancel()
 {
-    disconnect(&ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(delayedUpdate(bool)));
+    //disconnect(ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(delayedUpdate(bool)));
     if (_busyType==UpdatingWaiting||_busyType==InitiatingWaiting||_busyType==CheckingCredentialsWaiting) {
         setBusy(false);
     } else {
@@ -1593,7 +1882,24 @@ void NetvibesFetcher::startJob(Job job)
     disconnect(this, SIGNAL(finished()), 0, 0);
     currentJob = job;
 
-    if(!parse()) {
+    if(parse()) {
+        if (_jsonObj.contains("success") && !_jsonObj["success"].toBool()) {
+        //if (true) {
+            qWarning() << "Cookie expires!";
+            Settings *s = Settings::instance();
+            s->setCookie("");
+            setBusy(false);
+
+            // If credentials other than Netvibes, prompting for re-auth
+            if (s->getSigninType()>0) {
+                emit error(403);
+                return;
+            }
+
+            update();
+            return;
+        }
+    } else {
         qWarning() << "Error parsing Json!";
         emit error(600);
         setBusy(false);

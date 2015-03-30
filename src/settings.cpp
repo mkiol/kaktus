@@ -26,7 +26,6 @@
 #include <QGuiApplication>
 #else
 #include <QtGui/QDesktopServices>
-//#include <QApplication>
 #include <QCoreApplication>
 #endif
 
@@ -99,20 +98,41 @@ void Settings::setShowOnlyUnread(bool value)
 
 bool Settings::getShowOnlyUnread()
 {
-    return settings.value("showonlyunread", false).toBool();
+    return settings.value("showonlyunread", true).toBool();
 }
 
 void Settings::setOfflineMode(bool value)
 {
+#ifdef KAKTUS_LIGHT
+    return;
+#else
     if (getOfflineMode() != value) {
         settings.setValue("offlinemode", value);
         emit offlineModeChanged();
     }
+#endif
 }
 
 bool Settings::getOfflineMode()
 {
+#ifdef KAKTUS_LIGHT
+    return false;
+#else
     return settings.value("offlinemode", false).toBool();
+#endif
+}
+
+void Settings::setReaderMode(bool value)
+{
+    if (getReaderMode() != value) {
+        settings.setValue("readermode", value);
+        emit readerModeChanged();
+    }
+}
+
+bool Settings::getReaderMode()
+{
+    return settings.value("readermode", false).toBool();
 }
 
 void Settings::setShowTabIcons(bool value)
@@ -198,6 +218,70 @@ QString Settings::getNetvibesPassword()
     return plainPassword;
 }
 
+void Settings::setCookie(const QString &value)
+{
+    SimpleCrypt crypto(KEY);
+    QString encryptedValue = crypto.encryptToString(value);
+    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        emit error(512);
+    }
+    settings.setValue("cookie", encryptedValue);
+}
+
+QString Settings::getCookie()
+{
+    SimpleCrypt crypto(KEY);
+    QString plainValue = crypto.decryptToString(settings.value("cookie", "").toString());
+    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        emit error(511);
+        return "";
+    }
+    return plainValue;
+}
+
+void Settings::setTwitterCookie(const QString &value)
+{
+    SimpleCrypt crypto(KEY);
+    QString encryptedValue = crypto.encryptToString(value);
+    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        emit error(512);
+    }
+    settings.setValue("twittercookie", encryptedValue);
+}
+
+QString Settings::getTwitterCookie()
+{
+    SimpleCrypt crypto(KEY);
+    QString plainValue = crypto.decryptToString(settings.value("twittercookie", "").toString());
+    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        emit error(511);
+        return "";
+    }
+    return plainValue;
+}
+
+void Settings::setAuthUrl(const QString &value)
+{
+    SimpleCrypt crypto(KEY);
+    QString encryptedValue = crypto.encryptToString(value);
+    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        emit error(512);
+    }
+    settings.setValue("authurl", encryptedValue);
+}
+
+QString Settings::getAuthUrl()
+{
+    SimpleCrypt crypto(KEY);
+    QString plainValue = crypto.decryptToString(settings.value("authurl", "").toString());
+    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        emit error(511);
+        return "";
+    }
+    return plainValue;
+}
+
+
 void Settings::setDashboardInUse(const QString &value)
 {
     if (getDashboardInUse() != value) {
@@ -236,6 +320,16 @@ void Settings::setLastUpdateDate(int value)
     }
 }
 
+int Settings::getSigninType()
+{
+    return settings.value("signintype", 0).toInt();
+}
+
+void Settings::setSigninType(int value)
+{
+    settings.setValue("signintype", value);
+}
+
 int Settings::getLastUpdateDate()
 {
     return settings.value("lastupdatedate", 0).toInt();
@@ -254,6 +348,22 @@ int Settings::getAllowedOrientations()
     return settings.value("allowedorientations", 0).toInt();
 }
 
+void Settings::setCachingMode(int value)
+{
+    if (getCachingMode() != value) {
+        settings.setValue("cachingmode", value);
+        emit cachingModeChanged();
+    }
+}
+
+int Settings::getCachingMode()
+{
+#ifdef KAKTUS_LIGHT
+    return 0;
+#else
+    return settings.value("cachingmode", 0).toInt();
+#endif
+}
 
 void Settings::setOffsetLimit(int value)
 {
@@ -448,7 +558,12 @@ void Settings::setViewMode(int value)
 
 int Settings::getViewMode()
 {
-    return settings.value("viewmode", 0).toInt();
+    int viewMode = settings.value("viewmode", 0).toInt();
+#ifdef KAKTUS_LIGHT
+    if (viewMode==5)
+        return 0;
+#endif
+    return viewMode;
 }
 
 void Settings::setReinitDB(bool value)
@@ -465,4 +580,7 @@ void Settings::reset()
 {
     setNetvibesPassword("");
     setHelpDone(false);
+    setCookie("");
+    setTwitterCookie("");
+    setAuthUrl("");
 }

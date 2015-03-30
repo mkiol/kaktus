@@ -26,7 +26,7 @@ Item {
 
     property string text
     property bool cancelable: true
-    property bool open: true
+    property bool open: false
     property real progress: 0.0
     property bool transparent: true
     signal closeClicked

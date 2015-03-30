@@ -22,7 +22,7 @@
 
 #include "databasemanager.h"
 
-const QString DatabaseManager::version = QString("1.8");
+const QString DatabaseManager::version = QString("1.9");
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
@@ -312,6 +312,7 @@ bool DatabaseManager::createCacheStructure()
                          "id CHAR(32) PRIMARY KEY, "
                          "orig_url CHAR(32), "
                          "final_url CHAR(32), "
+                         "base_url TEXT, "
                          "type VARCHAR(50), "
                          "content_type TEXT, "
                          "entry_id VARCHAR(50), "
@@ -539,15 +540,17 @@ void DatabaseManager::writeCache(const CacheItem &item)
 {
     if (db.isOpen()) {
         QSqlQuery query(db);
-        bool ret = query.exec(QString("INSERT OR REPLACE INTO cache (id, orig_url, final_url, type, content_type, "
-                                 "entry_id, stream_id, flag, date) VALUES('%1','%2','%3','%4',"
-                                 "'%5','%6','%7',%8,'%9');")
+        bool ret = query.exec(QString("INSERT OR REPLACE INTO cache (id, orig_url, final_url, base_url, type, content_type, "
+                                 "entry_id, stream_id, flag, date) VALUES('%1','%2','%3','%4','%5',"
+                                 "'%6','%7','%8',%9,'%10');")
                          .arg(item.id)
                          .arg(item.origUrl)
                          .arg(item.finalUrl)
+                         .arg(QString(item.baseUrl.toUtf8().toBase64()))
                          .arg(item.type)
                          .arg(QString(item.contentType.toUtf8().toBase64()))
-                         .arg(item.entryId).arg(item.streamId)
+                         .arg(item.entryId)
+                         .arg(item.streamId)
                          .arg(item.flag)
                          .arg(item.date)
                          );
@@ -1346,7 +1349,7 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByOrigUrl(const QString &id
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        bool ret = query.exec(QString("SELECT id, orig_url, final_url, type, content_type, entry_id, stream_id, flag, date "
+        bool ret = query.exec(QString("SELECT id, orig_url, final_url, base_url, type, content_type, entry_id, stream_id, flag, date "
                                       "FROM cache WHERE orig_url='%1' AND flag=1;")
                         .arg(id));
 
@@ -1358,12 +1361,13 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByOrigUrl(const QString &id
             item.id = query.value(0).toString();
             item.origUrl = query.value(1).toString();
             item.finalUrl = query.value(2).toString();
-            item.type = query.value(3).toString();
-            decodeBase64(query.value(4),item.contentType);
-            item.entryId = query.value(5).toString();
-            item.streamId = query.value(6).toString();
-            item.flag = query.value(7).toInt();
-            item.date = query.value(8).toInt();
+            decodeBase64(query.value(3),item.baseUrl);
+            item.type = query.value(4).toString();
+            decodeBase64(query.value(5),item.contentType);
+            item.entryId = query.value(6).toString();
+            item.streamId = query.value(7).toString();
+            item.flag = query.value(8).toInt();
+            item.date = query.value(9).toInt();
         }
 
     } else {
@@ -1380,7 +1384,7 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByEntry(const QString &id)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        bool ret = query.exec(QString("SELECT id, orig_url, final_url, type, content_type, entry_id, stream_id, flag, date "
+        bool ret = query.exec(QString("SELECT id, orig_url, final_url, base_url, type, content_type, entry_id, stream_id, flag, date "
                                       "FROM cache WHERE entry_id='%1' AND flag=1;")
                         .arg(id));
 
@@ -1392,12 +1396,13 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByEntry(const QString &id)
             item.id = query.value(0).toString();
             item.origUrl = query.value(1).toString();
             item.finalUrl = query.value(2).toString();
-            item.type = query.value(3).toString();
-            decodeBase64(query.value(4),item.contentType);
-            item.entryId = query.value(5).toString();
-            item.streamId = query.value(6).toString();
-            item.flag = query.value(7).toInt();
-            item.date = query.value(8).toInt();
+            decodeBase64(query.value(3),item.baseUrl);
+            item.type = query.value(4).toString();
+            decodeBase64(query.value(5),item.contentType);
+            item.entryId = query.value(6).toString();
+            item.streamId = query.value(7).toString();
+            item.flag = query.value(8).toInt();
+            item.date = query.value(9).toInt();
         }
 
     } else {
@@ -1448,7 +1453,7 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByFinalUrl(const QString &i
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        bool ret = query.exec(QString("SELECT id, orig_url, final_url, type, content_type, entry_id, stream_id, flag, date "
+        bool ret = query.exec(QString("SELECT id, orig_url, final_url, base_url, type, content_type, entry_id, stream_id, flag, date "
                                       "FROM cache WHERE final_url='%1';")
                         .arg(id));
 
@@ -1460,12 +1465,13 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByFinalUrl(const QString &i
             item.id = query.value(0).toString();
             item.origUrl = query.value(1).toString();
             item.finalUrl = query.value(2).toString();
-            item.type = query.value(3).toString();
-            decodeBase64(query.value(4),item.contentType);
-            item.entryId = query.value(5).toString();
-            item.streamId = query.value(6).toString();
-            item.flag = query.value(7).toInt();
-            item.date = query.value(8).toInt();
+            decodeBase64(query.value(3),item.baseUrl);
+            item.type = query.value(4).toString();
+            decodeBase64(query.value(5),item.contentType);
+            item.entryId = query.value(6).toString();
+            item.streamId = query.value(7).toString();
+            item.flag = query.value(8).toInt();
+            item.date = query.value(9).toInt();
         }
 
     } else {

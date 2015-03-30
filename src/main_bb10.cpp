@@ -20,12 +20,14 @@
 #include <bb/cascades/AbstractPane>
 #include <bb/cascades/Application>
 #include <bb/cascades/QmlDocument>
+#include <bb/device/DisplayInfo>
 
 #include <Qt/qdeclarativedebug.h>
 #include <QtGui/QFileSystemModel>
 #include <QLocale>
 #include <QTranslator>
 #include <QTimer>
+#include <QDebug>
 
 #include "databasemanager.h"
 #include "downloadmanager.h"
@@ -39,10 +41,14 @@
 
 using namespace bb::cascades;
 
-static const char *APP_NAME = "Kaktus";
+#ifdef KAKTUS_LIGHT
+static const char *VERSION = "1.2.4 (light edition)";
+#else
+static const char *VERSION = "1.2.4";
+#endif
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
-static const char *VERSION = "1.2.3";
+static const char *APP_NAME = "Kaktus";
 
 Q_DECL_EXPORT int main(int argc, char **argv)
 {
@@ -59,11 +65,11 @@ Q_DECL_EXPORT int main(int argc, char **argv)
 
     Settings* settings = Settings::instance();
 
-    QTranslator translator;
+    /*QTranslator translator;
     const QString filename = QString::fromLatin1("kaktus_%1").arg(
             settings->getLocale()=="" ? QLocale().name() : settings->getLocale());
     if (translator.load(filename, "app/native/qm"))
-        app.installTranslator(&translator);
+        app.installTranslator(&translator);*/
 
     settings->qml = QmlDocument::create("asset:///main.qml");
 
@@ -84,6 +90,7 @@ Q_DECL_EXPORT int main(int argc, char **argv)
     NetvibesFetcher fetcher;
     settings->fetcher = &fetcher;
     Utils utils;
+    bb::device::DisplayInfo display;
 
     QFileSystemModel *model = new QFileSystemModel(&app);
     model->setRootPath("app/");
@@ -95,6 +102,7 @@ Q_DECL_EXPORT int main(int argc, char **argv)
     settings->qml->setContextProperty("cache", &cache);
     settings->qml->setContextProperty("settings", settings);
     settings->qml->setContextProperty("_fileSystemModel", model);
+    settings->qml->setContextProperty("display", &display);
 
     QObject::connect(settings->qml->defaultDeclarativeEngine(), SIGNAL(quit()),
             QCoreApplication::instance(), SLOT(quit()));

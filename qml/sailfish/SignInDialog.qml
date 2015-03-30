@@ -27,7 +27,7 @@ Dialog {
     property bool showBar: false
     property int code
 
-    canAccept: user.text!=="" && password.text !==""
+    canAccept: user.text != "" && validateEmail(user.text) && password.text != ""
 
     allowedOrientations: {
         switch (settings.allowedOrientations) {
@@ -41,64 +41,169 @@ Dialog {
 
     ActiveDetector {}
 
-    Column {
-        anchors {
-            left: parent.left; //leftMargin: Theme.paddingMedium
-            right: parent.right; //rightMargin: Theme.paddingMedium
-        }
+    SilicaFlickable {
+        anchors {left: parent.left; right: parent.right }
+        anchors {top: parent.top; bottom: parent.bottom }
+        anchors.bottomMargin: app.height - app.flickHeight
+        clip: true
+        contentHeight: content.height
 
-        spacing: Theme.paddingSmall
-
-        DialogHeader {
-            title: qsTr("Netvibes account")
-            acceptText : qsTr("Sign In")
-        }
-
-        TextField {
-            id: user
-            anchors.left: parent.left; anchors.right: parent.right
-
-            inputMethodHints: Qt.ImhEmailCharactersOnly| Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-            placeholderText: qsTr("Enter username (e-mail) here!")
-            label: qsTr("Username (e-mail)")
-
-            Component.onCompleted: {
-                text = settings.getNetvibesUsername();
+        Column {
+            id: content
+            anchors {
+                left: parent.left
+                right: parent.right
             }
 
-            EnterKey.iconSource: "image://theme/icon-m-enter-close"
-            EnterKey.onClicked: {
-                Qt.inputMethod.hide();
+            spacing: Theme.paddingSmall
+
+            DialogHeader {
+                title: qsTr("Account")
+                acceptText : qsTr("Sign In")
+            }
+
+            /*PaddedLabel {
+                text: qsTr("Only connecting with Netvibes credentials are supported right now.")
+            }*/
+
+            SectionHeader {
+                text: qsTr("Netvibes")
+            }
+
+            Item {
+                anchors { left: parent.left; right: parent.right; leftMargin: Theme.paddingLarge; rightMargin: Theme.paddingLarge}
+                height: Math.max(nvIcon.height, nvLabel.height)
+
+                Image {
+                    id: nvIcon
+                    anchors { left: parent.left }
+                    source: "nv.png"
+                }
+
+                Label {
+                    id: nvLabel
+                    anchors { left: nvIcon.right; right: parent.right; leftMargin: Theme.paddingLarge}
+                    /*text: qsTr("Use your credentials to configure the account. "+
+                               "Enter Netvibes username and password below.")*/
+                    text: qsTr("Enter Netvibes username and password below.")
+                    wrapMode: Text.WordWrap
+                }
+            }
+
+            Item {
+                height: Theme.paddingSmall
+                width: Theme.paddingSmall
+            }
+
+            TextField {
+                id: user
+                anchors.left: parent.left; anchors.right: parent.right
+
+                inputMethodHints: Qt.ImhEmailCharactersOnly| Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
+                placeholderText: qsTr("Enter username here!")
+                label: qsTr("Username (your e-mail)")
+
+                Component.onCompleted: {
+                    text = settings.getNetvibesUsername();
+                }
+
+                EnterKey.iconSource: "image://theme/icon-m-enter-close"
+                EnterKey.onClicked: {
+                    Qt.inputMethod.hide();
+                }
+            }
+
+            TextField {
+                id: password
+                anchors.left: parent.left; anchors.right: parent.right
+                inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText | Qt.ImhSensitiveData
+                echoMode: TextInput.Password
+                placeholderText: qsTr("Enter password here!")
+                label: qsTr("Password")
+
+                EnterKey.iconSource: user.text!=="" ? "image://theme/icon-m-enter-accept" : "image://theme/icon-m-enter-close"
+                EnterKey.onClicked: {
+                    Qt.inputMethod.hide();
+                    if (user.text!=="")
+                        root.accept();
+                }
+            }
+
+            SectionHeader {
+                text: qsTr("Third party services")
+            }
+
+            Row {
+                height: 80
+                spacing: Theme.paddingLarge
+                //anchors.horizontalCenter: parent.horizontalCenter
+                x: Theme.paddingLarge
+
+                Image {
+                    anchors.verticalCenter: parent.verticalCenter
+                    source: "twitter.png"
+                }
+
+                Button {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Sign in with Twitter")
+                    onClicked: {
+                        utils.resetQtWebKit();
+                        fetcher.getConnectUrl(1);
+                    }
+                }
+            }
+
+            Item {
+                height: Theme.paddingSmall
+                width: Theme.paddingSmall
+            }
+
+            Row {
+                height: 80
+                spacing: Theme.paddingLarge
+                //anchors.horizontalCenter: parent.horizontalCenter
+                x: Theme.paddingLarge
+
+                Image {
+                    anchors.verticalCenter: parent.verticalCenter
+                    source: "fb.png"
+                }
+
+                Button {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Sign in with Facebook")
+                    onClicked: {
+                        utils.resetQtWebKit();
+                        fetcher.getConnectUrl(2);
+                    }
+                }
+            }
+
+            Item {
+                height: Theme.itemSizeLarge
+                width: Theme.itemSizeLarge
             }
         }
+    }
 
-        TextField {
-            id: password
-            anchors.left: parent.left; anchors.right: parent.right
-            inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText | Qt.ImhSensitiveData
-            echoMode: TextInput.Password
-            placeholderText: qsTr("Enter password here!")
-            label: qsTr("Password")
-
-            EnterKey.iconSource: user.text!=="" ? "image://theme/icon-m-enter-accept" : "image://theme/icon-m-enter-close"
-            EnterKey.onClicked: {
-                Qt.inputMethod.hide();
-                if (user.text!=="")
-                    root.accept();
-            }
-        }
+    function validateEmail(email) {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
     }
 
     onAccepted: {
         settings.setNetvibesUsername(user.text);
         settings.setNetvibesPassword(password.text);
 
+        m.doInit = settings.getSigninType!=0;
+        settings.setSigninType(0);
+
         if (code == 0) {
             fetcher.checkCredentials();
         } else {
-            if (!dm.busy)
+            if (! dm.busy)
                 dm.cancel();
-            //fetcher.update();
             m.doUpdate = true;
         }
     }
@@ -107,10 +212,15 @@ Dialog {
     QtObject {
         id: m
         property bool doUpdate: false
+        property bool doInit: false
     }
     Component.onDestruction: {
-        if (m.doUpdate)
-            fetcher.update();
+        if (m.doUpdate) {
+            if (m.doInit)
+                fetcher.init();
+            else
+                fetcher.update();
+        }
     }
 
 }

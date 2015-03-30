@@ -408,6 +408,10 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
         _db->writeAction(action);
         _db->updateEntriesReadFlagByEntry(item->id(),newValue.toInt());
     }
+
+    if (fieldName=="cached") {
+        item->setCached(newValue.toInt());
+    }
 }
 
 // ----------------------------------------------------------------
@@ -502,6 +506,14 @@ void EntryItem::setRead(int value)
 {
     if(m_read!=value) {
         m_read = value;
+        emit dataChanged();
+    }
+}
+
+void EntryItem::setCached(int value)
+{
+    if(m_cached!=value) {
+        m_cached = value;
         emit dataChanged();
     }
 }

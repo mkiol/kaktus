@@ -40,6 +40,29 @@ Page {
     property bool updateViewPortDone: false
     signal updateViewPort
 
+    property int imgWidth: {
+        switch (settings.fontSize) {
+        case 1:
+            return view.width/(1.5);
+        case 2:
+            return view.width/(2.0);
+        }
+        return view.width;
+    }
+
+    function onlineDownload(url, id) {
+        //console.log("onlineDownload url=",url);
+        dm.onlineDownload(id, url);
+        proggressPanel.text = qsTr("Loading page content...");
+        proggressPanel.open = true;
+    }
+
+    function navigate(url) {
+        var hcolor = Theme.highlightColor.toString().substr(1, 6);
+        var shcolor = Theme.secondaryHighlightColor.toString().substr(1, 6);
+        view.url = url+"?fontsize=18px&width="+imgWidth+"&highlightColor="+hcolor+"&secondaryHighlightColor="+shcolor+"&margin="+Theme.paddingMedium;
+    }
+
     ActiveDetector {}
 
     onForwardNavigationChanged: {
@@ -62,6 +85,76 @@ Page {
             return Orientation.Landscape;
         }
         return Orientation.Landscape | Orientation.Portrait;
+    }
+
+    Component.onCompleted: {
+        if (settings.offlineMode) {
+            navigate(offlineUrl);
+        } else {
+            if (settings.readerMode) {
+                onlineDownload(root.onlineUrl, root.entryId);
+            } else {
+                view.url = onlineUrl;
+            }
+        }
+    }
+
+    Connections {
+        target: settings
+        onReaderModeChanged: {
+            if (settings.readerMode) {
+                //onlineDownload(root.onlineUrl, root.entryId);
+                onlineDownload(root.onlineUrl, "");
+            } else {
+                view.url = onlineUrl;
+            }
+        }
+
+        onFontSizeChanged: {
+            // Changing viewport in WebView
+            root.updateViewPort();
+        }
+    }
+
+    Connections {
+        target: dm
+        onOnlineDownloadReady: {
+            //console.log("onOnlineDownloadReady url=",url);
+            if (id=="") {
+                var newUrl = cache.getUrlbyUrl(url);
+                //console.log("newurl=",newUrl);
+                navigate(newUrl);
+                offlineUrl = newUrl;
+                return;
+            }
+            navigate(offlineUrl);
+            entryModel.setData(index,"cached",1);
+        }
+        onOnlineDownloadFailed: {
+            notification.show(qsTr("Failed to switch to Reader mode :-("));
+            proggressPanel.open = false;
+            //settings.readerMode = false;
+        }
+    }
+
+    Connections {
+        target: fetcher
+        onBusyChanged: pageStack.pop()
+    }
+
+    /*Connections {
+        target: dm
+        onBusyChanged: pageStack.pop()
+    }*/
+
+    // Workaround for 'High Power Consumption' webkit bug
+    Connections {
+        target: Qt.application
+        onActiveChanged: {
+            if(!Qt.application.active && settings.powerSaveMode) {
+                pageStack.pop();
+            }
+        }
     }
 
     onUpdateViewPort: {
@@ -89,44 +182,6 @@ Page {
         id: view
 
         anchors { top: parent.top; left: parent.left; right: parent.right; bottom: parent.bottom }
-
-        /*height: {
-            if ((dm.busy||fetcher.busy||controlbar.open) && bar.open)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-1.6*Theme.itemSizeMedium;
-            if (dm.busy||fetcher.busy||controlbar.open)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
-            if (bar.open)
-                return isPortrait ? app.height-Theme.itemSizeMedium : app.width-0.8*Theme.itemSizeMedium;
-            return isPortrait ? app.height : app.width;
-        }
-
-        Behavior on height {
-            enabled: !root.orientationTransitionRunning
-            NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
-        }
-
-        clip: true*/
-
-        /*url:  {
-            if (settings.offlineMode) {
-                if (settings.offlineMode)
-                    return offlineUrl+"?width="+view.width+"px"+"&fontsize=24px";
-            }
-            return onlineUrl;
-        }*/
-
-        property int imgWidth: {
-            switch (settings.fontSize) {
-            case 1:
-                return view.width/(1.5);
-            case 2:
-                return view.width/(2.0);
-            }
-            return view.width
-        }
-
-        url: settings.offlineMode ? offlineUrl+"?fontsize=18px&width="+imgWidth+"px" : onlineUrl
-
         experimental.userAgent: settings.getDmUserAgent()
 
         onLoadProgressChanged: {
@@ -139,7 +194,6 @@ Page {
         }
 
         onLoadingChanged: {
-
             switch (loadRequest.status) {
             case WebView.LoadStartedStatus:
                 proggressPanel.text = qsTr("Loading page content...");
@@ -149,7 +203,6 @@ Page {
                 root.updateViewPortDone = false;
 
                 break;
-
             case WebView.LoadSucceededStatus:
                 proggressPanel.open = false;
 
@@ -161,29 +214,25 @@ Page {
                     timer.start();
 
                 break;
-
             case WebView.LoadFailedStatus:
                 proggressPanel.open = false;
 
                 console.log("LoadFailedStatus");
 
-                if (settings.offlineMode)
+                if (settings.offlineMode) {
                     notification.show(qsTr("Failed to load item from local cache :-("));
-                else
-                    notification.show(qsTr("Failed to load page content :-("));
+                } else {
+                    if (settings.readerMode) {
+                        notification.show(qsTr("Failed to switch to Reader mode :-("));
+                        settings.readerMode = false;
+                    } else {
+                        notification.show(qsTr("Failed to load page content :-("));
+                    }
+                }
                 break;
-
             default:
                 proggressPanel.open = false;
             }
-
-            /*console.log("-= onLoadingChanged =-");
-            console.log(loadRequest.status==WebView.LoadStartedStatus ? "LoadStartedStatus" : loadRequest.status==WebView.LoadFailedStatus ? "LoadFailedStatus" : loadRequest.status==WebView.LoadSucceededStatus ? "LoadSucceededStatus" : "Unknown");
-            console.log("loadRequest.url: "+loadRequest.url);
-            console.log("loadRequest.status: "+loadRequest.status);
-            console.log("loadRequest.errorString: "+loadRequest.errorString);
-            console.log("loadRequest.errorCode: "+loadRequest.errorCode);
-            console.log("loadRequest.errorDomain: "+loadRequest.errorDomain);*/
         }
 
         /*onNavigationRequested: {
@@ -198,6 +247,24 @@ Page {
         onNavigationRequested: {
             if (!Qt.application.active) {
                 request.action = WebView.IgnoreRequest;
+                return;
+            }
+
+            if (settings.offlineMode) {
+                if (request.navigationType != WebView.LinkClickedNavigation) {
+                    return;
+                }
+                request.action = WebView.IgnoreRequest;
+                return;
+            }
+
+            if (request.navigationType == WebView.LinkClickedNavigation) {
+                onlineUrl = request.url;
+                if (settings.readerMode) {
+                    //console.log("Reader mode: navigation request url=",request.url);
+                    onlineDownload(request.url);
+                    request.action = WebView.IgnoreRequest;
+                }
             }
         }
     }
@@ -207,6 +274,9 @@ Page {
         flick: view
         canBack: true
         canStar: true
+        //canFontDown: true; canFontUp: true
+        canClipboard: true
+        canReader: !settings.offlineMode
         canOpenBrowser: true
         stared: root.stared
         transparent: false
@@ -228,18 +298,19 @@ Page {
             Qt.openUrlExternally(onlineUrl);
         }
 
-        onOfflineClicked: {
-            if (settings.offlineMode) {
-                if (dm.online)
-                    settings.offlineMode = false;
-                else
-                    notification.show(qsTr("Cannot switch to Online mode.\nNetwork connection is unavailable."));
-            } else {
-                if (root.cached)
-                    settings.offlineMode = true;
-                else
-                  notification.show(qsTr("Offline version not available."));
-            }
+        onFontDownClicked: {
+            if (settings.fontSize>0)
+                settings.fontSize -= 1;
+        }
+
+        onFontUpClicked: {
+            if (settings.fontSize<2)
+                settings.fontSize += 1;
+        }
+
+        onClipboardClicked: {
+            notification.show(qsTr("URL copied to clipboard"));
+            Clipboard.text = root.onlineUrl;
         }
     }
 
@@ -247,10 +318,14 @@ Page {
         id: proggressPanel
         transparent: false
         anchors.left: parent.left
-        anchors.bottom: parent.bottom
+        //anchors.bottom: parent.bottom
+        //anchors.bottomMargin: controlbar.open ? controlbar.height : 0
         height: isPortrait ? app.panelHeightPortrait : app.panelHeightLandscape
         cancelable: true
         onCloseClicked: view.stop()
+
+        y: controlbar.open ? root.height-height-controlbar.height : root.height-height
+        Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
     }
 
     Timer {
@@ -260,26 +335,6 @@ Page {
             if (!root.read) {
                 read=true;
                 entryModel.setData(root.index, "read", 1);
-            }
-        }
-    }
-
-    Connections {
-        target: fetcher
-        onBusyChanged: pageStack.pop()
-    }
-
-    Connections {
-        target: dm
-        onBusyChanged: pageStack.pop()
-    }
-
-    // Workaround for 'High Power Consumption' webkit bug
-    Connections {
-        target: Qt.application
-        onActiveChanged: {
-            if(!Qt.application.active && settings.powerSaveMode) {
-                pageStack.pop();
             }
         }
     }

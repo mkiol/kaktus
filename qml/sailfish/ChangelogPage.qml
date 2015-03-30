@@ -49,6 +49,32 @@ Page {
         }
 
         model: VisualItemModel {
+            SectionHeader {
+                text: qsTr("Version %1").arg("1.3")
+            }
+
+            LogItem {
+                title: 'Read mode (experimental)'
+                description: 'When Read mode is enabled, web pages will be reformatted into an easy to read version. '+
+                             'All of a website\'s native styles will be striped so you can focus on what you\'re reading. '+
+                             'You can switch to Read mode using rightmost button on web viewer\'s toolbar.'
+            }
+
+            LogItem {
+                title: 'Copy URL to clipboard'
+                description: 'New button was added to web viewer\'s toolbar. It allows you to copy page\'s URL to clipboard.'
+            }
+
+            LogItem {
+                title: 'Sign in with Twitter or Facebook'
+                description: 'In addition to Netvibes credentials, sign in can be done also with Twitter or Facebook account.'
+            }
+
+            LogItem {
+                title: 'Caching only on WiFi'
+                description: 'Until now you could only enable or disable caching feature. '+
+                             'Now, you can also set caching to start only when phone is connected with WiFi.'
+            }
 
             SectionHeader {
                 text: qsTr("Version %1").arg("1.2.3")

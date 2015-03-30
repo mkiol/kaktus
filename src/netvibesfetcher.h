@@ -29,6 +29,7 @@
 #include <QMultiMap>
 #include <QNetworkConfigurationManager>
 #include <QThread>
+#include <QNetworkCookieJar>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QJsonObject>
@@ -38,6 +39,15 @@
 
 #include "databasemanager.h"
 #include "downloadmanager.h"
+
+class NetvibesCookieJar : public QNetworkCookieJar
+{
+    Q_OBJECT
+
+public:
+    NetvibesCookieJar(QObject *parent = 0);
+    virtual bool setCookiesFromUrl(const QList<QNetworkCookie> & cookieList, const QUrl & url);
+};
 
 class NetvibesFetcher : public QThread
 {
@@ -53,17 +63,24 @@ public:
         Initiating = 1,
         Updating = 2,
         CheckingCredentials = 3,
+        GettingAuthUrl = 4,
         InitiatingWaiting = 11,
         UpdatingWaiting = 21,
-        CheckingCredentialsWaiting = 31
+        CheckingCredentialsWaiting = 31,
+        GettingAuthUrlWaiting = 41
     };
 
     explicit NetvibesFetcher(QObject *parent = 0);
+    ~NetvibesFetcher();
 
     Q_INVOKABLE bool init();
     Q_INVOKABLE bool update();
     Q_INVOKABLE bool checkCredentials();
     Q_INVOKABLE void cancel();
+
+    // Twitter & Fb
+    Q_INVOKABLE void getConnectUrl(int type);
+    Q_INVOKABLE bool setConnectUrl(const QString &url);
 
     BusyType readBusyType();
     bool isBusy();
@@ -80,11 +97,15 @@ signals:
     void checkingCredentials();
     void addDownload(DatabaseManager::CacheItem item);
 
+    // Twitter
+    void newAuthUrl(const QString &url, int type);
+
     /*
     200 - Fether is busy
     400 - Email/password is not defined
     401 - SignIn failed
     402 - SignIn user/password do no match
+    403 - Cookie expired
     500 - Network error
     501 - SignIn resposne is null
     502 - Internal error
@@ -93,6 +114,7 @@ signals:
      */
     void credentialsValid();
     void errorCheckingCredentials(int code);
+    void errorGettingAuthUrl();
     void error(int code);
     void canceled();
     void ready();
@@ -111,6 +133,7 @@ public slots:
     void finishedFeedsReadlater();
     void finishedFeedsReadlater2();
     void finishedSet();
+    void finishedGetAuthUrl();
 
     void readyRead();
     void networkError(QNetworkReply::NetworkError);
@@ -155,7 +178,7 @@ private:
     QList<DatabaseManager::StreamModuleTab> _streamUpdateList;
     QList<DatabaseManager::Action> actionsList;
     int _total;
-    QByteArray _cookie;
+    //QByteArray _cookie;
     QNetworkConfigurationManager ncm;
     Job currentJob;
     int publishedBeforeDate;
@@ -181,6 +204,9 @@ private:
     void startJob(Job job);
     bool checkError();
     void removeAction();
+    void setCookie(QNetworkRequest &request, const QString &cookie);
+    bool checkCookie(const QString &cookie);
+    void prepareUploadActions();
 };
 
 #endif // NETVIBESFETCHER_H

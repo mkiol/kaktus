@@ -23,6 +23,8 @@
 #include <QObject>
 #include <QByteArray>
 #include <QString>
+#include <QThread>
+#include <QUrl>
 
 #include "qhttpserver/qhttpserver.h"
 #include "qhttpserver/qhttprequest.h"
@@ -31,10 +33,39 @@
 #include "databasemanager.h"
 #include "settings.h"
 
+class FilteringWorker : public QThread
+{
+    Q_OBJECT
+public:
+    explicit FilteringWorker(QObject *parent = 0);
+    QHttpResponse *resp;
+    QHttpRequest *req;
+    QByteArray data;
+    bool error;
+
+protected:
+    void run();
+
+public slots:
+    void start(QHttpRequest *req, QHttpResponse *resp);
+
+private:
+    QString content;
+    DatabaseManager::CacheItem item;
+
+    void filter();
+    bool filterArticle();
+    //void advancedFilter();
+    void filterOffline();
+    void filterOnline();
+    void removeUrls(const QRegExp &rx);
+    void resolveRelativeUrls(const QRegExp &rx);
+    bool readFile(const QString &filename);
+};
+
 class CacheServer : public QObject
 {
     Q_OBJECT
-
 public:
     explicit CacheServer(QObject *parent = 0);
     ~CacheServer();
@@ -43,15 +74,19 @@ public:
 
 public slots:
     void handle(QHttpRequest *req, QHttpResponse *resp);
+    void handleFinish();
+
+signals:
+    //void startWorker(QThread::Priority priority);
+    void startWorker(QHttpRequest*, QHttpResponse*);
 
 private:
     static const int port = 9999;
 
     QHttpServer *server;
 
-    bool readFile(const QString &filename, QByteArray &data);
-    QString hash(const QString &url);
-    void filter(QString &content, const QUrl &query, const QString &image);
+    //QString hash(const QString &url);
+    //void resolveRelativeUrls(QString &content, const QRegExp &rx, const QUrl &baseUrl, int filter);
 };
 
 #endif // CACHESERVER_H

@@ -27,6 +27,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         db.init();
+        dm.isWLANConnected();
     }
 
     function resetView() {
@@ -76,6 +77,9 @@ ApplicationWindow {
                 fetcher.cancel(); dm.cancel();
                 settings.reset();
                 db.init();
+            } else {
+                if(!settings.helpDone)
+                    guide.showDelayed();
             }
         }
     }
@@ -133,8 +137,29 @@ ApplicationWindow {
         onReady: {
             resetView();
 
-            if (settings.autoDownloadOnUpdate)
-                dm.startFeedDownload();
+            switch (settings.cachingMode) {
+            case 0:
+                return;
+            case 1:
+                if (dm.isWLANConnected()) {
+                    dm.startFeedDownload();
+                }
+                return;
+            case 2:
+                dm.isWLANConnected();
+                return;
+            }
+
+            /*if (settings.autoDownloadOnUpdate)
+                dm.startFeedDownload();*/
+        }
+
+        onNewAuthUrl: {
+            pageStack.push(Qt.resolvedUrl("AuthWebViewPage.qml"),{"url":url,"type":type,"code": 400});
+        }
+
+        onErrorGettingAuthUrl: {
+            notification.show(qsTr("Something goes wrong. Unable to sign in with Twitter! :-("));
         }
 
         onNetworkNotAccessible: {
@@ -186,6 +211,10 @@ ApplicationWindow {
                 progressPanel.progress = 0;
                 break;
             case 3:
+                progressPanel.text = qsTr("Signing in...");
+                progressPanel.progress = 0;
+                break;
+            case 4:
                 progressPanel.text = qsTr("Signing in...");
                 progressPanel.progress = 0;
                 break;
@@ -292,10 +321,10 @@ ApplicationWindow {
         y: app.orientation==Orientation.Portrait ? app.height-height : 0
         x: app.orientation==Orientation.Portrait ? 0 : height
 
-        onOpenChanged: {
+        /*onOpenChanged: {
             if(open && !settings.helpDone)
                 guide.showDelayed();
-        }
+        }*/
     }
 
     Guide {
@@ -308,6 +337,7 @@ ApplicationWindow {
         y: app.orientation==Orientation.Portrait ? app.height-height : 0
         x: app.orientation==Orientation.Portrait ? 0 : height
     }
+
 }
 
 //fillMode: Image.PreserveAspectFit

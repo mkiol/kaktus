@@ -25,9 +25,12 @@ Item {
     id: root
 
     property bool canBack: false
-    property bool canOffline: true
+    property bool canReader: false
     property bool canStar: false
     property bool canOpenBrowser: false
+    property bool canFontUp: false
+    property bool canFontDown: false
+    property bool canClipboard: false
     property bool stared: false
     property bool open: false
     property int showTime: 6000
@@ -38,10 +41,33 @@ Item {
 
     property bool isPortrait: app.orientation==Orientation.Portrait
 
+    function getSpacing() {
+        var count = 0;
+        if (canBack)
+            count++;
+        if (canReader)
+            count++;
+        if (canStar)
+            count++;
+        if (canOpenBrowser)
+            count++;
+        if (canFontUp)
+            count++;
+        if (canFontDown)
+            count++;
+        if (canClipboard)
+            count++;
+        return (root.width - (back.width * (count))) / count-1;
+    }
+
     signal backClicked()
     signal starClicked()
     signal browserClicked()
     signal offlineClicked()
+    signal readerClicked()
+    signal fontUpClicked()
+    signal fontDownClicked()
+    signal clipboardClicked()
 
     width: parent.width
     height: isPortrait ? app.panelHeightPortrait : app.panelHeightLandscape
@@ -92,47 +118,81 @@ Item {
             onClicked: root.hide()
         }
 
-        IconButton {
+        /*IconButton {
             id: back
             visible: root.canBack
             anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
             anchors.verticalCenter: parent.verticalCenter
             icon.source: "image://theme/icon-m-back?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
             onClicked: root.backClicked()
-        }
+        }*/
 
         Row {
             id: toolbarRow
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
 
-            spacing: (parent.width - (back.width * 4)) / 3;
+            spacing: root.getSpacing()
+
+            IconButton {
+                id: back
+                visible: root.canBack
+                icon.source: "image://theme/icon-m-back?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                onClicked: {root.backClicked();show();}
+            }
 
             IconButton {
                 visible: root.canStar
                 icon.source: root.stared ?
                                  "image://theme/icon-m-favorite-selected?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
                                : "image://theme/icon-m-favorite?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-                onClicked: root.starClicked()
+                onClicked: {root.starClicked();show();}
+            }
+
+            IconButton {
+                width: back.width; height: back.height
+                visible: root.canClipboard
+                icon.source: "image://theme/icon-m-clipboard?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                onClicked: {root.clipboardClicked();show();}
             }
 
             IconButton {
                 width: back.width; height: back.height
                 visible: root.canOpenBrowser
                 icon.source: "image://theme/icon-m-region?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-                onClicked: root.browserClicked()
+                onClicked: {root.browserClicked();show();}
             }
 
-        }
+            IconButton {
+                width: back.width; height: back.height
+                visible: root.canFontUp
+                icon.source: "image://icons/fontup?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                onClicked: {root.fontUpClicked();show();}
+            }
 
-        IconButton {
-            id: offline
-            visible: root.canOffline
-            anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-                                              : "image://theme/icon-m-wlan-4?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-            onClicked: root.offlineClicked()
+            IconButton {
+                width: back.width; height: back.height
+                visible: root.canFontDown
+                icon.source: "image://icons/fontdown?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                onClicked: {root.fontDownClicked();show();}
+            }
+
+            IconButton {
+                visible: root.canReader
+                width: back.width; height: back.height
+                /*icon.source: settings.readerMode ? "image://theme/icon-m-document?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                                                 : "image://theme/icon-m-document?"+(root.transparent ? Qt.darker(Theme.highlightColor,3.5) : Qt.lighter(Theme.highlightDimmerColor,3.5))
+                */
+                icon.source: settings.readerMode ? "image://icons/reader?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                                                 : "image://icons/reader-disabled?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+
+                onClicked: {
+                    settings.readerMode = !settings.readerMode;
+                    root.readerClicked();
+                    show();
+                }
+            }
+
         }
 
         MouseArea {

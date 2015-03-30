@@ -27,6 +27,12 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileInfoList>
+//#include <QNetworkConfigurationManager>
+
+#ifdef BB10
+#include <bb/device/DisplayInfo>
+#include <bb/cascades/Color>
+#endif
 
 #include "tabmodel.h"
 #include "dashboardmodel.h"
@@ -55,7 +61,22 @@ public:
     Q_INVOKABLE QString getHumanFriendlyTimeString(int date);
     Q_INVOKABLE QString getHumanFriendlySizeString(int size);
     Q_INVOKABLE int countUnread();
+    Q_INVOKABLE bool isLight();
+    Q_INVOKABLE void resetQtWebKit();
+    //Q_INVOKABLE bool isOnline();
+
+    static QString hash(const QString &url);
+
 #ifdef BB10
+    Q_INVOKABLE bool checkOSVersion(int major, int minor, int patch = 0, int build = 0);
+    Q_INVOKABLE int du(float value);
+    Q_INVOKABLE bb::cascades::Color background();
+    Q_INVOKABLE bb::cascades::Color plain();
+    Q_INVOKABLE bb::cascades::Color plainBase();
+    Q_INVOKABLE bb::cascades::Color textOnPlain();
+    Q_INVOKABLE bb::cascades::Color text();
+    Q_INVOKABLE bb::cascades::Color secondaryText();
+    Q_INVOKABLE bb::cascades::Color primary();
     Q_INVOKABLE void launchBrowser(const QString &url);
 #endif
 
@@ -67,6 +88,11 @@ private:
     FeedModel* feedModel;
     TabModel* tabModel;
     DashboardModel* dashboardModel;
+    //QNetworkConfigurationManager* ncm;
+#ifdef BB10
+    bb::device::DisplayInfo display;
+#endif
+    bool removeDir(const QString &dirName);
 };
 
 #endif // UTILS_H

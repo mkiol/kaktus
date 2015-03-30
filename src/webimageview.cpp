@@ -31,6 +31,7 @@ WebImageView::WebImageView() {
     // Set defaults
     mLoading = 0;
     mIsLoaded = false;
+    doSizeCheck = false;
 }
 
 const QUrl& WebImageView::url() const {
@@ -55,6 +56,34 @@ bb::ImageData WebImageView::fromQImage(const QImage &qImage)
     }
 
     return imageData;
+}
+
+int WebImageView::getWidth() const
+{
+    return sourceWidth;
+}
+
+/*int WebImageView::getHeight() const
+{
+    return sourceHeight;
+}
+
+int WebImageView::getSize() const
+{
+    return sourceSize;
+}*/
+
+bool WebImageView::getDoSizeCheck()
+{
+    return doSizeCheck;
+}
+
+void WebImageView::setDoSizeCheck(bool value)
+{
+    if (doSizeCheck != value) {
+        doSizeCheck = value;
+        emit doSizeCheckChanged();
+    }
 }
 
 void WebImageView::setUrl(const QUrl& url) {
@@ -90,11 +119,28 @@ void WebImageView::setUrl(const QUrl& url) {
     // Connect to signals
     QObject::connect(reply, SIGNAL(finished()), this, SLOT(imageLoaded()));
     QObject::connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(dowloadProgressed(qint64,qint64)));
+    QObject::connect(reply, SIGNAL(metaDataChanged()), this, SLOT(metaDataChanged()));
 
     emit urlChanged();
 }
 
-double WebImageView::loading() const {
+void WebImageView::metaDataChanged()
+{
+    QNetworkReply * reply = qobject_cast<QNetworkReply*>(sender());
+
+    // Memory protection fix -> not loading big images
+    if (reply->header(QNetworkRequest::ContentLengthHeader).isValid()) {
+        int length = reply->header(QNetworkRequest::ContentLengthHeader).toInt();
+        if (length > maxSourceSize) {
+            //qDebug() << "metaDataChanged, length=" << length;
+            reply->close();
+            return;
+        }
+    }
+}
+
+double WebImageView::loading() const
+{
     return mLoading;
 }
 
@@ -102,17 +148,49 @@ void WebImageView::imageLoaded() {
     // Get reply
     QNetworkReply * reply = qobject_cast<QNetworkReply*>(sender());
 
+    //qDebug() << "error" << reply->error();
+
     if (reply->error() == QNetworkReply::NoError) {
         if (isARedirectedUrl(reply)) {
             setURLToRedirectedUrl(reply);
             return;
         } else {
             QByteArray imageData = reply->readAll();
-            setImage(Image(imageData));
-            mIsLoaded = true;
-            emit isLoadedChanged();
+
+            //qDebug() << doSizeCheck << imageData.length() << url();
+
+            // Memory protection & Tiny image fix -> not loading big or tiny images
+            if (doSizeCheck &&
+                    (imageData.length() > maxSourceSize ||
+                imageData.length() < minSourceSize)) {
+                mIsLoaded = false;
+            } else {
+                QImage img = QImage::fromData(imageData);
+                int width = img.width();
+                //int height = img.height();
+                //int size = imageData.length();
+                if (width != sourceWidth) {
+                    sourceWidth = width;
+                    emit widthChanged();
+                }
+                /*if (height != sourceHeight) {
+                    sourceHeight = height;
+                    emit heightChanged();
+                }
+                if (size != sourceSize) {
+                    sourceSize = size;
+                    emit sizeChanged();
+                }*/
+
+                setImage(Image(imageData));
+                mIsLoaded = true;
+            }
         }
+    } else {
+        mIsLoaded = false;
     }
+
+    emit isLoadedChanged();
 
     // Memory management
     reply->deleteLater();

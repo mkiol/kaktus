@@ -36,42 +36,6 @@ Page {
         return Orientation.Landscape | Orientation.Portrait;
     }
 
-    Component.onCompleted: {
-        timer.start();
-    }
-
-    Timer {
-        id: timer
-        interval: 3000
-        onTriggered: {
-            if (settings.signedIn || fetcher.busy || dm.busy) {
-                timer.stop();
-                menu.busy = false;
-                help.open = false;
-            } else {
-                menu.busy = true;
-                help.open = true;
-            }
-        }
-    }
-
-    Label {
-        id: help
-        property bool open: false
-        anchors.left: parent.left; anchors.right: parent.right
-        anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-        anchors.top: parent.top; anchors.topMargin: 2*Theme.paddingLarge
-        font.pixelSize: Theme.fontSizeLarge
-        color: Theme.highlightColor
-        wrapMode: Text.WordWrap
-        horizontalAlignment: Text.AlignHCenter
-        opacity: open ? 1.0 : 0.0
-        visible: opacity > 0.0
-        Behavior on opacity { FadeAnimation {duration: 400} }
-
-        text: qsTr("To sign in and do feeds synchronisation, pull down and select Sync.")
-    }
-
     SilicaListView {
         id: listView
 
@@ -81,21 +45,22 @@ Page {
 
         clip:true
 
-        PageMenu {
+        PullDownMenu {
             id: menu
-            showAbout: true
-            showMarkAsRead: false
-            showMarkAsUnread: false
 
-            onActiveChanged: {
-                if (active) {
-                    timer.stop();
-                    menu.busy = false;
-                    help.open = false;
-                } else {
-                    //if (!settings.signedIn)
-                    //    timer.start();
+            MenuItem {
+                text: qsTr("About")
+                visible: root.showAbout
+
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("AboutPage.qml"));
                 }
+            }
+
+            MenuItem {
+                text: qsTr("Add account")
+                onClicked: pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": 400});
+                enabled: !settings.signedIn && !fetcher.busy && !dm.busy && !dm.removerBusy
             }
         }
 
@@ -103,19 +68,10 @@ Page {
             id: placeholder
             enabled: listView.count < 1
             text: settings.signedIn ?
-                      fetcher.busy||dm.busy ? qsTr("You are signed in!\nWait until Sync finish.") :
+                      fetcher.busy||dm.busy ? qsTr("Wait until Sync finish.") :
                                               qsTr("To do feeds synchronisation, pull down and select Sync.") :
-                      qsTr("Not signed in")
+                      qsTr("You are not signed in to any account. Pull down to add one.")
         }
-
-        /*Label {
-            visible: placeholder.enabled
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.top: placeholder.bottom; anchors.bottomMargin: Theme.paddingMedium
-            font.pixelSize: Theme.fontSizeSmall
-            color: Theme.secondaryHighlightColor
-            text: fetcher.busy ? qsTr("Wait until Sync finish.") : ""
-        }*/
 
         VerticalScrollDecorator {
             flickable: listView

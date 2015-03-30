@@ -127,12 +127,15 @@ class DownloadManager: public QObject
 
 public:
     DownloadManager(QObject *parent = 0);
+    ~DownloadManager();
 
     Q_INVOKABLE void cancel();
     Q_INVOKABLE void removerCancel();
     Q_INVOKABLE int itemsToDownloadCount();
     Q_INVOKABLE void startFeedDownload();
     Q_INVOKABLE void cleanCache();
+    Q_INVOKABLE bool isWLANConnected();
+    Q_INVOKABLE void onlineDownload(const QString& id, const QString& url);
 
     bool isBusy();
     bool isOnline();
@@ -154,6 +157,8 @@ signals:
      */
     void error(int code);
     void progress(int remaining);
+    void onlineDownloadReady(QString id, QString url);
+    void onlineDownloadFailed();
 
 public slots:
     void addDownload(DatabaseManager::CacheItem item);

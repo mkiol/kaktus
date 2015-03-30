@@ -114,6 +114,7 @@ public:
         QString id;
         QString origUrl;
         QString finalUrl;
+        QString baseUrl;
         QString type;
         QString contentType;
         QString entryId;

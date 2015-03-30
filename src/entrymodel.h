@@ -83,6 +83,7 @@ public:
 
     void setReadlater(int value);
     void setRead(int value);
+    void setCached(int value);
 
 private:
     QString m_uid;
