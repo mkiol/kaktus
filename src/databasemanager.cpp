@@ -629,7 +629,8 @@ void DatabaseManager::writeStream(const Stream &item)
                 .arg(item.lastUpdate));
 
         if(!ret) {
-            ret = query.exec(QString("UPDATE streams SET newest_item_added_at=%1, update_at=%2, last_update=%3, "
+            //qDebug() << "title=" << item.title;
+            ret = query.exec(QString("UPDATE streams SET title='%9', newest_item_added_at=%1, update_at=%2, last_update=%3, "
                                      "unread=%4, read=%5, saved=%6, slow=%7 WHERE id='%8';")
                              .arg(item.newestItemAddedAt)
                              .arg(item.updateAt)
@@ -638,7 +639,8 @@ void DatabaseManager::writeStream(const Stream &item)
                              .arg(item.read)
                              .arg(item.saved)
                              .arg(item.slow)
-                             .arg(item.id));
+                             .arg(item.id)
+                             .arg(QString(item.title.toUtf8().toBase64())));
         }
 
         if (!ret) {
@@ -667,8 +669,10 @@ void DatabaseManager::writeModule(const Module &item)
                 .arg(QString(item.icon.toUtf8().toBase64())));
 
         if(!ret) {
-            ret = query.exec(QString("UPDATE modules SET status=%1;")
-                             .arg(item.status));
+            ret = query.exec(QString("UPDATE modules SET status=%1, title='%2' WHERE id='%3';")
+                             .arg(item.status)
+                             .arg(QString(item.title.toUtf8().toBase64()))
+                             .arg(item.id));
         }
 
         if (!ret) {
@@ -991,7 +995,7 @@ QList<DatabaseManager::Stream> DatabaseManager::readStreamsByTab(const QString &
 
     if (db.isOpen()) {
         QSqlQuery query(db);
-        bool ret = query.exec(QString("SELECT s.id, ms.module_id, s.title, s.content, s.link, s.query, s.icon, "
+        bool ret = query.exec(QString("SELECT s.id, ms.module_id, m.title, s.content, s.link, s.query, s.icon, "
                                       "s.type, s.unread, s.read, s.saved, s.slow, s.newest_item_added_at, s.update_at, s.last_update "
                                       "FROM streams as s, module_stream as ms, modules as m "
                                       "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1' "
@@ -1035,7 +1039,7 @@ QList<DatabaseManager::Stream> DatabaseManager::readStreamsByDashboard(const QSt
 
     if (db.isOpen()) {
         QSqlQuery query(db);
-        bool ret = query.exec(QString("SELECT s.id, ms.module_id, s.title, s.content, s.link, s.query, s.icon, "
+        bool ret = query.exec(QString("SELECT s.id, ms.module_id, m.title, s.content, s.link, s.query, s.icon, "
                                       "s.type, s.unread, s.read, s.saved, s.slow, s.newest_item_added_at, s.update_at, s.last_update "
                                       "FROM streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "

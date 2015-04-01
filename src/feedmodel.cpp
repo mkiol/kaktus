@@ -17,6 +17,7 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <QRegExp>
 
 #include "feedmodel.h"
 
@@ -68,10 +69,11 @@ void FeedModel::createItems(const QString &tabId)
         return;
     }
 
+    QRegExp re("<[^>]*>");
     QList<DatabaseManager::Stream>::iterator i = list.begin();
     while( i != list.end() ) {
         appendRow(new FeedItem((*i).id,
-                              (*i).title,
+                              (*i).title.remove(re),
                               (*i).content,
                               (*i).link,
                               (*i).query,
