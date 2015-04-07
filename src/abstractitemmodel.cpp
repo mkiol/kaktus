@@ -228,10 +228,16 @@ QAbstractItemModel* AbstractItemModel::sourceModel() const
     return d->m_sourceModel;
 }
 
+void AbstractItemModel::resetSourceModel()
+{
+    //emit itemsChanged(bb::cascades::DataModelChangeType::Init);
+    setSourceModel(d->m_sourceModel);
+}
+
 void AbstractItemModel::setSourceModel(QAbstractItemModel *sourceModel)
 {
-    if (d->m_sourceModel == sourceModel)
-        return;
+    //if (d->m_sourceModel == sourceModel)
+    //    return;
 
     if (d->m_sourceModel) {
         disconnect(d->m_sourceModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(dataChanged(QModelIndex,QModelIndex)));

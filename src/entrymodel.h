@@ -118,11 +118,14 @@ public:
     Q_INVOKABLE int countRead();
     Q_INVOKABLE int countUnread();
 
-    Q_INVOKABLE void createItems(int offset, int limit);
+    Q_INVOKABLE int createItems(int offset, int limit);
     Q_INVOKABLE int count();
 
 public slots:
     void init();
+
+signals:
+    void ready();
 
 private:
    DatabaseManager* _db;

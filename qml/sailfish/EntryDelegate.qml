@@ -140,7 +140,8 @@ ListItem {
             Item {
                 id: titleItem
                 anchors.left: parent.left; anchors.right: parent.right;
-                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: star.width+Theme.paddingMedium
+                anchors.leftMargin: Theme.paddingLarge
+                anchors.rightMargin: star.width+Theme.paddingMedium
                 height: Math.max(titleLabel.height, icon.height)
 
                 // Title
@@ -149,6 +150,7 @@ ListItem {
                     id: titleLabel
                     anchors.right: parent.right; anchors.left: icon.right;
                     anchors.leftMargin: icon.visible ? Theme.paddingMedium : 0
+                    //anchors.leftMargin: icon.visible ? Theme.paddingMedium : Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeMedium
                     font.family: Theme.fontFamilyHeading
                     font.bold: !root.read || root.readlater
@@ -172,7 +174,7 @@ ListItem {
 
                 Image {
                     id: icon
-                    width: visible ? Theme.iconSizeSmall : 0
+                    width: visible ? Theme.iconSizeSmall: 0
                     height: width
                     anchors.left: parent.left;
                     anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
@@ -201,9 +203,10 @@ ListItem {
             Image {
                 id: entryImage
                 anchors.left: parent.left;
-                anchors.leftMargin: Theme.paddingLarge;
+                anchors.leftMargin: sourceSize.width>=root.width ? 0 : Theme.paddingLarge;
                 fillMode: Image.PreserveAspectFit
-                width: sourceSize.width>root.width-2*Theme.paddingLarge ? root.width-2*Theme.paddingLarge : sourceSize.width
+                //width: sourceSize.width>root.width-2*Theme.paddingLarge ? root.width-2*Theme.paddingLarge : sourceSize.width
+                width: sourceSize.width>=root.width ? root.width : sourceSize.width-2*Theme.paddingLarge
                 enabled: source!="" && status==Image.Ready && settings.showTabIcons
                 visible: opacity>0
                 opacity: enabled ? 1.0 : 0.0

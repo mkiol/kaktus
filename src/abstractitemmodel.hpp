@@ -47,6 +47,7 @@ public:
 
     QAbstractItemModel* sourceModel() const;
     void setSourceModel(QAbstractItemModel *sourceModel);
+    Q_INVOKABLE void resetSourceModel();
 
     QString itemTypeRole() const;
     void setItemTypeRole(const QString &roleName);

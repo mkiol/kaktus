@@ -37,6 +37,7 @@
 #include <bb/platform/PlatformInfo>
 #include <QtCore/QString>
 #include <QtCore/QList>
+#include <bb/system/Clipboard>
 #else
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QGuiApplication>
@@ -89,12 +90,18 @@ void Utils::launchBrowser(const QString &url)
 
 void Utils::copyToClipboard(const QString &text)
 {
+#ifdef BB10
+    bb::system::Clipboard clipboard;
+    clipboard.clear();
+    clipboard.insert("text/plain", text.toUtf8());
+#else
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 0, 0))
     QClipboard *clipboard = QGuiApplication::clipboard();
 #else
     QClipboard *clipboard = QApplication::clipboard();
 #endif
     clipboard->setText(text);
+#endif
 }
 
 void Utils::resetQtWebKit()

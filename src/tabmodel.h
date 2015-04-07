@@ -99,6 +99,7 @@ public:
 
     Q_INVOKABLE int countRead();
     Q_INVOKABLE int countUnread();
+    Q_INVOKABLE int count();
 
 private:
     DatabaseManager* _db;

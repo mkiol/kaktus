@@ -352,7 +352,7 @@ Page {
             TextSwitchWithIcon {
                 text: qsTr("Read mode")
                 description: qsTr("Web pages will be reformatted into an easy to read version.")
-                iconSource: "reader.png"
+                iconSource: settings.readerMode ? "reader.png" : "reader-disabled.png"
                 onCheckedChanged: {
                     settings.readerMode = checked;
                 }

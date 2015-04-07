@@ -51,9 +51,10 @@ void EntryModel::init()
     if(rowCount()>0) removeRows(0,rowCount());
     Settings *s = Settings::instance();
     createItems(0,s->getOffsetLimit());
+    emit ready();
 }
 
-void EntryModel::createItems(int offset, int limit)
+int EntryModel::createItems(int offset, int limit)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -101,6 +102,19 @@ void EntryModel::createItems(int offset, int limit)
             list = _db->readEntriesSlowByDashboard(s->getDashboardInUse(),offset,limit);
         break;
     }
+
+#ifdef BB10
+    // Remove dummy row!
+    if (list.count()>0) {
+        int l = rowCount();
+        if (l>0) {
+            EntryItem* item = dynamic_cast<EntryItem*>(readRow(l-1));
+            //qDebug() << "item->id()" << item->id() << "l" << l;
+            if (item->id()=="last")
+                removeRow(l-1);
+        }
+    }
+#endif
 
     QList<DatabaseManager::Entry>::iterator i = list.begin();
     while( i != list.end() ) {
@@ -160,6 +174,14 @@ void EntryModel::createItems(int offset, int limit)
                                 ));
         ++i;
     }
+
+#ifdef BB10
+    // Dummy row as workaround!
+    if (list.count()>0)
+        appendRow(new EntryItem("last","","","","","","",false,0,0,0,0));
+#endif
+
+    return list.count();
 }
 
 void EntryModel::setAllAsUnread()

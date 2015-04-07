@@ -237,7 +237,14 @@ bool FilteringWorker::filterArticle()
 
 void FilteringWorker::filter()
 {
-    filterArticle();
+    QUrl url(item.baseUrl);
+    bool dofilterArticle = true;
+    if (url.host().contains("engadget.com")) {
+        dofilterArticle = false;
+    }
+
+    if (dofilterArticle)
+        filterArticle();
 
     QRegExp rxLinkAll("<link[^>]*>", Qt::CaseInsensitive);
     QRegExp rxScriptAll("<script[^>]*>((?!<\\/script>).)*<\\/script>", Qt::CaseInsensitive);
@@ -318,14 +325,15 @@ void FilteringWorker::filter()
 
     if (s->getOfflineTheme() == "white") {
         style = QString("<meta name='viewport' content='device-width'>"
-                        "<style>body{margin:%5px;background:#FFF;font-family:sans-serif;font-size:%1;color:#323232;}figure{margin:0;padding:0;}a:link{color:#%3;}a:visited{color:#%4;}a:active{color:#%3;}img{max-width:%2px;}</style></head>")
-                .arg(fontsize).arg(width).arg(highlightColor).arg(secondaryHighlightColor).arg(margin);
+                        "<style>body{margin:%5px;background:#FFF;font-family:sans-serif;font-size:%1;color:#323232;}figure{margin:0;padding:0;}a:link{color:#%3;}a:visited{color:#%4;}a:active{color:#%3;}img{max-width:100%;max-height:device-height;}</style></head>")
+                .arg(fontsize).arg(highlightColor).arg(secondaryHighlightColor).arg(margin);
     }
 
     if (s->getOfflineTheme() == "black") {
         style = QString("<meta name='viewport' content='device-width'>"
-                        "<style>body{margin:%5px;background:#141414;font-family:sans-serif;font-size:%1;color:#FFF;}figure{margin:0;padding:0;}a:link{color:#%3;}a:visited{color:#%4;}a:active{color:#%3;}img{max-width:%2px;}</style></head>")
-                .arg(fontsize).arg(width).arg(highlightColor).arg(secondaryHighlightColor).arg(margin);
+                        "<style>body{margin:%5px;background:#141414;font-family:sans-serif;font-size:%1;color:#FFF;}figure{margin:0;padding:0;}a:link{color:#%3;}a:visited{color:#%4;}a:active{color:#%3;}img{max-width:100%;max-height:device-height;}</style></head>")
+                .arg(fontsize).arg(highlightColor).arg(secondaryHighlightColor).arg(margin);
+        //qDebug() << style;
     }
 
     QRegExp rxHeadEnd("</head>", Qt::CaseInsensitive);
@@ -411,7 +419,7 @@ bool FilteringWorker::readFile(const QString &filename)
 
 CacheServer::CacheServer(QObject *parent) :
     QObject(parent)
-{   
+{
     server = new QHttpServer;
     QObject::connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
             this, SLOT(handle(QHttpRequest*, QHttpResponse*)));

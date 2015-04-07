@@ -1284,7 +1284,7 @@ void NetvibesFetcher::storeDashboards()
 
 void NetvibesFetcher::finishedGetAuthUrl()
 {
-    //qDebug() << this->_data;
+    qDebug() << this->_data;
 
     Settings *s = Settings::instance();
 
@@ -1292,6 +1292,8 @@ void NetvibesFetcher::finishedGetAuthUrl()
         if (_jsonObj["success"].toBool()) {
 
             QString url = _jsonObj["url"].toString();
+
+            qDebug() << "Authentication URL:" << url;
 
             if (url == "") {
                 qWarning() << "Authentication URL is empty!";

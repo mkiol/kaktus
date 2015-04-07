@@ -54,7 +54,7 @@ Page {
             }
 
             LogItem {
-                title: 'Read mode (experimental)'
+                title: 'Read mode'
                 description: 'When Read mode is enabled, web pages will be reformatted into an easy to read version. '+
                              'All of a website\'s native styles will be striped so you can focus on what you\'re reading. '+
                              'You can switch to Read mode using rightmost button on web viewer\'s toolbar.'

@@ -159,7 +159,7 @@ ApplicationWindow {
         }
 
         onErrorGettingAuthUrl: {
-            notification.show(qsTr("Something goes wrong. Unable to sign in with Twitter! :-("));
+            notification.show(qsTr("Something goes wrong. Unable to sign in! :-("));
         }
 
         onNetworkNotAccessible: {

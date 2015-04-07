@@ -86,6 +86,12 @@ void FeedModel::createItems(const QString &tabId)
                              ));
         ++i;
     }
+
+#ifdef BB10
+    // Dummy row as workaround!
+    if (list.count()>0)
+        appendRow(new FeedItem("last","","","","","",0,0,0,0,0));
+#endif
 }
 
 void FeedModel::markAsUnread(int row)
@@ -258,6 +264,11 @@ void FeedModel::updateFlags()
         item->setUnread(_db->countEntriesUnreadByStream(item->uid()));
         item->setRead(_db->countEntriesReadByStream(item->uid()));
     }
+}
+
+int FeedModel::count()
+{
+    return this->rowCount();
 }
 
 // ----------------------------------------------------------------
