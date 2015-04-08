@@ -21,7 +21,7 @@ The binary packages can be downloaded from:
 - Symbian: [AppList](http://applist.schumi1331.de/content/128) (Be aware that this is very unstable, beta release!)
 - Meego (N9 phone): [OpenRepos](https://openrepos.net/content/mkiol/kaktus-0)
 - Sailfish (Jolla phone): Jolla Store or [OpenRepos](https://openrepos.net/content/mkiol/kaktus)
-- BlackBerry 10: BlackBerry World (Coming soon!)
+- BlackBerry 10: [BlackBerry World](https://appworld.blackberry.com/webstore/content/59951312)
 
 ## Copyrights
 
