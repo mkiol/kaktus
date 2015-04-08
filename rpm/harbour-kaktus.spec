@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.3
-Release:    2
+Release:    3
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,9 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Wed Apr 08 2015 Michal Kosciesza 1.3-2
+- BUG FIX: Wrong padding on entry list, if image size is very tiny
 
 * Tue Apr 07 2015 Michal Kosciesza 1.3-2
 - pl_PL translation update

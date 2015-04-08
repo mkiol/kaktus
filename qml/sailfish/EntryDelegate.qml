@@ -150,7 +150,6 @@ ListItem {
                     id: titleLabel
                     anchors.right: parent.right; anchors.left: icon.right;
                     anchors.leftMargin: icon.visible ? Theme.paddingMedium : 0
-                    //anchors.leftMargin: icon.visible ? Theme.paddingMedium : Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeMedium
                     font.family: Theme.fontFamilyHeading
                     font.bold: !root.read || root.readlater
@@ -205,9 +204,8 @@ ListItem {
                 anchors.left: parent.left;
                 anchors.leftMargin: sourceSize.width>=root.width ? 0 : Theme.paddingLarge;
                 fillMode: Image.PreserveAspectFit
-                //width: sourceSize.width>root.width-2*Theme.paddingLarge ? root.width-2*Theme.paddingLarge : sourceSize.width
                 width: sourceSize.width>=root.width ? root.width : sourceSize.width-2*Theme.paddingLarge
-                enabled: source!="" && status==Image.Ready && settings.showTabIcons
+                enabled: source!="" && status==Image.Ready && settings.showTabIcons && sourceSize.width > 2*Theme.paddingLarge
                 visible: opacity>0
                 opacity: enabled ? 1.0 : 0.0
                 Behavior on opacity { FadeAnimation {} }
