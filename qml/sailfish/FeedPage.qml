@@ -82,10 +82,10 @@ Page {
 
             id: listItem
 
-            contentHeight: item.height + 2 * Theme.paddingMedium
+            contentHeight: Math.max(item.height, image.height) + 2 * Theme.paddingMedium
 
             Rectangle {
-                anchors.top: parent.top; anchors.left: parent.left
+                anchors.top: parent.top; anchors.right: parent.right
                 width: Theme.paddingSmall; height: item.height
                 visible: model.fresh
                 radius: 10
@@ -104,6 +104,7 @@ Page {
                 anchors.right: unreadbox.visible ? unreadbox.left : parent.right
 
                 Label {
+                    id: itemLabel
                     wrapMode: Text.AlignLeft
                     anchors.left: parent.left; anchors.right: parent.right;
                     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
@@ -118,7 +119,7 @@ Page {
             Rectangle {
                 id: unreadbox
                 anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
-                anchors.verticalCenter: parent.verticalCenter
+                y: Theme.paddingSmall
                 width: unreadlabel.width + 2 * Theme.paddingSmall
                 height: unreadlabel.height + 2 * Theme.paddingSmall
                 color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
@@ -135,13 +136,19 @@ Page {
 
             }
 
+            Rectangle {
+                anchors.fill: image
+                color: Theme.secondaryColor
+                opacity: 0.1
+            }
+
             Image {
                 id: image
-                width: visible ? Theme.iconSizeSmall : 0
+                width: visible ? 1.2*Theme.iconSizeSmall : 0
                 height: width
-                anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge
-                anchors.top: item.top; anchors.topMargin: Theme.paddingSmall
+                anchors.left: parent.left; //anchors.leftMargin: Theme.paddingLarge
                 visible: status!=Image.Error && status!=Image.Null
+                y: Theme.paddingMedium
             }
 
             Connections {

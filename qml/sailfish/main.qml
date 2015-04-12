@@ -23,6 +23,8 @@ import Sailfish.Silica 1.0
 ApplicationWindow {
     id: app
 
+    property bool progress: false
+
     cover: CoverPage {}
 
     Component.onCompleted: {
@@ -37,6 +39,8 @@ ApplicationWindow {
         }
 
         utils.setRootModel();
+
+        pageStack.busyChanged.connect(resetViewDone);
         switch (settings.viewMode) {
         case 0:
         case 1:
@@ -50,6 +54,13 @@ ApplicationWindow {
         case 5:
             pageStack.replaceAbove(null,Qt.resolvedUrl("EntryPage.qml"));
             break;
+        }
+    }
+
+    function resetViewDone() {
+        if (!pageStack.busy) {
+            pageStack.busyChanged.disconnect(resetViewDone);
+            app.progress = false;
         }
     }
 

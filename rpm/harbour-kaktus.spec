@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.3
-Release:    3
+Release:    4
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,8 +75,11 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+* Wed Apr 08 2015 Michal Kosciesza 1.3-4
+- BUG FIX: Segfault when view mode changing
+- UI enhancements: UI is more inline with Sailfish design style
 
-* Wed Apr 08 2015 Michal Kosciesza 1.3-2
+* Wed Apr 08 2015 Michal Kosciesza 1.3-3
 - BUG FIX: Wrong padding on entry list, if image size is very tiny
 
 * Tue Apr 07 2015 Michal Kosciesza 1.3-2

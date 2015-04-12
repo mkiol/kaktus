@@ -68,7 +68,7 @@ ListItem {
     }
 
     Rectangle {
-        anchors.top: parent.top; anchors.left: parent.left
+        anchors.top: parent.top; anchors.right: parent.right
         width: Theme.paddingSmall; height: titleLabel.height
         visible: root.fresh
         radius: 10
@@ -140,7 +140,7 @@ ListItem {
             Item {
                 id: titleItem
                 anchors.left: parent.left; anchors.right: parent.right;
-                anchors.leftMargin: Theme.paddingLarge
+                //anchors.leftMargin: Theme.paddingLarge
                 anchors.rightMargin: star.width+Theme.paddingMedium
                 height: Math.max(titleLabel.height, icon.height)
 
@@ -149,7 +149,8 @@ ListItem {
                 Label {
                     id: titleLabel
                     anchors.right: parent.right; anchors.left: icon.right;
-                    anchors.leftMargin: icon.visible ? Theme.paddingMedium : 0
+                    //anchors.leftMargin: icon.visible ? Theme.paddingMedium : 0
+                    anchors.leftMargin: icon.visible ? Theme.paddingMedium : Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeMedium
                     font.family: Theme.fontFamilyHeading
                     font.bold: !root.read || root.readlater
@@ -171,9 +172,15 @@ ListItem {
 
                 // Feed Icon
 
+                Rectangle {
+                    anchors.fill: icon
+                    color: Theme.secondaryColor
+                    opacity: 0.3
+                }
+
                 Image {
                     id: icon
-                    width: visible ? Theme.iconSizeSmall: 0
+                    width: visible ? 1.2*Theme.iconSizeSmall: 0
                     height: width
                     anchors.left: parent.left;
                     anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
@@ -202,22 +209,24 @@ ListItem {
             Image {
                 id: entryImage
                 anchors.left: parent.left;
-                anchors.leftMargin: sourceSize.width>=root.width ? 0 : Theme.paddingLarge;
                 fillMode: Image.PreserveAspectFit
-                width: sourceSize.width>=root.width ? root.width : sourceSize.width-2*Theme.paddingLarge
-                enabled: source!="" && status==Image.Ready && settings.showTabIcons && sourceSize.width > 2*Theme.paddingLarge
+                width: sourceSize.width>=root.width ? root.width : sourceSize.width
+                enabled: source!="" && status==Image.Ready &&
+                         settings.showTabIcons &&
+                         sourceSize.width > Theme.iconSizeMedium &&
+                         sourceSize.height > Theme.iconSizeMedium
                 visible: opacity>0
                 opacity: enabled ? 1.0 : 0.0
                 Behavior on opacity { FadeAnimation {} }
-
                 source: {
-                    if (settings.showTabIcons && image!="")
-                        return settings.offlineMode ? getUrlbyUrl(image) : dm.online ? image : getUrlbyUrl(image);
-                    else
+                    if (settings.showTabIcons && root.image!="") {
+                        return settings.offlineMode ? getUrlbyUrl(root.image) : dm.online ? root.image : getUrlbyUrl(root.image);
+                    } else {
                         return "";
+                    }
                 }
-
             }
+
 
             Label {
                 id: contentLabel

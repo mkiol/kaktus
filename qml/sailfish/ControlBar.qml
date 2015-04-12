@@ -25,7 +25,7 @@ Item {
 
     property bool open: false
     property bool openable: true
-    property int showTime: 6000
+    property int showTime: 7000
 
     property real barShowMoveWidth: 20
     property real barShowMoveWidthBack: height
@@ -96,8 +96,11 @@ Item {
             icon.source: "image://icons/vm0?"+Theme.highlightDimmerColor
             highlighted: settings.viewMode==0
             onClicked: {
-                settings.viewMode = 0;
                 show();
+                if (!app.progress && settings.viewMode!=0) {
+                    app.progress = true;
+                    settings.viewMode = 0;
+                }
             }
         }
 
@@ -108,8 +111,11 @@ Item {
             icon.source: "image://icons/vm1?"+Theme.highlightDimmerColor
             highlighted: settings.viewMode==1
             onClicked: {
-                settings.viewMode = 1;
                 show();
+                if (!app.progress && settings.viewMode!=1) {
+                    app.progress = true;
+                    settings.viewMode = 1;
+                }
             }
         }
 
@@ -120,8 +126,11 @@ Item {
             icon.source: "image://icons/vm3?"+Theme.highlightDimmerColor
             highlighted: settings.viewMode==3
             onClicked: {
-                settings.viewMode = 3;
                 show();
+                if (!app.progress && settings.viewMode!=3) {
+                    app.progress = true;
+                    settings.viewMode = 3;
+                }
             }
         }
 
@@ -132,8 +141,11 @@ Item {
             icon.source: "image://icons/vm4?"+Theme.highlightDimmerColor
             highlighted: settings.viewMode==4
             onClicked: {
-                settings.viewMode = 4;
                 show();
+                if (!app.progress && settings.viewMode!=4) {
+                    app.progress = true;
+                    settings.viewMode = 4;
+                }
             }
         }
 
@@ -144,8 +156,11 @@ Item {
             icon.source: "image://icons/vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
             highlighted: settings.viewMode==5
             onClicked: {
-                settings.viewMode = 5;
                 show();
+                if (!app.progress && settings.viewMode!=5) {
+                    app.progress = true;
+                    settings.viewMode = 5;
+                }
             }
         }
 
