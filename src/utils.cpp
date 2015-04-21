@@ -557,55 +557,72 @@ QString Utils::getHumanFriendlySizeString(int size)
 
 QString Utils::getHumanFriendlyTimeString(int date)
 {
-    int delta = QDateTime::currentDateTimeUtc().toTime_t()-date;
+    QDateTime qdate = QDateTime::fromTime_t(date);
+    int secs = qdate.secsTo(QDateTime::currentDateTimeUtc());
 
-    if (delta<=0) {
+    if (secs<=0) {
         return tr("just now");
     }
-    if (delta==1) {
+    if (secs==1) {
         return tr("1 second ago");
     }
-    if (delta<5) {
-        return tr("%1 seconds ago","less than 5 seconds").arg(delta);
+    if (secs<5) {
+        return tr("%1 seconds ago","less than 5 seconds").arg(secs);
     }
-    if (delta<60) {
-        return tr("%1 seconds ago","more or equal 5 seconds").arg(delta);
+    if (secs<60) {
+        return tr("%1 seconds ago","more or equal 5 seconds").arg(secs);
     }
-    if (delta<120) {
+    if (secs<120) {
         return tr("1 minute ago");
     }
-    if (delta<300) {
-        return tr("%1 minutes ago","less than 5 minutes").arg(qFloor(delta/60));
+    if (secs<300) {
+        return tr("%1 minutes ago","less than 5 minutes").arg(qFloor(secs/60));
     }
-    if (delta<3600) {
-        return tr("%1 minutes ago","more or equal 5 minutes").arg(qFloor(delta/60));
+    if (secs<3600) {
+        return tr("%1 minutes ago","more or equal 5 minutes").arg(qFloor(secs/60));
     }
-    if (delta<7200) {
+    if (secs<7200) {
         return tr("1 hour ago");
     }
-    if (delta<18000) {
-        return tr("%1 hours ago","less than 5 hours").arg(qFloor(delta/3600));
+    if (secs<18000) {
+        return tr("%1 hours ago","less than 5 hours").arg(qFloor(secs/3600));
     }
-    if (delta<86400) {
-        return tr("%1 hours ago","more or equal 5 hours").arg(qFloor(delta/3600));
+    if (secs<86400) {
+        return tr("%1 hours ago","more or equal 5 hours").arg(qFloor(secs/3600));
     }
-    if (delta<172800) {
-        return tr("yesterday");
+
+    int days = qdate.daysTo(QDateTime::currentDateTimeUtc());
+
+    if (days==1) {
+        return tr("day ago");
     }
-    if (delta<432000) {
-        return tr("%1 days ago","less than 5 days").arg(qFloor(delta/86400));
+    if (days<5) {
+        return tr("%1 days ago","less than 5 days").arg(days);
     }
-    if (delta<604800) {
-        return tr("%1 days ago","more or equal 5 days").arg(qFloor(delta/86400));
+    if (days<8) {
+        return tr("%1 days ago","more or equal 5 days").arg(days);
     }
-    if (delta<1209600) {
+    /*if (days<8) {
         return tr("1 week ago");
     }
-    if (delta<2419200) {
-        return tr("%1 weeks ago").arg(qFloor(delta/604800));
+    if (days<29) {
+        return tr("%1 weeks ago").arg(qFloor(days/7));
     }
-    QDateTime d; d.setTime_t(date);
-    return d.toString("dddd, d MMMM yy");
+
+    int months = Utils::monthsTo(qdate.date(),QDate::currentDate());
+
+    if (months==1) {
+        return tr("1 month ago");
+    }
+
+    if (months<5) {
+        return tr("%1 months ago","less than 5 months").arg(months);
+    }
+    if (days<13) {
+        return tr("%1 months ago","more or equal 5 months").arg(months);
+    }*/
+
+    return qdate.toString("dddd, d MMMM yy");
 }
 
 QString Utils::hash(const QString &url)
@@ -613,3 +630,27 @@ QString Utils::hash(const QString &url)
     return QString(QCryptographicHash::hash(url.toLatin1(), QCryptographicHash::Md5).toHex());
 }
 
+// Source: https://github.com/radekp/qtmoko
+int Utils::monthsTo(const QDate &from, const QDate &to)
+{
+    int result = 12 * (to.year() - from.year());
+    result += (to.month() - from.month());
+
+    return result;
+}
+
+int Utils::yearsTo(const QDate &from, const QDate &to)
+{
+    return to.year() - from.year();
+}
+
+bool Utils::isSameWeek(const QDate &date1, const QDate &date2)
+{
+    int y1, y2;
+    int w1 = date1.weekNumber(&y1);
+    int w2 = date2.weekNumber(&y2);
+    //qDebug() << date1 << date2 << y1 << y2 << w1 << w2;
+    if (w1==w2 && y1==y2 && w1!=0 && w2!=0)
+        return true;
+    return false;
+}

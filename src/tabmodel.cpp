@@ -53,11 +53,11 @@ void TabModel::createItems(const QString &dashboardId)
                              ));
         ++i;
     }
-#ifdef BB10
+//#ifdef BB10
     // Dummy row as workaround!
     if (list.count()>0)
         appendRow(new TabItem("last","","",0,0,0,0));
-#endif
+//#endif
 }
 
 void TabModel::updateFlags()

@@ -27,6 +27,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileInfoList>
+#include <QDate>
 //#include <QNetworkConfigurationManager>
 
 #ifdef BB10
@@ -66,6 +67,9 @@ public:
     //Q_INVOKABLE bool isOnline();
 
     static QString hash(const QString &url);
+    static int monthsTo(const QDate &from, const QDate &to);
+    static int yearsTo(const QDate &from, const QDate &to);
+    static bool isSameWeek(const QDate &date1, const QDate &date2);
 
 #ifdef BB10
     Q_INVOKABLE bool checkOSVersion(int major, int minor, int patch = 0, int build = 0);

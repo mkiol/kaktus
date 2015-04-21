@@ -130,6 +130,8 @@ signals:
 private:
    DatabaseManager* _db;
    QString _feedId;
+
+   int getDateRowId(int date);
 };
 
 #endif // ENTRYMODEL_H

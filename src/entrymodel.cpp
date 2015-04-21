@@ -23,9 +23,11 @@
 #include <QtGui/QTextDocument>
 #include <QChar>
 #include <QRegExp>
+#include <QDateTime>
 #include <QUrl>
 
 #include "entrymodel.h"
+#include "utils.h"
 
 EntryModel::EntryModel(DatabaseManager *db, QObject *parent) :
     ListModel(new EntryItem, parent)
@@ -52,6 +54,26 @@ void EntryModel::init()
     Settings *s = Settings::instance();
     createItems(0,s->getOffsetLimit());
     emit ready();
+}
+
+int EntryModel::getDateRowId(int date)
+{
+    QDateTime qdate = QDateTime::fromTime_t(date);
+    int days = qdate.daysTo(QDateTime::currentDateTimeUtc());
+    if (days==0)
+        return 1;
+    if (days==1)
+        return 2;
+    if (Utils::isSameWeek(qdate.date(),QDate::currentDate()))
+        return 3;
+    int months = Utils::monthsTo(qdate.date(),QDate::currentDate());
+    if (months==0)
+        return 4;
+    if (months==1)
+        return 5;
+    if (Utils::yearsTo(qdate.date(),QDate::currentDate())==0)
+        return 6;
+    return 10;
 }
 
 int EntryModel::createItems(int offset, int limit)
@@ -103,8 +125,7 @@ int EntryModel::createItems(int offset, int limit)
         break;
     }
 
-#ifdef BB10
-    // Remove dummy row!
+    // Remove dummy row
     if (list.count()>0) {
         int l = rowCount();
         if (l>0) {
@@ -114,9 +135,15 @@ int EntryModel::createItems(int offset, int limit)
                 removeRow(l-1);
         }
     }
-#endif
 
     QList<DatabaseManager::Entry>::iterator i = list.begin();
+
+    int prevDateRow = 0;
+    if (rowCount()>0) {
+        EntryItem* item = dynamic_cast<EntryItem*>(readRow(rowCount()-1));
+        prevDateRow = getDateRowId(item->date());
+    }
+
     while( i != list.end() ) {
 
         // Removing html tags!
@@ -159,6 +186,35 @@ int EntryModel::createItems(int offset, int limit)
         if (imageUrl.path() == "/assets/images/transparent.png")
             imageOk = false;
 
+        // Adding date row
+        int dateRow = getDateRowId((*i).publishedAt);
+        if (dateRow>prevDateRow) {
+            switch (dateRow) {
+            case 1:
+                appendRow(new EntryItem("daterow",tr("Today"),"","","","","",false,0,0,0,0));
+                break;
+            case 2:
+                appendRow(new EntryItem("daterow",tr("Yesterday"),"","","","","",false,0,0,0,0));
+                break;
+            case 3:
+                appendRow(new EntryItem("daterow",tr("Current week"),"","","","","",false,0,0,0,0));
+                break;
+            case 4:
+                appendRow(new EntryItem("daterow",tr("Current month"),"","","","","",false,0,0,0,0));
+                break;
+            case 5:
+                appendRow(new EntryItem("daterow",tr("Previous month"),"","","","","",false,0,0,0,0));
+                break;
+            case 6:
+                appendRow(new EntryItem("daterow",tr("Current year"),"","","","","",false,0,0,0,0));
+                break;
+            default:
+                appendRow(new EntryItem("daterow",tr("Previous year & older"),"","","","","",false,0,0,0,0));
+                break;
+            }
+        }
+        prevDateRow = dateRow;
+
         appendRow(new EntryItem((*i).id,
                                 title,
                                 (*i).author,
@@ -175,11 +231,9 @@ int EntryModel::createItems(int offset, int limit)
         ++i;
     }
 
-#ifdef BB10
     // Dummy row as workaround!
     if (list.count()>0)
         appendRow(new EntryItem("last","","","","","","",false,0,0,0,0));
-#endif
 
     return list.count();
 }
