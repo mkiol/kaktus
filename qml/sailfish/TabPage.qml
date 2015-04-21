@@ -44,6 +44,8 @@ Page {
         }
     }
 
+    RemorsePopup {id: remorse}
+
     SilicaListView {
         id: listView
         model: tabModel
@@ -60,15 +62,19 @@ Page {
             showMarkAsRead: false
             showMarkAsUnread: false
 
-            /*onMarkedAsRead: tabModel.setAllAsRead()
-            onMarkedAsUnread: tabModel.setAllAsUnread()
+            onMarkedAsRead: {
+                remorse.execute(qsTr("Marking all tabs as read"), function(){tabModel.setAllAsRead()});
+            }
+            /*onMarkedAsUnread: {
+                remorse.execute(qsTr("Marking all tabs as unread"), function(){tabModel.setAllAsUnread()});
+            }*/
 
             onActiveChanged: {
                 if (active) {
                     showMarkAsRead = tabModel.countUnread()!=0;
-                    showMarkAsUnread = !showMarkAsRead
+                    //showMarkAsUnread = !showMarkAsRead
                 }
-            }*/
+            }
         }
 
         header: PageHeader {
@@ -83,14 +89,19 @@ Page {
             ListItem {
                 id: listItem
 
+                property bool last: model.uid=="last"
+                enabled: !last
+
                 anchors.top: parent.top
-                contentHeight: Math.max(item.height, image.height) + 2 * Theme.paddingMedium;
+                contentHeight: last ?
+                                 app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape :
+                                 Math.max(item.height, image.height) + 2 * Theme.paddingMedium;
 
                 Rectangle {
                     //anchors.top: parent.top; anchors.left: parent.left
                     anchors.top: parent.top; anchors.right: parent.right
                     width: Theme.paddingSmall; height: item.height
-                    visible: model.fresh
+                    visible: model.fresh && !listItem.last
                     radius: 10
 
                     gradient: Gradient {
@@ -106,6 +117,7 @@ Page {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: image.visible ? image.right : parent.left
                     anchors.right: unreadbox.visible ? unreadbox.left : parent.right
+                    visible: !listItem.last
 
                     Label {
                         wrapMode: Text.AlignLeft
@@ -127,7 +139,7 @@ Page {
                     height: unreadlabel.height + 2 * Theme.paddingSmall
                     color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
                     radius: 5
-                    visible: model.unread!=0
+                    visible: model.unread!=0 && !listItem.last
 
                     Label {
                         id: unreadlabel
@@ -137,18 +149,18 @@ Page {
                     }
                 }
 
-                Rectangle {
+                /*Rectangle {
                     anchors.fill: image
                     color: Theme.secondaryColor
                     opacity: 0.1
-                }
+                }*/
 
                 Image {
                     id: image
                     width: visible ? 1.2*Theme.iconSizeSmall : 0
                     height: width
                     anchors.left: parent.left; //anchors.leftMargin: Theme.paddingLarge
-                    visible: status!=Image.Error && status!=Image.Null
+                    visible: status!=Image.Error && status!=Image.Null && !listItem.last
                     y: Theme.paddingMedium
                 }
 
@@ -172,20 +184,22 @@ Page {
                 }
 
                 onClicked: {
-                    if (settings.viewMode == 0) {
-                        utils.setFeedModel(uid);
-                        pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title, "index": model.index});
-                    }
-                    if (settings.viewMode == 1) {
-                        utils.setEntryModel(uid);
-                        pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "readlater": false});
+                    if (!listItem.last) {
+                        if (settings.viewMode == 0) {
+                            utils.setFeedModel(uid);
+                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title, "index": model.index});
+                        }
+                        if (settings.viewMode == 1) {
+                            utils.setEntryModel(uid);
+                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "readlater": false});
+                        }
                     }
                 }
 
-                showMenuOnPressAndHold: model.unread+model.read>0
+                showMenuOnPressAndHold: !listItem.last && model.unread+model.read>0
 
                 menu: ContextMenu {
-
+                    enabled: !listItem.last
                     MenuItem {
                         text: qsTr("Mark all as read")
                         enabled: model.unread!=0

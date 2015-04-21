@@ -37,6 +37,8 @@ ListItem {
     property bool fresh
     property bool expanded: false
     property int index
+    property bool last: false
+    property bool daterow: false
 
     property bool showMarkedAsRead: true
 
@@ -47,10 +49,15 @@ ListItem {
     signal markedReadlater
     signal unmarkedReadlater
 
+    enabled: !last && !daterow
+
     function getUrlbyUrl(url){return cache.getUrlbyUrl(url)}
 
-    menu: contextMenu
-    contentHeight: box.height + expander.height
+    menu: last ? null : contextMenu
+    contentHeight: last ?
+                       app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape :
+                       daterow ? dateRowbox.height :
+                       box.height + expander.height
 
     onHiddenChanged: {
         if (hidden && expanded) {
@@ -65,13 +72,14 @@ ListItem {
             GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
             GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.2) }
         }
+        visible: !last && !daterow
     }
 
     Rectangle {
         anchors.top: parent.top; anchors.right: parent.right
         width: Theme.paddingSmall; height: titleLabel.height
-        visible: root.fresh
-        radius: 10
+        visible: root.fresh && !last && !daterow
+        //radius: 10
 
         gradient: Gradient {
             GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
@@ -84,6 +92,7 @@ ListItem {
         anchors.right: background.right; anchors.top: background.top
         height: Theme.iconSizeSmall+2*Theme.paddingMedium
         width: height
+        visible: !last && !daterow
 
         onClicked: {
             if (root.readlater) {
@@ -111,6 +120,26 @@ ListItem {
     }
 
     Item {
+        id: dateRowbox
+        visible: daterow
+        height: dateRowLabel.height + 2*Theme.paddingMedium
+        width: parent.width
+        //color: Theme.highlightColor
+
+        Label {
+            id: dateRowLabel
+            anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: Theme.fontSizeSmall
+            font.family: Theme.fontFamilyHeading
+            truncationMode: TruncationMode.Fade
+            text: title
+            //color: Theme.highlightDimmerColor
+            color: Theme.highlightColor
+        }
+    }
+
+    Item {
         id: box
 
         property int sizeHidden: Theme.paddingMedium + titleItem.height
@@ -131,9 +160,11 @@ ListItem {
             NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
         }
 
+        visible: !last && !daterow
+
         Column {
             id: contentItem
-            spacing: Theme.paddingMedium
+            spacing: entryImage.enabled ? Theme.paddingMedium : Theme.paddingSmall
             anchors.top: parent.top; anchors.topMargin: Theme.paddingMedium
             anchors.left: parent.left; anchors.right: parent.right
 
@@ -141,8 +172,9 @@ ListItem {
                 id: titleItem
                 anchors.left: parent.left; anchors.right: parent.right;
                 //anchors.leftMargin: Theme.paddingLarge
-                anchors.rightMargin: star.width+Theme.paddingMedium
-                height: Math.max(titleLabel.height, icon.height)
+                anchors.rightMargin: star.width
+                height: Math.max(titleLabel.height, icon.height+Theme.paddingSmall)
+                //color: "red"
 
                 // Title
 
@@ -155,6 +187,7 @@ ListItem {
                     font.family: Theme.fontFamilyHeading
                     font.bold: !root.read || root.readlater
                     truncationMode: TruncationMode.Fade
+                    textFormat: Text.StyledText
                     wrapMode: Text.Wrap
                     text: title
 
@@ -174,8 +207,9 @@ ListItem {
 
                 Rectangle {
                     anchors.fill: icon
-                    color: Theme.secondaryColor
-                    opacity: 0.3
+                    //color: Theme.secondaryColor
+                    //opacity: 0.3
+                    color: "white"
                 }
 
                 Image {
@@ -227,14 +261,11 @@ ListItem {
                 }
             }
 
-
             Label {
                 id: contentLabel
                 anchors.left: parent.left; anchors.right: parent.right;
                 anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-
                 text: root.content
-
                 wrapMode: Text.Wrap
                 textFormat: Text.PlainText
                 font.pixelSize: Theme.fontSizeSmall
@@ -270,6 +301,8 @@ ListItem {
 
     BackgroundItem {
         id: expander
+
+        visible: !last && !daterow
 
         anchors {
             right: parent.right

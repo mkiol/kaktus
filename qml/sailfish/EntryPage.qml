@@ -42,6 +42,8 @@ Page {
         onInit: { bar.flick = listView;}
     }
 
+    RemorsePopup {id: remorse}
+
     SilicaListView {
         id: listView
         model: entryModel
@@ -59,14 +61,20 @@ Page {
             showShowOnlyUnread: true
 
             onMarkedAsRead: {
-                if (settings.viewMode==1 ||
-                        settings.viewMode==3 ||
-                        settings.viewMode==4 ||
-                        settings.viewMode==5) {
-                    pageStack.push(Qt.resolvedUrl("ReadAllDialog.qml"),{"type": 2});
-                } else {
-                    entryModel.setAllAsRead();
+                if (settings.viewMode==1 || settings.viewMode==5) {
+                    remorse.execute(qsTr("Marking articles as read"), function(){entryModel.setAllAsRead()});
+                    return;
                 }
+                if (settings.viewMode==3) {
+                    remorse.execute(qsTr("Marking all your articles as read"), function(){entryModel.setAllAsRead()});
+                    return;
+                }
+                if (settings.viewMode==4) {
+                    remorse.execute(qsTr("Marking all saved articles as read"), function(){entryModel.setAllAsRead()});
+                    return;
+                }
+
+                entryModel.setAllAsRead();
             }
 
             /*onMarkedAsUnread:  {
@@ -119,6 +127,8 @@ Page {
             index: model.index
             cached: model.cached
             fresh: model.fresh
+            last: model.uid=="last"
+            daterow: model.uid=="daterow"
             showMarkedAsRead: settings.viewMode!=4 && model.read<2
             objectName: "EntryDelegate"
 

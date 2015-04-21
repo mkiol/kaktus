@@ -62,10 +62,10 @@ Dialog {
             color: Theme.primaryColor
             text: {
                 if (type==0) {
-                    return qsTr("Mark tab as read?");
+                    return qsTr("Mark all tabs as read?");
                 }
                 if (type==1) {
-                    return qsTr("Mark feed as read?");
+                    return qsTr("Mark feeds as read?");
                 }
                 if (type==2) {
                     return settings.viewMode == 3 ? qsTr("Mark all your articles as read?") :

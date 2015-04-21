@@ -50,6 +50,25 @@ Page {
 
         model: VisualItemModel {
             SectionHeader {
+                text: qsTr("Version %1").arg("1.4")
+            }
+
+            LogItem {
+                title: 'UI polishing'
+                description: 'UI is more in line with Sailfish design style.'
+            }
+
+            LogItem {
+                title: 'Remorse popups'
+                description: 'Instead dialog prompts, remorse popups are used.'
+            }
+
+            LogItem {
+                title: 'Translations update'
+                description: 'All translations have been updated.'
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("1.3")
             }
 

@@ -44,6 +44,8 @@ Page {
         onInit: { bar.flick = listView; }
     }
 
+    RemorsePopup {id: remorse}
+
     SilicaListView {
         id: listView
         model: feedModel
@@ -60,11 +62,13 @@ Page {
             showMarkAsUnread: false
 
             onMarkedAsRead: {
-                pageStack.push(Qt.resolvedUrl("ReadAllDialog.qml"),{"type": 1});
+                //pageStack.push(Qt.resolvedUrl("ReadAllDialog.qml"),{"type": 1});
+                remorse.execute(qsTr("Marking feeds as read"), function(){feedModel.setAllAsRead()});
             }
-            onMarkedAsUnread: {
-                pageStack.push(Qt.resolvedUrl("UnreadAllDialog.qml"),{"type": 1});
-            }
+            /*onMarkedAsUnread: {
+                //pageStack.push(Qt.resolvedUrl("UnreadAllDialog.qml"),{"type": 1});
+                remorse.execute(qsTr("Marking feeds as unread"), function(){feedModel.setAllAsUnread()});
+            }*/
 
             onActiveChanged: {
                 if (active && settings.viewMode!=2) {
@@ -79,15 +83,19 @@ Page {
         }
 
         delegate: ListItem {
-
             id: listItem
 
-            contentHeight: Math.max(item.height, image.height) + 2 * Theme.paddingMedium
+            property bool last: model.uid=="last"
+            enabled: !last
+
+            contentHeight: last ?
+                             app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape :
+                             Math.max(item.height, image.height) + 2 * Theme.paddingMedium
 
             Rectangle {
                 anchors.top: parent.top; anchors.right: parent.right
                 width: Theme.paddingSmall; height: item.height
-                visible: model.fresh
+                visible: model.fresh && !listItem.last
                 radius: 10
 
                 gradient: Gradient {
@@ -102,6 +110,7 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: image.visible ? image.right : parent.left
                 anchors.right: unreadbox.visible ? unreadbox.left : parent.right
+                visible: !listItem.last
 
                 Label {
                     id: itemLabel
@@ -124,7 +133,7 @@ Page {
                 height: unreadlabel.height + 2 * Theme.paddingSmall
                 color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
                 radius: 5
-                visible: model.unread!=0
+                visible: model.unread!=0 && !listItem.last
 
                 Label {
                     id: unreadlabel
@@ -138,8 +147,10 @@ Page {
 
             Rectangle {
                 anchors.fill: image
-                color: Theme.secondaryColor
-                opacity: 0.1
+                //color: Theme.secondaryColor
+                visible: !last
+                color: "white"
+                //opacity: 0.1
             }
 
             Image {
@@ -147,7 +158,7 @@ Page {
                 width: visible ? 1.2*Theme.iconSizeSmall : 0
                 height: width
                 anchors.left: parent.left; //anchors.leftMargin: Theme.paddingLarge
-                visible: status!=Image.Error && status!=Image.Null
+                visible: status!=Image.Error && status!=Image.Null && !listItem.last
                 y: Theme.paddingMedium
             }
 
@@ -169,13 +180,16 @@ Page {
             }
 
             onClicked: {
-                utils.setEntryModel(uid);
-                pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index, "readlater": false});
+                if (!listItem.last) {
+                    utils.setEntryModel(uid);
+                    pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index, "readlater": false});
+                }
             }
 
-            showMenuOnPressAndHold: model.unread+model.read>0
+            showMenuOnPressAndHold: !listItem.last && model.unread+model.read>0
 
             menu: ContextMenu {
+                id: contextMenu
                 MenuItem {
                     text: qsTr("Mark all as read")
                     enabled: model.unread!=0
@@ -193,7 +207,6 @@ Page {
                     }
                 }
             }
-
         }
 
         ViewPlaceholder {
