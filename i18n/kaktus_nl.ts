@@ -4,7 +4,7 @@
     <message>
         <location filename="../qml/bb10/AboutPage.qml" line="28"/>
         <location filename="../qml/harmattan/AboutPage.qml" line="44"/>
-        <location filename="../qml/sailfish/AboutPage.qml" line="53"/>
+        <location filename="../qml/sailfish/AboutPage.qml" line="52"/>
         <location filename="../qml/symbian/AboutPage.qml" line="42"/>
         <source>About</source>
         <translation>Over</translation>
@@ -12,7 +12,7 @@
     <message>
         <location filename="../qml/bb10/AboutPage.qml" line="91"/>
         <location filename="../qml/harmattan/AboutPage.qml" line="84"/>
-        <location filename="../qml/sailfish/AboutPage.qml" line="74"/>
+        <location filename="../qml/sailfish/AboutPage.qml" line="73"/>
         <location filename="../qml/symbian/AboutPage.qml" line="82"/>
         <source>Version: %1</source>
         <translation>Versie: %1</translation>
@@ -20,22 +20,32 @@
     <message>
         <location filename="../qml/bb10/AboutPage.qml" line="97"/>
         <location filename="../qml/harmattan/AboutPage.qml" line="95"/>
-        <location filename="../qml/sailfish/AboutPage.qml" line="82"/>
         <location filename="../qml/symbian/AboutPage.qml" line="93"/>
         <source>An unofficial Netvibes feed reader, specially designed to work offline.</source>
         <translation>Een niet-officiële feedlezer voor Netvibes, specifiek ontworpen om offline te kunnen werken.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/AboutPage.qml" line="129"/>
-        <location filename="../qml/sailfish/AboutPage.qml" line="121"/>
+        <location filename="../qml/sailfish/AboutPage.qml" line="156"/>
         <location filename="../qml/symbian/AboutPage.qml" line="126"/>
         <source>Changelog</source>
         <translation>Wijzigingslog</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/AboutPage.qml" line="101"/>
+        <location filename="../qml/sailfish/AboutPage.qml" line="81"/>
+        <source>Unofficial feed reader for Netvibes.com, specially designed to work offline.</source>
+        <translation>Een onofficiële feedlezer voor Netvibes met de nadruk op offline-werken.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/AboutPage.qml" line="106"/>
+        <location filename="../qml/sailfish/AboutPage.qml" line="138"/>
         <source>Launching an external browser...</source>
         <translation>Externe browser wordt gestart...</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/AboutPage.qml" line="133"/>
+        <source>This software is distributed under the terms of the GNU General Public Licence version 3.</source>
+        <translation>Deze software wordt verspreid onder de voorwaarden van de GNU General Public-licentie versie 3.</translation>
     </message>
 </context>
 <context>
@@ -109,6 +119,19 @@
     </message>
 </context>
 <context>
+    <name>AuthWebViewPage</name>
+    <message>
+        <location filename="../qml/sailfish/AuthWebViewPage.qml" line="95"/>
+        <source>Loading page content...</source>
+        <translation>Bezig met het laden van de paginainhoud...</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/AuthWebViewPage.qml" line="103"/>
+        <source>Failed to load page content :-(</source>
+        <translation>Het laden van de paginainhoud is mislukt :-(</translation>
+    </message>
+</context>
+<context>
     <name>ChangelogPage</name>
     <message>
         <location filename="../qml/bb10/ChangelogPage.qml" line="26"/>
@@ -122,10 +145,12 @@
         <location filename="../qml/bb10/ChangelogPage.qml" line="33"/>
         <location filename="../qml/harmattan/ChangelogPage.qml" line="56"/>
         <location filename="../qml/harmattan/ChangelogPage.qml" line="88"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="54"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="78"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="100"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="119"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="53"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="72"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="99"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="123"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="145"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="164"/>
         <location filename="../qml/symbian/ChangelogPage.qml" line="56"/>
         <location filename="../qml/symbian/ChangelogPage.qml" line="88"/>
         <source>Version %1</source>
@@ -144,7 +169,7 @@
 <context>
     <name>ControlBar</name>
     <message>
-        <location filename="../qml/sailfish/ControlBar.qml" line="164"/>
+        <location filename="../qml/sailfish/ControlBar.qml" line="179"/>
         <source>Can't switch to Online mode.
 Network connection is unavailable.</source>
         <translation>Kan niet overschakelen naar Online-modus.
@@ -251,34 +276,72 @@ Netwerkverbinding is niet beschikbaar.</translation>
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="322"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="365"/>
         <source>Unsave</source>
         <translation>Opslaan ongedaan maken</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="322"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="365"/>
         <source>Save</source>
         <translation>Opslaan</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="334"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="377"/>
         <source>Collapse</source>
         <translation>Inklappen</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="334"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="377"/>
         <source>Expand</source>
         <translation>Uitklappen</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="307"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="350"/>
         <source>Mark as unread</source>
         <translation>Markeren als ongelezen</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="307"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="350"/>
         <source>Mark as read</source>
         <translation>Markeren als gelezen</translation>
+    </message>
+</context>
+<context>
+    <name>EntryModel</name>
+    <message>
+        <location filename="../src/entrymodel.cpp" line="194"/>
+        <source>Today</source>
+        <translation>Vandaag</translation>
+    </message>
+    <message>
+        <location filename="../src/entrymodel.cpp" line="197"/>
+        <source>Yesterday</source>
+        <translation>Gisteren</translation>
+    </message>
+    <message>
+        <location filename="../src/entrymodel.cpp" line="200"/>
+        <source>Current week</source>
+        <translation>Huidige week</translation>
+    </message>
+    <message>
+        <location filename="../src/entrymodel.cpp" line="203"/>
+        <source>Current month</source>
+        <translation>Huidige maand</translation>
+    </message>
+    <message>
+        <location filename="../src/entrymodel.cpp" line="206"/>
+        <source>Previous month</source>
+        <translation>Vorige maand</translation>
+    </message>
+    <message>
+        <location filename="../src/entrymodel.cpp" line="209"/>
+        <source>Current year</source>
+        <translation>Huidig jaar</translation>
+    </message>
+    <message>
+        <location filename="../src/entrymodel.cpp" line="212"/>
+        <source>Previous year &amp; older</source>
+        <translation>Vorig jaar en ouder</translation>
     </message>
 </context>
 <context>
@@ -314,7 +377,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="277"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="193"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="244"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="254"/>
         <location filename="../qml/symbian/EntryPage.qml" line="192"/>
         <source>No unread items</source>
         <translation>Geen ongelezen items</translation>
@@ -322,7 +385,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="277"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="194"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="244"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="254"/>
         <location filename="../qml/symbian/EntryPage.qml" line="193"/>
         <source>No items</source>
         <translation>Geen items</translation>
@@ -330,7 +393,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="37"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="60"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="98"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="106"/>
         <location filename="../qml/symbian/EntryPage.qml" line="65"/>
         <source>All feeds</source>
         <translation>Alle feeds</translation>
@@ -338,7 +401,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="39"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="62"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="100"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="108"/>
         <location filename="../qml/symbian/EntryPage.qml" line="67"/>
         <source>Saved</source>
         <translation>Opgeslagen</translation>
@@ -346,7 +409,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="41"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="64"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="102"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="110"/>
         <location filename="../qml/symbian/EntryPage.qml" line="69"/>
         <source>Slow</source>
         <translation>Sloom</translation>
@@ -354,7 +417,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="82"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="131"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="167"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="177"/>
         <location filename="../qml/symbian/EntryPage.qml" line="131"/>
         <source>Please wait until current task is complete.</source>
         <translation>Wacht alstublieft totdat de huidige taak is afgerond.</translation>
@@ -362,7 +425,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="88"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="137"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="173"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="183"/>
         <location filename="../qml/symbian/EntryPage.qml" line="137"/>
         <source>Offline version not available.</source>
         <translation>Offline-versie niet beschikbaar.</translation>
@@ -370,7 +433,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="96"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="145"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="181"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="191"/>
         <location filename="../qml/symbian/EntryPage.qml" line="145"/>
         <source>Network connection is unavailable.
 Switching to Offline mode.</source>
@@ -380,7 +443,7 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="100"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="149"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="185"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="195"/>
         <location filename="../qml/symbian/EntryPage.qml" line="149"/>
         <source>Network connection is unavailable.</source>
         <translation>Netwerkverbinding is niet beschikbaar.</translation>
@@ -388,7 +451,7 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="276"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="192"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="243"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="253"/>
         <location filename="../qml/symbian/EntryPage.qml" line="191"/>
         <source>No saved items</source>
         <translation>Geen opgeslagen items</translation>
@@ -407,9 +470,24 @@ Bezig met overschakelen naar Offline-modus.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="275"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="242"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="252"/>
         <source>Wait until Sync finish.</source>
         <translation>Wacht totdat de synchronisatie is voltooid.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryPage.qml" line="65"/>
+        <source>Marking articles as read</source>
+        <translation>Bezig met het markeren van de artikelen als gelezen</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryPage.qml" line="69"/>
+        <source>Marking all your articles as read</source>
+        <translation>Bezig met het markeren van al uw artikelen als gelezen</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryPage.qml" line="73"/>
+        <source>Marking all saved articles as read</source>
+        <translation>Bezig met het markeren van al uw opgeslagen artikelen als gelezen</translation>
     </message>
 </context>
 <context>
@@ -429,14 +507,14 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <name>FeedPage</name>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="145"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="173"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="194"/>
         <location filename="../qml/symbian/FeedPage.qml" line="143"/>
         <source>Mark all as read</source>
         <translation>Alles markeren als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="153"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="181"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="202"/>
         <location filename="../qml/symbian/FeedPage.qml" line="151"/>
         <source>Mark all as unread</source>
         <translation>Alles markeren als ongelezen</translation>
@@ -444,7 +522,7 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <message>
         <location filename="../qml/bb10/FeedPage.qml" line="141"/>
         <location filename="../qml/harmattan/FeedPage.qml" line="114"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="195"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="215"/>
         <location filename="../qml/symbian/FeedPage.qml" line="113"/>
         <source>No feeds</source>
         <translation>Geen  feeds</translation>
@@ -452,7 +530,7 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <message>
         <location filename="../qml/bb10/FeedPage.qml" line="32"/>
         <location filename="../qml/harmattan/FeedPage.qml" line="67"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="78"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="82"/>
         <location filename="../qml/symbian/FeedPage.qml" line="68"/>
         <source>Feeds</source>
         <translation>Feeds</translation>
@@ -469,9 +547,14 @@ Bezig met overschakelen naar Offline-modus.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/FeedPage.qml" line="141"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="195"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="215"/>
         <source>Wait until Sync finish.</source>
         <translation>Wacht totdat de synchronisatie is voltooid.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FeedPage.qml" line="66"/>
+        <source>Marking feeds as read</source>
+        <translation>Bezig met het markeren van de feeds als gelezen</translation>
     </message>
 </context>
 <context>
@@ -484,7 +567,6 @@ Bezig met overschakelen naar Offline-modus.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FirstPage.qml" line="120"/>
-        <location filename="../qml/sailfish/FirstPage.qml" line="108"/>
         <location filename="../qml/symbian/FirstPage.qml" line="119"/>
         <source>Not signed in</source>
         <translation>Niet ingelogd</translation>
@@ -497,18 +579,13 @@ Bezig met overschakelen naar Offline-modus.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FirstPage.qml" line="121"/>
+        <location filename="../qml/sailfish/FirstPage.qml" line="71"/>
         <location filename="../qml/symbian/FirstPage.qml" line="120"/>
         <source>Wait until Sync finish.</source>
         <translation>Wacht totdat de synchronisatie is afgerond.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/FirstPage.qml" line="72"/>
-        <source>To sign in and do feeds synchronisation, pull down and select Sync.</source>
-        <translation>Om in te loggen en feeds te synchroniseren: trek het menu naar beneden en selecteer Synchroniseren.</translation>
-    </message>
-    <message>
         <location filename="../qml/bb10/FirstPage.qml" line="30"/>
-        <location filename="../qml/sailfish/FirstPage.qml" line="106"/>
         <source>You are signed in!
 Wait until Sync finish.</source>
         <translation>U bent ingelogd!
@@ -516,7 +593,7 @@ Wacht totdat de synchronisatie is afgerond.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/FirstPage.qml" line="30"/>
-        <location filename="../qml/sailfish/FirstPage.qml" line="107"/>
+        <location filename="../qml/sailfish/FirstPage.qml" line="72"/>
         <source>To do feeds synchronisation, pull down and select Sync.</source>
         <translation>Om feeds te synchroniseren: trek het menu naar beneden en selecteer Synchroniseren.</translation>
     </message>
@@ -527,8 +604,19 @@ Wacht totdat de synchronisatie is afgerond.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/FirstPage.qml" line="41"/>
+        <location filename="../qml/sailfish/FirstPage.qml" line="61"/>
         <source>Add account</source>
         <translation>Account toevoegen</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FirstPage.qml" line="52"/>
+        <source>About</source>
+        <translation>Over</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FirstPage.qml" line="73"/>
+        <source>You are not signed in to any account. Pull down to add one.</source>
+        <translation>U bent niet ingelogd op een account. Trek het menu naar beneden om een account toe te voegen,</translation>
     </message>
 </context>
 <context>
@@ -672,15 +760,15 @@ Herstart de app om de cacheinhoud opnieuw op te bouwen.</translation>
         <location filename="../qml/bb10/KaktusNavigation.qml" line="159"/>
         <source>Download failed!
 Network connection is unavailable.</source>
-        <translation>Downloaden mislukt!
-Netwerkverbinding is niet beschikbaar.</translation>
+        <translation>Het downloaden is mislukt!
+Er is geen netwerkverbinding beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/KaktusNavigation.qml" line="174"/>
         <source>Sync failed!
 Network connection is unavailable.</source>
-        <translation>Synchroniseren mislukt!
-Netwerkverbinding is niet beschikbaar.</translation>
+        <translation>Het synchroniseren is mislukt!
+Er is geen netwerkverbinding beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/KaktusNavigation.qml" line="185"/>
@@ -961,13 +1049,13 @@ Netwerkverbinding is niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/ReadAllDialog.qml" line="65"/>
-        <source>Mark tab as read?</source>
-        <translation>Tabblad markeren als gelezen?</translation>
+        <source>Mark all tabs as read?</source>
+        <translation>Alle tabbladen markeren als gelezen?</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/ReadAllDialog.qml" line="68"/>
-        <source>Mark feed as read?</source>
-        <translation>Feed markeren als gelezen?</translation>
+        <source>Mark feeds as read?</source>
+        <translation>Alle feeds markeren als gelezen?</translation>
     </message>
 </context>
 <context>
@@ -975,7 +1063,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="27"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="50"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="48"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="47"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="49"/>
         <source>Settings</source>
         <translation>Instellingen</translation>
@@ -983,7 +1071,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="73"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="77"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="116"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="119"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="82"/>
         <source>Dashboard in use</source>
         <translation>Huidig gebruikt overzichtspaneel</translation>
@@ -991,32 +1079,62 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="73"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="77"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="116"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="119"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="82"/>
         <source>Dashboard not selected</source>
         <translation>Geen overzichtspaneel geselecteerd</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="75"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="130"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="133"/>
         <source>Change</source>
         <translation>Wijzigen</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="50"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="54"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="53"/>
         <source>Netvibes account</source>
         <translation>Netvibes-account</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="70"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="69"/>
         <source>Not signed in </source>
         <translation>Niet ingelogd</translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="73"/>
+        <source>Signed in with</source>
+        <translation>Ingelogd met</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="205"/>
+        <source>Never</source>
+        <translation>Nooit</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="206"/>
+        <source>WiFi only</source>
+        <translation>Alleen via WiFi</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="207"/>
+        <source>Always</source>
+        <translation>Altijd</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="353"/>
+        <source>Read mode</source>
+        <translation>Leesmodus</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="354"/>
+        <source>Web pages will be reformatted into an easy to read version.</source>
+        <translation>Webpagina&apos;s zullen worden heropgemaakt zodat ze makkelijk te lezen zijn.</translation>
+    </message>
+    <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="299"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="328"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="396"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="430"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="345"/>
         <source>Web viewer font size</source>
         <translation>Lettertypegrootte van webweergave</translation>
@@ -1024,7 +1142,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="304"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="333"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="400"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="434"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="350"/>
         <source>-50%</source>
         <translation>-50%</translation>
@@ -1032,7 +1150,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="309"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="334"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="401"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="435"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="351"/>
         <source>Normal</source>
         <translation>Normaal</translation>
@@ -1040,7 +1158,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="314"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="335"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="402"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="436"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="352"/>
         <source>+50%</source>
         <translation>+50%</translation>
@@ -1048,7 +1166,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="96"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="97"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="169"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="172"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="102"/>
         <source>Delete cache</source>
         <translation>Cache wissen</translation>
@@ -1056,7 +1174,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="105"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="106"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="180"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="183"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="111"/>
         <source>Network mode</source>
         <translation>Netwerkmodus</translation>
@@ -1064,7 +1182,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="128"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="126"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="199"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="214"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="142"/>
         <source>After sync the content of all items will be downloaded and cached for access in the Offline mode.</source>
         <translation>Na de synchronisatie zal de inhoud van alle items worden gedowload en gechached voor toegang in de offlinemodus.</translation>
@@ -1072,7 +1190,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="149"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="141"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="213"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="235"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="157"/>
         <source>Language</source>
         <translation>Taal</translation>
@@ -1080,7 +1198,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="154"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="163"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="234"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="256"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="179"/>
         <source>Default</source>
         <translation>Standaard</translation>
@@ -1088,7 +1206,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="195"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="204"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="274"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="296"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="220"/>
         <source>Changes will take effect after you restart Kaktus.</source>
         <translation>De wijzigingen zullen worden toegepast nadat Kaktus is herstart.</translation>
@@ -1110,42 +1228,42 @@ Netwerkverbinding is niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="209"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="280"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="302"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="225"/>
         <source>View mode</source>
         <translation>Weergavemodus</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="227"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="297"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="319"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="243"/>
         <source>Tabs &amp; Feeds</source>
         <translation>Tabbladen en feeds</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="228"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="298"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="320"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="244"/>
         <source>Only Tabs</source>
         <translation>Alleen tabbladen</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="229"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="299"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="321"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="245"/>
         <source>All feeds</source>
         <translation>Alle feeds</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="230"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="300"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="322"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="246"/>
         <source>Saved</source>
         <translation>Opgeslagen</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="231"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="301"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="323"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="247"/>
         <source>Slow</source>
         <translation>Sloom</translation>
@@ -1153,21 +1271,21 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="213"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="262"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="331"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="365"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="278"/>
         <source>Show images</source>
         <translation>Afbeeldingen weergeven</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="345"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="411"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="445"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="362"/>
         <source>Other</source>
         <translation>Overig</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="350"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="415"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="449"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="367"/>
         <source>Show User Guide</source>
         <translation>Gebruikershandleiding weergeven</translation>
@@ -1175,7 +1293,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="111"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="111"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="184"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="187"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="116"/>
         <source>Online</source>
         <translation>Online</translation>
@@ -1183,7 +1301,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="117"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="112"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="185"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="188"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="117"/>
         <source>Offline</source>
         <translation>Offline</translation>
@@ -1191,7 +1309,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="127"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="125"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="197"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="201"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="141"/>
         <source>Cache articles</source>
         <translation>Gecachete artikelen</translation>
@@ -1199,7 +1317,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="204"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="252"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="321"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="343"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="268"/>
         <source>Show only unread articles</source>
         <translation>Alleen ongelezen artikelen weergeven</translation>
@@ -1213,7 +1331,6 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="60"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="60"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="74"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="59"/>
         <source>Signed in as</source>
         <translation>Ingelogd als</translation>
@@ -1228,7 +1345,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="62"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="66"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="86"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="89"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="65"/>
         <source>Sign out</source>
         <translation>Uitloggen</translation>
@@ -1236,7 +1353,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="62"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="66"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="86"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="89"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="65"/>
         <source>Sign in</source>
         <translation>Inloggen</translation>
@@ -1249,7 +1366,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="84"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="87"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="140"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="143"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="92"/>
         <source>Cache</source>
         <translation>Cache</translation>
@@ -1257,28 +1374,28 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="94"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="91"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="158"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="161"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="96"/>
         <source>Current cache size</source>
         <translation>Huidige cachegrootte</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="272"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="341"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="375"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="288"/>
         <source>Power save mode</source>
         <translation>Energiebesparingsmodus</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="273"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="342"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="376"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="289"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
         <translation>Wanneer de telefoon of app in een inactieve staat verkeert, zullen alle openstaande webpagina&apos;s gesloten worden om energie te besparen.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="288"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="358"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="392"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="304"/>
         <source>Dynamic</source>
         <translation>Dynamisch</translation>
@@ -1286,28 +1403,28 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="138"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="137"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="207"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="229"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="153"/>
         <source>UI</source>
         <translation>Uiterlijk</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="283"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="354"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="388"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="299"/>
         <source>Orientation</source>
         <translation>Oriëntatie</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="289"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="359"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="393"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="305"/>
         <source>Portrait</source>
         <translation>Portret</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="290"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="360"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="394"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="306"/>
         <source>Landscape</source>
         <translation>Landschap</translation>
@@ -1315,7 +1432,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="280"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="300"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="368"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="402"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="316"/>
         <source>Offline viewer style</source>
         <translation>Stijl van offlineweergave</translation>
@@ -1323,7 +1440,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="285"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="310"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="378"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="412"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="327"/>
         <source>Black</source>
         <translation>Zwart</translation>
@@ -1331,7 +1448,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="290"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="311"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="379"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="413"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="328"/>
         <source>White</source>
         <translation>Wit</translation>
@@ -1341,7 +1458,6 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <name>SignInDialog</name>
     <message>
         <location filename="../qml/harmattan/SignInDialog.qml" line="36"/>
-        <location filename="../qml/sailfish/SignInDialog.qml" line="53"/>
         <location filename="../qml/symbian/SignInDialog.qml" line="37"/>
         <source>Netvibes account</source>
         <translation>Netvibes-account</translation>
@@ -1369,19 +1485,44 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <translation>Inloggen</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SignInDialog.qml" line="54"/>
+        <location filename="../qml/sailfish/SignInDialog.qml" line="61"/>
+        <source>Account</source>
+        <translation>Account</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SignInDialog.qml" line="62"/>
         <source>Sign In</source>
         <translation>Inloggen</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SignInDialog.qml" line="62"/>
-        <source>Enter username (e-mail) here!</source>
-        <translation>Vul hier uw gebruikersnaam (e-mailadres) in!</translation>
+        <location filename="../qml/sailfish/SignInDialog.qml" line="70"/>
+        <source>Netvibes</source>
+        <translation>Netvibes</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SignInDialog.qml" line="63"/>
-        <source>Username (e-mail)</source>
-        <translation>Gebruikersnaam (e-mailadres)</translation>
+        <location filename="../qml/sailfish/SignInDialog.qml" line="88"/>
+        <source>Enter Netvibes username and password below.</source>
+        <translation>Vul uw Netvibes-gebruikersnaam en -wachtwoord hieronder in.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SignInDialog.qml" line="104"/>
+        <source>Username (your e-mail)</source>
+        <translation>Gebruikersnaam (uw e-mailadres)</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SignInDialog.qml" line="133"/>
+        <source>Third party services</source>
+        <translation>Diensten van derde partijen</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SignInDialog.qml" line="149"/>
+        <source>Sign in with Twitter</source>
+        <translation>Inloggen met uw Twitter-account</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SignInDialog.qml" line="175"/>
+        <source>Sign in with Facebook</source>
+        <translation>Inloggen met uw Facebook-account</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SignInDialog.qml" line="40"/>
@@ -1395,6 +1536,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SignInDialog.qml" line="59"/>
+        <location filename="../qml/sailfish/SignInDialog.qml" line="103"/>
         <location filename="../qml/symbian/SignInDialog.qml" line="53"/>
         <source>Enter username here!</source>
         <translation>Vul hier uw gebruikersnaam in!</translation>
@@ -1402,14 +1544,14 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/SignInDialog.qml" line="85"/>
         <location filename="../qml/harmattan/SignInDialog.qml" line="82"/>
-        <location filename="../qml/sailfish/SignInDialog.qml" line="80"/>
+        <location filename="../qml/sailfish/SignInDialog.qml" line="121"/>
         <location filename="../qml/symbian/SignInDialog.qml" line="72"/>
         <source>Enter password here!</source>
         <translation>Vul hier uw wachtwoord in!</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SignInDialog.qml" line="74"/>
-        <location filename="../qml/sailfish/SignInDialog.qml" line="81"/>
+        <location filename="../qml/sailfish/SignInDialog.qml" line="122"/>
         <location filename="../qml/symbian/SignInDialog.qml" line="64"/>
         <source>Password</source>
         <translation>Wachtwoord</translation>
@@ -1439,7 +1581,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/TabPage.qml" line="30"/>
         <location filename="../qml/harmattan/TabPage.qml" line="63"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="75"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="81"/>
         <location filename="../qml/symbian/TabPage.qml" line="62"/>
         <source>Tabs</source>
         <translation>Tabbladen</translation>
@@ -1457,7 +1599,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/TabPage.qml" line="147"/>
         <location filename="../qml/harmattan/TabPage.qml" line="157"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="205"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="226"/>
         <location filename="../qml/symbian/TabPage.qml" line="154"/>
         <source>Wait until Sync finish.</source>
         <translation>Wacht totdat de synchronisatie is afgerond.</translation>
@@ -1470,14 +1612,14 @@ Netwerkverbinding is niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="138"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="183"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="204"/>
         <location filename="../qml/symbian/TabPage.qml" line="135"/>
         <source>Mark all as read</source>
         <translation>Alles markeren als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="145"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="191"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="212"/>
         <location filename="../qml/symbian/TabPage.qml" line="142"/>
         <source>Mark all as unread</source>
         <translation>Alles markeren als ongelezen</translation>
@@ -1485,10 +1627,15 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/TabPage.qml" line="147"/>
         <location filename="../qml/harmattan/TabPage.qml" line="156"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="205"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="226"/>
         <location filename="../qml/symbian/TabPage.qml" line="153"/>
         <source>No tabs</source>
         <translation>Geen tabbladen</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/TabPage.qml" line="66"/>
+        <source>Marking all tabs as read</source>
+        <translation>Bezig met het markeren van alle tabbladen als gelezen</translation>
     </message>
 </context>
 <context>
@@ -1554,92 +1701,82 @@ Netwerkverbinding is niet beschikbaar.</translation>
 <context>
     <name>Utils</name>
     <message>
-        <location filename="../src/utils.cpp" line="309"/>
+        <location filename="../src/utils.cpp" line="544"/>
         <source>empty</source>
         <translation>leeg</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="328"/>
+        <location filename="../src/utils.cpp" line="564"/>
         <source>just now</source>
         <translation>zojuist</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="331"/>
+        <location filename="../src/utils.cpp" line="567"/>
         <source>1 second ago</source>
         <translation>1 seconde geleden</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="334"/>
+        <location filename="../src/utils.cpp" line="570"/>
         <source>%1 seconds ago</source>
         <comment>less than 5 seconds</comment>
         <translation>%1 seconden geleden</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="337"/>
+        <location filename="../src/utils.cpp" line="573"/>
         <source>%1 seconds ago</source>
         <comment>more or equal 5 seconds</comment>
         <translation>%1 seconden geleden</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="340"/>
+        <location filename="../src/utils.cpp" line="576"/>
         <source>1 minute ago</source>
         <translation>1 minuut geleden</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="343"/>
+        <location filename="../src/utils.cpp" line="579"/>
         <source>%1 minutes ago</source>
         <comment>less than 5 minutes</comment>
         <translation>%1 minuten geleden</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="346"/>
+        <location filename="../src/utils.cpp" line="582"/>
         <source>%1 minutes ago</source>
         <comment>more or equal 5 minutes</comment>
         <translation>%1 minuten geleden</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="349"/>
+        <location filename="../src/utils.cpp" line="585"/>
         <source>1 hour ago</source>
         <translation>1 uur geleden</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="352"/>
+        <location filename="../src/utils.cpp" line="588"/>
         <source>%1 hours ago</source>
         <comment>less than 5 hours</comment>
         <translation>%1 uur geleden</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="355"/>
+        <location filename="../src/utils.cpp" line="591"/>
         <source>%1 hours ago</source>
         <comment>more or equal 5 hours</comment>
         <translation>%1 uur geleden</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="358"/>
-        <source>yesterday</source>
-        <translation>gisteren</translation>
+        <location filename="../src/utils.cpp" line="597"/>
+        <source>day ago</source>
+        <translation>dag geleden</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="361"/>
+        <location filename="../src/utils.cpp" line="600"/>
         <source>%1 days ago</source>
         <comment>less than 5 days</comment>
         <translation>%1 dagen geleden</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="364"/>
+        <location filename="../src/utils.cpp" line="603"/>
         <source>%1 days ago</source>
         <comment>more or equal 5 days</comment>
         <translation>%1 dagen geleden</translation>
-    </message>
-    <message>
-        <location filename="../src/utils.cpp" line="367"/>
-        <source>1 week ago</source>
-        <translation>1 week geleden</translation>
-    </message>
-    <message>
-        <location filename="../src/utils.cpp" line="370"/>
-        <source>%1 weeks ago</source>
-        <translation>%1 weken geleden</translation>
     </message>
 </context>
 <context>
@@ -1705,26 +1842,26 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/bb10/WebPreviewPage.qml" line="180"/>
         <location filename="../qml/harmattan/WebPreviewPage.qml" line="123"/>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="145"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="56"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="199"/>
         <location filename="../qml/symbian/WebPreviewPage.qml" line="119"/>
         <source>Loading page content...</source>
         <translation>Bezig met laden van paginainhoud...</translation>
     </message>
     <message>
         <location filename="../qml/bb10/WebPreviewPage.qml" line="191"/>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="171"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="223"/>
         <source>Failed to load item from local cache :-(</source>
-        <translation>Het laden van een item uit de lokale cache is mislukt :-(</translation>
+        <translation>Het laden van het item uit de lokale cache is mislukt :-(</translation>
     </message>
     <message>
         <location filename="../qml/bb10/WebPreviewPage.qml" line="193"/>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="173"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="229"/>
         <source>Failed to load page content :-(</source>
         <translation>Het laden van de paginainhoud is mislukt :-(</translation>
     </message>
     <message>
         <location filename="../qml/bb10/WebPreviewPage.qml" line="128"/>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="236"/>
         <source>Cannot switch to Online mode.
 Network connection is unavailable.</source>
         <translation>Kan niet overschakelen naar Online-modus.
@@ -1747,14 +1884,13 @@ Netwerkverbinding is niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/WebPreviewPage.qml" line="133"/>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="241"/>
         <source>Offline version not available.</source>
         <translation>Offline-versie niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/WebPreviewPage.qml" line="118"/>
         <location filename="../qml/harmattan/WebPreviewPage.qml" line="60"/>
-        <location filename="../qml/sailfish/WebPreviewPage.qml" line="227"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="297"/>
         <location filename="../qml/symbian/WebPreviewPage.qml" line="56"/>
         <source>Launching an external browser...</source>
         <translation>Externe browser wordt gestart...</translation>
@@ -1773,6 +1909,17 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <source>Offline version not available</source>
         <translation>Offline-versie niet beschikbaar.</translation>
     </message>
+    <message>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="134"/>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="226"/>
+        <source>Failed to switch to Reader mode :-(</source>
+        <translation>Het overschakelen naar de leesmodus is mislukt :-(</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/WebPreviewPage.qml" line="312"/>
+        <source>URL copied to clipboard</source>
+        <translation>De URL is gekopieerd naar het klembord</translation>
+    </message>
 </context>
 <context>
     <name>main</name>
@@ -1784,21 +1931,21 @@ Netwerkverbinding is niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="123"/>
-        <location filename="../qml/sailfish/main.qml" line="115"/>
+        <location filename="../qml/sailfish/main.qml" line="130"/>
         <location filename="../qml/symbian/main.qml" line="120"/>
         <source>%1 more items left...</source>
         <translation>Nog %1 items te gaan...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="125"/>
-        <location filename="../qml/sailfish/main.qml" line="117"/>
+        <location filename="../qml/sailfish/main.qml" line="132"/>
         <location filename="../qml/symbian/main.qml" line="122"/>
         <source>All done!</source>
         <translation>Helemaal klaar!</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="53"/>
-        <location filename="../qml/sailfish/main.qml" line="45"/>
+        <location filename="../qml/sailfish/main.qml" line="50"/>
         <location filename="../qml/symbian/main.qml" line="50"/>
         <source>Feeds</source>
         <translation>Feeds</translation>
@@ -1811,27 +1958,27 @@ Netwerkverbinding is niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="130"/>
-        <location filename="../qml/sailfish/main.qml" line="122"/>
+        <location filename="../qml/sailfish/main.qml" line="137"/>
         <location filename="../qml/symbian/main.qml" line="127"/>
         <source>Download failed!
 Network connection is unavailable.</source>
-        <translation>Downloaden mislukt!
-Netwerkverbinding is niet beschikbaar.</translation>
+        <translation>Het downloaden is mislukt!
+Er is geen netwerkverbinding beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="149"/>
-        <location filename="../qml/sailfish/main.qml" line="141"/>
+        <location filename="../qml/sailfish/main.qml" line="177"/>
         <location filename="../qml/symbian/main.qml" line="146"/>
         <source>Sync failed!
 Network connection is unavailable.</source>
-        <translation>Synchroniseren mislukt!
-Netwerkverbinding is niet beschikbaar.</translation>
+        <translation>Het synchroniseren is mislukt!
+Er is geen netwerkverbinding beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="160"/>
         <location filename="../qml/harmattan/main.qml" line="170"/>
-        <location filename="../qml/sailfish/main.qml" line="152"/>
-        <location filename="../qml/sailfish/main.qml" line="162"/>
+        <location filename="../qml/sailfish/main.qml" line="188"/>
+        <location filename="../qml/sailfish/main.qml" line="198"/>
         <location filename="../qml/symbian/main.qml" line="157"/>
         <location filename="../qml/symbian/main.qml" line="167"/>
         <source>The user name or password is incorrect!</source>
@@ -1839,42 +1986,43 @@ Netwerkverbinding is niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="174"/>
-        <location filename="../qml/sailfish/main.qml" line="166"/>
+        <location filename="../qml/sailfish/main.qml" line="202"/>
         <location filename="../qml/symbian/main.qml" line="171"/>
         <source>You are signed in!</source>
         <translation>U bent ingelogd!</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="178"/>
-        <location filename="../qml/sailfish/main.qml" line="170"/>
+        <location filename="../qml/sailfish/main.qml" line="206"/>
         <location filename="../qml/symbian/main.qml" line="175"/>
         <source>Receiving data... </source>
         <translation>Bezig met verkrijgen van data...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="183"/>
-        <location filename="../qml/sailfish/main.qml" line="175"/>
+        <location filename="../qml/sailfish/main.qml" line="211"/>
         <location filename="../qml/symbian/main.qml" line="180"/>
         <source>Sending data...</source>
         <translation>Bezig met versturen van data...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="189"/>
-        <location filename="../qml/sailfish/main.qml" line="181"/>
+        <location filename="../qml/sailfish/main.qml" line="217"/>
         <location filename="../qml/symbian/main.qml" line="186"/>
         <source>Initiating...</source>
         <translation>Bezig met initialiseren...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="193"/>
-        <location filename="../qml/sailfish/main.qml" line="185"/>
+        <location filename="../qml/sailfish/main.qml" line="221"/>
         <location filename="../qml/symbian/main.qml" line="190"/>
         <source>Updating...</source>
         <translation>Bezig met bijwerken...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="197"/>
-        <location filename="../qml/sailfish/main.qml" line="189"/>
+        <location filename="../qml/sailfish/main.qml" line="225"/>
+        <location filename="../qml/sailfish/main.qml" line="229"/>
         <location filename="../qml/symbian/main.qml" line="194"/>
         <source>Signing in...</source>
         <translation>Bezig met inloggen...</translation>
@@ -1883,9 +2031,9 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <location filename="../qml/harmattan/main.qml" line="201"/>
         <location filename="../qml/harmattan/main.qml" line="205"/>
         <location filename="../qml/harmattan/main.qml" line="209"/>
-        <location filename="../qml/sailfish/main.qml" line="193"/>
-        <location filename="../qml/sailfish/main.qml" line="197"/>
-        <location filename="../qml/sailfish/main.qml" line="201"/>
+        <location filename="../qml/sailfish/main.qml" line="233"/>
+        <location filename="../qml/sailfish/main.qml" line="237"/>
+        <location filename="../qml/sailfish/main.qml" line="241"/>
         <location filename="../qml/symbian/main.qml" line="198"/>
         <location filename="../qml/symbian/main.qml" line="202"/>
         <location filename="../qml/symbian/main.qml" line="206"/>
@@ -1894,7 +2042,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="98"/>
-        <location filename="../qml/sailfish/main.qml" line="90"/>
+        <location filename="../qml/sailfish/main.qml" line="105"/>
         <location filename="../qml/symbian/main.qml" line="95"/>
         <source>Something went wrong :-(
 Restart the app to rebuild cache data.</source>
@@ -1902,14 +2050,19 @@ Restart the app to rebuild cache data.</source>
 Herstart de app om de cacheinhoud opnieuw op te bouwen.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/main.qml" line="157"/>
+        <location filename="../qml/sailfish/main.qml" line="173"/>
+        <source>Something goes wrong. Unable to sign in! :-(</source>
+        <translation>Er is iets misgegaan en daardoor is het inloggen mislukt! :-(</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/main.qml" line="193"/>
         <source>Something went wrong :-(
 An unknown error occurred.</source>
         <translation>Er ging iets mis :-(
 Er trad een onbekende fout op.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/main.qml" line="251"/>
+        <location filename="../qml/sailfish/main.qml" line="291"/>
         <source>Removing cache data...</source>
         <translation>Bezig met verwijderen van cacheinhoud...</translation>
     </message>
