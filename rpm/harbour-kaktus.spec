@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    1.4
-Release:    1
+Release:    2
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,10 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Wed Apr 22 2015 Michal Kosciesza 1.4-2
+- Ru and Nl translations update
+
 * Tue Apr 21 2015 Michal Kosciesza 1.4-1
 - UI polishing
 - Remorse popups instead Dialog prompts
