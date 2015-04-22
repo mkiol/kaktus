@@ -62,19 +62,19 @@ Page {
             showMarkAsRead: false
             showMarkAsUnread: false
 
-            onMarkedAsRead: {
+            /*onMarkedAsRead: {
                 remorse.execute(qsTr("Marking all tabs as read"), function(){tabModel.setAllAsRead()});
             }
-            /*onMarkedAsUnread: {
+            onMarkedAsUnread: {
                 remorse.execute(qsTr("Marking all tabs as unread"), function(){tabModel.setAllAsUnread()});
-            }*/
+            }
 
             onActiveChanged: {
                 if (active) {
                     showMarkAsRead = tabModel.countUnread()!=0;
                     //showMarkAsUnread = !showMarkAsRead
                 }
-            }
+            }*/
         }
 
         header: PageHeader {

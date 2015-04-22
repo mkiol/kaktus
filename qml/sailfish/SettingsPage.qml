@@ -238,29 +238,47 @@ Page {
                         return 0;
                     if (settings.locale === "cs")
                         return 1;
-                    if (settings.locale === "en")
+                    if (settings.locale === "de")
                         return 2;
-                    if (settings.locale === "fa")
+                    if (settings.locale === "en")
                         return 3;
-                    if (settings.locale === "nl")
+                    if (settings.locale === "es")
                         return 4;
-                    if (settings.locale === "pl")
+                    if (settings.locale === "fa")
                         return 5;
-                    if (settings.locale === "ru")
+                    if (settings.locale === "fi")
                         return 6;
-                    if (settings.locale === "tr")
+                    if (settings.locale === "fr")
                         return 7;
+                    if (settings.locale === "it")
+                        return 8;
+                    if (settings.locale === "nl")
+                        return 9;
+                    if (settings.locale === "pl")
+                        return 10;
+                    if (settings.locale === "ru")
+                        return 11;
+                    if (settings.locale === "tr")
+                        return 12;
+                    if (settings.locale === "zh_CN")
+                        return 13;
                 }
 
                 menu: ContextMenu {
                     MenuItem { text: qsTr("Default"); onClicked: locale.showMessage() }
                     MenuItem { text: "Čeština"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "Deutsch"; onClicked: locale.showMessage()  }
                     MenuItem { text: "English"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "Español"; onClicked: locale.showMessage()  }
                     MenuItem { text: "فارسی"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "Suomi"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "Français"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "Italiano"; onClicked: locale.showMessage()  }
                     MenuItem { text: "Nederlands"; onClicked: locale.showMessage()  }
                     MenuItem { text: "Polski"; onClicked: locale.showMessage()  }
                     MenuItem { text: "Русский"; onClicked: locale.showMessage()  }
                     MenuItem { text: "Türkçe"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "中文 (简体)"; onClicked: locale.showMessage()  }
                 }
 
                 onCurrentIndexChanged: {
@@ -272,22 +290,40 @@ Page {
                         settings.locale = "cs";
                         break;
                     case 2:
-                        settings.locale = "en";
+                        settings.locale = "de";
                         break;
                     case 3:
-                        settings.locale = "fa";
+                        settings.locale = "en";
                         break;
                     case 4:
-                        settings.locale = "nl";
+                        settings.locale = "es";
                         break;
                     case 5:
-                        settings.locale = "pl";
+                        settings.locale = "fa";
                         break;
                     case 6:
-                        settings.locale = "ru";
+                        settings.locale = "fi";
                         break;
                     case 7:
+                        settings.locale = "fr";
+                        break;
+                    case 8:
+                        settings.locale = "it";
+                        break;
+                    case 9:
+                        settings.locale = "nl";
+                        break;
+                    case 10:
+                        settings.locale = "pl";
+                        break;
+                    case 11:
+                        settings.locale = "ru";
+                        break;
+                    case 12:
                         settings.locale = "tr";
+                        break;
+                    case 13:
+                        settings.locale = "zh_CN";
                         break;
                     }
                 }

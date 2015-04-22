@@ -64,8 +64,8 @@ Page {
             }
 
             LogItem {
-                title: 'Translations update'
-                description: 'All translations have been updated.'
+                title: 'New translations'
+                description: 'New translations German, Spanish, Finnish, French, Italian and Chinese were added. All other translations have been updated.'
             }
 
             SectionHeader {

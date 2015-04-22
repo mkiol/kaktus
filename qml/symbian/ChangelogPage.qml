@@ -53,6 +53,38 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("1.2.2")
+            }
+
+            LogItem {
+                title: 'UI performance tuning'
+                description: 'Some UI functions were optimized for faster performance.'
+            }
+
+            LogItem {
+                title: 'Option to increase font size in web viewer'
+                description: 'Web viewer font size can be changed on settings page. '+
+                             'By default, "Normal" value is set and this means that the text size '+
+                             'will be increased by 50% in comparison with the previous version of Kaktus. '+
+                             'New option, works only on websites that have mobile version.'
+            }
+
+            LogItem {
+                title: 'Russian language'
+                description: 'Russian language is supported thanks to Kiratonin.'
+            }
+
+            LogItem {
+                title: 'Czech language'
+                description: 'Czech language is supported thanks to fri.'
+            }
+
+            LogItem {
+                title: 'Dutch language'
+                description: 'Dutch language is supported thanks to Heimen Stoffels.'
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("1.2.1")
             }
 

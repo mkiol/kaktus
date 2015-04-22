@@ -13,8 +13,8 @@ Name:       harbour-kaktus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
-Version:    1.3
-Release:    4
+Version:    1.4
+Release:    1
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,10 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+* Tue Apr 21 2015 Michal Kosciesza 1.4-1
+- UI polishing
+- Remorse popups instead Dialog prompts
+
 * Wed Apr 08 2015 Michal Kosciesza 1.3-4
 - BUG FIX: Segfault when view mode changing
 - UI enhancements: UI is more inline with Sailfish design style
