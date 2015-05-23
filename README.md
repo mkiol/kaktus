@@ -1,11 +1,6 @@
 # Kaktus
 
-Unofficial mobile feed reader for [Netvibes.com](http://www.netvibes.com/).
-Works on Sailfish OS, Symbian, Meego & BlackBerry 10 devices.
-
-Using this app you can fetch, browse and read all your RSS feeds
-in convenient way. App recognizes Feed and Multi-Feed widgets
-configured on Tabs of your Netvibes dashboard.
+Multi services mobile feed reader, specially designed to work offline. Supports [Netvibes.com](http://www.netvibes.com/) and [Old Reader](https://theoldreader.com/) as a feed aggregator. Works on Sailfish OS, Symbian, Meego & BlackBerry 10 devices.
 
 Kaktus is working in sync mode, so network connectivity is not
 required all the time. The significant feature is possibility
@@ -25,7 +20,7 @@ The binary packages can be downloaded from:
 
 ## Copyrights
 
-Be aware that Kaktus is an *unofficial* application. It means that it was not developed by Netvibes, and developer of this app have no relationship to Netvibes.
+Be aware that Kaktus is an *unofficial* application. It means that it was not developed by Netvibes nor Old Reader team.
 
 **Copyright &copy; 2014-2015 Michal Kosciesza**
 

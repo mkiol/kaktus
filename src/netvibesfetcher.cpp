@@ -324,8 +324,8 @@ void NetvibesFetcher::signIn()
         return;
     }
 
-    QString password = s->getNetvibesPassword();
-    QString username = s->getNetvibesUsername();
+    QString password = s->getPassword();
+    QString username = s->getUsername();
     QString twitterCookie = s->getTwitterCookie();
     QString authUrl = s->getAuthUrl();
     int type = s->getSigninType();

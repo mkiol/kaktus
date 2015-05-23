@@ -96,6 +96,13 @@ void FeedModel::createItems(const QString &tabId)
 
 void FeedModel::markAsUnread(int row)
 {
+    Settings *s = Settings::instance();
+    if (s->getSigninType() >= 10) {
+        // markAsUnread not supported in API
+        qWarning() << "Mark feed as unread is not supported!";
+        return;
+    }
+
     FeedItem* item = static_cast<FeedItem*>(readRow(row));
     _db->updateEntriesReadFlagByStream(item->id(),0);
     item->setRead(0); item->setUnread(_db->countEntriesUnreadByStream(item->id()));
@@ -181,6 +188,12 @@ int FeedModel::countUnread()
 void FeedModel::setAllAsUnread()
 {
     Settings *s = Settings::instance();
+    if (s->getSigninType() >= 10) {
+        // setAllAsUnread not supported in API
+        qWarning() << "Mark tab as unread is not supported!";
+        return;
+    }
+
     DatabaseManager::Action action;
     int mode = s->getViewMode();
     switch (mode) {

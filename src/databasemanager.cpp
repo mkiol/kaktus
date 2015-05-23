@@ -22,7 +22,7 @@
 
 #include "databasemanager.h"
 
-const QString DatabaseManager::version = QString("1.9");
+const QString DatabaseManager::version = QString("2.0");
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
@@ -127,6 +127,91 @@ bool DatabaseManager::isTableExists(const QString &name)
     return false;
 }
 
+bool DatabaseManager::alterDB_19to20()
+{
+    bool ret = true;
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        query.exec("PRAGMA journal_mode = MEMORY");
+        query.exec("PRAGMA synchronous = OFF");
+
+        ret = query.exec("ALTER TABLE entries ADD COLUMN fresh_or INTEGER DEFAULT 0;");
+        ret = query.exec("ALTER TABLE entries ADD COLUMN liked INTEGER DEFAULT 0;");
+        ret = query.exec("ALTER TABLE entries ADD COLUMN timestamp TIMESTAMP;");
+        ret = query.exec("ALTER TABLE entries ADD COLUMN crawl_time TIMESTAMP;");
+
+        if (!ret) {
+            checkError(query.lastError());
+            return ret;
+        }
+
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_timestamp "
+                         "ON entries(timestamp DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_timestamp_by_stream "
+                         "ON entries(stream_id, timestamp DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_saved_timestamp "
+                         "ON entries(saved, timestamp);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_liked_timestamp "
+                         "ON entries(liked, timestamp);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_by_stream_timestamp "
+                         "ON entries(stream_id, read, timestamp);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_saved_by_stream_timestamp "
+                         "ON entries(stream_id, read, saved, timestamp);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_liked_by_stream_timestamp "
+                         "ON entries(stream_id, read, liked, timestamp);");
+
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_crawl_time "
+                         "ON entries(crawl_time DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_crawl_time_by_stream "
+                         "ON entries(stream_id, crawl_time DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_saved_crawl_time "
+                         "ON entries(saved, crawl_time);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_liked_crawl_time "
+                         "ON entries(liked, crawl_time);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_by_stream_crawl_time "
+                         "ON entries(stream_id, read, crawl_time);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_saved_by_stream_crawl_time "
+                         "ON entries(stream_id, read, saved, crawl_time);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_liked_by_stream_crawl_time "
+                         "ON entries(stream_id, read, liked, crawl_time);");
+
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_last_update "
+                         "ON entries(last_update DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_last_update_time_by_stream "
+                         "ON entries(stream_id, last_update DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_saved_last_update "
+                         "ON entries(saved, last_update);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_liked_last_update "
+                         "ON entries(liked, last_update);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_by_stream_last_update "
+                         "ON entries(stream_id, read, last_update);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_saved_by_stream_last_update "
+                         "ON entries(stream_id, read, saved, last_update);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_liked_by_stream_last_update "
+                         "ON entries(stream_id, read, liked, last_update);");
+
+
+        if (!ret) {
+            checkError(query.lastError());
+            return ret;
+        }
+
+        ret = query.exec("UPDATE parameters SET value='2.0';");
+
+        if (!ret) {
+            checkError(query.lastError());
+            return ret;
+        }
+
+    } else {
+        qWarning() << "DB is not opened!";
+        return false;
+    }
+
+    return ret;
+}
+
 bool DatabaseManager::checkParameters()
 {
     bool createDB = false;
@@ -144,7 +229,18 @@ bool DatabaseManager::checkParameters()
                 //qDebug() << "DB version=" << query.value(0).toString();
                 if (query.value(0).toString() != version) {
                     qWarning() << "DB version mismatch!";
-                    createDB = true;
+
+                    if (version == "2.0" && query.value(0).toString() == "1.9") {
+                        if (!alterDB_19to20()) {
+                            qWarning() << "DB migration 1.9->2.0 failed!";
+                            createDB = true;
+                        } else {
+                            qDebug() << "DB migration 1.9->2.0 succeed!";
+                        }
+                    } else {
+                        createDB = true;
+                    }
+
                 } else {
                     // Check is Dashboard exists
                     if (!isDashboardExists()) {
@@ -483,12 +579,16 @@ bool DatabaseManager::createEntriesStructure()
                          "link TEXT, "
                          "image TEXT, "
                          "fresh INTEGER DEFAULT 0, "
+                         "fresh_or INTEGER DEFAULT 0, "
                          "read INTEGER DEFAULT 0, "
                          "saved INTEGER DEFAULT 0, "
+                         "liked INTEGER DEFAULT 0, "
                          "cached INTEGER DEFAULT 0, "
                          "created_at TIMESTAMP, "
                          "published_at TIMESTAMP, "
                          "cached_at TIMESTAMP, "
+                         "timestamp TIMESTAMP, "
+                         "crawl_time TIMESTAMP,"
                          "last_update TIMESTAMP "
                          ");");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_published_at "
@@ -503,6 +603,51 @@ bool DatabaseManager::createEntriesStructure()
                          "ON entries(stream_id, read, saved, published_at);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_stream_id "
                          "ON entries(stream_id);");
+
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_timestamp "
+                         "ON entries(timestamp DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_timestamp_by_stream "
+                         "ON entries(stream_id, timestamp DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_saved_timestamp "
+                         "ON entries(saved, timestamp);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_liked_timestamp "
+                         "ON entries(liked, timestamp);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_by_stream_timestamp "
+                         "ON entries(stream_id, read, timestamp);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_saved_by_stream_timestamp "
+                         "ON entries(stream_id, read, saved, timestamp);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_liked_by_stream_timestamp "
+                         "ON entries(stream_id, read, liked, timestamp);");
+
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_crawl_time "
+                         "ON entries(crawl_time DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_crawl_time_by_stream "
+                         "ON entries(stream_id, crawl_time DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_saved_crawl_time "
+                         "ON entries(saved, crawl_time);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_liked_crawl_time "
+                         "ON entries(liked, crawl_time);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_by_stream_crawl_time "
+                         "ON entries(stream_id, read, crawl_time);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_saved_by_stream_crawl_time "
+                         "ON entries(stream_id, read, saved, crawl_time);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_liked_by_stream_crawl_time "
+                         "ON entries(stream_id, read, liked, crawl_time);");
+
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_last_update "
+                         "ON entries(last_update DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_last_update_time_by_stream "
+                         "ON entries(stream_id, last_update DESC);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_saved_last_update "
+                         "ON entries(saved, last_update);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_liked_last_update "
+                         "ON entries(liked, last_update);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_by_stream_last_update "
+                         "ON entries(stream_id, read, last_update);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_saved_by_stream_last_update "
+                         "ON entries(stream_id, read, saved, last_update);");
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_liked_by_stream_last_update "
+                         "ON entries(stream_id, read, liked, last_update);");
 
         if (!ret) {
             checkError(query.lastError());
@@ -669,7 +814,7 @@ void DatabaseManager::writeModule(const Module &item)
                 .arg(QString(item.icon.toUtf8().toBase64())));
 
         if(!ret) {
-            ret = query.exec(QString("UPDATE modules SET status=%1, title='%2' WHERE id='%3';")
+            ret = query.exec(QString("UPDATE modules SET status='%1', title='%2' WHERE id='%3';")
                              .arg(item.status)
                              .arg(QString(item.title.toUtf8().toBase64()))
                              .arg(item.id));
@@ -698,14 +843,32 @@ void DatabaseManager::writeModule(const Module &item)
     }
 }
 
+void DatabaseManager::writeStreamModuleTab(const StreamModuleTab &item)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("INSERT OR IGNORE INTO module_stream (module_id, stream_id) VALUES('%1','%2');")
+                         .arg(item.moduleId)
+                         .arg(item.streamId));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+    } else {
+        qWarning() << "DB is not opened!";
+    }
+}
+
 void DatabaseManager::writeEntry(const Entry &item)
 {
     if (db.isOpen()) {
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("INSERT INTO entries (id, stream_id, title, author, content, link, image, "
-                                      "fresh, read, saved, cached, created_at, published_at, last_update) "
-                                      "VALUES ('%1','%2','%3','%4','%5','%6','%7',%8,%9,%10,%11,%12,%13,%14);")
+                                      "fresh, fresh_or, read, saved, liked, cached, created_at, published_at, crawl_time, timestamp, last_update) "
+                                      "VALUES ('%1','%2','%3','%4','%5','%6','%7',%8,%9,%10,%11,%12,%13,%14,%15,%16,%17,%18);")
                               .arg(item.id)
                               .arg(item.streamId)
                               .arg(QString(item.title.toUtf8().toBase64()))
@@ -714,19 +877,31 @@ void DatabaseManager::writeEntry(const Entry &item)
                               .arg(QString(item.link.toUtf8().toBase64()))
                               .arg(QString(item.image.toUtf8().toBase64()))
                               .arg(item.fresh)
+                              .arg(item.freshOR)
                               .arg(item.read)
                               .arg(item.saved)
+                              .arg(item.liked)
                               .arg(item.cached)
                               .arg(item.createdAt)
                               .arg(item.publishedAt)
+                              .arg(item.crawlTime)
+                              .arg(item.timestamp)
                               .arg(QDateTime::currentDateTimeUtc().toTime_t()));
 
         if(!ret) {
-            ret = query.exec(QString("UPDATE entries SET image='%1', read=%2, saved=%3, last_update=%4 WHERE id='%5';")
+            ret = query.exec(QString("UPDATE entries SET title='%1',author='%2',content='%3',link='%4',image='%5',fresh_or=%6,liked=%7,read=%8,saved=%9,timestamp=%10,last_update=%11,crawl_time=%12 WHERE id='%13';")
+                             .arg(QString(item.title.toUtf8().toBase64()))
+                             .arg(QString(item.author.toUtf8().toBase64()))
+                             .arg(QString(item.content.toUtf8().toBase64()))
+                             .arg(QString(item.link.toUtf8().toBase64()))
                              .arg(QString(item.image.toUtf8().toBase64()))
+                             .arg(item.freshOR)
+                             .arg(item.liked)
                              .arg(item.read)
                              .arg(item.saved)
+                             .arg(item.timestamp)
                              .arg(QDateTime::currentDateTimeUtc().toTime_t())
+                             .arg(item.crawlTime)
                              .arg(item.id));
         }
 
@@ -884,6 +1059,23 @@ void DatabaseManager::updateEntriesSavedFlagByFlagAndDashboard(const QString &id
     }
 }
 
+void DatabaseManager::updateStreamSlowFlagById(const QString &id, int flag)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+        bool ret = query.exec(QString("UPDATE streams SET slow=%1 WHERE id='%2';")
+                         .arg(flag)
+                         .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+    } else {
+        qWarning() << "DB is not opened!";
+    }
+}
+
 void DatabaseManager::updateEntriesSlowReadFlagByDashboard(const QString &id, int flag)
 {
     if (db.isOpen()) {
@@ -1024,6 +1216,33 @@ QList<DatabaseManager::Stream> DatabaseManager::readStreamsByTab(const QString &
             item.updateAt = query.value(13).toInt();
             item.lastUpdate = query.value(14).toInt();
             list.append(item);
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<QString> DatabaseManager::readStreamIdsByTab(const QString &id)
+{
+    QList<QString> list;
+
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+        bool ret = query.exec(QString("SELECT s.id FROM streams as s, module_stream as ms, modules as m "
+                                      "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1' "
+                                      "LIMIT %2;")
+                        .arg(id)
+                        .arg(streamLimit));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            list.append(query.value(0).toString());
         }
 
     } else {
@@ -1724,10 +1943,82 @@ int DatabaseManager::readLastPublishedAtByTab(const QString &id)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        /*bool ret = query.exec(QString("SELECT max(s.last_update) FROM streams as s, module_stream as ms, modules as m "
-                                      "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1';").arg(id));*/
-
         bool ret = query.exec(QString("SELECT max(e.published_at) "
+                                      "FROM entries as e, module_stream as ms, modules as m "
+                                      "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id='%1';")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastTimestampByTab(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.timestamp) "
+                                      "FROM entries as e, module_stream as ms, modules as m "
+                                      "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id='%1';")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastCrawlTimeByTab(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.crawl_time) "
+                                      "FROM entries as e, module_stream as ms, modules as m "
+                                      "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id='%1';")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastLastUpdateByTab(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.last_update) "
                                       "FROM entries as e, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id='%1';")
                                       .arg(id));
@@ -1752,10 +2043,85 @@ int DatabaseManager::readLastPublishedAtByDashboard(const QString &id)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        /*bool ret = query.exec(QString("SELECT max(s.last_update) FROM streams as s, module_stream as ms, modules as m "
-                                      "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1';").arg(id));*/
-
         bool ret = query.exec(QString("SELECT max(e.published_at) "
+                                      "FROM entries as e, module_stream as ms, modules as m, tabs as t "
+                                      "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
+                                      "AND t.dashboard_id='%1';")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastTimestampByDashboard(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.timestamp) "
+                                      "FROM entries as e, module_stream as ms, modules as m, tabs as t "
+                                      "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
+                                      "AND t.dashboard_id='%1';")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastCrawlTimeByDashboard(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.crawl_time) "
+                                      "FROM entries as e, module_stream as ms, modules as m, tabs as t "
+                                      "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
+                                      "AND t.dashboard_id='%1';")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastLastUpdateByDashboard(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.last_update) "
                                       "FROM entries as e, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1';")
@@ -1781,10 +2147,85 @@ int DatabaseManager::readLastPublishedAtSlowByDashboard(const QString &id)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        /*bool ret = query.exec(QString("SELECT max(s.last_update) FROM streams as s, module_stream as ms, modules as m "
-                                      "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1';").arg(id));*/
-
         bool ret = query.exec(QString("SELECT max(e.published_at) "
+                                      "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
+                                      "WHERE e.stream_id=s.id AND s.id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
+                                      "AND t.dashboard_id='%1' AND s.slow=1;")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastTimestampSlowByDashboard(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.timestamp) "
+                                      "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
+                                      "WHERE e.stream_id=s.id AND s.id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
+                                      "AND t.dashboard_id='%1' AND s.slow=1;")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastCrawlTimeSlowByDashboard(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.crawl_time) "
+                                      "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
+                                      "WHERE e.stream_id=s.id AND s.id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
+                                      "AND t.dashboard_id='%1' AND s.slow=1;")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastLastUpdateSlowByDashboard(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.last_update) "
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=s.id AND s.id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' AND s.slow=1;")
@@ -1810,10 +2251,85 @@ int DatabaseManager::readLastPublishedAtByStream(const QString &id)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        /*bool ret = query.exec(QString("SELECT max(s.last_update) FROM streams as s, module_stream as ms, modules as m "
-                                      "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1';").arg(id));*/
-
         bool ret = query.exec(QString("SELECT max(e.published_at) "
+                                      "FROM entries as e, module_stream as ms "
+                                      "WHERE e.stream_id=ms.stream_id "
+                                      "AND e.stream_id='%1';")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastTimestampByStream(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.timestamp) "
+                                      "FROM entries as e, module_stream as ms "
+                                      "WHERE e.stream_id=ms.stream_id "
+                                      "AND e.stream_id='%1';")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastCrawlTimeByStream(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.crawl_time) "
+                                      "FROM entries as e, module_stream as ms "
+                                      "WHERE e.stream_id=ms.stream_id "
+                                      "AND e.stream_id='%1';")
+                                      .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return 0;
+}
+
+int DatabaseManager::readLastLastUpdateByStream(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT max(e.last_update) "
                                       "FROM entries as e, module_stream as ms "
                                       "WHERE e.stream_id=ms.stream_id "
                                       "AND e.stream_id='%1';")
@@ -1866,7 +2382,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByStream(const QString
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, "
-                                      "e.fresh, e.read, e.saved, e.cached, e.created_at, e.published_at, e.last_update "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s "
                                       "WHERE e.stream_id='%1' AND e.stream_id=s.id "
                                       "ORDER BY e.published_at DESC LIMIT %2 OFFSET %3;")
@@ -1887,11 +2403,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByStream(const QString
             decodeBase64(query.value(6),item.image);
             decodeBase64(query.value(7),item.feedIcon);
             item.fresh = query.value(8).toInt();
-            item.read = query.value(9).toInt();
-            item.saved = query.value(10).toInt();
-            item.cached = query.value(11).toInt();
-            item.createdAt = query.value(12).toInt();
-            item.publishedAt = query.value(13).toInt();
+            item.freshOR = query.value(9).toInt();
+            item.read = query.value(10).toInt();
+            item.saved = query.value(11).toInt();
+            item.liked = query.value(12).toInt();
+            item.cached = query.value(13).toInt();
+            item.createdAt = query.value(14).toInt();
+            item.publishedAt = query.value(15).toInt();
+            item.timestamp = query.value(16).toInt();
+            item.crawlTime = query.value(17).toInt();
             list.append(item);
         }
     } else {
@@ -1909,7 +2429,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByDashboard(const QStr
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, "
-                                      "e.fresh, e.read, e.saved, e.cached, e.created_at, e.published_at, e.last_update "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' "
@@ -1931,11 +2451,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByDashboard(const QStr
             decodeBase64(query.value(6),item.image);
             decodeBase64(query.value(7),item.feedIcon);
             item.fresh = query.value(8).toInt();
-            item.read = query.value(9).toInt();
-            item.saved = query.value(10).toInt();
-            item.cached = query.value(11).toInt();
-            item.createdAt = query.value(12).toInt();
-            item.publishedAt = query.value(13).toInt();
+            item.freshOR = query.value(9).toInt();
+            item.read = query.value(10).toInt();
+            item.saved = query.value(11).toInt();
+            item.liked = query.value(12).toInt();
+            item.cached = query.value(13).toInt();
+            item.createdAt = query.value(14).toInt();
+            item.publishedAt = query.value(15).toInt();
+            item.timestamp = query.value(16).toInt();
+            item.crawlTime = query.value(17).toInt();
             list.append(item);
         }
     } else {
@@ -1953,7 +2477,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByDashboard(cons
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, "
-                                      "e.fresh, e.read, e.saved, e.cached, e.created_at, e.published_at, e.last_update "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' "
@@ -1975,11 +2499,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByDashboard(cons
             decodeBase64(query.value(6),item.image);
             decodeBase64(query.value(7),item.feedIcon);
             item.fresh = query.value(8).toInt();
-            item.read = query.value(9).toInt();
-            item.saved = query.value(10).toInt();
-            item.cached = query.value(11).toInt();
-            item.createdAt = query.value(12).toInt();
-            item.publishedAt = query.value(13).toInt();
+            item.freshOR = query.value(9).toInt();
+            item.read = query.value(10).toInt();
+            item.saved = query.value(11).toInt();
+            item.liked = query.value(12).toInt();
+            item.cached = query.value(13).toInt();
+            item.createdAt = query.value(14).toInt();
+            item.publishedAt = query.value(15).toInt();
+            item.timestamp = query.value(16).toInt();
+            item.crawlTime = query.value(17).toInt();
             list.append(item);
         }
     } else {
@@ -1997,7 +2525,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowUnreadByDashboard(
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, "
-                                      "e.fresh, e.read, e.saved, e.cached, e.created_at, e.published_at, e.last_update "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' "
@@ -2019,11 +2547,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowUnreadByDashboard(
             decodeBase64(query.value(6),item.image);
             decodeBase64(query.value(7),item.feedIcon);
             item.fresh = query.value(8).toInt();
-            item.read = query.value(9).toInt();
-            item.saved = query.value(10).toInt();
-            item.cached = query.value(11).toInt();
-            item.createdAt = query.value(12).toInt();
-            item.publishedAt = query.value(13).toInt();
+            item.freshOR = query.value(9).toInt();
+            item.read = query.value(10).toInt();
+            item.saved = query.value(11).toInt();
+            item.liked = query.value(12).toInt();
+            item.cached = query.value(13).toInt();
+            item.createdAt = query.value(14).toInt();
+            item.publishedAt = query.value(15).toInt();
+            item.timestamp = query.value(16).toInt();
+            item.crawlTime = query.value(17).toInt();
             list.append(item);
         }
     } else {
@@ -2041,7 +2573,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByTab(const QString &i
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, "
-                                      "e.fresh, e.read, e.saved, e.cached, e.created_at, e.published_at, e.last_update "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id "
                                       "AND m.tab_id='%1' "
@@ -2063,11 +2595,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByTab(const QString &i
             decodeBase64(query.value(6),item.image);
             decodeBase64(query.value(7),item.feedIcon);
             item.fresh = query.value(8).toInt();
-            item.read = query.value(9).toInt();
-            item.saved = query.value(10).toInt();
-            item.cached = query.value(11).toInt();
-            item.createdAt = query.value(12).toInt();
-            item.publishedAt = query.value(13).toInt();
+            item.freshOR = query.value(9).toInt();
+            item.read = query.value(10).toInt();
+            item.saved = query.value(11).toInt();
+            item.liked = query.value(12).toInt();
+            item.cached = query.value(13).toInt();
+            item.createdAt = query.value(14).toInt();
+            item.publishedAt = query.value(15).toInt();
+            item.timestamp = query.value(16).toInt();
+            item.crawlTime = query.value(17).toInt();
             list.append(item);
         }
     } else {
@@ -2085,7 +2621,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByTab(const QStr
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, "
-                                      "e.fresh, e.read, e.saved, e.cached, e.created_at, e.published_at, e.last_update "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id "
                                       "AND m.tab_id='%1' "
@@ -2107,11 +2643,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByTab(const QStr
             decodeBase64(query.value(6),item.image);
             decodeBase64(query.value(7),item.feedIcon);
             item.fresh = query.value(8).toInt();
-            item.read = query.value(9).toInt();
-            item.saved = query.value(10).toInt();
-            item.cached = query.value(11).toInt();
-            item.createdAt = query.value(12).toInt();
-            item.publishedAt = query.value(13).toInt();
+            item.freshOR = query.value(9).toInt();
+            item.read = query.value(10).toInt();
+            item.saved = query.value(11).toInt();
+            item.liked = query.value(12).toInt();
+            item.cached = query.value(13).toInt();
+            item.createdAt = query.value(14).toInt();
+            item.publishedAt = query.value(15).toInt();
+            item.timestamp = query.value(16).toInt();
+            item.crawlTime = query.value(17).toInt();
             list.append(item);
         }
     } else {
@@ -2129,7 +2669,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSavedByDashboard(const
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, "
-                                      "e.fresh, e.read, e.saved, e.cached, e.created_at, e.published_at, e.last_update "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' "
@@ -2151,11 +2691,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSavedByDashboard(const
             decodeBase64(query.value(6),item.image);
             decodeBase64(query.value(7),item.feedIcon);
             item.fresh = query.value(8).toInt();
-            item.read = query.value(9).toInt();
-            item.saved = query.value(10).toInt();
-            item.cached = query.value(11).toInt();
-            item.createdAt = query.value(12).toInt();
-            item.publishedAt = query.value(13).toInt();
+            item.freshOR = query.value(9).toInt();
+            item.read = query.value(10).toInt();
+            item.saved = query.value(11).toInt();
+            item.liked = query.value(12).toInt();
+            item.cached = query.value(13).toInt();
+            item.createdAt = query.value(14).toInt();
+            item.publishedAt = query.value(15).toInt();
+            item.timestamp = query.value(16).toInt();
+            item.crawlTime = query.value(17).toInt();
             list.append(item);
         }
     } else {
@@ -2173,7 +2717,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowByDashboard(const 
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, "
-                                      "e.fresh, e.read, e.saved, e.cached, e.created_at, e.published_at, e.last_update "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' "
@@ -2195,11 +2739,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowByDashboard(const 
             decodeBase64(query.value(6),item.image);
             decodeBase64(query.value(7),item.feedIcon);
             item.fresh = query.value(8).toInt();
-            item.read = query.value(9).toInt();
-            item.saved = query.value(10).toInt();
-            item.cached = query.value(11).toInt();
-            item.createdAt = query.value(12).toInt();
-            item.publishedAt = query.value(13).toInt();
+            item.freshOR = query.value(9).toInt();
+            item.read = query.value(10).toInt();
+            item.saved = query.value(11).toInt();
+            item.liked = query.value(12).toInt();
+            item.cached = query.value(13).toInt();
+            item.createdAt = query.value(14).toInt();
+            item.publishedAt = query.value(15).toInt();
+            item.timestamp = query.value(16).toInt();
+            item.crawlTime = query.value(17).toInt();
             list.append(item);
         }
     } else {
@@ -2217,7 +2765,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByStream(const Q
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, "
-                                      "e.fresh, e.read, e.saved, e.cached, e.created_at, e.published_at, e.last_update "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s "
                                       "WHERE e.stream_id='%1' AND e.stream_id=s.id AND e.read=0 "
                                       "ORDER BY e.published_at DESC LIMIT %2 OFFSET %3;")
@@ -2238,11 +2786,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByStream(const Q
             decodeBase64(query.value(6),item.image);
             decodeBase64(query.value(7),item.feedIcon);
             item.fresh = query.value(8).toInt();
-            item.read = query.value(9).toInt();
-            item.saved = query.value(10).toInt();
-            item.cached = query.value(11).toInt();
-            item.createdAt = query.value(12).toInt();
-            item.publishedAt = query.value(13).toInt();
+            item.freshOR = query.value(9).toInt();
+            item.read = query.value(10).toInt();
+            item.saved = query.value(11).toInt();
+            item.liked = query.value(12).toInt();
+            item.cached = query.value(13).toInt();
+            item.createdAt = query.value(14).toInt();
+            item.publishedAt = query.value(15).toInt();
+            item.timestamp = query.value(16).toInt();
+            item.crawlTime = query.value(17).toInt();
             list.append(item);
         }
     } else {
@@ -2292,7 +2844,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesCachedOlderThan(int ca
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT id, stream_id, title, author, content, link, image, "
-                                      "fresh, read, saved, cached, created_at, published_at, last_update "
+                                      "fresh, fresh_or, read, saved, liked, cached, created_at, published_at, timestamp, crawl_time, last_update "
                                       "FROM entries "
                                       "WHERE cached_at<%1 AND stream_id IN "
                                       "(SELECT stream_id FROM entries GROUP BY stream_id HAVING count(*)>%2);")
@@ -2312,11 +2864,15 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesCachedOlderThan(int ca
             decodeBase64(query.value(5),item.link);
             decodeBase64(query.value(6),item.image);
             item.fresh = query.value(7).toInt();
-            item.read = query.value(8).toInt();
-            item.saved = query.value(9).toInt();
-            item.cached = query.value(10).toInt();
-            item.createdAt = query.value(11).toInt();
-            item.publishedAt = query.value(12).toInt();
+            item.freshOR = query.value(8).toInt();
+            item.read = query.value(9).toInt();
+            item.saved = query.value(10).toInt();
+            item.liked = query.value(11).toInt();
+            item.cached = query.value(12).toInt();
+            item.createdAt = query.value(13).toInt();
+            item.publishedAt = query.value(14).toInt();
+            item.timestamp = query.value(15).toInt();
+            item.crawlTime = query.value(16).toInt();
             list.append(item);
         }
     } else {
@@ -2414,6 +2970,23 @@ void DatabaseManager::removeStreamsByStream(const QString &id)
 
         // Removing empty chache
         // TODO
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+}
+
+void DatabaseManager::removeTabById(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("DELETE FROM tabs WHERE id='%1';")
+                         .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
 
     } else {
         qWarning() << "DB is not open!";
@@ -2676,6 +3249,32 @@ int DatabaseManager::countEntriesByStream(const QString &id)
 
         bool ret = query.exec(QString("SELECT COUNT(*) FROM entries WHERE stream_id='%1';")
                               .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            count = query.value(0).toInt();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return count;
+}
+
+int DatabaseManager::countEntriesNewerThanByStream(const QString &id, const QDateTime &date)
+{
+    int count = 0;
+
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT COUNT(*) FROM entries WHERE stream_id='%1' AND published_at>=%2;")
+                              .arg(id)
+                              .arg(date.toTime_t()));
 
         if (!ret) {
             checkError(query.lastError());
@@ -2984,7 +3583,7 @@ void DatabaseManager::checkError(const QSqlError &error)
     if (error.type()!=0) {
         qWarning() << "SQL error! number=" << error.number() << "type=" << error.type() << "text=" << error.text();
 
-        // The database disk image is malformed
+        // The database file is malformed
         if (error.number() == 11) {
             Settings *s = Settings::instance();
             if (!s->getReinitDB()) {

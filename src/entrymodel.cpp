@@ -240,6 +240,13 @@ int EntryModel::createItems(int offset, int limit)
 
 void EntryModel::setAllAsUnread()
 {
+    Settings *s = Settings::instance();
+    if (s->getSigninType() >= 10) {
+        // setAllAsUnread not supported in API
+        qWarning() << "Mark all as unread is not supported!";
+        return;
+    }
+
     int l = this->rowCount();
     for (int i=0; i<l; ++i) {
         EntryItem* item = static_cast<EntryItem*>(readRow(i));
@@ -247,7 +254,6 @@ void EntryModel::setAllAsUnread()
     }
 
     // DB change & Action
-    Settings *s = Settings::instance();
     DatabaseManager::Action action;
     int mode = s->getViewMode();
     switch (mode) {

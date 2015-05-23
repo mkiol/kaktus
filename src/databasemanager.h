@@ -30,6 +30,7 @@
 #include <QVariant>
 #include <QList>
 #include <QMap>
+#include <QDateTime>
 
 #include "settings.h"
 
@@ -103,11 +104,15 @@ public:
         QString image;
         QString feedIcon;
         int fresh;
+        int freshOR;
         int read;
         int saved;
+        int liked;
         int cached;
         int publishedAt;
         int createdAt;
+        int crawlTime;
+        int timestamp;
     };
 
     struct CacheItem {
@@ -163,6 +168,7 @@ public:
     void writeDashboard(const Dashboard &item);
     void writeTab(const Tab &item);
     void writeModule(const Module &item);
+    void writeStreamModuleTab(const StreamModuleTab &item);
     void writeStream(const Stream &item);
     void writeEntry(const Entry &item);
     void writeCache(const CacheItem &item);
@@ -178,6 +184,8 @@ public:
     void updateEntriesFreshFlag(int flag);
     void updateEntriesSavedFlagByFlagAndDashboard(const QString &id, int flagOld, int flagNew);
 
+    void updateStreamSlowFlagById(const QString &id, int flag);
+
     bool isDashboardExists();
     bool isCacheExists(const QString &id);
     bool isCacheExistsByFinalUrl(const QString &id);
@@ -188,6 +196,7 @@ public:
     QList<Dashboard> readDashboards();
     QList<Tab> readTabsByDashboard(const QString &id);
     QList<Stream> readStreamsByTab(const QString &id);
+    QList<QString> readStreamIdsByTab(const QString &id);
     QList<Stream> readStreamsByDashboard(const QString &id);
     QList<QString> readStreamIds();
     QString readStreamIdByEntry(const QString &id);
@@ -225,10 +234,26 @@ public:
     int readLastUpdateByStream(const QString &id);
 
     int readLastPublishedAtByTab(const QString &id);
-    int readLastPublishedAtByDashboard(const QString &id);
-    int readLastPublishedAtByStream(const QString &id);
-    int readLastPublishedAtSlowByDashboard(const QString &id);
+    int readLastTimestampByTab(const QString &id);
+    int readLastCrawlTimeByTab(const QString &id);
+    int readLastLastUpdateByTab(const QString &id);
 
+    int readLastPublishedAtByDashboard(const QString &id);
+    int readLastTimestampByDashboard(const QString &id);
+    int readLastCrawlTimeByDashboard(const QString &id);
+    int readLastLastUpdateByDashboard(const QString &id);
+
+    int readLastPublishedAtByStream(const QString &id);
+    int readLastTimestampByStream(const QString &id);
+    int readLastCrawlTimeByStream(const QString &id);
+    int readLastLastUpdateByStream(const QString &id);
+
+    int readLastPublishedAtSlowByDashboard(const QString &id);
+    int readLastTimestampSlowByDashboard(const QString &id);
+    int readLastCrawlTimeSlowByDashboard(const QString &id);
+    int readLastLastUpdateSlowByDashboard(const QString &id);
+
+    void removeTabById(const QString &id);
     void removeStreamsByStream(const QString &id);
     void removeEntriesOlderThan(int cacheDate, int limit);
     void removeEntriesByStream(const QString &id, int limit);
@@ -240,6 +265,7 @@ public:
     int countStreams();
     int countTabs();
     int countEntriesByStream(const QString &id);
+    int countEntriesNewerThanByStream(const QString &id, const QDateTime &date);
     int countEntriesUnreadByStream(const QString &id);
     int countEntriesUnreadByTab(const QString &id);
     int countEntriesReadByStream(const QString &id);
@@ -273,6 +299,7 @@ private:
 
     bool openDB();
     bool createDB();
+    bool alterDB_19to20();
     bool deleteDB();
 
     bool createStructure();

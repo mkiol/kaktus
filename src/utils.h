@@ -64,6 +64,7 @@ public:
     Q_INVOKABLE int countUnread();
     Q_INVOKABLE bool isLight();
     Q_INVOKABLE void resetQtWebKit();
+    Q_INVOKABLE void resetFetcher(int type);
     //Q_INVOKABLE bool isOnline();
 
     static QString hash(const QString &url);

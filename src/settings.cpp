@@ -39,13 +39,19 @@
 
 Settings* Settings::inst = 0;
 
-Settings::Settings(QObject *parent) : QObject(parent), settings()
+Settings::Settings(QObject *parent) : QObject(parent),
+    settings(),
+    db(NULL),
+    cache(NULL),
+    dm(NULL),
+    fetcher(NULL)
 {
-    // Reset Last Update date if not Signed in
+    // Reset if not Signed in
     if (!getSignedIn()) {
-        setLastUpdateDate(0);
-        setDashboardInUse("");
+        reset();
     }
+
+    connect(this, SIGNAL(signedInChanged()), this, SLOT(reset()));
 }
 
 Settings* Settings::instance()
@@ -187,17 +193,17 @@ bool Settings::getAutoDownloadOnUpdate()
     return settings.value("autodownloadonupdate", true).toBool();
 }
 
-void Settings::setNetvibesUsername(const QString &value)
+void Settings::setUsername(const QString &value)
 {
     settings.setValue("username", value);
 }
 
-QString Settings::getNetvibesUsername()
+QString Settings::getUsername()
 {
     return settings.value("username", "").toString();
 }
 
-void Settings::setNetvibesPassword(const QString &value)
+void Settings::setPassword(const QString &value)
 {
     SimpleCrypt crypto(KEY);
     QString encryptedPassword = crypto.encryptToString(value);
@@ -207,7 +213,7 @@ void Settings::setNetvibesPassword(const QString &value)
     settings.setValue("password", encryptedPassword);
 }
 
-QString Settings::getNetvibesPassword()
+QString Settings::getPassword()
 {
     SimpleCrypt crypto(KEY);
     QString plainPassword = crypto.decryptToString(settings.value("password", "").toString());
@@ -578,9 +584,13 @@ bool Settings::getReinitDB()
 
 void Settings::reset()
 {
-    setNetvibesPassword("");
-    setHelpDone(false);
-    setCookie("");
-    setTwitterCookie("");
-    setAuthUrl("");
+    if (!getSignedIn()) {
+        setLastUpdateDate(0);
+        setDashboardInUse("");
+        setPassword("");
+        setHelpDone(false);
+        setCookie("");
+        setTwitterCookie("");
+        setAuthUrl("");
+    }
 }

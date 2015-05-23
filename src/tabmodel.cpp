@@ -18,12 +18,16 @@
 */
 
 #include "tabmodel.h"
+#include "downloadmanager.h"
 
 TabModel::TabModel(DatabaseManager *db, QObject *parent) :
     ListModel(new TabItem, parent)
 {
     _db = db;
     _dashboardId = "";
+
+    Settings *s = Settings::instance();
+    connect(s->dm, SIGNAL(cacheCleaned()), this, SLOT(updateFlags()));
 }
 
 void TabModel::init(const QString &dashboardId)
@@ -53,11 +57,10 @@ void TabModel::createItems(const QString &dashboardId)
                              ));
         ++i;
     }
-//#ifdef BB10
+
     // Dummy row as workaround!
     if (list.count()>0)
         appendRow(new TabItem("last","","",0,0,0,0));
-//#endif
 }
 
 void TabModel::updateFlags()
@@ -67,13 +70,18 @@ void TabModel::updateFlags()
         TabItem* item = static_cast<TabItem*>(this->readRow(i));
         item->setUnread(_db->countEntriesUnreadByTab(item->uid()));
         item->setRead(_db->countEntriesReadByTab(item->uid()));
-        //qDebug() << "unread:" << _db->countEntriesUnreadByTab(item->uid());
-        //qDebug() << "read:" << _db->countEntriesReadByTab(item->uid());
     }
 }
 
 void TabModel::markAsUnread(int row)
 {
+    Settings *s = Settings::instance();
+    if (s->getSigninType() >= 10) {
+        // markAsUnread not supported in API
+        qWarning() << "Mark tab as unread is not supported!";
+        return;
+    }
+
     TabItem* item = static_cast<TabItem*>(readRow(row));
     _db->updateEntriesReadFlagByTab(item->id(),0);
     item->setRead(0); item->setUnread(_db->countEntriesUnreadByTab(item->id()));
@@ -113,6 +121,12 @@ int TabModel::countUnread()
 void TabModel::setAllAsUnread()
 {
     Settings *s = Settings::instance();
+    if (s->getSigninType() >= 10) {
+        // setAllAsUnread not supported in API
+        qWarning() << "Mark all as unread is not supported!";
+        return;
+    }
+
     DatabaseManager::Action action;
 
     _db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),0);

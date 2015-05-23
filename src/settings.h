@@ -39,7 +39,8 @@
 class DatabaseManager;
 class DownloadManager;
 class CacheServer;
-class NetvibesFetcher;
+//class NetvibesFetcher;
+class Fetcher;
 
 class Settings: public QObject
 {
@@ -72,7 +73,7 @@ public:
     DatabaseManager* db;
     CacheServer* cache;
     DownloadManager* dm;
-    NetvibesFetcher* fetcher;
+    Fetcher* fetcher;
 
 #ifdef BB10
     bb::cascades::QmlDocument* qml;
@@ -149,23 +150,23 @@ public:
 
     Q_INVOKABLE QString getSettingsDir();
 
-    Q_INVOKABLE void reset();
-
     QString getDmCacheDir();
 
     // Sign in
-    // 0 - Netvibes
-    // 1 - Twitter
+    //  0 - Netvibes
+    //  1 - Netvibes with Twitter
+    //  2 - Netvibes with FB
+    // 10 - Oldreader
     Q_INVOKABLE void setSigninType(int);
     Q_INVOKABLE int getSigninType();
     Q_INVOKABLE void setCookie(const QString &value);
     Q_INVOKABLE QString getCookie();
 
-    // Netvibes
-    Q_INVOKABLE void setNetvibesUsername(const QString &value);
-    Q_INVOKABLE QString getNetvibesUsername();
-    Q_INVOKABLE void setNetvibesPassword(const QString &value);
-    Q_INVOKABLE QString getNetvibesPassword();
+    // Username & Password
+    Q_INVOKABLE void setUsername(const QString &value);
+    Q_INVOKABLE QString getUsername();
+    Q_INVOKABLE void setPassword(const QString &value);
+    Q_INVOKABLE QString getPassword();
 
     // Twitter & FB
     Q_INVOKABLE void setTwitterCookie(const QString &value);
@@ -223,6 +224,9 @@ signals:
     512 - Password encryption error
      */
     void error(int);
+
+public Q_SLOTS:
+    void reset();
 
 private:
     QSettings settings;

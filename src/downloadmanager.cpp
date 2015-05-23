@@ -30,7 +30,8 @@
 #include <QNetworkConfiguration>
 
 #include "downloadmanager.h"
-#include "netvibesfetcher.h"
+//#include "netvibesfetcher.h"
+#include "fetcher.h"
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #else
@@ -149,6 +150,7 @@ void DownloadManager::cleanCache()
 void DownloadManager::cacheCleaningFinished()
 {
     emit cacheSizeChanged();
+    emit cacheCleaned();
 }
 
 void DownloadManager::cacheRemoverProgressChanged(int current, int total)
@@ -192,6 +194,7 @@ void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAcc
 
 void DownloadManager::doDownload(DatabaseManager::CacheItem item)
 {
+    //qDebug() << "item.finalUrl:" << item.finalUrl;
     QNetworkRequest request(QUrl(item.finalUrl));
     Settings *s = Settings::instance();
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -208,13 +211,22 @@ void DownloadManager::doDownload(DatabaseManager::CacheItem item)
 #ifndef QT_NO_SSL
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)), SLOT(sslErrors(QList<QSslError>)));
 #endif
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(error(QNetworkReply::NetworkError)));
 
     downloads.append(reply);
 }
 
 void DownloadManager::error(QNetworkReply::NetworkError code)
 {
-    qWarning() << "Error in DownloadManager: " << code;
+    if (code == QNetworkReply::OperationCanceledError) {
+        return;
+    }
+
+    QNetworkReply* reply = dynamic_cast<QNetworkReply*>(sender());
+    int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    QByteArray httpPhrase = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toByteArray();
+    //qWarning() << "Error in DownloadManager!, error code:" << code << ", HTTP code:" << httpCode << httpPhrase << reply->readAll();
+    qWarning() << "Error in DownloadManager!, error code:" << code << ", HTTP code:" << httpCode << httpPhrase;
 }
 
 void DownloadManager::addNextDownload()
@@ -238,9 +250,9 @@ void DownloadManager::addNextDownload()
 
 void DownloadManager::downloadFinished(QNetworkReply *reply)
 {
-    //qDebug() << "Errorcode: " << reply->error() <<
-    //"HttpStatusCode: " << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() <<
-    //"Url:" << reply->url();
+    /*qDebug() << "Errorcode: " << reply->error() <<
+    "HttpStatusCode: " << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() <<
+    "Url:" << reply->url();*/
 
     Settings *s = Settings::instance();
 
@@ -326,6 +338,7 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
             item.finalUrl = url.resolved(reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl()).toString();
             //qDebug() << "RedirectionTarget: " << url.toString() << "entryId" << item.entryId;
             downloads.removeOne(reply);
+            //qDebug() << "item.finalUrl:" << item.finalUrl;
             addDownload(item);
             reply->deleteLater();
             return;
@@ -519,6 +532,7 @@ void DownloadManager::addDownload(DatabaseManager::CacheItem item)
             (!s->fetcher->isBusy() &&
             downloads.count() < s->getDmConnections())
     ) {
+        //qDebug() << "doDownload";
         doDownload(item);
         if (!busy && item.type!="online-item")
             emit busyChanged();
@@ -579,11 +593,7 @@ void Checker::metaDataChanged()
 
 void DownloadManager::startFeedDownload()
 {
-#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
     cleanCache();
-#else
-    cleanCache();
-#endif
 
     //qDebug() << "DownloadManager::startFeedDownload()";
     if (!ncm.isOnline()) {
@@ -805,13 +815,14 @@ void DownloadAdder::run()
 
     QMap<QString,QString>::iterator i = list.begin();
     while (i != list.end()) {
-
-        DatabaseManager::CacheItem item;
-        item.entryId = i.key();
-        item.origUrl = i.value();
-        item.finalUrl = i.value();
-        //qDebug() << "adding to download" << item.finalUrl;
-        emit addDownload(item);
+        if (i.key() != "" && i.value() != "") {
+            DatabaseManager::CacheItem item;
+            item.entryId = i.key();
+            item.origUrl = i.value();
+            item.finalUrl = i.value();
+            //qDebug() << "adding to download" << item.finalUrl;
+            emit addDownload(item);
+        }
         ++i;
     }
 }

@@ -51,6 +51,9 @@
 #endif
 
 #include "utils.h"
+#include "fetcher.h"
+#include "oldreaderfetcher.h"
+#include "nvfetcher.h"
 
 Utils::Utils(QObject *parent) :
     QObject(parent)//, ncm(new QNetworkConfigurationManager(parent))
@@ -653,4 +656,28 @@ bool Utils::isSameWeek(const QDate &date1, const QDate &date2)
     if (w1==w2 && y1==y2 && w1!=0 && w2!=0)
         return true;
     return false;
+}
+
+void Utils::resetFetcher(int type)
+{
+    Settings *s = Settings::instance();
+
+    if (s->fetcher != NULL) {
+        s->fetcher->disconnect();
+        delete s->fetcher;
+        s->fetcher = NULL;
+    }
+
+    if (type == 1) {
+        // Netvibes fetcher
+        s->fetcher = new NvFetcher();
+    }
+
+    if (type == 2) {
+        // Old Reader fetcher
+        s->fetcher = new OldReaderFetcher();
+    }
+
+    if (s->fetcher != NULL)
+        s->view->rootContext()->setContextProperty("fetcher", s->fetcher);
 }

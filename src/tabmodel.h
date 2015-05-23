@@ -89,8 +89,6 @@ public:
     void init(const QString &dashboardId);
     void init();
 
-    Q_INVOKABLE void updateFlags();
-
     Q_INVOKABLE void markAsUnread(int row);
     Q_INVOKABLE void markAsRead(int row);
 
@@ -100,6 +98,9 @@ public:
     Q_INVOKABLE int countRead();
     Q_INVOKABLE int countUnread();
     Q_INVOKABLE int count();
+
+public Q_SLOTS:
+    void updateFlags();
 
 private:
     DatabaseManager* _db;

@@ -142,7 +142,8 @@ public:
     int getCacheSize();
     bool isRemoverBusy();
 
-signals:
+Q_SIGNALS:
+    void cacheCleaned();
     void cacheSizeChanged();
     void busyChanged();
     void ready();
@@ -160,7 +161,7 @@ signals:
     void onlineDownloadReady(QString id, QString url);
     void onlineDownloadFailed();
 
-public slots:
+public Q_SLOTS:
     void addDownload(DatabaseManager::CacheItem item);
     void startDownload();
     void downloadFinished(QNetworkReply *reply);
