@@ -108,7 +108,8 @@ Page {
                 id: item
                 spacing: 0.5*Theme.paddingSmall
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.left: image.visible ? image.right : parent.left
+                //anchors.left: image.visible ? image.right : parent.left
+                anchors.left: image.visible ? image.right : imagePlaceholder.right
                 anchors.right: unreadbox.visible ? unreadbox.left : parent.right
                 visible: !listItem.last
 
@@ -139,16 +140,40 @@ Page {
                     id: unreadlabel
                     anchors.centerIn: parent
                     text: model.unread
-                    //color: listItem.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
                     color: Theme.highlightColor
                 }
 
             }
 
             Rectangle {
+                id: imagePlaceholder
+                width: visible ? 1.2*Theme.iconSizeSmall : 0
+                height: width
+                anchors.left: parent.left
+                y: Theme.paddingMedium
+                visible: !image.visible && !listItem.last
+                color: {
+                    var r=1; var g=1; var b=1;
+                    if (title.length>0)
+                        r = (Math.abs(title.charCodeAt(0)-65)/57)%1;
+                    if (title.length>1)
+                        g = (Math.abs(title.charCodeAt(1)-65)/57)%1;
+                    if (title.length>2)
+                        b = (Math.abs(title.charCodeAt(2)-65)/57)%1;
+                    return Qt.rgba(r,g,b,0.9);
+                }
+
+                Label {
+                    anchors.centerIn: parent
+                    text: title.substring(0,1).toUpperCase()
+                    color: Theme.highlightDimmerColor
+                }
+            }
+
+            Rectangle {
                 anchors.fill: image
                 //color: Theme.secondaryColor
-                visible: !last
+                visible: image.visible
                 color: "white"
                 //opacity: 0.1
             }
@@ -159,6 +184,7 @@ Page {
                 height: width
                 anchors.left: parent.left; //anchors.leftMargin: Theme.paddingLarge
                 visible: status!=Image.Error && status!=Image.Null && !listItem.last
+                //visible: false
                 y: Theme.paddingMedium
             }
 
@@ -200,7 +226,7 @@ Page {
                 }
                 MenuItem {
                     text: qsTr("Mark all as unread")
-                    enabled: model.read!=0
+                    enabled: model.read!=0 && settings.getSigninType()<10
                     visible: enabled
                     onClicked: {
                         feedModel.markAsUnread(model.index);

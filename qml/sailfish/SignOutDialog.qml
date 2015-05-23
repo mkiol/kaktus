@@ -59,7 +59,9 @@ Dialog {
             wrapMode: Text.WordWrap
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.primaryColor
-            text: qsTr("Disconnect Kaktus from your Netvibes account?")
+            text: settings.getSigninType() < 10 ?
+                      qsTr("Disconnect Kaktus from your Netvibes account?") :
+                      qsTr("Disconnect Kaktus from your Old Reader account?")
         }
     }
 

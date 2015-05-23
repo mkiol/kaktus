@@ -70,7 +70,7 @@ Dialog {
                 if (type==2) {
                     return settings.viewMode == 3 ? qsTr("Mark all your articles as unread?") :
                                 settings.viewMode == 4 ?
-                                    qsTr("Mark all saved articles as unread?") :
+                                    settings.getSigninType()<10 ? qsTr("Mark all saved articles as unread?") : qsTr("Mark all starred articles as unread?") :
                                     qsTr("Mark articles as unread?");
                 }
             }

@@ -58,7 +58,6 @@ Dialog {
             spacing: Theme.paddingSmall
 
             DialogHeader {
-                title: qsTr("Account")
                 acceptText : qsTr("Sign In")
             }
 
@@ -66,7 +65,43 @@ Dialog {
                 text: qsTr("Only connecting with Netvibes credentials are supported right now.")
             }*/
 
-            SectionHeader {
+            Item {
+                anchors { left: parent.left; right: parent.right}
+                height: Math.max(icon.height, label.height)
+
+                Image {
+                    id: icon
+                    anchors { right: label.left; rightMargin: Theme.paddingMedium }
+                    source: "nv.png"
+                }
+
+                Label {
+                    id: label
+                    anchors { right: parent.right; rightMargin: Theme.paddingLarge}
+                    text: qsTr("Netvibes")
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignRight
+                    color: Theme.highlightColor
+                    font.pixelSize: Theme.fontSizeSmall
+                    y: Theme.paddingSmall/2
+                }
+            }
+
+            Item {
+                height: Theme.paddingMedium
+                width: Theme.paddingMedium
+            }
+
+            PaddedLabel {
+                text: qsTr("Enter username and password below.")
+            }
+
+            Item {
+                height: Theme.paddingMedium
+                width: Theme.paddingMedium
+            }
+
+            /*SectionHeader {
                 text: qsTr("Netvibes")
             }
 
@@ -83,17 +118,10 @@ Dialog {
                 Label {
                     id: nvLabel
                     anchors { left: nvIcon.right; right: parent.right; leftMargin: Theme.paddingLarge}
-                    /*text: qsTr("Use your credentials to configure the account. "+
-                               "Enter Netvibes username and password below.")*/
                     text: qsTr("Enter Netvibes username and password below.")
                     wrapMode: Text.WordWrap
                 }
-            }
-
-            Item {
-                height: Theme.paddingSmall
-                width: Theme.paddingSmall
-            }
+            }*/
 
             TextField {
                 id: user
@@ -104,7 +132,7 @@ Dialog {
                 label: qsTr("Username (your e-mail)")
 
                 Component.onCompleted: {
-                    text = settings.getNetvibesUsername();
+                    text = settings.getUsername();
                 }
 
                 EnterKey.iconSource: "image://theme/icon-m-enter-close"
@@ -193,10 +221,10 @@ Dialog {
     }
 
     onAccepted: {
-        settings.setNetvibesUsername(user.text);
-        settings.setNetvibesPassword(password.text);
+        settings.setUsername(user.text);
+        settings.setPassword(password.text);
 
-        m.doInit = settings.getSigninType!=0;
+        m.doInit = settings.getSigninType() != 0;
         settings.setSigninType(0);
 
         if (code == 0) {

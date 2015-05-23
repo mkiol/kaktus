@@ -78,7 +78,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeSmall
-                text: qsTr("Unofficial feed reader for Netvibes.com, specially designed to work offline.");
+                text: qsTr("Multi services feed reader, specially designed to work offline.");
             }
 
             /*Separator {

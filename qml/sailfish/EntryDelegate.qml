@@ -180,8 +180,7 @@ ListItem {
 
                 Label {
                     id: titleLabel
-                    anchors.right: parent.right; anchors.left: icon.right;
-                    //anchors.leftMargin: icon.visible ? Theme.paddingMedium : 0
+                    anchors.right: parent.right; anchors.left: icon.visible ? icon.right : parent.left;
                     anchors.leftMargin: icon.visible ? Theme.paddingMedium : Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeMedium
                     font.family: Theme.fontFamilyHeading
@@ -205,11 +204,38 @@ ListItem {
 
                 // Feed Icon
 
+                /*Rectangle {
+                    id: iconPlaceholder
+                    width: visible ? 1.2*Theme.iconSizeSmall : 0
+                    height: width
+                    anchors.left: parent.left;
+                    anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
+                    y: Theme.paddingMedium
+                    visible: !icon.visible
+                    color: {
+                        var r=1; var g=1; var b=1;
+                        if (title.length>0)
+                            r = (Math.abs(title.charCodeAt(0)-65)/57)%1;
+                        if (title.length>1)
+                            g = (Math.abs(title.charCodeAt(1)-65)/57)%1;
+                        if (title.length>2)
+                            b = (Math.abs(title.charCodeAt(2)-65)/57)%1;
+                        return Qt.rgba(r,g,b,0.9);
+                    }
+
+                    Label {
+                        anchors.centerIn: parent
+                        text: title.substring(0,1).toUpperCase()
+                        color: Theme.highlightDimmerColor
+                    }
+                }*/
+
                 Rectangle {
                     anchors.fill: icon
                     //color: Theme.secondaryColor
                     //opacity: 0.3
                     color: "white"
+                    visible: icon.visible
                 }
 
                 Image {
@@ -362,7 +388,8 @@ ListItem {
             }
 
             MenuItem {
-                text: readlater ? qsTr("Unsave") : qsTr("Save")
+                text: settings.getSigninType()<10 ? readlater ? qsTr("Unsave") : qsTr("Save") :
+                                                    readlater ? qsTr("Unstar") : qsTr("Star")
                 onClicked: {
                     if (readlater) {
                         root.unmarkedReadlater();

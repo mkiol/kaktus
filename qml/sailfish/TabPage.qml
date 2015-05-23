@@ -78,7 +78,7 @@ Page {
         }
 
         header: PageHeader {
-            title: qsTr("Tabs")
+            title: settings.getSigninType()<10 ? qsTr("Tabs") : qsTr("Folders")
         }
 
         delegate: Item {
@@ -115,7 +115,8 @@ Page {
 
                     spacing: 0.5*Theme.paddingSmall
                     anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: image.visible ? image.right : parent.left
+                    //anchors.left: image.visible ? image.right : parent.left
+                    anchors.left: image.visible ? image.right : imagePlaceholder.right
                     anchors.right: unreadbox.visible ? unreadbox.left : parent.right
                     visible: !listItem.last
 
@@ -149,11 +150,30 @@ Page {
                     }
                 }
 
-                /*Rectangle {
-                    anchors.fill: image
-                    color: Theme.secondaryColor
-                    opacity: 0.1
-                }*/
+                Rectangle {
+                    id: imagePlaceholder
+                    width: visible ? 1.2*Theme.iconSizeSmall : 0
+                    height: width
+                    anchors.left: parent.left
+                    y: Theme.paddingMedium
+                    visible: !image.visible && !listItem.last
+                    color: {
+                        var r=1; var g=1; var b=1;
+                        if (title.length>0)
+                            r = (Math.abs(title.charCodeAt(0)-65)/57)%1;
+                        if (title.length>1)
+                            g = (Math.abs(title.charCodeAt(1)-65)/57)%1;
+                        if (title.length>2)
+                            b = (Math.abs(title.charCodeAt(2)-65)/57)%1;
+                        return Qt.rgba(r,g,b,0.9);
+                    }
+
+                    Label {
+                        anchors.centerIn: parent
+                        text: title.substring(0,1).toUpperCase()
+                        color: Theme.highlightDimmerColor
+                    }
+                }
 
                 Image {
                     id: image
@@ -210,7 +230,7 @@ Page {
                     }
                     MenuItem {
                         text: qsTr("Mark all as unread")
-                        enabled: model.read!=0
+                        enabled: model.read!=0 && settings.getSigninType()<10
                         visible: enabled
                         onClicked: {
                             tabModel.markAsUnread(model.index);
@@ -223,7 +243,8 @@ Page {
         ViewPlaceholder {
             id: placeholder
             enabled: listView.count < 1
-            text: fetcher.busy ? qsTr("Wait until Sync finish.") : qsTr("No tabs")
+            text: fetcher.busy ? qsTr("Wait until Sync finish.") :
+                                 settings.getSigninType()<10 ? qsTr("No tabs") : qsTr("No folders")
         }
 
         VerticalScrollDecorator {

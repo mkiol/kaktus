@@ -49,6 +49,16 @@ Page {
         }
 
         model: VisualItemModel {
+
+            SectionHeader {
+                text: qsTr("Version %1").arg("2.0")
+            }
+
+            LogItem {
+                title: 'Old Reader support'
+                description: 'Old Reader is supported as new feed aggreagator.'
+            }
+
             SectionHeader {
                 text: qsTr("Version %1").arg("1.4")
             }

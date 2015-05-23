@@ -47,11 +47,10 @@ Page {
 
         PullDownMenu {
             id: menu
+            enabled: !guide.open
 
             MenuItem {
                 text: qsTr("About")
-                visible: root.showAbout
-
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("AboutPage.qml"));
                 }
@@ -59,17 +58,17 @@ Page {
 
             MenuItem {
                 text: qsTr("Add account")
-                onClicked: pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": 400});
-                enabled: !settings.signedIn && !fetcher.busy && !dm.busy && !dm.removerBusy
+                onClicked: pageStack.push(Qt.resolvedUrl("AccountsDialog.qml"));
+                enabled: !settings.signedIn && !app.fetcherBusyStatus && !dm.busy && !dm.removerBusy
             }
         }
 
         ViewPlaceholder {
             id: placeholder
-            enabled: listView.count < 1
+            enabled: true
             text: settings.signedIn ?
-                      fetcher.busy||dm.busy ? qsTr("Wait until Sync finish.") :
-                                              qsTr("To do feeds synchronisation, pull down and select Sync.") :
+                      app.fetcherBusyStatus || dm.busy ? qsTr("Wait until Sync finish.") :
+                      qsTr("To do feeds synchronisation, pull down and select Sync.") :
                       qsTr("You are not signed in to any account. Pull down to add one.")
         }
 

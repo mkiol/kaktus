@@ -100,6 +100,11 @@ PullDownMenu {
                label.text = qsTr("You are not signed in");
                return;
             }*/
+
+            /*console.log("fetcher.busy",fetcher.busy);
+            console.log("fetcher.busyType",fetcher.busyType);
+            console.log("dm.busy",dm.busy);
+            console.log("dm.removerBusy",dm.removerBusy);*/
                 
             var lastSync = settings.lastUpdateDate;
             if (lastSync>0)

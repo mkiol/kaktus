@@ -59,7 +59,7 @@ Rectangle {
         }
     }
 
-    Label {
+    /*Label {
         id: title
         anchors.left: parent.left; anchors.leftMargin: Theme.paddingLarge;
         anchors.top: parent.top; anchors.topMargin: Theme.paddingLarge
@@ -77,6 +77,49 @@ Rectangle {
         anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
         anchors.top: title.bottom; anchors.topMargin: Theme.paddingMedium
         height: 1
+    }*/
+
+    Row {
+        anchors.top: parent.top; anchors.topMargin: 2*Theme.paddingLarge
+        spacing: (parent.width-15*Theme.paddingLarge)/8
+        x: 3*spacing
+
+        Dot {
+            active: root.progress>=0
+        }
+
+        Dot {
+            active: root.progress>=1
+        }
+
+        Dot {
+            active: root.progress>=2
+        }
+
+        Dot {
+            active: root.progress>=3
+        }
+
+        Dot {
+            active: root.progress>=4
+        }
+
+        Dot {
+            active: root.progress>=5
+        }
+
+        Dot {
+            active: root.progress>=6
+        }
+
+        Dot {
+            active: root.progress>=7
+        }
+
+        Dot {
+            active: root.progress>=8
+        }
+
     }
 
     Item {
@@ -113,7 +156,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
 
-            text: qsTr( "Tap anywhere to continue.");
+            text: qsTr("Tap anywhere to continue.");
         }
     }
 
@@ -136,7 +179,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
 
-            text: qsTr("Bottom bar lets you switch between 5 available view modes.\n");
+            text: qsTr("Bottom bar lets you switch between 5 view modes.\n");
         }
     }
 
@@ -159,8 +202,8 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
 
-            text: qsTr("Mode #1 - Tabs & Feeds\n\nList all your tabs. "+
-                       "Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.");
+            text: settings.getSigninType()<10 ? qsTr("Mode #1\n\nLists all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.") :
+                                                qsTr("Mode #1\n\nLists all your folders. Feeds are grouped by the folders they belong to and articles are grouped in the feeds.")
         }
     }
 
@@ -182,9 +225,8 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
-
-            text: qsTr("Mode #2 - Only tabs\n\nList all your tabs. "+
-                       "All articles are grouped only by the tabs they belong to.");
+            text: settings.getSigninType()<10 ? qsTr("Mode #2\n\nLists all your tabs. Articles are grouped by the tabs they belong to.") :
+                                                qsTr("Mode #2\n\nLists all your folders. Articles are grouped by the folders they belong to.");
         }
     }
 
@@ -207,8 +249,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
 
-            text: qsTr("Mode #3 - All feeds\n\nList all articles from all your feeds. "+
-                       "Items are ordered by publication date.");
+            text: qsTr("Mode #3\n\nLists all articles from all your feeds in one list. Items are ordered by publication date.");
         }
     }
 
@@ -231,7 +272,8 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
 
-            text: qsTr("Mode #4 - Saved\n\nList all the articles you have saved.");
+            text: settings.getSigninType()<10 ? qsTr("Mode #4\n\nLists all articles you have saved.") :
+                                                qsTr("Mode #4\n\nLists all articles you have starred.")
         }
     }
 
@@ -254,8 +296,8 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
 
-            text: qsTr("Mode #5 - Slow\n\nList all articles from less frequently updated feeds. "+
-                       "A feed is considered slow when it publishes less than 5 articles in a month.");
+            text: qsTr("Mode #5 \"Slow\"\n\nList articles from less frequently updated feeds. "+
+                       "A feed is considered \"slow\" when it publishes less than 5 articles in a month.");
         }
     }
 

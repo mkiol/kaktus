@@ -49,8 +49,28 @@ Page {
 
         model: VisualItemModel {
 
-            SectionHeader {
-                text: qsTr("Netvibes account")
+            Item {
+                anchors { left: parent.left; right: parent.right}
+                height: Math.max(icon.height, label.height)
+
+                Image {
+                    id: icon
+                    anchors { right: label.left; rightMargin: Theme.paddingMedium }
+                    source: settings.getSigninType()<10 ? "nv.png" : "oldreader.png"
+                }
+
+                Label {
+                    id: label
+                    anchors { right: parent.right; rightMargin: Theme.paddingLarge}
+                    text: settings.getSigninType()<10 ?
+                              qsTr("Netvibes account"):
+                              qsTr("Old Reader account")
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignRight
+                    color: Theme.highlightColor
+                    font.pixelSize: Theme.fontSizeSmall
+                    y: Theme.paddingSmall/2
+                }
             }
 
             ListItem {
@@ -77,10 +97,11 @@ Page {
                         color: Theme.highlightColor
                         visible: settings.signedIn
                         text: settings.signedIn ?
-                                  settings.getSigninType()==0 ? settings.getNetvibesUsername() :
+                                  settings.getSigninType()==0 ? settings.getUsername() :
                                   settings.getSigninType()==1 ? "Twitter" :
-                                  settings.getSigninType()==2 ? "Facebook" : "" :
-                                  ""
+                                  settings.getSigninType()==2 ? "Facebook" :
+                                  settings.getSigninType()==10 ? settings.getUsername() :
+                                  "" : ""
                     }
                 }
 
@@ -103,8 +124,9 @@ Page {
 
             ListItem {
                 id: defaultdashboard
-                contentHeight: flow2.height + 2*Theme.paddingLarge
-                enabled: settings.signedIn && utils.defaultDashboardName()!==""
+                contentHeight: visible ? flow2.height + 2*Theme.paddingLarge : 0
+                enabled: settings.signedIn && utils.defaultDashboardName()!=="" && settings.getSigninType()<10
+                visible: settings.getSigninType()<10
 
                 Flow {
                     id: flow2
@@ -215,16 +237,6 @@ Page {
                                   "and cached for access in the Offline mode.")
             }
 
-            /*TextSwitch {
-                text: qsTr("Cache articles")
-                checked: settings.autoDownloadOnUpdate
-                description: qsTr("After sync the content of all items will be downloaded "+
-                                  "and cached for access in the Offline mode.")
-                onCheckedChanged: {
-                    settings.autoDownloadOnUpdate = checked;
-                }
-            }*/
-
             SectionHeader {
                 text: qsTr("UI")
             }
@@ -333,7 +345,7 @@ Page {
                 }
             }
 
-            ComboBox {
+            /*ComboBox {
                 width: root.width
                 label: qsTr("View mode")
                 currentIndex: {
@@ -352,10 +364,10 @@ Page {
                 }
 
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("Tabs & Feeds") }
-                    MenuItem { text: qsTr("Only Tabs") }
+                    MenuItem { text: settings.getSigninType()<10 ? qsTr("Tabs & Feeds") : qsTr("Folders & Feeds") }
+                    MenuItem { text: settings.getSigninType()<10 ? qsTr("Only Folders") : qsTr("Only Folders") }
                     MenuItem { text: qsTr("All feeds") }
-                    MenuItem { text: qsTr("Saved") }
+                    MenuItem { text: settings.getSigninType()<10 ? qsTr("Saved") : qsTr("Starred") }
                     MenuItem { text: qsTr("Slow") }
                 }
 
@@ -373,7 +385,7 @@ Page {
                         settings.viewMode = 5; break;
                     }
                 }
-            }
+            }*/
 
             TextSwitch {
                 text: qsTr("Show only unread articles")

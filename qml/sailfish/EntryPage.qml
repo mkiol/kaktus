@@ -58,7 +58,7 @@ Page {
             showAbout: settings.viewMode==3 || settings.viewMode==4 || settings.viewMode==5 ? true : false
             showMarkAsRead: false
             showMarkAsUnread: false
-            showShowOnlyUnread: true
+            showShowOnlyUnread: settings.viewMode!=4
 
             onMarkedAsRead: {
                 if (settings.viewMode==1 || settings.viewMode==5) {
@@ -70,7 +70,10 @@ Page {
                     return;
                 }
                 if (settings.viewMode==4) {
-                    remorse.execute(qsTr("Marking all saved articles as read"), function(){entryModel.setAllAsRead()});
+                    remorse.execute(
+                                settings.getSigninType()<10 ? qsTr("Marking all saved articles as read") :
+                                                              qsTr("Marking all starred articles as read")
+                                , function(){entryModel.setAllAsRead()});
                     return;
                 }
 
@@ -105,7 +108,7 @@ Page {
                 case 3:
                     return qsTr("All feeds");
                 case 4:
-                    return qsTr("Saved");
+                    return settings.getSigninType()<10 ? qsTr("Saved") : qsTr("Starred");
                 case 5:
                     return qsTr("Slow");
                 default:
@@ -250,7 +253,7 @@ Page {
             id: placeholder
             enabled: listView.count == 0
             text: fetcher.busy ? qsTr("Wait until Sync finish.") :
-                      settings.viewMode==4 ? qsTr("No saved items") :
+                      settings.viewMode==4 ? settings.getSigninType()<10 ? qsTr("No saved items") : qsTr("No starred items")  :
                       settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }
 

@@ -29,13 +29,21 @@ ApplicationWindow {
 
     Component.onCompleted: {
         db.init();
-        dm.isWLANConnected();
     }
 
     function resetView() {
         if (!settings.signedIn) {
             pageStack.replaceAbove(null,Qt.resolvedUrl("FirstPage.qml"));
             return;
+        }
+
+        // Reconnect fetcher
+        if (typeof fetcher === 'undefined') {
+            var type = settings.getSigninType();
+            if (type < 10)
+                reconnectFetcher(1);
+            else if (type == 10)
+                reconnectFetcher(2);
         }
 
         utils.setRootModel();
@@ -86,7 +94,6 @@ ApplicationWindow {
             if (!settings.signedIn) {
                 //notification.show(qsTr("Signed out!"));
                 fetcher.cancel(); dm.cancel();
-                settings.reset();
                 db.init();
             } else {
                 if(!settings.helpDone)
@@ -125,7 +132,12 @@ ApplicationWindow {
     Connections {
         target: dm
 
+        /*onBusyChanged: {
+            console.log("DM busy", dm.busy);
+        }*/
+
         onProgress: {
+            //console.log("DM busy", dm.busy);
             //console.log("DM progress: " + remaining);
             progressPanelDm.text = qsTr("%1 more items left...").arg(remaining);
             if (remaining === 0) {
@@ -142,10 +154,166 @@ ApplicationWindow {
         }
     }
 
-    Connections {
+    function reconnectFetcher(type) {
+        disconnectFetcher();
+        cover.disconnectFetcher();
+
+        utils.resetFetcher(type);
+
+        connectFetcher();
+        cover.connectFetcher();
+    }
+
+    function connectFetcher() {
+        if (typeof fetcher === 'undefined')
+            return;
+        fetcher.ready.connect(fetcherReady);
+        fetcher.newAuthUrl.connect(fetcherNewAuthUrl);
+        fetcher.errorGettingAuthUrl.connect(fetcherErrorGettingAuthUrl);
+        fetcher.networkNotAccessible.connect(fetcherNetworkNotAccessible);
+        fetcher.error.connect(fetcherError);
+        fetcher.errorCheckingCredentials.connect(fetcherErrorCheckingCredentials);
+        fetcher.credentialsValid.connect(fetcherCredentialsValid);
+        fetcher.progress.connect(fetcherProgress);
+        fetcher.uploading.connect(fetcherUploading);
+        fetcher.busyChanged.connect(fetcherBusyChanged);
+    }
+
+    function disconnectFetcher() {
+        if (typeof fetcher === 'undefined')
+            return;
+        fetcher.ready.disconnect(fetcherReady);
+        fetcher.newAuthUrl.disconnect(fetcherNewAuthUrl);
+        fetcher.errorGettingAuthUrl.disconnect(fetcherErrorGettingAuthUrl);
+        fetcher.networkNotAccessible.disconnect(fetcherNetworkNotAccessible);
+        fetcher.error.disconnect(fetcherError);
+        fetcher.errorCheckingCredentials.disconnect(fetcherErrorCheckingCredentials);
+        fetcher.credentialsValid.disconnect(fetcherCredentialsValid);
+        fetcher.progress.disconnect(fetcherProgress);
+        fetcher.uploading.disconnect(fetcherUploading);
+        fetcher.busyChanged.disconnect(fetcherBusyChanged);
+    }
+
+    property bool fetcherBusyStatus: false
+
+    function fetcherReady() {
+        //console.log("Fetcher ready");
+        resetView();
+
+        switch (settings.cachingMode) {
+        case 0:
+            return;
+        case 1:
+            if (dm.isWLANConnected()) {
+                dm.startFeedDownload();
+            }
+            return;
+        case 2:
+            dm.isWLANConnected();
+            return;
+        }
+    }
+
+    function fetcherNewAuthUrl(url, type) {
+        pageStack.push(Qt.resolvedUrl("AuthWebViewPage.qml"),{"url":url,"type":type,"code": 400});
+    }
+
+    function fetcherErrorGettingAuthUrl() {
+        notification.show(qsTr("Something goes wrong. Unable to sign in! :-("));
+    }
+
+    function fetcherNetworkNotAccessible() {
+        notification.show(qsTr("Sync failed!\nNetwork connection is unavailable."));
+    }
+
+    function fetcherError(code) {
+        console.log("Fetcher error");
+        console.log("code=" + code);
+
+        if (code < 400)
+            return;
+        if (code >= 400 && code < 500) {
+            if (code == 402)
+                notification.show(qsTr("The user name or password is incorrect!"));
+
+            console.log("settings.signinType",settings.getSigninType());
+
+            // Sign in
+            var type = settings.getSigninType();
+            if (type < 10) {
+                pageStack.push(Qt.resolvedUrl("NvSignInDialog.qml"),{"code": code});
+                return;
+            }
+            if (type == 10) {
+                pageStack.push(Qt.resolvedUrl("OldReaderSignInDialog.qml"),{"code": code});
+                return;
+            }
+
+        } else {
+            // Unknown error
+            notification.show(qsTr("Something went wrong :-(\nAn unknown error occurred."));
+        }
+    }
+
+    function fetcherErrorCheckingCredentials() {
+        notification.show(qsTr("The user name or password is incorrect!"));
+    }
+
+    function fetcherCredentialsValid() {
+        notification.show(qsTr("You are signed in!"));
+    }
+
+    function fetcherProgress(current, total) {
+        progressPanel.text = qsTr("Receiving data... ");
+        progressPanel.progress = current / total;
+    }
+
+    function fetcherUploading() {
+        progressPanel.text = qsTr("Sending data...");
+    }
+
+    function fetcherBusyChanged() {
+
+        if (app.fetcherBusyStatus != fetcher.busy)
+            app.fetcherBusyStatus = fetcher.busy;
+
+        switch(fetcher.busyType) {
+        case 1:
+            progressPanel.text = qsTr("Initiating...");
+            progressPanel.progress = 0;
+            break;
+        case 2:
+            progressPanel.text = qsTr("Updating...");
+            progressPanel.progress = 0;
+            break;
+        case 3:
+            progressPanel.text = qsTr("Signing in...");
+            progressPanel.progress = 0;
+            break;
+        case 4:
+            progressPanel.text = qsTr("Signing in...");
+            progressPanel.progress = 0;
+            break;
+        case 11:
+            progressPanel.text = qsTr("Waiting for network...");
+            progressPanel.progress = 0;
+            break;
+        case 21:
+            progressPanel.text = qsTr("Waiting for network...");
+            progressPanel.progress = 0;
+            break;
+        case 31:
+            progressPanel.text = qsTr("Waiting for network...");
+            progressPanel.progress = 0;
+            break;
+        }
+    }
+
+    /*Connections {
         target: fetcher
 
         onReady: {
+            //console.log("Fetcher ready");
             resetView();
 
             switch (settings.cachingMode) {
@@ -160,9 +328,6 @@ ApplicationWindow {
                 dm.isWLANConnected();
                 return;
             }
-
-            /*if (settings.autoDownloadOnUpdate)
-                dm.startFeedDownload();*/
         }
 
         onNewAuthUrl: {
@@ -186,8 +351,20 @@ ApplicationWindow {
             if (code >= 400 && code < 500) {
                 if (code == 402)
                     notification.show(qsTr("The user name or password is incorrect!"));
+
+                console.log("settings.signinType",settings.getSigninType());
+
                 // Sign in
-                pageStack.push(Qt.resolvedUrl("SignInDialog.qml"),{"code": code});
+                var type = settings.getSigninType();
+                if (type < 10) {
+                    pageStack.push(Qt.resolvedUrl("NvSignInDialog.qml"),{"code": code});
+                    return;
+                }
+                if (type == 10) {
+                    pageStack.push(Qt.resolvedUrl("OldReaderSignInDialog.qml"),{"code": code});
+                    return;
+                }
+
             } else {
                 // Unknown error
                 notification.show(qsTr("Something went wrong :-(\nAn unknown error occurred."));
@@ -243,8 +420,7 @@ ApplicationWindow {
                 break;
             }
         }
-
-    }
+    }*/
 
     Notification {
         id: notification
@@ -295,7 +471,7 @@ ApplicationWindow {
 
     ProgressPanel {
         id: progressPanelDm
-        open: dm.busy && !fetcher.busy
+        open: dm.busy && !app.fetcherBusyStatus
         onCloseClicked: dm.cancel();
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
@@ -310,7 +486,7 @@ ApplicationWindow {
 
     ProgressPanel {
         id: progressPanel
-        open: fetcher.busy
+        open: app.fetcherBusyStatus
         onCloseClicked: fetcher.cancel();
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
@@ -331,11 +507,6 @@ ApplicationWindow {
         width: app.orientation==Orientation.Portrait ? app.width : app.height
         y: app.orientation==Orientation.Portrait ? app.height-height : 0
         x: app.orientation==Orientation.Portrait ? 0 : height
-
-        /*onOpenChanged: {
-            if(open && !settings.helpDone)
-                guide.showDelayed();
-        }*/
     }
 
     Guide {

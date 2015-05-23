@@ -87,7 +87,7 @@ CoverBackground {
 
     // Singned In and idle
     Column {
-        visible: !dm.busy && !fetcher.busy && settings.signedIn && settings.signedIn
+        visible: !dm.busy && !app.fetcherBusyStatus && settings.signedIn && settings.signedIn
 
         anchors.top: parent.top; anchors.topMargin: Theme.paddingMedium
         anchors.left: parent.left; anchors.right: parent.right;
@@ -212,7 +212,7 @@ CoverBackground {
         anchors.left: parent.left; anchors.right: parent.right;
         anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
 
-        visible: dm.busy || fetcher.busy
+        visible: dm.busy || app.fetcherBusyStatus
         spacing: Theme.paddingMedium
 
         Label {
@@ -236,7 +236,7 @@ CoverBackground {
     }
 
     CoverActionList {
-        enabled: !dm.busy && !fetcher.busy
+        enabled: !dm.busy && !app.fetcherBusyStatus
         CoverAction {
             iconSource: "image://theme/icon-cover-sync"
             onTriggered: fetcher.update();
@@ -244,7 +244,7 @@ CoverBackground {
     }
 
     CoverActionList {
-        enabled: dm.busy || fetcher.busy
+        enabled: dm.busy || app.fetcherBusyStatus
         CoverAction {
             iconSource: "image://theme/icon-cover-cancel"
             onTriggered: {
@@ -254,7 +254,50 @@ CoverBackground {
         }
     }
 
-    Connections {
+    function connectFetcher() {
+        if (typeof fetcher === 'undefined')
+            return;
+        fetcher.progress.connect(fetcherProgress);
+        fetcher.busyChanged.connect(fetcherBusyChanged);
+    }
+
+    function disconnectFetcher() {
+        if (typeof fetcher === 'undefined')
+            return;
+        fetcher.progress.disconnect(fetcherProgress);
+        fetcher.busyChanged.disconnect(fetcherBusyChanged);
+    }
+
+    function fetcherProgress(current, total) {
+        label.text = qsTr("Syncing");
+        progressLabel.text = Math.floor((current/total)*100)+"%";
+    }
+
+    function fetcherBusyChanged() {
+        switch(fetcher.busyType) {
+        case 1:
+            label.text = qsTr("Initiating");
+            progressLabel.text = "0%"
+            break;
+        case 2:
+            label.text = qsTr("Updating")
+            progressLabel.text = "0%"
+            break;
+        case 3:
+            label.text = qsTr("Signing in")
+            progressLabel.text = "";
+            break;
+        }
+
+        if (!fetcher.busy && active) {
+            root.unread = utils.getUnreadItemsCount();
+            lastupdateLabel.text = utils.getHumanFriendlyTimeString(settings.lastUpdateDate);
+            timer.setInterval();
+            timer.restart();
+        }
+    }
+
+    /*Connections {
         target: fetcher
 
         onProgress: {
@@ -285,13 +328,13 @@ CoverBackground {
                 timer.restart();
             }
         }
-    }
+    }*/
 
     Connections {
         target: dm
 
         onProgress: {
-            if (!fetcher.busy) {
+            if (!fetcher.fetcherBusyStatus) {
                 label.text = qsTr("Caching");
                 progressLabel.text = remaining;
             }

@@ -13,8 +13,8 @@ Name:       harbour-kaktus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
-Version:    1.4
-Release:    2
+Version:    2.0
+Release:    1
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -28,7 +28,7 @@ BuildRequires:  pkgconfig(sailfishapp) >= 0.0.10
 BuildRequires:  desktop-file-utils
 
 %description
-An unofficial Netvibes feed reader, specially designed to work offline.
+Multi services feed reader, specially designed to work offline.
 
 
 %prep
@@ -75,6 +75,9 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Sat May 23 2015 Michal Kosciesza 2.0-1
+- Old Reader support as feed aggregator service
 
 * Wed Apr 22 2015 Michal Kosciesza 1.4-2
 - Ru and Nl translations update
