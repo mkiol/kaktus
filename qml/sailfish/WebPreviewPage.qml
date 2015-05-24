@@ -181,7 +181,11 @@ Page {
     SilicaWebView {
         id: view
 
+        //anchors { left: parent.left; right: parent.right }
+        //height: controlbar.open ? parent.height - controlbar.height : parent.height
+        //clip: true
         anchors { top: parent.top; left: parent.left; right: parent.right; bottom: parent.bottom }
+
         experimental.userAgent: settings.getDmUserAgent()
 
         onLoadProgressChanged: {
@@ -274,7 +278,6 @@ Page {
         flick: view
         canBack: true
         canStar: true
-        //canFontDown: true; canFontUp: true
         canClipboard: true
         canReader: !settings.offlineMode
         canOpenBrowser: true
@@ -318,8 +321,6 @@ Page {
         id: proggressPanel
         transparent: false
         anchors.left: parent.left
-        //anchors.bottom: parent.bottom
-        //anchors.bottomMargin: controlbar.open ? controlbar.height : 0
         height: isPortrait ? app.panelHeightPortrait : app.panelHeightLandscape
         cancelable: true
         onCloseClicked: view.stop()

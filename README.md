@@ -1,6 +1,6 @@
 # Kaktus
 
-Multi services mobile feed reader, specially designed to work offline. Supports [Netvibes.com](http://www.netvibes.com/) and [Old Reader](https://theoldreader.com/) as a feed aggregator. Works on Sailfish OS, Symbian, Meego & BlackBerry 10 devices.
+Multi services mobile feed reader, specially designed to work offline. Supports [Netvibes.com](http://www.netvibes.com/) and [Old Reader](https://theoldreader.com/) as a feed aggregators. Works on Sailfish OS, Symbian, Meego & BlackBerry 10 devices.
 
 Kaktus is working in sync mode, so network connectivity is not
 required all the time. The significant feature is possibility

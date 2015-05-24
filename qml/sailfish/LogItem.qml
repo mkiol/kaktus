@@ -30,12 +30,6 @@ Row {
     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
     spacing: 1.0*Theme.paddingLarge
 
-    /*Image {
-        width: Theme.iconSizeSmall; height: width
-        source: "image://theme/icon-s-new"
-        anchors.top: parent.top
-    }*/
-
     Column {
         spacing: Theme.paddingSmall
         anchors.top: parent.top
@@ -45,7 +39,6 @@ Row {
             id: label1
             width: parent.width
             wrapMode: Text.WordWrap
-            //font.pixelSize: Theme.fontSizeSmall
             color: Theme.primaryColor
             font.bold: true
 
@@ -55,7 +48,6 @@ Row {
             id: label2
             width: parent.width
             wrapMode: Text.WordWrap
-            //font.pixelSize: Theme.fontSizeSmall
             color: Theme.primaryColor
         }
 

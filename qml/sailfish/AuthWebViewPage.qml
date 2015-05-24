@@ -80,8 +80,11 @@ Page {
     SilicaWebView {
         id: view
 
-        anchors { top: parent.top; left: parent.left; right: parent.right; bottom: parent.bottom }
+        //anchors { top: parent.top; left: parent.left; right: parent.right; bottom: parent.bottom }
+        anchors {left: parent.left; right: parent.right}
+        height: controlbar.open ? parent.height - controlbar.height : parent.height
         url: root.url
+        clip: true
 
         _cookiesEnabled: false
         experimental.userAgent: settings.getDmUserAgent()
@@ -114,7 +117,7 @@ Page {
         }
 
         onUrlChanged: {
-            console.log("Url changed:", url);
+            //console.log("Url changed:", url);
             if (fetcher.setConnectUrl(url)) {
                 accept();
             }
