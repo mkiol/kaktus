@@ -381,15 +381,12 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
                 } else {
                     //qDebug() << "url" << url.toString() << "finalUrl" << item.finalUrl;
                     //qDebug() << "hash" << hash(url.toString()) << "finalUrl" << hash(item.finalUrl);
-                    //if (saveToDisk(hash(url.toString()), content)) {
                     if (saveToDisk(hash(item.finalUrl), content)) {
                         // Write Cache item to DB
                         //qDebug() << "Write Cache item to DB" << item.type << item.finalUrl;
                         item.id = hash(item.entryId+item.finalUrl);
-                        //qDebug() << "hash(item.finalUrl): " << hash(item.finalUrl);
                         item.origUrl = hash(item.origUrl);
                         item.baseUrl = item.finalUrl;
-                        //qDebug() << "baseUrl2" << item.baseUrl;
                         item.finalUrl = hash(item.finalUrl);
                         item.date = QDateTime::currentDateTime().toTime_t();
                         item.flag = 1;
@@ -410,8 +407,9 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
                     } else {
                         if (onlineItem)
                             emit this->onlineDownloadFailed();
+
+                        qWarning() << "Saving file has failed! Maybe out of disk space?";
                         emit this->error(501);
-                        qWarning() << "Save to disk failed!";
                     }
                 }
             }
@@ -488,18 +486,24 @@ bool DownloadManager::saveToDisk(const QString &filename, const QByteArray &cont
     QFile file(s->getDmCacheDir() + "/" + filename);
 
     if (file.exists()) {
-        //qWarning() << "File exists, deleting file" << filename;
-        file.remove();
+        if (!file.remove()) {
+            qWarning() << "File" << filename << "exists, but unable to delete.";
+            return false;
+        }
     }
 
     if (!file.open(QIODevice::WriteOnly)) {
-        qWarning() << "Could not open" << filename << "for writing: " << file.errorString();
+        qWarning() << "Could not open" << filename << "for writing. Error string:" << file.errorString();
         return false;
     }
 
-    file.write(content);
-    file.close();
+    if (file.write(content) == -1) {
+        qWarning() << "Could not write data to" << filename << ". Error string:" << file.errorString();
+        file.close();
+        return false;
+    }
 
+    file.close();
     return true;
 }
 

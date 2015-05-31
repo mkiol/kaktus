@@ -144,6 +144,7 @@ int EntryModel::createItems(int offset, int limit)
         prevDateRow = getDateRowId(item->date());
     }
 
+    QRegExp re("<[^>]*>");
     while( i != list.end() ) {
 
         // Removing html tags!
@@ -191,37 +192,37 @@ int EntryModel::createItems(int offset, int limit)
         if (dateRow>prevDateRow) {
             switch (dateRow) {
             case 1:
-                appendRow(new EntryItem("daterow",tr("Today"),"","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Today"),"","","","","","",false,0,0,0,0));
                 break;
             case 2:
-                appendRow(new EntryItem("daterow",tr("Yesterday"),"","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Yesterday"),"","","","","","",false,0,0,0,0));
                 break;
             case 3:
-                appendRow(new EntryItem("daterow",tr("Current week"),"","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current week"),"","","","","","",false,0,0,0,0));
                 break;
             case 4:
-                appendRow(new EntryItem("daterow",tr("Current month"),"","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current month"),"","","","","","",false,0,0,0,0));
                 break;
             case 5:
-                appendRow(new EntryItem("daterow",tr("Previous month"),"","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Previous month"),"","","","","","",false,0,0,0,0));
                 break;
             case 6:
-                appendRow(new EntryItem("daterow",tr("Current year"),"","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current year"),"","","","","","",false,0,0,0,0));
                 break;
             default:
-                appendRow(new EntryItem("daterow",tr("Previous year & older"),"","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Previous year & older"),"","","","","","",false,0,0,0,0));
                 break;
             }
         }
         prevDateRow = dateRow;
-
         appendRow(new EntryItem((*i).id,
-                                title,
+                                title.remove(re),
                                 (*i).author,
                                 content,
                                 (*i).link,
                                 imageOk? (*i).image : "",
                                 (*i).feedIcon,
+                                (*i).feedTitle.remove(re),
                                 _db->isCacheExistsByEntryId((*i).id),
                                 (*i).fresh,
                                 (*i).read,
@@ -233,7 +234,7 @@ int EntryModel::createItems(int offset, int limit)
 
     // Dummy row as workaround!
     if (list.count()>0)
-        appendRow(new EntryItem("last","","","","","","",false,0,0,0,0));
+        appendRow(new EntryItem("last","","","","","","","",false,0,0,0,0));
 
     return list.count();
 }
@@ -505,6 +506,7 @@ EntryItem::EntryItem(const QString &uid,
                    const QString &link,
                    const QString &image,
                    const QString &feedIcon,
+                   const QString &feedTitle,
                    const bool cached,
                    const bool fresh,
                    const int read,
@@ -519,6 +521,7 @@ EntryItem::EntryItem(const QString &uid,
     m_link(link),
     m_image(image),
     m_feedIcon(feedIcon),
+    m_feedTitle(feedTitle),
     m_cached(cached),
     m_fresh(fresh),
     m_read(read),
@@ -536,6 +539,7 @@ QHash<int, QByteArray> EntryItem::roleNames() const
     names[LinkRole] = "link";
     names[ImageRole] = "image";
     names[FeedIconRole] = "feedIcon";
+    names[FeedTitleRole] = "feedTitle";
     names[CachedRole] = "cached";
     names[FreshRole] = "fresh";
     names[ReadRole] = "read";
@@ -561,6 +565,8 @@ QVariant EntryItem::data(int role) const
         return image();
     case FeedIconRole:
         return feedIcon();
+    case FeedTitleRole:
+        return feedTitle();
     case CachedRole:
         return cached();
     case FreshRole:

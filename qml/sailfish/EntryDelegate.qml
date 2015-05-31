@@ -31,6 +31,7 @@ ListItem {
     property string content
     property string image
     property string feedIcon
+    property string feedTitle
     property int maxWords: 20
     property int maxChars: 200
     property bool cached: false
@@ -43,6 +44,7 @@ ListItem {
     property bool showMarkedAsRead: true
 
     property bool hidden: read>0 && readlater==0
+    property bool showIcon: settings.viewMode==1 || settings.viewMode==3 || settings.viewMode==4 || settings.viewMode==5 ? true : false
 
     signal markedAsRead
     signal markedAsUnread
@@ -173,15 +175,17 @@ ListItem {
                 anchors.left: parent.left; anchors.right: parent.right;
                 //anchors.leftMargin: Theme.paddingLarge
                 anchors.rightMargin: star.width
-                height: Math.max(titleLabel.height, icon.height+Theme.paddingSmall)
+                height: Math.max(titleLabel.height, icon.height+Theme.paddingSmall, iconPlaceholder.height+Theme.paddingSmall)
                 //color: "red"
 
                 // Title
 
                 Label {
                     id: titleLabel
-                    anchors.right: parent.right; anchors.left: icon.visible ? icon.right : parent.left;
-                    anchors.leftMargin: icon.visible ? Theme.paddingMedium : Theme.paddingLarge
+                    //anchors.right: parent.right; anchors.left: icon.visible ? icon.right : parent.left;
+                    anchors.right: parent.right; anchors.left: icon.visible ? icon.right : iconPlaceholder.visible ? iconPlaceholder.right : parent.left
+                    //anchors.leftMargin: icon.visible ? Theme.paddingMedium : Theme.paddingLarge
+                    anchors.leftMargin: showIcon ? Theme.paddingMedium : Theme.paddingLarge
                     font.pixelSize: Theme.fontSizeMedium
                     font.family: Theme.fontFamilyHeading
                     font.bold: !root.read || root.readlater
@@ -204,31 +208,30 @@ ListItem {
 
                 // Feed Icon
 
-                /*Rectangle {
+                Rectangle {
                     id: iconPlaceholder
                     width: visible ? 1.2*Theme.iconSizeSmall : 0
                     height: width
                     anchors.left: parent.left;
                     anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
                     y: Theme.paddingMedium
-                    visible: !icon.visible
-                    color: {
-                        var r=1; var g=1; var b=1;
-                        if (title.length>0)
-                            r = (Math.abs(title.charCodeAt(0)-65)/57)%1;
-                        if (title.length>1)
-                            g = (Math.abs(title.charCodeAt(1)-65)/57)%1;
-                        if (title.length>2)
-                            b = (Math.abs(title.charCodeAt(2)-65)/57)%1;
-                        return Qt.rgba(r,g,b,0.9);
-                    }
+                    visible: !icon.visible && root.showIcon
 
                     Label {
+                        id: iconPlaceholderLabel
                         anchors.centerIn: parent
-                        text: title.substring(0,1).toUpperCase()
-                        color: Theme.highlightDimmerColor
+                        text: feedTitle.substring(0,1).toUpperCase()
                     }
-                }*/
+
+                    Component.onCompleted: {
+                        //console.log("showIcon", showIcon, "icon.visible", icon.visible);
+                        var r = feedTitle.length>0 ? (Math.abs(feedTitle.charCodeAt(0)-65)/57)%1 : 1;
+                        var g = feedTitle.length>1 ? (Math.abs(feedTitle.charCodeAt(1)-65)/57)%1 : 1;
+                        var b = feedTitle.length>2 ? (Math.abs(feedTitle.charCodeAt(2)-65)/57)%1 : 1;
+                        iconPlaceholder.color = Qt.rgba(r,g,b,0.9);
+                        iconPlaceholderLabel.color = (r+g+b)>1.5 ? Theme.highlightDimmerColor : Theme.primaryColor;
+                    }
+                }
 
                 Rectangle {
                     anchors.fill: icon
@@ -244,7 +247,7 @@ ListItem {
                     height: width
                     anchors.left: parent.left;
                     anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
-                    visible: status!=Image.Error && status!=Image.Null
+                    visible: status!=Image.Error && status!=Image.Null && root.showIcon
                 }
 
                 Connections {
@@ -388,7 +391,7 @@ ListItem {
             }
 
             MenuItem {
-                text: settings.getSigninType()<10 ? readlater ? qsTr("Unsave") : qsTr("Save") :
+                text: settings.signinType<10 ? readlater ? qsTr("Unsave") : qsTr("Save") :
                                                     readlater ? qsTr("Unstar") : qsTr("Star")
                 onClicked: {
                     if (readlater) {

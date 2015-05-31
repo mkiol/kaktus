@@ -167,8 +167,8 @@ Dialog {
         settings.setUsername(user.text);
         settings.setPassword(password.text);
 
-        m.doInit = settings.getSigninType() != 10;
-        settings.setSigninType(10);
+        m.doInit = settings.signinType != 10;
+        settings.signinType = 10;
 
         if (code == 0) {
             fetcher.checkCredentials();

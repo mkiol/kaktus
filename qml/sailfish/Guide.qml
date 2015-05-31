@@ -202,7 +202,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
 
-            text: settings.getSigninType()<10 ? qsTr("Mode #1\n\nLists all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.") :
+            text: settings.signinType<10 ? qsTr("Mode #1\n\nLists all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.") :
                                                 qsTr("Mode #1\n\nLists all your folders. Feeds are grouped by the folders they belong to and articles are grouped in the feeds.")
         }
     }
@@ -225,7 +225,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
-            text: settings.getSigninType()<10 ? qsTr("Mode #2\n\nLists all your tabs. Articles are grouped by the tabs they belong to.") :
+            text: settings.signinType<10 ? qsTr("Mode #2\n\nLists all your tabs. Articles are grouped by the tabs they belong to.") :
                                                 qsTr("Mode #2\n\nLists all your folders. Articles are grouped by the folders they belong to.");
         }
     }
@@ -272,7 +272,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
 
-            text: settings.getSigninType()<10 ? qsTr("Mode #4\n\nLists all articles you have saved.") :
+            text: settings.signinType<10 ? qsTr("Mode #4\n\nLists all articles you have saved.") :
                                                 qsTr("Mode #4\n\nLists all articles you have starred.")
         }
     }

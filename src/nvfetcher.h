@@ -79,6 +79,7 @@ private:
     QStringList tabList;
     QList<DatabaseManager::StreamModuleTab> streamList;
     QList<DatabaseManager::StreamModuleTab> streamUpdateList;
+    QList<DatabaseManager::StreamModuleTab> storedStreamList;
     int publishedBeforeDate;
 
     void signIn();

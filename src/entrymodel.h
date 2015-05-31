@@ -43,6 +43,7 @@ public:
         LinkRole,
         ImageRole,
         FeedIconRole,
+        FeedTitleRole,
         CachedRole,
         FreshRole,
         ReadRole,
@@ -59,6 +60,7 @@ public:
                       const QString &link,
                       const QString &image,
                       const QString &feedIcon,
+                      const QString &feedTitle,
                       const bool cached,
                       const bool fresh,
                       const int read,
@@ -75,6 +77,7 @@ public:
     inline QString link() const { return m_link; }
     inline QString image() const { return m_image; }
     inline QString feedIcon() const { return m_feedIcon; }
+    inline QString feedTitle() const { return m_feedTitle; }
     inline bool cached() const { return m_cached; }
     inline bool fresh() const { return m_fresh; }
     inline int read() const { return m_read; }
@@ -93,6 +96,7 @@ private:
     QString m_link;
     QString m_image;
     QString m_feedIcon;
+    QString m_feedTitle;
     bool m_cached;
     bool m_fresh;
     int m_read;

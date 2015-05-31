@@ -152,21 +152,19 @@ Page {
                 anchors.left: parent.left
                 y: Theme.paddingMedium
                 visible: !image.visible && !listItem.last
-                color: {
-                    var r=1; var g=1; var b=1;
-                    if (title.length>0)
-                        r = (Math.abs(title.charCodeAt(0)-65)/57)%1;
-                    if (title.length>1)
-                        g = (Math.abs(title.charCodeAt(1)-65)/57)%1;
-                    if (title.length>2)
-                        b = (Math.abs(title.charCodeAt(2)-65)/57)%1;
-                    return Qt.rgba(r,g,b,0.9);
-                }
 
                 Label {
+                    id: imagePlaceholderLabel
                     anchors.centerIn: parent
                     text: title.substring(0,1).toUpperCase()
-                    color: Theme.highlightDimmerColor
+                }
+
+                Component.onCompleted: {
+                    var r = title.length>0 ? (Math.abs(title.charCodeAt(0)-65)/57)%1 : 1;
+                    var g = title.length>1 ? (Math.abs(title.charCodeAt(1)-65)/57)%1 : 1;
+                    var b = title.length>2 ? (Math.abs(title.charCodeAt(2)-65)/57)%1 : 1;
+                    imagePlaceholder.color = Qt.rgba(r,g,b,0.9);
+                    imagePlaceholderLabel.color = (r+g+b)>1.5 ? Theme.highlightDimmerColor : Theme.primaryColor;
                 }
             }
 
@@ -184,7 +182,6 @@ Page {
                 height: width
                 anchors.left: parent.left; //anchors.leftMargin: Theme.paddingLarge
                 visible: status!=Image.Error && status!=Image.Null && !listItem.last
-                //visible: false
                 y: Theme.paddingMedium
             }
 
@@ -226,7 +223,7 @@ Page {
                 }
                 MenuItem {
                     text: qsTr("Mark all as unread")
-                    enabled: model.read!=0 && settings.getSigninType()<10
+                    enabled: model.read!=0 && settings.signinType<10
                     visible: enabled
                     onClicked: {
                         feedModel.markAsUnread(model.index);

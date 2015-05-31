@@ -224,8 +224,8 @@ Dialog {
         settings.setUsername(user.text);
         settings.setPassword(password.text);
 
-        m.doInit = settings.getSigninType() != 0;
-        settings.setSigninType(0);
+        m.doInit = settings.signinType != 0;
+        settings.signinType = 0;
 
         if (code == 0) {
             fetcher.checkCredentials();

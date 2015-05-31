@@ -66,6 +66,7 @@ class Settings: public QObject
     Q_PROPERTY (bool autoDownloadOnUpdate READ getAutoDownloadOnUpdate WRITE setAutoDownloadOnUpdate NOTIFY autoDownloadOnUpdateChanged)
     Q_PROPERTY (int cachingMode READ getCachingMode WRITE setCachingMode NOTIFY cachingModeChanged)
     Q_PROPERTY (int theme READ getTheme WRITE setTheme NOTIFY themeChanged)
+    Q_PROPERTY (int signinType READ getSigninType WRITE setSigninType NOTIFY signinTypeChanged)
 
 public:
     static Settings* instance();
@@ -143,6 +144,14 @@ public:
     void setTheme(int value);
     int getTheme();
 
+    // Sign in
+    //  0 - Netvibes
+    //  1 - Netvibes with Twitter
+    //  2 - Netvibes with FB
+    // 10 - Oldreader
+    void setSigninType(int);
+    int getSigninType();
+
     // ---
 
     bool getShowOnlyUnread();
@@ -152,13 +161,6 @@ public:
 
     QString getDmCacheDir();
 
-    // Sign in
-    //  0 - Netvibes
-    //  1 - Netvibes with Twitter
-    //  2 - Netvibes with FB
-    // 10 - Oldreader
-    Q_INVOKABLE void setSigninType(int);
-    Q_INVOKABLE int getSigninType();
     Q_INVOKABLE void setCookie(const QString &value);
     Q_INVOKABLE QString getCookie();
 
@@ -216,6 +218,7 @@ signals:
     void autoDownloadOnUpdateChanged();
     void themeChanged();
     void cachingModeChanged();
+    void signinTypeChanged();
 
     /*
     501 - Unable create settings dir

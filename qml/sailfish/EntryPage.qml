@@ -71,7 +71,7 @@ Page {
                 }
                 if (settings.viewMode==4) {
                     remorse.execute(
-                                settings.getSigninType()<10 ? qsTr("Marking all saved articles as read") :
+                                settings.signinType<10 ? qsTr("Marking all saved articles as read") :
                                                               qsTr("Marking all starred articles as read")
                                 , function(){entryModel.setAllAsRead()});
                     return;
@@ -123,7 +123,8 @@ Page {
             content: model.content
             date: model.date
             read: model.read
-            feedIcon: settings.viewMode==1 || settings.viewMode==3 || settings.viewMode==4 || settings.viewMode==5 ? model.feedIcon : ""
+            feedIcon: model.feedIcon
+            feedTitle: model.feedTitle
             author: model.author
             image: model.image
             readlater: model.readlater
@@ -136,7 +137,7 @@ Page {
             objectName: "EntryDelegate"
 
             Component.onCompleted: {
-                //console.log(image);
+                //console.log("feedTitle:",feedTitle);
                 // Dynamic creation of new items if last item is compleated
                 if (index==entryModel.count()-1) {
                     //console.log(index);
@@ -253,7 +254,7 @@ Page {
             id: placeholder
             enabled: listView.count == 0
             text: fetcher.busy ? qsTr("Wait until Sync finish.") :
-                      settings.viewMode==4 ? settings.getSigninType()<10 ? qsTr("No saved items") : qsTr("No starred items")  :
+                      settings.viewMode==4 ? settings.signinType<10 ? qsTr("No saved items") : qsTr("No starred items")  :
                       settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }
 

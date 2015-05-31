@@ -832,7 +832,7 @@ void OldReaderFetcher::storeTabs()
     DatabaseManager::Tab t;
     t.id = "subscriptions";
     t.dashboardId = dashboardId;
-    t.title = tr("Subscriptions");
+    t.title = "Subscriptions";
     s->db->writeTab(t);
     tabList.append(t.id);
 

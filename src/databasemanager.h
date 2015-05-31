@@ -103,6 +103,7 @@ public:
         QString content;
         QString image;
         QString feedIcon;
+        QString feedTitle;
         int fresh;
         int freshOR;
         int read;

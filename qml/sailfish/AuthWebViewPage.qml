@@ -34,8 +34,8 @@ Page {
 
     function accept() {
 
-        var doInit = settings.getSigninType!=type;
-        settings.setSigninType(type);
+        var doInit = settings.signinType != type;
+        settings.signinType = type;
 
         if (code == 0) {
             fetcher.checkCredentials();

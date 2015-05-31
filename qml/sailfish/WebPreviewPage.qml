@@ -314,6 +314,7 @@ Page {
         onClipboardClicked: {
             notification.show(qsTr("URL copied to clipboard"));
             Clipboard.text = root.onlineUrl;
+            //pageStack.push(Qt.resolvedUrl("ShareDialog.qml"));
         }
     }
 

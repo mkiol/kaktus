@@ -78,7 +78,7 @@ Page {
         }
 
         header: PageHeader {
-            title: settings.getSigninType()<10 ? qsTr("Tabs") : qsTr("Folders")
+            title: settings.signinType<10 ? qsTr("Tabs") : qsTr("Folders")
         }
 
         delegate: Item {
@@ -128,7 +128,7 @@ Page {
                         color: listItem.down ?
                                    (model.unread ? Theme.highlightColor : Theme.secondaryHighlightColor) :
                                    (model.unread ? Theme.primaryColor : Theme.secondaryColor)
-                        text: title
+                        text: model.uid=="subscriptions" ? qsTr("Subscriptions") : model.title
                     }
                 }
 
@@ -157,21 +157,19 @@ Page {
                     anchors.left: parent.left
                     y: Theme.paddingMedium
                     visible: !image.visible && !listItem.last
-                    color: {
-                        var r=1; var g=1; var b=1;
-                        if (title.length>0)
-                            r = (Math.abs(title.charCodeAt(0)-65)/57)%1;
-                        if (title.length>1)
-                            g = (Math.abs(title.charCodeAt(1)-65)/57)%1;
-                        if (title.length>2)
-                            b = (Math.abs(title.charCodeAt(2)-65)/57)%1;
-                        return Qt.rgba(r,g,b,0.9);
-                    }
 
                     Label {
+                        id: imagePlaceholderLabel
                         anchors.centerIn: parent
                         text: title.substring(0,1).toUpperCase()
-                        color: Theme.highlightDimmerColor
+                    }
+
+                    Component.onCompleted: {
+                        var r = title.length>0 ? (Math.abs(title.charCodeAt(0)-65)/57)%1 : 1;
+                        var g = title.length>1 ? (Math.abs(title.charCodeAt(1)-65)/57)%1 : 1;
+                        var b = title.length>2 ? (Math.abs(title.charCodeAt(2)-65)/57)%1 : 1;
+                        imagePlaceholder.color = Qt.rgba(r,g,b,0.9);
+                        imagePlaceholderLabel.color = (r+g+b)>1.5 ? Theme.highlightDimmerColor : Theme.primaryColor;
                     }
                 }
 
@@ -207,11 +205,11 @@ Page {
                     if (!listItem.last) {
                         if (settings.viewMode == 0) {
                             utils.setFeedModel(uid);
-                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": title, "index": model.index});
+                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : title, "index": model.index});
                         }
                         if (settings.viewMode == 1) {
                             utils.setEntryModel(uid);
-                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "readlater": false});
+                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : title, "readlater": false});
                         }
                     }
                 }
@@ -230,7 +228,7 @@ Page {
                     }
                     MenuItem {
                         text: qsTr("Mark all as unread")
-                        enabled: model.read!=0 && settings.getSigninType()<10
+                        enabled: model.read!=0 && settings.signinType<10
                         visible: enabled
                         onClicked: {
                             tabModel.markAsUnread(model.index);
@@ -244,7 +242,7 @@ Page {
             id: placeholder
             enabled: listView.count < 1
             text: fetcher.busy ? qsTr("Wait until Sync finish.") :
-                                 settings.getSigninType()<10 ? qsTr("No tabs") : qsTr("No folders")
+                                 settings.signinType<10 ? qsTr("No tabs") : qsTr("No folders")
         }
 
         VerticalScrollDecorator {

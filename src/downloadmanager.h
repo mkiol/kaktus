@@ -74,7 +74,6 @@ protected:
     void run();
 
 signals:
-    //void ready();
     void progressChanged(int current, int total);
 
 private:

@@ -108,7 +108,18 @@ void NvFetcher::signIn()
 void NvFetcher::startFetching()
 {
     Settings *s = Settings::instance();
+
+    storedStreamList = s->db->readStreamModuleTabListWithoutDate();
+
     s->db->cleanDashboards();
+    s->db->cleanTabs();
+    s->db->cleanModules();
+
+    // Create Cache structure
+    if(busyType == Fetcher::Initiating) {
+        s->db->cleanCache();
+    }
+
     fetchDashboards();
 }
 
@@ -194,6 +205,8 @@ void NvFetcher::fetchFeeds()
                 .arg(limitFeeds)
                 .arg((*i).streamId)
                 .arg((*i).moduleId);
+
+        //qDebug() << "streamId:" << (*i).streamId << "moduleId:" << (*i).moduleId;
 
         i = streamList.erase(i);
         ++ii;
@@ -749,14 +762,6 @@ void NvFetcher::finishedDashboards2()
     Settings *s = Settings::instance();
 
     if(!dashboardList.isEmpty()) {
-        s->db->cleanTabs();
-
-        // Create Modules and Cache structure
-        if(busyType == Fetcher::Initiating) {
-            s->db->cleanCache();
-            s->db->cleanModules();
-        }
-
         fetchTabs();
     } else {
         qWarning() << "No Dashboards found!";
@@ -794,10 +799,12 @@ void NvFetcher::finishedTabs2()
                 // Set current entries as not fresh
                 s->db->updateEntriesFreshFlag(0);
 
+                streamUpdateList = s->db->readStreamModuleTabList();
+
                 cleanRemovedFeeds();
                 cleanNewFeeds();
 
-                streamUpdateList = s->db->readStreamModuleTabList();
+                s->db->cleanStreams();
 
                 if (streamList.isEmpty()) {
                     qDebug() << "No new Feeds!";
@@ -880,6 +887,12 @@ void NvFetcher::finishedFeedsReadlater2()
         // Fix for very old entries. Mark as unsaved entries unmarked on server
         Settings *s = Settings::instance();
         s->db->updateEntriesSavedFlagByFlagAndDashboard(s->getDashboardInUse(),9,0);
+
+        dashboardList.clear();
+        tabList.clear();
+        streamList.clear();
+        streamUpdateList.clear();
+        storedStreamList.clear();
 
         taskEnd();
     }
@@ -1212,7 +1225,7 @@ void NvFetcher::storeTabs()
                         smt.tabId = obj["tab"].toString();
                         streamList.append(smt);
                         m.streamList.append(smt.streamId);
-                        //qDebug() << "Writing module: " << smt.moduleId << m.title << "streamId:" << smt.streamId;
+                        //qDebug() << "Writing module: " << "tabid:" << smt.tabId << "moduleId:" << smt.moduleId << "streamId:" << smt.streamId << m.title;
                         ++mi;
                     }
                 } else {
@@ -1264,11 +1277,14 @@ int NvFetcher::storeFeeds()
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                         QJsonObject obj = (*ai).toObject();
                         if (obj["error"].isObject()) {
-                            qWarning() << "Nested error in Netvibes response!";
-                            qWarning() << "Code:" << (int) obj["error"].toObject()["code"].toDouble();
-                            qWarning() << "Message:" << obj["error"].toObject()["message"].toString();
-                            qWarning() << "JSON obj:" << obj;
-                            qWarning() << "id:" << obj["id"].toString();
+                            int code = (int) obj["error"].toObject()["code"].toDouble();
+                            if (code != 204) {
+                                qWarning() << "Nested error in Netvibes response!";
+                                qWarning() << "Code:" << code;
+                                qWarning() << "Message:" << obj["error"].toObject()["message"].toString();
+                                qWarning() << "JSON obj:" << obj;
+                                qWarning() << "id:" << obj["id"].toString();
+                            }
                         }
 #else
                         QVariantMap obj = (*ai).toMap();
@@ -1311,6 +1327,7 @@ int NvFetcher::storeFeeds()
                             emit addDownload(item);
                         }
 
+                        //qDebug() << "Writing Stream: " << st.id << st.title;
                         s->db->writeStream(st);
                         ++ai;
                     }
@@ -1541,18 +1558,20 @@ void NvFetcher::uploadActions()
 void NvFetcher::cleanNewFeeds()
 {
     Settings *s = Settings::instance();
-    QList<DatabaseManager::StreamModuleTab> storedStreamList = s->db->readStreamModuleTabListWithoutDate();
+    //QList<DatabaseManager::StreamModuleTab> storedStreamList = s->db->readStreamModuleTabListWithoutDate();
+    QList<DatabaseManager::StreamModuleTab> tmp_storedStreamList = QList<DatabaseManager::StreamModuleTab>(storedStreamList);
     QList<DatabaseManager::StreamModuleTab>::iterator i = streamList.begin();
-
+    //qDebug() << "###################################### tmp_storedStreamList.count" << tmp_storedStreamList.count();
     i = streamList.begin();
     while (i != streamList.end()) {
-
-        QList<DatabaseManager::StreamModuleTab>::iterator ci = storedStreamList.begin();
+        //qDebug() << "streamList| streamId:" << (*i).streamId << "tabId:" << (*i).tabId;
+        QList<DatabaseManager::StreamModuleTab>::iterator ci = tmp_storedStreamList.begin();
         bool newStream = true;
-        while (ci != storedStreamList.end()) {
+        while (ci != tmp_storedStreamList.end()) {
+            //qDebug() << "tmp_storedStreamList| streamId:" << (*ci).streamId << "tabId:" << (*ci).tabId;
             if ((*i).streamId==(*ci).streamId && (*i).tabId==(*ci).tabId) {
                 i = streamList.erase(i);
-                storedStreamList.erase(ci);
+                tmp_storedStreamList.erase(ci);
                 newStream = false;
                 break;
             }
@@ -1572,21 +1591,25 @@ void NvFetcher::cleanNewFeeds()
 void NvFetcher::cleanRemovedFeeds()
 {
     Settings *s = Settings::instance();
-    QList<DatabaseManager::StreamModuleTab> storedStreamList = s->db->readStreamModuleTabListWithoutDate();
     QList<DatabaseManager::StreamModuleTab>::iterator i = storedStreamList.begin();
 
     while (i != storedStreamList.end()) {
-
         bool removedStream = true;
         QList<DatabaseManager::StreamModuleTab>::iterator ci = streamList.begin();
         while (ci != streamList.end()) {
-            if ((*i).streamId==(*ci).streamId && (*i).tabId==(*ci).tabId) {
-                //qDebug() << "Existing stream" << (*i).streamId << "in tab" << (*i).tabId;
+            if ((*i).streamId == (*ci).streamId) {
                 removedStream = false;
+                if ((*i).tabId == (*ci).tabId) {
+                    //qDebug() << "Existing stream" << (*i).streamId << "in tab" << (*i).tabId;
+                } else {
+                    qDebug() << "Old stream" << (*i).streamId << "in new tab" << (*ci).tabId;
+                }
                 break;
             }
+
             ++ci;
         }
+
         if (removedStream) {
             qDebug() << "Removing stream" << (*i).streamId << "in tab" << (*i).tabId;
             s->db->removeStreamsByStream((*i).streamId);
@@ -1595,13 +1618,14 @@ void NvFetcher::cleanRemovedFeeds()
             QList<DatabaseManager::StreamModuleTab>::iterator sui = streamUpdateList.begin();
             while (sui != streamUpdateList.end()) {
                 if ((*sui).streamId==(*i).streamId && (*sui).tabId==(*i).tabId) {
-                    //qDebug() << "Removing stream form _streamUpdateList" << (*sui).streamId;
+                    //qDebug() << "Removing stream form streamUpdateList" << (*sui).streamId;
                     streamUpdateList.erase(sui);
                     break;
                 }
                 ++sui;
             }
         }
+
         ++i;
     }
 }

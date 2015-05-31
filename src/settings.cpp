@@ -333,7 +333,10 @@ int Settings::getSigninType()
 
 void Settings::setSigninType(int value)
 {
-    settings.setValue("signintype", value);
+    if (getSigninType() != value) {
+        settings.setValue("signintype", value);
+        emit signinTypeChanged();
+    }
 }
 
 int Settings::getLastUpdateDate()

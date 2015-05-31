@@ -56,15 +56,13 @@ Page {
                 Image {
                     id: icon
                     anchors { right: label.left; rightMargin: Theme.paddingMedium }
-                    source: settings.getSigninType()<10 ? "nv.png" : "oldreader.png"
+                    source: settings.signinType<10 ? "nv.png" : "oldreader.png"
                 }
 
                 Label {
                     id: label
                     anchors { right: parent.right; rightMargin: Theme.paddingLarge}
-                    text: settings.getSigninType()<10 ?
-                              qsTr("Netvibes account"):
-                              qsTr("Old Reader account")
+                    text: settings.signinType<10 ? "Netvibes": "Old Reader"
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignRight
                     color: Theme.highlightColor
@@ -97,10 +95,10 @@ Page {
                         color: Theme.highlightColor
                         visible: settings.signedIn
                         text: settings.signedIn ?
-                                  settings.getSigninType()==0 ? settings.getUsername() :
-                                  settings.getSigninType()==1 ? "Twitter" :
-                                  settings.getSigninType()==2 ? "Facebook" :
-                                  settings.getSigninType()==10 ? settings.getUsername() :
+                                  settings.signinType==0 ? settings.getUsername() :
+                                  settings.signinType==1 ? "Twitter" :
+                                  settings.signinType==2 ? "Facebook" :
+                                  settings.signinType==10 ? settings.getUsername() :
                                   "" : ""
                     }
                 }
@@ -125,8 +123,8 @@ Page {
             ListItem {
                 id: defaultdashboard
                 contentHeight: visible ? flow2.height + 2*Theme.paddingLarge : 0
-                enabled: settings.signedIn && utils.defaultDashboardName()!=="" && settings.getSigninType()<10
-                visible: settings.getSigninType()<10
+                enabled: settings.signedIn && utils.defaultDashboardName()!=="" && settings.signinType<10
+                visible: settings.signinType<10
 
                 Flow {
                     id: flow2
@@ -500,16 +498,6 @@ Page {
                     guide.show();
                 }
             }
-
-            /*TextSwitch {
-                text: qsTr("Show guide on startup")
-                onCheckedChanged: {
-                    settings.helpDone = !checked;
-                }
-                Component.onCompleted: {
-                    checked = !settings.helpDone;
-                }
-            }*/
 
             Item {
                 height: Theme.paddingMedium

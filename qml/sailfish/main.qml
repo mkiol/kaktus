@@ -39,7 +39,7 @@ ApplicationWindow {
 
         // Reconnect fetcher
         if (typeof fetcher === 'undefined') {
-            var type = settings.getSigninType();
+            var type = settings.signinType;
             if (type < 10)
                 reconnectFetcher(1);
             else if (type == 10)
@@ -152,6 +152,10 @@ ApplicationWindow {
         onRemoverProgressChanged: {
             progressPanelRemover.progress = current / total;
         }
+
+        /*onError: {
+            console.log("DM error code:", code);
+        }*/
     }
 
     function reconnectFetcher(type) {
@@ -239,7 +243,7 @@ ApplicationWindow {
             console.log("settings.signinType",settings.getSigninType());
 
             // Sign in
-            var type = settings.getSigninType();
+            var type = settings.signinType;
             if (type < 10) {
                 pageStack.push(Qt.resolvedUrl("NvSignInDialog.qml"),{"code": code});
                 return;
