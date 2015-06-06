@@ -45,6 +45,8 @@ public:
         FeedIconRole,
         FeedTitleRole,
         CachedRole,
+        BroadcastRole,
+        LikedRole,
         FreshRole,
         ReadRole,
         ReadLaterRole,
@@ -62,6 +64,8 @@ public:
                       const QString &feedIcon,
                       const QString &feedTitle,
                       const bool cached,
+                      const bool broadcast,
+                      const bool liked,
                       const bool fresh,
                       const int read,
                       const int readlater,
@@ -79,6 +83,8 @@ public:
     inline QString feedIcon() const { return m_feedIcon; }
     inline QString feedTitle() const { return m_feedTitle; }
     inline bool cached() const { return m_cached; }
+    inline bool broadcast() const { return m_broadcast; }
+    inline bool liked() const { return m_liked; }
     inline bool fresh() const { return m_fresh; }
     inline int read() const { return m_read; }
     inline int readlater() const { return m_readlater; }
@@ -86,6 +92,7 @@ public:
 
     void setReadlater(int value);
     void setRead(int value);
+    void setBroadcast(bool value);
     void setCached(int value);
 
 private:
@@ -98,6 +105,8 @@ private:
     QString m_feedIcon;
     QString m_feedTitle;
     bool m_cached;
+    bool m_broadcast;
+    bool m_liked;
     bool m_fresh;
     int m_read;
     int m_readlater;

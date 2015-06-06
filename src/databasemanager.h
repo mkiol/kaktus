@@ -110,6 +110,7 @@ public:
         int saved;
         int liked;
         int cached;
+        int broadcast;
         int publishedAt;
         int createdAt;
         int crawlTime;
@@ -141,7 +142,9 @@ public:
         SetAllRead = 51,
         UnSetAllRead = 50,
         SetSlowRead = 61,
-        UnSetSlowRead = 60
+        UnSetSlowRead = 60,
+        SetBroadcast = 71,
+        UnSetBroadcast = 70
     };
 
     struct Action {
@@ -149,6 +152,7 @@ public:
         QString id1;
         QString id2;
         QString id3;
+        QString text;
         int date1;
         int date2;
         int date3;
@@ -182,6 +186,7 @@ public:
     void updateEntriesReadFlagByEntry(const QString &id, int flag);
     void updateEntriesSavedFlagByEntry(const QString &id, int flag);
     void updateEntriesCachedFlagByEntry(const QString &id, int cacheDate, int flag);
+    void updateEntriesBroadcastFlagByEntry(const QString &id, int flag);
     void updateEntriesFreshFlag(int flag);
     void updateEntriesSavedFlagByFlagAndDashboard(const QString &id, int flagOld, int flagNew);
 
@@ -300,7 +305,8 @@ private:
 
     bool openDB();
     bool createDB();
-    bool alterDB_19to20();
+    bool alterDB_19to21();
+    bool alterDB_20to21();
     bool deleteDB();
 
     bool createStructure();

@@ -35,6 +35,8 @@ ListItem {
     property int maxWords: 20
     property int maxChars: 200
     property bool cached: false
+    property bool broadcast
+    property bool liked
     property bool fresh
     property bool expanded: false
     property int index
@@ -50,6 +52,8 @@ ListItem {
     signal markedAsUnread
     signal markedReadlater
     signal unmarkedReadlater
+    signal markedBroadcast
+    signal unmarkedBroadcast
 
     enabled: !last && !daterow
 
@@ -120,6 +124,38 @@ ListItem {
             }
         }
     }
+
+    /*BackgroundItem {
+        id: like
+        anchors.right: background.right; anchors.top: star.bottom
+        height: Theme.iconSizeSmall+2*Theme.paddingMedium
+        width: height
+        visible: root.liked
+
+        Image {
+            anchors.centerIn: parent;
+            width: Theme.iconSizeSmall
+            height: Theme.iconSizeSmall
+            source: root.down ? "image://theme/icon-m-like?"+Theme.highlightColor :
+                                "image://theme/icon-m-like?"+Theme.primaryColor
+        }
+    }
+
+    BackgroundItem {
+        id: broadcast
+        anchors.right: background.right; anchors.top: star.bottom
+        height: Theme.iconSizeSmall+2*Theme.paddingMedium
+        width: height
+        visible: root.broadcast
+
+        Image {
+            anchors.centerIn: parent;
+            width: Theme.iconSizeSmall
+            height: Theme.iconSizeSmall
+            source: root.down ? "image://theme/icon-m-share?"+Theme.highlightColor :
+                                "image://theme/icon-m-share?"+Theme.primaryColor
+        }
+    }*/
 
     Item {
         id: dateRowbox
@@ -350,19 +386,45 @@ ListItem {
             visible: box.expandable
         }
 
-        Label {
+        Column {
             id: expanderLabel
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left; anchors.right: expanderIcon.left;
             anchors.leftMargin: Theme.paddingLarge
             anchors.rightMargin: Theme.paddingMedium
-            font.pixelSize: Theme.fontSizeExtraSmall
-            color: root.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
-            truncationMode: TruncationMode.Fade
-            text: root.author!=""
-                  ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
-                  : utils.getHumanFriendlyTimeString(date)
 
+            Row {
+                anchors.left: parent.left
+                visible: !root.hidden || root.expanded
+                spacing: Theme.paddingMedium
+
+                Image {
+                    width: Theme.iconSizeSmall
+                    height: Theme.iconSizeSmall
+                    visible: root.liked
+                    source: root.down ? "image://theme/icon-m-like?"+Theme.secondaryHighlightColor :
+                                        "image://theme/icon-m-like?"+Theme.secondaryColor
+                }
+
+                Image {
+                    width: Theme.iconSizeSmall
+                    height: Theme.iconSizeSmall
+                    visible: root.broadcast
+                    source: root.down ? "image://theme/icon-m-share?"+Theme.secondaryHighlightColor :
+                                        "image://theme/icon-m-share?"+Theme.secondaryColor
+                }
+            }
+
+            Label {
+                anchors.left: parent.left; anchors.right: parent.right
+                font.pixelSize: Theme.fontSizeExtraSmall
+                color: root.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                truncationMode: TruncationMode.Fade
+                text: root.author!=""
+                      ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
+                      : utils.getHumanFriendlyTimeString(date)
+
+            }
         }
 
         onClicked: {
@@ -398,6 +460,18 @@ ListItem {
                         root.unmarkedReadlater();
                     } else {
                         root.markedReadlater();
+                    }
+                }
+            }
+
+            MenuItem {
+                text: broadcast ? qsTr("Unshare") : qsTr("Share")
+                enabled: settings.signinType >= 10
+                onClicked: {
+                    if (broadcast) {
+                        root.unmarkedBroadcast();
+                    } else {
+                        root.markedBroadcast();
                     }
                 }
             }

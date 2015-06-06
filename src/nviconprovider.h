@@ -32,7 +32,7 @@ public:
 
 private:
     const static QString availableColors[5];
-    const static QString spriteMap[5][8];
+    const static QString spriteMap[5][10];
 
     int getOffsetByColor(const QString &color);
     QRect getPosition(const QString &icon, const QString &color);

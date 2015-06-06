@@ -128,7 +128,8 @@ Page {
                         color: listItem.down ?
                                    (model.unread ? Theme.highlightColor : Theme.secondaryHighlightColor) :
                                    (model.unread ? Theme.primaryColor : Theme.secondaryColor)
-                        text: model.uid=="subscriptions" ? qsTr("Subscriptions") : model.title
+                        text: model.uid=="subscriptions" ? qsTr("Subscriptions") :
+                              model.uid=="friends" ? qsTr("Following") : model.title
                     }
                 }
 
@@ -185,6 +186,11 @@ Page {
                 Connections {
                     target: settings
                     onShowTabIconsChanged: {
+                        /*if (model.uid=="friends") {
+                            image.source = "image://theme/icon-m-service-generic?"+Theme.primaryColor;
+                            return;
+                        }*/
+
                         if (iconUrl=="") {
                             image.source = "";
                             return;
@@ -194,6 +200,11 @@ Page {
                 }
 
                 Component.onCompleted: {
+                    /*if (model.uid=="friends") {
+                        image.source = "image://theme/icon-m-service-generic?"+Theme.primaryColor;
+                        return;
+                    }*/
+
                     if (iconUrl=="") {
                         image.source = "";
                         return;
@@ -205,11 +216,11 @@ Page {
                     if (!listItem.last) {
                         if (settings.viewMode == 0) {
                             utils.setFeedModel(uid);
-                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : title, "index": model.index});
+                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : title, "index": model.index});
                         }
                         if (settings.viewMode == 1) {
                             utils.setEntryModel(uid);
-                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : title, "readlater": false});
+                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : title, "readlater": false});
                         }
                     }
                 }

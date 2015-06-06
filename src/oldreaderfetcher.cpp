@@ -174,6 +174,14 @@ void OldReaderFetcher::setAction()
                     QString::number(s->db->readLastLastUpdateByDashboard(s->getDashboardInUse()))+"000000"
                     );
         break;
+    case DatabaseManager::SetBroadcast:
+        url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
+        body = QString("a=user/-/state/com.google/broadcast&i=%1").arg(action.id1);
+        break;
+    case DatabaseManager::UnSetBroadcast:
+        url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
+        body = QString("r=user/-/state/com.google/broadcast&i=%1").arg(action.id1);
+        break;
     default:
         // Unknown action -> skiping
         qWarning("Unknown action!");
@@ -195,6 +203,32 @@ void OldReaderFetcher::setAction()
     connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
 }
+
+void OldReaderFetcher::fetchFriends()
+{
+    data.clear();
+
+    Settings *s = Settings::instance();
+
+    if (currentReply != NULL) {
+        currentReply->disconnect();
+        currentReply->deleteLater();
+        currentReply = NULL;
+    }
+
+    QUrl url("https://theoldreader.com/reader/api/0/friend/list?output=json");
+    QNetworkRequest request(url);
+
+    // Authorization header
+    request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
+
+    currentReply = nam.get(request);
+
+    connect(currentReply, SIGNAL(finished()), this, SLOT(finishedFriends()));
+    connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+}
+
 
 void OldReaderFetcher::fetchTabs()
 {
@@ -475,14 +509,6 @@ void OldReaderFetcher::finishedTabs2()
     lastContinuation = "";
     continuationCount = 0;
 
-    if (busyType == Fetcher::Updating) {
-        s->db->updateEntriesFreshFlag(0); // Set current entries as not fresh
-        storedFeedList = s->db->readStreamModuleTabList();
-    }
-
-    s->db->cleanStreams();
-    s->db->cleanModules();
-
     if (tabList.isEmpty()) {
         qWarning() << "No Tabs to download!";
         if (busyType == Fetcher::Initiating)
@@ -498,6 +524,23 @@ void OldReaderFetcher::finishedTabs2()
     }
 
     fetchFeeds();
+}
+
+void OldReaderFetcher::finishedFriends()
+{
+    //qDebug() << data;
+    if (currentReply->error()) {
+        emit error(500);
+        setBusy(false);
+        return;
+    }
+
+    startJob(StoreFriends);
+}
+
+void OldReaderFetcher::finishedFriends2()
+{
+    fetchTabs();
 }
 
 void OldReaderFetcher::finishedFeeds()
@@ -712,7 +755,18 @@ void OldReaderFetcher::startFetching()
 {
     Settings *s = Settings::instance();
 
+    // Create DB structure
     s->db->cleanDashboards();
+    s->db->cleanTabs();
+    if(busyType == Fetcher::Initiating) {
+        s->db->cleanCache();
+    }
+    if (busyType == Fetcher::Updating) {
+        s->db->updateEntriesFreshFlag(0); // Set current entries as not fresh
+        storedFeedList = s->db->readStreamModuleTabList();
+    }
+    s->db->cleanStreams();
+    s->db->cleanModules();
 
     // Old Reader API doesnt have Dashboards
     // Manually adding dummy Dashboard
@@ -724,17 +778,7 @@ void OldReaderFetcher::startFetching()
     s->db->writeDashboard(d);
     s->setDashboardInUse(d.id);
 
-    s->db->cleanTabs();
-    //s->db->cleanModules();
-
-    // Create Modules and Cache structure
-    if(busyType == Fetcher::Initiating) {
-        s->db->cleanCache();
-        s->db->cleanModules();
-    }
-
-    //qDebug() << "Fetching tabs...";
-    fetchTabs();
+    fetchFriends();
 }
 
 void OldReaderFetcher::startJob(Job job)
@@ -772,6 +816,9 @@ void OldReaderFetcher::startJob(Job job)
     case StoreTabs:
         connect(this, SIGNAL(finished()), this, SLOT(finishedTabs2()));
         break;
+    case StoreFriends:
+        connect(this, SIGNAL(finished()), this, SLOT(finishedFriends2()));
+        break;
     case StoreFeeds:
         connect(this, SIGNAL(finished()), this, SLOT(finishedFeeds2()));
         break;
@@ -803,6 +850,9 @@ void OldReaderFetcher::run()
     case StoreTabs:
         storeTabs();
         break;
+    case StoreFriends:
+        storeFriends();
+        break;
     case StoreFeeds:
         storeFeeds();
         break;
@@ -826,7 +876,6 @@ void OldReaderFetcher::storeTabs()
 {
     Settings *s = Settings::instance();
     QString dashboardId = "oldreader";
-    tabList.clear();
 
     // Adding Subscriptions folder
     DatabaseManager::Tab t;
@@ -921,9 +970,10 @@ void OldReaderFetcher::getFolderFromCategories(const QVariantList &categories, Q
     bool starred = false;
     bool fresh = false;
     bool liked = false;
+    bool broadcast = false;
     while (i != end) {
         QStringList id = (*i).toString().split('/');
-        //qDebug() << id;
+        //qDebug() << (*i).toString();
         if (id.at(2)=="label") {
             result.insert("tabId",QVariant((*i).toString()));
             result.insert("tabName",QVariant(id.at(3)));
@@ -935,6 +985,8 @@ void OldReaderFetcher::getFolderFromCategories(const QVariantList &categories, Q
             liked = true;
         } else if ((*i).toString() == "user/-/state/com.google/fresh") {
             fresh = true;
+        } else if ((*i).toString() == "user/-/state/com.google/broadcast") {
+            broadcast = true;
         }
 
         ++i;
@@ -956,12 +1008,96 @@ void OldReaderFetcher::getFolderFromCategories(const QVariantList &categories, Q
         result.insert("fresh",QVariant(1));
     else
         result.insert("fresh",QVariant(0));
+    if (broadcast)
+        result.insert("broadcast",QVariant(1));
+    else
+        result.insert("broadcast",QVariant(0));
+}
+
+void OldReaderFetcher::storeFriends()
+{
+    tabList.clear();
+    feedUpdateList.clear();
+
+    Settings *s = Settings::instance();
+
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+    if (jsonObj["friends"].isArray()) {
+        QJsonArray::const_iterator i = jsonObj["friends"].toArray().constBegin();
+        QJsonArray::const_iterator end = jsonObj["friends"].toArray().constEnd();
+#else
+    if (jsonObj["friends"].type()==QVariant::List) {
+        QVariantList::const_iterator i = jsonObj["friends"].toList().constBegin();
+        QVariantList::const_iterator end = jsonObj["friends"].toList().constEnd();
+#endif
+        bool addTab = false;
+        while (i != end) {
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+            QJsonObject obj = (*i).toObject();
+#else
+            QVariantMap obj = (*i).toMap();
+#endif
+            addTab = true;
+
+            // Stream
+            DatabaseManager::Stream st;
+            st.id = obj["stream"].toString();
+            st.title = obj["displayName"].toString().remove(QRegExp("<[^>]*>"));
+            st.content = "";
+            st.type = "";
+            st.unread = 0;
+            st.read = 0;
+            st.slow = 0;
+            st.lastUpdate = QDateTime::currentDateTimeUtc().toTime_t();
+            if (obj["iconUrl"].toString() != "") {
+                st.icon = "http:"+obj["iconUrl"].toString();
+                // Downloading fav icon file
+                DatabaseManager::CacheItem item;
+                item.origUrl = st.icon;
+                item.finalUrl = st.icon;
+                item.type = "icon";
+                emit addDownload(item);
+            }
+            s->db->writeStream(st);
+
+            // Module
+            DatabaseManager::Module m;
+            m.id = st.id;
+            m.name = st.title;
+            m.title = st.title;
+            m.tabId = "friends";
+            m.streamList.append(st.id);
+            s->db->writeModule(m);
+
+            DatabaseManager::StreamModuleTab smt;
+            smt.streamId = st.id;
+            smt.moduleId = st.id;
+            smt.tabId = m.tabId;
+            feedList.append(smt);
+            feedUpdateList.append(smt);
+
+            ++i;
+        }
+
+        if (addTab) {
+            // Adding Friends folder
+            DatabaseManager::Tab t;
+            t.id = "friends";
+            t.dashboardId = "oldreader";
+            t.title = "Following";
+            s->db->writeTab(t);
+            tabList.append(t.id);
+        }
+
+    }  else {
+        qWarning() << "No \"friends\" element found!";
+    }
 }
 
 void OldReaderFetcher::storeFeeds()
 {
     //feedList.clear();
-    feedUpdateList.clear();
+    //feedUpdateList.clear();
     Settings *s = Settings::instance();
 
     bool subscriptionsFolderFeed = false;
@@ -983,6 +1119,7 @@ void OldReaderFetcher::storeFeeds()
             QJsonObject obj = (*i).toObject();
             if (obj["categories"].isArray()) {
                 getFolderFromCategories(obj["categories"].toArray(), tabId, tabName);
+
             }
 #else
             QVariantMap obj = (*i).toMap();
@@ -1126,6 +1263,7 @@ void OldReaderFetcher::storeStream()
             e.liked = categories.value("liked").toInt();
             e.freshOR = categories.value("fresh").toInt();
             e.cached = 0;
+            e.broadcast = categories.value("broadcast").toInt();
             e.publishedAt = obj["published"].toDouble();
             e.createdAt = obj["updated"].toDouble();
             e.fresh = 1;
@@ -1223,7 +1361,7 @@ void OldReaderFetcher::removeDeletedFeeds()
         }
 
         if (newFeed) {
-            //qDebug() << "Removing feed:" << (*si).streamId;
+            qDebug() << "Removing feed:" << (*si).streamId;
             Settings *s = Settings::instance();
             s->db->removeStreamsByStream((*si).streamId);
         }

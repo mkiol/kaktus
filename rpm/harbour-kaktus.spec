@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    2.0
-Release:    3
+Release:    4
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,11 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Sat Jun 06 2015 Michal Kosciesza 2.0-4
+- Following folder & share action for Oldreader
+- Hint panel
+- BUG FIX: Some Netvibes tab icons are not displayed
 
 * Sun May 31 2015 Michal Kosciesza 2.0-3
 - Many small bug fixes

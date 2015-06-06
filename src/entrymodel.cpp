@@ -192,29 +192,30 @@ int EntryModel::createItems(int offset, int limit)
         if (dateRow>prevDateRow) {
             switch (dateRow) {
             case 1:
-                appendRow(new EntryItem("daterow",tr("Today"),"","","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Today"),"","","","","","",false,false,false,0,0,0,0));
                 break;
             case 2:
-                appendRow(new EntryItem("daterow",tr("Yesterday"),"","","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Yesterday"),"","","","","","",false,false,false,0,0,0,0));
                 break;
             case 3:
-                appendRow(new EntryItem("daterow",tr("Current week"),"","","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current week"),"","","","","","",false,false,false,0,0,0,0));
                 break;
             case 4:
-                appendRow(new EntryItem("daterow",tr("Current month"),"","","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current month"),"","","","","","",false,false,false,0,0,0,0));
                 break;
             case 5:
-                appendRow(new EntryItem("daterow",tr("Previous month"),"","","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Previous month"),"","","","","","",false,false,false,0,0,0,0));
                 break;
             case 6:
-                appendRow(new EntryItem("daterow",tr("Current year"),"","","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current year"),"","","","","","",false,false,false,0,0,0,0));
                 break;
             default:
-                appendRow(new EntryItem("daterow",tr("Previous year & older"),"","","","","","",false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Previous year & older"),"","","","","","",false,false,false,0,0,0,0));
                 break;
             }
         }
         prevDateRow = dateRow;
+        //qDebug() << "(*i).broadcast" << (*i).broadcast;
         appendRow(new EntryItem((*i).id,
                                 title.remove(re),
                                 (*i).author,
@@ -224,6 +225,8 @@ int EntryModel::createItems(int offset, int limit)
                                 (*i).feedIcon,
                                 (*i).feedTitle.remove(re),
                                 _db->isCacheExistsByEntryId((*i).id),
+                                (*i).broadcast==1,
+                                (*i).liked==1,
                                 (*i).fresh,
                                 (*i).read,
                                 (*i).saved,
@@ -234,7 +237,7 @@ int EntryModel::createItems(int offset, int limit)
 
     // Dummy row as workaround!
     if (list.count()>0)
-        appendRow(new EntryItem("last","","","","","","","",false,0,0,0,0));
+        appendRow(new EntryItem("last","","","","","","","",false,false,false,0,0,0,0));
 
     return list.count();
 }
@@ -455,11 +458,11 @@ int EntryModel::count()
 void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
 {
     EntryItem* item = static_cast<EntryItem*>(readRow(row));
+    Settings *s = Settings::instance();
 
     if (fieldName=="readlater") {
         item->setReadlater(newValue.toInt());
         DatabaseManager::Action action;
-        Settings *s = Settings::instance();
         action.id2 = s->db->readStreamIdByEntry(item->id());
         if (newValue==1) {
             action.type = DatabaseManager::SetSaved;
@@ -477,7 +480,6 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
     if (fieldName=="read") {
         item->setRead(newValue.toInt());
         DatabaseManager::Action action;
-        Settings *s = Settings::instance();
         action.id2 = s->db->readStreamIdByEntry(item->id());
         if (newValue==1) {
             action.type = DatabaseManager::SetRead;
@@ -485,6 +487,27 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
             action.date1 = item->date();
         } else {
             action.type = DatabaseManager::UnSetRead;
+            action.id1 = item->id();
+            action.date1 = item->date();
+        }
+        _db->writeAction(action);
+        _db->updateEntriesReadFlagByEntry(item->id(),newValue.toInt());
+    }
+
+    if (fieldName=="broadcast") {
+        if (s->getSigninType() < 10) {
+            // Broadcast not supported in API
+            qWarning() << "Broadcast is not supported!";
+            return;
+        }
+        item->setBroadcast(newValue.toBool());
+        DatabaseManager::Action action;
+        if (newValue.toBool()) {
+            action.type = DatabaseManager::SetBroadcast;
+            action.id1 = item->id();
+            action.date1 = item->date();
+        } else {
+            action.type = DatabaseManager::UnSetBroadcast;
             action.id1 = item->id();
             action.date1 = item->date();
         }
@@ -508,6 +531,8 @@ EntryItem::EntryItem(const QString &uid,
                    const QString &feedIcon,
                    const QString &feedTitle,
                    const bool cached,
+                   const bool broadcast,
+                   const bool liked,
                    const bool fresh,
                    const int read,
                    const int readlater,
@@ -523,6 +548,8 @@ EntryItem::EntryItem(const QString &uid,
     m_feedIcon(feedIcon),
     m_feedTitle(feedTitle),
     m_cached(cached),
+    m_broadcast(broadcast),
+    m_liked(liked),
     m_fresh(fresh),
     m_read(read),
     m_readlater(readlater),
@@ -541,6 +568,8 @@ QHash<int, QByteArray> EntryItem::roleNames() const
     names[FeedIconRole] = "feedIcon";
     names[FeedTitleRole] = "feedTitle";
     names[CachedRole] = "cached";
+    names[BroadcastRole] = "broadcast";
+    names[LikedRole] = "liked";
     names[FreshRole] = "fresh";
     names[ReadRole] = "read";
     names[ReadLaterRole] = "readlater";
@@ -569,6 +598,10 @@ QVariant EntryItem::data(int role) const
         return feedTitle();
     case CachedRole:
         return cached();
+    case BroadcastRole:
+        return broadcast();
+    case LikedRole:
+        return liked();
     case FreshRole:
         return fresh();
     case ReadRole:
@@ -594,6 +627,14 @@ void EntryItem::setRead(int value)
 {
     if(m_read!=value) {
         m_read = value;
+        emit dataChanged();
+    }
+}
+
+void EntryItem::setBroadcast(bool value)
+{
+    if(m_broadcast!=value) {
+        m_broadcast = value;
         emit dataChanged();
     }
 }

@@ -48,6 +48,8 @@ private Q_SLOTS:
     void finishedSignInOnlyCheck();
     void finishedTabs();
     void finishedTabs2();
+    void finishedFriends();
+    void finishedFriends2();
     void finishedFeeds();
     void finishedFeeds2();
     void finishedStreamUpdate();
@@ -60,7 +62,7 @@ private Q_SLOTS:
     void finishedMarkSlow();
 
 private:
-    enum Job { Idle, StoreTabs, StoreFeeds, StoreStreamUpdate, StoreStream, StoreStarredStream, MarkSlow };
+    enum Job { Idle, StoreTabs, StoreFriends, StoreFeeds, StoreStreamUpdate, StoreStream, StoreStarredStream, MarkSlow };
 
     static const int limitAtOnce = 100;
     static const int limitAtOnceForUpdate = 100;
@@ -86,6 +88,7 @@ private:
     void removeDeletedFeeds();
 
     void fetchTabs();
+    void fetchFriends();
     void fetchFeeds();
     void fetchStreamUpdate();
     void fetchStream();
@@ -95,6 +98,7 @@ private:
     void startJob(Job job);
 
     void storeTabs();
+    void storeFriends();
     void storeFeeds();
     void storeStream();
     void storeStarredStream();

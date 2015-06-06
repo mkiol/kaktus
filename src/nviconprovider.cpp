@@ -27,12 +27,12 @@
 #include "nviconprovider.h"
 
 const QString NvIconProvider::availableColors[5] = {"green", "blue", "orange", "pink", "grey"};
-const QString NvIconProvider::spriteMap[5][8] = {
-    {"plus", "home", "label-2", "star", "label", "pin", "sheet", "power"},
-    {"enveloppe", "happy-face", "rss", "calc", "clock", "pen", "bug"},
-    {"cloud", "cog", "vbar", "pie", "table", "line", "magnifier"},
-    {"lightbulb", "movie", "note", "camera", "mobile", "computer", "heart"},
-    {"alert", "bill", "funnel", "eye", "bubble", "calendar", "check"}
+const QString NvIconProvider::spriteMap[5][10] = {
+    {"plus","home","label-2","star","label","pin","sheet","power","diamond","folder"},
+    {"enveloppe","happy-face","rss","calc","clock","pen","bug","label-box","yen","snail"},
+    {"cloud","cog","vbar","pie","table","line","magnifier","potion","pound","euro"},
+    {"lightbulb","movie","note","camera","mobile","computer","heart","bubbles","dollars"},
+    {"alert","bill","funnel","eye","bubble","calendar","check","crown","plane"}
 };
 
 NvIconProvider::NvIconProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap)
@@ -56,9 +56,10 @@ QPixmap NvIconProvider::requestPixmap(const QString &id, QSize *size, const QSiz
 
 QRect NvIconProvider::getPosition(const QString &icon, const QString &color)
 {
+    //qDebug() << icon << color;
     int n = 16, s = 20, a = 16;
     for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 8; ++j) {
+        for (int j = 0; j < 10; ++j) {
             if (spriteMap[i][j] == icon) {
                 n += 100 * i;
                 a += j * s;
