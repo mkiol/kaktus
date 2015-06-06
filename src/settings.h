@@ -196,6 +196,9 @@ public:
     void setFeedsUpdateAtOnce(int value);
     int getFeedsUpdateAtOnce();
 
+    Q_INVOKABLE void setHint1Done(bool value);
+    Q_INVOKABLE bool getHint1Done();
+
     Q_INVOKABLE const QList<QVariant> viewModeHistory();
 
 signals:

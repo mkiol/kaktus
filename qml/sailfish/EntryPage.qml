@@ -130,6 +130,8 @@ Page {
             readlater: model.readlater
             index: model.index
             cached: model.cached
+            broadcast: model.broadcast
+            liked: model.liked
             fresh: model.fresh
             last: model.uid=="last"
             daterow: model.uid=="daterow"
@@ -137,7 +139,7 @@ Page {
             objectName: "EntryDelegate"
 
             Component.onCompleted: {
-                //console.log("feedTitle:",feedTitle);
+                //console.log("broadcast:",model.broadcast, model.liked);
                 // Dynamic creation of new items if last item is compleated
                 if (index==entryModel.count()-1) {
                     //console.log(index);
@@ -248,6 +250,14 @@ Page {
             onUnmarkedReadlater: {
                 entryModel.setData(index, "readlater", 0);
             }
+
+            onMarkedBroadcast: {
+                entryModel.setData(model.index, "broadcast", true);
+            }
+
+            onUnmarkedBroadcast: {
+                entryModel.setData(model.index, "broadcast", false);
+            }
         }
 
         ViewPlaceholder {
@@ -267,5 +277,23 @@ Page {
             flickable: listView
         }
 
+    }
+
+    HintLabel {
+        anchors.bottom: parent.bottom
+        backgroundColor: Theme.highlightDimmerColor
+        Behavior on opacity { FadeAnimation { duration: 400 } }
+        opacity: settings.getHint1Done() ? 0.0 : 1.0
+        visible: opacity != 0
+
+        text: qsTr("One-tap to open article, double-tap to mark as read")
+
+        MouseArea {
+            anchors.fill: parent
+            onPressed: {
+                settings.setHint1Done(true);
+                parent.opacity = 0.0;
+            }
+        }
     }
 }

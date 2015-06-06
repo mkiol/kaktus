@@ -180,6 +180,16 @@ bool Settings::getHelpDone()
     return settings.value("helpdone", false).toBool();
 }
 
+void Settings::setHint1Done(bool value)
+{
+    settings.setValue("hint1done", value);
+}
+
+bool Settings::getHint1Done()
+{
+    return settings.value("hint1done", false).toBool();
+}
+
 void Settings::setAutoDownloadOnUpdate(bool value)
 {
     if (getAutoDownloadOnUpdate() != value) {
@@ -595,5 +605,7 @@ void Settings::reset()
         setCookie("");
         setTwitterCookie("");
         setAuthUrl("");
+        setHint1Done(false);
+        setCachingMode(0);
     }
 }
