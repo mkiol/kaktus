@@ -3,16 +3,16 @@
   * Copyright (C) 2009 Flavio Castelli <flavio@castelli.name>
   *
   * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Library General Public
-  * License as published by the Free Software Foundation; either
-  * version 2 of the License, or (at your option) any later version.
+  * modify it under the terms of the GNU Lesser General Public
+  * License version 2.1, as published by the Free Software Foundation.
+  * 
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  * Library General Public License for more details.
+  * Lesser General Public License for more details.
   *
-  * You should have received a copy of the GNU Library General Public License
+  * You should have received a copy of the GNU Lesser General Public License
   * along with this library; see the file COPYING.LIB.  If not, write to
   * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
   * Boston, MA 02110-1301, USA.
@@ -21,16 +21,22 @@
 #ifndef QOBJECTHELPER_H
 #define QOBJECTHELPER_H
 
+#include "qjson_export.h"
+
 #include <QtCore/QLatin1String>
 #include <QtCore/QStringList>
 #include <QtCore/QVariantMap>
 
+QT_BEGIN_NAMESPACE
 class QObject;
+QT_END_NAMESPACE
 
+namespace QJson {
   /**
   * @brief Class used to convert QObject into QVariant and vivce-versa.
   * During these operations only the class attributes defined as properties will
   * be considered.
+  * Properties marked as 'non-stored' will be ignored.
   *
   * Suppose the declaration of the Person class looks like this:
   * \code
@@ -109,11 +115,11 @@ class QObject;
     \sa Parser
     \sa Serializer
   */
-class QObjectHelper {
+  class QJSON_EXPORT QObjectHelper {
     public:
       QObjectHelper();
       ~QObjectHelper();
-      
+
     /**
     * This method converts a QObject instance into a QVariantMap.
     *
@@ -126,7 +132,8 @@ class QObjectHelper {
     /**
     * This method converts a QVariantMap instance into a QObject
     *
-    * @param object The QObject instance to be converted.
+    * @param variant Attributes to assign to the object.
+    * @param object The QObject instance to update.
     */
     static void qvariant2qobject(const QVariantMap& variant, QObject* object);
 
@@ -134,7 +141,7 @@ class QObjectHelper {
       Q_DISABLE_COPY(QObjectHelper)
       class QObjectHelperPrivate;
       QObjectHelperPrivate* const d;
-};
-
+  };
+}
 
 #endif // QOBJECTHELPER_H
