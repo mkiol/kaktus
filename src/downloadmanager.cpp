@@ -290,6 +290,8 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
                 s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),5);
                 break;
             case QNetworkReply::ContentNotFoundError:
+            case QNetworkReply::ContentOperationNotPermittedError:
+            case QNetworkReply::UnknownContentError:
                 s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),6);
                 break;
             default:
@@ -323,6 +325,8 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
             item.flag = 5;
             break;
         case QNetworkReply::ContentNotFoundError:
+        case QNetworkReply::ContentOperationNotPermittedError:
+        case QNetworkReply::UnknownContentError:
             item.flag = 6;
             break;
         default:
@@ -601,7 +605,7 @@ void DownloadManager::startFeedDownload()
 
     //qDebug() << "DownloadManager::startFeedDownload()";
     if (!ncm.isOnline()) {
-        qWarning() << "Network is Offline!";
+        qWarning() << "Network is offline!";
         //emit networkNotAccessible();
         //return false;
     }
@@ -682,28 +686,48 @@ void DownloadManager::onlineDownload(const QString& id, const QString& url)
         item.type = "online-item";
         emit addDownload(item);
         return;
-
-        // Search by origUrl
-        /*item = s->db->readCacheByOrigUrl(url);
-        if (item.id == "") {
-            qDebug() << "Search by origUrl not found";
-            // No cache item -> downloaing
-            //qDebug() << "No cache item -> downloaing";
-            item.entryId = id;
-            item.origUrl = url;
-            item.finalUrl = url;
-            item.baseUrl = url;
-            item.type = "online-item";
-            emit addDownload(item);
-            return;
-        }
-        qDebug() << "Item found by origUrl! baseUrl=" << item.finalUrl;
-        emit onlineDownloadReady("", item.baseUrl);*/
     }
 }
 
-void CacheCleaner::run() {
+void CacheCleaner::run()
+{
+    Settings *s = Settings::instance();
+    if (s->getSigninType() < 10)
+        cleanNv();
+    else
+        cleanOr();
+}
 
+void CacheCleaner::cleanOr()
+{
+    Settings *s = Settings::instance();
+
+    if (s->getRetentionDays()<1) {
+        return;
+    }
+
+    QDir cacheDir(s->getDmCacheDir());
+    QDateTime date = QDateTime::currentDateTime().addDays(0-s->getRetentionDays());
+
+    if (cacheDir.exists()) {
+        QFileInfoList infoList = cacheDir.entryInfoList(QDir::Files,QDir::Time);
+        Q_FOREACH(QFileInfo info, infoList){
+            if (info.created() < date) {
+                if (QFile::remove(info.absoluteFilePath())) {
+                    qDebug() << "Cache cleaner:" << info.fileName() << "deleted!";
+                } else {
+                    qWarning() << "Cache cleaner:" << info.fileName() << " is old but can not be deleted!";
+                }
+            } else {
+                return;
+            }
+            QThread::msleep(5);
+        }
+    }
+}
+
+void CacheCleaner::cleanNv()
+{
     Settings *s = Settings::instance();
     QString cacheDir = s->getDmCacheDir();
 

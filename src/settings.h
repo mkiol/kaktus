@@ -67,6 +67,7 @@ class Settings: public QObject
     Q_PROPERTY (int cachingMode READ getCachingMode WRITE setCachingMode NOTIFY cachingModeChanged)
     Q_PROPERTY (int theme READ getTheme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY (int signinType READ getSigninType WRITE setSigninType NOTIFY signinTypeChanged)
+    Q_PROPERTY (bool showBroadcast READ getShowBroadcast WRITE setShowBroadcast NOTIFY showBroadcastChanged)
 
 public:
     static Settings* instance();
@@ -107,6 +108,9 @@ public:
 
     bool getShowStarredTab();
     void setShowStarredTab(bool value);
+
+    bool getShowBroadcast();
+    void setShowBroadcast(bool value);
 
     void setDashboardInUse(const QString &value);
     QString getDashboardInUse();
@@ -154,9 +158,6 @@ public:
 
     // ---
 
-    bool getShowOnlyUnread();
-    void setShowOnlyUnread(bool value);
-
     Q_INVOKABLE QString getSettingsDir();
 
     QString getDmCacheDir();
@@ -176,10 +177,14 @@ public:
     Q_INVOKABLE void setAuthUrl(const QString &value);
     Q_INVOKABLE QString getAuthUrl();
 
-    // --------
-
     Q_INVOKABLE void setDmUserAgent(const QString &value);
     Q_INVOKABLE QString getDmUserAgent();
+
+    Q_INVOKABLE void setRetentionDays(int value);
+    Q_INVOKABLE int getRetentionDays();
+
+    bool getShowOnlyUnread();
+    void setShowOnlyUnread(bool value);
 
     void setDmConnections(int value);
     int getDmConnections();
@@ -222,6 +227,7 @@ signals:
     void themeChanged();
     void cachingModeChanged();
     void signinTypeChanged();
+    void showBroadcastChanged();
 
     /*
     501 - Unable create settings dir

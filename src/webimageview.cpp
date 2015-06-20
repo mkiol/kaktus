@@ -13,13 +13,13 @@ QNetworkAccessManager * WebImageView::mNetManager = new QNetworkAccessManager();
 QNetworkDiskCache * WebImageView::mNetworkDiskCache = new QNetworkDiskCache();
 
 const QString WebImageView::availableColors[5] = {"green", "blue", "orange", "pink", "grey"};
-const QString WebImageView::spriteMap[5][8] = {
-    {"plus", "home", "label-2", "star", "label", "pin", "sheet", "power"},
-    {"enveloppe", "happy-face", "rss", "calc", "clock", "pen", "bug"},
-    {"cloud", "cog", "vbar", "pie", "table", "line", "magnifier"},
-    {"lightbulb", "movie", "note", "camera", "mobile", "computer", "heart"},
-    {"alert", "bill", "funnel", "eye", "bubble", "calendar", "check"}
-};
+const QString WebImageView::spriteMap[5][10] = {
+        {"plus","home","label-2","star","label","pin","sheet","power","diamond","folder"},
+        {"enveloppe","happy-face","rss","calc","clock","pen","bug","label-box","yen","snail"},
+        {"cloud","cog","vbar","pie","table","line","magnifier","potion","pound","euro"},
+        {"lightbulb","movie","note","camera","mobile","computer","heart","bubbles","dollars"},
+        {"alert","bill","funnel","eye","bubble","calendar","check","crown","plane"}
+    };
 
 WebImageView::WebImageView() {
     // Initialize network cache
@@ -86,14 +86,32 @@ void WebImageView::setDoSizeCheck(bool value)
     }
 }
 
-void WebImageView::setUrl(const QUrl& url) {
-    // Variables
+void WebImageView::setUrl(const QUrl& url)
+{
+    //qDebug() << "url" << url << "mUrl" << mUrl << (url==mUrl);
+    if (url == mUrl) {
+        return;
+    }
+
     mUrl = url;
     mLoading = 0;
     mIsLoaded = false;
-
-    // Reset the image
+    emit isLoadedChanged();
     resetImage();
+
+    if (url.isEmpty()) {
+        emit urlChanged();
+        return;
+    }
+
+    // Detecting if url is "asset:///"
+    if (url.toString().startsWith("asset:///")) {
+        this->setImageSource(url);
+        mIsLoaded = true;
+        emit isLoadedChanged();
+        emit urlChanged();
+        return;
+    }
 
     // Detecting if url is "image://nvicons/"
     if (url.toString().startsWith("image://nvicons/")) {
@@ -105,6 +123,7 @@ void WebImageView::setUrl(const QUrl& url) {
         setImage(Image(fromQImage(QImage("app/native/assets/sprite-icons.png").copy(getPosition(icon, color)))));
         mIsLoaded = true;
         emit isLoadedChanged();
+        emit urlChanged();
         return;
     }
 
@@ -181,8 +200,13 @@ void WebImageView::imageLoaded() {
                     sourceSize = size;
                     emit sizeChanged();
                 }*/
+                if (reply->header(QNetworkRequest::ContentTypeHeader).toString() == "image/x-icon") {
+                    // BB does not support ICO image format -> must convert
+                    setImage(Image(fromQImage(QImage::fromData(imageData))));
+                } else {
+                    setImage(Image(imageData));
+                }
 
-                setImage(Image(imageData));
                 mIsLoaded = true;
             }
         }
@@ -227,7 +251,7 @@ QRect WebImageView::getPosition(const QString &icon, const QString &color)
 {
     int n = 16, s = 20, a = 16;
     for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 8; ++j) {
+        for (int j = 0; j < 10; ++j) {
             if (spriteMap[i][j] == icon) {
                 n += 100 * i;
                 a += j * s;

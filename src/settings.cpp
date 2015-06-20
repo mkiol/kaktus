@@ -33,7 +33,6 @@
 #include "downloadmanager.h"
 #include "databasemanager.h"
 #include "cacheserver.h"
-#include "netvibesfetcher.h"
 #include "simplecrypt.h"
 #include "../key.h"
 
@@ -105,6 +104,19 @@ void Settings::setShowOnlyUnread(bool value)
 bool Settings::getShowOnlyUnread()
 {
     return settings.value("showonlyunread", true).toBool();
+}
+
+void Settings::setShowBroadcast(bool value)
+{
+    if (getShowBroadcast() != value) {
+        settings.setValue("showbroadcast", value);
+        emit showBroadcastChanged();
+    }
+}
+
+bool Settings::getShowBroadcast()
+{
+    return settings.value("showbroadcast", false).toBool();
 }
 
 void Settings::setOfflineMode(bool value)
@@ -423,9 +435,8 @@ void Settings::setDmConnections(int value)
 
 int Settings::getDmConnections()
 {
-//#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
-#if defined(Q_OS_SYMBIAN)
-    return settings.value("connections", 1).toInt();
+#ifdef BB10
+    return settings.value("connections", 10).toInt();
 #else
     return settings.value("connections", 10).toInt();
 #endif
@@ -514,6 +525,21 @@ void Settings::setFontSize(int value)
         settings.setValue("fontsize", value);
         emit fontSizeChanged();
     }
+}
+
+int Settings::getRetentionDays()
+{
+    // Default is 14 days
+    return settings.value("retentiondays", 14).toInt();
+}
+
+void Settings::setRetentionDays(int value)
+{
+#ifdef KAKTUS_LIGHT
+    if (value < 1 || value >= 30 )
+        return;
+#endif
+    settings.setValue("retentiondays", value);
 }
 
 int Settings::getTheme()
@@ -607,5 +633,6 @@ void Settings::reset()
         setAuthUrl("");
         setHint1Done(false);
         setCachingMode(0);
+        setRetentionDays(30);
     }
 }

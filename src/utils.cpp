@@ -563,6 +563,10 @@ QString Utils::getHumanFriendlyTimeString(int date)
     QDateTime qdate = QDateTime::fromTime_t(date);
     int secs = qdate.secsTo(QDateTime::currentDateTimeUtc());
 
+    //qDebug() << ">>>>>>>>date" << date << "QDateTime::fromTime_t(date)" << qdate;
+    //qDebug() << "QDateTime::currentDateTimeUtc()" << QDateTime::currentDateTimeUtc();
+    //qDebug() << "qdate.secsTo(QDateTime::currentDateTimeUtc())" << secs;
+
     if (secs<=0) {
         return tr("just now");
     }
@@ -679,5 +683,10 @@ void Utils::resetFetcher(int type)
     }
 
     if (s->fetcher != NULL)
+#ifdef BB10
+        s->qml->setContextProperty("fetcher", s->fetcher);
+#else
         s->view->rootContext()->setContextProperty("fetcher", s->fetcher);
+#endif
+
 }

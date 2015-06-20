@@ -25,8 +25,9 @@
 #include <QJsonArray>
 #include <QStringList>
 #include <QDateTime>
+#include <math.h>
 #else
-#include "qjson.h"
+#include "parser.h"
 #endif
 
 #include "oldreaderfetcher.h"
@@ -112,9 +113,6 @@ void OldReaderFetcher::setAction()
 
     Settings *s = Settings::instance();
 
-    //qDebug() << "########### setAction";
-    //qDebug() << action.type << action.id1 << action.id2 << action.date1 << action.date2;
-
     if (currentReply != NULL) {
         currentReply->disconnect();
         currentReply->deleteLater();
@@ -176,7 +174,10 @@ void OldReaderFetcher::setAction()
         break;
     case DatabaseManager::SetBroadcast:
         url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
-        body = QString("a=user/-/state/com.google/broadcast&i=%1").arg(action.id1);
+        if (action.text == "")
+            body = QString("a=user/-/state/com.google/broadcast&i=%1").arg(action.id1);
+        else
+            body = QString("a=user/-/state/com.google/broadcast&i=%1&annotation=%2").arg(action.id1).arg(action.text);
         break;
     case DatabaseManager::UnSetBroadcast:
         url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
@@ -194,8 +195,6 @@ void OldReaderFetcher::setAction()
     // Headers
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
-
-    //qDebug() << body;
 
     currentReply = nam.post(request,body.toUtf8());
 
@@ -219,7 +218,6 @@ void OldReaderFetcher::fetchFriends()
     QUrl url("https://theoldreader.com/reader/api/0/friend/list?output=json");
     QNetworkRequest request(url);
 
-    // Authorization header
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
 
     currentReply = nam.get(request);
@@ -246,7 +244,6 @@ void OldReaderFetcher::fetchTabs()
     QUrl url("https://theoldreader.com/reader/api/0/tag/list?output=json");
     QNetworkRequest request(url);
 
-    // Authorization header
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
 
     currentReply = nam.get(request);
@@ -272,7 +269,6 @@ void OldReaderFetcher::fetchFeeds()
     QUrl url("https://theoldreader.com/reader/api/0/subscription/list?output=json");
     QNetworkRequest request(url);
 
-    // Authorization header
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
 
     currentReply = nam.get(request);
@@ -282,49 +278,8 @@ void OldReaderFetcher::fetchFeeds()
     connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
 }
 
-void OldReaderFetcher::fetchStreamUpdate()
-{
-    QString feedId = feedUpdateList.first().streamId;
-    //qDebug() << "fetchStreamUpdate, feedId=" << feedId;
-
-    data.clear();
-
-    Settings *s = Settings::instance();
-
-    if (currentReply != NULL) {
-        currentReply->disconnect();
-        currentReply->deleteLater();
-        currentReply = NULL;
-    }
-
-    QUrl url;
-    if (lastContinuation == "")
-        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&s=%2")
-                   .arg(limitAtOnceForUpdate).arg(feedId));
-    else
-        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&s=%2&c=%3")
-                   .arg(limitAtOnceForUpdate).arg(feedId).arg(lastContinuation));
-    QNetworkRequest request(url);
-
-    // Authorization header
-    request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
-
-    currentReply = nam.get(request);
-
-    connect(currentReply, SIGNAL(finished()), this, SLOT(finishedStreamUpdate()));
-    connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
-    connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
-}
-
 void OldReaderFetcher::fetchStream()
 {
-    QString feedId;
-    if (busyType == Fetcher::Updating)
-        feedId = feedList.first().streamId;
-    else
-        feedId = feedUpdateList.first().streamId;
-    //qDebug() << "fetchStream, feedId=" << feedId;
-
     data.clear();
 
     Settings *s = Settings::instance();
@@ -336,16 +291,34 @@ void OldReaderFetcher::fetchStream()
     }
 
     QUrl url;
-    if (lastContinuation == "")
-        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&s=%2")
-                   .arg(limitAtOnce).arg(feedId));
-    else
-        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&s=%2&c=%3")
-                   .arg(limitAtOnce).arg(feedId).arg(lastContinuation));
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+    QString st(QUrl::toPercentEncoding("user/-/state/com.google/reading-list"));
+#else
+    QString st = "user/-/state/com.google/reading-list";
+#endif
+    int epoch = s->getRetentionDays() > 0 ?
+                QDateTime::currentDateTimeUtc().addDays(0-s->getRetentionDays()).toTime_t() :
+                0;
+    if (lastContinuation == "") {
+        if (epoch > 0)
+            url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&ot=%2&s=%3")
+                       .arg(limitAtOnce).arg(epoch).arg(st));
+        else
+            url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&s=%2")
+                       .arg(limitAtOnce).arg(st));
+    } else {
+        if (epoch > 0)
+            url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&ot=%3&s=%4")
+                       .arg(limitAtOnce).arg(lastContinuation).arg(epoch).arg(st));
+        else
+            url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&s=%3")
+                       .arg(limitAtOnce).arg(lastContinuation).arg(st));
+    }
     QNetworkRequest request(url);
 
-    // Authorization header
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
+
+    //qDebug() << url.toString();
 
     currentReply = nam.get(request);
 
@@ -356,7 +329,6 @@ void OldReaderFetcher::fetchStream()
 
 void OldReaderFetcher::fetchStarredStream()
 {
-    //qDebug() << "fetchStarredStream, lastContinuation=" << lastContinuation << "continuationCount=" << continuationCount;
     data.clear();
 
     Settings *s = Settings::instance();
@@ -368,20 +340,132 @@ void OldReaderFetcher::fetchStarredStream()
     }
 
     QUrl url;
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+    QString st(QUrl::toPercentEncoding("user/-/state/com.google/starred"));
+#else
+    QString st = "user/-/state/com.google/starred";
+#endif
     if (lastContinuation == "")
-        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&s=user/-/state/com.google/starred")
-                   .arg(limitAtOnceForStarred));
+        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&s=%2")
+                   .arg(limitAtOnce).arg(st));
     else
-        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&s=user/-/state/com.google/starred")
-                   .arg(limitAtOnceForStarred).arg(lastContinuation));
+        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&s=%3")
+                   .arg(limitAtOnce).arg(lastContinuation).arg(st));
     QNetworkRequest request(url);
 
-    // Authorization header
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
 
     currentReply = nam.get(request);
 
     connect(currentReply, SIGNAL(finished()), this, SLOT(finishedStarredStream()));
+    connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+}
+
+void OldReaderFetcher::fetchLikedStream()
+{
+    data.clear();
+
+    Settings *s = Settings::instance();
+
+    if (currentReply != NULL) {
+        currentReply->disconnect();
+        currentReply->deleteLater();
+        currentReply = NULL;
+    }
+
+    QUrl url;
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+    QString st(QUrl::toPercentEncoding("user/-/state/com.google/liked"));
+#else
+    QString st = "user/-/state/com.google/liked";
+#endif
+    if (lastContinuation == "")
+        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&s=%2")
+                   .arg(limitAtOnce).arg(st));
+    else
+        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&s=%3")
+                   .arg(limitAtOnce).arg(lastContinuation).arg(st));
+    QNetworkRequest request(url);
+
+    request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
+
+    currentReply = nam.get(request);
+
+    connect(currentReply, SIGNAL(finished()), this, SLOT(finishedLikedStream()));
+    connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+}
+
+void OldReaderFetcher::fetchBroadcastStream()
+{
+    data.clear();
+
+    Settings *s = Settings::instance();
+
+    if (currentReply != NULL) {
+        currentReply->disconnect();
+        currentReply->deleteLater();
+        currentReply = NULL;
+    }
+
+    QUrl url;
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+    QString st(QUrl::toPercentEncoding("user/-/state/com.google/broadcast"));
+#else
+    QString st = "user/-/state/com.google/broadcast";
+#endif
+    if (lastContinuation == "")
+        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&s=%2")
+                   .arg(limitAtOnce).arg(st));
+    else
+        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&s=%3")
+                   .arg(limitAtOnce).arg(lastContinuation).arg(st));
+    QNetworkRequest request(url);
+
+    request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
+
+    currentReply = nam.get(request);
+
+    connect(currentReply, SIGNAL(finished()), this, SLOT(finishedBroadcastStream()));
+    connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+}
+
+void OldReaderFetcher::fetchUnreadStream()
+{
+    data.clear();
+
+    Settings *s = Settings::instance();
+
+    if (currentReply != NULL) {
+        currentReply->disconnect();
+        currentReply->deleteLater();
+        currentReply = NULL;
+    }
+
+    QUrl url;
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+    QString st1(QUrl::toPercentEncoding("user/-/state/com.google/reading-list"));
+    QString st2(QUrl::toPercentEncoding("user/-/state/com.google/read"));
+#else
+    QString st1 = "user/-/state/com.google/reading-list";
+    QString st2 = "user/-/state/com.google/read";
+#endif
+    if (lastContinuation == "")
+        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&s=%2&xt=%3")
+                   .arg(limitAtOnce).arg(st1, st2));
+    else
+        url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&s=%3&xt=%4")
+                   .arg(limitAtOnce)
+                   .arg(lastContinuation).arg(st1, st2));
+    QNetworkRequest request(url);
+
+    request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
+
+    currentReply = nam.get(request);
+
+    connect(currentReply, SIGNAL(finished()), this, SLOT(finishedUnreadStream()));
     connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
 }
@@ -557,77 +641,19 @@ void OldReaderFetcher::finishedFeeds()
 
 void OldReaderFetcher::finishedFeeds2()
 {
+    // Proggres initiating, one step is one day
     Settings *s = Settings::instance();
-
-    // Proggres initiating
-    proggressTotal = feedUpdateList.count() + 2;
+    proggressTotal = s->getRetentionDays() > 0 ? log(s->getRetentionDays()) + 4 : 5;
     proggress = 1;
+    lastDate = 0;
     emit progress(proggress, proggressTotal);
 
-    if (busyType == Fetcher::Updating) {
-        prepareFeedLists();
-        removeDeletedFeeds();
-        //qDebug() << "New feeds:" << feedList.count() << "Feeds to update:" << feedUpdateList.count();
-        fetchStreamUpdate();
-        return;
-    }
+    /*if (busyType == Fetcher::Updating)
+        removeDeletedFeeds();*/
 
-    if (busyType == Fetcher::Initiating) {
-        s->db->cleanEntries();
-        //feedUpdateList.clear();
-        //qDebug() << "New feeds:" << feedUpdateList.count();
+    s->db->updateEntriesFlag(1); // Marking as old
 
-        if (feedUpdateList.isEmpty()) {
-            qWarning() << "No Feeds to download!";
-
-            // Proggres initiating
-            proggressTotal = 2;
-            proggress = 1;
-            emit progress(proggress, proggressTotal);
-
-            fetchStarredStream();
-        } else {
-            fetchStream();
-        }
-    }
-}
-
-void OldReaderFetcher::finishedStreamUpdate()
-{
-    //qDebug() << data;
-    if (currentReply->error()) {
-        emit error(500);
-        setBusy(false);
-        return;
-    }
-
-    startJob(StoreStreamUpdate);
-}
-
-void OldReaderFetcher::finishedStreamUpdate2()
-{
-    if (lastContinuation == "" ||
-        continuationCount > continuationLimitForUpdate) {
-
-        ++proggress;
-        emit progress(proggress, proggressTotal);
-
-        lastContinuation = "";
-        continuationCount = 0;
-
-        feedUpdateList.removeFirst();
-        if (feedUpdateList.isEmpty()) {
-            //qDebug() << "Streams update done. Starting New Streams download.";
-            if (feedList.isEmpty()) {
-                fetchStarredStream();
-            } else {
-                fetchStream();
-            }
-            return;
-        }
-    }
-
-    fetchStreamUpdate();
+    fetchStream();
 }
 
 void OldReaderFetcher::finishedStream()
@@ -644,32 +670,24 @@ void OldReaderFetcher::finishedStream()
 
 void OldReaderFetcher::finishedStream2()
 {
+    Settings *s = Settings::instance();
+    if (s->getRetentionDays() > 0) {
+        if (lastDate > s->getRetentionDays())
+            lastDate = s->getRetentionDays();
+        emit progress(proggress + log(lastDate), proggressTotal);
+    }
+
     if (lastContinuation == "" ||
         continuationCount > continuationLimit) {
 
-        ++proggress;
-        emit progress(proggress, proggressTotal);
+        proggress += s->getRetentionDays() > 0 ? log(lastDate) : 1;
 
         lastContinuation = "";
         continuationCount = 0;
+        lastDate = 0;
 
-        if (busyType == Fetcher::Initiating) {
-            feedUpdateList.removeFirst();
-            if (feedUpdateList.isEmpty()) {
-                //qDebug() << "New Streams download done.";
-                fetchStarredStream();
-                return;
-            }
-        }
-
-        if (busyType == Fetcher::Updating) {
-            feedList.removeFirst();
-            if (feedList.isEmpty()) {
-                //qDebug() << "New Streams download done.";
-                fetchStarredStream();
-                return;
-            }
-        }
+        fetchStarredStream();
+        return;
     }
 
     fetchStream();
@@ -690,26 +708,108 @@ void OldReaderFetcher::finishedStarredStream()
 void OldReaderFetcher::finishedStarredStream2()
 {
     if (lastContinuation == "" ||
-        continuationCount > continuationLimitForStarred) {
+        continuationCount > continuationLimit) {
 
         ++proggress;
         emit progress(proggress, proggressTotal);
 
-        //taskEnd();
-        startJob(MarkSlow);
+        fetchLikedStream();
         return;
     }
 
     fetchStarredStream();
 }
 
+void OldReaderFetcher::finishedLikedStream()
+{
+    //qDebug() << data;
+    if (currentReply->error()) {
+        emit error(500);
+        setBusy(false);
+        return;
+    }
+
+    startJob(StoreLikedStream);
+}
+
+void OldReaderFetcher::finishedLikedStream2()
+{
+    if (lastContinuation == "" ||
+        continuationCount > continuationLimit) {
+
+        ++proggress;
+        emit progress(proggress, proggressTotal);
+
+        fetchBroadcastStream();
+        return;
+    }
+
+    fetchLikedStream();
+}
+
+void OldReaderFetcher::finishedBroadcastStream()
+{
+    //qDebug() << data;
+    if (currentReply->error()) {
+        emit error(500);
+        setBusy(false);
+        return;
+    }
+
+    startJob(StoreBroadcastStream);
+}
+
+void OldReaderFetcher::finishedBroadcastStream2()
+{
+    if (lastContinuation == "" ||
+        continuationCount > continuationLimit) {
+
+        ++proggress;
+        emit progress(proggress, proggressTotal);
+
+        startJob(MarkSlow);
+        return;
+    }
+
+    fetchBroadcastStream();
+}
+
+void OldReaderFetcher::finishedUnreadStream()
+{
+    //qDebug() << data;
+    if (currentReply->error()) {
+        emit error(500);
+        setBusy(false);
+        return;
+    }
+
+    startJob(StoreUnreadStream);
+}
+
+void OldReaderFetcher::finishedUnreadStream2()
+{
+    if (lastContinuation == "" ||
+        continuationCount > continuationLimit) {
+        taskEnd();
+        return;
+    }
+
+    fetchUnreadStream();
+}
+
 void OldReaderFetcher::finishedSetAction()
 {
     //qDebug() << data;
     if (currentReply != NULL && currentReply->error()) {
-        emit error(500);
-        setBusy(false);
-        return;
+        int code = currentReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        if (code == 404) {
+            // Probably item already deleted -> skiping
+            qWarning() << "Action request returns 404!";
+        } else {
+            emit error(500);
+            setBusy(false);
+            return;
+        }
     }
 
     Settings *s = Settings::instance();
@@ -719,7 +819,6 @@ void OldReaderFetcher::finishedSetAction()
     s->db->removeActionsById(action.id1);
 
     if (actionsList.isEmpty()) {
-        //qDebug() << "All action uploaded.";
         s->db->cleanDashboards();
         startFetching();
         return;
@@ -730,6 +829,10 @@ void OldReaderFetcher::finishedSetAction()
 
 void OldReaderFetcher::finishedMarkSlow()
 {
+    // Deleting old entries
+    Settings *s = Settings::instance();
+    s->db->removeEntriesByFlag(1);
+
     taskEnd();
     return;
 }
@@ -760,10 +863,11 @@ void OldReaderFetcher::startFetching()
     s->db->cleanTabs();
     if(busyType == Fetcher::Initiating) {
         s->db->cleanCache();
+        s->db->cleanEntries();
     }
     if (busyType == Fetcher::Updating) {
         s->db->updateEntriesFreshFlag(0); // Set current entries as not fresh
-        storedFeedList = s->db->readStreamModuleTabList();
+        //storedFeedList = s->db->readStreamModuleTabList();
     }
     s->db->cleanStreams();
     s->db->cleanModules();
@@ -822,14 +926,20 @@ void OldReaderFetcher::startJob(Job job)
     case StoreFeeds:
         connect(this, SIGNAL(finished()), this, SLOT(finishedFeeds2()));
         break;
-    case StoreStreamUpdate:
-        connect(this, SIGNAL(finished()), this, SLOT(finishedStreamUpdate2()));
-        break;
     case StoreStream:
         connect(this, SIGNAL(finished()), this, SLOT(finishedStream2()));
         break;
+    case StoreUnreadStream:
+        connect(this, SIGNAL(finished()), this, SLOT(finishedUnreadStream2()));
+        break;
     case StoreStarredStream:
         connect(this, SIGNAL(finished()), this, SLOT(finishedStarredStream2()));
+        break;
+    case StoreLikedStream:
+        connect(this, SIGNAL(finished()), this, SLOT(finishedLikedStream2()));
+        break;
+    case StoreBroadcastStream:
+        connect(this, SIGNAL(finished()), this, SLOT(finishedBroadcastStream2()));
         break;
     case MarkSlow:
         connect(this, SIGNAL(finished()), this, SLOT(finishedMarkSlow()));
@@ -856,11 +966,11 @@ void OldReaderFetcher::run()
     case StoreFeeds:
         storeFeeds();
         break;
-    case StoreStreamUpdate:
-        storeStream();
-        break;
     case StoreStream:
+    case StoreUnreadStream:
     case StoreStarredStream:
+    case StoreLikedStream:
+    case StoreBroadcastStream:
         storeStream();
         break;
     case MarkSlow:
@@ -961,7 +1071,7 @@ void OldReaderFetcher::getFromCategories(const QJsonArray &categories, QVariantM
     QJsonArray::const_iterator i = categories.constBegin();
     QJsonArray::const_iterator end = categories.constEnd();
 #else
-void OldReaderFetcher::getFolderFromCategories(const QVariantList &categories, QVariantMap &result)
+void OldReaderFetcher::getFromCategories(const QVariantList &categories, QVariantMap &result)
 {
     QVariantList::const_iterator i = categories.constBegin();
     QVariantList::const_iterator end = categories.constEnd();
@@ -1017,7 +1127,6 @@ void OldReaderFetcher::getFolderFromCategories(const QVariantList &categories, Q
 void OldReaderFetcher::storeFriends()
 {
     tabList.clear();
-    feedUpdateList.clear();
 
     Settings *s = Settings::instance();
 
@@ -1069,12 +1178,11 @@ void OldReaderFetcher::storeFriends()
             m.streamList.append(st.id);
             s->db->writeModule(m);
 
-            DatabaseManager::StreamModuleTab smt;
+            /*DatabaseManager::StreamModuleTab smt;
             smt.streamId = st.id;
             smt.moduleId = st.id;
             smt.tabId = m.tabId;
-            feedList.append(smt);
-            feedUpdateList.append(smt);
+            feedList.append(smt);*/
 
             ++i;
         }
@@ -1096,8 +1204,6 @@ void OldReaderFetcher::storeFriends()
 
 void OldReaderFetcher::storeFeeds()
 {
-    //feedList.clear();
-    //feedUpdateList.clear();
     Settings *s = Settings::instance();
 
     bool subscriptionsFolderFeed = false;
@@ -1172,13 +1278,11 @@ void OldReaderFetcher::storeFeeds()
                 m.streamList.append(st.id);
                 s->db->writeModule(m);
 
-                DatabaseManager::StreamModuleTab smt;
+                /*DatabaseManager::StreamModuleTab smt;
                 smt.streamId = st.id;
                 smt.moduleId = st.id;
                 smt.tabId = tabId;
-
-                //feedList.append(smt);
-                feedUpdateList.append(smt);
+                feedList.append(smt);*/
             }
 
             ++i;
@@ -1198,9 +1302,13 @@ void OldReaderFetcher::storeStream()
 {
     Settings *s = Settings::instance();
 
-    //qDebug() << jsonObj;
-
     double updated = 0;
+    int retentionDays = s->getRetentionDays();
+
+    //qDebug() << "getRetentionDays" << retentionDays;
+    //qint64 date1 = QDateTime::currentMSecsSinceEpoch();
+    //int items = 0;
+
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (jsonObj["updated"].isDouble()) {
         updated = jsonObj["updated"].toDouble();
@@ -1211,7 +1319,8 @@ void OldReaderFetcher::storeStream()
         QJsonArray::const_iterator i = jsonObj["items"].toArray().constBegin();
         QJsonArray::const_iterator end = jsonObj["items"].toArray().constEnd();
 #else
-    if (jsonObj["updated"].type()==QVariant::Double) {
+    //qDebug() << jsonObj["updated"].type();
+    if (jsonObj["updated"].type()==QVariant::ULongLong) {
         updated = jsonObj["updated"].toDouble();
     } else {
         qWarning() << "No updated param in stream!";
@@ -1233,15 +1342,16 @@ void OldReaderFetcher::storeStream()
             if (obj["origin"].type() == QVariant::Map) {
                 feedId = obj["origin"].toMap()["streamId"].toString();
             }
+            //qDebug() << obj;
 #endif
-            //qDebug() << feedId;
-
             DatabaseManager::Entry e;
             e.id = obj["id"].toString();
             e.streamId = feedId;
             e.title = obj["title"].toString();
             e.author = obj["author"].toString();
             QVariantMap categories;
+
+            //qDebug() << e.id << e.title;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             if (obj["summary"].isObject())
@@ -1250,13 +1360,19 @@ void OldReaderFetcher::storeStream()
                 e.link = obj["canonical"].toArray()[0].toObject()["href"].toString();
             if (obj["categories"].isArray())
                 getFromCategories(obj["categories"].toArray(), categories);
+            if (obj["annotations"].isArray() && !obj["annotations"].toArray().isEmpty())
+                e.annotations = obj["annotations"].toArray()[0].toString();
 #else
             if (obj["summary"].type() == QVariant::Map)
                 e.content = obj["summary"].toMap()["content"].toString();
-            if (obj["canonical"].type() == QVariant::List && obj["canonical"].toList().isEmpty() && obj["canonical"].toList()[0].type() == QVariant::Map)
+            if (obj["canonical"].type() == QVariant::List && !obj["canonical"].toList().isEmpty() && obj["canonical"].toList()[0].type() == QVariant::Map)
                 e.link = obj["canonical"].toList()[0].toMap()["href"].toString();
             if (obj["categories"].type() == QVariant::List)
                 getFromCategories(obj["categories"].toList(), categories);
+            if (obj["annotations"].type() == QVariant::List && !obj["annotations"].toList().isEmpty()) {
+                //qDebug() << e.id << e.title << obj["annotations"];
+                e.annotations = obj["annotations"].toList()[0].toString();
+            }
 #endif
             e.read = categories.value("read").toInt();
             e.saved = categories.value("starred").toInt();
@@ -1271,11 +1387,9 @@ void OldReaderFetcher::storeStream()
             QString crawlTime = obj["crawlTimeMsec"].toString();
             crawlTime.chop(3); // converting Msec to sec
             e.crawlTime = crawlTime.toDouble();
-            e.crawlTime = updated;
             QString timestamp = obj["timestampUsec"].toString();
             timestamp.chop(6); // converting Usec to sec
-
-            //e.timestamp = timestamp.toDouble();
+            e.timestamp = timestamp.toDouble();
 
             /*qDebug() << ">>>>>>>>>>>>>>>";
             qDebug() << e.title << e.streamId;
@@ -1306,54 +1420,45 @@ void OldReaderFetcher::storeStream()
 
             s->db->writeEntry(e);
 
+            // Progress, only for StoreStream
+            //++items;
+            if (currentJob == StoreStream && retentionDays > 0) {
+                int newLastDate = QDateTime::fromTime_t(e.crawlTime).daysTo(QDateTime::currentDateTimeUtc());
+                //qDebug() << "newLastDate" << newLastDate;
+                if (newLastDate > retentionDays) {
+                    //qDebug() << "newLastDate > retentionDays";
+                    lastDate = retentionDays;
+                    lastContinuation = "";
+                    ++continuationCount;
+
+                    //qDebug() << "db write time:" << (QDateTime::currentMSecsSinceEpoch() - date1) << "items:" << items;
+                    return;
+                } else {
+                    lastDate = newLastDate;
+                }
+            }
+
             ++i;
         }
     }
+
+    //qDebug() << "db write time:" << (QDateTime::currentMSecsSinceEpoch() - date1) << "items:" << items;
 
     QString continuation = jsonObj["continuation"].toString();
     lastContinuation = continuation;
     ++continuationCount;
 }
 
-void OldReaderFetcher::prepareFeedLists()
-{
-    // Removing all new feeds form feedUpdateList
-    QList<DatabaseManager::StreamModuleTab>::iterator ui = feedUpdateList.begin();
-
-    while (ui != feedUpdateList.end()) {
-        bool newFeed = true;
-        QList<DatabaseManager::StreamModuleTab>::iterator si = storedFeedList.begin();
-        while (si != storedFeedList.end()) {
-            if ((*si).streamId == (*ui).streamId) {
-                newFeed = false;
-                break;
-            }
-            ++si;
-        }
-
-        if (newFeed) {
-            feedList.append((*ui)); // adding as new Feed
-            ui = feedUpdateList.erase(ui);
-        } else {
-            ++ui;
-        }
-
-    }
-}
-
-void OldReaderFetcher::removeDeletedFeeds()
+/*void OldReaderFetcher::removeDeletedFeeds()
 {
     // Removing all existing feeds form feedList
     QList<DatabaseManager::StreamModuleTab>::iterator si = storedFeedList.begin();
 
     while (si != storedFeedList.end()) {
         bool newFeed = true;
-        //qDebug() << ">>>>>>>> si:" << (*si).streamId;
-        QList<DatabaseManager::StreamModuleTab>::iterator ui = feedUpdateList.begin();
-        while (ui != feedUpdateList.end()) {
-            //qDebug() << "ui:" << (*ui).streamId;
+        QList<DatabaseManager::StreamModuleTab>::iterator ui = feedList.begin();
+        while (ui != feedList.end()) {
             if ((*ui).streamId == (*si).streamId) {
-                //qDebug() << "  matched!";
                 newFeed = false;
                 break;
             }
@@ -1368,7 +1473,7 @@ void OldReaderFetcher::removeDeletedFeeds()
 
         ++si;
     }
-}
+}*/
 
 void OldReaderFetcher::uploadActions()
 {
@@ -1389,11 +1494,6 @@ void OldReaderFetcher::markSlowFeeds()
     QStringList::iterator it = list.begin();
     while (it != list.end()) {
         int n = s->db->countEntriesNewerThanByStream(*it, QDateTime::currentDateTime().addDays(-30));
-        /*if (busyType == Fetcher::Updating)
-            n = s->db->countEntriesNewerThanByStream(*it, QDateTime::fromTime_t(s->getLastUpdateDate()).addDays(-30));
-        else
-            n = s->db->countEntriesNewerThanByStream(*it, QDateTime::currentDateTime().addDays(-30));*/
-        //qDebug() << "n:" << *it << n;
         if (n<5) {
             // Slow detected
             s->db->updateStreamSlowFlagById(*it, 1);

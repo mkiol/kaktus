@@ -25,7 +25,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #else
-#include "qjson.h"
+#include "parser.h"
 #endif
 
 #include "fetcher.h"
@@ -107,8 +107,6 @@ bool Fetcher::init()
 
     setBusy(true, Fetcher::Initiating);
 
-    //TODO ....
-
     signIn();
     emit progress(0,100);
     return true;
@@ -145,8 +143,6 @@ bool Fetcher::update()
         setBusy(true, Fetcher::Updating);
     }
 
-    //TODO ....
-
     signIn();
     emit progress(0,100);
     return true;
@@ -154,7 +150,6 @@ bool Fetcher::update()
 
 void Fetcher::cancel()
 {
-    //disconnect(ncm, SIGNAL(onlineStateChanged(bool)), this, SLOT(delayedUpdate(bool)));
     if (busyType == Fetcher::UpdatingWaiting ||
         busyType == Fetcher::InitiatingWaiting ||
         busyType == Fetcher::CheckingCredentialsWaiting) {
@@ -184,8 +179,6 @@ bool Fetcher::checkCredentials()
 #endif
 
     setBusy(true, Fetcher::CheckingCredentials);
-
-    //TODO ...
 
     return true;
 }
@@ -245,8 +238,6 @@ bool Fetcher::delayedUpdate(bool state)
         return false;
     }
 
-    //TODO .....
-
     return true;
 }
 
@@ -265,12 +256,14 @@ void Fetcher::networkError(QNetworkReply::NetworkError e)
         int code = currentReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         QByteArray phrase = currentReply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toByteArray();
         //emit error(500);
-        qWarning() << "Network error!, error code:" << e << ", HTTP code:" << code << phrase << currentReply->readAll();
+        qWarning() << "Network error!" << "Url:" << currentReply->url().toString() << "Error code:" << e
+                   << "HTTP code:" << code << phrase << "Content:" << currentReply->readAll();
     }
 }
 
 bool Fetcher::parse()
 {
+    //qint64 date1 = QDateTime::currentMSecsSinceEpoch();
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     QJsonDocument doc = QJsonDocument::fromJson(data);
     if (!doc.isObject()) {
@@ -279,7 +272,7 @@ bool Fetcher::parse()
     }
     jsonObj = doc.object();
 #else
-    QJson qjson(this);
+    QJson::Parser qjson;
     bool ok;
     jsonObj = qjson.parse(data, &ok).toMap();
     if (!ok) {
@@ -291,6 +284,7 @@ bool Fetcher::parse()
         return false;
     }
 #endif
+    //qDebug() << "parse time:" << (QDateTime::currentMSecsSinceEpoch() - date1);
     return true;
 }
 

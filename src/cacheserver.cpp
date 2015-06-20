@@ -421,9 +421,13 @@ CacheServer::CacheServer(QObject *parent) :
     QObject(parent)
 {
     server = new QHttpServer;
+
     QObject::connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
             this, SLOT(handle(QHttpRequest*, QHttpResponse*)));
-    server->listen(port);
+
+    if (!server->listen(port)) {
+        qWarning() << "Cache server at localhost failed to start on" << this->port << "port!";
+    }
 }
 
 CacheServer::~CacheServer()
@@ -521,8 +525,10 @@ QString CacheServer::getUrlbyId(const QString &item)
 
 QString CacheServer::getUrlbyUrl(const QString &url)
 {
+    //qDebug() << "getUrlbyUrl, url=" << url << "hash=" << Utils::hash(url);
+
     // If url is "image://" will not be hashed
-    if (url.startsWith("image://")) {
+    if (url.isEmpty() || url.startsWith("image://")) {
         return url;
     }
 

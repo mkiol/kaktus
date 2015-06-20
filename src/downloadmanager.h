@@ -90,11 +90,11 @@ class CacheCleaner : public QThread
 protected:
     void run();
 
-/*signals:
-    void ready();*/
-
 private:
     static const int entriesLimit = 100;
+
+    void cleanNv();
+    void cleanOr();
 };
 
 class Checker: public QObject

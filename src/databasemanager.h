@@ -102,8 +102,10 @@ public:
         QString link;
         QString content;
         QString image;
+        QString feedId;
         QString feedIcon;
         QString feedTitle;
+        QString annotations;
         int fresh;
         int freshOR;
         int read;
@@ -186,8 +188,9 @@ public:
     void updateEntriesReadFlagByEntry(const QString &id, int flag);
     void updateEntriesSavedFlagByEntry(const QString &id, int flag);
     void updateEntriesCachedFlagByEntry(const QString &id, int cacheDate, int flag);
-    void updateEntriesBroadcastFlagByEntry(const QString &id, int flag);
+    void updateEntriesBroadcastFlagByEntry(const QString &id, int flag, const QString &annotations);
     void updateEntriesFreshFlag(int flag);
+    void updateEntriesFlag(int flag);
     void updateEntriesSavedFlagByFlagAndDashboard(const QString &id, int flagOld, int flagNew);
 
     void updateStreamSlowFlagById(const QString &id, int flag);
@@ -261,8 +264,10 @@ public:
 
     void removeTabById(const QString &id);
     void removeStreamsByStream(const QString &id);
-    void removeEntriesOlderThan(int cacheDate, int limit);
+    //void removeEntriesOlderThan(int cacheDate, int limit);
+    //void removeEntriesOlderThanByCrawlTime(int cacheDate);
     void removeEntriesByStream(const QString &id, int limit);
+    void removeEntriesByFlag(int value);
     void removeActionsById(const QString &id);
     //void removeEntriesBySavedFlag(int flag);
     void removeCacheItems();
@@ -305,8 +310,9 @@ private:
 
     bool openDB();
     bool createDB();
-    bool alterDB_19to21();
-    bool alterDB_20to21();
+    bool alterDB_19to22();
+    bool alterDB_20to22();
+    bool alterDB_21to22();
     bool deleteDB();
 
     bool createStructure();

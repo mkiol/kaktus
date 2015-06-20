@@ -32,7 +32,6 @@
 #include "databasemanager.h"
 #include "downloadmanager.h"
 #include "cacheserver.h"
-#include "netvibesfetcher.h"
 #include "utils.h"
 #include "settings.h"
 #include "networkaccessmanagerfactory.h"
@@ -42,9 +41,9 @@
 using namespace bb::cascades;
 
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "1.3 (light edition)";
+static const char *VERSION = "2.0 (light edition)";
 #else
-static const char *VERSION = "1.3";
+static const char *VERSION = "2.0";
 #endif
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
@@ -87,8 +86,6 @@ Q_DECL_EXPORT int main(int argc, char **argv)
     settings->dm = &dm;
     CacheServer cache(&db);
     settings->cache = &cache;
-    NetvibesFetcher fetcher;
-    settings->fetcher = &fetcher;
     Utils utils;
     bb::device::DisplayInfo display;
 
@@ -96,7 +93,6 @@ Q_DECL_EXPORT int main(int argc, char **argv)
     model->setRootPath("app/");
 
     settings->qml->setContextProperty("db", &db);
-    settings->qml->setContextProperty("fetcher", &fetcher);
     settings->qml->setContextProperty("utils", &utils);
     settings->qml->setContextProperty("dm", &dm);
     settings->qml->setContextProperty("cache", &cache);

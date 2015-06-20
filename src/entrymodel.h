@@ -42,8 +42,10 @@ public:
         ContentRole,
         LinkRole,
         ImageRole,
+        FeedIdRole,
         FeedIconRole,
         FeedTitleRole,
+        AnnotationsRole,
         CachedRole,
         BroadcastRole,
         LikedRole,
@@ -61,8 +63,10 @@ public:
                       const QString &content,
                       const QString &link,
                       const QString &image,
+                      const QString &feedId,
                       const QString &feedIcon,
                       const QString &feedTitle,
+                      const QString &annotations,
                       const bool cached,
                       const bool broadcast,
                       const bool liked,
@@ -80,8 +84,10 @@ public:
     inline QString content() const { return m_content; }
     inline QString link() const { return m_link; }
     inline QString image() const { return m_image; }
+    inline QString feedId() const { return m_feedId; }
     inline QString feedIcon() const { return m_feedIcon; }
     inline QString feedTitle() const { return m_feedTitle; }
+    inline QString annotations() const { return m_annotations; }
     inline bool cached() const { return m_cached; }
     inline bool broadcast() const { return m_broadcast; }
     inline bool liked() const { return m_liked; }
@@ -92,7 +98,7 @@ public:
 
     void setReadlater(int value);
     void setRead(int value);
-    void setBroadcast(bool value);
+    void setBroadcast(bool value, const QString &annotations);
     void setCached(int value);
 
 private:
@@ -102,8 +108,10 @@ private:
     QString m_content;
     QString m_link;
     QString m_image;
+    QString m_feedId;
     QString m_feedIcon;
     QString m_feedTitle;
+    QString m_annotations;
     bool m_cached;
     bool m_broadcast;
     bool m_liked;
@@ -123,7 +131,7 @@ public:
     explicit EntryModel(DatabaseManager* db, QObject *parent = 0);
     void init(const QString &feedId);
 
-    Q_INVOKABLE void setData(int row, const QString &fieldName, QVariant newValue);
+    Q_INVOKABLE void setData(int row, const QString &fieldName, QVariant newValue, QVariant newValue2);
 
     Q_INVOKABLE void setAllAsUnread();
     Q_INVOKABLE void setAllAsRead();

@@ -52,47 +52,51 @@ private Q_SLOTS:
     void finishedFriends2();
     void finishedFeeds();
     void finishedFeeds2();
-    void finishedStreamUpdate();
-    void finishedStreamUpdate2();
     void finishedStream();
     void finishedStream2();
     void finishedStarredStream();
     void finishedStarredStream2();
+    void finishedLikedStream();
+    void finishedLikedStream2();
+    void finishedBroadcastStream();
+    void finishedBroadcastStream2();
+    void finishedUnreadStream();
+    void finishedUnreadStream2();
     void finishedSetAction();
     void finishedMarkSlow();
 
 private:
-    enum Job { Idle, StoreTabs, StoreFriends, StoreFeeds, StoreStreamUpdate, StoreStream, StoreStarredStream, MarkSlow };
+    enum Job { Idle, StoreTabs, StoreFriends, StoreFeeds, StoreStream,
+               StoreUnreadStream, StoreStarredStream, StoreLikedStream,
+               StoreBroadcastStream, MarkSlow };
 
-    static const int limitAtOnce = 100;
-    static const int limitAtOnceForUpdate = 100;
-    static const int limitAtOnceForStarred = 100;
-    static const int continuationLimit = 0;
-    static const int continuationLimitForUpdate = 0;
-    static const int continuationLimitForStarred = 5;
+    static const int limitAtOnce = 400;
+    static const int continuationLimit = 100;
 
     Job currentJob;
     QStringList tabList;
-    QList<DatabaseManager::StreamModuleTab> feedUpdateList;
-    QList<DatabaseManager::StreamModuleTab> feedList;
-    QList<DatabaseManager::StreamModuleTab> storedFeedList;
+    //QList<DatabaseManager::StreamModuleTab> feedList;
+    //QList<DatabaseManager::StreamModuleTab> storedFeedList;
+
     QString lastContinuation;
     int continuationCount;
+    int lastDate;
 
     void signIn();
     void startFetching();
 
     void uploadActions();
 
-    void prepareFeedLists();
-    void removeDeletedFeeds();
+    //void removeDeletedFeeds();
 
     void fetchTabs();
     void fetchFriends();
     void fetchFeeds();
-    void fetchStreamUpdate();
     void fetchStream();
+    void fetchUnreadStream();
     void fetchStarredStream();
+    void fetchLikedStream();
+    void fetchBroadcastStream();
     void setAction();
 
     void startJob(Job job);
@@ -101,7 +105,6 @@ private:
     void storeFriends();
     void storeFeeds();
     void storeStream();
-    void storeStarredStream();
     void markSlowFeeds();
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)

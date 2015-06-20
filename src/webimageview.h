@@ -69,7 +69,7 @@ private:
 	void setURLToRedirectedUrl(QNetworkReply *reply);
 
     const static QString availableColors[5];
-    const static QString spriteMap[5][8];
+    const static QString spriteMap[5][10];
 
     bb::ImageData fromQImage(const QImage &qImage);
     int getOffsetByColor(const QString &color);

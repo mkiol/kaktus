@@ -192,38 +192,41 @@ int EntryModel::createItems(int offset, int limit)
         if (dateRow>prevDateRow) {
             switch (dateRow) {
             case 1:
-                appendRow(new EntryItem("daterow",tr("Today"),"","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Today"),"","","","","","","","",false,false,false,0,0,0,0));
                 break;
             case 2:
-                appendRow(new EntryItem("daterow",tr("Yesterday"),"","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Yesterday"),"","","","","","","","",false,false,false,0,0,0,0));
                 break;
             case 3:
-                appendRow(new EntryItem("daterow",tr("Current week"),"","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current week"),"","","","","","","","",false,false,false,0,0,0,0));
                 break;
             case 4:
-                appendRow(new EntryItem("daterow",tr("Current month"),"","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current month"),"","","","","","","","",false,false,false,0,0,0,0));
                 break;
             case 5:
-                appendRow(new EntryItem("daterow",tr("Previous month"),"","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Previous month"),"","","","","","","","",false,false,false,0,0,0,0));
                 break;
             case 6:
-                appendRow(new EntryItem("daterow",tr("Current year"),"","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current year"),"","","","","","","","",false,false,false,0,0,0,0));
                 break;
             default:
-                appendRow(new EntryItem("daterow",tr("Previous year & older"),"","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Previous year & older"),"","","","","","","","",false,false,false,0,0,0,0));
                 break;
             }
         }
         prevDateRow = dateRow;
         //qDebug() << "(*i).broadcast" << (*i).broadcast;
+        //qDebug() << (*i).id << (*i).link;
         appendRow(new EntryItem((*i).id,
                                 title.remove(re),
                                 (*i).author,
                                 content,
                                 (*i).link,
                                 imageOk? (*i).image : "",
+                                (*i).feedId,
                                 (*i).feedIcon,
                                 (*i).feedTitle.remove(re),
+                                (*i).annotations,
                                 _db->isCacheExistsByEntryId((*i).id),
                                 (*i).broadcast==1,
                                 (*i).liked==1,
@@ -237,7 +240,7 @@ int EntryModel::createItems(int offset, int limit)
 
     // Dummy row as workaround!
     if (list.count()>0)
-        appendRow(new EntryItem("last","","","","","","","",false,false,false,0,0,0,0));
+        appendRow(new EntryItem("last","","","","","","","","","",false,false,false,0,0,0,0));
 
     return list.count();
 }
@@ -455,7 +458,7 @@ int EntryModel::count()
     return this->rowCount();
 }
 
-void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
+void EntryModel::setData(int row, const QString &fieldName, QVariant newValue, QVariant newValue2)
 {
     EntryItem* item = static_cast<EntryItem*>(readRow(row));
     Settings *s = Settings::instance();
@@ -495,24 +498,29 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue)
     }
 
     if (fieldName=="broadcast") {
+#ifdef KAKTUS_LIGHT
+        return;
+#endif
         if (s->getSigninType() < 10) {
             // Broadcast not supported in API
             qWarning() << "Broadcast is not supported!";
             return;
         }
-        item->setBroadcast(newValue.toBool());
+        item->setBroadcast(newValue.toBool(),newValue2.toString());
         DatabaseManager::Action action;
         if (newValue.toBool()) {
             action.type = DatabaseManager::SetBroadcast;
             action.id1 = item->id();
             action.date1 = item->date();
+            action.text = newValue2.toString();
         } else {
             action.type = DatabaseManager::UnSetBroadcast;
             action.id1 = item->id();
             action.date1 = item->date();
+            action.text = newValue2.toString();
         }
         _db->writeAction(action);
-        _db->updateEntriesReadFlagByEntry(item->id(),newValue.toInt());
+        _db->updateEntriesBroadcastFlagByEntry(item->id(),newValue.toInt(),"");
     }
 
     if (fieldName=="cached") {
@@ -528,8 +536,10 @@ EntryItem::EntryItem(const QString &uid,
                    const QString &content,
                    const QString &link,
                    const QString &image,
+                   const QString &feedId,
                    const QString &feedIcon,
                    const QString &feedTitle,
+                   const QString &annotations,
                    const bool cached,
                    const bool broadcast,
                    const bool liked,
@@ -545,8 +555,10 @@ EntryItem::EntryItem(const QString &uid,
     m_content(content),
     m_link(link),
     m_image(image),
+    m_feedId(feedId),
     m_feedIcon(feedIcon),
     m_feedTitle(feedTitle),
+    m_annotations(annotations),
     m_cached(cached),
     m_broadcast(broadcast),
     m_liked(liked),
@@ -565,8 +577,10 @@ QHash<int, QByteArray> EntryItem::roleNames() const
     names[ContentRole] = "content";
     names[LinkRole] = "link";
     names[ImageRole] = "image";
+    names[FeedIdRole] = "feedId";
     names[FeedIconRole] = "feedIcon";
     names[FeedTitleRole] = "feedTitle";
+    names[AnnotationsRole] = "annotations";
     names[CachedRole] = "cached";
     names[BroadcastRole] = "broadcast";
     names[LikedRole] = "liked";
@@ -592,10 +606,14 @@ QVariant EntryItem::data(int role) const
         return link();
     case ImageRole:
         return image();
+    case FeedIdRole:
+        return feedId();
     case FeedIconRole:
         return feedIcon();
     case FeedTitleRole:
         return feedTitle();
+    case AnnotationsRole:
+        return annotations();
     case CachedRole:
         return cached();
     case BroadcastRole:
@@ -631,10 +649,11 @@ void EntryItem::setRead(int value)
     }
 }
 
-void EntryItem::setBroadcast(bool value)
+void EntryItem::setBroadcast(bool value, const QString &annotations)
 {
     if(m_broadcast!=value) {
         m_broadcast = value;
+        m_annotations = annotations;
         emit dataChanged();
     }
 }

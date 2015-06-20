@@ -35,7 +35,6 @@
 //#include "oldreaderfetcher.h"
 #include "utils.h"
 #include "settings.h"
-#include "proxy.h"
 
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
