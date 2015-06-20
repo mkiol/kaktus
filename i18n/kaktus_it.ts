@@ -1813,7 +1813,7 @@ Connessione di rete non disponibile</translation>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="66"/>

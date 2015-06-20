@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="ru">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
 <context>
     <name>AboutPage</name>
     <message>
@@ -181,7 +179,7 @@
     <name>ControlBar</name>
     <message>
         <location filename="../qml/sailfish/ControlBar.qml" line="179"/>
-        <source>Can&apos;t switch to Online mode.
+        <source>Can't switch to Online mode.
 Network connection is unavailable.</source>
         <translation>Невозможно переключиться в режим онлайн.
 Отсутствует соединение с сетью</translation>
@@ -832,7 +830,7 @@ List articles from less frequently updated feeds. A feed is considered &quot;slo
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="350"/>
-        <source>That&apos;s all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on
+        <source>That's all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on
 &lt;i&gt;Show User Guide&lt;/i&gt;
 on the settings page.</source>
         <translation>Вот и все!&lt;br/&gt;&lt;br/&gt;Если вы хотите увидеть это руководство еще раз, нажмите на
@@ -1812,8 +1810,8 @@ Network connection is unavailable</source>
     <name>TourPage</name>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
-        <source></source>
-        <translation></translation>
+        <source/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="66"/>

@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="nl_NL">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="nl_NL" version="2.1">
 <context>
     <name>AboutPage</name>
     <message>
@@ -181,7 +179,7 @@
     <name>ControlBar</name>
     <message>
         <location filename="../qml/sailfish/ControlBar.qml" line="179"/>
-        <source>Can&apos;t switch to Online mode.
+        <source>Can't switch to Online mode.
 Network connection is unavailable.</source>
         <translation>Kan niet overschakelen naar Online-modus.
 Netwerkverbinding is niet beschikbaar.</translation>
@@ -833,7 +831,7 @@ Lijst van alle artikelen van minder frequent bijgewerkte feeds. Een feed is aang
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="350"/>
-        <source>That&apos;s all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on
+        <source>That's all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on
 &lt;i&gt;Show User Guide&lt;/i&gt;
 on the settings page.</source>
         <translation>Dat was het!&lt;br/&gt;&lt;br/&gt;Als u deze handleiding opnieuw wilt bekijken, druk dan op &lt;i&gt;Gebruikershandleiding weergeven&lt;/i&gt;
@@ -1813,8 +1811,8 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <name>TourPage</name>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
-        <source></source>
-        <translation></translation>
+        <source/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="66"/>
