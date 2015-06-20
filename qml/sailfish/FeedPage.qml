@@ -86,6 +86,23 @@ Page {
             id: listItem
 
             property bool last: model.uid=="last"
+            property bool defaultIcon: model.icon === "http://s.theoldreader.com/icons/user_icon.png"
+
+            Component.onCompleted: {
+                var r = title.length>0 ? (Math.abs(title.charCodeAt(0)-65)/57)%1 : 1;
+                var g = title.length>1 ? (Math.abs(title.charCodeAt(1)-65)/57)%1 : 1;
+                var b = title.length>2 ? (Math.abs(title.charCodeAt(2)-65)/57)%1 : 1;
+                var colorBg = Qt.rgba(r,g,b,0.9);
+                var colorFg = (r+g+b)>1.5 ? Theme.highlightDimmerColor : Theme.primaryColor;
+
+                imagePlaceholder.color = colorBg;
+                imagePlaceholderLabel.color = colorFg;
+                if (defaultIcon)
+                    image.source = "image://icons/friend?" + colorFg;
+                else
+                    image.source = model.icon !== "" ? cache.getUrlbyUrl(model.icon) : "";
+            }
+
             enabled: !last
 
             contentHeight: last ?
@@ -108,7 +125,6 @@ Page {
                 id: item
                 spacing: 0.5*Theme.paddingSmall
                 anchors.verticalCenter: parent.verticalCenter
-                //anchors.left: image.visible ? image.right : parent.left
                 anchors.left: image.visible ? image.right : imagePlaceholder.right
                 anchors.right: unreadbox.visible ? unreadbox.left : parent.right
                 visible: !listItem.last
@@ -151,55 +167,30 @@ Page {
                 height: width
                 anchors.left: parent.left
                 y: Theme.paddingMedium
-                visible: !image.visible && !listItem.last
+                visible: listItem.defaultIcon || (!image.visible && !listItem.last)
 
                 Label {
                     id: imagePlaceholderLabel
                     anchors.centerIn: parent
                     text: title.substring(0,1).toUpperCase()
-                }
-
-                Component.onCompleted: {
-                    var r = title.length>0 ? (Math.abs(title.charCodeAt(0)-65)/57)%1 : 1;
-                    var g = title.length>1 ? (Math.abs(title.charCodeAt(1)-65)/57)%1 : 1;
-                    var b = title.length>2 ? (Math.abs(title.charCodeAt(2)-65)/57)%1 : 1;
-                    imagePlaceholder.color = Qt.rgba(r,g,b,0.9);
-                    imagePlaceholderLabel.color = (r+g+b)>1.5 ? Theme.highlightDimmerColor : Theme.primaryColor;
+                    visible: !listItem.defaultIcon
                 }
             }
 
             Rectangle {
+                // Image white background
                 anchors.fill: image
-                //color: Theme.secondaryColor
-                visible: image.visible
+                visible: image.visible && !listItem.defaultIcon
                 color: "white"
-                //opacity: 0.1
             }
 
             Image {
                 id: image
                 width: visible ? 1.2*Theme.iconSizeSmall : 0
                 height: width
-                anchors.left: parent.left; //anchors.leftMargin: Theme.paddingLarge
+                anchors.left: parent.left
                 visible: status!=Image.Error && status!=Image.Null && !listItem.last
                 y: Theme.paddingMedium
-            }
-
-            Connections {
-                target: settings
-                onShowTabIconsChanged: {
-                    if (model.icon!="")
-                        image.source = cache.getUrlbyUrl(model.icon);
-                    else
-                        image.source = "";
-                }
-            }
-
-            Component.onCompleted: {
-                if (model.icon!="")
-                    image.source = cache.getUrlbyUrl(model.icon);
-                else
-                    image.source = "";
             }
 
             onClicked: {
@@ -209,11 +200,12 @@ Page {
                 }
             }
 
-            showMenuOnPressAndHold: !listItem.last && model.unread+model.read>0
+            showMenuOnPressAndHold: !listItem.last && (readItem.enabled || unreadItem.enabled)
 
             menu: ContextMenu {
                 id: contextMenu
                 MenuItem {
+                    id: readItem
                     text: qsTr("Mark all as read")
                     enabled: model.unread!=0
                     visible: enabled
@@ -222,6 +214,7 @@ Page {
                     }
                 }
                 MenuItem {
+                    id: unreadItem
                     text: qsTr("Mark all as unread")
                     enabled: model.read!=0 && settings.signinType<10
                     visible: enabled

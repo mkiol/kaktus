@@ -109,11 +109,11 @@ Page {
                 }
             }
 
-            Separator {
+            /*Separator {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 color: Theme.primaryColor
-            }
+            }*/
 
             Label {
                 wrapMode: Text.WordWrap
@@ -129,7 +129,6 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeExtraSmall
-                textFormat: Text.RichText
                 text: qsTr("This software is distributed under the terms of the "+
                            "GNU General Public Licence version 3.")
                 MouseArea {
@@ -142,11 +141,24 @@ Page {
 
             }
 
-            Separator {
+            /*Label {
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.HorizontalFit
+                anchors.left: parent.left; anchors.right: parent.right
+
+                font.pixelSize: Theme.fontSizeExtraSmall
+                text: qsTr("Be aware that Kaktus is an UNOFFICIAL application. It means is distributed in the hope " +
+                           "that it will be useful, but WITHOUT ANY WARRANTY. Without even the implied warranty of " +
+                           "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. " +
+                           "See the GNU General Public License for more details.")
+
+            }*/
+
+            /*Separator {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 color: Theme.primaryColor
-            }
+            }*/
 
             Item {
                 height: Theme.paddingLarge

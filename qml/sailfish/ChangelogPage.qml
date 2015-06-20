@@ -59,6 +59,11 @@ Page {
                 description: 'Old Reader is supported as new feed aggreagator.'
             }
 
+            LogItem {
+                title: 'Many small improvements and bug fixes'
+                description: 'Many improvements, like performance optimization and UI polishing were made.'
+            }
+
             SectionHeader {
                 text: qsTr("Version %1").arg("1.4")
             }

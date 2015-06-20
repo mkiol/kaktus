@@ -90,6 +90,10 @@ Page {
                 id: listItem
 
                 property bool last: model.uid=="last"
+                property string title: model.uid=="subscriptions" ? qsTr("Subscriptions") :
+                                       model.uid=="friends" ? qsTr("Following") : model.title
+                property string imageSource: model.uid=="friends" ? "image://icons/friend?"+Theme.primaryColor :
+                                           model.iconUrl != "" ? cache.getUrlbyUrl(iconUrl) : ""
                 enabled: !last
 
                 anchors.top: parent.top
@@ -98,7 +102,6 @@ Page {
                                  Math.max(item.height, image.height) + 2 * Theme.paddingMedium;
 
                 Rectangle {
-                    //anchors.top: parent.top; anchors.left: parent.left
                     anchors.top: parent.top; anchors.right: parent.right
                     width: Theme.paddingSmall; height: item.height
                     visible: model.fresh && !listItem.last
@@ -115,7 +118,6 @@ Page {
 
                     spacing: 0.5*Theme.paddingSmall
                     anchors.verticalCenter: parent.verticalCenter
-                    //anchors.left: image.visible ? image.right : parent.left
                     anchors.left: image.visible ? image.right : imagePlaceholder.right
                     anchors.right: unreadbox.visible ? unreadbox.left : parent.right
                     visible: !listItem.last
@@ -128,8 +130,7 @@ Page {
                         color: listItem.down ?
                                    (model.unread ? Theme.highlightColor : Theme.secondaryHighlightColor) :
                                    (model.unread ? Theme.primaryColor : Theme.secondaryColor)
-                        text: model.uid=="subscriptions" ? qsTr("Subscriptions") :
-                              model.uid=="friends" ? qsTr("Following") : model.title
+                        text: listItem.title
                     }
                 }
 
@@ -162,13 +163,13 @@ Page {
                     Label {
                         id: imagePlaceholderLabel
                         anchors.centerIn: parent
-                        text: title.substring(0,1).toUpperCase()
+                        text: listItem.title.substring(0,1).toUpperCase()
                     }
 
                     Component.onCompleted: {
-                        var r = title.length>0 ? (Math.abs(title.charCodeAt(0)-65)/57)%1 : 1;
-                        var g = title.length>1 ? (Math.abs(title.charCodeAt(1)-65)/57)%1 : 1;
-                        var b = title.length>2 ? (Math.abs(title.charCodeAt(2)-65)/57)%1 : 1;
+                        var r = listItem.title.length>0 ? (Math.abs(listItem.title.charCodeAt(0)-65)/57)%1 : 1;
+                        var g = listItem.title.length>1 ? (Math.abs(listItem.title.charCodeAt(1)-65)/57)%1 : 1;
+                        var b = listItem.title.length>2 ? (Math.abs(listItem.title.charCodeAt(2)-65)/57)%1 : 1;
                         imagePlaceholder.color = Qt.rgba(r,g,b,0.9);
                         imagePlaceholderLabel.color = (r+g+b)>1.5 ? Theme.highlightDimmerColor : Theme.primaryColor;
                     }
@@ -181,35 +182,7 @@ Page {
                     anchors.left: parent.left; //anchors.leftMargin: Theme.paddingLarge
                     visible: status!=Image.Error && status!=Image.Null && !listItem.last
                     y: Theme.paddingMedium
-                }
-
-                Connections {
-                    target: settings
-                    onShowTabIconsChanged: {
-                        /*if (model.uid=="friends") {
-                            image.source = "image://theme/icon-m-service-generic?"+Theme.primaryColor;
-                            return;
-                        }*/
-
-                        if (iconUrl=="") {
-                            image.source = "";
-                            return;
-                        }
-                        image.source = cache.getUrlbyUrl(iconUrl);
-                    }
-                }
-
-                Component.onCompleted: {
-                    /*if (model.uid=="friends") {
-                        image.source = "image://theme/icon-m-service-generic?"+Theme.primaryColor;
-                        return;
-                    }*/
-
-                    if (iconUrl=="") {
-                        image.source = "";
-                        return;
-                    }
-                    image.source = cache.getUrlbyUrl(iconUrl);
+                    source: listItem.imageSource
                 }
 
                 onClicked: {
@@ -225,11 +198,11 @@ Page {
                     }
                 }
 
-                showMenuOnPressAndHold: !listItem.last && model.unread+model.read>0
+                showMenuOnPressAndHold: !listItem.last && (readItem.enabled || unreadItem.enabled)
 
                 menu: ContextMenu {
-                    enabled: !listItem.last
                     MenuItem {
+			id: readItem
                         text: qsTr("Mark all as read")
                         enabled: model.unread!=0
                         visible: enabled
@@ -238,6 +211,7 @@ Page {
                         }
                     }
                     MenuItem {
+			id: unreadItem
                         text: qsTr("Mark all as unread")
                         enabled: model.read!=0 && settings.signinType<10
                         visible: enabled

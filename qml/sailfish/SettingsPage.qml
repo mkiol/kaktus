@@ -96,10 +96,10 @@ Page {
                         visible: settings.signedIn
                         text: settings.signedIn ?
                                   settings.signinType==0 ? settings.getUsername() :
-                                  settings.signinType==1 ? "Twitter" :
-                                  settings.signinType==2 ? "Facebook" :
-                                  settings.signinType==10 ? settings.getUsername() :
-                                  "" : ""
+                                                           settings.signinType==1 ? "Twitter" :
+                                                                                    settings.signinType==2 ? "Facebook" :
+                                                                                                             settings.signinType==10 ? settings.getUsername() :
+                                                                                                                                       "" : ""
                     }
                 }
 
@@ -160,6 +160,68 @@ Page {
             }
 
             SectionHeader {
+                text: qsTr("Syncronization")
+            }
+
+            ComboBox {
+                width: root.width
+                label: qsTr("Sync timeframe")
+                enabled: settings.signinType>=10
+                visible: enabled
+                currentIndex: {
+                    var retention = settings.getRetentionDays();
+                    if (retention < 1)
+                        return 5;
+                    if (retention < 3)
+                        return 0;
+                    if (retention < 7)
+                        return 1;
+                    if (retention < 14)
+                        return 2;
+                    if (retention < 30)
+                        return 3;
+                    return 4;
+                }
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("1 Day") }
+                    MenuItem { text: qsTr("3 Days") }
+                    MenuItem { text: qsTr("1 Week") }
+                    MenuItem { text: qsTr("2 Weeks") }
+                    MenuItem { text: qsTr("1 Month") }
+                    MenuItem { text: qsTr("Wide as possible") }
+                }
+
+                onCurrentIndexChanged: {
+                    if (currentIndex == 0) {
+                        settings.setRetentionDays(1);
+                        return;
+                    }
+                    if (currentIndex == 1) {
+                        settings.setRetentionDays(3);
+                        return;
+                    }
+                    if (currentIndex == 2) {
+                        settings.setRetentionDays(7);
+                        return;
+                    }
+                    if (currentIndex == 3) {
+                        settings.setRetentionDays(14);
+                        return;
+                    }
+                    if (currentIndex == 4) {
+                        settings.setRetentionDays(30);
+                        return;
+                    }
+                    settings.setRetentionDays(0);
+                }
+
+                description: qsTr("Most recent articles will be syncronized according to the defined timeframe. " +
+                                  "Regardless of the value, all starred, liked and shared items will be synced as well. " +
+                                  "Be aware, this parameter has significant impact on the speed of synchronization.")
+            }
+
+            SectionHeader {
                 text: qsTr("Cache")
             }
 
@@ -214,6 +276,9 @@ Page {
                     else
                         settings.offlineMode = true;
                 }
+
+                description: qsTr("In the offline mode, Kaktus will only use local cache to get web pages and images, so "+
+                                  "network connection won't be needed.")
             }
 
             ComboBox {
@@ -276,19 +341,21 @@ Page {
 
                 menu: ContextMenu {
                     MenuItem { text: qsTr("Default"); onClicked: locale.showMessage() }
-                    MenuItem { text: "Čeština"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "Deutsch"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "English"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "Español"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "فارسی"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "Suomi"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "Français"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "Italiano"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "Nederlands"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "Čeština"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Deutsch"; onClicked: locale.showMessage() }
+                    MenuItem { text: "English"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Espanol"; onClicked: locale.showMessage() }
+                    MenuItem { text: "فارسی"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Suomi"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Français"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Italiano"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Nederlands"; onClicked: locale.showMessage() }
                     MenuItem { text: "Polski"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "Русский"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "Türkçe"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "中文 (简体)"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "Русский"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Türkçe"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Čeština"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Čeština"; onClicked: locale.showMessage() }
+                    MenuItem { text: "中文 (简体)"; onClicked: locale.showMessage() }
                 }
 
                 onCurrentIndexChanged: {

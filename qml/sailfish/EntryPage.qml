@@ -108,7 +108,7 @@ Page {
                 case 3:
                     return qsTr("All feeds");
                 case 4:
-                    return settings.getSigninType()<10 ? qsTr("Saved") : qsTr("Starred");
+                    return settings.signinType<10 ? qsTr("Saved") : qsTr("Starred");
                 case 5:
                     return qsTr("Slow");
                 default:
@@ -123,6 +123,7 @@ Page {
             content: model.content
             date: model.date
             read: model.read
+            friendStream: model.feedId.substring(0,4) === "user"
             feedIcon: model.feedIcon
             feedTitle: model.feedTitle
             author: model.author
@@ -132,14 +133,15 @@ Page {
             cached: model.cached
             broadcast: model.broadcast
             liked: model.liked
+            annotations: model.annotations
             fresh: model.fresh
-            last: model.uid=="last"
-            daterow: model.uid=="daterow"
+            last: model.uid === "last"
+            daterow: model.uid === "daterow"
             showMarkedAsRead: settings.viewMode!=4 && model.read<2
             objectName: "EntryDelegate"
 
             Component.onCompleted: {
-                //console.log("broadcast:",model.broadcast, model.liked);
+                //console.log("feedId:",model.feedId);
                 // Dynamic creation of new items if last item is compleated
                 if (index==entryModel.count()-1) {
                     //console.log(index);
@@ -152,11 +154,11 @@ Page {
                     // Double click
                     timer.stop();
 
-                    if (model.read==0) {
-                        entryModel.setData(model.index, "read", 1);
+                    if (model.read === 0) {
+                        entryModel.setData(model.index, "read", 1, "");
                         //read = 1;
                     } else {
-                        entryModel.setData(model.index, "read", 0);
+                        entryModel.setData(model.index, "read", 0, "");
                         //read = 0;
                     }
 
@@ -236,27 +238,28 @@ Page {
             }
 
             onMarkedAsRead: {
-                entryModel.setData(model.index, "read", 1);
+                entryModel.setData(model.index, "read", 1, "");
             }
 
             onMarkedAsUnread: {
-                entryModel.setData(model.index, "read", 0);
+                entryModel.setData(model.index, "read", 0, "");
             }
 
             onMarkedReadlater: {
-                entryModel.setData(index, "readlater", 1);
+                entryModel.setData(index, "readlater", 1, "");
             }
 
             onUnmarkedReadlater: {
-                entryModel.setData(index, "readlater", 0);
+                entryModel.setData(index, "readlater", 0, "");
             }
 
             onMarkedBroadcast: {
-                entryModel.setData(model.index, "broadcast", true);
+                pageStack.push(Qt.resolvedUrl("ShareDialog.qml"),{"index": model.index,});
+                //entryModel.setData(model.index, "broadcast", true, "");
             }
 
             onUnmarkedBroadcast: {
-                entryModel.setData(model.index, "broadcast", false);
+                entryModel.setData(model.index, "broadcast", false, "");
             }
         }
 

@@ -128,7 +128,7 @@ Page {
                 return;
             }
             navigate(offlineUrl);
-            entryModel.setData(index,"cached",1);
+            entryModel.setData(index,"cached",1, "");
         }
         onOnlineDownloadFailed: {
             notification.show(qsTr("Failed to switch to Reader mode :-("));
@@ -289,10 +289,10 @@ Page {
         onStarClicked: {
             if (stared) {
                 stared=false;
-                entryModel.setData(root.index, "readlater", 0);
+                entryModel.setData(root.index, "readlater", 0, "");
             } else {
                 stared=true;
-                entryModel.setData(root.index, "readlater", 1);
+                entryModel.setData(root.index, "readlater", 1, "");
             }
         }
 
@@ -336,7 +336,7 @@ Page {
         onTriggered: {
             if (!root.read) {
                 read=true;
-                entryModel.setData(root.index, "read", 1);
+                entryModel.setData(root.index, "read", 1, "");
             }
         }
     }

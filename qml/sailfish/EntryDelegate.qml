@@ -30,6 +30,7 @@ ListItem {
     property int readlater: 0
     property string content
     property string image
+    property bool friendStream
     property string feedIcon
     property string feedTitle
     property int maxWords: 20
@@ -38,6 +39,7 @@ ListItem {
     property bool broadcast
     property bool liked
     property bool fresh
+    property string annotations
     property bool expanded: false
     property int index
     property bool last: false
@@ -47,6 +49,7 @@ ListItem {
 
     property bool hidden: read>0 && readlater==0
     property bool showIcon: settings.viewMode==1 || settings.viewMode==3 || settings.viewMode==4 || settings.viewMode==5 ? true : false
+    property bool defaultIcon: feedIcon === "http://s.theoldreader.com/icons/user_icon.png"
 
     signal markedAsRead
     signal markedAsUnread
@@ -56,6 +59,22 @@ ListItem {
     signal unmarkedBroadcast
 
     enabled: !last && !daterow
+
+    Component.onCompleted: {
+        var r = feedTitle.length>0 ? (Math.abs(feedTitle.charCodeAt(0)-65)/57)%1 : 1;
+        var g = feedTitle.length>1 ? (Math.abs(feedTitle.charCodeAt(1)-65)/57)%1 : 1;
+        var b = feedTitle.length>2 ? (Math.abs(feedTitle.charCodeAt(2)-65)/57)%1 : 1;
+        var colorBg = Qt.rgba(r,g,b,0.9);
+        var colorFg = (r+g+b)>1.5 ? Theme.highlightDimmerColor : Theme.primaryColor;
+
+        iconPlaceholder.color = colorBg;
+        iconPlaceholderLabel.color = colorFg;
+
+        if (defaultIcon)
+            icon.source = "image://icons/friend?" + colorFg;
+        else
+            icon.source = root.feedIcon !== "" ? cache.getUrlbyUrl(root.feedIcon) : "";
+    }
 
     function getUrlbyUrl(url){return cache.getUrlbyUrl(url)}
 
@@ -124,38 +143,6 @@ ListItem {
             }
         }
     }
-
-    /*BackgroundItem {
-        id: like
-        anchors.right: background.right; anchors.top: star.bottom
-        height: Theme.iconSizeSmall+2*Theme.paddingMedium
-        width: height
-        visible: root.liked
-
-        Image {
-            anchors.centerIn: parent;
-            width: Theme.iconSizeSmall
-            height: Theme.iconSizeSmall
-            source: root.down ? "image://theme/icon-m-like?"+Theme.highlightColor :
-                                "image://theme/icon-m-like?"+Theme.primaryColor
-        }
-    }
-
-    BackgroundItem {
-        id: broadcast
-        anchors.right: background.right; anchors.top: star.bottom
-        height: Theme.iconSizeSmall+2*Theme.paddingMedium
-        width: height
-        visible: root.broadcast
-
-        Image {
-            anchors.centerIn: parent;
-            width: Theme.iconSizeSmall
-            height: Theme.iconSizeSmall
-            source: root.down ? "image://theme/icon-m-share?"+Theme.highlightColor :
-                                "image://theme/icon-m-share?"+Theme.primaryColor
-        }
-    }*/
 
     Item {
         id: dateRowbox
@@ -251,30 +238,20 @@ ListItem {
                     anchors.left: parent.left;
                     anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
                     y: Theme.paddingMedium
-                    visible: !icon.visible && root.showIcon
+                    visible: (root.defaultIcon || !icon.visible) && root.showIcon
 
                     Label {
                         id: iconPlaceholderLabel
                         anchors.centerIn: parent
                         text: feedTitle.substring(0,1).toUpperCase()
-                    }
-
-                    Component.onCompleted: {
-                        //console.log("showIcon", showIcon, "icon.visible", icon.visible);
-                        var r = feedTitle.length>0 ? (Math.abs(feedTitle.charCodeAt(0)-65)/57)%1 : 1;
-                        var g = feedTitle.length>1 ? (Math.abs(feedTitle.charCodeAt(1)-65)/57)%1 : 1;
-                        var b = feedTitle.length>2 ? (Math.abs(feedTitle.charCodeAt(2)-65)/57)%1 : 1;
-                        iconPlaceholder.color = Qt.rgba(r,g,b,0.9);
-                        iconPlaceholderLabel.color = (r+g+b)>1.5 ? Theme.highlightDimmerColor : Theme.primaryColor;
+                        visible: !root.defaultIcon
                     }
                 }
 
                 Rectangle {
                     anchors.fill: icon
-                    //color: Theme.secondaryColor
-                    //opacity: 0.3
                     color: "white"
-                    visible: icon.visible
+                    visible: icon.visible && !root.defaultIcon
                 }
 
                 Image {
@@ -284,24 +261,6 @@ ListItem {
                     anchors.left: parent.left;
                     anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
                     visible: status!=Image.Error && status!=Image.Null && root.showIcon
-                }
-
-                Connections {
-                    target: settings
-                    onShowTabIconsChanged: {
-                        if (root.feedIcon!="")
-                            icon.source = cache.getUrlbyUrl(root.feedIcon);
-                        else
-                            icon.source = "";
-                    }
-                }
-
-                Component.onCompleted: {
-                    if (root.feedIcon!="") {
-                        icon.source = cache.getUrlbyUrl(root.feedIcon);
-                    } else {
-                        icon.source = "";
-                    }
                 }
             }
 
@@ -366,7 +325,6 @@ ListItem {
 
     BackgroundItem {
         id: expander
-
         visible: !last && !daterow
 
         anchors {
@@ -379,7 +337,7 @@ ListItem {
 
         Image {
             id: expanderIcon
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.bottom: parent.bottom
             anchors.right: parent.right
             anchors.rightMargin: Theme.paddingMedium
             source: "image://theme/icon-lock-more"
@@ -392,26 +350,33 @@ ListItem {
             anchors.left: parent.left; anchors.right: expanderIcon.left;
             anchors.leftMargin: Theme.paddingLarge
             anchors.rightMargin: Theme.paddingMedium
+            spacing: Theme.paddingSmall
 
-            Row {
-                anchors.left: parent.left
-                visible: !root.hidden || root.expanded
-                spacing: Theme.paddingMedium
+            Item {
+                // Broadcast
+                anchors.left: parent.left; anchors.right: parent.right
+                visible: (!root.hidden || root.expanded) && (root.broadcast || root.annotations!="")
+                height: Math.max(broadcastImage.height, broadcastLabel.height)
 
                 Image {
+                    id: broadcastImage
+                    anchors.left: parent.left; anchors.top: parent.top
                     width: Theme.iconSizeSmall
                     height: Theme.iconSizeSmall
-                    visible: root.liked
-                    source: root.down ? "image://theme/icon-m-like?"+Theme.secondaryHighlightColor :
-                                        "image://theme/icon-m-like?"+Theme.secondaryColor
+                    source: root.broadcast ? root.down ? "image://theme/icon-m-share?"+Theme.secondaryHighlightColor :
+                                                         "image://theme/icon-m-share?"+Theme.secondaryColor :
+                                             root.down ? "image://theme/icon-m-chat?"+Theme.secondaryHighlightColor :
+                                                         "image://theme/icon-m-chat?"+Theme.secondaryColor
                 }
 
-                Image {
-                    width: Theme.iconSizeSmall
-                    height: Theme.iconSizeSmall
-                    visible: root.broadcast
-                    source: root.down ? "image://theme/icon-m-share?"+Theme.secondaryHighlightColor :
-                                        "image://theme/icon-m-share?"+Theme.secondaryColor
+                Label {
+                    id: broadcastLabel
+                    anchors.left: broadcastImage.right; anchors.right: parent.right; anchors.top: parent.top; anchors.leftMargin: Theme.paddingSmall
+                    font.pixelSize: Theme.fontSizeExtraSmall
+                    color: root.read>0 && root.readlater==0 ? root.down ? Theme.secondaryHighlightColor : Theme.secondaryColor :
+                                                              root.down ? Theme.highlightColor : Theme.primaryColor
+                    wrapMode: Text.Wrap
+                    text: root.annotations
                 }
             }
 
@@ -423,7 +388,6 @@ ListItem {
                 text: root.author!=""
                       ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
                       : utils.getHumanFriendlyTimeString(date)
-
             }
         }
 
@@ -465,8 +429,9 @@ ListItem {
             }
 
             MenuItem {
-                text: broadcast ? qsTr("Unshare") : qsTr("Share")
-                enabled: settings.signinType >= 10
+                text: broadcast ? qsTr("Unshare") : qsTr("Share with followers")
+                enabled: settings.signinType >= 10 && !root.friendStream
+                visible: enabled
                 onClicked: {
                     if (broadcast) {
                         root.unmarkedBroadcast();

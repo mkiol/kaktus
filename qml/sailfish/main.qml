@@ -239,8 +239,14 @@ ApplicationWindow {
         if (code >= 400 && code < 500) {
             if (code == 402)
                 notification.show(qsTr("The user name or password is incorrect!"));
-
-            console.log("settings.signinType",settings.getSigninType());
+            /*if (code == 403) {
+                notification.show(qsTr("Your login credentials have expired!"));
+                if (settings.getSigninType()>0) {
+                    fetcher.getAuthUrl();
+                    return;
+                }
+            }*/
+            //console.log("settings.signinType",settings.getSigninType());
 
             // Sign in
             var type = settings.signinType;
