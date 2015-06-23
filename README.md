@@ -1,6 +1,6 @@
 # Kaktus
 
-Multi services mobile feed reader, specially designed to work offline. Supports [Netvibes.com](http://www.netvibes.com/) and [Old Reader](https://theoldreader.com/) as a feed aggregators. Works on Sailfish OS, Symbian, Meego & BlackBerry 10 devices.
+Multi services mobile feed reader, specially designed to work offline. Supports [Netvibes.com](http://www.netvibes.com/) and [Old Reader](https://theoldreader.com/) as a feed aggregators. Works on Sailfish OS & BlackBerry 10 devices.
 
 Kaktus is working in sync mode, so network connectivity is not
 required all the time. The significant feature is possibility
@@ -13,10 +13,10 @@ displayed from local cache.
 ## Downloads
 
 The binary packages can be downloaded from:
-- Symbian: [AppList](http://applist.schumi1331.de/content/128) (Be aware that this is very unstable, beta release!)
-- Meego (N9 phone): [OpenRepos](https://openrepos.net/content/mkiol/kaktus-0)
 - Sailfish (Jolla phone): Jolla Store or [OpenRepos](https://openrepos.net/content/mkiol/kaktus)
 - BlackBerry 10: [BlackBerry World](https://appworld.blackberry.com/webstore/content/59951312)
+
+Symbian and Meego versions were discontinued.
 
 ## Copyrights
 
