@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    2.0
-Release:    5
+Release:    7
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,13 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Tue Jun 23 2015 Michal Kosciesza 2.0-7
+- Bug fixes
+
+* Sun Jun 21 2015 Michal Kosciesza 2.0-6
+- Bug fixes
+- NL translation update
 
 * Sat Jun 20 2015 Michal Kosciesza 2.0-5
 - Performance optimization
