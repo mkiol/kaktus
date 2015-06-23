@@ -17,8 +17,8 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
-import bb.device 1.3
+import bb.cascades 1.2
+import bb.device 1.2
 
 NavigationPane {
     id: nav
@@ -31,6 +31,8 @@ NavigationPane {
     
     property string  progressPanelRemoverText
     property double  progressPanelRemoverValue
+    
+    property bool fetcherBusyStatus: false
     
     onPopTransitionEnded: {
         if (nav.top.menuEnabled)
@@ -55,7 +57,7 @@ NavigationPane {
             Application.menuEnabled = true;
         else 
             Application.menuEnabled = false;
-            
+        
         for (var i = pages.length-1; i >= 0; i--) {
             tempPage = pages[i];
             tempPage.disconnectSignals();
@@ -67,11 +69,12 @@ NavigationPane {
         // Theme
         setTheme();
         
-        Qt.fetcher = fetcher;
         Qt.cache = cache;
         Qt.dm = dm;
         Qt.display = display;
         Qt.utils = utils;
+        Qt.nav = nav;
+        Qt.settings = settings;
         
         db.error.connect(dbError);
         db.empty.connect(dbEmpty);
@@ -81,8 +84,39 @@ NavigationPane {
         settings.dashboardInUseChanged.connect(resetView);
         settings.viewModeChanged.connect(resetView);
         settings.signedInChanged.connect(settingsSignedInChanged);
+        
         settings.themeChanged.connect(setTheme);
         
+        dm.progress.connect(dmProgress);
+        dm.networkNotAccessible.connect(dmNetworkNotAccessible);
+        dm.removerProgressChanged.connect(dmRemoverProgressChanged);
+        dm.busyChanged.connect(dmBusyChanged);
+        dm.busyChanged.connect(dmBusyChanged);
+        dm.removerBusyChanged.connect(dmRemoverBusyChanged);
+
+        db.init();
+    }
+    
+    function setTheme() {
+        if (settings.theme == 0) {
+            return;
+        }
+        
+        // OS 10.3
+        if (utils.checkOSVersion(10,3)) {
+            Application.themeSupport.setVisualStyle(settings.theme);
+        }
+    }
+    
+    function reconnectFetcher(type) {
+        disconnectFetcher();
+        utils.resetFetcher(type);
+        connectFetcher();
+    }
+    
+    function connectFetcher() {
+        if (typeof fetcher === 'undefined')
+            return;
         fetcher.ready.connect(fetcherReady);
         fetcher.networkNotAccessible.connect(fetcherNetworkNotAccessible);
         fetcher.error.connect(fetcherError);
@@ -91,20 +125,23 @@ NavigationPane {
         fetcher.progress.connect(fetcherProgress);
         fetcher.uploading.connect(fetcherUploading);
         fetcher.busyChanged.connect(fetcherBusyChanged);
-        
-        dm.progress.connect(dmProgress);
-        dm.networkNotAccessible.connect(dmNetworkNotAccessible);
-        dm.removerProgressChanged.connect(dmRemoverProgressChanged);
-
-        db.init();
+        fetcher.newAuthUrl.connect(fetcherNewAuthUrl);
+        fetcher.errorGettingAuthUrl.connect(fetcherErrorGettingAuthUrl);
     }
     
-    function setTheme() {
-        //console.log("setTheme",settings.theme,Application.themeSupport.theme.colorTheme.style);
-        if (settings.theme == 0) {
+    function disconnectFetcher() {
+        if (typeof fetcher === 'undefined')
             return;
-        }
-        Application.themeSupport.setVisualStyle(settings.theme);
+        fetcher.ready.disconnect(fetcherReady);
+        fetcher.networkNotAccessible.disconnect(fetcherNetworkNotAccessible);
+        fetcher.error.disconnect(fetcherError);
+        fetcher.errorCheckingCredentials.disconnect(fetcherErrorCheckingCredentials);
+        fetcher.credentialsValid.disconnect(fetcherCredentialsValid);
+        fetcher.progress.disconnect(fetcherProgress);
+        fetcher.uploading.disconnect(fetcherUploading);
+        fetcher.busyChanged.disconnect(fetcherBusyChanged);
+        fetcher.newAuthUrl.disconnect(fetcherNewAuthUrl);
+        fetcher.errorGettingAuthUrl.disconnect(fetcherErrorGettingAuthUrl);
     }
     
     function dbError(code) {
@@ -163,10 +200,38 @@ NavigationPane {
         progressPanelRemoverValue = current / total;
     }
     
+    function dmRemoverBusyChanged() {
+        if (dm.removerBusy) {
+            removerProgressDialog.show();
+        } else {
+            removerProgressDialog.cancel();
+        }
+    }
+    
+    function dmBusyChanged() {
+        if (dm.busy) {
+            if (!fetcher.busy)
+                progressDialog.show();
+        } else {
+            if (!fetcher.busy)
+                progressDialog.cancel();
+        }
+    }
+    
     function fetcherReady() {
         resetView();
-        if (settings.autoDownloadOnUpdate) {
+
+        switch (settings.cachingMode) {
+        case 0:
+            return;
+        case 1:
+            if (dm.isWLANConnected()) {
+                dm.startFeedDownload();
+            }
+            return;
+        case 2:
             dm.startFeedDownload();
+            return;
         }
     }
     
@@ -183,8 +248,25 @@ NavigationPane {
         if (code >= 400 && code < 500) {
             if (code == 402)
                 notification.show(qsTr("The user name or password is incorrect!"));
+            if (code == 403) {
+                notification.show(qsTr("Your login credentials have expired!"));
+                if (settings.getSigninType()>0) {
+                    fetcher.getAuthUrl();
+                    return;
+                }
+            }
             // Sign in
-            var obj = signInDialog.createObject(); obj.code = code; nav.push(obj);
+            var type = settings.signinType;
+            if (type < 10) {
+                var obj = nvSignInDialog.createObject(); obj.code = code; nav.push(obj);
+                return;
+            }
+            if (type == 10) {
+                var obj = oldReaderSignInDialog.createObject(); obj.code = code; nav.push(obj);
+                return;
+            }
+            
+            
         } else {
             // Unknown error
             notification.show(qsTr("An unknown error occurred! :-("));
@@ -199,6 +281,19 @@ NavigationPane {
         notification.show(qsTr("You are signed in!"));
     }
     
+    function fetcherErrorGettingAuthUrl() {
+        notification.show(qsTr("Something goes wrong. Unable to sign in with Twitter! :-("));
+    }
+    
+    function fetcherNewAuthUrl(url, type) {
+        var obj = authWebViewPage.createObject();
+        obj.url = url;
+        obj.type = type;
+        obj.code = 400;
+        console.log("fetcherNewAuthUrl",url);
+        nav.push(obj);
+    }
+    
     function fetcherProgress(current, total) {
         //console.log("Fetcher progress:", current/total);
         progressPanelText = qsTr("Receiving data... ");
@@ -210,6 +305,16 @@ NavigationPane {
     }
     
     function fetcherBusyChanged() {
+        if (fetcher.busy) {
+            progressDialog.show();
+        } else {
+            if (!dm.busy)
+                progressDialog.cancel();
+        }
+        
+        if (nav.fetcherBusyStatus != fetcher.busy)
+            nav.fetcherBusyStatus = fetcher.busy;
+        
         switch(fetcher.busyType) {
             case 1:
                 progressPanelText = qsTr("Initiating...");
@@ -220,6 +325,10 @@ NavigationPane {
                 progressPanelValue = 0;
                 break;
             case 3:
+                progressPanelText = qsTr("Signing in...");
+                progressPanelValue = 0;
+                break;
+            case 4:
                 progressPanelText = qsTr("Signing in...");
                 progressPanelValue = 0;
                 break;
@@ -246,7 +355,17 @@ NavigationPane {
             return;
         }
         
+        // Reconnect fetcher
+        if (typeof fetcher === 'undefined') {
+            var type = settings.signinType;
+            if (type < 10)
+                reconnectFetcher(1);
+            else if (type == 10)
+                reconnectFetcher(2);
+        }
+        
         utils.setRootModel();
+        
         switch (settings.viewMode) {
             case 0:
             case 1:
@@ -267,13 +386,39 @@ NavigationPane {
     }
 
     attachedObjects: [
+        ProgressDialog {
+            id: progressDialog
+            title: nav.fetcherBusyStatus ? qsTr("Synchronization") : dm.busy ? qsTr("Content caching...") : qsTr("Synchronization");
+            progress: nav.fetcherBusyStatus ? progressPanelValue*100 : -1
+            body: nav.fetcherBusyStatus ? progressPanelText : progressPanelDmText
+            onCancelSelected: {
+                //console.log("onCancelSelected", fetcher.busy, dm.busy);
+                dm.cancel();
+                fetcher.cancel();
+                resetView();
+            }
+        },
+        ProgressDialog {
+            id: removerProgressDialog
+            title: qsTr("Removing cache...")
+            progress: progressPanelRemoverValue*100
+            body: progressPanelRemoverText
+        },
         ComponentDefinition {
             id: firstPage
             source: "FirstPage.qml"
         },
         ComponentDefinition {
-            id: signInDialog
-            source: "SignInDialog.qml"
+            id: accountsDialog
+            source: "AccountsDialog.qml"
+        },
+        ComponentDefinition {
+            id: nvSignInDialog
+            source: "NvSignInDialog.qml"
+        },
+        ComponentDefinition {
+            id: oldReaderSignInDialog
+            source: "OldReaderSignInDialog.qml"
         },
         ComponentDefinition {
             id: tabPage
@@ -286,6 +431,10 @@ NavigationPane {
         ComponentDefinition {
             id: entryPage
             source: "EntryPage.qml"
+        },
+        ComponentDefinition {
+            id: authWebViewPage
+            source: "AuthWebViewPage.qml"
         }
     ]
 }

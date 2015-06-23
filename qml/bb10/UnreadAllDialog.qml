@@ -17,7 +17,7 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 import bb.system 1.0
 
 SystemDialog {
@@ -29,8 +29,8 @@ SystemDialog {
     title: qsTr("Marking as unread")
     body: settings.viewMode == 3 
         ? qsTr("Mark all your articles as unread?")
-        : settings.viewMode == 4 ? qsTr("Mark all saved articles as unread?")
-        : qsTr("Mark articles as unread?")
+        : settings.viewMode == 4 ? settings.signinType<10 ? qsTr("Mark all saved articles as unread?") : qsTr("Mark all starred articles as unread?") :
+        qsTr("Mark articles as unread?")
         
     onFinished: {
         if (value==SystemUiResult.ConfirmButtonSelection) {

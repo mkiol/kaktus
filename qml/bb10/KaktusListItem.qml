@@ -27,20 +27,40 @@ Container {
     property alias text: label.text
     property alias imageSource: image.url
     property bool pressed
+    property bool imageBackgroundVisible: true
     property int unreadCount
     property bool fresh
+    property bool last: false
+    property bool defaultIcon: false
+    
+    property int colorSize
+    property int imageSize: Qt.utils.du(7)
+    
+    bottomPadding: last ? Qt.utils.du(15) : 0
 
-    background: pressed ? ui.palette.plainBase : ui.palette.background
-
+    //background: pressed ? ui.palette.plainBase : ui.palette.background
+    background: pressed ? Qt.utils.plainBase() : Qt.utils.background()
+    
     onTouch: {
-        pressed = event.isDown()||event.isMove() ? true : false;
+        if (!last)
+            pressed = event.isDown()||event.isMove() ? true : false;
+    }
+    
+    function setIconBgColor() {
+        var r = root.text.length>0 ? (Math.abs(root.text.charCodeAt(0)-65)/57)%1 : 1;
+        var g = root.text.length>1 ? (Math.abs(root.text.charCodeAt(1)-65)/57)%1 : 1;
+        var b = root.text.length>2 ? (Math.abs(root.text.charCodeAt(2)-65)/57)%1 : 1;
+        root.colorSize = (r+g+b);
+        imagePlaceholder.background = Color.create(r, g, b)
+        imagePlaceholderLabel.textStyle.color = (r+g+b)>1.5 ? Qt.utils.background() : Qt.utils.text();
     }
     
     layout: DockLayout {}
 
     Container {
+        visible: !last
         verticalAlignment: VerticalAlignment.Top
-        background: ui.palette.plainBase
+        background: Qt.utils.plainBase()
         minHeight: 2
         maxHeight: minHeight
         minWidth: Qt.display.pixelSize.width
@@ -48,72 +68,113 @@ Container {
     }
     
     // Fresh dash
-    ImageView {
+    /*ImageView {
         horizontalAlignment: HorizontalAlignment.Left
         visible: fresh
-        imageSource: "asset:///fresh_dash.png"
-        filterColor: ui.palette.primary
-    }
-
+        //imageSource: "asset:///fresh_dash.png"
+        //filterColor: ui.palette.primary
+        imageSource: "asset:///fresh_dash-blue.png"
+    }*/
+    
     Container {
         id: body
+        visible: !last
         verticalAlignment: VerticalAlignment.Top
-        leftPadding: ui.du(2)
-        rightPadding: ui.du(2)
-        topPadding: ui.du(2)
-        bottomPadding: ui.du(2)
-
-        //verticalAlignment: VerticalAlignment.Center
+        leftPadding: Qt.utils.du(2)
+        rightPadding: leftPadding
+        topPadding: leftPadding
+        bottomPadding: leftPadding
 
         Container {
-            layout: DockLayout {
-            }
+            layout: DockLayout {}
             
             preferredWidth: Qt.display.pixelSize.width
 
             Container {
-                rightPadding: ui.du(5)
+                rightPadding: Qt.utils.du(5)
                 layout: StackLayout {
                     orientation: LayoutOrientation.LeftToRight
                 }
                 
                 horizontalAlignment: HorizontalAlignment.Left
 
-                WebImageView {
-                    id: image
-                    visible: isLoaded
-                    //verticalAlignment: VerticalAlignment.Center
-                    preferredWidth: ui.du(5)
-                    preferredHeight: preferredWidth
-                    minWidth: ui.du(5)
-                    minHeight: minWidth
+                Container {
+                    layout: DockLayout {}
+                    verticalAlignment: VerticalAlignment.Center
+                    Container {
+                        id: imagePlaceholder
+                        layout: DockLayout {}
+                        horizontalAlignment: HorizontalAlignment.Left
+                        verticalAlignment: VerticalAlignment.Top
+                        visible: !image.isLoaded || root.defaultIcon
+                        preferredWidth: root.imageSize
+                        preferredHeight: root.imageSize
+                        minWidth: root.imageSize
+                        minHeight: root.imageSize
+                        maxWidth: root.imageSize
+                        maxHeight: root.imageSize
+                        Label {
+                            visible: !root.defaultIcon
+                            horizontalAlignment: HorizontalAlignment.Center
+                            verticalAlignment: VerticalAlignment.Center
+                            id: imagePlaceholderLabel
+                            text: root.text.substring(0,1).toUpperCase()
+                            textStyle.base: SystemDefaults.TextStyles.BodyText
+                        }
+                    }
+                    
+                    Container {
+                        horizontalAlignment: HorizontalAlignment.Left
+                        verticalAlignment: VerticalAlignment.Top
+                        visible: image.isLoaded
+                        background: root.imageBackgroundVisible ? Color.White : Color.Transparent
+                        WebImageView {
+                            id: image
+                            preferredWidth: root.imageSize
+                            preferredHeight: root.imageSize
+                            minWidth: root.imageSize
+                            minHeight: root.imageSize
+                        }
+                    }
                 }
 
-                Label {
-                    id: label
-                    textStyle.base: SystemDefaults.TextStyles.PrimaryText
-                    textStyle.color: unreadCount>0
-                        ? ui.palette.text :
-                        Application.themeSupport.theme.colorTheme.style==VisualStyle.Bright ?
-                        Color.create(Theme.secondaryBrightColor) : Color.create(Theme.secondaryDarkColor)
-                    multiline: true
-                    autoSize {
-                        maxLineCount: 3
+                Container {
+                    bottomPadding: Qt.utils.du(1)
+                    leftPadding: Qt.utils.du(2)
+                    verticalAlignment: VerticalAlignment.Center
+                    Label {
+                        id: label
+                        textStyle.base: SystemDefaults.TextStyles.PrimaryText
+                        textStyle.color: unreadCount > 0 ? Qt.utils.text() : Qt.utils.secondaryText()
+                        multiline: true
+                        autoSize {
+                            maxLineCount: 3
+                        }
                     }
                 }
             }
 
             Container {
                 horizontalAlignment: HorizontalAlignment.Right
-                leftPadding: ui.du(1)
-                rightPadding: ui.du(1)
-                topPadding: ui.du(1)
-                bottomPadding: ui.du(1)
-                background: ui.palette.plainBase
+                leftPadding: Qt.utils.du(1)
+                rightPadding: leftPadding
+                topPadding: leftPadding
+                bottomPadding: leftPadding
+                //background: Qt.utils.plainBase()
+
+                attachedObjects: [
+                    ImagePaintDefinition {
+                        id: border
+                        repeatPattern: RepeatPattern.XY
+                        imageSource: Application.themeSupport.theme.colorTheme.style == VisualStyle.Bright ? "asset:///border-bright.amd" : "asset:///border.amd"
+                    }
+                ]
+                background: border.imagePaint
+
                 Label {
                     verticalAlignment: VerticalAlignment.Center
                     horizontalAlignment: HorizontalAlignment.Center
-                    textStyle.color: ui.palette.textOnPlain
+                    textStyle.color: Qt.utils.textOnPlain()
                     text: root.unreadCount
                 }
             }

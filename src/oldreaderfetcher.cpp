@@ -865,10 +865,11 @@ void OldReaderFetcher::startFetching()
         s->db->cleanCache();
         s->db->cleanEntries();
     }
+
     if (busyType == Fetcher::Updating) {
         s->db->updateEntriesFreshFlag(0); // Set current entries as not fresh
-        //storedFeedList = s->db->readStreamModuleTabList();
     }
+
     s->db->cleanStreams();
     s->db->cleanModules();
 

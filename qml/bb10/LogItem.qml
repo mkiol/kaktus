@@ -17,24 +17,32 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 
 Container {
     id: root
     
-    topPadding: ui.du(0)
-    bottomPadding: ui.du(3)
+    topPadding: 0
+    bottomPadding: 0
     
     property string title
     property string description
     
     Label {
         text: title
-        textStyle.base: SystemDefaults.TextStyles.PrimaryText
+        textStyle.base: SystemDefaults.TextStyles.BodyText
+        multiline: true
+        topMargin: 0; topPadding: 0; bottomMargin: 0; bottomPadding: 0;
     }
     
     Label {
+        topMargin: utils.du(1); topPadding: 0;
         text: description
         textStyle.base: SystemDefaults.TextStyles.SubtitleText
+        multiline: true
+    }
+    
+    Container {
+        preferredHeight: utils.du(2)
     }
 }

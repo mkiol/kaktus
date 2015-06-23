@@ -213,7 +213,7 @@ ApplicationWindow {
             }
             return;
         case 2:
-            dm.isWLANConnected();
+            dm.startFeedDownload();
             return;
         }
     }

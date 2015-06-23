@@ -150,6 +150,7 @@ Page {
             }
 
             onClicked: {
+                //console.log("feedIcon",feedIcon);
                 if (timer.running) {
                     // Double click
                     timer.stop();

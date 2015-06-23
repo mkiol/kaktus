@@ -17,8 +17,8 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
-import "const.js" as Theme
+import bb.cascades 1.2
+//import "const.js" as Theme
 
 Page {
     
@@ -33,7 +33,7 @@ Page {
     }
 
     
-    /*actions: [
+    actions: [
         ActionItem {
             title: qsTr("Changelog")
             ActionBar.placement: ActionBarPlacement.OnBar
@@ -42,18 +42,18 @@ Page {
                 nav.push(changelogPage.createObject());
             }
         }
-    ]*/
+    ]
 
     ScrollView {
 
         Container {
-            leftPadding: ui.du(2)
-            rightPadding: ui.du(2)
-            topPadding: ui.du(4)
-            bottomPadding: ui.du(2)
 
             preferredWidth: display.pixelSize.width
             verticalAlignment: VerticalAlignment.Center
+            
+            Container {
+                topPadding: utils.du(4)
+            }
 
             ImageView {
                 horizontalAlignment: HorizontalAlignment.Center
@@ -67,50 +67,87 @@ Page {
                 text: APP_NAME
             }
 
-            /*Container {
-             * horizontalAlignment: HorizontalAlignment.Center
-             * background: ui.palette.primary
-             * 
-             * leftPadding: ui.du(1)
-             * rightPadding: ui.du(1)
-             * topPadding: ui.du(1)
-             * bottomPadding: ui.du(1)
-             * 
-             * Label {
-             * horizontalAlignment: HorizontalAlignment.Center
-             * textStyle.textAlign: TextAlign.Center
-             * textStyle.color: ui.palette.textOnPrimary
-             * text: qsTr("Version: %1").arg(VERSION);
-             * }
-             }*/
-
             Label {
                 horizontalAlignment: HorizontalAlignment.Center
                 textStyle.textAlign: TextAlign.Center
-                textStyle.color: ui.palette.text
+                textStyle.color: utils.text()
                 text: qsTr("Version: %1").arg(VERSION)
             }
 
-            Label {
+            PaddingLabel {
                 horizontalAlignment: HorizontalAlignment.Center
                 textStyle.textAlign: TextAlign.Center
-                text: qsTr("An unofficial Netvibes feed reader, specially designed to work offline.")
-                multiline: true
+                text: qsTr("Multi services feed reader, specially designed to work offline.");
             }
 
-            Label {
+            PaddingLabel {
                 horizontalAlignment: HorizontalAlignment.Center
                 textFormat: TextFormat.Html
                 text: "<a href='%1'>%2</a>".arg(PAGE).arg(PAGE)
             }
-
-            Label {
-                horizontalAlignment: HorizontalAlignment.Center
-                textStyle.textAlign: TextAlign.Center
+            
+            Container {
+                topPadding: utils.du(6)
+            }
+            
+            Header {
+                title: qsTr("Copyright statement")
+            }
+            
+            PaddingLabel {
+                textStyle.textAlign: TextAlign.Left
                 textFormat: TextFormat.Html
-                text: "Copyright &copy; 2014 Michał Kościesza"
+                text: "Copyright &copy; 2014-2015 Michal Kosciesza"
             }
 
+            PaddingLabel {
+                textStyle.textAlign: TextAlign.Left
+                textFormat: TextFormat.Html
+                text: qsTr("This software is distributed under the terms of the " + "<a href='https://www.gnu.org/licenses/gpl-3.0.txt'>GNU General Public Licence version 3</a>")
+            }
+
+            PaddingLabel {
+                textStyle.textAlign: TextAlign.Left
+                textFormat: TextFormat.Html
+                text: qsTr("Be aware that Kaktus is an UNOFFICIAL application. It means is distributed in the hope " + "that it will be useful, but WITHOUT ANY WARRANTY. Without even the implied warranty of " + "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. " + "See the GNU General Public License for more details.")
+            }
+
+            Container {
+                topPadding: utils.du(2)
+            }
+            
+            /*Header {
+                title: qsTr("Third-party copyrights")
+            }
+            
+            PaddingLabel {
+                textStyle.textAlign: TextAlign.Left
+                text: qsTr("Kaktus utilizes third party software. Such third party software is copyrighted by their owners as indicated below.")
+            }
+            
+            PaddingLabel {
+                textFormat: TextFormat.Html
+                text: "Copyright &copy; 2013, Kläralvdalens Datakonsult AB, a KDAB Group company"
+            }
+            
+            PaddingLabel {
+                textFormat: TextFormat.Html
+                text: "Copyright &copy; 2011, Andre Somers"
+            }
+        
+            PaddingLabel {
+                textFormat: TextFormat.Html
+                text: "Copyright &copy; 2011-2013 Nikhil Marathe"
+            }
+            
+            PaddingLabel {
+                textFormat: TextFormat.Html
+                text: "Copyright &copy; 2008 Flavio Castelli"
+            }
+            
+            Container {
+                topPadding: utils.du(5)
+            }*/
         }
     }
 }

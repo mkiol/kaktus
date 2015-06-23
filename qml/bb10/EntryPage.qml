@@ -17,7 +17,7 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 import bb.system 1.0
 import com.kdab.components 1.0
 import net.mkiol.kaktus 1.0
@@ -31,16 +31,51 @@ KaktusPage {
     modelType: 2
 
     titleBar: TitleBar {
-        title: {
-            switch (settings.viewMode) {
-                case 3:
-                    return qsTr("All feeds");
-                case 4:
-                    return qsTr("Saved");
-                case 5:
-                    return qsTr("Slow");
-                default:
-                    return root.title;
+        kind: TitleBarKind.FreeForm
+        kindProperties: FreeFormTitleBarKindProperties {
+            Container {
+                layout: StackLayout {
+                    orientation: LayoutOrientation.LeftToRight
+                }
+                leftPadding: utils.du(2)
+                Label {
+                    text: {
+                        switch (settings.viewMode) {
+                            case 3:
+                                return qsTr("All feeds");
+                            case 4:
+                                return settings.signinType<10 ? qsTr("Saved") : qsTr("Starred");
+                            case 5:
+                                return qsTr("Slow");
+                            default:
+                                return root.title;
+                        }
+                    }
+                    textStyle.base: SystemDefaults.TextStyles.TitleText
+                    textStyle.fontWeight: FontWeight.W500
+                    verticalAlignment: VerticalAlignment.Center
+                }
+            }
+
+            expandableArea {
+                content: SegmentedControl {
+                    preferredWidth: display.pixelSize.width
+                    Option {
+                        text: qsTr("All")
+                        value: false
+                        selected: !settings.showOnlyUnread
+                    }
+                    Option {
+                        text: qsTr("Only unread")
+                        value: true
+                        selected: settings.showOnlyUnread
+                    }
+                    onSelectedValueChanged: {
+                        settings.showOnlyUnread = selectedValue;
+                    }
+                }
+                expanded: true
+                toggleArea: TitleBarExpandableAreaToggleArea.EntireTitleBar
             }
         }
     }
@@ -57,20 +92,40 @@ KaktusPage {
             interval: 400
             onTimeout: {
                 // One click
+                console.log("onTriggered: one");
                 oneClick();
             }
         }
     ]
 
     onCreationCompleted: {
+        entryModel.ready.connect(resetModel);
+        
+        //Qt.root = root;
         Qt.entryModel = entryModel;
         Qt.settings = settings;
         Qt.dm = dm;
         Qt.starWasPresed = false;
         Qt.barWasPresed = false;
+        Qt.isLight = utils.isLight();
+        
+        if (!settings.getHint1Done()) {
+            notification.show(qsTr("One-tap to open article, double-tap to mark as read"));
+            settings.setHint1Done(true);
+        }
+    }
+    
+    onNeedToResetModel: {
+        entryModel.init();
+    }
+    
+    function resetModel() {
+        bbEntryModel.resetSourceModel();
     }
     
     function disconnectSignals() {
+        //entryModel.ready.disconnect(resetModel);
+        //settings.showOnlyUnreadChanged.disconnect(refreshActions);
     }
 
     property variant chosenItem
@@ -103,18 +158,30 @@ KaktusPage {
         }
         
         var obj = webPreviewPage.createObject();
+        
         obj.onlineUrl = chosenItem.link;
         obj.offlineUrl = cache.getUrlbyId(chosenItem.uid);
+        //obj.offlineUrl = cache.getUrlbyId(encodeURIComponent(chosenItem.uid));
         obj.title = chosenItem.title;
         obj.stared = chosenItem.readlater==1;
         obj.read = chosenItem.read;
         obj.cached = chosenItem.cached;
         obj.index = chosenIndex;
+        obj.broadcast = chosenItem.broadcast;
+        obj.liked = chosenItem.liked;
+        obj.annotations = chosenItem.annotations;
+        //console.log("obj.onlineUrl",obj.onlineUrl);
+        //console.log("obj.offlineUrl",obj.offlineUrl);
         nav.push(obj);
+        obj.start();
     }
-
+    
     Container {
         layout: DockLayout {}
+        
+        //preferredHeight: Qt.display.pixelSize.height/2
+        //maxHeight: Qt.display.pixelSize.height/2
+        //minHeight: Qt.display.pixelSize.height/2
         
         LastSyncIndicator {
             visible: bbEntryModel.count!=0
@@ -125,40 +192,61 @@ KaktusPage {
             
             signal itemExpanding(int index)
             
-            verticalAlignment: VerticalAlignment.Top
+            verticalAlignment: VerticalAlignment.Bottom
             dataModel: bbEntryModel
             visible: bbEntryModel.count!=0
+            
+            scrollRole: ScrollRole.Main
 
             layout: StackListLayout {
-                headerMode: ListHeaderMode.None
+                headerMode: ListHeaderMode.Standard
+            }
+            
+            function itemType(data, indexPath) {
+                return (data.uid == "daterow" ? 'header' : 'item');
             }
 
             listItemComponents: [
                 ListItemComponent {
-                    type: ""
+                    type: "header"              
+                    KaktusEntryHeader {
+                        title: ListItemData.title
+                    }
+                },
 
+                ListItemComponent {
+                    type: "item"
+                    
                     KaktusEntryItem {
                         id: item
 
                         title: ListItemData.title
-                        feedIconSource: Qt.settings.viewMode == 1 || Qt.settings.viewMode == 3 || Qt.settings.viewMode == 4 || Qt.settings.viewMode == 5 ? Qt.cache.getUrlbyUrl(ListItemData.feedIcon) : ""
+                        defaultFeedIcon: ListItemData.feedIcon === "http://s.theoldreader.com/icons/user_icon.png"
+                        feedTitle: ListItemData.feedTitle
+                        feedIconSource: defaultFeedIcon ? colorSize > 1.5 ? "asset:///contact-text.png" : "asset:///contact.png" : Qt.cache.getUrlbyUrl(ListItemData.feedIcon)
+
                         imageSource: {
                             if (Qt.settings.showTabIcons && ListItemData.image != "")
                                 return Qt.settings.offlineMode ? Qt.cache.getUrlbyUrl(ListItemData.image) : Qt.dm.online ? ListItemData.image : Qt.cache.getUrlbyUrl(ListItemData.image);
                             else
                                 return "";
                         }
+                        annotations: ListItemData.annotations
                         content: ListItemData.content
                         read: ListItemData.read > 0
                         stared: ListItemData.readlater > 0
                         author: ListItemData.author
                         date: ListItemData.date
                         fresh: ListItemData.fresh
-                        
+                        broadcast: ListItemData.broadcast
+                        liked: ListItemData.liked
+                        last: ListItemData.uid == "last"
+
                         onCreationCompleted: {
+                            //console.log()
                             ListItem.view.itemExpanding.connect(doColapse)
                         }
-                        
+
                         function doColapse(index) {
                             if (index == item.ListItem.indexInSection)
                                 return;
@@ -166,55 +254,87 @@ KaktusPage {
                         }
 
                         onStarPressedChanged: {
-                            if (!Qt.starPressed) {
+                            if (! Qt.starPressed) {
                                 Qt.starWasPressed = true;
                             }
                         }
                         onBarPressedChanged: {
-                            if (!Qt.barPressed) {
+                            if (! Qt.barPressed) {
                                 Qt.barWasPressed = true;
                             }
                         }
-                        
+
                         // Dynamic creation of new items if last item is compleated
                         ListItem.onInitializedChanged: {
+                            setIconBgColor();
                             var index = item.ListItem.indexInSection;
-                            //console.log("onInitializedChanged, index:", index, "entryModel.count():", Qt.entryModel.count());
                             if (index == Qt.entryModel.count() - 1) {
-                                Qt.entryModel.createItems(index + 1, index + Qt.settings.offsetLimit);
+                                Qt.entryModel.createItems(index + 1, Qt.settings.offsetLimit);
                             }
                         }
                         
+                        attachedObjects: [
+                            ComponentDefinition {
+                                id: sharePage
+                                source: "SharePage.qml"
+                            }
+                        ]
+
                         contextActions: [
                             ActionSet {
+                                id: actionSet
                                 ActionItem {
                                     title: ListItemData.read == 0 ? qsTr("Mark as read") : qsTr("Mark as unread")
                                     enabled: ListItemData.read < 2
                                     imageSource: ListItemData.read == 0 ? "asset:///read.png" : "asset:///unread.png"
                                     onTriggered: {
                                         if (ListItemData.read == 0) {
-                                            Qt.entryModel.setData(item.ListItem.indexInSection, "read", 1);
+                                            Qt.entryModel.setData(item.ListItem.indexInSection, "read", 1, "");
+                                            //Qt.nav.top.refreshActions();
                                             return;
                                         }
                                         if (ListItemData.read == 1) {
-                                            Qt.entryModel.setData(item.ListItem.indexInSection, "read", 0);
+                                            Qt.entryModel.setData(item.ListItem.indexInSection, "read", 0, "");
+                                            //Qt.nav.top.refreshActions();
                                             return;
                                         }
                                     }
                                 }
                                 ActionItem {
-                                    title: ListItemData.readlater == 0 ? qsTr("Save") : qsTr("Unsave")
+                                    title: ListItemData.readlater == 0 ? Qt.settings.signinType<10 ? qsTr("Save") : qsTr("Star") : Qt.settings.signinType<10 ? qsTr("Unsave") : qsTr("Unstar")
                                     enabled: ListItemData.readlater < 2
                                     imageSource: ListItemData.readlater == 0 ? "asset:///save.png" : "asset:///unsave.png"
                                     onTriggered: {
                                         if (ListItemData.readlater == 0) {
-                                            Qt.entryModel.setData(item.ListItem.indexInSection, "readlater", 1);
+                                            Qt.entryModel.setData(item.ListItem.indexInSection, "readlater", 1, "");
                                             return;
                                         }
                                         if (ListItemData.readlater == 1) {
-                                            Qt.entryModel.setData(item.ListItem.indexInSection, "readlater", 0);
+                                            Qt.entryModel.setData(item.ListItem.indexInSection, "readlater", 0, "");
                                             return;
                                         }
+                                    }
+                                }
+                                ActionItem {
+                                    id: shareAction
+                                    
+                                    property bool enabled2: Qt.settings.signinType >= 10 && ListItemData.feedId.substring(0,4) !== "user"
+                                    
+                                    title: ListItemData.broadcast ? Qt.isLight ? qsTr("Unshare (only in pro edition)") : qsTr("Unshare") : Qt.isLight ? qsTr("Share (only in pro edition)") : qsTr("Share with followers")
+                                    enabled: enabled2 && !Qt.isLight
+                                    imageSource: ListItemData.broadcast ? "asset:///unsharefollowers.png" : "asset:///sharefollowers.png"
+                                    onTriggered: {
+                                        if (ListItemData.broadcast) {
+                                            Qt.entryModel.setData(item.ListItem.indexInSection, "broadcast", false, "");
+                                        } else {
+                                            var obj = sharePage.createObject(); obj.index = item.ListItem.indexInSection;
+                                            Qt.nav.push(obj);
+                                        }
+                                    }
+                                    
+                                    onCreationCompleted: {
+                                        if (!enabled2)
+                                            actionSet.remove(shareAction);   
                                     }
                                 }
                             }
@@ -227,39 +347,47 @@ KaktusPage {
                 chosenItem = dataModel.data(indexPath);
                 chosenIndex = indexPath[0];
                 
+                if (chosenItem.uid == "daterow")
+                    return;
+
                 if (Qt.barWasPressed) {
                     Qt.barWasPressed = false;
                     // Expander was clicked, so emitting colapse signal
                     itemExpanding(chosenIndex);
                     return;
                 }
-                
+
                 if (Qt.starWasPressed) {
                     Qt.starWasPressed = false;
                     if (chosenItem.readlater < 2) {
                         if (chosenItem.readlater == 0) {
-                            entryModel.setData(indexPath, "readlater", 1);
+                            entryModel.setData(indexPath, "readlater", 1, "");
                             return;
                         }
                         if (chosenItem.readlater == 1) {
-                            entryModel.setData(indexPath, "readlater", 0);
+                            entryModel.setData(indexPath, "readlater", 0, "");
                             return;
                         }
                     }
                     return;
                 }
-                
+
+                //console.log("onTriggered");
                 if (dclickTimer.active) {
+                    //console.log("onTriggered: double");
+                    //console.log("image",chosenItem.image);
                     // Double click
                     dclickTimer.stop();
                     // Marking as read / unread
                     if (chosenItem.read < 2) {
                         if (chosenItem.read == 0) {
-                            entryModel.setData(indexPath, "read", 1);
+                            entryModel.setData(indexPath, "read", 1, "");
+                            Qt.nav.top.refreshActions();
                             return;
                         }
                         if (chosenItem.read == 1) {
-                            entryModel.setData(indexPath, "read", 0);
+                            entryModel.setData(indexPath, "read", 0, "");
+                            Qt.nav.top.refreshActions();
                             return;
                         }
                     }
@@ -273,11 +401,11 @@ KaktusPage {
         
         ViewPlaceholder {
             text: fetcher.busy ? qsTr("Wait until Sync finish.") :
-            settings.viewMode==4 ? qsTr("No saved items") :
+            settings.viewMode==4 ? settings.signinType<10 ? qsTr("No saved items") : qsTr("No starred items") :
             settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
             visible: bbEntryModel.count==0
         }
         
-        ProgressBar {}
+        //ProgressBar {}
     }
 }

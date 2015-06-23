@@ -17,7 +17,7 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 import com.kdab.components 1.0
 
 KaktusPage {
@@ -26,7 +26,7 @@ KaktusPage {
     property bool menuEnabled: false
     
     function disconnectSignals() {
-        nav.topChanged.disconnect(update);
+        //nav.topChanged.disconnect(update);
     }
     
     titleBar: TitleBar {
@@ -42,7 +42,7 @@ KaktusPage {
     
     onCreationCompleted: {
         Qt.dashboardModel = dashboardModel;
-        nav.topChanged.connect(update);
+        //nav.topChanged.connect(update);
     }
     
     Container {

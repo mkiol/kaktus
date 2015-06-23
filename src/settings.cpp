@@ -633,6 +633,6 @@ void Settings::reset()
         setAuthUrl("");
         setHint1Done(false);
         setCachingMode(0);
-        setRetentionDays(30);
+        setRetentionDays(14);
     }
 }

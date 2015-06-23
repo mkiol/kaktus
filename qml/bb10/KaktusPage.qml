@@ -17,7 +17,7 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 
 Page {
     id: root
@@ -25,10 +25,25 @@ Page {
     property bool menuEnabled: true
     property int modelType
     property variant model: modelType==0 ? tabModel : modelType==1 ? feedModel : modelType==2 ? entryModel : null
-    
+
     property ActionMarkRead markAllAsReadAction
     property ActionMarkUnread markAllAsUnreadAction
-
+    
+    property bool busy: fetcher.busy || dm.busy || dm.removerBusy
+    
+    signal needToResetModel()
+    
+    onCreationCompleted: {
+        //settings.showOnlyUnreadChanged.connect(refreshActions);
+        refreshActions();
+    }
+    
+    /*function disconnectSignals() {
+    }*/
+    
+    actionBarAutoHideBehavior: ActionBarAutoHideBehavior.HideOnScroll
+    actionBarVisibility: ChromeVisibility.Overlay
+    
     markAllAsReadAction: ActionMarkRead {
         onTriggered: {
             switch (modelType) {
@@ -41,6 +56,7 @@ Page {
                         readAllDialog.show();
                     } else {
                         model.setAllAsRead();
+                        //refreshActions();
                     }
             }
         }
@@ -58,33 +74,33 @@ Page {
                         unreadAllDialog.show();
                     } else {
                         model.setAllAsUnread();
+                        
+                        if (settings.showOnlyUnread && modelType==2) {
+                            needToResetModel();
+                        }
+                        //refreshActions();
                     }
             }
 
         }
     }
     
-    property variant viewModeActions: []
-    
     attachedObjects: [
         ReadAllDialog {
             id: readAllDialog
             onOk: {
                 model.setAllAsRead();
+                //refreshActions();
             }
         },
         UnreadAllDialog {
             id: unreadAllDialog
             onOk: {
                 model.setAllAsUnread();
+                //refreshActions();
             }
         }
     ]
-    
-    onCreationCompleted: {
-        //createActions();
-        refreshActions();
-    }
     
     onActionMenuVisualStateChanged: {
         if (actionMenuVisualState==ActionMenuVisualState.AnimatingToVisibleFull) {
@@ -104,33 +120,56 @@ Page {
         viewModeActions = list;
     }*/
     
-    function refreshActions() {
+    /*function refreshActions() {
         while (actions.length > 0) {
             removeAction(actions[0]);
         }
-        
-        /*var history = settings.viewModeHistory();
-        for (var i in viewModeActions) {
-            var inHistory = false;
-            for (var ii in history) {
-                if (viewModeActions[i].viewMode==history[ii]) {
-                    inHistory = true;
-                    break;
-                }
-            }
-            addAction(viewModeActions[i], inHistory ? ActionBarPlacement.OnBar : ActionBarPlacement.Default);
-        }*/
 
         // Mark as read is disabled for Saved view
         if (settings.viewMode != 4) {
             var read = model.countRead();
             var unread = model.countUnread();
-            console.log("refreshActions",read,unread,root,modelType,settings.viewMode,actions.length);
+            //console.log("refreshActions",read,unread,root,modelType,settings.viewMode,actions.length);
             if (unread != 0)
                 addAction(markAllAsReadAction);
-            if (read != 0)
+            if (!settings.showOnlyUnread && read != 0)
                 addAction(markAllAsUnreadAction);
         }
-        console.log("refreshActions2",read,unread,root,modelType,settings.viewMode,actions.length);
+        //console.log("refreshActions2",read,unread,root,modelType,settings.viewMode,actions.length);
+    }*/
+    
+    
+    
+    function refreshActions() {
+        //console.log("refreshActions");
+        while (actions.length > 0) {
+            removeAction(actions[0]);
+        }
+        
+        addAction(markAllAsReadAction);
+        if (settings.signinType < 10)
+            addAction(markAllAsUnreadAction);
+        
+        /*if (!settings.showOnlyUnread)
+            addAction(markAllAsUnreadAction);*/
+
+        if (settings.viewMode == 4) {
+            markAllAsReadAction.enabled = false;
+            markAllAsUnreadAction.enabled = false;
+            return;
+        }
+
+        var read = model.countRead();
+        var unread = model.countUnread();
+        if (unread != 0) {
+            markAllAsReadAction.enabled = true;
+        } else {
+            markAllAsReadAction.enabled = false;
+        }
+        if (read != 0) {
+            markAllAsUnreadAction.enabled = true;
+        } else {
+            markAllAsUnreadAction.enabled = false;
+        }
     }
 }

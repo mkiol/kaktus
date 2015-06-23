@@ -17,8 +17,7 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
-import "const.js" as Theme
+import bb.cascades 1.2
 
 Container {
     id: root
@@ -26,8 +25,9 @@ Container {
     property alias text: nameLabel.text
     property alias description: descriptionLabel.text
     property alias checked: toggle.checked
+    property alias iconSource: image.imageSource
 
-    topPadding: ui.du(1)
+    topPadding: utils.du(1)
     bottomPadding: topPadding
 
     Container {
@@ -35,7 +35,7 @@ Container {
         layout: StackLayout {
             orientation: LayoutOrientation.LeftToRight
         }
-
+        
         Label {
             id: nameLabel
             
@@ -44,6 +44,11 @@ Container {
             }
             
             verticalAlignment: VerticalAlignment.Center
+        }
+        
+        ImageView {
+            id: image
+            visible: imageSource != ""
         }
 
         ToggleButton {
@@ -54,15 +59,14 @@ Container {
     }
     
     Container {
-        topMargin: ui.du(1)
+        topMargin: utils.du(1)
         visible: root.description != ""
         
         Label {
             id: descriptionLabel
             multiline: true
             textStyle.base: SystemDefaults.TextStyles.SubtitleText
-            textStyle.color: Application.themeSupport.theme.colorTheme.style==VisualStyle.Bright ?
-            Color.create(Theme.secondaryBrightColor) : Color.create(Theme.secondaryDarkColor)
+            textStyle.color: utils.secondaryText()
         }
         
     }

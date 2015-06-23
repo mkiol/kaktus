@@ -17,7 +17,7 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 import com.kdab.components 1.0
 
 KaktusPage {
@@ -29,6 +29,7 @@ KaktusPage {
     modelType: 1
     
     titleBar: TitleBar {
+        //scrollBehavior: TitleBarScrollBehavior.Sticky
         title: settings.viewMode==2 ? qsTr("Feeds") : root.title
     }
     
@@ -46,11 +47,13 @@ KaktusPage {
     
     function disconnectSignals() {
         nav.topChanged.disconnect(update);
+        //settings.showOnlyUnreadChanged.disconnect(refreshActions);
     }
     
     function update() {
         if (nav.top == root) {
             feedModel.updateFlags();
+            //refreshActions();
         }
     }
     
@@ -65,13 +68,22 @@ KaktusPage {
         ListView {
             id: listView
             
+            scrollRole: ScrollRole.Main
+            
             dataModel: bbFeedModel
             verticalAlignment: VerticalAlignment.Top
             visible: dataModel.count!=0
-            
+
             layout: StackListLayout {
                 headerMode: ListHeaderMode.None
             }
+
+            /*leadingVisual: Container {
+                preferredHeight: 100
+                preferredWidth: 100
+                background: Color.Cyan
+            }*/
+            //preferredHeight: display.pixelSize.height-utils.du(10)
             
             listItemComponents: [
                 ListItemComponent {
@@ -79,9 +91,12 @@ KaktusPage {
                     KaktusListItem {
                         id: item
                         text: ListItemData.title
-                        imageSource: Qt.cache.getUrlbyUrl(ListItemData.icon)
                         unreadCount: ListItemData.unread
                         fresh: ListItemData.fresh>0
+                        last: ListItemData.uid=="last"
+                        defaultIcon: ListItemData.icon === "http://s.theoldreader.com/icons/user_icon.png"
+                        imageSource: defaultIcon ? colorSize > 1.5 ? "asset:///contact-text.png" : "asset:///contact.png" : Qt.cache.getUrlbyUrl(ListItemData.icon)
+                        imageBackgroundVisible: !defaultIcon
                         
                         property bool showMenuOnPressAndHold: (ListItemData.unread+ListItemData.read)>0
                         contextMenuHandler: ContextMenuHandler {
@@ -89,33 +104,37 @@ KaktusPage {
                                 if (!showMenuOnPressAndHold)
                                     event.abort();
                             }
-                        } 
+                        }
                         
-                        // Dynamic creation of new items if last item is compleated
-                        /*ListItem.onInitializedChanged: {
-                            var index = item.ListItem.indexInSection;
-                            //console.log("onInitializedChanged, index:", index, "feedModel.count():", Qt.feedModel.count());
-                            if (index == Qt.feedModel.count() - 1) {
-                                Qt.feedModel.createItems(index + 1, index + Qt.settings.offsetLimit);
-                            }
-                        }*/
-                        
+                        ListItem.onInitializedChanged: {
+                            setIconBgColor();
+                        }
+                                                
                         contextActions: [
                             ActionSet {
+                                id: actionSet
                                 ActionItem {
                                     title: qsTr("Mark as read")
                                     imageSource: "asset:///read.png"
                                     enabled: ListItemData.unread != 0
                                     onTriggered: {
                                         Qt.feedModel.markAsRead(item.ListItem.indexInSection);
+                                        //Qt.nav.top.refreshActions();
                                     }
                                 }
                                 ActionItem {
+                                    id: unreadAction
                                     title: qsTr("Mark as unread")
                                     imageSource: "asset:///unread.png"
                                     enabled: ListItemData.read != 0
                                     onTriggered: {
                                         Qt.feedModel.markAsUnread(item.ListItem.indexInSection);
+                                        //Qt.nav.top.refreshActions();
+                                    }
+                                    
+                                    onCreationCompleted: {
+                                        if (Qt.settings.signinType < 10)
+                                            actionSet.remove(unreadAction);   
                                     }
                                 }
                             
@@ -142,6 +161,6 @@ KaktusPage {
             visible: bbFeedModel.count==0
         }
         
-        ProgressBar {}
+        //ProgressBar {}
     }
 }

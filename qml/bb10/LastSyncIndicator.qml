@@ -17,12 +17,12 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 import "const.js" as Theme
 
 Container {
-    topPadding: ui.du(2)
-    bottomPadding: ui.du(2)
+    topPadding: utils.du(2)
+    bottomPadding: utils.du(2)
     verticalAlignment: VerticalAlignment.Top
     horizontalAlignment: HorizontalAlignment.Center
     

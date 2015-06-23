@@ -150,7 +150,7 @@ bool DatabaseManager::alterDB_19to22()
             return ret;
         }
 
-        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_timestamp "
+        /*ret = query.exec("CREATE INDEX IF NOT EXISTS entries_timestamp "
                          "ON entries(timestamp DESC);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_timestamp_by_stream "
                          "ON entries(stream_id, timestamp DESC);");
@@ -198,7 +198,7 @@ bool DatabaseManager::alterDB_19to22()
         if (!ret) {
             checkError(query.lastError());
             return ret;
-        }
+        }*/
 
         ret = query.exec("UPDATE parameters SET value='22';");
 
@@ -956,10 +956,11 @@ void DatabaseManager::writeEntry(const Entry &item)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
+#ifdef BB10
         bool ret = query.exec(QString("INSERT OR REPLACE INTO entries (id, stream_id, title, author, content, link, image, annotations, "
-                                              "fresh, fresh_or, read, saved, liked, broadcast, created_at, published_at, crawl_time, timestamp, last_update, cached) "
-                                              "VALUES ('%1','%2','%3','%4','%5','%6','%7','%8',%9,%10,%11,%12,%13,%14,%15,%16,%17,%18,%19, "
-                                              "COALESCE((SELECT cached FROM entries WHERE id='%20'),0));")
+                                      "fresh_or, read, saved, liked, broadcast, created_at, published_at, crawl_time, timestamp, last_update, fresh, cached) "
+                                      "VALUES ('%1','%2','%3','%4','%5','%6','%7','%8',%9,%10,%11,%12,%13,%14,%15,%16,%17,%18,%19, "
+                                      "coalesce((SELECT cached FROM entries WHERE id='%20'),0));")
                                       .arg(item.id)
                                       .arg(item.streamId)
                                       .arg(QString(item.title.toUtf8().toBase64()))
@@ -968,7 +969,6 @@ void DatabaseManager::writeEntry(const Entry &item)
                                       .arg(QString(item.link.toUtf8().toBase64()))
                                       .arg(QString(item.image.toUtf8().toBase64()))
                                       .arg(QString(item.annotations.toUtf8().toBase64()))
-                                      .arg(item.fresh)
                                       .arg(item.freshOR)
                                       .arg(item.read)
                                       .arg(item.saved)
@@ -979,51 +979,33 @@ void DatabaseManager::writeEntry(const Entry &item)
                                       .arg(item.crawlTime)
                                       .arg(item.timestamp)
                                       .arg(QDateTime::currentDateTimeUtc().toTime_t())
-                                      .arg(item.id));
-
-        /*bool ret = query.exec(QString("INSERT INTO entries (id, stream_id, title, author, content, link, image, annotations, "
-                                      "fresh, fresh_or, read, saved, liked, cached, broadcast, created_at, published_at, crawl_time, timestamp, last_update) "
-                                      "VALUES ('%1','%2','%3','%4','%5','%6','%7','%8',%9,%10,%11,%12,%13,%14,%15,%16,%17,%18,%19,%20);")
-                              .arg(item.id)
-                              .arg(item.streamId)
-                              .arg(QString(item.title.toUtf8().toBase64()))
-                              .arg(QString(item.author.toUtf8().toBase64()))
-                              .arg(QString(item.content.toUtf8().toBase64()))
-                              .arg(QString(item.link.toUtf8().toBase64()))
-                              .arg(QString(item.image.toUtf8().toBase64()))
-                              .arg(QString(item.annotations.toUtf8().toBase64()))
-                              .arg(item.fresh)
-                              .arg(item.freshOR)
-                              .arg(item.read)
-                              .arg(item.saved)
-                              .arg(item.liked)
-                              .arg(item.cached)
-                              .arg(item.broadcast)
-                              .arg(item.createdAt)
-                              .arg(item.publishedAt)
-                              .arg(item.crawlTime)
-                              .arg(item.timestamp)
-                              .arg(QDateTime::currentDateTimeUtc().toTime_t()));
-
-        if(!ret) {
-            ret = query.exec(QString("UPDATE entries SET title='%1',author='%2',content='%3',link='%4',image='%5',annotations='%6',fresh_or=%7,liked=%8,read=%9,saved=%10,broadcast=%11,timestamp=%12,last_update=%13,crawl_time=%14,flag=0 WHERE id='%15';")
-                             .arg(QString(item.title.toUtf8().toBase64()))
-                             .arg(QString(item.author.toUtf8().toBase64()))
-                             .arg(QString(item.content.toUtf8().toBase64()))
-                             .arg(QString(item.link.toUtf8().toBase64()))
-                             .arg(QString(item.image.toUtf8().toBase64()))
-                             .arg(QString(item.annotations.toUtf8().toBase64()))
-                             .arg(item.freshOR)
-                             .arg(item.liked)
-                             .arg(item.read)
-                             .arg(item.saved)
-                             .arg(item.broadcast)
-                             .arg(item.timestamp)
-                             .arg(QDateTime::currentDateTimeUtc().toTime_t())
-                             .arg(item.crawlTime)
-                             .arg(item.id));
-        }*/
-
+                                      .arg(item.fresh).arg(item.id));
+#else
+        bool ret = query.exec(QString("INSERT OR REPLACE INTO entries (id, stream_id, title, author, content, link, image, annotations, "
+                                      "fresh_or, read, saved, liked, broadcast, created_at, published_at, crawl_time, timestamp, last_update, fresh, cached) "
+                                      "VALUES ('%1','%2','%3','%4','%5','%6','%7','%8',%9,%10,%11,%12,%13,%14,%15,%16,%17,%18, "
+                                      "coalesce((SELECT fresh FROM entries WHERE id='%19'),1), "
+                                      "coalesce((SELECT cached FROM entries WHERE id='%20'),0));")
+                                      .arg(item.id)
+                                      .arg(item.streamId)
+                                      .arg(QString(item.title.toUtf8().toBase64()))
+                                      .arg(QString(item.author.toUtf8().toBase64()))
+                                      .arg(QString(item.content.toUtf8().toBase64()))
+                                      .arg(QString(item.link.toUtf8().toBase64()))
+                                      .arg(QString(item.image.toUtf8().toBase64()))
+                                      .arg(QString(item.annotations.toUtf8().toBase64()))
+                                      .arg(item.freshOR)
+                                      .arg(item.read)
+                                      .arg(item.saved)
+                                      .arg(item.liked)
+                                      .arg(item.broadcast)
+                                      .arg(item.createdAt)
+                                      .arg(item.publishedAt)
+                                      .arg(item.crawlTime)
+                                      .arg(item.timestamp)
+                                      .arg(QDateTime::currentDateTimeUtc().toTime_t())
+                                      .arg(item.id,item.id));
+#endif
         if (!ret) {
             checkError(query.lastError());
         }

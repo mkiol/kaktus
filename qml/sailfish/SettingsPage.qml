@@ -48,7 +48,7 @@ Page {
         }
 
         model: VisualItemModel {
-
+            id: model
             Item {
                 anchors { left: parent.left; right: parent.right}
                 height: Math.max(icon.height, label.height)
@@ -161,6 +161,7 @@ Page {
 
             SectionHeader {
                 text: qsTr("Syncronization")
+                visible: settings.signinType>=10
             }
 
             ComboBox {

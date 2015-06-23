@@ -17,11 +17,11 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 
 ActionItem {
     title: enabled ? qsTr("Sync") : qsTr("Syncing...")
-    enabled: !fetcher.busy && !dm.busy && !dm.removerBusy
+    enabled: !nav.fetcherBusyStatus && !dm.busy && !dm.removerBusy
     ActionBar.placement: ActionBarPlacement.OnBar
     imageSource: "asset:///sync.png"
     onTriggered: {

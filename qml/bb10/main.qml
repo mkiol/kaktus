@@ -17,13 +17,18 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
-import bb.device 1.3
+import bb.cascades 1.2
+import bb.device 1.2
 
 TabbedPane {
     id: app
     
     showTabsOnActionBar: false
+    
+    onCreationCompleted: {
+        settings.signedInChanged.connect(refreshTabs);
+        refreshTabs();
+    }
     
     onSidebarVisualStateChanged: {
         //console.log("onSidebarVisualStateChanged",sidebarVisualState);
@@ -41,32 +46,16 @@ TabbedPane {
     }
 
     attachedObjects: [
+        KaktusNavigation {
+            id: nav
+        },
         Notification {
             id: notification
         },
-        DisplayInfo {
-            id: display
-        },
-        /*ComponentDefinition {
-            id: firstPage
-            source: "FirstPage.qml"
-        },
         ComponentDefinition {
-            id: signInDialog
-            source: "SignInDialog.qml"
+            id: kaktusTab
+            source: "KaktusTab.qml"
         },
-        ComponentDefinition {
-            id: tabPage
-            source: "TabPage.qml"
-        },
-        ComponentDefinition {
-            id: feedPage
-            source: "FeedPage.qml"
-        },
-        ComponentDefinition {
-            id: entryPage
-            source: "EntryPage.qml"
-        },*/
         ComponentDefinition {
             id: dashboardPage
             source: "DashboardPage.qml"
@@ -90,9 +79,6 @@ TabbedPane {
         ComponentDefinition {
             id: changelogPage
             source: "ChangelogPage.qml"
-        },
-        KaktusNavigation {
-            id: nav
         }
     ]
     
@@ -107,7 +93,12 @@ TabbedPane {
         actions: [
             ActionSync {},
             ActionNetworkMode {
+                enabled: !utils.isLight()
                 onTriggered: {
+                    if (utils.isLight()) {
+                        notification.show(qsTr("Offline mode is available only in pro edition of Kaktus."));
+                        return;
+                    }
                     if (settings.offlineMode) {
                         if (dm.online)
                             settings.offlineMode = false;
@@ -128,69 +119,55 @@ TabbedPane {
         }
     }
     
-    onCreationCompleted: {
-        switch (settings.viewMode) {
-        case 0:
-            activeTab = tab0;
-            break;
-        case 1:
-            activeTab = tab1;
-            break;
-        case 2:
-            activeTab = tab2;
-            break;
-        case 3:
-            activeTab = tab3;
-            break;
-        case 4:
-            activeTab = tab4;
-            break;
-        case 5:
-            activeTab = tab5;
-            break;
-        }
+    function refreshTabs() {
+        removeTabs();
         
-        // Workaround
-        remove(nullTab)
+        if (settings.signedIn) {
+            addTab(0);
+            addTab(1);
+            addTab(3);
+            addTab(4);
+            addTab(5);
+            setActiveTab();
+        } else {
+            activeTab = addTab(settings.viewMode);
+        }
     }
     
-    Tab {
-        id: nullTab
+    function removeTabs() {
+        for (var i = tabs.length-1; i >= 0; i--) {
+            remove(tabs[i]);
+        }
     }
     
-    KaktusTab {
-        id: tab0
-        viewMode: 0
-        content: nav
+    function setActiveTab() {
+        //console.log("setActiveTab: settings.viewMode",settings.viewMode,"activeTab",activeTab);
+        switch (settings.viewMode) {
+            case 0:
+                activeTab = tabs[0];
+                break;
+            case 1:
+                activeTab = tabs[1];
+                break;
+            case 3:
+                activeTab = tabs[2];
+                break;
+            case 4:
+                activeTab = tabs[3];
+                break;
+            case 5:
+                activeTab = tabs[4];
+                break;
+            default :
+                activeTab = tabs[0];
+        }
     }
     
-    KaktusTab {
-        id: tab1
-        viewMode: 1
-        content: nav
-    }
-    
-    KaktusTab {
-        id: tab2
-        viewMode: 2
-        content: nav
-    }
-    
-    KaktusTab {
-        id: tab3
-        viewMode: 3
-        content: nav
-    } 
-    
-    KaktusTab {
-        id: tab4
-        viewMode: 4
-        content: nav
-    } 
-    
-    KaktusTab {
-        id: tab5
-        viewMode: 5
-        content: nav
+    function addTab(viewMode) {
+        var tab = kaktusTab.createObject(app);
+        tab.viewMode = viewMode;
+        tab.content = nav;
+        add(tab);
+        return tab;
     }
 }

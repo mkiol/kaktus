@@ -17,7 +17,7 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 
 ActionItem {
     //title: settings.offlineMode ? qsTr("Go online") : qsTr("Go offline")

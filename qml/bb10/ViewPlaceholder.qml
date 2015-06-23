@@ -17,14 +17,34 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 
-Label {
+Container {
+    id: root
+    
+    property alias text: label.text
+    property alias showIcon: image.visible
+    property bool colorIcon: false
+    
     horizontalAlignment: HorizontalAlignment.Center
     verticalAlignment: VerticalAlignment.Center
-    textStyle.base: SystemDefaults.TextStyles.PrimaryText
-    textStyle.fontWeight: FontWeight.W100
-    textStyle.textAlign: TextAlign.Center
-    multiline: true
+    
+    bottomPadding: utils.du(20)
+    
+    ImageView {
+        id: image
+        horizontalAlignment: HorizontalAlignment.Center
+        imageSource: root.colorIcon ? "asset:///icon.png" : "asset:///icon-bw.png" 
+    }
+
+    Label {
+        id: label
+        horizontalAlignment: HorizontalAlignment.Center
+        textStyle.base: SystemDefaults.TextStyles.PrimaryText
+        textStyle.fontWeight: FontWeight.W100
+        textStyle.textAlign: TextAlign.Center
+        //textFormat: TextFormat.Html
+        multiline: true
+    }
 }
 

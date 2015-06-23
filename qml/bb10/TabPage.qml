@@ -17,7 +17,7 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 import com.kdab.components 1.0
 
 KaktusPage {
@@ -27,7 +27,8 @@ KaktusPage {
     modelType: 0
 
     titleBar: TitleBar {
-        title: qsTr("Tabs")
+        //scrollBehavior: TitleBarScrollBehavior.Sticky
+        title: settings.signinType<10 ? qsTr("Tabs") : qsTr("Folders")
     }
 
     attachedObjects: [
@@ -44,12 +45,14 @@ KaktusPage {
     
     function disconnectSignals() {
         nav.topChanged.disconnect(update);
+        //settings.showOnlyUnreadChanged.disconnect(refreshActions);
     }
 
     function update() {
         if (nav.top == root) {
             Qt.page = root;
             model.updateFlags();
+            //refreshActions();
         }
     }
 
@@ -62,6 +65,8 @@ KaktusPage {
 
         ListView {
             id: listView
+            
+            scrollRole: ScrollRole.Main
 
             dataModel: bbTabModel
             verticalAlignment: VerticalAlignment.Top
@@ -76,11 +81,15 @@ KaktusPage {
                     type: ""
                     KaktusListItem {
                         id: item
-                        text: ListItemData.title
-                        imageSource: Qt.cache.getUrlbyUrl(ListItemData.iconUrl)
+                        text: ListItemData.uid === "subscriptions" ? qsTr("Subscriptions") : 
+                              ListItemData.uid === "friends" ? qsTr("Following") : 
+                              ListItemData.title
+                        imageSource: ListItemData.uid === "friends" ? Application.themeSupport.theme.colorTheme.style === VisualStyle.Bright ? "asset:///contact-text.png" : "asset:///contact.png" : ListItemData.iconUrl === "" ? "" : Qt.cache.getUrlbyUrl(ListItemData.iconUrl)
+                        imageBackgroundVisible: false
                         unreadCount: ListItemData.unread
-                        fresh: ListItemData.fresh>0
-                        
+                        fresh: ListItemData.fresh > 0
+                        last: ListItemData.uid == "last"
+
                         property bool showMenuOnPressAndHold: (ListItemData.unread + ListItemData.read) > 0
                         contextMenuHandler: ContextMenuHandler {
                             onPopulating: {
@@ -89,17 +98,13 @@ KaktusPage {
                             }
                         }
                         
-                        // Dynamic creation of new items if last item is compleated
-                        /*ListItem.onInitializedChanged: {
-                            var index = item.ListItem.indexInSection;
-                            //console.log("onInitializedChanged, index:", index, "tabModel.count():", Qt.tabModel.count());
-                            if (index == Qt.tabModel.count() - 1) {
-                                Qt.tabModel.createItems(index + 1, index + Qt.settings.offsetLimit);
-                            }
-                        }*/
+                        ListItem.onInitializedChanged: {
+                            setIconBgColor();
+                        }
 
                         contextActions: [
                             ActionSet {
+                                id: actionSet
                                 ActionItem {
                                     title: qsTr("Mark as read")
                                     imageSource: "asset:///read.png"
@@ -107,15 +112,22 @@ KaktusPage {
                                     onTriggered: {
                                         Qt.tabModel.markAsRead(item.ListItem.indexInSection);
                                         Qt.page.updateMarkAllActions();
+                                        //Qt.nav.top.refreshActions();
                                     }
                                 }
                                 ActionItem {
+                                    id: unreadAction
                                     title: qsTr("Mark as unread")
                                     imageSource: "asset:///unread.png"
                                     enabled: ListItemData.read != 0
                                     onTriggered: {
                                         Qt.tabModel.markAsUnread(item.ListItem.indexInSection);
                                         Qt.page.updateMarkAllActions();
+                                    }
+                                    
+                                    onCreationCompleted: {
+                                        if (Qt.settings.signinType < 10)
+                                            actionSet.remove(unreadAction);   
                                     }
                                 }
                             }
@@ -126,6 +138,10 @@ KaktusPage {
 
             onTriggered: {
                 var chosenItem = dataModel.data(indexPath);
+                /*if (chosenItem.uid == "friends" && utils.isLight()) {
+                    notification.show(qsTr("The feature is available only in the pro edition"));
+                    return;
+                }*/
                 if (settings.viewMode == 0) {
                     utils.setFeedModel(chosenItem.uid);
                     var obj = feedPage.createObject();
@@ -144,11 +160,9 @@ KaktusPage {
         }
         
         ViewPlaceholder {
-            text: fetcher.busy ? qsTr("Wait until Sync finish.") : qsTr("No tabs")
+            text: fetcher.busy ? qsTr("Wait until Sync finish.") : 
+                                 settings.signinType<10 ? qsTr("No tabs") : qsTr("No folders")
             visible: bbTabModel.count==0
-        }
-
-        ProgressBar {
         }
     }
 }

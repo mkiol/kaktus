@@ -17,7 +17,8 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
+import bb.system 1.2
 import "const.js" as Theme
 
 Container {
@@ -27,13 +28,17 @@ Container {
     property bool cancelable: true
     property bool open: true
     property alias progress: indicator.value
+    property alias showProgress: indicator.visible
     signal cancelClicked
 
     layout: DockLayout {}
-    minWidth: display.pixelSize.width
-    preferredHeight: ui.du(9)
     
-    background: ui.palette.plain
+    preferredWidth: display.pixelSize.width
+    minWidth: display.pixelSize.width
+    maxWidth: display.pixelSize.width
+    preferredHeight: utils.du(10)
+    
+    background: utils.plain()
 
     enabled: open
     visible: open
@@ -48,13 +53,26 @@ Container {
         root.open = false;
         root.progress = -1.0;
     }
+    
+    /*Container {
+         id: indicator
+         
+         property double value
+         
+         horizontalAlignment: HorizontalAlignment.Left
+         verticalAlignment: VerticalAlignment.Fill
+         preferredWidth: value*display.pixelSize.width
+         minWidth: value*display.pixelSize.width
+         maxWidth: value*display.pixelSize.width
+         background: utils.primary()
+     }*/
 
     Container {
         layout: StackLayout {
             orientation: LayoutOrientation.LeftToRight
         }
-        leftPadding: ui.du(2)
-        rightPadding: ui.du(2)
+        leftPadding: utils.du(2)
+        rightPadding: utils.du(2)
         verticalAlignment: VerticalAlignment.Center
         horizontalAlignment: HorizontalAlignment.Left
 
@@ -82,16 +100,17 @@ Container {
             root.cancelClicked();
         }
 
-        preferredWidth: ui.du(12)
-        preferredHeight: ui.du(9)
+        preferredWidth: utils.du(10)
+        preferredHeight: utils.du(10)
 
         ImageView {
             horizontalAlignment: HorizontalAlignment.Center
             verticalAlignment: VerticalAlignment.Center
-            imageSource: "asset:///cancel.png"
-            filterColor: Color.create(Theme.hyperRedColor)
-            preferredWidth: ui.du(7)
-            preferredHeight: ui.du(7)
+            //imageSource: "asset:///cancel.png"
+            //filterColor: Color.create(Theme.hyperRedColor)
+            imageSource: "asset:///cancel-red.png"
+            preferredWidth: utils.du(8)
+            preferredHeight: utils.du(8)
         }
     }
 
@@ -99,6 +118,9 @@ Container {
         id: indicator
         horizontalAlignment: HorizontalAlignment.Left
         verticalAlignment: VerticalAlignment.Bottom
+        preferredWidth: display.pixelSize.width
+        minWidth: display.pixelSize.width
+        maxWidth: display.pixelSize.width
     }
 
 }

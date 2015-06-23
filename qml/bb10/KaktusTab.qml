@@ -17,28 +17,28 @@
  * along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bb.cascades 1.3
+import bb.cascades 1.2
 
 Tab {
     property int viewMode: 0
     
-    title: viewMode==0 ? qsTr("Tabs & feeds") :
-    viewMode==1 ? qsTr("Only tabs") :
-    viewMode==2 ? qsTr("Only feeds") :
+    title: viewMode==0 ? settings.signinType<10 ? qsTr("Tabs, feeds & articles") : qsTr("Folders, feeds & articles") :
+    viewMode==1 ? settings.signinType<10 ? qsTr("Tabs & articles") : qsTr("Folders & articles") :
+    viewMode==2 ? qsTr("All feeds") :
     viewMode==3 ? qsTr("All articles") :
-    viewMode==4 ? qsTr("Saved") :
-    viewMode==5 ? qsTr("Slow") : ""
+    viewMode==4 ? settings.signinType<10 ? qsTr("Saved") : qsTr("Starred") :
+    viewMode==5 ? utils.isLight() ? qsTr("Slow (only in pro edition)") : qsTr("Slow") : ""
     
-    description: viewMode==0 ? qsTr("All your tabs, feeds & articles") :
+    /*description: viewMode==0 ? qsTr("All your tabs, feeds & articles") :
     viewMode==1 ? qsTr("All tabs & articles") :
     viewMode==2 ? qsTr("Feeds & articles") :
     viewMode==3 ? qsTr("All your articles"):
     viewMode==4 ? qsTr("Articles you have saved") :
-    viewMode==5 ? qsTr("Less frequently updated feeds") : ""
+    viewMode==5 ? utils.isLight() ? qsTr("Less frequently updated feeds") : qsTr("Less frequently updated feeds") : ""*/
     
     imageSource: "asset:///vm"+viewMode+".png"
     
-    enabled: settings.signedIn && !fetcher.busy
+    enabled: utils.isLight() ? settings.signedIn && !fetcher.busy && viewMode!=5 : settings.signedIn && !fetcher.busy
     
     onTriggered: {
         settings.viewMode = viewMode;
