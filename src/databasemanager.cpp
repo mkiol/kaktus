@@ -626,10 +626,10 @@ bool DatabaseManager::createModulesStructure()
                          "PRIMARY KEY (module_id, stream_id) "
                          ");");
 
-        /*ret = query.exec("CREATE INDEX IF NOT EXISTS module_stream_modules "
+        ret = query.exec("CREATE INDEX IF NOT EXISTS module_stream_modules "
                          "ON module_stream(module_id DESC);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS module_stream_streams "
-                         "ON module_stream(stream_id DESC);");*/
+                         "ON module_stream(stream_id DESC);");
 
         if (!ret) {
             checkError(query.lastError());
@@ -677,9 +677,10 @@ bool DatabaseManager::createEntriesStructure()
                          "crawl_time TIMESTAMP,"
                          "last_update TIMESTAMP "
                          ");");
+
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_published_at "
                          "ON entries(published_at DESC);");
-        /*ret = query.exec("CREATE INDEX IF NOT EXISTS entries_date_by_stream "
+        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_date_by_stream "
                          "ON entries(stream_id, published_at DESC);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_saved "
                          "ON entries(saved, published_at);");
@@ -690,7 +691,7 @@ bool DatabaseManager::createEntriesStructure()
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_stream_id "
                          "ON entries(stream_id);");
 
-        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_timestamp "
+        /*ret = query.exec("CREATE INDEX IF NOT EXISTS entries_timestamp "
                          "ON entries(timestamp DESC);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_timestamp_by_stream "
                          "ON entries(stream_id, timestamp DESC);");
