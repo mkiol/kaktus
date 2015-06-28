@@ -81,10 +81,11 @@ Rectangle {
 
     Row {
         anchors.top: parent.top; anchors.topMargin: 2*Theme.paddingLarge
-        spacing: (parent.width-15*Theme.paddingLarge)/8
-        x: 3*spacing
+        spacing: (3*parent.width/4 - 9*dot.width)/8
+        x: parent.width/8
 
         Dot {
+            id: dot
             active: root.progress>=0
         }
 
@@ -119,7 +120,6 @@ Rectangle {
         Dot {
             active: root.progress>=8
         }
-
     }
 
     Item {
@@ -423,13 +423,9 @@ Rectangle {
         id: selector
         property bool open: false
         property int space: 92
-
-        opacity: open ? 1.0 : 0.0
-        visible: opacity > 0.0
-        Behavior on opacity { FadeAnimation {duration: 300} }
-
+        visible: open
         source: "image://icons/selector?"+Theme.primaryColor
-        x: 8 + ((root.progress-2)*space)
+        x: root.progress!=7 ? 8 + ((root.progress-2)*space) : parent.width-space+Theme.paddingMedium
         y: app.orientation==Orientation.Portrait ? parent.height-(app.panelHeightPortrait+height)/2 :
                                                    parent.height-(app.panelHeightLandscape+height)/2
         Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
@@ -444,24 +440,29 @@ Rectangle {
     }
 
     MouseArea {
-        enabled: root.clickable
         anchors.fill: parent
         onClicked: {
-            if (root.progress==0) {
-                bar.open = true;
-                selector.open = true;
-            }
-            if (root.progress==7) {
-                bar.open = false;
-                selector.open = false;
-            }
+            if (root.clickable) {
+                if (root.progress==0) {
+                    bar.open = true;
+                }
 
-            if (root.progress==8) {
-                // Help finished
-                settings.helpDone = true;
-                root.open = false;
-            } else {
-                root.progress++;
+                if (root.progress==1) {
+                    selector.open = true;
+                }
+
+                if (root.progress==7) {
+                    bar.open = false;
+                    selector.open = false;
+                }
+
+                if (root.progress==8) {
+                    // Help finished
+                    settings.helpDone = true;
+                    root.open = false;
+                } else {
+                    root.progress++;
+                }
             }
         }
     }

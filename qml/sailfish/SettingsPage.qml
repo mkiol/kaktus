@@ -314,6 +314,69 @@ Page {
                         return 0;
                     if (settings.locale === "cs")
                         return 1;
+                    if (settings.locale === "en")
+                        return 2;
+                    if (settings.locale === "it")
+                        return 3;
+                    if (settings.locale === "nl")
+                        return 4;
+                    if (settings.locale === "pl")
+                        return 5;
+                    if (settings.locale === "ru")
+                        return 6;
+                    return 0;
+                }
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Default"); onClicked: locale.showMessage() }
+                    MenuItem { text: "Čeština"; onClicked: locale.showMessage() }
+                    MenuItem { text: "English"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Italiano"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Nederlands"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Polski"; onClicked: locale.showMessage()  }
+                    MenuItem { text: "Русский"; onClicked: locale.showMessage() }
+                }
+
+                onCurrentIndexChanged: {
+                    switch (currentIndex) {
+                    case 0:
+                        settings.locale = "";
+                        break;
+                    case 1:
+                        settings.locale = "cs";
+                        break;
+                    case 2:
+                        settings.locale = "en";
+                        break;
+                    case 3:
+                        settings.locale = "it";
+                        break;
+                    case 4:
+                        settings.locale = "nl";
+                        break;
+                    case 5:
+                        settings.locale = "pl";
+                        break;
+                    case 6:
+                        settings.locale = "ru";
+                        break;
+                    }
+                }
+
+                function showMessage() {
+                    notification.show(qsTr("Changes will take effect after you restart Kaktus."));
+                }
+            }
+
+            /*ComboBox {
+                id: locale
+                width: root.width
+                label: qsTr("Language")
+                currentIndex: {
+                    if (settings.locale === "")
+                        return 0;
+                    if (settings.locale === "cs")
+                        return 1;
                     if (settings.locale === "de")
                         return 2;
                     if (settings.locale === "en")
@@ -409,7 +472,7 @@ Page {
                 function showMessage() {
                     notification.show(qsTr("Changes will take effect after you restart Kaktus."));
                 }
-            }
+            }*/
 
             /*ComboBox {
                 width: root.width

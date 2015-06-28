@@ -43,7 +43,15 @@ Dialog {
     SilicaFlickable {
         anchors {left: parent.left; right: parent.right }
         anchors {top: parent.top; bottom: parent.bottom }
-        anchors.bottomMargin: app.height - app.flickHeight
+        anchors.bottomMargin: {
+            var size = 0;
+            var d = app.orientation===Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape;
+            if (bar.open)
+                size += d;
+            if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
+                size += d;
+            return size;
+        }
         clip: true
         contentHeight: content.height
 
