@@ -583,6 +583,8 @@ void OldReaderFetcher::finishedTabs()
         return;
     }
 
+    Settings *s = Settings::instance();
+    s->db->cleanTabs();
     startJob(StoreTabs);
 }
 
@@ -607,24 +609,29 @@ void OldReaderFetcher::finishedTabs2()
         return;
     }
 
-    fetchFeeds();
+    //fetchFeeds();
+    fetchFriends();
 }
 
 void OldReaderFetcher::finishedFriends()
 {
-    //qDebug() << data;
+    qDebug() << data;
     if (currentReply->error()) {
         emit error(500);
         setBusy(false);
         return;
     }
 
+    Settings *s = Settings::instance();
+    s->db->cleanStreams();
+    s->db->cleanModules();
     startJob(StoreFriends);
 }
 
 void OldReaderFetcher::finishedFriends2()
 {
-    fetchTabs();
+    //fetchTabs();
+    fetchFeeds();
 }
 
 void OldReaderFetcher::finishedFeeds()
@@ -860,7 +867,7 @@ void OldReaderFetcher::startFetching()
 
     // Create DB structure
     s->db->cleanDashboards();
-    s->db->cleanTabs();
+    //s->db->cleanTabs();
     if(busyType == Fetcher::Initiating) {
         s->db->cleanCache();
         s->db->cleanEntries();
@@ -870,8 +877,8 @@ void OldReaderFetcher::startFetching()
         s->db->updateEntriesFreshFlag(0); // Set current entries as not fresh
     }
 
-    s->db->cleanStreams();
-    s->db->cleanModules();
+    //s->db->cleanStreams();
+    //s->db->cleanModules();
 
     // Old Reader API doesnt have Dashboards
     // Manually adding dummy Dashboard
@@ -879,11 +886,12 @@ void OldReaderFetcher::startFetching()
     d.id = "oldreader";
     d.name = "Default";
     d.title = "Default";
-    d.description = "Old Reader dafault dashboard";
+    d.description = "Old Reader default dashboard";
     s->db->writeDashboard(d);
     s->setDashboardInUse(d.id);
 
-    fetchFriends();
+    //fetchFriends();
+    fetchTabs();
 }
 
 void OldReaderFetcher::startJob(Job job)
