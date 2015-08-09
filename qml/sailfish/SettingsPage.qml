@@ -318,14 +318,18 @@ Page {
                         return 1;
                     if (settings.locale === "en")
                         return 2;
-                    if (settings.locale === "it")
+                    if (settings.locale === "es")
                         return 3;
-                    if (settings.locale === "nl")
+                    if (settings.locale === "it")
                         return 4;
-                    if (settings.locale === "pl")
+                    if (settings.locale === "nl")
                         return 5;
-                    if (settings.locale === "ru")
+                    if (settings.locale === "pl")
                         return 6;
+                    if (settings.locale === "ru")
+                        return 7;
+                    if (settings.locale === "tr")
+                        return 8;
                     return 0;
                 }
 
@@ -333,10 +337,12 @@ Page {
                     MenuItem { text: qsTr("Default"); onClicked: locale.showMessage() }
                     MenuItem { text: "Čeština"; onClicked: locale.showMessage() }
                     MenuItem { text: "English"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Espanol"; onClicked: locale.showMessage() }
                     MenuItem { text: "Italiano"; onClicked: locale.showMessage() }
                     MenuItem { text: "Nederlands"; onClicked: locale.showMessage() }
                     MenuItem { text: "Polski"; onClicked: locale.showMessage()  }
                     MenuItem { text: "Русский"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Türkçe"; onClicked: locale.showMessage() }
                 }
 
                 onCurrentIndexChanged: {
@@ -351,16 +357,22 @@ Page {
                         settings.locale = "en";
                         break;
                     case 3:
-                        settings.locale = "it";
+                        settings.locale = "es";
                         break;
                     case 4:
-                        settings.locale = "nl";
+                        settings.locale = "it";
                         break;
                     case 5:
-                        settings.locale = "pl";
+                        settings.locale = "nl";
                         break;
                     case 6:
+                        settings.locale = "pl";
+                        break;
+                    case 7:
                         settings.locale = "ru";
+                        break;
+                    case 8:
+                        settings.locale = "tr";
                         break;
                     }
                 }
@@ -520,12 +532,12 @@ Page {
 
             ComboBox {
                 width: root.width
-                label: qsTr("List order")
+                label: qsTr("Sort order for list of articles")
                 currentIndex: settings.showOldestFirst ? 1 : 0
 
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("Latest articles first") }
-                    MenuItem { text: qsTr("Oldest articles first") }
+                    MenuItem { text: qsTr("Recent first") }
+                    MenuItem { text: qsTr("Oldest first") }
                 }
 
                 onCurrentIndexChanged: {
@@ -536,6 +548,7 @@ Page {
                         settings.showOldestFirst = true; break;
                     }
                 }
+
             }
 
             TextSwitch {

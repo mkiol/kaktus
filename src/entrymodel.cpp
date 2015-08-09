@@ -388,6 +388,45 @@ void EntryModel::setAllAsRead()
     _db->writeAction(action);
 }
 
+void EntryModel::setAboveAsRead(int index)
+{
+    Settings *s = Settings::instance();
+
+    QString itemIds;
+    QString feedIds;
+    QString dates;
+
+    int l = qMin(this->rowCount(),index);
+    for (int i=0; i<=l; ++i) {
+        EntryItem* item = static_cast<EntryItem*>(readRow(i));
+        QString id = item->id();
+        if (id != "daterow" && id != "last") {
+            item->setRead(1);
+            s->db->updateEntriesReadFlagByEntry(id,1);
+            itemIds.append(QString("%1&").arg(id));
+            feedIds.append(QString("%1&").arg(item->feedId()));
+            dates.append(QString("%1&").arg(item->date()));
+
+            //qDebug() << "id:" << id << "feedId:" << item->feedId() << "date:" << item->date();
+        }
+    }
+
+    itemIds.remove(itemIds.length()-1,1);
+    feedIds.remove(feedIds.length()-1,1);
+    dates.remove(dates.length()-1,1);
+
+    //qDebug() << "itemIds:" << itemIds;
+    //qDebug() << "feedIds" << feedIds;
+    //qDebug() << "dates" << dates;
+
+    DatabaseManager::Action action;
+    action.type = DatabaseManager::SetListRead;
+    action.id1 = itemIds;
+    action.id2 = feedIds;
+    action.id3 = dates;
+    s->db->writeAction(action);
+}
+
 int EntryModel::countRead()
 {
     Settings *s = Settings::instance();

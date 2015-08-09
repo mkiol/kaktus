@@ -319,6 +319,9 @@ void NvFetcher::setAction()
     case DatabaseManager::SetRead:
         url.setUrl("http://www.netvibes.com/api/streams/read/add");
         break;
+    case DatabaseManager::SetListRead:
+        url.setUrl("http://www.netvibes.com/api/streams/read/add");
+        break;
     case DatabaseManager::SetSaved:
         url.setUrl("http://www.netvibes.com/api/streams/saved/add");
         break;
@@ -352,6 +355,11 @@ void NvFetcher::setAction()
     case DatabaseManager::SetSlowRead:
         url.setUrl("http://www.netvibes.com/api/streams/read/add");
         break;
+    default:
+        // Unknown action -> skiping
+        qWarning("Unknown action!");
+        finishedSetAction();
+        return;
     }
 
     QNetworkRequest request(url);
@@ -475,11 +483,29 @@ void NvFetcher::setAction()
                 .arg(action.id2).arg(action.id1).arg(action.date1);
     }
 
+    if (action.type == DatabaseManager::SetListRead) {
+        actions += "{\"streams\":[";
+
+        QStringList idList = action.id1.split("&");
+        QStringList fidList = action.id2.split("&");
+        QStringList dateList = action.id3.split("&");
+        QStringList::iterator i = idList.begin();
+        QStringList::iterator fi = fidList.begin();
+        QStringList::iterator di = dateList.begin();
+        while (i != idList.end() && fi != fidList.end() && di != dateList.end()) {
+            actions += QString("{\"id\":\"%1\",\"items\":[{\"id\":\"%2\",\"publishedAt\":%3}]},")
+                    .arg(*fi,*i,*di);
+            ++i; ++fi; ++di;
+        }
+        actions.remove(actions.length()-1,1);
+        actions += "]}";
+    }
+
     actions += "]";
 
-    //qDebug() << "action.type="<<action.type<<"actions=" << actions;
+    //qDebug() << "actions:" << actions;
     QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
-    //qDebug() << "content=" << content;
+    //qDebug() << "content:" << content;
 
     currentReply = nam.post(request, content.toUtf8());
     connect(currentReply, SIGNAL(finished()), this, SLOT(finishedSetAction()));
@@ -928,21 +954,24 @@ void NvFetcher::finishedFeedsUpdate2()
 
 void NvFetcher::finishedSetAction()
 {
-    //qDebug() << data;
-    if (currentReply->error()) {
-        emit error(500);
-        setBusy(false);
-        return;
-    }
+    if (currentReply != NULL) {
 
-    if(!parse()) {
-        qWarning() << "Error parsing Json!";
-        emit error(600);
-        setBusy(false);
-        return;
-    }
+        //qDebug() << data;
+        if (currentReply->error()) {
+            emit error(500);
+            setBusy(false);
+            return;
+        }
 
-    checkError();
+        if(!parse()) {
+            qWarning() << "Error parsing Json!";
+            emit error(600);
+            setBusy(false);
+            return;
+        }
+
+        checkError();
+    }
 
     Settings *s = Settings::instance();
 

@@ -71,8 +71,9 @@ Page {
                 }
                 if (settings.viewMode==4) {
                     remorse.execute(
-                                settings.signinType<10 ? qsTr("Marking all saved articles as read") :
-                                                              qsTr("Marking all starred articles as read")
+                                settings.signinType<10 || settings.signinType>=20 ?
+                                    qsTr("Marking all saved articles as read") :
+                                    qsTr("Marking all starred articles as read")
                                 , function(){entryModel.setAllAsRead()});
                     return;
                 }
@@ -108,7 +109,7 @@ Page {
                 case 3:
                     return qsTr("All feeds");
                 case 4:
-                    return settings.signinType<10 ? qsTr("Saved") : qsTr("Starred");
+                    return settings.signinType<10 || settings.signinType>=20 ? qsTr("Saved") : qsTr("Starred");
                 case 5:
                     return qsTr("Slow");
                 default:
@@ -150,7 +151,7 @@ Page {
             }
 
             onClicked: {
-                //console.log("feedIcon",feedIcon);
+                //console.log("date",model.date);
                 if (timer.running) {
                     // Double click
                     timer.stop();
@@ -262,13 +263,17 @@ Page {
             onUnmarkedBroadcast: {
                 entryModel.setData(model.index, "broadcast", false, "");
             }
+
+            onMarkedAboveAsRead: {
+                entryModel.setAboveAsRead(model.index);
+            }
         }
 
         ViewPlaceholder {
             id: placeholder
             enabled: listView.count == 0
             text: fetcher.busy ? qsTr("Wait until Sync finish.") :
-                      settings.viewMode==4 ? settings.signinType<10 ? qsTr("No saved items") : qsTr("No starred items")  :
+                      settings.viewMode==4 ? settings.signinType<10 || settings.signinType>=20 ? qsTr("No saved items") : qsTr("No starred items")  :
                       settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }
 

@@ -23,6 +23,7 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QJsonArray>
+#include <QList>
 #include <QStringList>
 #include <QDateTime>
 #include <math.h>
@@ -105,6 +106,20 @@ void OldReaderFetcher::signIn()
     connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
 }
 
+QString OldReaderFetcher::getIdsFromActionString(const QString &actionString)
+{
+    QString ids;
+    QStringList idList = actionString.split("&");
+    QStringList::iterator i = idList.begin();
+    while (i != idList.end()) {
+        ids += QString("i=%1&").arg(*i);
+        ++i;
+    }
+    ids.remove(ids.length()-1,1);
+    //qDebug() << "ids:" << ids;
+    return ids;
+}
+
 void OldReaderFetcher::setAction()
 {
     data.clear();
@@ -129,6 +144,10 @@ void OldReaderFetcher::setAction()
     case DatabaseManager::UnSetRead:
         url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
         body = QString("r=user/-/state/com.google/read&i=%1").arg(action.id1);
+        break;
+    case DatabaseManager::SetListRead:
+        url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
+        body = QString("a=user/-/state/com.google/read&%1").arg(getIdsFromActionString(action.id1));
         break;
     case DatabaseManager::SetSaved:
         url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
@@ -605,17 +624,18 @@ void OldReaderFetcher::finishedTabs2()
         proggress = 1;
         emit progress(proggress, proggressTotal);
 
+        s->db->cleanStreams();
+        s->db->cleanModules();
         fetchStarredStream();
         return;
     }
 
-    //fetchFeeds();
     fetchFriends();
 }
 
 void OldReaderFetcher::finishedFriends()
 {
-    qDebug() << data;
+    //qDebug() << data;
     if (currentReply->error()) {
         emit error(500);
         setBusy(false);
@@ -630,7 +650,6 @@ void OldReaderFetcher::finishedFriends()
 
 void OldReaderFetcher::finishedFriends2()
 {
-    //fetchTabs();
     fetchFeeds();
 }
 

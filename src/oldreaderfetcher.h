@@ -114,6 +114,8 @@ private:
     void getFolderFromCategories(const QVariantList &categories, QString &tabId, QString &tabName);
     void getFromCategories(const QVariantList &categories, QVariantMap &result);
 #endif
+
+    QString getIdsFromActionString(const QString &actionString);
 };
 
 #endif // OLDREADERFETCHER_H

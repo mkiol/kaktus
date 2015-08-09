@@ -57,6 +57,7 @@ ListItem {
     signal unmarkedReadlater
     signal markedBroadcast
     signal unmarkedBroadcast
+    signal markedAboveAsRead
 
     enabled: !last && !daterow
 
@@ -410,15 +411,25 @@ ListItem {
                         root.markedAsUnread();
                     } else {
                         root.markedAsRead();
-                        if (lblMoreDetails.visible)
-                            root.expanded = false;
+                        root.expanded = false;
                     }
                 }
             }
 
             MenuItem {
-                text: settings.signinType<10 ? readlater ? qsTr("Unsave") : qsTr("Save") :
-                                                    readlater ? qsTr("Unstar") : qsTr("Star")
+                text: qsTr("Mark above as read")
+                visible: enabled
+                enabled: root.showMarkedAsRead && index > 1
+                onClicked: {
+                    root.markedAboveAsRead();
+                    root.expanded = false;
+                }
+            }
+
+            MenuItem {
+                text: settings.signinType<10 || settings.signinType >= 20 ?
+                          readlater ? qsTr("Unsave") : qsTr("Save") :
+                          readlater ? qsTr("Unstar") : qsTr("Star")
                 onClicked: {
                     if (readlater) {
                         root.unmarkedReadlater();
@@ -430,7 +441,7 @@ ListItem {
 
             MenuItem {
                 text: broadcast ? qsTr("Unshare") : qsTr("Share with followers")
-                enabled: settings.signinType >= 10 && !root.friendStream
+                enabled: settings.signinType >= 10 && settings.signinType < 20 && !root.friendStream
                 visible: enabled
                 onClicked: {
                     if (broadcast) {
