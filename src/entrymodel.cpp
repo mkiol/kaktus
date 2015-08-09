@@ -37,6 +37,7 @@ EntryModel::EntryModel(DatabaseManager *db, QObject *parent) :
 
     Settings *s = Settings::instance();
     connect(s,SIGNAL(showOnlyUnreadChanged()),this,SLOT(init()));
+    connect(s,SIGNAL(showOldestFirstChanged()),this,SLOT(init()));
 }
 
 void EntryModel::init(const QString &feedId)
@@ -82,46 +83,48 @@ int EntryModel::createItems(int offset, int limit)
 
     Settings *s = Settings::instance();
 
+    bool ascOrder = s->getShowOldestFirst();
+
     int mode = s->getViewMode();
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
         if (s->getShowOnlyUnread())
-            list = _db->readEntriesUnreadByStream(_feedId,offset,limit);
+            list = _db->readEntriesUnreadByStream(_feedId,offset,limit,ascOrder);
         else
-            list = _db->readEntriesByStream(_feedId,offset,limit);
+            list = _db->readEntriesByStream(_feedId,offset,limit,ascOrder);
         break;
     case 1:
         // View mode: Tabs->Entries
         if (s->getShowOnlyUnread())
-            list = _db->readEntriesUnreadByTab(_feedId,offset,limit);
+            list = _db->readEntriesUnreadByTab(_feedId,offset,limit,ascOrder);
         else
-            list = _db->readEntriesByTab(_feedId,offset,limit);
+            list = _db->readEntriesByTab(_feedId,offset,limit,ascOrder);
         break;
     case 2:
         // View mode: Feeds->Entries
         if (s->getShowOnlyUnread())
-            list = _db->readEntriesUnreadByStream(_feedId,offset,limit);
+            list = _db->readEntriesUnreadByStream(_feedId,offset,limit,ascOrder);
         else
-            list = _db->readEntriesByStream(_feedId,offset,limit);
+            list = _db->readEntriesByStream(_feedId,offset,limit,ascOrder);
         break;
     case 3:
         // View mode: Entries
         if (s->getShowOnlyUnread())
-            list = _db->readEntriesUnreadByDashboard(s->getDashboardInUse(),offset,limit);
+            list = _db->readEntriesUnreadByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         else
-            list = _db->readEntriesByDashboard(s->getDashboardInUse(),offset,limit);
+            list = _db->readEntriesByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         break;
     case 4:
         // View mode: Saved
-        list = _db->readEntriesSavedByDashboard(s->getDashboardInUse(),offset,limit);
+        list = _db->readEntriesSavedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         break;
     case 5:
         // View mode: Slow
         if (s->getShowOnlyUnread())
-            list = _db->readEntriesSlowUnreadByDashboard(s->getDashboardInUse(),offset,limit);
+            list = _db->readEntriesSlowUnreadByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         else
-            list = _db->readEntriesSlowByDashboard(s->getDashboardInUse(),offset,limit);
+            list = _db->readEntriesSlowByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         break;
     }
 
@@ -189,7 +192,7 @@ int EntryModel::createItems(int offset, int limit)
 
         // Adding date row
         int dateRow = getDateRowId((*i).publishedAt);
-        if (dateRow>prevDateRow) {
+        if ((!ascOrder && dateRow>prevDateRow) || (ascOrder && dateRow<prevDateRow) || prevDateRow == 0) {
             switch (dateRow) {
             case 1:
                 appendRow(new EntryItem("daterow",tr("Today"),"","","","","","","","",false,false,false,0,0,0,0));

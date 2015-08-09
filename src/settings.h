@@ -68,6 +68,7 @@ class Settings: public QObject
     Q_PROPERTY (int theme READ getTheme WRITE setTheme NOTIFY themeChanged)
     Q_PROPERTY (int signinType READ getSigninType WRITE setSigninType NOTIFY signinTypeChanged)
     Q_PROPERTY (bool showBroadcast READ getShowBroadcast WRITE setShowBroadcast NOTIFY showBroadcastChanged)
+    Q_PROPERTY (bool showOldestFirst READ getShowOldestFirst WRITE setShowOldestFirst NOTIFY showOldestFirstChanged)
 
 public:
     static Settings* instance();
@@ -153,6 +154,8 @@ public:
     //  1 - Netvibes with Twitter
     //  2 - Netvibes with FB
     // 10 - Oldreader
+    // 20 - Feedly
+    // 22 - Feedly with FB
     void setSigninType(int);
     int getSigninType();
 
@@ -170,12 +173,16 @@ public:
     Q_INVOKABLE QString getUsername();
     Q_INVOKABLE void setPassword(const QString &value);
     Q_INVOKABLE QString getPassword();
+    void setUserId(const QString &value);
+    QString getUserId();
 
     // Twitter & FB
     Q_INVOKABLE void setTwitterCookie(const QString &value);
     Q_INVOKABLE QString getTwitterCookie();
     Q_INVOKABLE void setAuthUrl(const QString &value);
     Q_INVOKABLE QString getAuthUrl();
+    Q_INVOKABLE void setProvider(const QString &value);
+    Q_INVOKABLE QString getProvider();
 
     Q_INVOKABLE void setDmUserAgent(const QString &value);
     Q_INVOKABLE QString getDmUserAgent();
@@ -185,6 +192,9 @@ public:
 
     bool getShowOnlyUnread();
     void setShowOnlyUnread(bool value);
+
+    bool getShowOldestFirst();
+    void setShowOldestFirst(bool value);
 
     void setDmConnections(int value);
     int getDmConnections();
@@ -228,6 +238,7 @@ signals:
     void cachingModeChanged();
     void signinTypeChanged();
     void showBroadcastChanged();
+    void showOldestFirstChanged();
 
     /*
     501 - Unable create settings dir

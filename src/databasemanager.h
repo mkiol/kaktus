@@ -218,15 +218,15 @@ public:
     QList<StreamModuleTab> readStreamModuleTabListWithoutDate();
 
     QString readEntryImageById(const QString &id);
-    QList<Entry> readEntriesByDashboard(const QString &id, int offset, int limit);
-    QList<Entry> readEntriesUnreadByDashboard(const QString &id, int offset, int limit);
-    QList<Entry> readEntriesSlowUnreadByDashboard(const QString &id, int offset, int limit);
-    QList<Entry> readEntriesSavedByDashboard(const QString &id, int offset, int limit);
-    QList<Entry> readEntriesSlowByDashboard(const QString &id, int offset, int limit);
-    QList<Entry> readEntriesByStream(const QString &id, int offset, int limit);
-    QList<Entry> readEntriesUnreadByStream(const QString &id, int offset, int limit);
-    QList<Entry> readEntriesByTab(const QString &id, int offset, int limit);
-    QList<Entry> readEntriesUnreadByTab(const QString &id, int offset, int limit);
+    QList<Entry> readEntriesByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesUnreadByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesSlowUnreadByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesSavedByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesSlowByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesByStream(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesUnreadByStream(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesByTab(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesUnreadByTab(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesCachedOlderThan(int cacheDate, int limit);
     QList<QString> readCacheFinalUrlOlderThan(int cacheDate, int limit);
     QList<QString> readCacheIdsOlderThan(int cacheDate, int limit);

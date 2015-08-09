@@ -56,13 +56,15 @@ Page {
                 Image {
                     id: icon
                     anchors { right: label.left; rightMargin: Theme.paddingMedium }
-                    source: settings.signinType<10 ? "nv.png" : "oldreader.png"
+                    source: settings.signinType<10 ? "nv.png" :
+                            settings.signinType<20 ? "oldreader.png" : "feedly.png"
                 }
 
                 Label {
                     id: label
                     anchors { right: parent.right; rightMargin: Theme.paddingLarge}
-                    text: settings.signinType<10 ? "Netvibes": "Old Reader"
+                    text: settings.signinType<10 ? "Netvibes":
+                          settings.signinType<20 ? "Old Reader" : "Feedly"
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignRight
                     color: Theme.highlightColor
@@ -96,10 +98,10 @@ Page {
                         visible: settings.signedIn
                         text: settings.signedIn ?
                                   settings.signinType==0 ? settings.getUsername() :
-                                                           settings.signinType==1 ? "Twitter" :
-                                                                                    settings.signinType==2 ? "Facebook" :
-                                                                                                             settings.signinType==10 ? settings.getUsername() :
-                                                                                                                                       "" : ""
+                                  settings.signinType==1 ? "Twitter" :
+                                  settings.signinType==2 ? "Facebook" :
+                                  settings.signinType==10 ? settings.getUsername() :
+                                  settings.signinType==20 ? settings.getProvider() : "" : ""
                     }
                 }
 
@@ -515,6 +517,26 @@ Page {
                     }
                 }
             }*/
+
+            ComboBox {
+                width: root.width
+                label: qsTr("List order")
+                currentIndex: settings.showOldestFirst ? 1 : 0
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Latest articles first") }
+                    MenuItem { text: qsTr("Oldest articles first") }
+                }
+
+                onCurrentIndexChanged: {
+                    switch (currentIndex) {
+                    case 0:
+                        settings.showOldestFirst = false; break;
+                    case 1:
+                        settings.showOldestFirst = true; break;
+                    }
+                }
+            }
 
             TextSwitch {
                 text: qsTr("Show only unread articles")

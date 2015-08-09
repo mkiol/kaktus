@@ -106,6 +106,19 @@ bool Settings::getShowOnlyUnread()
     return settings.value("showonlyunread", true).toBool();
 }
 
+void Settings::setShowOldestFirst(bool value)
+{
+    if (getShowOldestFirst() != value) {
+        settings.setValue("showoldestfirst", value);
+        emit showOldestFirstChanged();
+    }
+}
+
+bool Settings::getShowOldestFirst()
+{
+    return settings.value("showoldestfirst", false).toBool();
+}
+
 void Settings::setShowBroadcast(bool value)
 {
     if (getShowBroadcast() != value) {
@@ -246,6 +259,16 @@ QString Settings::getPassword()
     return plainPassword;
 }
 
+void Settings::setUserId(const QString &value)
+{
+    settings.setValue("userid", value);
+}
+
+QString Settings::getUserId()
+{
+    return settings.value("userid", "").toString();
+}
+
 void Settings::setCookie(const QString &value)
 {
     SimpleCrypt crypto(KEY);
@@ -325,6 +348,16 @@ void Settings::setDashboardInUse(const QString &value)
 QString Settings::getDashboardInUse()
 {
     return settings.value("dafaultdashboard", "").toString();
+}
+
+void Settings::setProvider(const QString &value)
+{
+    settings.setValue("provider", value);
+}
+
+QString Settings::getProvider()
+{
+    return settings.value("provider", "").toString();
 }
 
 void Settings::setLocale(const QString &value)
@@ -634,5 +667,7 @@ void Settings::reset()
         setHint1Done(false);
         setCachingMode(0);
         setRetentionDays(14);
+        setProvider("");
+        setUserId("");
     }
 }

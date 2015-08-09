@@ -2549,7 +2549,7 @@ int DatabaseManager::readLastUpdateByDashboard(const QString &id)
     return 0;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesByStream(const QString &id, int offset, int limit)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesByStream(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -2560,8 +2560,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByStream(const QString
                                       "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.broadcast, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s "
                                       "WHERE e.stream_id='%1' AND e.stream_id=s.id "
-                                      "ORDER BY e.published_at DESC LIMIT %2 OFFSET %3;")
-                        .arg(id).arg(limit).arg(offset));
+                                      "ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+                        .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
             checkError(query.lastError());
@@ -2600,7 +2600,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByStream(const QString
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesByDashboard(const QString &id, int offset, int limit)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesByDashboard(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -2612,8 +2612,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByDashboard(const QStr
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' "
-                                      "ORDER BY e.published_at DESC LIMIT %2 OFFSET %3;")
-                        .arg(id).arg(limit).arg(offset));
+                                      "ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+                        .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
             checkError(query.lastError());
@@ -2652,7 +2652,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByDashboard(const QStr
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByDashboard(const QString &id, int offset, int limit)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByDashboard(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -2664,8 +2664,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByDashboard(cons
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' "
-                                      "AND e.read=0 ORDER BY e.published_at DESC LIMIT %2 OFFSET %3;")
-                        .arg(id).arg(limit).arg(offset));
+                                      "AND e.read=0 ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+                        .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
             checkError(query.lastError());
@@ -2704,7 +2704,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByDashboard(cons
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowUnreadByDashboard(const QString &id, int offset, int limit)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowUnreadByDashboard(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -2716,8 +2716,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowUnreadByDashboard(
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' "
-                                      "AND e.read=0 AND s.slow=1 ORDER BY e.published_at DESC LIMIT %2 OFFSET %3;")
-                        .arg(id).arg(limit).arg(offset));
+                                      "AND e.read=0 AND s.slow=1 ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+                        .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
             checkError(query.lastError());
@@ -2756,7 +2756,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowUnreadByDashboard(
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesByTab(const QString &id, int offset, int limit)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesByTab(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -2768,8 +2768,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByTab(const QString &i
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id "
                                       "AND m.tab_id='%1' "
-                                      "ORDER BY e.published_at DESC LIMIT %2 OFFSET %3;")
-                        .arg(id).arg(limit).arg(offset));
+                                      "ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+                        .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
             checkError(query.lastError());
@@ -2808,7 +2808,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByTab(const QString &i
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByTab(const QString &id, int offset, int limit)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByTab(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -2820,8 +2820,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByTab(const QStr
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id "
                                       "AND m.tab_id='%1' "
-                                      "AND e.read=0 ORDER BY e.published_at DESC LIMIT %2 OFFSET %3;")
-                        .arg(id).arg(limit).arg(offset));
+                                      "AND e.read=0 ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+                        .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
             checkError(query.lastError());
@@ -2860,7 +2860,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByTab(const QStr
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesSavedByDashboard(const QString &id, int offset, int limit)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesSavedByDashboard(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -2872,8 +2872,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSavedByDashboard(const
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' "
-                                      "AND e.saved=1 ORDER BY e.published_at DESC LIMIT %2 OFFSET %3;")
-                        .arg(id).arg(limit).arg(offset));
+                                      "AND e.saved=1 ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+                        .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
             checkError(query.lastError());
@@ -2912,7 +2912,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSavedByDashboard(const
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowByDashboard(const QString &id, int offset, int limit)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowByDashboard(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -2924,8 +2924,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowByDashboard(const 
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
                                       "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' "
-                                      "AND s.slow=1 ORDER BY e.published_at DESC LIMIT %2 OFFSET %3;")
-                        .arg(id).arg(limit).arg(offset));
+                                      "AND s.slow=1 ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+                        .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
             checkError(query.lastError());
@@ -2964,7 +2964,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowByDashboard(const 
     return list;
 }
 
-QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByStream(const QString &id, int offset, int limit)
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByStream(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
 
@@ -2975,8 +2975,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByStream(const Q
                                       "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.broadcast, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s "
                                       "WHERE e.stream_id='%1' AND e.stream_id=s.id AND e.read=0 "
-                                      "ORDER BY e.published_at DESC LIMIT %2 OFFSET %3;")
-                        .arg(id).arg(limit).arg(offset));
+                                      "ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+                        .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
             checkError(query.lastError());
