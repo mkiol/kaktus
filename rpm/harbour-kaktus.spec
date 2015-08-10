@@ -13,8 +13,8 @@ Name:       harbour-kaktus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
-Version:    2.0
-Release:    9
+Version:    2.1
+Release:    2
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,15 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Mon Aug 10 2015 Michal Kosciesza 2.1-2
+- BUG FIX: Handling HTTP redirection loop in cache downloading
+
+* Sun Aug 09 2015 Michal Kosciesza 2.1-1
+- Sort order for list of articles
+- Mark above as read option
+- Translations update
+- BUG FIX: Uploading indicator wasn't shown for Old Reader
 
 * Tue Jun 23 2015 Michal Kosciesza 2.0-9
 - Lanscape mode bug fixes
