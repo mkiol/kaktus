@@ -123,6 +123,7 @@ public:
         QString id;
         QString origUrl;
         QString finalUrl;
+        QString redirectUrl;
         QString baseUrl;
         QString type;
         QString contentType;
@@ -146,7 +147,9 @@ public:
         SetSlowRead = 61,
         UnSetSlowRead = 60,
         SetBroadcast = 71,
-        UnSetBroadcast = 70
+        UnSetBroadcast = 70,
+        SetListRead = 81,
+        UnSetListRead = 80
     };
 
     struct Action {

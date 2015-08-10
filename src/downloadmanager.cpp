@@ -339,10 +339,28 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
 
         // Redirection
         if (reply->attribute(QNetworkRequest::RedirectionTargetAttribute).isValid()) {
-            item.finalUrl = url.resolved(reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl()).toString();
-            //qDebug() << "RedirectionTarget: " << url.toString() << "entryId" << item.entryId;
+
+            /*qDebug() << ">>>>>>> Redirection";
+            qDebug() << "origUrl" << item.origUrl;
+            qDebug() << "finalUrl" << item.finalUrl;
+            qDebug() << "redirectUrl" << item.redirectUrl;
+            qDebug() << "baseUrl" << item.baseUrl;
+            qDebug() << "RedirectionTargetAttribute:" << reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl().toString();
+            qDebug() << "url.resolved:" << url.resolved(reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl()).toString();*/
+
+            QString newFinalUrl = url.resolved(reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl()).toString();
+            if (item.finalUrl == newFinalUrl || item.redirectUrl == newFinalUrl) {
+                // Redirection loop detected -> skiping item
+                qWarning() << "Redirection loop detected!";
+                downloads.removeOne(reply);
+                reply->deleteLater();
+                addNextDownload();
+                return;
+            }
+
+            item.redirectUrl = item.finalUrl;
+            item.finalUrl = newFinalUrl;
             downloads.removeOne(reply);
-            //qDebug() << "item.finalUrl:" << item.finalUrl;
             addDownload(item);
             reply->deleteLater();
             return;
@@ -423,6 +441,17 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
 
     downloads.removeOne(reply);
     reply->deleteLater();
+
+    // List ongoing downloads
+    /*QList<QNetworkReply*>::iterator it = downloads.begin();
+    qDebug() << "List ongoing downloads:";
+    while (it != downloads.end()) {
+        QNetworkReply *reply = *it;
+        DatabaseManager::CacheItem item = replyToCachedItemMap.value(reply);
+        qDebug() << "finalUrl" << item.finalUrl;// << "baseUrl" << item.baseUrl << "origUrl" << item.origUrl << "type" << item.type;
+        ++it;
+    }*/
+
     addNextDownload();
 }
 
