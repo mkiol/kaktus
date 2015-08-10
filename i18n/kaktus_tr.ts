@@ -26,7 +26,7 @@
     </message>
     <message>
         <location filename="../qml/harmattan/AboutPage.qml" line="129"/>
-        <location filename="../qml/sailfish/AboutPage.qml" line="156"/>
+        <location filename="../qml/sailfish/AboutPage.qml" line="168"/>
         <location filename="../qml/symbian/AboutPage.qml" line="126"/>
         <source>Changelog</source>
         <translation>Değişiklikler</translation>
@@ -34,18 +34,18 @@
     <message>
         <location filename="../qml/sailfish/AboutPage.qml" line="81"/>
         <source>Multi services feed reader, specially designed to work offline.</source>
-        <translation type="unfinished"/>
+        <translation>Çoklu servis beslemesiyle çevrimdışı çalışmak için tasarlandı.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/AboutPage.qml" line="106"/>
-        <location filename="../qml/sailfish/AboutPage.qml" line="138"/>
+        <location filename="../qml/sailfish/AboutPage.qml" line="137"/>
         <source>Launching an external browser...</source>
         <translation>Orjinal tarayıcı açılıyor..</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/AboutPage.qml" line="133"/>
+        <location filename="../qml/sailfish/AboutPage.qml" line="132"/>
         <source>This software is distributed under the terms of the GNU General Public Licence version 3.</source>
-        <translation type="unfinished"/>
+        <translation>Bu uygulama GNU General Public Licence version 3 lisans koruması altındadır.</translation>
     </message>
 </context>
 <context>
@@ -53,7 +53,7 @@
     <message>
         <location filename="../qml/sailfish/AccountsDialog.qml" line="54"/>
         <source>Add account</source>
-        <translation type="unfinished"/>
+        <translation>Hesap ekle</translation>
     </message>
 </context>
 <context>
@@ -77,7 +77,7 @@
     <message>
         <location filename="../qml/bb10/ActionNetworkMode.qml" line="24"/>
         <source>Network: %1</source>
-        <translation type="unfinished"/>
+        <translation>Bağlantı: %1</translation>
     </message>
 </context>
 <context>
@@ -90,7 +90,7 @@
     <message>
         <location filename="../qml/bb10/ActionSync.qml" line="23"/>
         <source>Syncing...</source>
-        <translation type="unfinished"/>
+        <translation>Eşleniyor...</translation>
     </message>
 </context>
 <context>
@@ -108,7 +108,7 @@
     <message>
         <location filename="../qml/bb10/ActionViewMode.qml" line="28"/>
         <source>Only feeds</source>
-        <translation type="unfinished"/>
+        <translation>Sadece besleme</translation>
     </message>
     <message>
         <location filename="../qml/bb10/ActionViewMode.qml" line="29"/>
@@ -154,12 +154,12 @@
         <location filename="../qml/harmattan/ChangelogPage.qml" line="56"/>
         <location filename="../qml/harmattan/ChangelogPage.qml" line="88"/>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="54"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="63"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="82"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="109"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="133"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="155"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="174"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="68"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="87"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="114"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="138"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="160"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="179"/>
         <location filename="../qml/symbian/ChangelogPage.qml" line="56"/>
         <location filename="../qml/symbian/ChangelogPage.qml" line="88"/>
         <source>Version %1</source>
@@ -285,42 +285,52 @@ Network connection is unavailable.</source>
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="391"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="420"/>
         <source>Unsave</source>
         <translation>Kaydetme</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="391"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="420"/>
         <source>Save</source>
         <translation>Kaydet</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="392"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="421"/>
         <source>Unstar</source>
-        <translation type="unfinished"/>
+        <translation>Yıldızlama</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="392"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="421"/>
         <source>Star</source>
-        <translation type="unfinished"/>
+        <translation>Yıldızla</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="404"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="432"/>
+        <source>Unshare</source>
+        <translation>Paylaşma</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="432"/>
+        <source>Share with followers</source>
+        <translation>Takipçiler ile paylaş</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="446"/>
         <source>Collapse</source>
         <translation>Daralt</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="404"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="446"/>
         <source>Expand</source>
         <translation>Genişlet</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="376"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="405"/>
         <source>Mark as unread</source>
         <translation>Okunmamış işaretle</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="376"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="405"/>
         <source>Mark as read</source>
         <translation>Okunmuş işaretle</translation>
     </message>
@@ -328,39 +338,39 @@ Network connection is unavailable.</source>
 <context>
     <name>EntryModel</name>
     <message>
-        <location filename="../src/entrymodel.cpp" line="194"/>
+        <location filename="../src/entrymodel.cpp" line="195"/>
         <source>Today</source>
-        <translation type="unfinished"/>
+        <translation>Bugün</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="197"/>
+        <location filename="../src/entrymodel.cpp" line="198"/>
         <source>Yesterday</source>
-        <translation type="unfinished"/>
+        <translation>Dün</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="200"/>
+        <location filename="../src/entrymodel.cpp" line="201"/>
         <source>Current week</source>
-        <translation type="unfinished"/>
+        <translation>Bu hafta</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="203"/>
+        <location filename="../src/entrymodel.cpp" line="204"/>
         <source>Current month</source>
-        <translation type="unfinished"/>
+        <translation>Bu ay</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="206"/>
+        <location filename="../src/entrymodel.cpp" line="207"/>
         <source>Previous month</source>
-        <translation type="unfinished"/>
+        <translation>Önceki ay</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="209"/>
+        <location filename="../src/entrymodel.cpp" line="210"/>
         <source>Current year</source>
-        <translation type="unfinished"/>
+        <translation>Bu yıl</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="212"/>
+        <location filename="../src/entrymodel.cpp" line="213"/>
         <source>Previous year &amp; older</source>
-        <translation type="unfinished"/>
+        <translation>Önceki yıl &amp; daha eski</translation>
     </message>
 </context>
 <context>
@@ -396,7 +406,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="277"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="193"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="257"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="271"/>
         <location filename="../qml/symbian/EntryPage.qml" line="192"/>
         <source>No unread items</source>
         <translation>Okunmamış yok</translation>
@@ -404,7 +414,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="277"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="194"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="257"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="271"/>
         <location filename="../qml/symbian/EntryPage.qml" line="193"/>
         <source>No items</source>
         <translation>Öğe yok</translation>
@@ -436,7 +446,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="82"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="131"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="180"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="185"/>
         <location filename="../qml/symbian/EntryPage.qml" line="131"/>
         <source>Please wait until current task is complete.</source>
         <translation>Mevcut işin bitmesini bekleyin.</translation>
@@ -444,7 +454,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="88"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="137"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="186"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="191"/>
         <location filename="../qml/symbian/EntryPage.qml" line="137"/>
         <source>Offline version not available.</source>
         <translation>Çevrimdışı mod mevcut değil.</translation>
@@ -452,7 +462,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="96"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="145"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="194"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="199"/>
         <location filename="../qml/symbian/EntryPage.qml" line="145"/>
         <source>Network connection is unavailable.
 Switching to Offline mode.</source>
@@ -462,7 +472,7 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="100"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="149"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="198"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="203"/>
         <location filename="../qml/symbian/EntryPage.qml" line="149"/>
         <source>Network connection is unavailable.</source>
         <translation>Bağlantı mevcut değil.</translation>
@@ -470,7 +480,7 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="276"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="192"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="256"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="270"/>
         <location filename="../qml/symbian/EntryPage.qml" line="191"/>
         <source>No saved items</source>
         <translation>Kaydedilmiş öğe yok</translation>
@@ -489,39 +499,44 @@ Switching to Offline mode.</source>
     </message>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="275"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="255"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="269"/>
         <source>Wait until Sync finish.</source>
         <translation>Eşlemenin bitmesini bekleyin.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="65"/>
         <source>Marking articles as read</source>
-        <translation type="unfinished"/>
+        <translation>Makaleler okunmuş işaretleniyor</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="69"/>
         <source>Marking all your articles as read</source>
-        <translation type="unfinished"/>
+        <translation>Makalelerin okunmuş işaretleniyor</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="74"/>
         <source>Marking all saved articles as read</source>
-        <translation type="unfinished"/>
+        <translation>Kaydedilmiş makaleler okunmuş işaretleniyor</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="75"/>
         <source>Marking all starred articles as read</source>
-        <translation type="unfinished"/>
+        <translation>Yıldızlanmış makaleler okunmuş işaretleniyor</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="111"/>
         <source>Starred</source>
-        <translation type="unfinished"/>
+        <translation>Yıldızlılar</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="256"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="270"/>
         <source>No starred items</source>
-        <translation type="unfinished"/>
+        <translation>Yıldızlı öğe yok</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryPage.qml" line="292"/>
+        <source>One-tap to open article, double-tap to mark as read</source>
+        <translation>Tık tıkla makaleyi aç, çift tıkla okunmuş işaretle</translation>
     </message>
 </context>
 <context>
@@ -541,14 +556,14 @@ Switching to Offline mode.</source>
     <name>FeedPage</name>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="145"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="220"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="209"/>
         <location filename="../qml/symbian/FeedPage.qml" line="143"/>
         <source>Mark all as read</source>
         <translation>Tüm. okunmuş işaretle</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="153"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="228"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="218"/>
         <location filename="../qml/symbian/FeedPage.qml" line="151"/>
         <source>Mark all as unread</source>
         <translation>Tüm. okunmamış işaretle</translation>
@@ -556,7 +571,7 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/bb10/FeedPage.qml" line="141"/>
         <location filename="../qml/harmattan/FeedPage.qml" line="114"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="241"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="231"/>
         <location filename="../qml/symbian/FeedPage.qml" line="113"/>
         <source>No feeds</source>
         <translation>Besleme yok</translation>
@@ -581,14 +596,14 @@ Switching to Offline mode.</source>
     </message>
     <message>
         <location filename="../qml/bb10/FeedPage.qml" line="141"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="241"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="231"/>
         <source>Wait until Sync finish.</source>
         <translation>Eşlemenin bitmesini bekleyin.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/FeedPage.qml" line="66"/>
         <source>Marking feeds as read</source>
-        <translation type="unfinished"/>
+        <translation>Beslemeyi okunmuş işaretle</translation>
     </message>
 </context>
 <context>
@@ -634,13 +649,13 @@ Eşlemenin bitmesini bekleyin.</translation>
     <message>
         <location filename="../qml/bb10/FirstPage.qml" line="30"/>
         <source>Not signed in to any account</source>
-        <translation type="unfinished"/>
+        <translation>Herhangi hesap ile giriş yapılmadı</translation>
     </message>
     <message>
         <location filename="../qml/bb10/FirstPage.qml" line="41"/>
         <location filename="../qml/sailfish/FirstPage.qml" line="60"/>
         <source>Add account</source>
-        <translation type="unfinished"/>
+        <translation>Hesap ekle</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/FirstPage.qml" line="53"/>
@@ -650,7 +665,7 @@ Eşlemenin bitmesini bekleyin.</translation>
     <message>
         <location filename="../qml/sailfish/FirstPage.qml" line="72"/>
         <source>You are not signed in to any account. Pull down to add one.</source>
-        <translation type="unfinished"/>
+        <translation>Herhangi hesap ile giriş yapılmadı. Bir tane ekle.</translation>
     </message>
 </context>
 <context>
@@ -754,63 +769,81 @@ Bu gösterge, çevrimdışı ve çevrimiçi modları arasında geçiş yapmanız
         <location filename="../qml/sailfish/Guide.qml" line="182"/>
         <source>Bottom bar lets you switch between 5 view modes.
 </source>
-        <translation type="unfinished"/>
+        <translation>Alt bar 5 görüntüleme modları arasında geçiş sağlar.
+
+</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="205"/>
         <source>Mode #1
 
 Lists all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.</source>
-        <translation type="unfinished"/>
+        <translation>Mod #1
+
+Tüm sekmeler listelenmektedir. Özet akışları gruplanır sekmelerle ait oldukları ve makaleleri yayınları gruplanır.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="206"/>
         <source>Mode #1
 
 Lists all your folders. Feeds are grouped by the folders they belong to and articles are grouped in the feeds.</source>
-        <translation type="unfinished"/>
+        <translation>Mod #1
+
+Tüm klasörler listelenmektedir. Beslemeler ait oldukları klasörlere göre gruplanır ve makaleler beslemeler içinde gruplanır.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="228"/>
         <source>Mode #2
 
 Lists all your tabs. Articles are grouped by the tabs they belong to.</source>
-        <translation type="unfinished"/>
+        <translation>Mod #2
+
+Tüm sekmeler listelenmektedir. Beslemeler gruplanır sekmelerle ait oldukları.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="229"/>
         <source>Mode #2
 
 Lists all your folders. Articles are grouped by the folders they belong to.</source>
-        <translation type="unfinished"/>
+        <translation>Mod #2
+
+Tüm klasörler listelenmektedir. Beslemeler ait oldukları klasörlere göre gruplanır.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="252"/>
         <source>Mode #3
 
 Lists all articles from all your feeds in one list. Items are ordered by publication date.</source>
-        <translation type="unfinished"/>
+        <translation>Mod #3
+
+Tüm makaleler beslemeler içinde listelenmektedir. Öğeler yayın tarihine göre sıralanır.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="275"/>
         <source>Mode #4
 
 Lists all articles you have saved.</source>
-        <translation type="unfinished"/>
+        <translation>Mod #4 
+
+Kaydettiğiniz tüm makaleleri listelenmektedir.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="276"/>
         <source>Mode #4
 
 Lists all articles you have starred.</source>
-        <translation type="unfinished"/>
+        <translation>Mod #4
+
+Yıldızladığınız tüm makaleler listelenmektedir.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="299"/>
         <source>Mode #5 &quot;Slow&quot;
 
 List articles from less frequently updated feeds. A feed is considered &quot;slow&quot; when it publishes less than 5 articles in a month.</source>
-        <translation type="unfinished"/>
+        <translation>Mod #5 - Yavaş
+
+Daha az sık güncelleştirilen beslemeleri üzerinden tüm makaleleri listelenmektedir. Besleme bir ay içinde 5 makale yayımlandığında kabul edilir.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="350"/>
@@ -914,22 +947,22 @@ Bağlantı mevcut değil.</translation>
     <message>
         <location filename="../qml/bb10/KaktusTab.qml" line="25"/>
         <source>Tabs &amp; feeds</source>
-        <translation type="unfinished"/>
+        <translation>Sekmeler &amp; Beslemeler</translation>
     </message>
     <message>
         <location filename="../qml/bb10/KaktusTab.qml" line="26"/>
         <source>Only tabs</source>
-        <translation type="unfinished"/>
+        <translation>Sadece sekmeler</translation>
     </message>
     <message>
         <location filename="../qml/bb10/KaktusTab.qml" line="27"/>
         <source>Only feeds</source>
-        <translation type="unfinished"/>
+        <translation>Sadece besleme</translation>
     </message>
     <message>
         <location filename="../qml/bb10/KaktusTab.qml" line="28"/>
         <source>All articles</source>
-        <translation type="unfinished"/>
+        <translation>Tüm makaleler</translation>
     </message>
     <message>
         <location filename="../qml/bb10/KaktusTab.qml" line="29"/>
@@ -944,32 +977,32 @@ Bağlantı mevcut değil.</translation>
     <message>
         <location filename="../qml/bb10/KaktusTab.qml" line="32"/>
         <source>All your tabs, feeds &amp; articles</source>
-        <translation type="unfinished"/>
+        <translation>Tüm makale, besleme ve sekmeler</translation>
     </message>
     <message>
         <location filename="../qml/bb10/KaktusTab.qml" line="33"/>
         <source>All tabs &amp; articles</source>
-        <translation type="unfinished"/>
+        <translation>Tüm sekmeler ve makeleler</translation>
     </message>
     <message>
         <location filename="../qml/bb10/KaktusTab.qml" line="34"/>
         <source>Feeds &amp; articles</source>
-        <translation type="unfinished"/>
+        <translation>Besleme ve makaleler</translation>
     </message>
     <message>
         <location filename="../qml/bb10/KaktusTab.qml" line="35"/>
         <source>All your articles</source>
-        <translation type="unfinished"/>
+        <translation>Tüm makalelerin</translation>
     </message>
     <message>
         <location filename="../qml/bb10/KaktusTab.qml" line="36"/>
         <source>Articles you have saved</source>
-        <translation type="unfinished"/>
+        <translation>Makale kaydedildi</translation>
     </message>
     <message>
         <location filename="../qml/bb10/KaktusTab.qml" line="37"/>
         <source>Less frequently updated feeds</source>
-        <translation type="unfinished"/>
+        <translation>Daha az sıklıkla güncelleştirilen beslemeler</translation>
     </message>
 </context>
 <context>
@@ -1040,7 +1073,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/NvSignInDialog.qml" line="96"/>
         <source>Enter username and password below.</source>
-        <translation type="unfinished"/>
+        <translation>Kullanıcı adı ve şifre girin.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/NvSignInDialog.qml" line="131"/>
@@ -1050,7 +1083,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/NvSignInDialog.qml" line="132"/>
         <source>Username (your e-mail)</source>
-        <translation type="unfinished"/>
+        <translation>Kullanıcı adı(e-posta)</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/NvSignInDialog.qml" line="149"/>
@@ -1065,25 +1098,17 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/NvSignInDialog.qml" line="161"/>
         <source>Third party services</source>
-        <translation type="unfinished"/>
+        <translation>Üçüncü taraf hizmetleri</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/NvSignInDialog.qml" line="177"/>
         <source>Sign in with Twitter</source>
-        <translation type="unfinished"/>
+        <translation>Twitter ile gir</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/NvSignInDialog.qml" line="203"/>
         <source>Sign in with Facebook</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
-    <name>OldReaderFetcher</name>
-    <message>
-        <location filename="../src/oldreaderfetcher.cpp" line="835"/>
-        <source>Subscriptions</source>
-        <translation type="unfinished"/>
+        <translation>Facebook ile gir</translation>
     </message>
 </context>
 <context>
@@ -1096,12 +1121,12 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/OldReaderSignInDialog.qml" line="76"/>
         <source>Old Reader</source>
-        <translation type="unfinished"/>
+        <translation>Eski Okuyucu</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/OldReaderSignInDialog.qml" line="91"/>
         <source>Enter username and password below.</source>
-        <translation type="unfinished"/>
+        <translation>Kullanıcı adı ve şifre girin.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/OldReaderSignInDialog.qml" line="130"/>
@@ -1111,7 +1136,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/OldReaderSignInDialog.qml" line="131"/>
         <source>Username (your e-mail)</source>
-        <translation type="unfinished"/>
+        <translation>Kullanıcı adı(e-posta)</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/OldReaderSignInDialog.qml" line="148"/>
@@ -1204,7 +1229,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/ReadAllDialog.qml" line="29"/>
         <source>Marking as read</source>
-        <translation type="unfinished"/>
+        <translation>Okunmuş işaretleniyor</translation>
     </message>
     <message>
         <location filename="../qml/bb10/ReadAllDialog.qml" line="31"/>
@@ -1239,17 +1264,17 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/ReadAllDialog.qml" line="65"/>
         <source>Mark all tabs as read?</source>
-        <translation type="unfinished"/>
+        <translation>Tüm sekmeler okunmuş işaretlensin mi ?</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/ReadAllDialog.qml" line="68"/>
         <source>Mark feeds as read?</source>
-        <translation type="unfinished"/>
+        <translation>Besleme okunmuş işaretlensin mi ?</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/ReadAllDialog.qml" line="73"/>
         <source>Mark all starred articles as read?</source>
-        <translation type="unfinished"/>
+        <translation>Tüm yıldızlı makaleler okunmuş işaretlensin mi ?</translation>
     </message>
 </context>
 <context>
@@ -1265,7 +1290,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="73"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="77"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="141"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="139"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="82"/>
         <source>Dashboard in use</source>
         <translation>Kullanılan panel:</translation>
@@ -1273,67 +1298,111 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="73"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="77"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="141"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="139"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="82"/>
         <source>Dashboard not selected</source>
         <translation>Panel seçilmedi</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="75"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="155"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="153"/>
         <source>Change</source>
         <translation>Değiştir</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="50"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="66"/>
         <source>Netvibes account</source>
         <translation>Nevtibes hesabı</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="67"/>
-        <source>Old Reader account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="89"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="87"/>
         <source>Not signed in </source>
         <translation>Giriş yapılmadı</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="93"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="91"/>
         <source>Signed in with</source>
-        <translation type="unfinished"/>
+        <translation>Giriş yapıldı</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="227"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="163"/>
+        <source>Syncronization</source>
+        <translation>Eşleme</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="168"/>
+        <source>Sync timeframe</source>
+        <translation>Eşleme süreci</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="187"/>
+        <source>1 Day</source>
+        <translation>1 gün</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="188"/>
+        <source>3 Days</source>
+        <translation>3 gün</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="189"/>
+        <source>1 Week</source>
+        <translation>1 hafta</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="190"/>
+        <source>2 Weeks</source>
+        <translation>2 hafta</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="191"/>
+        <source>1 Month</source>
+        <translation>1 ay</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="192"/>
+        <source>Wide as possible</source>
+        <translation>Mümkün olduğunca geniş</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="219"/>
+        <source>Most recent articles will be syncronized according to the defined timeframe. Regardless of the value, all starred, liked and shared items will be synced as well. Be aware, this parameter has significant impact on the speed of synchronization.</source>
+        <translation>En son makaleler eşleme tanımlı süre göre olacaktır. Değeri ne olursa olsun, tüm yıldızlı, beğenilen ve paylaşılan öğeleri de senkronize. Unutmayın, bu parametre eşitleme hızı üzerinde önemli etkisi vardır.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="280"/>
+        <source>In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
+        <translation>Çevrimdışı modda, Kaktus yalnızca ağ bağlantısı gerekli değil web sayfaları ve görüntüleri, almak için yerel önbelleği kullanır.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="290"/>
         <source>Never</source>
-        <translation type="unfinished"/>
+        <translation>Asla</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="228"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="291"/>
         <source>WiFi only</source>
-        <translation type="unfinished"/>
+        <translation>Sadece Wifi</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="229"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="292"/>
         <source>Always</source>
-        <translation type="unfinished"/>
+        <translation>Her zaman</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="401"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="466"/>
         <source>Read mode</source>
-        <translation type="unfinished"/>
+        <translation>Okuma modu</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="402"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="467"/>
         <source>Web pages will be reformatted into an easy to read version.</source>
-        <translation type="unfinished"/>
+        <translation>Web sayfaları kolay okunabilir versiyona geçti.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="299"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="328"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="478"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="543"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="345"/>
         <source>Web viewer font size</source>
         <translation>Web arayüz font boyutu</translation>
@@ -1341,7 +1410,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="304"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="333"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="482"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="547"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="350"/>
         <source>-50%</source>
         <translation>-50%</translation>
@@ -1349,7 +1418,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="309"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="334"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="483"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="548"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="351"/>
         <source>Normal</source>
         <translation>Normal</translation>
@@ -1357,7 +1426,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="314"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="335"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="484"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="549"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="352"/>
         <source>+50%</source>
         <translation>+50%</translation>
@@ -1365,7 +1434,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="96"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="97"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="194"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="254"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="102"/>
         <source>Delete cache</source>
         <translation>Önbelleği sil</translation>
@@ -1373,7 +1442,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="105"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="106"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="205"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="265"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="111"/>
         <source>Network mode</source>
         <translation>Bağlantı modu</translation>
@@ -1381,7 +1450,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="128"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="126"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="236"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="299"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="142"/>
         <source>After sync the content of all items will be downloaded and cached for access in the Offline mode.</source>
         <translation>Eşlemeden sonra Çevrimdışı mod için tüm içerik indirilir ve önbelleklenir.</translation>
@@ -1389,7 +1458,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="149"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="141"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="247"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="310"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="157"/>
         <source>Language</source>
         <translation>Dil</translation>
@@ -1397,7 +1466,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="154"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="163"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="280"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="343"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="179"/>
         <source>Default</source>
         <translation>Varsayılan</translation>
@@ -1405,7 +1474,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="195"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="204"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="344"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="409"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="220"/>
         <source>Changes will take effect after you restart Kaktus.</source>
         <translation>Değişiklikler Kaktus yeniden başladığında geçerli olur.</translation>
@@ -1413,17 +1482,17 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="256"/>
         <source>Theme</source>
-        <translation type="unfinished"/>
+        <translation>Tema</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="266"/>
         <source>Bright</source>
-        <translation type="unfinished"/>
+        <translation>Açık</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="271"/>
         <source>Dark</source>
-        <translation type="unfinished"/>
+        <translation>Koyu</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="209"/>
@@ -1464,21 +1533,21 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="213"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="262"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="413"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="478"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="278"/>
         <source>Show images</source>
         <translation>Görüntüleri göster</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="345"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="493"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="558"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="362"/>
         <source>Other</source>
         <translation>Diğer</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="350"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="497"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="562"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="367"/>
         <source>Show User Guide</source>
         <translation>Kullanıcı Kılavuzunu Göster</translation>
@@ -1486,7 +1555,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="111"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="111"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="209"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="269"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="116"/>
         <source>Online</source>
         <translation>Çevrimiçi</translation>
@@ -1494,7 +1563,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="117"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="112"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="210"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="270"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="117"/>
         <source>Offline</source>
         <translation>Çevrimdışı</translation>
@@ -1502,7 +1571,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="127"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="125"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="223"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="286"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="141"/>
         <source>Cache articles</source>
         <translation>Makaleleri önbellekle</translation>
@@ -1510,7 +1579,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="204"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="252"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="391"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="456"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="268"/>
         <source>Show only unread articles</source>
         <translation>Sadece okunmamış makaleleri göster</translation>
@@ -1538,7 +1607,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="62"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="66"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="110"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="108"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="65"/>
         <source>Sign out</source>
         <translation>Oturum kapat</translation>
@@ -1546,7 +1615,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="62"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="66"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="110"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="108"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="65"/>
         <source>Sign in</source>
         <translation>Giriş</translation>
@@ -1559,7 +1628,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="84"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="87"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="165"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="225"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="92"/>
         <source>Cache</source>
         <translation>Önbellek</translation>
@@ -1567,28 +1636,28 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="94"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="91"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="183"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="243"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="96"/>
         <source>Current cache size</source>
         <translation>Mevcut önbellek boyutu</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="272"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="423"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="488"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="288"/>
         <source>Power save mode</source>
         <translation>Güç tasarruf modu</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="273"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="424"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="489"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="289"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
         <translation>Telefon veya uygulaması için boşta çalışma durumuna girdiğinde, tüm açılan web sayfaları daha düşük güç tüketimi için kapalıdır.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="288"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="440"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="505"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="304"/>
         <source>Dynamic</source>
         <translation>Dinamik</translation>
@@ -1596,28 +1665,28 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="138"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="137"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="241"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="304"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="153"/>
         <source>UI</source>
         <translation>Arayüz</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="283"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="436"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="501"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="299"/>
         <source>Orientation</source>
         <translation>Ekran durumu</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="289"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="441"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="506"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="305"/>
         <source>Portrait</source>
         <translation>Düz</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="290"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="442"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="507"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="306"/>
         <source>Landscape</source>
         <translation>Yan</translation>
@@ -1625,7 +1694,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="280"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="300"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="450"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="515"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="316"/>
         <source>Offline viewer style</source>
         <translation>Çevrimdışı gösterim stili</translation>
@@ -1633,7 +1702,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="285"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="310"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="460"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="525"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="327"/>
         <source>Black</source>
         <translation>Siyah</translation>
@@ -1641,10 +1710,28 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="290"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="311"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="461"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="526"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="328"/>
         <source>White</source>
         <translation>Beyaz</translation>
+    </message>
+</context>
+<context>
+    <name>ShareDialog</name>
+    <message>
+        <location filename="../qml/sailfish/ShareDialog.qml" line="62"/>
+        <source>Save note</source>
+        <translation>Not kaydet</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ShareDialog.qml" line="68"/>
+        <source>Want to add a note?</source>
+        <translation>Not eklemek istiyor musun ?</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ShareDialog.qml" line="69"/>
+        <source>Note</source>
+        <translation>Not</translation>
     </message>
 </context>
 <context>
@@ -1680,12 +1767,12 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/SignInDialog.qml" line="40"/>
         <source>Use your credentials to configure the account. Enter username (your e-mail) and password below.</source>
-        <translation type="unfinished"/>
+        <translation>Hesabı yapılandırmak için kimlik bilgilerinizi kullanın. Kullanıcı adınızı (e-posta) ve şifrenizi giriniz.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SignInDialog.qml" line="46"/>
         <source>Only connecting with Netvibes credentials are supported right now. Twitter, Facebook and Google+ sign in option will be added in next release.</source>
-        <translation type="unfinished"/>
+        <translation>Sadece Netvibes bilgileriyle bağlama desteklenmekte şu anda. Twitter, Facebook ve Google+ seçeneği sonraki sürümünde eklenecektir.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SignInDialog.qml" line="59"/>
@@ -1717,12 +1804,12 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/SignOutDialog.qml" line="64"/>
         <source>Disconnect Kaktus from your Old Reader account?</source>
-        <translation type="unfinished"/>
+        <translation>Kaktus uygulamasından Eski Okuyucu hesabı çıkarılsın mı ?</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SignOutDialog.qml" line="29"/>
         <source>Signing out</source>
-        <translation type="unfinished"/>
+        <translation>Oturum kapatılıyor</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SignOutDialog.qml" line="30"/>
@@ -1754,7 +1841,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/TabPage.qml" line="147"/>
         <location filename="../qml/harmattan/TabPage.qml" line="157"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="246"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="229"/>
         <location filename="../qml/symbian/TabPage.qml" line="154"/>
         <source>Wait until Sync finish.</source>
         <translation>Eşlemenin bitmesini bekleyin.</translation>
@@ -1767,14 +1854,14 @@ Network connection is unavailable</source>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="138"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="224"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="206"/>
         <location filename="../qml/symbian/TabPage.qml" line="135"/>
         <source>Mark all as read</source>
         <translation>Tüm. okunmuş işaretle</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="145"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="232"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="215"/>
         <location filename="../qml/symbian/TabPage.qml" line="142"/>
         <source>Mark all as unread</source>
         <translation>Tüm. okunmamış işaretle</translation>
@@ -1782,7 +1869,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/TabPage.qml" line="147"/>
         <location filename="../qml/harmattan/TabPage.qml" line="156"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="247"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="230"/>
         <location filename="../qml/symbian/TabPage.qml" line="153"/>
         <source>No tabs</source>
         <translation>Sekme yok</translation>
@@ -1790,12 +1877,26 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/TabPage.qml" line="81"/>
         <source>Folders</source>
-        <translation type="unfinished"/>
+        <translation>Klasörler</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/TabPage.qml" line="247"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="93"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="192"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="196"/>
+        <source>Subscriptions</source>
+        <translation>Abonelikler</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/TabPage.qml" line="94"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="192"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="196"/>
+        <source>Following</source>
+        <translation>Takip</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/TabPage.qml" line="230"/>
         <source>No folders</source>
-        <translation type="unfinished"/>
+        <translation>Klasör yok</translation>
     </message>
 </context>
 <context>
@@ -1804,17 +1905,6 @@ Network connection is unavailable</source>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source/>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/TourPage.qml" line="66"/>
-        <location filename="../qml/sailfish/TourPage.qml" line="73"/>
-        <source>You are not signed in</source>
-        <translation>Giriş yapılmadı</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/TourPage.qml" line="73"/>
-        <source>Wait until Sync finish</source>
-        <translation>Eşlemenin bitmesini bekleyin.</translation>
     </message>
 </context>
 <context>
@@ -1837,12 +1927,12 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/sailfish/UnreadAllDialog.qml" line="73"/>
         <source>Mark all starred articles as unread?</source>
-        <translation type="unfinished"/>
+        <translation>Tüm yıldızlı makaleler okunmamış işaretlensin mi ?</translation>
     </message>
     <message>
         <location filename="../qml/bb10/UnreadAllDialog.qml" line="29"/>
         <source>Marking as unread</source>
-        <translation type="unfinished"/>
+        <translation>Okunmamış işaretleniyor</translation>
     </message>
     <message>
         <location filename="../qml/bb10/UnreadAllDialog.qml" line="31"/>
@@ -1871,74 +1961,74 @@ Network connection is unavailable</source>
         <translation>boş</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="567"/>
+        <location filename="../src/utils.cpp" line="571"/>
         <source>just now</source>
         <translation>şimdi</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="570"/>
+        <location filename="../src/utils.cpp" line="574"/>
         <source>1 second ago</source>
         <translation>1 saniye önce</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="573"/>
+        <location filename="../src/utils.cpp" line="577"/>
         <source>%1 seconds ago</source>
         <comment>less than 5 seconds</comment>
         <translation>%1 saniye önce</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="576"/>
+        <location filename="../src/utils.cpp" line="580"/>
         <source>%1 seconds ago</source>
         <comment>more or equal 5 seconds</comment>
         <translation>%1 saniye önce</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="579"/>
+        <location filename="../src/utils.cpp" line="583"/>
         <source>1 minute ago</source>
         <translation>1 dakika önce</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="582"/>
+        <location filename="../src/utils.cpp" line="586"/>
         <source>%1 minutes ago</source>
         <comment>less than 5 minutes</comment>
         <translation>%1 dakika önce</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="585"/>
+        <location filename="../src/utils.cpp" line="589"/>
         <source>%1 minutes ago</source>
         <comment>more or equal 5 minutes</comment>
         <translation>%1 dakika önce</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="588"/>
+        <location filename="../src/utils.cpp" line="592"/>
         <source>1 hour ago</source>
         <translation>1 saat önce</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="591"/>
+        <location filename="../src/utils.cpp" line="595"/>
         <source>%1 hours ago</source>
         <comment>less than 5 hours</comment>
         <translation>%1 saat önce</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="594"/>
+        <location filename="../src/utils.cpp" line="598"/>
         <source>%1 hours ago</source>
         <comment>more or equal 5 hours</comment>
         <translation>%1 saat önce</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="600"/>
+        <location filename="../src/utils.cpp" line="604"/>
         <source>day ago</source>
-        <translation type="unfinished"/>
+        <translation>gün önce</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="603"/>
+        <location filename="../src/utils.cpp" line="607"/>
         <source>%1 days ago</source>
         <comment>less than 5 days</comment>
         <translation>%1 gün önce</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="606"/>
+        <location filename="../src/utils.cpp" line="610"/>
         <source>%1 days ago</source>
         <comment>more or equal 5 days</comment>
         <translation>%1 gün önce</translation>
@@ -1954,22 +2044,22 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/ViewModeDropDown.qml" line="32"/>
         <source>Tabs &amp; feeds</source>
-        <translation type="unfinished"/>
+        <translation>Sekmeler &amp; Beslemeler</translation>
     </message>
     <message>
         <location filename="../qml/bb10/ViewModeDropDown.qml" line="33"/>
         <source>All your tabs, feeds &amp; articles</source>
-        <translation type="unfinished"/>
+        <translation>Tüm makale, besleme ve sekmeler</translation>
     </message>
     <message>
         <location filename="../qml/bb10/ViewModeDropDown.qml" line="39"/>
         <source>Only tabs</source>
-        <translation type="unfinished"/>
+        <translation>Sadece sekmeler</translation>
     </message>
     <message>
         <location filename="../qml/bb10/ViewModeDropDown.qml" line="40"/>
         <source>All tabs &amp; articles</source>
-        <translation type="unfinished"/>
+        <translation>Tüm sekmeler ve makeleler</translation>
     </message>
     <message>
         <location filename="../qml/bb10/ViewModeDropDown.qml" line="46"/>
@@ -1979,7 +2069,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/ViewModeDropDown.qml" line="47"/>
         <source>All your articles</source>
-        <translation type="unfinished"/>
+        <translation>Tüm makalelerin</translation>
     </message>
     <message>
         <location filename="../qml/bb10/ViewModeDropDown.qml" line="53"/>
@@ -1989,7 +2079,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/ViewModeDropDown.qml" line="54"/>
         <source>Articles you have saved</source>
-        <translation type="unfinished"/>
+        <translation>Makale kaydedildi</translation>
     </message>
     <message>
         <location filename="../qml/bb10/ViewModeDropDown.qml" line="60"/>
@@ -1999,7 +2089,7 @@ Network connection is unavailable</source>
     <message>
         <location filename="../qml/bb10/ViewModeDropDown.qml" line="61"/>
         <source>Less frequently updated feeds</source>
-        <translation type="unfinished"/>
+        <translation>Daha az sıklıkla güncelleştirilen beslemeler</translation>
     </message>
 </context>
 <context>
@@ -2045,7 +2135,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/bb10/WebPreviewPage.qml" line="114"/>
         <source>Browser</source>
-        <translation type="unfinished"/>
+        <translation>Tarayıcı</translation>
     </message>
     <message>
         <location filename="../qml/bb10/WebPreviewPage.qml" line="133"/>
@@ -2078,12 +2168,12 @@ Network connection is unavailable</source>
         <location filename="../qml/sailfish/WebPreviewPage.qml" line="134"/>
         <location filename="../qml/sailfish/WebPreviewPage.qml" line="230"/>
         <source>Failed to switch to Reader mode :-(</source>
-        <translation type="unfinished"/>
+        <translation>Okuyucu moduna geçilemedi :-(</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/WebPreviewPage.qml" line="315"/>
         <source>URL copied to clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Bağlantı panoya kopyalandı</translation>
     </message>
 </context>
 <context>
@@ -2132,7 +2222,7 @@ Bağlantı mevcut değil.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="149"/>
-        <location filename="../qml/sailfish/main.qml" line="226"/>
+        <location filename="../qml/sailfish/main.qml" line="230"/>
         <location filename="../qml/symbian/main.qml" line="146"/>
         <source>Sync failed!
 Network connection is unavailable.</source>
@@ -2142,8 +2232,8 @@ Bağlantı mevcut değil.</translation>
     <message>
         <location filename="../qml/harmattan/main.qml" line="160"/>
         <location filename="../qml/harmattan/main.qml" line="170"/>
-        <location filename="../qml/sailfish/main.qml" line="237"/>
-        <location filename="../qml/sailfish/main.qml" line="259"/>
+        <location filename="../qml/sailfish/main.qml" line="241"/>
+        <location filename="../qml/sailfish/main.qml" line="269"/>
         <location filename="../qml/symbian/main.qml" line="157"/>
         <location filename="../qml/symbian/main.qml" line="167"/>
         <source>The user name or password is incorrect!</source>
@@ -2151,43 +2241,43 @@ Bağlantı mevcut değil.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="174"/>
-        <location filename="../qml/sailfish/main.qml" line="263"/>
+        <location filename="../qml/sailfish/main.qml" line="273"/>
         <location filename="../qml/symbian/main.qml" line="171"/>
         <source>You are signed in!</source>
         <translation>Giriş yapıldı!</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="178"/>
-        <location filename="../qml/sailfish/main.qml" line="267"/>
+        <location filename="../qml/sailfish/main.qml" line="277"/>
         <location filename="../qml/symbian/main.qml" line="175"/>
         <source>Receiving data... </source>
         <translation>Veri alınıyor...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="183"/>
-        <location filename="../qml/sailfish/main.qml" line="272"/>
+        <location filename="../qml/sailfish/main.qml" line="282"/>
         <location filename="../qml/symbian/main.qml" line="180"/>
         <source>Sending data...</source>
         <translation>Veri gönderiliyor...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="189"/>
-        <location filename="../qml/sailfish/main.qml" line="282"/>
+        <location filename="../qml/sailfish/main.qml" line="292"/>
         <location filename="../qml/symbian/main.qml" line="186"/>
         <source>Initiating...</source>
         <translation>Yükleniyor...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="193"/>
-        <location filename="../qml/sailfish/main.qml" line="286"/>
+        <location filename="../qml/sailfish/main.qml" line="296"/>
         <location filename="../qml/symbian/main.qml" line="190"/>
         <source>Updating...</source>
         <translation>Güncelleniyor</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="197"/>
-        <location filename="../qml/sailfish/main.qml" line="290"/>
-        <location filename="../qml/sailfish/main.qml" line="294"/>
+        <location filename="../qml/sailfish/main.qml" line="300"/>
+        <location filename="../qml/sailfish/main.qml" line="304"/>
         <location filename="../qml/symbian/main.qml" line="194"/>
         <source>Signing in...</source>
         <translation>Giriş yapılıyor...</translation>
@@ -2196,9 +2286,9 @@ Bağlantı mevcut değil.</translation>
         <location filename="../qml/harmattan/main.qml" line="201"/>
         <location filename="../qml/harmattan/main.qml" line="205"/>
         <location filename="../qml/harmattan/main.qml" line="209"/>
-        <location filename="../qml/sailfish/main.qml" line="298"/>
-        <location filename="../qml/sailfish/main.qml" line="302"/>
-        <location filename="../qml/sailfish/main.qml" line="306"/>
+        <location filename="../qml/sailfish/main.qml" line="308"/>
+        <location filename="../qml/sailfish/main.qml" line="312"/>
+        <location filename="../qml/sailfish/main.qml" line="316"/>
         <location filename="../qml/symbian/main.qml" line="198"/>
         <location filename="../qml/symbian/main.qml" line="202"/>
         <location filename="../qml/symbian/main.qml" line="206"/>
@@ -2215,19 +2305,19 @@ Restart the app to rebuild cache data.</source>
 Önbellek verileri yeniden oluşturmak için uygulamayı yeniden başlatın.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/main.qml" line="222"/>
+        <location filename="../qml/sailfish/main.qml" line="226"/>
         <source>Something goes wrong. Unable to sign in! :-(</source>
-        <translation type="unfinished"/>
+        <translation>Bazı şeyler yanlış. Giriş yapılamadı! :-(</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/main.qml" line="254"/>
+        <location filename="../qml/sailfish/main.qml" line="264"/>
         <source>Something went wrong :-(
 An unknown error occurred.</source>
         <translation>Bir şeyler ters gitti :-(
 Bilinmeyen bir hata oluştu.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/main.qml" line="467"/>
+        <location filename="../qml/sailfish/main.qml" line="477"/>
         <source>Removing cache data...</source>
         <translation>Önbellek verileri siliniyor...</translation>
     </message>

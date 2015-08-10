@@ -26,7 +26,7 @@
     </message>
     <message>
         <location filename="../qml/harmattan/AboutPage.qml" line="129"/>
-        <location filename="../qml/sailfish/AboutPage.qml" line="156"/>
+        <location filename="../qml/sailfish/AboutPage.qml" line="168"/>
         <location filename="../qml/symbian/AboutPage.qml" line="126"/>
         <source>Changelog</source>
         <translation>Seznam změn</translation>
@@ -38,12 +38,12 @@
     </message>
     <message>
         <location filename="../qml/sailfish/AboutPage.qml" line="106"/>
-        <location filename="../qml/sailfish/AboutPage.qml" line="138"/>
+        <location filename="../qml/sailfish/AboutPage.qml" line="137"/>
         <source>Launching an external browser...</source>
         <translation>Spouští se vnější prohlížeč...</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/AboutPage.qml" line="133"/>
+        <location filename="../qml/sailfish/AboutPage.qml" line="132"/>
         <source>This software is distributed under the terms of the GNU General Public Licence version 3.</source>
         <translation>Tento software je distribuovaný za podmínek licence GNU General Public Licence verze 3.</translation>
     </message>
@@ -154,12 +154,12 @@
         <location filename="../qml/harmattan/ChangelogPage.qml" line="56"/>
         <location filename="../qml/harmattan/ChangelogPage.qml" line="88"/>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="54"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="63"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="82"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="109"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="133"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="155"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="174"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="68"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="87"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="114"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="138"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="160"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="179"/>
         <location filename="../qml/symbian/ChangelogPage.qml" line="56"/>
         <location filename="../qml/symbian/ChangelogPage.qml" line="88"/>
         <source>Version %1</source>
@@ -285,42 +285,52 @@ Síťové spojení je nedostupné.</translation>
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="391"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="420"/>
         <source>Unsave</source>
         <translation>Zrušit uložení</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="391"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="420"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="392"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="421"/>
         <source>Unstar</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="392"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="421"/>
         <source>Star</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="404"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="432"/>
+        <source>Unshare</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="432"/>
+        <source>Share with followers</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="446"/>
         <source>Collapse</source>
         <translation>Složit</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="404"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="446"/>
         <source>Expand</source>
         <translation>Rozbalit</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="376"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="405"/>
         <source>Mark as unread</source>
         <translation>Označit jako nepřečtené</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="376"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="405"/>
         <source>Mark as read</source>
         <translation>Označit jako přečtené</translation>
     </message>
@@ -328,37 +338,37 @@ Síťové spojení je nedostupné.</translation>
 <context>
     <name>EntryModel</name>
     <message>
-        <location filename="../src/entrymodel.cpp" line="194"/>
+        <location filename="../src/entrymodel.cpp" line="195"/>
         <source>Today</source>
         <translation>Dnes</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="197"/>
+        <location filename="../src/entrymodel.cpp" line="198"/>
         <source>Yesterday</source>
         <translation>Včera</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="200"/>
+        <location filename="../src/entrymodel.cpp" line="201"/>
         <source>Current week</source>
         <translation>Tento týden</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="203"/>
+        <location filename="../src/entrymodel.cpp" line="204"/>
         <source>Current month</source>
         <translation>Tento měsíc</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="206"/>
+        <location filename="../src/entrymodel.cpp" line="207"/>
         <source>Previous month</source>
         <translation>Minulý měsíc</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="209"/>
+        <location filename="../src/entrymodel.cpp" line="210"/>
         <source>Current year</source>
         <translation>Letos</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="212"/>
+        <location filename="../src/entrymodel.cpp" line="213"/>
         <source>Previous year &amp; older</source>
         <translation>Vloni a starší</translation>
     </message>
@@ -396,7 +406,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="277"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="193"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="257"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="271"/>
         <location filename="../qml/symbian/EntryPage.qml" line="192"/>
         <source>No unread items</source>
         <translation>Žádné nepřečtené položky</translation>
@@ -404,7 +414,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="277"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="194"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="257"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="271"/>
         <location filename="../qml/symbian/EntryPage.qml" line="193"/>
         <source>No items</source>
         <translation>Žádné položky</translation>
@@ -436,7 +446,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="82"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="131"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="180"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="185"/>
         <location filename="../qml/symbian/EntryPage.qml" line="131"/>
         <source>Please wait until current task is complete.</source>
         <translation>Počkejte, prosím, dokud nebude nynější úkol dokončen.</translation>
@@ -444,7 +454,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="88"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="137"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="186"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="191"/>
         <location filename="../qml/symbian/EntryPage.qml" line="137"/>
         <source>Offline version not available.</source>
         <translation>Verze pro stav bez připojení k internetu není dostupná.</translation>
@@ -452,7 +462,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="96"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="145"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="194"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="199"/>
         <location filename="../qml/symbian/EntryPage.qml" line="145"/>
         <source>Network connection is unavailable.
 Switching to Offline mode.</source>
@@ -462,7 +472,7 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="100"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="149"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="198"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="203"/>
         <location filename="../qml/symbian/EntryPage.qml" line="149"/>
         <source>Network connection is unavailable.</source>
         <translation>Síťové spojení je nedostupné.</translation>
@@ -470,7 +480,7 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="276"/>
         <location filename="../qml/harmattan/EntryPage.qml" line="192"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="256"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="270"/>
         <location filename="../qml/symbian/EntryPage.qml" line="191"/>
         <source>No saved items</source>
         <translation>Žádné neuložené položky</translation>
@@ -489,7 +499,7 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/EntryPage.qml" line="275"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="255"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="269"/>
         <source>Wait until Sync finish.</source>
         <translation>Počkejte, dokud nebude seřizování dokončeno.</translation>
     </message>
@@ -519,8 +529,13 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="256"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="270"/>
         <source>No starred items</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryPage.qml" line="292"/>
+        <source>One-tap to open article, double-tap to mark as read</source>
         <translation type="unfinished"/>
     </message>
 </context>
@@ -541,14 +556,14 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
     <name>FeedPage</name>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="145"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="220"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="209"/>
         <location filename="../qml/symbian/FeedPage.qml" line="143"/>
         <source>Mark all as read</source>
         <translation>Označit vše jako přečtené</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/FeedPage.qml" line="153"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="228"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="218"/>
         <location filename="../qml/symbian/FeedPage.qml" line="151"/>
         <source>Mark all as unread</source>
         <translation>Označit vše jako nepřečtené</translation>
@@ -556,7 +571,7 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
     <message>
         <location filename="../qml/bb10/FeedPage.qml" line="141"/>
         <location filename="../qml/harmattan/FeedPage.qml" line="114"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="241"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="231"/>
         <location filename="../qml/symbian/FeedPage.qml" line="113"/>
         <source>No feeds</source>
         <translation>Žádné kanály</translation>
@@ -581,7 +596,7 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
     </message>
     <message>
         <location filename="../qml/bb10/FeedPage.qml" line="141"/>
-        <location filename="../qml/sailfish/FeedPage.qml" line="241"/>
+        <location filename="../qml/sailfish/FeedPage.qml" line="231"/>
         <source>Wait until Sync finish.</source>
         <translation>Počkejte, dokud nebude seřizování dokončeno.</translation>
     </message>
@@ -1079,14 +1094,6 @@ Síťové spojení je nedostupné.</translation>
     </message>
 </context>
 <context>
-    <name>OldReaderFetcher</name>
-    <message>
-        <location filename="../src/oldreaderfetcher.cpp" line="835"/>
-        <source>Subscriptions</source>
-        <translation type="unfinished"/>
-    </message>
-</context>
-<context>
     <name>OldReaderSignInDialog</name>
     <message>
         <location filename="../qml/sailfish/OldReaderSignInDialog.qml" line="60"/>
@@ -1265,7 +1272,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="73"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="77"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="141"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="139"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="82"/>
         <source>Dashboard in use</source>
         <translation>Nástěnka k použití</translation>
@@ -1273,67 +1280,111 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="73"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="77"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="141"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="139"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="82"/>
         <source>Dashboard not selected</source>
         <translation>Nástěnka nevybrána</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="75"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="155"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="153"/>
         <source>Change</source>
         <translation>Změnit</translation>
     </message>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="50"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="66"/>
         <source>Netvibes account</source>
         <translation>Účet u Netvibes</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="67"/>
-        <source>Old Reader account</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="89"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="87"/>
         <source>Not signed in </source>
         <translation>Nepřihlášen</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="93"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="91"/>
         <source>Signed in with</source>
         <translation>Přihlášený s</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="227"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="163"/>
+        <source>Syncronization</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="168"/>
+        <source>Sync timeframe</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="187"/>
+        <source>1 Day</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="188"/>
+        <source>3 Days</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="189"/>
+        <source>1 Week</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="190"/>
+        <source>2 Weeks</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="191"/>
+        <source>1 Month</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="192"/>
+        <source>Wide as possible</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="219"/>
+        <source>Most recent articles will be syncronized according to the defined timeframe. Regardless of the value, all starred, liked and shared items will be synced as well. Be aware, this parameter has significant impact on the speed of synchronization.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="280"/>
+        <source>In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="290"/>
         <source>Never</source>
         <translation>Nikdy</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="228"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="291"/>
         <source>WiFi only</source>
         <translation>Pouze WiFi</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="229"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="292"/>
         <source>Always</source>
         <translation>Vždy</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="401"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="466"/>
         <source>Read mode</source>
         <translation>Režim čtení</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="402"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="467"/>
         <source>Web pages will be reformatted into an easy to read version.</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="299"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="328"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="478"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="543"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="345"/>
         <source>Web viewer font size</source>
         <translation>Velikost písma prohlížeče</translation>
@@ -1341,7 +1392,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="304"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="333"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="482"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="547"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="350"/>
         <source>-50%</source>
         <translation>-50 %</translation>
@@ -1349,7 +1400,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="309"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="334"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="483"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="548"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="351"/>
         <source>Normal</source>
         <translation>Normální</translation>
@@ -1357,7 +1408,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="314"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="335"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="484"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="549"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="352"/>
         <source>+50%</source>
         <translation>+50 %</translation>
@@ -1365,7 +1416,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="96"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="97"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="194"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="254"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="102"/>
         <source>Delete cache</source>
         <translation>Smazat vyrovnávací paměť</translation>
@@ -1373,7 +1424,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="105"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="106"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="205"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="265"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="111"/>
         <source>Network mode</source>
         <translation>Režim sítě</translation>
@@ -1381,7 +1432,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="128"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="126"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="236"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="299"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="142"/>
         <source>After sync the content of all items will be downloaded and cached for access in the Offline mode.</source>
         <translation>Po seřízení bude stažen a do vyrovnávací paměti uložen obsah všech položek pro přístup v režimu nepřipojen k internetu.</translation>
@@ -1389,7 +1440,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="149"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="141"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="247"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="310"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="157"/>
         <source>Language</source>
         <translation>Jazyk</translation>
@@ -1397,7 +1448,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="154"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="163"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="280"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="343"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="179"/>
         <source>Default</source>
         <translation>Výchozí</translation>
@@ -1405,7 +1456,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="195"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="204"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="344"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="409"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="220"/>
         <source>Changes will take effect after you restart Kaktus.</source>
         <translation>Změny se projeví po opětovném spuštění Kaktusu.</translation>
@@ -1464,21 +1515,21 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="213"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="262"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="413"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="478"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="278"/>
         <source>Show images</source>
         <translation>Ukázat obrázky</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="345"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="493"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="558"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="362"/>
         <source>Other</source>
         <translation>Jiné</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="350"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="497"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="562"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="367"/>
         <source>Show User Guide</source>
         <translation>Ukázat průvodce uživatele</translation>
@@ -1486,7 +1537,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="111"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="111"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="209"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="269"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="116"/>
         <source>Online</source>
         <translation>Připojen</translation>
@@ -1494,7 +1545,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="117"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="112"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="210"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="270"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="117"/>
         <source>Offline</source>
         <translation>Nepřipojen</translation>
@@ -1502,7 +1553,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="127"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="125"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="223"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="286"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="141"/>
         <source>Cache articles</source>
         <translation>Ukládat články do vyrovnávací paměti</translation>
@@ -1510,7 +1561,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="204"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="252"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="391"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="456"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="268"/>
         <source>Show only unread articles</source>
         <translation>Ukázat pouze přečtené články</translation>
@@ -1538,7 +1589,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="62"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="66"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="110"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="108"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="65"/>
         <source>Sign out</source>
         <translation>Odhlásit se</translation>
@@ -1546,7 +1597,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="62"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="66"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="110"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="108"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="65"/>
         <source>Sign in</source>
         <translation>Přihlásit se</translation>
@@ -1559,7 +1610,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="84"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="87"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="165"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="225"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="92"/>
         <source>Cache</source>
         <translation>Vyrovnávací paměť</translation>
@@ -1567,28 +1618,28 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="94"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="91"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="183"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="243"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="96"/>
         <source>Current cache size</source>
         <translation>Nynější velikost vyrovnávací paměti</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="272"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="423"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="488"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="288"/>
         <source>Power save mode</source>
         <translation>Režim šetření energií</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="273"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="424"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="489"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="289"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
         <translation>Když telefon nebo program přejde do stavu nečinnosti, všechny otevřené internetové stránky budou kvůli snížení spotřeby energie zavřeny.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="288"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="440"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="505"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="304"/>
         <source>Dynamic</source>
         <translation>Dynamický</translation>
@@ -1596,28 +1647,28 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="138"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="137"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="241"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="304"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="153"/>
         <source>UI</source>
         <translation>Rozhraní</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="283"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="436"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="501"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="299"/>
         <source>Orientation</source>
         <translation>Natočení</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="289"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="441"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="506"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="305"/>
         <source>Portrait</source>
         <translation>Na výšku</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/SettingsPage.qml" line="290"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="442"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="507"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="306"/>
         <source>Landscape</source>
         <translation>Na šířku</translation>
@@ -1625,7 +1676,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="280"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="300"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="450"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="515"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="316"/>
         <source>Offline viewer style</source>
         <translation>Styl prohlížeče pro stav nepřipojen</translation>
@@ -1633,7 +1684,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="285"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="310"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="460"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="525"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="327"/>
         <source>Black</source>
         <translation>Černý</translation>
@@ -1641,10 +1692,28 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/SettingsPage.qml" line="290"/>
         <location filename="../qml/harmattan/SettingsPage.qml" line="311"/>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="461"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="526"/>
         <location filename="../qml/symbian/SettingsPage.qml" line="328"/>
         <source>White</source>
         <translation>Bílý</translation>
+    </message>
+</context>
+<context>
+    <name>ShareDialog</name>
+    <message>
+        <location filename="../qml/sailfish/ShareDialog.qml" line="62"/>
+        <source>Save note</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ShareDialog.qml" line="68"/>
+        <source>Want to add a note?</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/ShareDialog.qml" line="69"/>
+        <source>Note</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1754,7 +1823,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/TabPage.qml" line="147"/>
         <location filename="../qml/harmattan/TabPage.qml" line="157"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="246"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="229"/>
         <location filename="../qml/symbian/TabPage.qml" line="154"/>
         <source>Wait until Sync finish.</source>
         <translation>Počkejte, dokud nebude seřizování dokončeno.</translation>
@@ -1767,14 +1836,14 @@ Síťové spojení je nedostupné.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="138"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="224"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="206"/>
         <location filename="../qml/symbian/TabPage.qml" line="135"/>
         <source>Mark all as read</source>
         <translation>Označit vše jako přečtené</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/TabPage.qml" line="145"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="232"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="215"/>
         <location filename="../qml/symbian/TabPage.qml" line="142"/>
         <source>Mark all as unread</source>
         <translation>Označit vše jako nepřečtené</translation>
@@ -1782,7 +1851,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/bb10/TabPage.qml" line="147"/>
         <location filename="../qml/harmattan/TabPage.qml" line="156"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="247"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="230"/>
         <location filename="../qml/symbian/TabPage.qml" line="153"/>
         <source>No tabs</source>
         <translation>Žádné karty</translation>
@@ -1793,7 +1862,21 @@ Síťové spojení je nedostupné.</translation>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/sailfish/TabPage.qml" line="247"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="93"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="192"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="196"/>
+        <source>Subscriptions</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/TabPage.qml" line="94"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="192"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="196"/>
+        <source>Following</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/TabPage.qml" line="230"/>
         <source>No folders</source>
         <translation type="unfinished"/>
     </message>
@@ -1804,17 +1887,6 @@ Síťové spojení je nedostupné.</translation>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source/>
         <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/TourPage.qml" line="66"/>
-        <location filename="../qml/sailfish/TourPage.qml" line="73"/>
-        <source>You are not signed in</source>
-        <translation>Nejste přihlášen</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/TourPage.qml" line="73"/>
-        <source>Wait until Sync finish</source>
-        <translation>Počkejte, dokud nebude seřizování dokončeno</translation>
     </message>
 </context>
 <context>
@@ -1871,74 +1943,74 @@ Síťové spojení je nedostupné.</translation>
         <translation>prázdné</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="567"/>
+        <location filename="../src/utils.cpp" line="571"/>
         <source>just now</source>
         <translation>pouze nyní</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="570"/>
+        <location filename="../src/utils.cpp" line="574"/>
         <source>1 second ago</source>
         <translation>před 1 sekundou</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="573"/>
+        <location filename="../src/utils.cpp" line="577"/>
         <source>%1 seconds ago</source>
         <comment>less than 5 seconds</comment>
         <translation>před %1 sekundami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="576"/>
+        <location filename="../src/utils.cpp" line="580"/>
         <source>%1 seconds ago</source>
         <comment>more or equal 5 seconds</comment>
         <translation>před %1 sekundami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="579"/>
+        <location filename="../src/utils.cpp" line="583"/>
         <source>1 minute ago</source>
         <translation>před 1 minutou</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="582"/>
+        <location filename="../src/utils.cpp" line="586"/>
         <source>%1 minutes ago</source>
         <comment>less than 5 minutes</comment>
         <translation>před %1 minutami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="585"/>
+        <location filename="../src/utils.cpp" line="589"/>
         <source>%1 minutes ago</source>
         <comment>more or equal 5 minutes</comment>
         <translation>před %1 minutami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="588"/>
+        <location filename="../src/utils.cpp" line="592"/>
         <source>1 hour ago</source>
         <translation>před 1 hodinou</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="591"/>
+        <location filename="../src/utils.cpp" line="595"/>
         <source>%1 hours ago</source>
         <comment>less than 5 hours</comment>
         <translation>před %1 hodinami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="594"/>
+        <location filename="../src/utils.cpp" line="598"/>
         <source>%1 hours ago</source>
         <comment>more or equal 5 hours</comment>
         <translation>před %1 hodinami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="600"/>
+        <location filename="../src/utils.cpp" line="604"/>
         <source>day ago</source>
         <translation>včera</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="603"/>
+        <location filename="../src/utils.cpp" line="607"/>
         <source>%1 days ago</source>
         <comment>less than 5 days</comment>
         <translation>před %1 dny</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="606"/>
+        <location filename="../src/utils.cpp" line="610"/>
         <source>%1 days ago</source>
         <comment>more or equal 5 days</comment>
         <translation>před %1 dny</translation>
@@ -2132,7 +2204,7 @@ Síťové spojení je nedostupné.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="149"/>
-        <location filename="../qml/sailfish/main.qml" line="226"/>
+        <location filename="../qml/sailfish/main.qml" line="230"/>
         <location filename="../qml/symbian/main.qml" line="146"/>
         <source>Sync failed!
 Network connection is unavailable.</source>
@@ -2142,8 +2214,8 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/harmattan/main.qml" line="160"/>
         <location filename="../qml/harmattan/main.qml" line="170"/>
-        <location filename="../qml/sailfish/main.qml" line="237"/>
-        <location filename="../qml/sailfish/main.qml" line="259"/>
+        <location filename="../qml/sailfish/main.qml" line="241"/>
+        <location filename="../qml/sailfish/main.qml" line="269"/>
         <location filename="../qml/symbian/main.qml" line="157"/>
         <location filename="../qml/symbian/main.qml" line="167"/>
         <source>The user name or password is incorrect!</source>
@@ -2151,43 +2223,43 @@ Síťové spojení je nedostupné.</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="174"/>
-        <location filename="../qml/sailfish/main.qml" line="263"/>
+        <location filename="../qml/sailfish/main.qml" line="273"/>
         <location filename="../qml/symbian/main.qml" line="171"/>
         <source>You are signed in!</source>
         <translation>Jste přihlášen</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="178"/>
-        <location filename="../qml/sailfish/main.qml" line="267"/>
+        <location filename="../qml/sailfish/main.qml" line="277"/>
         <location filename="../qml/symbian/main.qml" line="175"/>
         <source>Receiving data... </source>
         <translation>Přijímají se data...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="183"/>
-        <location filename="../qml/sailfish/main.qml" line="272"/>
+        <location filename="../qml/sailfish/main.qml" line="282"/>
         <location filename="../qml/symbian/main.qml" line="180"/>
         <source>Sending data...</source>
         <translation>Posílají se data...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="189"/>
-        <location filename="../qml/sailfish/main.qml" line="282"/>
+        <location filename="../qml/sailfish/main.qml" line="292"/>
         <location filename="../qml/symbian/main.qml" line="186"/>
         <source>Initiating...</source>
         <translation>Spouští se...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="193"/>
-        <location filename="../qml/sailfish/main.qml" line="286"/>
+        <location filename="../qml/sailfish/main.qml" line="296"/>
         <location filename="../qml/symbian/main.qml" line="190"/>
         <source>Updating...</source>
         <translation>Aktualizuje se...</translation>
     </message>
     <message>
         <location filename="../qml/harmattan/main.qml" line="197"/>
-        <location filename="../qml/sailfish/main.qml" line="290"/>
-        <location filename="../qml/sailfish/main.qml" line="294"/>
+        <location filename="../qml/sailfish/main.qml" line="300"/>
+        <location filename="../qml/sailfish/main.qml" line="304"/>
         <location filename="../qml/symbian/main.qml" line="194"/>
         <source>Signing in...</source>
         <translation>Přihlašuje se...</translation>
@@ -2196,9 +2268,9 @@ Síťové spojení je nedostupné.</translation>
         <location filename="../qml/harmattan/main.qml" line="201"/>
         <location filename="../qml/harmattan/main.qml" line="205"/>
         <location filename="../qml/harmattan/main.qml" line="209"/>
-        <location filename="../qml/sailfish/main.qml" line="298"/>
-        <location filename="../qml/sailfish/main.qml" line="302"/>
-        <location filename="../qml/sailfish/main.qml" line="306"/>
+        <location filename="../qml/sailfish/main.qml" line="308"/>
+        <location filename="../qml/sailfish/main.qml" line="312"/>
+        <location filename="../qml/sailfish/main.qml" line="316"/>
         <location filename="../qml/symbian/main.qml" line="198"/>
         <location filename="../qml/symbian/main.qml" line="202"/>
         <location filename="../qml/symbian/main.qml" line="206"/>
@@ -2215,19 +2287,19 @@ Restart the app to rebuild cache data.</source>
 Spusťte program znovu, aby byla data ve vyrovnávací paměti znovu sestavena.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/main.qml" line="222"/>
+        <location filename="../qml/sailfish/main.qml" line="226"/>
         <source>Something goes wrong. Unable to sign in! :-(</source>
         <translation>Stalo se něco špatného. Přihlášení se nepodařilo :-(</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/main.qml" line="254"/>
+        <location filename="../qml/sailfish/main.qml" line="264"/>
         <source>Something went wrong :-(
 An unknown error occurred.</source>
         <translation>Něco níní v pořádku.
 Vyskytla se neznámá chyba!</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/main.qml" line="467"/>
+        <location filename="../qml/sailfish/main.qml" line="477"/>
         <source>Removing cache data...</source>
         <translation>Odstraňují se data uložená ve vyrovnávací paměti...</translation>
     </message>
