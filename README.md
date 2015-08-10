@@ -1,12 +1,14 @@
 # Kaktus
 
-Multi services mobile feed reader, specially designed to work offline. Supports [Netvibes.com](http://www.netvibes.com/) and [Old Reader](https://theoldreader.com/) as a feed aggregators. Works on Sailfish OS & BlackBerry 10 devices.
+Multi services mobile feed reader, specially designed to work offline. Supports [Netvibes](http://www.netvibes.com/) and [The Old Reader](https://theoldreader.com/) as a feed aggregators. Works on Sailfish OS & BlackBerry 10 devices.
 
 Kaktus is working in sync mode, so network connectivity is not
 required all the time. The significant feature is possibility
 to read articles in offline mode, so without a network usage.
 In such mode, previously downloaded content of web pages are
 displayed from local cache.
+
+Kaktus is an *unofficial* application. It means that it was not developed by Netvibes nor Old Reader team.
 
 ![Screenshots: Sailfish OS, BlackBerry 10, Meego](https://raw.githubusercontent.com/mkiol/kaktus/master/screenshots/00.png)
 
@@ -20,9 +22,7 @@ Symbian and Meego versions were discontinued.
 
 ## Copyrights
 
-Be aware that Kaktus is an *unofficial* application. It means that it was not developed by Netvibes nor Old Reader team.
-
-**Copyright &copy; 2014-2015 Michal Kosciesza**
+Copyright &copy; 2014-2015 Michal Kosciesza
 
 Kaktus is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
