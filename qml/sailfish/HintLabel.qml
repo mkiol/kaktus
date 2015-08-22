@@ -41,12 +41,13 @@ Rectangle {
     property alias textColor: label.color
     property color backgroundColor: Theme.rgba(Theme.highlightDimmerColor, 0.9)
 
-    height: width
+    height: parent.height/2
     width: parent.width
     gradient: Gradient {
         GradientStop { position: invert ? 1.0 : 0.0; color: "transparent" }
-        GradientStop { position: invert ? 0.3 : 0.7; color: backgroundColor }
+        GradientStop { position: invert ? 0.3 : (bar.open ? 0.6 : 0.8); color: backgroundColor }
     }
+
     InfoLabel {
         id: label
         color: Theme.highlightColor
@@ -57,7 +58,7 @@ Rectangle {
         anchors {
             top: invert ? parent.top : undefined
             bottom: invert ? undefined : parent.bottom
-            bottomMargin: Theme.paddingLarge*2
+            bottomMargin: Theme.paddingLarge*2 + (bar.open ? app.panelHeight : 0)
             topMargin: Theme.paddingLarge*2
         }
     }

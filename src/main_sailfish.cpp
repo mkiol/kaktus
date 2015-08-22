@@ -31,8 +31,6 @@
 #include "databasemanager.h"
 #include "downloadmanager.h"
 #include "cacheserver.h"
-//#include "netvibesfetcher.h"
-//#include "oldreaderfetcher.h"
 #include "utils.h"
 #include "settings.h"
 
@@ -40,15 +38,13 @@ static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.0 (light edition)";
+static const char *VERSION = "2.1 (light edition)";
 #else
-static const char *VERSION = "2.0";
+static const char *VERSION = "2.1";
 #endif
 
 int main(int argc, char *argv[])
 {
-    //qmlRegisterType<Proxy>("harbour.net.mkiol.kaktus", 1, 0, "Proxy");
-
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
 
@@ -79,15 +75,11 @@ int main(int argc, char *argv[])
     DownloadManager dm; settings->dm = &dm;
     CacheServer cache(&db); settings->cache = &cache;
 
-    //NetvibesFetcher fetcher; settings->fetcher = &fetcher;
-    //OldReaderFetcher fetcher; settings->fetcher = &fetcher;
-
     Utils utils;
 
     QObject::connect(view->engine(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
 
     view->rootContext()->setContextProperty("db", &db);
-    //view->rootContext()->setContextProperty("fetcher", &fetcher);
     view->rootContext()->setContextProperty("utils", &utils);
     view->rootContext()->setContextProperty("dm", &dm);
     view->rootContext()->setContextProperty("cache", &cache);

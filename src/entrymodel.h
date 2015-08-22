@@ -98,6 +98,7 @@ public:
 
     void setReadlater(int value);
     void setRead(int value);
+    void setLiked(int value);
     void setBroadcast(bool value, const QString &annotations);
     void setCached(int value);
 

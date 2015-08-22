@@ -91,7 +91,8 @@ Page {
 
                 property bool last: model.uid=="last"
                 property string title: model.uid=="subscriptions" ? qsTr("Subscriptions") :
-                                       model.uid=="friends" ? qsTr("Following") : model.title
+                                       model.uid=="friends" ? qsTr("Following") :
+                                       model.uid=="global.uncategorized" ? qsTr("Uncategorized") : model.title
                 property string imageSource: model.uid=="friends" ? "image://icons/friend?"+Theme.primaryColor :
                                            model.iconUrl != "" ? cache.getUrlbyUrl(iconUrl) : ""
                 enabled: !last

@@ -69,6 +69,7 @@ class Settings: public QObject
     Q_PROPERTY (int signinType READ getSigninType WRITE setSigninType NOTIFY signinTypeChanged)
     Q_PROPERTY (bool showBroadcast READ getShowBroadcast WRITE setShowBroadcast NOTIFY showBroadcastChanged)
     Q_PROPERTY (bool showOldestFirst READ getShowOldestFirst WRITE setShowOldestFirst NOTIFY showOldestFirstChanged)
+    Q_PROPERTY (bool syncRead READ getSyncRead WRITE setSyncRead NOTIFY syncReadChanged)
 
 public:
     static Settings* instance();
@@ -146,6 +147,9 @@ public:
     void setAutoDownloadOnUpdate(bool value);
     bool getAutoDownloadOnUpdate();
 
+    void setSyncRead(bool value);
+    bool getSyncRead();
+
     void setTheme(int value);
     int getTheme();
 
@@ -167,6 +171,8 @@ public:
 
     Q_INVOKABLE void setCookie(const QString &value);
     Q_INVOKABLE QString getCookie();
+    Q_INVOKABLE void setRefreshCookie(const QString &value);
+    Q_INVOKABLE QString getRefreshCookie();
 
     // Username & Password
     Q_INVOKABLE void setUsername(const QString &value);
@@ -239,6 +245,7 @@ signals:
     void signinTypeChanged();
     void showBroadcastChanged();
     void showOldestFirstChanged();
+    void syncReadChanged();
 
     /*
     501 - Unable create settings dir

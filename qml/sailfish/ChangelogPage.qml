@@ -51,6 +51,35 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("2.1")
+            }
+
+            LogItem {
+                title: 'Sync read articles'
+                description: "Previously, unread as well as read articles were synced. With this new option comes possiblity to disable syncing read articles. It will speed up synchronization, but read articles will not be accessible form Kaktus.";
+            }
+
+            LogItem {
+                title: 'Sort order for list of articles'
+                description: 'New settings option enabling specific sort order for list of articles. Possible values: Recent first, Oldest first.'
+            }
+
+            LogItem {
+                title: 'Mark above as read'
+                description: 'Context menu for list of articles has new option for marking all above articles as read.'
+            }
+
+            LogItem {
+                title: 'Old Reader: Like & Liked articles view mode'
+                description: "New context option to Like/Unlike article. Additionally, so called Slow view mode is now replaced by Liked articles view mode.";
+            }
+
+            LogItem {
+                title: 'Old Reader: Enable social features'
+                description: "New option to enable/disable Old Reader's social features. If enabled, following features will be visible: Following folder, Sharing article with followers, Like/Unlike option, Liked articles view mode.";
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("2.0")
             }
 

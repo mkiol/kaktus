@@ -54,6 +54,7 @@
 #include "fetcher.h"
 #include "oldreaderfetcher.h"
 #include "nvfetcher.h"
+#include "feedlyfetcher.h"
 
 Utils::Utils(QObject *parent) :
     QObject(parent)//, ncm(new QNetworkConfigurationManager(parent))
@@ -376,6 +377,10 @@ void Utils::setRootModel()
         // View mode: Saved
     case 5:
         // View mode: Slow
+    case 6:
+        // View mode: Liked
+    case 7:
+        // View mode: Broadcast
         entryModel = new EntryModel(s->db);
         entryModel->init("root");
 #ifdef BB10
@@ -680,6 +685,11 @@ void Utils::resetFetcher(int type)
     if (type == 2) {
         // Old Reader fetcher
         s->fetcher = new OldReaderFetcher();
+    }
+
+    if (type == 3) {
+        // Feedly fetcher
+        s->fetcher = new FeedlyFetcher();
     }
 
     if (s->fetcher != NULL)

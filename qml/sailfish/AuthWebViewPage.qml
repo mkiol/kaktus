@@ -103,7 +103,7 @@ Page {
                 break;
             case WebView.LoadFailedStatus:
                 proggressPanel.open = false;
-                notification.show(qsTr("Failed to load page content :-("));
+                //notification.show(qsTr("Failed to load page content :-("));
                 break;
             default:
                 proggressPanel.open = false;

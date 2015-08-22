@@ -129,7 +129,7 @@ void Settings::setShowBroadcast(bool value)
 
 bool Settings::getShowBroadcast()
 {
-    return settings.value("showbroadcast", false).toBool();
+    return settings.value("showbroadcast", true).toBool();
 }
 
 void Settings::setOfflineMode(bool value)
@@ -164,6 +164,19 @@ void Settings::setReaderMode(bool value)
 bool Settings::getReaderMode()
 {
     return settings.value("readermode", false).toBool();
+}
+
+void Settings::setSyncRead(bool value)
+{
+    if (getSyncRead() != value) {
+        settings.setValue("syncread", value);
+        emit syncReadChanged();
+    }
+}
+
+bool Settings::getSyncRead()
+{
+    return settings.value("syncread", false).toBool();
 }
 
 void Settings::setShowTabIcons(bool value)
@@ -290,6 +303,27 @@ QString Settings::getCookie()
     return plainValue;
 }
 
+void Settings::setRefreshCookie(const QString &value)
+{
+    SimpleCrypt crypto(KEY);
+    QString encryptedValue = crypto.encryptToString(value);
+    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        emit error(512);
+    }
+    settings.setValue("refreshcookie", encryptedValue);
+}
+
+QString Settings::getRefreshCookie()
+{
+    SimpleCrypt crypto(KEY);
+    QString plainValue = crypto.decryptToString(settings.value("refreshcookie", "").toString());
+    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        emit error(511);
+        return "";
+    }
+    return plainValue;
+}
+
 void Settings::setTwitterCookie(const QString &value)
 {
     SimpleCrypt crypto(KEY);
@@ -331,7 +365,6 @@ QString Settings::getAuthUrl()
     }
     return plainValue;
 }
-
 
 void Settings::setDashboardInUse(const QString &value)
 {
@@ -619,7 +652,24 @@ int Settings::getFeedsUpdateAtOnce()
 
 void Settings::setViewMode(int value)
 {
+    int type = getSigninType();
     if (getViewMode() != value) {
+        if (type < 10) {
+            // Netvibes, Forbidden modes: 6, 7
+            if (value == 6 || value == 7) {
+                qWarning() << "Netvibes forbidden mode!";
+                return;
+            }
+        } else if (type >= 10 && type < 20) {
+            // OldReader, Forbidden modes: none
+        } else if (type >= 20 && type < 30) {
+            // Feedly, Forbidden modes: 6, 7
+            if (value == 6 || value == 7) {
+                qWarning() << "Old Reader forbidden mode!";
+                return;
+            }
+        }
+
         settings.setValue("viewmode", value);
 
         //update history
@@ -667,7 +717,9 @@ void Settings::reset()
         setHint1Done(false);
         setCachingMode(0);
         setRetentionDays(14);
+        setSyncRead(false);
         setProvider("");
         setUserId("");
+        setShowBroadcast(true);
     }
 }

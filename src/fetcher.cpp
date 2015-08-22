@@ -106,9 +106,8 @@ bool Fetcher::init()
 #endif
 
     setBusy(true, Fetcher::Initiating);
-
-    signIn();
     emit progress(0,100);
+    signIn();
     return true;
 }
 
@@ -143,8 +142,8 @@ bool Fetcher::update()
         setBusy(true, Fetcher::Updating);
     }
 
-    signIn();
     emit progress(0,100);
+    signIn();
     return true;
 }
 
@@ -159,6 +158,7 @@ void Fetcher::cancel()
             currentReply->close();
         else
             setBusy(false);
+        //emit canceled();
     }
 }
 
@@ -266,11 +266,16 @@ bool Fetcher::parse()
     //qint64 date1 = QDateTime::currentMSecsSinceEpoch();
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     QJsonDocument doc = QJsonDocument::fromJson(data);
-    if (!doc.isObject()) {
-        qWarning() << "Json doc is empty!";
-        return false;
+
+    if (doc.isObject()) {
+        jsonObj = doc.object();
+        return true;
     }
-    jsonObj = doc.object();
+
+    if (doc.isArray()) {
+        jsonArr = doc.array();
+        return true;
+    }
 #else
     QJson::Parser qjson;
     bool ok;
@@ -285,7 +290,8 @@ bool Fetcher::parse()
     }
 #endif
     //qDebug() << "parse time:" << (QDateTime::currentMSecsSinceEpoch() - date1);
-    return true;
+    qWarning() << "Json doc is empty!";
+    return false;
 }
 
 void Fetcher::sslErrors(const QList<QSslError> &sslErrors)
@@ -298,6 +304,65 @@ void Fetcher::sslErrors(const QList<QSslError> &sslErrors)
 #endif
 }
 
+void Fetcher::mergeActionsIntoList(DatabaseManager::ActionsTypes typeSet,
+                                   DatabaseManager::ActionsTypes typeUnset,
+                                   DatabaseManager::ActionsTypes typeSetList,
+                                   DatabaseManager::ActionsTypes typeUnsetList)
+{
+    Settings *s = Settings::instance();
+
+    QList<DatabaseManager::Action>::iterator it1 = actionsList.begin();
+    QList<DatabaseManager::Action>::iterator it2 = it1 + 1;
+    if (it2 != actionsList.end()) {
+        bool inMerge = false;
+        while (it2 != actionsList.end()) {
+
+            DatabaseManager::ActionsTypes type1 = (*it1).type;
+            DatabaseManager::ActionsTypes type2 = (*it2).type;
+            DatabaseManager::ActionsTypes newType;
+
+            bool typeOk = false;
+            if (type1 == typeSet) {
+                newType = typeSetList;
+                typeOk = true;
+            } else if (type1 == typeUnset) {
+                newType = typeUnsetList;
+                typeOk = true;
+            }
+
+            if (type1 == type2 && typeOk) {
+
+                QString newId1 = (*it1).id1 + QString("&%1").arg((*it2).id1);
+                QString newId2 = (*it1).id2 + QString("&%1").arg((*it2).id2);
+                QString newId3 = (*it1).id3 + QString("&%1").arg((*it2).id3);
+                s->db->updateActionByIdAndType((*it1).id1, type1, newId1, newId2, newId3, type1);
+                (*it1).id1 = newId1;
+                (*it1).id2 = newId2;
+                (*it1).id3 = newId3;
+                s->db->removeActionsByIdAndType((*it2).id1, type2);
+                it2 = actionsList.erase(it2);
+                inMerge = true;
+
+                if (it2 == actionsList.end()) {
+                    s->db->updateActionByIdAndType((*it1).id1, type1, (*it1).id1, (*it1).id2, (*it1).id3, newType);
+                    (*it1).type = newType;
+                    inMerge = false;
+                }
+
+            } else {
+                if (inMerge) {
+                    s->db->updateActionByIdAndType((*it1).id1, type1, (*it1).id1, (*it1).id2, (*it1).id3, newType);
+                    (*it1).type = newType;
+                    inMerge = false;
+                }
+
+                it1 = it2;
+                ++it2;
+            }
+        }
+    }
+}
+
 void Fetcher::prepareUploadActions()
 {
     // upload actions
@@ -307,7 +372,19 @@ void Fetcher::prepareUploadActions()
         //qDebug() << "No actions to upload!";
         startFetching();
     } else {
-        //qDebug() << actionsList.count() << " actions to upload!";
+
+        qDebug() << actionsList.count() << " actions to upload!";
+
+        // Actions optimalization
+        // 1. Merging series of SetRead into SetListRead
+        mergeActionsIntoList(DatabaseManager::SetRead, DatabaseManager::UnSetRead,
+                             DatabaseManager::SetListRead, DatabaseManager::UnSetListRead);
+        // 2. Merging series of SetSaved into SetListSaved
+        /*mergeActionsIntoList(DatabaseManager::SetSaved, DatabaseManager::UnSetSaved,
+                             DatabaseManager::SetListSaved, DatabaseManager::UnSetListSaved);*/
+
+        qDebug() << actionsList.count() << " actions to upload after opt!";
+
         uploadActions();
     }
 }

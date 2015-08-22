@@ -28,6 +28,7 @@ TabModel::TabModel(DatabaseManager *db, QObject *parent) :
 
     Settings *s = Settings::instance();
     connect(s->dm, SIGNAL(cacheCleaned()), this, SLOT(updateFlags()));
+    connect(s,SIGNAL(showBroadcastChanged()),this,SLOT(init()));
 }
 
 void TabModel::init(const QString &dashboardId)
@@ -44,17 +45,30 @@ void TabModel::init()
 
 void TabModel::createItems(const QString &dashboardId)
 {
+    Settings *s = Settings::instance();
+
     QList<DatabaseManager::Tab> list = _db->readTabsByDashboard(dashboardId);
     QList<DatabaseManager::Tab>::iterator i = list.begin();
+
     while( i != list.end() ) {
-        appendRow(new TabItem((*i).id,
-                              (*i).title,
-                              (*i).icon,
-                              _db->countEntriesUnreadByTab((*i).id),
-                              _db->countEntriesReadByTab((*i).id),
-                              0,
-                              _db->countEntriesFreshByTab((*i).id)
-                             ));
+        TabItem* tab = new TabItem((*i).id,
+                                   (*i).title,
+                                   (*i).icon,
+                                   _db->countEntriesUnreadByTab((*i).id),
+                                   _db->countEntriesReadByTab((*i).id),
+                                   0,
+                                   _db->countEntriesFreshByTab((*i).id)
+                                  );
+
+        if ((*i).id == "friends") {
+            if (s->getShowBroadcast()) {
+                // Only for OldReader, Friends tab is first on the list
+                insertRow(0,tab);
+            }
+        } else {
+            appendRow(tab);
+        }
+
         ++i;
     }
 

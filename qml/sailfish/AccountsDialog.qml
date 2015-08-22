@@ -48,6 +48,7 @@ Page {
         model:  ListModel {
             ListElement { name: "Netvibes"; iconSource: "nv.png"; type: 1}
             ListElement { name: "Old Reader"; iconSource: "oldreader.png"; type: 2}
+            ListElement { name: "Feedly (comming soon)"; iconSource: "feedly.png"; type: 3}
         }
 
         header: PageHeader {
@@ -58,6 +59,8 @@ Page {
             id: listItem
             contentHeight: item.height + 2 * Theme.paddingMedium
             highlighted: root.accountType == type
+            enabled: type != 3
+            opacity: enabled ? 1.0 : 0.5
 
             Column {
                 id: item
@@ -95,6 +98,12 @@ Page {
                 if (type == 2) {
                     app.reconnectFetcher(2);
                     pageStack.replaceAbove(pageStack.previousPage(),Qt.resolvedUrl("OldReaderSignInDialog.qml"),{"code": 400});
+                }
+                if (type == 3) {
+                    app.reconnectFetcher(3);
+                    utils.resetQtWebKit();
+                    fetcher.getConnectUrl(20);
+                    //pageStack.replaceAbove(pageStack.previousPage(),Qt.resolvedUrl("FeedlySignInDialog.qml"),{"code": 400});
                 }
             }
 

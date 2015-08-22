@@ -149,7 +149,11 @@ public:
         SetBroadcast = 71,
         UnSetBroadcast = 70,
         SetListRead = 81,
-        UnSetListRead = 80
+        UnSetListRead = 80,
+        SetListSaved = 91,
+        UnSetListSaved = 90,
+        SetLiked = 101,
+        UnSetLiked = 100
     };
 
     struct Action {
@@ -183,6 +187,7 @@ public:
     void writeEntry(const Entry &item);
     void writeCache(const CacheItem &item);
     void writeAction(const Action &item);
+    void updateActionByIdAndType(const QString &oldId1, ActionsTypes oldType, const QString &newId1, const QString &newId2, const QString &newId3, ActionsTypes newType);
 
     void updateEntriesReadFlagByStream(const QString &id, int flag);
     void updateEntriesReadFlagByDashboard(const QString &id, int flag);
@@ -192,6 +197,7 @@ public:
     void updateEntriesSavedFlagByEntry(const QString &id, int flag);
     void updateEntriesCachedFlagByEntry(const QString &id, int cacheDate, int flag);
     void updateEntriesBroadcastFlagByEntry(const QString &id, int flag, const QString &annotations);
+    void updateEntriesLikedFlagByEntry(const QString &id, int flag);
     void updateEntriesFreshFlag(int flag);
     void updateEntriesFlag(int flag);
     void updateEntriesSavedFlagByFlagAndDashboard(const QString &id, int flagOld, int flagNew);
@@ -210,6 +216,7 @@ public:
     QList<Stream> readStreamsByTab(const QString &id);
     QList<QString> readStreamIdsByTab(const QString &id);
     QList<Stream> readStreamsByDashboard(const QString &id);
+    QList<QString> readTabIdsByDashboard(const QString &id);
     QList<QString> readStreamIds();
     QString readStreamIdByEntry(const QString &id);
     QList<QString> readModuleIdByStream(const QString &id);
@@ -221,11 +228,19 @@ public:
     QList<StreamModuleTab> readStreamModuleTabListWithoutDate();
 
     QString readEntryImageById(const QString &id);
+
+    QString readLatestEntryIdByDashboard(const QString &id);
+    QString readLatestEntryIdByTab(const QString &id);
+    QString readLatestEntryIdByStream(const QString &id);
+
     QList<Entry> readEntriesByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesUnreadByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesSlowUnreadByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesSavedByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
+    //QList<Entry> readEntriesSaved(int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesSlowByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesLikedByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesBroadcastByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesByStream(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesUnreadByStream(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesByTab(const QString &id, int offset, int limit, bool ascOrder = false);
@@ -272,6 +287,7 @@ public:
     void removeEntriesByStream(const QString &id, int limit);
     void removeEntriesByFlag(int value);
     void removeActionsById(const QString &id);
+    void removeActionsByIdAndType(const QString &id, ActionsTypes type);
     //void removeEntriesBySavedFlag(int flag);
     void removeCacheItems();
 

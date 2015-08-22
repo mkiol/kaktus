@@ -57,6 +57,8 @@ ListItem {
     signal unmarkedReadlater
     signal markedBroadcast
     signal unmarkedBroadcast
+    signal markedLike
+    signal unmarkedLike
     signal markedAboveAsRead
 
     enabled: !last && !daterow
@@ -113,11 +115,28 @@ ListItem {
         }
     }
 
+    /*Item {
+        id: likeButton
+        anchors.right: star.left; anchors.top: background.top
+        height: Theme.iconSizeSmall+2*Theme.paddingMedium
+        width: Theme.iconSizeSmall
+        visible: !last && !daterow && root.liked
+
+        Image {
+            anchors.centerIn: parent;
+            width: Theme.iconSizeSmall
+            height: Theme.iconSizeSmall
+            source: root.down ? "image://icons/like?"+Theme.highlightColor :
+                    root.hidden ? "image://icons/like?"+Theme.secondaryColor :
+                                  "image://icons/like?"+Theme.primaryColor
+        }
+    }*/
+
     BackgroundItem {
         id: star
         anchors.right: background.right; anchors.top: background.top
-        height: Theme.iconSizeSmall+2*Theme.paddingMedium
-        width: height
+        height: Theme.iconSizeSmall + 2*Theme.paddingMedium
+        width: Theme.iconSizeSmall + 2*Theme.paddingMedium
         visible: !last && !daterow
 
         onClicked: {
@@ -356,12 +375,23 @@ ListItem {
             Item {
                 // Broadcast
                 anchors.left: parent.left; anchors.right: parent.right
-                visible: (!root.hidden || root.expanded) && (root.broadcast || root.annotations!="")
+                visible: settings.showBroadcast && (!root.hidden || root.expanded) && (root.broadcast || root.annotations!="" || root.liked)
                 height: Math.max(broadcastImage.height, broadcastLabel.height)
 
                 Image {
-                    id: broadcastImage
+                    id: likeImage
+                    visible: root.liked
                     anchors.left: parent.left; anchors.top: parent.top
+                    width: Theme.iconSizeSmall
+                    height: Theme.iconSizeSmall
+                    source: root.down ? "image://icons/like?"+Theme.secondaryHighlightColor :
+                            root.hidden ? "image://icons/like?"+Theme.secondaryColor : "image://icons/like?"+Theme.primaryColor
+                }
+
+                Image {
+                    id: broadcastImage
+                    visible: root.broadcast || root.annotations!=""
+                    anchors.left: root.liked ? likeImage.right : parent.left; anchors.top: parent.top
                     width: Theme.iconSizeSmall
                     height: Theme.iconSizeSmall
                     source: root.broadcast ? root.down ? "image://theme/icon-m-share?"+Theme.secondaryHighlightColor :
@@ -380,6 +410,7 @@ ListItem {
                     text: root.annotations
                 }
             }
+
 
             Label {
                 anchors.left: parent.left; anchors.right: parent.right
@@ -427,7 +458,7 @@ ListItem {
             }
 
             MenuItem {
-                text: settings.signinType<10 || settings.signinType >= 20 ?
+                text: app.isNetvibes || app.isFeedly ?
                           readlater ? qsTr("Unsave") : qsTr("Save") :
                           readlater ? qsTr("Unstar") : qsTr("Star")
                 onClicked: {
@@ -440,8 +471,22 @@ ListItem {
             }
 
             MenuItem {
+                text: liked ? qsTr("Unlike") : qsTr("Like")
+                enabled: settings.showBroadcast && app.isOldReader
+                visible: enabled
+                onClicked: {
+                    if (liked) {
+                        root.unmarkedLike();
+                    } else {
+                        root.markedLike();
+                    }
+                }
+            }
+
+            MenuItem {
                 text: broadcast ? qsTr("Unshare") : qsTr("Share with followers")
-                enabled: settings.signinType >= 10 && settings.signinType < 20 && !root.friendStream
+                enabled: settings.showBroadcast && app.isOldReader &&
+                         !root.friendStream
                 visible: enabled
                 onClicked: {
                     if (broadcast) {

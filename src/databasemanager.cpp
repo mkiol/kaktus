@@ -818,7 +818,7 @@ void DatabaseManager::writeAction(const Action &item)
 {
     if (db.isOpen()) {
         QSqlQuery query(db);
-        bool ret = query.exec(QString("INSERT INTO actions (type, id1, id2, id2, text, date1, date2, date3) "
+        bool ret = query.exec(QString("INSERT INTO actions (type, id1, id2, id3, text, date1, date2, date3) "
                                  "VALUES(%1,'%2','%3','%4','%5',%6,%7,%8);")
                          .arg(static_cast<int>(item.type))
                          .arg(item.id1)
@@ -828,6 +828,27 @@ void DatabaseManager::writeAction(const Action &item)
                          .arg(item.date1)
                          .arg(QDateTime::currentDateTimeUtc().toTime_t())
                          .arg(QDateTime::currentDateTimeUtc().toTime_t()));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+    } else {
+        qWarning() << "DB is not opened!";
+    }
+}
+
+void DatabaseManager::updateActionByIdAndType(const QString &oldId1, ActionsTypes oldType, const QString &newId1, const QString &newId2, const QString &newId3, ActionsTypes newType)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+        bool ret = query.exec(QString("UPDATE actions SET type=%1, id1='%2', id2='%3', id3='%4' WHERE type=%5 AND id1='%6';")
+                         .arg(static_cast<int>(newType))
+                         .arg(newId1)
+                         .arg(newId2)
+                         .arg(newId3)
+                         .arg(static_cast<int>(oldType))
+                         .arg(oldId1));
 
         if (!ret) {
             checkError(query.lastError());
@@ -1073,6 +1094,21 @@ void DatabaseManager::updateEntriesBroadcastFlagByEntry(const QString &id, int f
                          .arg(flag)
                          .arg(QString(annotations.toUtf8().toBase64()))
                          .arg(id));
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+    } else {
+        qWarning() << "DB is not opened!";
+    }
+}
+
+void DatabaseManager::updateEntriesLikedFlagByEntry(const QString &id, int flag)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+        bool ret = query.exec(QString("UPDATE entries SET liked=%1 WHERE id='%2';")
+                         .arg(flag).arg(id));
         if (!ret) {
             checkError(query.lastError());
         }
@@ -1607,6 +1643,31 @@ QString DatabaseManager::readStreamIdByEntry(const QString &id)
     }
 
     return "";
+}
+
+QList<QString> DatabaseManager::readTabIdsByDashboard(const QString &id)
+{
+    QList<QString> list;
+
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT id FROM tabs WHERE dashboard_id='%1';")
+                              .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            list.append(query.value(0).toString());
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
 }
 
 QString DatabaseManager::readEntryImageById(const QString &id)
@@ -2600,6 +2661,77 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByStream(const QString
     return list;
 }
 
+QString DatabaseManager::readLatestEntryIdByStream(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT id FROM entries WHERE stream_id='%1' "
+                                      "ORDER BY published_at DESC LIMIT 1;")
+                              .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toString();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return "";
+}
+
+QString DatabaseManager::readLatestEntryIdByTab(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT e.id FROM entries as e, streams as s, module_stream as ms, modules as m "
+                                      "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1' "
+                                      "ORDER BY published_at DESC LIMIT 1;")
+                              .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toString();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return "";
+}
+
+QString DatabaseManager::readLatestEntryIdByDashboard(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT e.id FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
+                                      "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id AND t.dashboard_id='%1' "
+                                      "ORDER BY published_at DESC LIMIT 1;")
+                              .arg(id));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toString();
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return "";
+}
+
 QList<DatabaseManager::Entry> DatabaseManager::readEntriesByDashboard(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
@@ -2912,6 +3044,55 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSavedByDashboard(const
     return list;
 }
 
+/*QList<DatabaseManager::Entry> DatabaseManager::readEntriesSaved(int offset, int limit, bool ascOrder)
+{
+    QList<DatabaseManager::Entry> list;
+
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, e.annotations, "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.broadcast, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
+                                      "FROM entries as e ORDER BY e.published_at %3 LIMIT %1 OFFSET %2;")
+                                      .arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            Entry item;
+            item.id = query.value(0).toString();
+            item.streamId = query.value(1).toString();
+            decodeBase64(query.value(2),item.title);
+            decodeBase64(query.value(3),item.author);
+            decodeBase64(query.value(4),item.content);
+            decodeBase64(query.value(5),item.link);
+            decodeBase64(query.value(6),item.image);
+            decodeBase64(query.value(7),item.feedIcon);
+            decodeBase64(query.value(8),item.feedTitle);
+            decodeBase64(query.value(9),item.annotations);
+            item.feedId = query.value(10).toString();
+            item.fresh = query.value(11).toInt();
+            item.freshOR = query.value(12).toInt();
+            item.read = query.value(13).toInt();
+            item.saved = query.value(14).toInt();
+            item.liked = query.value(15).toInt();
+            item.cached = query.value(16).toInt();
+            item.broadcast = query.value(17).toInt();
+            item.createdAt = query.value(18).toInt();
+            item.publishedAt = query.value(19).toInt();
+            item.timestamp = query.value(20).toInt();
+            item.crawlTime = query.value(21).toInt();
+            list.append(item);
+        }
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}*/
+
 QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowByDashboard(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
@@ -2957,6 +3138,113 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowByDashboard(const 
             item.crawlTime = query.value(21).toInt();
             list.append(item);
         }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesLikedByDashboard(const QString &id, int offset, int limit, bool ascOrder)
+{
+    QList<DatabaseManager::Entry> list;
+
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, s.title, e.annotations, s.id, "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.broadcast, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
+                                      "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
+                                      "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
+                                      "AND t.dashboard_id='%1' "
+                                      "AND e.liked=1 ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+                        .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            Entry item;
+            item.id = query.value(0).toString();
+            item.streamId = query.value(1).toString();
+            decodeBase64(query.value(2),item.title);
+            decodeBase64(query.value(3),item.author);
+            decodeBase64(query.value(4),item.content);
+            decodeBase64(query.value(5),item.link);
+            decodeBase64(query.value(6),item.image);
+            decodeBase64(query.value(7),item.feedIcon);
+            decodeBase64(query.value(8),item.feedTitle);
+            decodeBase64(query.value(9),item.annotations);
+            item.feedId = query.value(10).toString();
+            item.fresh = query.value(11).toInt();
+            item.freshOR = query.value(12).toInt();
+            item.read = query.value(13).toInt();
+            item.saved = query.value(14).toInt();
+            item.liked = query.value(15).toInt();
+            item.cached = query.value(16).toInt();
+            item.broadcast = query.value(17).toInt();
+            item.createdAt = query.value(18).toInt();
+            item.publishedAt = query.value(19).toInt();
+            item.timestamp = query.value(20).toInt();
+            item.crawlTime = query.value(21).toInt();
+            list.append(item);
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return list;
+}
+
+QList<DatabaseManager::Entry> DatabaseManager::readEntriesBroadcastByDashboard(const QString &id, int offset, int limit, bool ascOrder)
+{
+    QList<DatabaseManager::Entry> list;
+
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, s.title, e.annotations, s.id, "
+                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.broadcast, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
+                                      "FROM entries as e, streams as s, module_stream as ms, modules as m, tabs as t "
+                                      "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
+                                      "AND t.dashboard_id='%1' "
+                                      "AND e.broadcast=1 ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+                        .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            Entry item;
+            item.id = query.value(0).toString();
+            item.streamId = query.value(1).toString();
+            decodeBase64(query.value(2),item.title);
+            decodeBase64(query.value(3),item.author);
+            decodeBase64(query.value(4),item.content);
+            decodeBase64(query.value(5),item.link);
+            decodeBase64(query.value(6),item.image);
+            decodeBase64(query.value(7),item.feedIcon);
+            decodeBase64(query.value(8),item.feedTitle);
+            decodeBase64(query.value(9),item.annotations);
+            item.feedId = query.value(10).toString();
+            item.fresh = query.value(11).toInt();
+            item.freshOR = query.value(12).toInt();
+            item.read = query.value(13).toInt();
+            item.saved = query.value(14).toInt();
+            item.liked = query.value(15).toInt();
+            item.cached = query.value(16).toInt();
+            item.broadcast = query.value(17).toInt();
+            item.createdAt = query.value(18).toInt();
+            item.publishedAt = query.value(19).toInt();
+            item.timestamp = query.value(20).toInt();
+            item.crawlTime = query.value(21).toInt();
+            list.append(item);
+        }
+
     } else {
         qWarning() << "DB is not open!";
     }
@@ -3237,15 +3525,22 @@ void DatabaseManager::removeEntriesByFlag(int value)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        bool ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN "
+        /*bool ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN "
                                       "(SELECT id FROM entries WHERE saved!=1 AND liked!=1 AND broadcast!=1 AND flag=%1);")
+                              .arg(value));*/
+
+        bool ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN "
+                                      "(SELECT id FROM entries WHERE flag=%1);")
                               .arg(value));
 
         if (!ret) {
             checkError(query.lastError());
         }
 
-        ret = query.exec(QString("DELETE FROM entries WHERE saved!=1 AND liked!=1 AND broadcast!=1 AND flag=%1;")
+        /*ret = query.exec(QString("DELETE FROM entries WHERE saved!=1 AND liked!=1 AND broadcast!=1 AND flag=%1;")
+                         .arg(value));*/
+
+        ret = query.exec(QString("DELETE FROM entries WHERE flag=%1;")
                          .arg(value));
 
         if (!ret) {
@@ -3352,6 +3647,24 @@ void DatabaseManager::removeActionsById(const QString &id)
         qWarning() << "DB is not open!";
     }
 }
+
+void DatabaseManager::removeActionsByIdAndType(const QString &id, ActionsTypes type)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("DELETE FROM actions WHERE id1='%1' AND type=%2;")
+                         .arg(id).arg(static_cast<int>(type)));
+
+        if (!ret) {
+            checkError(query.lastError());
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+}
+
 
 QMap<QString,QString> DatabaseManager::readNotCachedEntries()
 {

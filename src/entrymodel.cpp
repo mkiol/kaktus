@@ -126,6 +126,14 @@ int EntryModel::createItems(int offset, int limit)
         else
             list = _db->readEntriesSlowByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         break;
+    case 6:
+        // View mode: Liked
+        list = _db->readEntriesLikedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+        break;
+    case 7:
+        // View mode: Broadcast
+        list = _db->readEntriesBroadcastByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+        break;
     }
 
     // Remove dummy row
@@ -183,11 +191,13 @@ int EntryModel::createItems(int offset, int limit)
             //(*i).author = rx.cap(1).toUtf8();
         }*/
 
-        // Detecting transparent images
+        // Detecting invalid images
         bool imageOk = true;
         QUrl imageUrl((*i).image);
         //qDebug() << imageUrl.path();
         if (imageUrl.path() == "/assets/images/transparent.png")
+            imageOk = false;
+        if (imageUrl.host() == "rc.feedsportal.com")
             imageOk = false;
 
         // Adding date row
@@ -316,6 +326,14 @@ void EntryModel::setAllAsUnread()
         action.date1 = _db->readLastUpdateByDashboard(s->getDashboardInUse());
 
         break;
+    case 6:
+        // View mode: Liked
+        qWarning() << "Error: This should never happened";
+        return;
+    case 7:
+        // View mode: Broadcast
+        qWarning() << "Error: This should never happened";
+        return;
     }
 
     _db->writeAction(action);
@@ -383,6 +401,14 @@ void EntryModel::setAllAsRead()
         action.date1 = _db->readLastUpdateByDashboard(s->getDashboardInUse());
 
         break;
+    case 6:
+        // View mode: Liked
+        qWarning() << "Error: This should never happened";
+        return;
+    case 7:
+        // View mode: Broadcast
+        qWarning() << "Error: This should never happened";
+        return;
     }
 
     _db->writeAction(action);
@@ -396,35 +422,38 @@ void EntryModel::setAboveAsRead(int index)
     QString feedIds;
     QString dates;
 
+    bool ok = false;
     int l = qMin(this->rowCount(),index);
     for (int i=0; i<=l; ++i) {
         EntryItem* item = static_cast<EntryItem*>(readRow(i));
         QString id = item->id();
-        if (id != "daterow" && id != "last") {
+        if (id != "daterow" && id != "last" && item->read() == 0) {
             item->setRead(1);
             s->db->updateEntriesReadFlagByEntry(id,1);
             itemIds.append(QString("%1&").arg(id));
             feedIds.append(QString("%1&").arg(item->feedId()));
             dates.append(QString("%1&").arg(item->date()));
-
+            ok = true;
             //qDebug() << "id:" << id << "feedId:" << item->feedId() << "date:" << item->date();
         }
     }
 
-    itemIds.remove(itemIds.length()-1,1);
-    feedIds.remove(feedIds.length()-1,1);
-    dates.remove(dates.length()-1,1);
+    if (ok) {
+        itemIds.remove(itemIds.length()-1,1);
+        feedIds.remove(feedIds.length()-1,1);
+        dates.remove(dates.length()-1,1);
 
-    //qDebug() << "itemIds:" << itemIds;
-    //qDebug() << "feedIds" << feedIds;
-    //qDebug() << "dates" << dates;
+        //qDebug() << "itemIds:" << itemIds;
+        //qDebug() << "feedIds" << feedIds;
+        //qDebug() << "dates" << dates;
 
-    DatabaseManager::Action action;
-    action.type = DatabaseManager::SetListRead;
-    action.id1 = itemIds;
-    action.id2 = feedIds;
-    action.id3 = dates;
-    s->db->writeAction(action);
+        DatabaseManager::Action action;
+        action.type = DatabaseManager::SetListRead;
+        action.id1 = itemIds;
+        action.id2 = feedIds;
+        action.id3 = dates;
+        s->db->writeAction(action);
+    }
 }
 
 int EntryModel::countRead()
@@ -453,9 +482,17 @@ int EntryModel::countRead()
         qWarning() << "Error: This should never happened";
         return 0;
     case 5:
-        // View mode: Saved
+        // View mode: Slow
         return _db->countEntriesSlowReadByDashboard(s->getDashboardInUse());
         break;
+    case 6:
+        // View mode: Liked
+        qWarning() << "Error: This should never happened";
+        return 0;
+    case 7:
+        // View mode: Broadcast
+        qWarning() << "Error: This should never happened";
+        return 0;
     }
 
     return 0;
@@ -487,9 +524,17 @@ int EntryModel::countUnread()
         qWarning() << "Error: This should never happened";
         return 0;
     case 5:
-        // View mode: Saved
+        // View mode: Slow
         return _db->countEntriesSlowUnreadByDashboard(s->getDashboardInUse());
         break;
+    case 6:
+        // View mode: Liked
+        qWarning() << "Error: This should never happened";
+        return 0;
+    case 7:
+        // View mode: Broadcast
+        qWarning() << "Error: This should never happened";
+        return 0;
     }
 
     return 0;
@@ -513,10 +558,12 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue, Q
             action.type = DatabaseManager::SetSaved;
             action.id1 = item->id();
             action.date1 = item->date();
+            action.id3 = QString::number(action.date1);
         } else {
             action.type = DatabaseManager::UnSetSaved;
             action.id1 = item->id();
             action.date1 = item->date();
+            action.id3 = QString::number(action.date1);
         }
         _db->writeAction(action);
         _db->updateEntriesSavedFlagByEntry(item->id(),newValue.toInt());
@@ -530,20 +577,41 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue, Q
             action.type = DatabaseManager::SetRead;
             action.id1 = item->id();
             action.date1 = item->date();
+            action.id3 = QString::number(action.date1);
         } else {
             action.type = DatabaseManager::UnSetRead;
             action.id1 = item->id();
             action.date1 = item->date();
+            action.id3 = QString::number(action.date1);
         }
         _db->writeAction(action);
         _db->updateEntriesReadFlagByEntry(item->id(),newValue.toInt());
+    }
+
+    if (fieldName=="liked") {
+        item->setLiked(newValue.toBool() ? 1 : 0);
+        DatabaseManager::Action action;
+        action.id2 = s->db->readStreamIdByEntry(item->id());
+        if (newValue.toBool()) {
+            action.type = DatabaseManager::SetLiked;
+            action.id1 = item->id();
+            action.date1 = item->date();
+            action.id3 = QString::number(action.date1);
+        } else {
+            action.type = DatabaseManager::UnSetLiked;
+            action.id1 = item->id();
+            action.date1 = item->date();
+            action.id3 = QString::number(action.date1);
+        }
+        _db->writeAction(action);
+        _db->updateEntriesLikedFlagByEntry(item->id(),newValue.toBool() ? 1 : 0);
     }
 
     if (fieldName=="broadcast") {
 #ifdef KAKTUS_LIGHT
         return;
 #endif
-        if (s->getSigninType() < 10) {
+        if (s->getSigninType() < 10 && s->getSigninType() >= 20) {
             // Broadcast not supported in API
             qWarning() << "Broadcast is not supported!";
             return;
@@ -555,14 +623,16 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue, Q
             action.id1 = item->id();
             action.date1 = item->date();
             action.text = newValue2.toString();
+            action.id3 = QString::number(action.date1);
         } else {
             action.type = DatabaseManager::UnSetBroadcast;
             action.id1 = item->id();
             action.date1 = item->date();
             action.text = newValue2.toString();
+            action.id3 = QString::number(action.date1);
         }
         _db->writeAction(action);
-        _db->updateEntriesBroadcastFlagByEntry(item->id(),newValue.toInt(),"");
+        _db->updateEntriesBroadcastFlagByEntry(item->id(),newValue.toInt(),newValue2.toString());
     }
 
     if (fieldName=="cached") {
@@ -687,6 +757,14 @@ void EntryItem::setRead(int value)
 {
     if(m_read!=value) {
         m_read = value;
+        emit dataChanged();
+    }
+}
+
+void EntryItem::setLiked(int value)
+{
+    if(m_liked!=value) {
+        m_liked= value;
         emit dataChanged();
     }
 }

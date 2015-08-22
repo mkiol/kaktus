@@ -87,7 +87,6 @@ class TabModel : public ListModel
 public:
     explicit TabModel(DatabaseManager* db, QObject *parent = 0);
     void init(const QString &dashboardId);
-    void init();
 
     Q_INVOKABLE void markAsUnread(int row);
     Q_INVOKABLE void markAsRead(int row);
@@ -101,6 +100,7 @@ public:
 
 public Q_SLOTS:
     void updateFlags();
+    void init();
 
 private:
     DatabaseManager* _db;

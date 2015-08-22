@@ -24,6 +24,11 @@ ApplicationWindow {
     id: app
 
     property bool progress: false
+    property int oldViewMode
+
+    property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
+    property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
+    property bool isFeedly: settings.signinType >= 20 && settings.signinType < 30
 
     cover: CoverPage {}
 
@@ -40,29 +45,45 @@ ApplicationWindow {
         // Reconnect fetcher
         if (typeof fetcher === 'undefined') {
             var type = settings.signinType;
+            //console.log("settings.signinType:",type);
+
             if (type < 10)
                 reconnectFetcher(1);
-            else if (type == 10)
+            else if (type < 20)
                 reconnectFetcher(2);
+            else if (type < 30)
+                reconnectFetcher(3);
         }
 
         utils.setRootModel();
 
-        pageStack.busyChanged.connect(resetViewDone);
-        switch (settings.viewMode) {
-        case 0:
-        case 1:
-            pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
-            break;
-        case 2:
-            pageStack.replaceAbove(null,Qt.resolvedUrl("FeedPage.qml"),{"title": qsTr("Feeds")});
-            break;
-        case 3:
-        case 4:
-        case 5:
-            pageStack.replaceAbove(null,Qt.resolvedUrl("EntryPage.qml"));
-            break;
+        var newViewMode = settings.viewMode;
+        if ((oldViewMode == 3 || oldViewMode == 4 || oldViewMode == 5 || oldViewMode == 6 || oldViewMode == 7) &&
+            (newViewMode == 3 || newViewMode == 4 || newViewMode == 5 || newViewMode == 6 || newViewMode == 7)) {
+            // No need to change stack
+            app.progress = false;
+        } else {
+            pageStack.busyChanged.connect(resetViewDone);
+
+            switch (settings.viewMode) {
+            case 0:
+            case 1:
+                pageStack.replaceAbove(null,Qt.resolvedUrl("TabPage.qml"));
+                break;
+            case 2:
+                pageStack.replaceAbove(null,Qt.resolvedUrl("FeedPage.qml"),{"title": qsTr("Feeds")});
+                break;
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+                pageStack.replaceAbove(null,Qt.resolvedUrl("EntryPage.qml"));
+                break;
+            }
         }
+
+        oldViewMode = newViewMode;
     }
 
     function resetViewDone() {
@@ -100,6 +121,13 @@ ApplicationWindow {
                     guide.showDelayed();
             }
         }
+
+        onShowBroadcastChanged: {
+            // If social features disabled, viemode != 6
+            if (!settings.showBroadcast && settings.viewMode == 6) {
+                settings.viewMode = 4;
+            }
+        }
     }
 
     Connections {
@@ -132,13 +160,7 @@ ApplicationWindow {
     Connections {
         target: dm
 
-        /*onBusyChanged: {
-            console.log("DM busy", dm.busy);
-        }*/
-
         onProgress: {
-            //console.log("DM busy", dm.busy);
-            //console.log("DM progress: " + remaining);
             progressPanelDm.text = qsTr("%1 more items left...").arg(remaining);
             if (remaining === 0) {
                 progressPanelDm.text = qsTr("All done!");
@@ -161,9 +183,7 @@ ApplicationWindow {
     function reconnectFetcher(type) {
         disconnectFetcher();
         cover.disconnectFetcher();
-
         utils.resetFetcher(type);
-
         connectFetcher();
         cover.connectFetcher();
     }
@@ -181,6 +201,7 @@ ApplicationWindow {
         fetcher.progress.connect(fetcherProgress);
         fetcher.uploading.connect(fetcherUploading);
         fetcher.busyChanged.connect(fetcherBusyChanged);
+        fetcher.canceled.connect(fetcherCanceled);
     }
 
     function disconnectFetcher() {
@@ -196,6 +217,7 @@ ApplicationWindow {
         fetcher.progress.disconnect(fetcherProgress);
         fetcher.uploading.disconnect(fetcherUploading);
         fetcher.busyChanged.disconnect(fetcherBusyChanged);
+        fetcher.canceled.disconnect(fetcherCanceled);
     }
 
     property bool fetcherBusyStatus: false
@@ -254,14 +276,19 @@ ApplicationWindow {
                 pageStack.push(Qt.resolvedUrl("NvSignInDialog.qml"),{"code": code});
                 return;
             }
-            if (type == 10) {
+            if (type < 20) {
                 pageStack.push(Qt.resolvedUrl("OldReaderSignInDialog.qml"),{"code": code});
+                return;
+            }
+            if (type < 30) {
+                pageStack.push(Qt.resolvedUrl("FeedlySignInDialog.qml"),{"code": code});
                 return;
             }
 
         } else {
             // Unknown error
             notification.show(qsTr("Something went wrong :-(\nAn unknown error occurred."));
+            resetView();
         }
     }
 
@@ -274,11 +301,13 @@ ApplicationWindow {
     }
 
     function fetcherProgress(current, total) {
+        //console.log("fetcherProgress", current, total);
         progressPanel.text = qsTr("Receiving data... ");
         progressPanel.progress = current / total;
     }
 
     function fetcherUploading() {
+        //console.log("fetcherUploading");
         progressPanel.text = qsTr("Sending data...");
     }
 
@@ -319,12 +348,18 @@ ApplicationWindow {
         }
     }
 
+    function fetcherCanceled() {
+        //notification.show(qsTr("Syncing canceled!"));
+        resetView();
+    }
+
     Notification {
         id: notification
     }
 
     property int panelHeightPortrait: 1.1*Theme.itemSizeSmall
     property int panelHeightLandscape: Theme.itemSizeSmall
+    property int panelHeight: app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape
     property int flickHeight: {
         var size = 0;
         var d = app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape;

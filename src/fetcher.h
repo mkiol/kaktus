@@ -32,6 +32,7 @@
 #include <QNetworkCookieJar>
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QJsonObject>
+#include <QJsonArray>
 #else
 #include <QVariantMap>
 #endif
@@ -84,7 +85,7 @@ public:
 Q_SIGNALS:
     void quit();
     void busyChanged();
-    void progress(int current, int total);
+    void progress(double current, double total);
     void networkNotAccessible();
     void uploading();
     void checkingCredentials();
@@ -99,6 +100,9 @@ Q_SIGNALS:
     500 - Network error
     501 - SignIn resposne is null
     502 - Internal error
+    503 - User ID is empty
+    504 - No network
+    505 - Refresh token error
     600 - Error while parsing JSON
     601 - Unknown JSON response
      */
@@ -124,14 +128,15 @@ protected:
     QByteArray data;
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     QJsonObject jsonObj;
+    QJsonArray jsonArr;
 #else
     QVariantMap jsonObj;
 #endif
     Fetcher::BusyType busyType;
     QList<DatabaseManager::Action> actionsList;
     bool busy;
-    int proggress;
-    int proggressTotal;
+    double proggress;
+    double proggressTotal;
 
     void setBusy(bool busy, Fetcher::BusyType type = Fetcher::UnknownBusyType);
     bool parse();
@@ -142,6 +147,8 @@ private:
     virtual void signIn() = 0;
     virtual void startFetching() = 0;
     virtual void uploadActions() = 0;
+
+    void mergeActionsIntoList(DatabaseManager::ActionsTypes typeSet, DatabaseManager::ActionsTypes typeUnset, DatabaseManager::ActionsTypes typeSetList, DatabaseManager::ActionsTypes typeUnsetList);
 };
 
 #endif // FETCHER_H

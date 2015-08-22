@@ -56,15 +56,15 @@ Page {
                 Image {
                     id: icon
                     anchors { right: label.left; rightMargin: Theme.paddingMedium }
-                    source: settings.signinType<10 ? "nv.png" :
-                            settings.signinType<20 ? "oldreader.png" : "feedly.png"
+                    source: app.isNetvibes ? "nv.png" :
+                            app.isOldReader ? "oldreader.png" : "feedly.png"
                 }
 
                 Label {
                     id: label
                     anchors { right: parent.right; rightMargin: Theme.paddingLarge}
-                    text: settings.signinType<10 ? "Netvibes":
-                          settings.signinType<20 ? "Old Reader" : "Feedly"
+                    text: app.isNetvibes ? "Netvibes":
+                          app.isOldReader ? "Old Reader" : "Feedly"
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignRight
                     color: Theme.highlightColor
@@ -126,7 +126,7 @@ Page {
                 id: defaultdashboard
                 contentHeight: visible ? flow2.height + 2*Theme.paddingLarge : 0
                 enabled: settings.signedIn && utils.defaultDashboardName()!=="" && settings.signinType<10
-                visible: settings.signinType<10
+                visible: app.isNetvibes
 
                 Flow {
                     id: flow2
@@ -163,7 +163,6 @@ Page {
 
             SectionHeader {
                 text: qsTr("Syncronization")
-                visible: settings.signinType>=10
             }
 
             ComboBox {
@@ -171,6 +170,7 @@ Page {
                 label: qsTr("Sync timeframe")
                 enabled: settings.signinType>=10
                 visible: enabled
+
                 currentIndex: {
                     var retention = settings.getRetentionDays();
                     if (retention < 1)
@@ -219,9 +219,22 @@ Page {
                     settings.setRetentionDays(0);
                 }
 
-                description: qsTr("Most recent articles will be syncronized according to the defined timeframe. " +
-                                  "Regardless of the value, all starred, liked and shared items will be synced as well. " +
-                                  "Be aware, this parameter has significant impact on the speed of synchronization.")
+                description: qsTr("Most recent articles will be syncronized according to the defined timeframe.") + " " +
+                             (settings.signinType < 20 ? qsTr("Regardless of the value, all starred, liked and shared items will be synced as well.") : qsTr("Regardless of the value, all saved items will be synced as well.")) + " " +
+                             qsTr("Be aware, this parameter has significant impact on the speed of synchronization.")
+            }
+
+            TextSwitch {
+                id: syncReadSwitch
+                text: qsTr("Sync read articles")
+                description: qsTr("In addition to unread also read articles will be synced. " +
+                                  "Disabling this option will speed up synchronization, but read articles will not be accessible form Kaktus.");
+                onCheckedChanged: {
+                    settings.syncRead = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.syncRead;
+                }
             }
 
             SectionHeader {
@@ -580,6 +593,18 @@ Page {
                 }
                 Component.onCompleted: {
                     checked = settings.showTabIcons;
+                }
+            }
+
+            TextSwitch {
+                text: qsTr("Enable social features")
+                enabled: app.isOldReader
+                description: qsTr("Following Old Reader's social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.")
+                onCheckedChanged: {
+                    settings.showBroadcast = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.showBroadcast;
                 }
             }
 

@@ -145,6 +145,14 @@ void OldReaderFetcher::setAction()
         url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
         body = QString("r=user/-/state/com.google/read&i=%1").arg(action.id1);
         break;
+    case DatabaseManager::SetLiked:
+        url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
+        body = QString("a=user/-/state/com.google/like&i=%1").arg(action.id1);
+        break;
+    case DatabaseManager::UnSetLiked:
+        url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
+        body = QString("r=user/-/state/com.google/like&i=%1").arg(action.id1);
+        break;
     case DatabaseManager::SetListRead:
         url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
         body = QString("a=user/-/state/com.google/read&%1").arg(getIdsFromActionString(action.id1));
@@ -309,16 +317,26 @@ void OldReaderFetcher::fetchStream()
         currentReply = NULL;
     }
 
-    QUrl url;
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     QString st(QUrl::toPercentEncoding("user/-/state/com.google/reading-list"));
+    QString xst(QUrl::toPercentEncoding("user/-/state/com.google/read"));
 #else
     QString st = "user/-/state/com.google/reading-list";
+    QString xst = "user/-/state/com.google/read";
 #endif
     int epoch = s->getRetentionDays() > 0 ?
                 QDateTime::currentDateTimeUtc().addDays(0-s->getRetentionDays()).toTime_t() :
                 0;
-    if (lastContinuation == "") {
+
+    QString surl = QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&s=%2").arg(limitAtOnce).arg(st);
+    if (lastContinuation != "")
+        surl += QString("&c=%1").arg(lastContinuation);
+    if (epoch > 0)
+        surl += QString("&ot=%1").arg(epoch);
+    if (!s->getSyncRead())
+        surl += QString("&xt=%1").arg(xst);
+
+    /*if (lastContinuation == "") {
         if (epoch > 0)
             url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&ot=%2&s=%3")
                        .arg(limitAtOnce).arg(epoch).arg(st));
@@ -332,12 +350,14 @@ void OldReaderFetcher::fetchStream()
         else
             url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&s=%3")
                        .arg(limitAtOnce).arg(lastContinuation).arg(st));
-    }
+    }*/
+
+    QUrl url(surl);
     QNetworkRequest request(url);
 
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
 
-    //qDebug() << url.toString();
+    //qDebug() << surl;
 
     currentReply = nam.get(request);
 
@@ -395,7 +415,7 @@ void OldReaderFetcher::fetchLikedStream()
 
     QUrl url;
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    QString st(QUrl::toPercentEncoding("user/-/state/com.google/liked"));
+    QString st(QUrl::toPercentEncoding("user/-/state/com.google/like"));
 #else
     QString st = "user/-/state/com.google/liked";
 #endif
@@ -842,7 +862,7 @@ void OldReaderFetcher::finishedSetAction()
 
     // Deleting action
     DatabaseManager::Action action = actionsList.takeFirst();
-    s->db->removeActionsById(action.id1);
+    s->db->removeActionsByIdAndType(action.id1, action.type);
 
     if (actionsList.isEmpty()) {
         s->db->cleanDashboards();
@@ -886,7 +906,6 @@ void OldReaderFetcher::startFetching()
 
     // Create DB structure
     s->db->cleanDashboards();
-    //s->db->cleanTabs();
     if(busyType == Fetcher::Initiating) {
         s->db->cleanCache();
         s->db->cleanEntries();
@@ -895,9 +914,6 @@ void OldReaderFetcher::startFetching()
     if (busyType == Fetcher::Updating) {
         s->db->updateEntriesFreshFlag(0); // Set current entries as not fresh
     }
-
-    //s->db->cleanStreams();
-    //s->db->cleanModules();
 
     // Old Reader API doesnt have Dashboards
     // Manually adding dummy Dashboard
@@ -909,7 +925,6 @@ void OldReaderFetcher::startFetching()
     s->db->writeDashboard(d);
     s->setDashboardInUse(d.id);
 
-    //fetchFriends();
     fetchTabs();
 }
 

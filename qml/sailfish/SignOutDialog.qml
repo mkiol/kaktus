@@ -61,7 +61,9 @@ Dialog {
             color: Theme.primaryColor
             text: settings.signinType < 10 ?
                       qsTr("Disconnect Kaktus from your Netvibes account?") :
-                      qsTr("Disconnect Kaktus from your Old Reader account?")
+                  settings.signinType < 20 ?
+                      qsTr("Disconnect Kaktus from your Old Reader account?") :
+                      qsTr("Disconnect Kaktus from your Feedly account?")
         }
     }
 

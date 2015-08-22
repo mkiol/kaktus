@@ -79,6 +79,7 @@ Item {
                settings.viewMode==3 ? -off-2*size :
                settings.viewMode==4 ? -off-1*size :
                settings.viewMode==5 ? -off :
+               settings.viewMode==6 ? -off :
                -off-5*size
             Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
         }
@@ -152,14 +153,19 @@ Item {
         IconButton {
             id: vm5b
             x: 4*(width+Theme.paddingMedium)
+            visible: app.isNetvibes || (app.isOldReader && settings.showBroadcast) // Disabled for Feedly
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://icons/vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
-            highlighted: settings.viewMode==5
+            icon.source: app.isOldReader ? "image://icons/vm6?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor) :
+                                           "image://icons/vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+            highlighted: settings.viewMode==5 || settings.viewMode==6
             onClicked: {
                 show();
-                if (!app.progress && settings.viewMode!=5) {
+                if (!app.progress && (settings.viewMode!=5 || settings.viewMode!=6)) {
                     app.progress = true;
-                    settings.viewMode = 5;
+                    if (settings.signinType >= 10)
+                        settings.viewMode = 6;
+                    else
+                        settings.viewMode = 5;
                 }
             }
         }

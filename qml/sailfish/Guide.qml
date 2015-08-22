@@ -179,7 +179,8 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
 
-            text: qsTr("Bottom bar lets you switch between 5 view modes.\n");
+            text: app.isFeedly ? qsTr("Bottom bar lets you switch between 4 view modes.\n") :
+                                 qsTr("Bottom bar lets you switch between 5 view modes.\n");
         }
     }
 
@@ -202,8 +203,8 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
 
-            text: settings.signinType<10 ? qsTr("Mode #1\n\nLists all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.") :
-                                                qsTr("Mode #1\n\nLists all your folders. Feeds are grouped by the folders they belong to and articles are grouped in the feeds.")
+            text: app.isNetvibes ? qsTr("Mode #1\n\nLists all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.") :
+                                   qsTr("Mode #1\n\nLists all your folders. Feeds are grouped by the folders they belong to and articles are grouped in the feeds.")
         }
     }
 
@@ -224,9 +225,8 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            //textFormat: Text.StyledText
-            text: settings.signinType<10 ? qsTr("Mode #2\n\nLists all your tabs. Articles are grouped by the tabs they belong to.") :
-                                                qsTr("Mode #2\n\nLists all your folders. Articles are grouped by the folders they belong to.");
+            text: app.isNetvibes ? qsTr("Mode #2\n\nLists all your tabs. Articles are grouped by the tabs they belong to.") :
+                                   qsTr("Mode #2\n\nLists all your folders. Articles are grouped by the folders they belong to.");
         }
     }
 
@@ -247,8 +247,6 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            //textFormat: Text.StyledText
-
             text: qsTr("Mode #3\n\nLists all articles from all your feeds in one list. Items are ordered by publication date.");
         }
     }
@@ -270,10 +268,8 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            //textFormat: Text.StyledText
-
-            text: settings.signinType<10 ? qsTr("Mode #4\n\nLists all articles you have saved.") :
-                                                qsTr("Mode #4\n\nLists all articles you have starred.")
+            text: app.isNetvibes || app.isFeedly ? qsTr("Mode #4\n\nLists all articles you have saved.") :
+                                                   qsTr("Mode #4\n\nLists all articles you have starred.")
         }
     }
 
@@ -294,10 +290,9 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            //textFormat: Text.StyledText
-
-            text: qsTr("Mode #5 \"Slow\"\n\nList articles from less frequently updated feeds. "+
-                       "A feed is considered \"slow\" when it publishes less than 5 articles in a month.");
+            text: app.isNetvibes ? qsTr("Mode #5 \"Slow\"\n\nList articles from less frequently updated feeds. "+
+                                        "A feed is considered \"slow\" when it publishes less than 5 articles in a month.") :
+                                   qsTr("Mode #5\n\nLists all articles you have liked.");
         }
     }
 
@@ -318,8 +313,6 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            //textFormat: Text.StyledText
-
             text: qsTr("Bottom bar also contains network indicator.\n\n"+
                        "This indicator enables you to switch between the online and offline mode. "+
                        "In the offline mode, Kaktus will only use local cache to get web pages and images, so "+
@@ -346,7 +339,6 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             textFormat: Text.StyledText
-
             text: qsTr("That's all!<br/><br/>"+
                        "If you want to see this guide one more time, click on\n"+
                        "<i>Show User Guide</i>\non the settings page.");
@@ -406,8 +398,10 @@ Rectangle {
         IconButton {
             id: vm5b
             x: 4*(width+Theme.paddingMedium)
+            visible: app.isNetvibes || app.isOldReader // Disabled for Feedly
             anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://icons/vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+            icon.source: app.isOldReader ? "image://icons/vm6?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor) :
+                                           "image://icons/vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
         }
 
         IconButton {
@@ -449,6 +443,10 @@ Rectangle {
 
                 if (root.progress==1) {
                     selector.open = true;
+                }
+
+                if (root.progress==5 && app.isFeedly) {
+                    root.progress++;
                 }
 
                 if (root.progress==7) {

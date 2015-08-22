@@ -55,10 +55,10 @@ Page {
 
         PageMenu {
             id: menu
-            showAbout: settings.viewMode==3 || settings.viewMode==4 || settings.viewMode==5 ? true : false
+            showAbout: settings.viewMode>2  ? true : false
             showMarkAsRead: false
             showMarkAsUnread: false
-            showShowOnlyUnread: settings.viewMode!=4
+            showShowOnlyUnread: settings.viewMode!=4 && settings.viewMode!=6 && settings.viewMode!=7
 
             onMarkedAsRead: {
                 if (settings.viewMode==1 || settings.viewMode==5) {
@@ -75,6 +75,14 @@ Page {
                                     qsTr("Marking all saved articles as read") :
                                     qsTr("Marking all starred articles as read")
                                 , function(){entryModel.setAllAsRead()});
+                    return;
+                }
+                if (settings.viewMode==6) {
+                    remorse.execute(qsTr("Marking all liked articles as read"), function(){entryModel.setAllAsRead()});
+                    return;
+                }
+                if (settings.viewMode==7) {
+                    remorse.execute(qsTr("Marking all shared articles as read"), function(){entryModel.setAllAsRead()});
                     return;
                 }
 
@@ -94,7 +102,7 @@ Page {
 
             onActiveChanged: {
                 if (active) {
-                    if (settings.viewMode!=4) {
+                    if (settings.viewMode!=4 && settings.viewMode!=6 && settings.viewMode!=7) {
                         showMarkAsRead = entryModel.countUnread()!=0;
                         /*if (!settings.showOnlyUnread)
                             showMarkAsUnread = entryModel.countRead()!=0;*/
@@ -109,9 +117,13 @@ Page {
                 case 3:
                     return qsTr("All feeds");
                 case 4:
-                    return settings.signinType<10 || settings.signinType>=20 ? qsTr("Saved") : qsTr("Starred");
+                    return app.isNetvibes || app.isFeedly ? qsTr("Saved") : qsTr("Starred");
                 case 5:
                     return qsTr("Slow");
+                case 6:
+                    return qsTr("Liked");
+                case 7:
+                    return qsTr("Shared");
                 default:
                     return root.title;
                 }
@@ -138,11 +150,11 @@ Page {
             fresh: model.fresh
             last: model.uid === "last"
             daterow: model.uid === "daterow"
-            showMarkedAsRead: settings.viewMode!=4 && model.read<2
+            showMarkedAsRead: settings.viewMode!=4 && settings.viewMode!=6 && settings.viewMode!=7 && model.read<2
             objectName: "EntryDelegate"
 
             Component.onCompleted: {
-                //console.log("feedId:",model.feedId);
+                //console.log("image:",model.image);
                 // Dynamic creation of new items if last item is compleated
                 if (index==entryModel.count()-1) {
                     //console.log(index);
@@ -151,7 +163,7 @@ Page {
             }
 
             onClicked: {
-                //console.log("date",model.date);
+                //console.log("id",model.uid);
                 if (timer.running) {
                     // Double click
                     timer.stop();
@@ -255,6 +267,14 @@ Page {
                 entryModel.setData(index, "readlater", 0, "");
             }
 
+            onMarkedLike: {
+                entryModel.setData(model.index, "liked", true, "");
+            }
+
+            onUnmarkedLike: {
+                entryModel.setData(model.index, "liked", false, "");
+            }
+
             onMarkedBroadcast: {
                 pageStack.push(Qt.resolvedUrl("ShareDialog.qml"),{"index": model.index,});
                 //entryModel.setData(model.index, "broadcast", true, "");
@@ -273,14 +293,14 @@ Page {
             id: placeholder
             enabled: listView.count == 0
             text: fetcher.busy ? qsTr("Wait until Sync finish.") :
-                      settings.viewMode==4 ? settings.signinType<10 || settings.signinType>=20 ? qsTr("No saved items") : qsTr("No starred items")  :
-                      settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+                      settings.viewMode==4 ? app.isNetvibes || app.isFeedly ? qsTr("No saved items") : qsTr("No starred items")  :
+                      settings.viewMode==6 ? qsTr("No liked items") : settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }
 
-        Component.onCompleted: {
-            if (listView.count == 0 && settings.viewMode==4)
+        /*Component.onCompleted: {
+            if (listView.count == 0 && settings.viewMode>2)
                 bar.open();
-        }
+        }*/
 
         VerticalScrollDecorator {
             flickable: listView
@@ -293,6 +313,7 @@ Page {
         backgroundColor: Theme.highlightDimmerColor
         Behavior on opacity { FadeAnimation { duration: 400 } }
         opacity: settings.getHint1Done() ? 0.0 : 1.0
+        //opacity: 1.0
         visible: opacity != 0
 
         text: qsTr("One-tap to open article, double-tap to mark as read")

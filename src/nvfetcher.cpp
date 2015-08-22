@@ -201,7 +201,11 @@ void NvFetcher::fetchFeeds()
         if (ii != 0)
             actions += ",";
 
-        actions += QString("{\"options\":{\"limit\":%1},\"streams\":[{\"id\":\"%2\",\"moduleId\":\"%3\"}]}")
+        // "filter":"unread"
+        actions += "{\"options\":{";
+        if (!s->getSyncRead())
+            actions += "\"filter\":\"unread\",";
+        actions += QString("\"limit\":%1},\"streams\":[{\"id\":\"%2\",\"moduleId\":\"%3\"}]}")
                 .arg(limitFeeds)
                 .arg((*i).streamId)
                 .arg((*i).moduleId);
@@ -977,7 +981,7 @@ void NvFetcher::finishedSetAction()
 
     // Deleting action
     DatabaseManager::Action action = actionsList.takeFirst();
-    s->db->removeActionsById(action.id1);
+    s->db->removeActionsByIdAndType(action.id1, action.type);
 
     if (actionsList.isEmpty()) {
         s->db->cleanDashboards();
@@ -1026,18 +1030,20 @@ void NvFetcher::startJob(Job job)
     if(parse()) {
         if (jsonObj.contains("success") && !jsonObj["success"].toBool()) {
 
-            qWarning() << "Cookie expires!";
-            Settings *s = Settings::instance();
-            s->setCookie("");
-            setBusy(false);
-
             // If credentials other than Netvibes, prompting for re-auth
+            Settings *s = Settings::instance();
             if (s->getSigninType()>0) {
+                qWarning() << "Cookie expires!";
+                s->setCookie("");
+                setBusy(false);
                 emit error(403);
                 return;
             }
 
-            update();
+            qWarning() << "Netvibes API error!";
+            setBusy(false);
+            emit error(500);
+            //update();
             return;
         }
     } else {
