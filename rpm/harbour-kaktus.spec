@@ -76,7 +76,10 @@ desktop-file-install --delete-original       \
 
 %changelog
 
-* Mon Aug 10 2015 Michal Kosciesza 2.1-2
+* Sat Aug 22 2015 Michal Kosciesza 2.1-2
+- Old Reader: Enable social features
+- Old Reader: Like & Liked articles view mode
+- Sync read articles option
 - BUG FIX: Handling HTTP redirection loop in cache downloading
 
 * Sun Aug 09 2015 Michal Kosciesza 2.1-1
