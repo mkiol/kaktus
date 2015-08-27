@@ -131,6 +131,7 @@ protected:
     QJsonArray jsonArr;
 #else
     QVariantMap jsonObj;
+    QVariantList jsonArr;
 #endif
     Fetcher::BusyType busyType;
     QList<DatabaseManager::Action> actionsList;

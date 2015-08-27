@@ -41,9 +41,9 @@
 using namespace bb::cascades;
 
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.0 (light edition)";
+static const char *VERSION = "2.1 (light edition)";
 #else
-static const char *VERSION = "2.0";
+static const char *VERSION = "2.1";
 #endif
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";

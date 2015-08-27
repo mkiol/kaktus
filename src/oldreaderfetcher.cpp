@@ -692,7 +692,8 @@ void OldReaderFetcher::finishedFeeds2()
     proggressTotal = s->getRetentionDays() > 0 ? log(s->getRetentionDays()) + 4 : 5;
     proggress = 1;
     lastDate = 0;
-    emit progress(proggress, proggressTotal);
+    qDebug() << "finishedFeeds2" << "proggress" << proggress << "log(s->getRetentionDays())" << log(s->getRetentionDays()) << "proggressTotal" << proggressTotal;
+    //emit progress(proggress, proggressTotal);
 
     /*if (busyType == Fetcher::Updating)
         removeDeletedFeeds();*/
@@ -720,6 +721,7 @@ void OldReaderFetcher::finishedStream2()
     if (s->getRetentionDays() > 0) {
         if (lastDate > s->getRetentionDays())
             lastDate = s->getRetentionDays();
+        //qDebug() << "finishedStream2" << "proggress" << proggress << "log(lastDate)" << log(lastDate) << "proggressTotal" << proggressTotal;
         emit progress(proggress + log(lastDate), proggressTotal);
     }
 
@@ -727,6 +729,8 @@ void OldReaderFetcher::finishedStream2()
         continuationCount > continuationLimit) {
 
         proggress += s->getRetentionDays() > 0 ? log(lastDate) : 1;
+        //qDebug() << "finishedStream2" << "proggress" << proggress;
+
 
         lastContinuation = "";
         continuationCount = 0;
@@ -757,6 +761,7 @@ void OldReaderFetcher::finishedStarredStream2()
         continuationCount > continuationLimit) {
 
         ++proggress;
+        //qDebug() << "finishedStarredStream2" << "proggress" << proggress;
         emit progress(proggress, proggressTotal);
 
         fetchLikedStream();
@@ -784,6 +789,7 @@ void OldReaderFetcher::finishedLikedStream2()
         continuationCount > continuationLimit) {
 
         ++proggress;
+        //qDebug() << "finishedLikedStream2" << "proggress" << proggress;
         emit progress(proggress, proggressTotal);
 
         fetchBroadcastStream();
@@ -811,9 +817,11 @@ void OldReaderFetcher::finishedBroadcastStream2()
         continuationCount > continuationLimit) {
 
         ++proggress;
+        //qDebug() << "finishedBroadcastStream2" << "proggress" << proggress;
         emit progress(proggress, proggressTotal);
 
-        startJob(MarkSlow);
+        //startJob(MarkSlow);
+        finishedMarkSlow();
         return;
     }
 
@@ -1385,7 +1393,6 @@ void OldReaderFetcher::storeStream()
             if (obj["origin"].type() == QVariant::Map) {
                 feedId = obj["origin"].toMap()["streamId"].toString();
             }
-            //qDebug() << obj;
 #endif
             DatabaseManager::Entry e;
             e.id = obj["id"].toString();
@@ -1413,7 +1420,6 @@ void OldReaderFetcher::storeStream()
             if (obj["categories"].type() == QVariant::List)
                 getFromCategories(obj["categories"].toList(), categories);
             if (obj["annotations"].type() == QVariant::List && !obj["annotations"].toList().isEmpty()) {
-                //qDebug() << e.id << e.title << obj["annotations"];
                 e.annotations = obj["annotations"].toList()[0].toString();
             }
 #endif

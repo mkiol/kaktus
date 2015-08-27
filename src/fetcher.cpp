@@ -279,14 +279,20 @@ bool Fetcher::parse()
 #else
     QJson::Parser qjson;
     bool ok;
-    jsonObj = qjson.parse(data, &ok).toMap();
+    QVariant result = qjson.parse(data, &ok);
     if (!ok) {
         qWarning() << "An error occurred during parsing Json!";
         return false;
     }
-    if (jsonObj.empty()) {
-        qWarning() << "Json doc is empty!";
-        return false;
+
+    if (result.type()==QVariant::Map) {
+        jsonObj = result.toMap();
+        return true;
+    }
+
+    if (result.type()==QVariant::List) {
+        jsonArr = result.toList();
+        return true;
     }
 #endif
     //qDebug() << "parse time:" << (QDateTime::currentMSecsSinceEpoch() - date1);

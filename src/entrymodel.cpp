@@ -57,6 +57,19 @@ void EntryModel::init()
     emit ready();
 }
 
+/*int EntryModel::fixIndex(const QString &id)
+{
+    int l = this->rowCount();
+    for (int i = 0; i < l; ++i) {
+        EntryItem* item = static_cast<EntryItem*>(readRow(i));
+        //qDebug() << id << "| i:" << i << "item->id" << item->id();
+        if (item->id() == id)
+            return i;
+    }
+    qWarning() << "Entry ID not found!";
+    return -1;
+}*/
+
 int EntryModel::getDateRowId(int date)
 {
     QDateTime qdate = QDateTime::fromTime_t(date);
@@ -84,6 +97,21 @@ int EntryModel::createItems(int offset, int limit)
     Settings *s = Settings::instance();
 
     bool ascOrder = s->getShowOldestFirst();
+
+    // Counting 'last' & 'daterow' rows
+    if (offset > 0) {
+        int dummyRowsCount = 0;
+        int l = this->rowCount();
+        for (int i = 0; i < l; ++i) {
+            EntryItem* item = static_cast<EntryItem*>(readRow(i));
+            if (item->id()=="last" || item->id()=="daterow") {
+                ++dummyRowsCount;
+            }
+        }
+        //qDebug() << "dummyRowsCount:" << dummyRowsCount << "orig offset:" << offset;
+        if (offset > dummyRowsCount)
+            offset = offset - dummyRowsCount;
+    }
 
     int mode = s->getViewMode();
     switch (mode) {
@@ -136,6 +164,8 @@ int EntryModel::createItems(int offset, int limit)
         break;
     }
 
+    //qDebug() << "limit:" << limit << "Row count:" << list.count() << "new offset:" << offset;
+
     // Remove dummy row
     if (list.count()>0) {
         int l = rowCount();
@@ -153,6 +183,7 @@ int EntryModel::createItems(int offset, int limit)
     if (rowCount()>0) {
         EntryItem* item = dynamic_cast<EntryItem*>(readRow(rowCount()-1));
         prevDateRow = getDateRowId(item->date());
+        //qDebug() << "prevDateRow UID:" << item->uid();
     }
 
     QRegExp re("<[^>]*>");

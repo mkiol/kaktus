@@ -93,8 +93,8 @@ void FeedlyFetcher::signIn()
 
     // Check is already have cookie
 
-    //s->setCookie("Ag89e8B7ImEiOiJGZWVkbHkgRGV2ZWxvcGVyIiwiZSI6MTQ0NzY1OTY2NTY5NCwiaSI6Ijk5MWFlYTAxLTJjMzctNGMxOS04ZDYwLThkZWUxODE0YzhjZSIsInAiOjgsInQiOjEsInYiOiJwcm9kdWN0aW9uIiwidyI6IjIwMTUuMzEiLCJ4Ijoic3RhbmRhcmQifQ:feedlydev");
-    //s->setUserId("991aea01-2c37-4c19-8d60-8dee1814c8ce");
+    //s->setCookie("");
+    //s->setUserId("");
     //prepareUploadActions();
 
     if (s->getCookie() != "" && s->getRefreshCookie() != "") {
@@ -124,7 +124,6 @@ void FeedlyFetcher::signIn()
             setBusy(false);
             return;
         }
-
 
         request.setUrl(QUrl(QString("%1/v3/auth/token").arg(feedly_server)));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
@@ -620,7 +619,8 @@ void FeedlyFetcher::finishedFeeds2()
 {
     // Proggres initiating, one step is one day
     Settings *s = Settings::instance();
-    proggressTotal = s->getRetentionDays() > 0 ? log(s->getRetentionDays()) + 1 : 2;
+    //proggressTotal = s->getRetentionDays() > 0 ? log(s->getRetentionDays()) + 1 : 2;
+    proggressTotal = s->getRetentionDays() > 0 ? s->getRetentionDays() + 1 : 2;
     proggress = 1;
     lastDate = 0;
     emit progress(proggress, proggressTotal);
@@ -654,9 +654,9 @@ void FeedlyFetcher::finishedStream2()
         }
     }
 
-    double _proggresDelta = 0;
-    if (lastDate > 0)
-        _proggresDelta = log(lastDate);
+    double _proggresDelta = lastDate;
+    //if (lastDate > 0)
+    //    _proggresDelta = log(lastDate);
     emit progress(proggress + _proggresDelta, proggressTotal);
 
     if (lastContinuation == "" ||
@@ -784,20 +784,26 @@ bool FeedlyFetcher::setConnectUrl(const QString &url)
         QUrlQuery query(_url);
         if (query.hasQueryItem("error")) {
             qWarning() << "Error in signin! Error string:" << query.queryItemValue("error");
+#else
+        if (_url.hasQueryItem("error")) {
+            qWarning() << "Error in signin! Error string:" << _url.queryItemValue("error");
+#endif
             emit error(402);
             return false;
         }
-
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
         if (query.hasQueryItem("code")) {
             QString code = query.queryItemValue("code");
+#else
+        if (_url.hasQueryItem("code")) {
+            QString code = _url.queryItemValue("code");
+#endif
             if (code != "") {
                 Settings *s = Settings::instance();
                 s->setAuthUrl(code);
                 return true;
             }
         }
-#endif
-
     }
 
     return false;
@@ -812,7 +818,7 @@ void FeedlyFetcher::getConnectUrl(int type)
         return;
     }
 
-    QString url = "https://sandbox.feedly.com/v3/auth/auth?response_type=code&clientId=sandbox&redirect_uri=http%3A%2F%2Flocalhost&scope=https://cloud.feedly.com/subscriptions";
+    QString url = QString("%1/v3/auth/auth?response_type=code&clientId=sandbox&redirect_uri=http%3A%2F%2Flocalhost&scope=https://cloud.feedly.com/subscriptions").arg(feedly_server);
     emit newAuthUrl(url,20);
 }
 
@@ -938,9 +944,10 @@ void FeedlyFetcher::storeTabs()
         QJsonArray::const_iterator i = jsonArr.constBegin();
         QJsonArray::const_iterator end = jsonArr.constEnd();
 #else
-    if (jsonObj.type()==QVariant::List) {
-        QVariantList::const_iterator i = jsonObj.toList().constBegin();
-        QVariantList::const_iterator end = jsonObj.toList().constEnd();
+    qDebug() << jsonArr;
+    if (!jsonArr.empty()) {
+        QVariantList::const_iterator i = jsonArr.constBegin();
+        QVariantList::const_iterator end = jsonArr.constEnd();
 #endif
         while (i != end) {
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -1049,14 +1056,18 @@ bool FeedlyFetcher::getSavedFromTags(const QJsonArray &tags)
 {
     QJsonArray::const_iterator i = tags.constBegin();
     QJsonArray::const_iterator end = tags.constEnd();
+
+    while (i != end) {
+        QString fullId = (*i).toObject()["id"].toString();
 #else
 bool FeedlyFetcher::getSavedFromTags(const QVariantList &tags)
 {
     QVariantList::const_iterator i = tags.constBegin();
     QVariantList::const_iterator end = tags.constEnd();
-#endif
+
     while (i != end) {
-        QString fullId = (*i).toObject()["id"].toString();
+        QString fullId = (*i).toMap()["id"].toString();
+#endif
         QStringList idList = fullId.split('/');
         //qDebug() << fullId << idList.count();
         if (idList.count()>3) {
@@ -1085,14 +1096,13 @@ void FeedlyFetcher::storeFeeds()
         QJsonArray::const_iterator i = jsonArr.constBegin();
         QJsonArray::const_iterator end = jsonArr.constEnd();
 #else
-    if (jsonObj["subscriptions"].type()==QVariant::List) {
-        QVariantList::const_iterator i = jsonObj["subscriptions"].toList().constBegin();
-        QVariantList::const_iterator end = jsonObj["subscriptions"].toList().constEnd();
+    if (!jsonArr.empty()) {
+        QVariantList::const_iterator i = jsonArr.constBegin();
+        QVariantList::const_iterator end = jsonArr.constEnd();
 #endif
         while (i != end) {
             QString tabId, tabName;
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-
             // Checking tab (folder)
             QJsonObject obj = (*i).toObject();
             if (obj["categories"].isArray()) {
@@ -1100,6 +1110,7 @@ void FeedlyFetcher::storeFeeds()
                 //qDebug() << "tabId" << tabId << "tabName" << tabName;
             }
 #else
+            // Checking tab (folder)
             QVariantMap obj = (*i).toMap();
             if (obj["categories"].type()==QVariant::List) {
                 getFolderFromCategories(obj["categories"].toList(), tabId, tabName);
@@ -1193,9 +1204,10 @@ void FeedlyFetcher::storeStream()
         QJsonArray::const_iterator i = jsonObj["items"].toArray().constBegin();
         QJsonArray::const_iterator end = jsonObj["items"].toArray().constEnd();
 #else
-    //qDebug() << jsonObj["updated"].type();
     if (jsonObj["updated"].type()==QVariant::ULongLong) {
-        updated = jsonObj["updated"].toDouble();
+        QString updatedString = QString::number(jsonObj["updated"].toDouble(),'f',0);
+        updatedString.chop(3); // converting Msec to sec
+        updated = updatedString.toDouble();
     } else {
         qWarning() << "No updated param in stream!";
     }
@@ -1208,7 +1220,6 @@ void FeedlyFetcher::storeStream()
             QString feedId;
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
             QJsonObject obj = (*i).toObject();
-            //qDebug() << obj;
             if (obj["origin"].isObject()) {
                 feedId = obj["origin"].toObject()["streamId"].toString();
             }
@@ -1217,14 +1228,12 @@ void FeedlyFetcher::storeStream()
             if (obj["origin"].type() == QVariant::Map) {
                 feedId = obj["origin"].toMap()["streamId"].toString();
             }
-            //qDebug() << obj;
 #endif
             DatabaseManager::Entry e;
             e.id = obj["id"].toString();
             e.streamId = feedId;
             e.title = obj["title"].toString();
             e.author = obj["author"].toString();
-            //QVariantMap tags;
             bool saved = false;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -1236,19 +1245,17 @@ void FeedlyFetcher::storeStream()
                 e.link = obj["canonical"].toArray()[0].toObject()["href"].toString();
             if (obj["tags"].isArray())
                 saved = getSavedFromTags(obj["tags"].toArray());
-            if (obj["annotations"].isArray() && !obj["annotations"].toArray().isEmpty())
-                e.annotations = obj["annotations"].toArray()[0].toString();
+            /*if (obj["annotations"].isArray() && !obj["annotations"].toArray().isEmpty())
+                e.annotations = obj["annotations"].toArray()[0].toString();*/
 #else
             if (obj["summary"].type() == QVariant::Map)
                 e.content = obj["summary"].toMap()["content"].toString();
             if (obj["canonical"].type() == QVariant::List && !obj["canonical"].toList().isEmpty() && obj["canonical"].toList()[0].type() == QVariant::Map)
                 e.link = obj["canonical"].toList()[0].toMap()["href"].toString();
-            if (obj["categories"].type() == QVariant::List)
-                getFromCategories(obj["categories"].toList(), categories);
-            if (obj["annotations"].type() == QVariant::List && !obj["annotations"].toList().isEmpty()) {
-                //qDebug() << e.id << e.title << obj["annotations"];
-                e.annotations = obj["annotations"].toList()[0].toString();
-            }
+            if (obj["tags"].type() == QVariant::List)
+                saved = getSavedFromTags(obj["tags"].toList());
+            /*if (obj["annotations"].type() == QVariant::List && !obj["annotations"].toList().isEmpty())
+                e.annotations = obj["annotations"].toList()[0].toString();*/
 #endif
             e.read = obj["unread"].toBool() ? 0 : 1;
             //e.read = tags.value("read").toInt();
@@ -1277,8 +1284,13 @@ void FeedlyFetcher::storeStream()
             /*if (obj["visual"].isObject() && obj["visual"].toObject()["url"].toString() != "")
                 imgSrc = obj["visual"].toObject()["url"].toString();*/
             if (imgSrc == "") {
+#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                 if (obj["thumbnail"].isArray() && !obj["thumbnail"].toArray().isEmpty() && obj["thumbnail"].toArray().first().isObject())
                     imgSrc = obj["thumbnail"].toArray().first().toObject()["url"].toString();
+#else
+                if (obj["thumbnail"].type()==QVariant::List && !obj["thumbnail"].toList().empty() && obj["thumbnail"].toList().first().type()==QVariant::Map)
+                    imgSrc = obj["thumbnail"].toList().first().toMap()["url"].toString();
+#endif
             }
             if (imgSrc == "") {
                 // Checking if content contains image

@@ -144,6 +144,7 @@ public:
 
     Q_INVOKABLE int createItems(int offset, int limit);
     Q_INVOKABLE int count();
+    //Q_INVOKABLE int fixIndex(const QString &id);
 
 public slots:
     void init();
