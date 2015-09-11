@@ -30,6 +30,41 @@ Page {
         ScrollView {
             Container {
                 Header {
+                    title: qsTr("Version %1").arg("2.1")
+                }
+                
+                Container {
+                    leftPadding: utils.du(2)
+                    rightPadding: utils.du(2)
+                    topPadding: utils.du(2)
+                    bottomPadding: utils.du(2)
+                    
+                    LogItem {
+                        title: 'Sync read articles'
+                        description: "Previously, unread as well as read articles were synced. With this new option comes possiblity to disable syncing read articles. It will speed up synchronization, but read articles will not be accessible form Kaktus.";
+                    }
+
+                    LogItem {
+                        title: 'Sort order for list of articles'
+                        description: 'New settings option enabling specific sort order for list of articles. Possible values: Recent first, Oldest first.'
+                    }
+                    
+                    LogItem {
+                        title: 'Mark above as read'
+                        description: 'Context menu for list of articles has new option for marking all above articles as read.'
+                    }
+                    
+                    LogItem {
+                        title: 'Old Reader: Like & Liked articles tab'
+                        description: 'New context option to Like/Unlike article. So called "Slow" tab is now replaced by Liked articles tab.'
+                    }
+                    
+                    LogItem {
+                        title: 'Old Reader: Enable social features'
+                        description: 'New option to enable/disable Old Reader\'s social features. If enabled, following features will be visible: Following folder, Sharing article with followers, Like/Unlike option, Liked articles tab.'
+                    }
+                }
+                Header {
                     title: qsTr("Version %1").arg("2.0")
                 }
                 
@@ -43,14 +78,7 @@ Page {
                         title: 'Old Reader support'
                         description: 'Old Reader is supported as new feed aggreagator.'
                     }
-                }
-                
-                Container {
-                    leftPadding: utils.du(2)
-                    rightPadding: utils.du(2)
-                    topPadding: utils.du(2)
-                    bottomPadding: utils.du(2)
-                    
+
                     LogItem {
                         title: 'Many small improvements and bug fixes'
                         description: 'Many improvements, like performance optimization and UI polishing were made.'

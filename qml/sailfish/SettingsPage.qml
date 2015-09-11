@@ -313,7 +313,7 @@ Page {
                 }
 
                 description: qsTr("After sync the content of all items will be downloaded "+
-                                  "and cached for access in the Offline mode.")
+                                  "and cached for access in the offline mode.")
             }
 
             SectionHeader {

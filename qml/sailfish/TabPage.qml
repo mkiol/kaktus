@@ -190,11 +190,11 @@ Page {
                     if (!listItem.last) {
                         if (settings.viewMode == 0) {
                             utils.setFeedModel(uid);
-                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : title, "index": model.index});
+                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : model.uid=="global.uncategorized" ? qsTr("Uncategorized") : title, "index": model.index});
                         }
                         if (settings.viewMode == 1) {
                             utils.setEntryModel(uid);
-                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : title, "readlater": false});
+                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : model.uid=="global.uncategorized" ? qsTr("Uncategorized") : title, "readlater": false});
                         }
                     }
                 }

@@ -27,7 +27,9 @@ Tab {
     viewMode==2 ? qsTr("All feeds") :
     viewMode==3 ? qsTr("All articles") :
     viewMode==4 ? settings.signinType<10 ? qsTr("Saved") : qsTr("Starred") :
-    viewMode==5 ? utils.isLight() ? qsTr("Slow (only in pro edition)") : qsTr("Slow") : ""
+    viewMode==5 ? utils.isLight() ? qsTr("Slow (only in pro edition)") : qsTr("Slow") : 
+    viewMode==6 ? utils.isLight() ? qsTr("Liked (only in pro edition)") : qsTr("Liked") :
+    viewMode==7 ? utils.isLight() ? qsTr("Shared (only in pro edition)") : qsTr("Shared") : ""
     
     /*description: viewMode==0 ? qsTr("All your tabs, feeds & articles") :
     viewMode==1 ? qsTr("All tabs & articles") :
@@ -38,7 +40,8 @@ Tab {
     
     imageSource: "asset:///vm"+viewMode+".png"
     
-    enabled: utils.isLight() ? settings.signedIn && !fetcher.busy && viewMode!=5 : settings.signedIn && !fetcher.busy
+    enabled: utils.isLight() ? settings.signedIn && !fetcher.busy && viewMode<5 : 
+                               settings.signedIn && !fetcher.busy
     
     onTriggered: {
         settings.viewMode = viewMode;

@@ -20,7 +20,6 @@
 import bb.cascades 1.2
 import bb.system 1.0
 import com.kdab.components 1.0
-import net.mkiol.kaktus 1.0
 
 KaktusPage {
 
@@ -47,6 +46,10 @@ KaktusPage {
                                 return settings.signinType<10 ? qsTr("Saved") : qsTr("Starred");
                             case 5:
                                 return qsTr("Slow");
+                            case 6:
+                                return qsTr("Liked");
+                            case 7:
+                                return qsTr("Shared");
                             default:
                                 return root.title;
                         }
@@ -59,7 +62,7 @@ KaktusPage {
 
             expandableArea {
                 content: SegmentedControl {
-                    preferredWidth: display.pixelSize.width
+                    preferredWidth: app.width
                     Option {
                         text: qsTr("All")
                         value: false
@@ -74,7 +77,9 @@ KaktusPage {
                         settings.showOnlyUnread = selectedValue;
                     }
                 }
-                expanded: true
+                //expanded: settings.viewMode == 4 || settings.viewMode == 6 ? false : true
+                expanded: false
+                indicatorVisibility: settings.viewMode == 4 || settings.viewMode == 6 ? TitleBarExpandableAreaIndicatorVisibility.Hidden : TitleBarExpandableAreaIndicatorVisibility.Default
                 toggleArea: TitleBarExpandableAreaToggleArea.EntireTitleBar
             }
         }
@@ -84,17 +89,6 @@ KaktusPage {
         AbstractItemModel {
             id: bbEntryModel
             sourceModel: entryModel
-        },
-        //Double click Timer
-        QTimer {
-            id: dclickTimer
-            singleShot: true
-            interval: 400
-            onTimeout: {
-                // One click
-                console.log("onTriggered: one");
-                oneClick();
-            }
         }
     ]
 
@@ -109,10 +103,10 @@ KaktusPage {
         Qt.barWasPresed = false;
         Qt.isLight = utils.isLight();
         
-        if (!settings.getHint1Done()) {
+        /*if (!settings.getHint1Done()) {
             notification.show(qsTr("One-tap to open article, double-tap to mark as read"));
             settings.setHint1Done(true);
-        }
+        }*/
     }
     
     onNeedToResetModel: {
@@ -131,7 +125,7 @@ KaktusPage {
     property variant chosenItem
     property int chosenIndex
     
-    function oneClick() {
+    function clickHandler() {
         // Not allowed while Syncing
         if (dm.busy || fetcher.busy || dm.removerBusy) {
             notification.show(qsTr("Please wait until current task is complete."));
@@ -203,7 +197,7 @@ KaktusPage {
             }
             
             function itemType(data, indexPath) {
-                return (data.uid == "daterow" ? 'header' : 'item');
+                return (data.uid == "daterow" ? 'header' : data.uid == 'last' ? 'last' : 'item');
             }
 
             listItemComponents: [
@@ -213,13 +207,25 @@ KaktusPage {
                         title: ListItemData.title
                     }
                 },
+                
+                ListItemComponent {
+                    type: "last"
+                                  
+                    Container {
+                        preferredWidth: Qt.app.width
+                        bottomPadding: Qt.utils.du(15)
+                    }
+                },
 
                 ListItemComponent {
                     type: "item"
                     
                     KaktusEntryItem {
                         id: item
-
+                        
+                        property bool showMarkedAsRead: Qt.settings.viewMode!=4 && 
+                                                        Qt.settings.viewMode!=6 && 
+                                                        Qt.settings.viewMode!=7
                         title: ListItemData.title
                         defaultFeedIcon: ListItemData.feedIcon === "http://s.theoldreader.com/icons/user_icon.png"
                         feedTitle: ListItemData.feedTitle
@@ -268,8 +274,10 @@ KaktusPage {
                         ListItem.onInitializedChanged: {
                             setIconBgColor();
                             var index = item.ListItem.indexInSection;
-                            if (index == Qt.entryModel.count() - 1) {
-                                Qt.entryModel.createItems(index + 1, Qt.settings.offsetLimit);
+                            // Last item is dummy, so checking count-2
+                            if (index == Qt.entryModel.count() - 2) {
+                                //console.log(">> index:",index,"uid:",ListItemData.uid,"title:",ListItemData.title);
+                                Qt.entryModel.createItems(index + 2, Qt.settings.offsetLimit);
                             }
                         }
                         
@@ -284,6 +292,7 @@ KaktusPage {
                             ActionSet {
                                 id: actionSet
                                 ActionItem {
+                                    id: markReadAction
                                     title: ListItemData.read == 0 ? qsTr("Mark as read") : qsTr("Mark as unread")
                                     enabled: ListItemData.read < 2
                                     imageSource: ListItemData.read == 0 ? "asset:///read.png" : "asset:///unread.png"
@@ -298,6 +307,25 @@ KaktusPage {
                                             //Qt.nav.top.refreshActions();
                                             return;
                                         }
+                                    }
+                                    
+                                    onCreationCompleted: {
+                                        if (!enabled)
+                                            actionSet.remove(markReadAction);   
+                                    }
+                                }
+                                ActionItem {
+                                    id: markAboveAction
+                                    title: qsTr("Mark above as read")
+                                    enabled: item.showMarkedAsRead && item.ListItem.indexInSection > 1
+                                    imageSource: "asset:///readabove.png"
+                                    onTriggered: {
+                                        Qt.entryModel.setAboveAsRead(item.ListItem.indexInSection);
+                                    }
+                                    
+                                    onCreationCompleted: {
+                                        if (!enabled)
+                                            actionSet.remove(markAboveAction);   
                                     }
                                 }
                                 ActionItem {
@@ -315,10 +343,41 @@ KaktusPage {
                                         }
                                     }
                                 }
+                                
+                                ActionItem {
+                                    id: likeAction
+                                    
+                                    property bool enabled2: Qt.settings.signinType >= 10 && 
+                                                            Qt.settings.signinType < 20 && 
+                                                            Qt.settings.showBroadcast
+                                    
+                                    title: ListItemData.liked ? qsTr("Unlike") : qsTr("Like")
+                                    enabled: enabled2 && !Qt.isLight
+                                    imageSource: ListItemData.liked == 0 ? "asset:///like.png" : "asset:///unlike.png"
+                                    onTriggered: {
+                                        if (!ListItemData.liked) {
+                                            Qt.entryModel.setData(item.ListItem.indexInSection, "liked", true, "");
+                                            return;
+                                        }
+                                        if (ListItemData.liked) {
+                                            Qt.entryModel.setData(item.ListItem.indexInSection, "liked", false, "");
+                                            return;
+                                        }
+                                    }
+                                    
+                                    onCreationCompleted: {
+                                        if (!enabled2)
+                                            actionSet.remove(likeAction);   
+                                    }
+                                }
+                                
                                 ActionItem {
                                     id: shareAction
                                     
-                                    property bool enabled2: Qt.settings.signinType >= 10 && ListItemData.feedId.substring(0,4) !== "user"
+                                    property bool enabled2: Qt.settings.signinType >= 10 && 
+                                                            Qt.settings.signinType < 20 && 
+                                                            Qt.settings.showBroadcast && 
+                                                            ListItemData.feedId.substring(0,4) !== "user"
                                     
                                     title: ListItemData.broadcast ? Qt.isLight ? qsTr("Unshare (only in pro edition)") : qsTr("Unshare") : Qt.isLight ? qsTr("Share (only in pro edition)") : qsTr("Share with followers")
                                     enabled: enabled2 && !Qt.isLight
@@ -346,10 +405,11 @@ KaktusPage {
             onTriggered: {
                 chosenItem = dataModel.data(indexPath);
                 chosenIndex = indexPath[0];
-                
-                if (chosenItem.uid == "daterow")
+ 
+                if (chosenItem.uid == "daterow" || chosenItem.uid == "last")
                     return;
 
+                // Expander clicked
                 if (Qt.barWasPressed) {
                     Qt.barWasPressed = false;
                     // Expander was clicked, so emitting colapse signal
@@ -357,6 +417,7 @@ KaktusPage {
                     return;
                 }
 
+                // Star cklicked
                 if (Qt.starWasPressed) {
                     Qt.starWasPressed = false;
                     if (chosenItem.readlater < 2) {
@@ -371,29 +432,9 @@ KaktusPage {
                     }
                     return;
                 }
-
-                //console.log("onTriggered");
-                if (dclickTimer.active) {
-                    //console.log("onTriggered: double");
-                    //console.log("image",chosenItem.image);
-                    // Double click
-                    dclickTimer.stop();
-                    // Marking as read / unread
-                    if (chosenItem.read < 2) {
-                        if (chosenItem.read == 0) {
-                            entryModel.setData(indexPath, "read", 1, "");
-                            Qt.nav.top.refreshActions();
-                            return;
-                        }
-                        if (chosenItem.read == 1) {
-                            entryModel.setData(indexPath, "read", 0, "");
-                            Qt.nav.top.refreshActions();
-                            return;
-                        }
-                    }
-                } else {
-                    dclickTimer.start();
-                }
+                
+                // Item cklicked
+                clickHandler();
             }
 
             accessibility.name: "Entry list"
@@ -401,8 +442,9 @@ KaktusPage {
         
         ViewPlaceholder {
             text: fetcher.busy ? qsTr("Wait until Sync finish.") :
-            settings.viewMode==4 ? settings.signinType<10 ? qsTr("No saved items") : qsTr("No starred items") :
-            settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+                  settings.viewMode==4 ? app.isNetvibes || app.isFeedly ? qsTr("No saved items") : qsTr("No starred items")  :
+                  settings.viewMode==6 ? qsTr("No liked items") : settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+            
             visible: bbEntryModel.count==0
         }
         

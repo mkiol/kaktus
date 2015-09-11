@@ -48,7 +48,7 @@ Page {
 
         Container {
 
-            preferredWidth: display.pixelSize.width
+            preferredWidth: app.width
             verticalAlignment: VerticalAlignment.Center
             
             Container {

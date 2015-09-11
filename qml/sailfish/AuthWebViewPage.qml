@@ -40,7 +40,7 @@ Page {
         if (code == 0) {
             fetcher.checkCredentials();
         } else {
-            if (! dm.busy)
+            if (dm.busy)
                 dm.cancel();
             if (doInit)
                 fetcher.init();

@@ -69,7 +69,7 @@ Page {
         id: textArea
         hintText: "Want to add a note?"
         input.submitKey: SubmitKey.Submit
-        preferredHeight: Qt.display.pixelSize.height
+        preferredHeight: Qt.app.height
     }
     
 }

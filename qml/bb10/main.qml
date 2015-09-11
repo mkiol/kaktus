@@ -23,10 +23,18 @@ import bb.device 1.2
 TabbedPane {
     id: app
     
+    property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
+    property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
+    property bool isFeedly: settings.signinType >= 20 && settings.signinType < 30
+    
+    property int width: display.pixelSize.width
+    property int height: display.pixelSize.height
+    
     showTabsOnActionBar: false
     
     onCreationCompleted: {
         settings.signedInChanged.connect(refreshTabs);
+        //settings.showBroadcastChanged.connect(refreshTabs);
         refreshTabs();
     }
     
@@ -40,17 +48,27 @@ TabbedPane {
         }
     }
     
-    onSidebarStateChanged: {
-        //console.log("onSidebarStateChanged",sidebarState);
-        //sidebarState = SidebarState.VisibleCompact
-    }
-
     attachedObjects: [
+        Guide {
+            id: guide
+        },
         KaktusNavigation {
             id: nav
         },
         Notification {
             id: notification
+        },
+        OrientationHandler {
+            onOrientationChanged: {
+                console.log("onOrientationChanged"); 
+                if (orientation == UIOrientation.Portrait) {
+                    app.width = display.pixelSize.width;
+                    app.height = display.pixelSize.height;
+                } else if (orientation == UIOrientation.Landscape) {
+                    app.height = display.pixelSize.width;
+                    app.width = display.pixelSize.height;
+                }
+            }
         },
         ComponentDefinition {
             id: kaktusTab
@@ -127,7 +145,12 @@ TabbedPane {
             addTab(1);
             addTab(3);
             addTab(4);
-            addTab(5);
+            
+            if (app.isNetvibes)
+                addTab(5);
+            else if (app.isOldReader && settings.showBroadcast)
+                addTab(6);
+                
             setActiveTab();
         } else {
             activeTab = addTab(settings.viewMode);
@@ -156,6 +179,8 @@ TabbedPane {
                 activeTab = tabs[3];
                 break;
             case 5:
+            case 6:
+            case 7:
                 activeTab = tabs[4];
                 break;
             default :

@@ -34,6 +34,8 @@ NavigationPane {
     
     property bool fetcherBusyStatus: false
     
+    //property int oldViewMode
+    
     onPopTransitionEnded: {
         if (nav.top.menuEnabled)
             Application.menuEnabled = true;
@@ -72,6 +74,7 @@ NavigationPane {
         Qt.cache = cache;
         Qt.dm = dm;
         Qt.display = display;
+        Qt.app = app;
         Qt.utils = utils;
         Qt.nav = nav;
         Qt.settings = settings;
@@ -84,6 +87,8 @@ NavigationPane {
         settings.dashboardInUseChanged.connect(resetView);
         settings.viewModeChanged.connect(resetView);
         settings.signedInChanged.connect(settingsSignedInChanged);
+        settings.showBroadcastChanged.connect(settingsShowBroadcastChanged);
+        settings.allowedOrientationsChanged.connect(settingsAllowedOrientationsChanged);
         
         settings.themeChanged.connect(setTheme);
         
@@ -93,6 +98,8 @@ NavigationPane {
         dm.busyChanged.connect(dmBusyChanged);
         dm.busyChanged.connect(dmBusyChanged);
         dm.removerBusyChanged.connect(dmRemoverBusyChanged);
+        
+        settingsAllowedOrientationsChanged();
 
         db.init();
     }
@@ -181,6 +188,32 @@ NavigationPane {
             fetcher.cancel(); dm.cancel();
             settings.reset();
             db.init();
+        } else {
+            if (!settings.helpDone) {
+                guide.open();
+            }
+        }
+    }
+    
+    function settingsShowBroadcastChanged() {
+        //console.log("settingsShowBroadcastChanged", settings.viewMode, settings.showBroadcast );
+        if (settings.viewMode > 5 && !settings.showBroadcast) {
+            settings.viewMode = 4;
+        }
+        
+        app.refreshTabs();
+    }
+    
+    function settingsAllowedOrientationsChanged() {
+        switch (settings.allowedOrientations) {
+            case 1:
+                OrientationSupport.supportedDisplayOrientation = SupportedDisplayOrientation.DisplayPortrait;
+                break;
+            case 2:
+                OrientationSupport.supportedDisplayOrientation = SupportedDisplayOrientation.DisplayLandscape;
+                break;
+            default:
+                OrientationSupport.supportedDisplayOrientation = SupportedDisplayOrientation.All;
         }
     }
     
@@ -265,11 +298,16 @@ NavigationPane {
                 var obj = oldReaderSignInDialog.createObject(); obj.code = code; nav.push(obj);
                 return;
             }
+            if (type == 20) {
+                var obj = feedlySignInDialog.createObject(); obj.code = code; nav.push(obj);
+                return;
+            }
             
             
         } else {
             // Unknown error
             notification.show(qsTr("An unknown error occurred! :-("));
+            resetView();
         }
     }
     
@@ -362,10 +400,12 @@ NavigationPane {
                 reconnectFetcher(1);
             else if (type == 10)
                 reconnectFetcher(2);
+            else if (type == 20)
+                reconnectFetcher(3);
         }
-        
+
         utils.setRootModel();
-        
+
         switch (settings.viewMode) {
             case 0:
             case 1:
@@ -379,10 +419,14 @@ NavigationPane {
             case 3:
             case 4:
             case 5:
+            case 6:
+            case 7:
                 nav.insert(0, entryPage.createObject());
                 nav.navigateTo(nav.at(0));
                 break;
         }
+
+        //oldViewMode = newViewMode;
     }
 
     attachedObjects: [
@@ -419,6 +463,10 @@ NavigationPane {
         ComponentDefinition {
             id: oldReaderSignInDialog
             source: "OldReaderSignInDialog.qml"
+        },
+        ComponentDefinition {
+            id: feedlySignInDialog
+            source: "FeedlySignInDialog.qml"
         },
         ComponentDefinition {
             id: tabPage

@@ -36,7 +36,7 @@ Page {
         var doInit = settings.signinType!=type;
         settings.signinType = type;
 
-        if (!dm.busy)
+        if (dm.busy)
             dm.cancel();
         if (doInit)
             fetcher.init();
@@ -94,9 +94,8 @@ Page {
                         progressIndicator.hide();
                         //notification.show(qsTr("Failed to load page content :-("));
                         // Do something here.....
-                        notification.show(qsTr("Failed to load page content :-("));
+                        //notification.show(qsTr("Failed to load page content :-("));
                         //nav.pop();
-                        break;
                     }
                 }
                 
@@ -116,7 +115,7 @@ Page {
             Container {
                 background: utils.plainBase()
                 preferredHeight: utils.du(0.25)
-                preferredWidth: display.pixelSize.width
+                preferredWidth: app.width
             }
             
             ProgressPanel {

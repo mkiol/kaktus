@@ -78,13 +78,6 @@ KaktusPage {
                 headerMode: ListHeaderMode.None
             }
 
-            /*leadingVisual: Container {
-                preferredHeight: 100
-                preferredWidth: 100
-                background: Color.Cyan
-            }*/
-            //preferredHeight: display.pixelSize.height-utils.du(10)
-            
             listItemComponents: [
                 ListItemComponent {
                     type: ""
@@ -133,7 +126,7 @@ KaktusPage {
                                     }
                                     
                                     onCreationCompleted: {
-                                        if (Qt.settings.signinType < 10)
+                                        if (Qt.app.isOldReader || Qt.app.isFeedly)
                                             actionSet.remove(unreadAction);   
                                     }
                                 }

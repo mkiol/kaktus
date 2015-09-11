@@ -86,6 +86,14 @@ Page {
     }
     
     attachedObjects: [
+        /*ActionItem {
+            id: guideAction
+            title: qsTr("Guide")
+            ActionBar.placement: ActionBarPlacement.OnBar
+            onTriggered: {
+                guide.open();
+            }
+        },*/
         ReadAllDialog {
             id: readAllDialog
             onOk: {
@@ -146,6 +154,7 @@ Page {
             removeAction(actions[0]);
         }
         
+        //addAction(guideAction);
         addAction(markAllAsReadAction);
         if (settings.signinType < 10)
             addAction(markAllAsUnreadAction);

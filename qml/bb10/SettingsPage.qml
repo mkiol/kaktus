@@ -46,7 +46,8 @@ Page {
         ScrollView {
             Container {
                 Header {
-                    title: settings.signinType < 10 ? "Netvibes" : "Old Reader"
+                    title: app.isNetvibes ? "Netvibes":
+                           app.isOldReader ? "Old Reader" : "Feedly"
                 }
 
                 Container {
@@ -57,7 +58,12 @@ Page {
 
                     TextLabel {
                         text: settings.signedIn ? qsTr("Signed in with") : qsTr("Not signed in")
-                        value: settings.signedIn ? settings.signinType == 0 ? settings.getUsername() : settings.signinType == 1 ? "Twitter" : settings.signinType == 2 ? "Facebook" : settings.signinType == 10 ? settings.getUsername() : "" : ""
+                        value: settings.signedIn ?
+                                settings.signinType==0 ? settings.getUsername() :
+                                settings.signinType==1 ? "Twitter" :
+                                settings.signinType==2 ? "Facebook" :
+                                settings.signinType==10 ? settings.getUsername() :
+                                settings.signinType==20 ? settings.getProvider() : "" : ""
                         enabled: settings.signedIn
                         buttonText: qsTr("Sign out")
                         onClicked: {
@@ -69,7 +75,7 @@ Page {
                         text: settings.signedIn && utils.defaultDashboardName() !== "" ? qsTr("Dashboard in use") : qsTr("Dashboard not selected")
                         value: settings.signedIn && utils.defaultDashboardName() !== "" ? utils.defaultDashboardName() : ""
                         buttonText: settings.signedIn ? qsTr("Change") : ""
-                        visible: settings.signinType < 10
+                        visible: app.isNetvibes
                         onClicked: {
                             utils.setDashboardModel();
                             nav.push(dashboardPage.createObject());
@@ -79,7 +85,6 @@ Page {
 
                 Header {
                     title: qsTr("Syncronization")
-                    visible: settings.signinType >= 10
                 }
 
                 Container {
@@ -87,11 +92,11 @@ Page {
                     rightPadding: utils.du(2)
                     topPadding: utils.du(2)
                     bottomPadding: utils.du(2)
-                    visible: settings.signinType >= 10
+                    visible: app.isOldReader || app.isFeedly
 
                     DropDown {
                         title: qsTr("Sync timeframe")
-                        enabled: settings.signinType >= 10
+                        enabled: app.isOldReader || app.isFeedly
 
                         selectedIndex: {
                             var retention = settings.getRetentionDays();
@@ -147,10 +152,21 @@ Page {
                         multiline: true
                         textStyle.base: SystemDefaults.TextStyles.SubtitleText
                         textStyle.color: utils.secondaryText()
-                        text: qsTr("Most recent articles will be syncronized according to the defined timeframe. " + "Regardless of the value, all starred, liked and shared items will be synced as well. " + "Be aware, this parameter has significant impact on the speed of synchronization.")
+                        text: qsTr("Most recent articles will be syncronized according to the defined timeframe.") + " " +
+                        (settings.signinType < 20 ? qsTr("Regardless of the value, all starred, liked and shared items will be synced as well.") : qsTr("Regardless of the value, all saved items will be synced as well.")) + " " +
+                        qsTr("Be aware, this parameter has significant impact on the speed of synchronization.")
+                    }
+                    
+                    ToggleComponent {
+                        text: qsTr("Sync read articles")
+                        description: qsTr("In addition to unread also read articles will be synced. Disabling this option will speed up synchronization, but read articles will not be accessible form Kaktus.")
+                        checked: settings.syncRead
+                        onCheckedChanged: {
+                            settings.syncRead = checked;
+                        }
                     }
                 }
-
+                
                 Header {
                     title: qsTr("Cache")
                 }
@@ -249,70 +265,25 @@ Page {
                     rightPadding: utils.du(2)
                     topPadding: utils.du(2)
                     bottomPadding: utils.du(2)
-
-                    /*DropDown {
-                     * title: qsTr("Language")
-                     * options: [
-                     * Option {
-                     * selected: settings.locale === ""
-                     * value: ""
-                     * text: qsTr("Default")
-                     * },
-                     * Option {
-                     * selected: settings.locale === "cs"
-                     * value: "cs"
-                     * text: "Čeština"
-                     * },
-                     * Option {
-                     * selected: settings.locale === "en"
-                     * value: "en"
-                     * text: "English"
-                     * },
-                     * Option {
-                     * selected: settings.locale === "fa"
-                     * value: "fa"
-                     * text: "فارسی"
-                     * },
-                     * Option {
-                     * selected: settings.locale === "nl"
-                     * value: "nl"
-                     * text: "Nederlands"
-                     * },
-                     * Option {
-                     * selected: settings.locale === "pl"
-                     * value: "pl"
-                     * text: "Polski"
-                     * },
-                     * Option {
-                     * selected: settings.locale === "ru"
-                     * value: "ru"
-                     * text: "Русский"
-                     * },
-                     * Option {
-                     * selected: settings.locale === "tr"
-                     * value: "tr"
-                     * text: "Türkçe"
-                     * }
-                     * ]
-                     * onSelectedOptionChanged: {
-                     * if (settings.locale != selectedOption.value) {
-                     * settings.locale = selectedOption.value;
-                     * notification.show(qsTr("Changes will take effect after you restart Kaktus."));
-                     * }
-                     * 
-                     * }
-                     }*/
-
-                    //ViewModeDropDown {}
-
-                    /*ToggleComponent {
-                     * text: qsTr("Show only unread articles")
-                     * checked: settings.showOnlyUnread
-                     * 
-                     * onCheckedChanged: {
-                     * settings.showOnlyUnread = checked;
-                     * }
-                     }*/
+                    
+                    DropDown {
+                        title: qsTr("Sort order for list of articles")
+                        options: [
+                            Option {
+                                selected: settings.showOldestFirst == value
+                                value: false
+                                text: qsTr("Recent first")
+                            },
+                            Option {
+                                selected: settings.showOldestFirst == value
+                                value: true
+                                text: qsTr("Oldest first")
+                            }
+                        ]
+                        onSelectedOptionChanged: {
+                            settings.showOldestFirst = selectedOption.value;
+                        }
+                    }
 
                     ToggleComponent {
                         text: qsTr("Read mode")
@@ -333,50 +304,24 @@ Page {
                             settings.showTabIcons = checked;
                         }
                     }
-
-                    /*ToggleComponent {
-                     * text: qsTr("Power save mode")
-                     * description: qsTr("When the phone or app goes to the idle state, " + "all opened web pages will be closed to lower power consumption.")
-                     * checked: settings.powerSaveMode
-                     * 
-                     * onCheckedChanged: {
-                     * settings.powerSaveMode = checked;
-                     * }
-                     }*/
-
-                    /*DropDown {
-                     * title: qsTr("Orientation")
-                     * options: [
-                     * Option {
-                     * selected: settings.allowedOrientations == value
-                     * value: 0
-                     * text: qsTr("Dynamic")
-                     * },
-                     * Option {
-                     * selected: settings.allowedOrientations == value
-                     * value: 1
-                     * text: qsTr("Portrait")
-                     * },
-                     * Option {
-                     * selected: settings.allowedOrientations == value
-                     * value: 2
-                     * text: qsTr("Landscape")
-                     * }
-                     * ]
-                     * onSelectedOptionChanged: {
-                     * settings.allowedOrientations = selectedOption.value;
-                     * }
-                     }*/
+                    
+                    ToggleComponent {
+                        text: qsTr("Enable social features")
+                        enabled: app.isOldReader
+                        checked: settings.showBroadcast
+                        description: qsTr("Following Old Reader's social features will be enabled: Following folder, Sharing article with followers, Like option, Liked tab.")
+                        
+                        onCheckedChanged: {
+                            settings.showBroadcast = checked;
+                        }
+                        
+                        visible: enabled
+                    }
 
                     DropDown {
                         title: qsTr("Theme")
                         visible: utils.checkOSVersion(10, 3)
                         options: [
-                            /*Option {
-                             * selected: settings.theme == value
-                             * value: 0
-                             * text: qsTr("Default")
-                             },*/
                             Option {
                                 selected: settings.theme == value
                                 value: 1
@@ -392,6 +337,30 @@ Page {
                             if (settings.theme != selectedOption.value)
                                 notification.show(qsTr("Changes will take effect after you restart Kaktus."));
                             settings.theme = selectedOption.value;
+                        }
+                    }
+                    
+                    DropDown {
+                        title: qsTr("Orientation")
+                        options: [
+                            Option {
+                                selected: settings.allowedOrientations == value
+                                value: 0
+                                text: qsTr("Dynamic")
+                            },
+                            Option {
+                                selected: settings.allowedOrientations == value
+                                value: 1
+                                text: qsTr("Portrait")
+                            },
+                            Option {
+                                selected: settings.allowedOrientations == value
+                                value: 2
+                                text: qsTr("Landscape")
+                            }
+                        ]
+                        onSelectedOptionChanged: {
+                            settings.allowedOrientations = selectedOption.value;
                         }
                     }
 
@@ -440,27 +409,27 @@ Page {
                 }
             }
 
-            /*Header {
+            Header {
                 title: qsTr("Other")
             }
 
             Container {
+                horizontalAlignment: HorizontalAlignment.Center
 
-                leftPadding: ui.du(2)
-                rightPadding: ui.du(2)
-                topPadding: ui.du(2)
-                bottomPadding: ui.du(2)
+                leftPadding: utils.du(2)
+                rightPadding: utils.du(2)
+                topPadding: utils.du(2)
+                bottomPadding: utils.du(2)
 
                 Button {
                     text: qsTr("Show User Guide")
 
                     onClicked: {
-                        //guide.show();
-                        notification.show("Not implemented yet :-(");
+                        guide.open();
                     }
                 }
 
-            }*/
+            }
 
         }
     }

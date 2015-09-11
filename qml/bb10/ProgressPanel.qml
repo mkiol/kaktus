@@ -33,9 +33,9 @@ Container {
 
     layout: DockLayout {}
     
-    preferredWidth: display.pixelSize.width
-    minWidth: display.pixelSize.width
-    maxWidth: display.pixelSize.width
+    preferredWidth: app.width
+    minWidth: app.width
+    maxWidth: app.width
     preferredHeight: utils.du(10)
     
     background: utils.plain()
@@ -118,9 +118,9 @@ Container {
         id: indicator
         horizontalAlignment: HorizontalAlignment.Left
         verticalAlignment: VerticalAlignment.Bottom
-        preferredWidth: display.pixelSize.width
-        minWidth: display.pixelSize.width
-        maxWidth: display.pixelSize.width
+        preferredWidth: app.width
+        minWidth: app.width
+        maxWidth: app.width
     }
 
 }

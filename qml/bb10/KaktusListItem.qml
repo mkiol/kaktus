@@ -63,7 +63,7 @@ Container {
         background: Qt.utils.plainBase()
         minHeight: 2
         maxHeight: minHeight
-        minWidth: Qt.display.pixelSize.width
+        minWidth: Qt.app.width
         maxWidth: minWidth
     }
     
@@ -88,7 +88,7 @@ Container {
         Container {
             layout: DockLayout {}
             
-            preferredWidth: Qt.display.pixelSize.width
+            preferredWidth: Qt.app.width
 
             Container {
                 rightPadding: Qt.utils.du(5)

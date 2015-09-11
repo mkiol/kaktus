@@ -39,7 +39,7 @@ Page {
     
     property variant g_settings: settings
     property double viewPort: settings.fontSize==1 ? 1.0 : settings.fontSize==2 ? 2.0 : 0.5
-    property int imgWidth: display.pixelSize.width / viewPort
+    property int imgWidth: app.width / viewPort
     
     signal updateViewPort
     
@@ -154,7 +154,7 @@ Page {
         ActionItem {
             title: stared ? settings.signinType < 10 ? qsTr("Unsave") : qsTr("Unstar") : settings.signinType < 10 ? qsTr("Save") : qsTr("Star") 
             ActionBar.placement: ActionBarPlacement.OnBar
-            imageSource: stared ? "asset:///star-selected.png" : "asset:///star.png"
+            imageSource: stared ? "asset:///unsave.png" : "asset:///save.png"
             onTriggered: {
                 entryModel.setData(index, "readlater", stared ? 0 : 1, "");
                 stared = !stared;
@@ -181,9 +181,30 @@ Page {
             }
         },
         ActionItem {
+            id: likeAction
+            property bool enabled2: app.isOldReader && settings.showBroadcast
+            title: root.liked ? 
+            Qt.isLight ? qsTr("Unlike (only in pro edition)") : qsTr("Unlike") : 
+            Qt.isLight ? qsTr("Like (only in pro edition)") : qsTr("Like")
+            enabled: enabled2 && !Qt.isLight
+            imageSource: root.liked ? "asset:///unlike.png" : "asset:///like.png"
+            onTriggered: {
+                entryModel.setData(index, "liked", !root.liked, "");
+                root.liked = !root.liked;
+            }
+            
+            onCreationCompleted: {
+                if (!enabled2)
+                    root.removeAction(likeAction);
+            }
+        },
+        ActionItem {
             id: shareAction
-            title: settings.signinType >= 10 ? root.broadcast ? Qt.isLight ? qsTr("Unshare (only in pro edition)") : qsTr("Unshare") : Qt.isLight ? qsTr("Share (only in pro edition)") : qsTr("Share with followers") : qsTr("Share with followers")
-            enabled: settings.signinType >= 10 && !Qt.isLight
+            property bool enabled2: app.isOldReader && settings.showBroadcast
+            title: root.broadcast ? 
+                Qt.isLight ? qsTr("Unshare (only in pro edition)") : qsTr("Unshare") : 
+                Qt.isLight ? qsTr("Share (only in pro edition)") : qsTr("Share with followers")
+            enabled: enabled2 && !Qt.isLight
             imageSource: root.broadcast ? "asset:///unsharefollowers.png" : "asset:///sharefollowers.png"
             onTriggered: {
                 if (root.broadcast) {
@@ -193,6 +214,11 @@ Page {
                     nav.push(obj);
                 }
                 root.broadcast = !root.broadcast;
+            }
+            
+            onCreationCompleted: {
+                if (!enabled2)
+                    root.removeAction(shareAction);
             }
         },
         ActionItem {
@@ -322,12 +348,6 @@ Page {
         Container {
             verticalAlignment: VerticalAlignment.Top
             horizontalAlignment: HorizontalAlignment.Left
-
-            /*Container {
-                background: utils.plainBase()
-                preferredHeight: utils.du(0.25)
-                preferredWidth: display.pixelSize.width
-            }*/
 
             ProgressPanel {
                 id: progressIndicator

@@ -375,10 +375,10 @@ ListItem {
             Item {
                 // Broadcast
                 anchors.left: parent.left; anchors.right: parent.right
-                visible: settings.showBroadcast && (!root.hidden || root.expanded) && (root.broadcast || root.annotations!="" || root.liked)
+                visible: settings.showBroadcast && (!root.hidden || root.expanded) && (root.broadcast || root.annotations!="")
                 height: Math.max(broadcastImage.height, broadcastLabel.height)
 
-                Image {
+                /*Image {
                     id: likeImage
                     visible: root.liked
                     anchors.left: parent.left; anchors.top: parent.top
@@ -386,12 +386,12 @@ ListItem {
                     height: Theme.iconSizeSmall
                     source: root.down ? "image://icons/like?"+Theme.secondaryHighlightColor :
                             root.hidden ? "image://icons/like?"+Theme.secondaryColor : "image://icons/like?"+Theme.primaryColor
-                }
+                }*/
 
                 Image {
                     id: broadcastImage
                     visible: root.broadcast || root.annotations!=""
-                    anchors.left: root.liked ? likeImage.right : parent.left; anchors.top: parent.top
+                    anchors.left: parent.left; anchors.top: parent.top
                     width: Theme.iconSizeSmall
                     height: Theme.iconSizeSmall
                     source: root.broadcast ? root.down ? "image://theme/icon-m-share?"+Theme.secondaryHighlightColor :

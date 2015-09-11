@@ -43,8 +43,10 @@ Page {
             onCreationCompleted: {
                 var nv = {name:"Netvibes", icon:"asset:///nv.png", type:1};
                 var or = {name:"Old Reader", icon:"asset:///oldreader.png", type:2};
+                var fe = {name:"Feedly", icon:"asset:///feedly.png", type:3};
                 theDataModel.append(nv);
                 theDataModel.append(or);
+                theDataModel.append(fe);
             }
             
             verticalAlignment: VerticalAlignment.Top
@@ -66,16 +68,24 @@ Page {
             onTriggered: {
                 var chosenItem = dataModel.data(indexPath);
                 if (chosenItem.type == 1) {
+                    // Netvibes
                     nav.reconnectFetcher(1);
                     var obj = nvSignInDialog.createObject(); obj.code = 400;
                     var index = nav.indexOf(nav.top);
                     nav.insert(index, obj); nav.navigateTo(nav.at(index)); 
                 }
                 if (chosenItem.type == 2) {
+                    // Old Reader
                     nav.reconnectFetcher(2);
                     var obj = oldReaderSignInDialog.createObject(); obj.code = 400;
                     var index = nav.indexOf(nav.top);
                     nav.insert(index, obj); nav.navigateTo(nav.at(index)); 
+                }
+                if (chosenItem.type == 3) {
+                    // Feedly
+                    nav.reconnectFetcher(3);
+                    utils.resetQtWebKit();
+                    fetcher.getConnectUrl(20);
                 }
             }
             

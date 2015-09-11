@@ -83,6 +83,7 @@ KaktusPage {
                         id: item
                         text: ListItemData.uid === "subscriptions" ? qsTr("Subscriptions") : 
                               ListItemData.uid === "friends" ? qsTr("Following") : 
+                              ListItemData === "global.uncategorized" ? qsTr("Uncategorized") :
                               ListItemData.title
                         imageSource: ListItemData.uid === "friends" ? Application.themeSupport.theme.colorTheme.style === VisualStyle.Bright ? "asset:///contact-text.png" : "asset:///contact.png" : ListItemData.iconUrl === "" ? "" : Qt.cache.getUrlbyUrl(ListItemData.iconUrl)
                         imageBackgroundVisible: false
@@ -126,7 +127,7 @@ KaktusPage {
                                     }
                                     
                                     onCreationCompleted: {
-                                        if (Qt.settings.signinType < 10)
+                                        if (Qt.app.isOldReader || Qt.app.isFeedly)
                                             actionSet.remove(unreadAction);   
                                     }
                                 }

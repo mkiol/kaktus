@@ -18,24 +18,12 @@
  */
 
 import bb.cascades 1.2
-import bb.system 1.0
 
-SystemDialog {
-    id: root
-    
-    signal ok
-    signal cancel
-    
-    title: qsTr("Signing out")
-    body: app.isNetvibes ? qsTr("Disconnect Kaktus from your Netvibes account?") :
-          app.isOldReader ? qsTr("Disconnect Kaktus from your Old Reader account?") :
-          app.isFeedly ? qsTr("Disconnect Kaktus from your Feedly account?") : ""
-    
-    onFinished: {
-        if (value==SystemUiResult.ConfirmButtonSelection) {
-            ok();
-            return;
-        }
-        cancel();
-    }
+ImageView {
+    property bool active
+    imageSource: active ? "asset:///dot-active.png" : "asset:///dot-inactive.png" 
+    preferredHeight: utils.du(5)
+    preferredWidth: utils.du(5)
+    minHeight: utils.du(5)
+    minWidth: utils.du(5)
 }

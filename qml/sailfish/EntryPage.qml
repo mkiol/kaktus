@@ -156,9 +156,9 @@ Page {
             Component.onCompleted: {
                 //console.log("image:",model.image);
                 // Dynamic creation of new items if last item is compleated
-                if (index==entryModel.count()-1) {
+                if (index==entryModel.count()-2) {
                     //console.log(index);
-                    entryModel.createItems(index+1,index+settings.offsetLimit);
+                    entryModel.createItems(index+2,index+settings.offsetLimit);
                 }
             }
 

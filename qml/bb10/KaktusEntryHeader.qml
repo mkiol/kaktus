@@ -23,11 +23,12 @@ import "const.js" as Theme
 
 Container {
     id: root
-
+    
     property alias title: titleLabel.text
     
     background: Qt.utils.background() //Qt.utils.plainBase()
-    preferredWidth: Qt.display.pixelSize.width
+    preferredWidth: Qt.app.width
+    
 
     layout: DockLayout {}
 
@@ -37,7 +38,7 @@ Container {
         background: Qt.utils.plainBase()
         minHeight: 2
         maxHeight: minHeight
-        minWidth: Qt.display.pixelSize.width
+        minWidth: Qt.app.width
         maxWidth: minWidth
     }
     
@@ -47,7 +48,7 @@ Container {
         background: Qt.utils.plainBase()
         minHeight: 1
         maxHeight: minHeight
-        minWidth: Qt.display.pixelSize.width
+        minWidth: Qt.app.width
         maxWidth: minWidth
     }
     

@@ -51,7 +51,7 @@ Container {
     signal starClicked
     
     background: pressed ? Qt.utils.plainBase() : Qt.utils.background()
-    preferredWidth: Qt.display.pixelSize.width
+    preferredWidth: Qt.app.width
     bottomPadding: last ? Qt.utils.du(15) : 0
     
     function setIconBgColor() {
@@ -83,7 +83,7 @@ Container {
         background: Qt.utils.plainBase()
         minHeight: 2
         maxHeight: minHeight
-        minWidth: Qt.display.pixelSize.width
+        minWidth: Qt.app.width
         maxWidth: minWidth
     }
     
@@ -162,7 +162,7 @@ Container {
 
                 Container {
                     verticalAlignment: VerticalAlignment.Top
-                    preferredWidth: Qt.display.pixelSize.width
+                    preferredWidth: Qt.app.width
                     Label {
                         id: titleLabel
                         textStyle.base: SystemDefaults.TextStyles.PrimaryText
@@ -200,7 +200,7 @@ Container {
         // Image
         Container {
             id: imageContainer
-            leftPadding: image.width<Qt.display.pixelSize.width-2*Qt.utils.du(2) ? Qt.utils.du(2) : 0
+            leftPadding: image.width<Qt.app.width-2*Qt.utils.du(2) ? Qt.utils.du(2) : 0
             topPadding: Qt.utils.du(2)
             bottomPadding: 0
             
@@ -210,8 +210,8 @@ Container {
                 id: image
                 doSizeCheck: true
                 scalingMethod: ScalingMethod.AspectFit
-                preferredWidth: image.width>Qt.display.pixelSize.width ? Qt.display.pixelSize.width : image.width
-                maxWidth: image.width>Qt.display.pixelSize.width ? Qt.display.pixelSize.width : image.width
+                preferredWidth: image.width>Qt.app.width ? Qt.app.width : image.width
+                maxWidth: image.width>Qt.app.width ? Qt.app.width : image.width
             }
         }
 
@@ -248,7 +248,10 @@ Container {
             }
             
             Container {
-                visible: (!root.hidden || root.expanded) && (root.annotations != "" || root.broadcast)
+                //visible: (!root.hidden || root.expanded) && (root.annotations != "" || root.broadcast)
+                
+                visible: Qt.settings.showBroadcast && (!root.hidden || root.expanded) && (root.broadcast || root.annotations!="")
+                
                 layout: StackLayout {
                     orientation: LayoutOrientation.LeftToRight
                 }
@@ -262,11 +265,21 @@ Container {
                 ]
                 background: border.imagePaint*/
                 
+                /*ImageView {
+                    preferredHeight: Qt.utils.du(6)
+                    preferredWidth: Qt.utils.du(6)
+                    minHeight: Qt.utils.du(6)
+                    minWidth: Qt.utils.du(6)
+                    visible: root.liked
+                    imageSource: Application.themeSupport.theme.colorTheme.style == VisualStyle.Bright ? "asset:///like-text.png" : "asset:///like.png"
+                }*/
+ 
                 ImageView {
                     preferredHeight: Qt.utils.du(6)
                     preferredWidth: Qt.utils.du(6)
                     minHeight: Qt.utils.du(6)
                     minWidth: Qt.utils.du(6)
+                    visible: root.broadcast || root.annotations != ""
                     imageSource: root.broadcast ?
                     Application.themeSupport.theme.colorTheme.style == VisualStyle.Bright ? "asset:///share-text.png" : "asset:///share.png" :
                     Application.themeSupport.theme.colorTheme.style == VisualStyle.Bright ? "asset:///comment-text.png" : "asset:///comment.png"
@@ -331,7 +344,7 @@ Container {
 
                 Label {
                     verticalAlignment: VerticalAlignment.Center
-                    preferredWidth: Qt.display.pixelSize.width
+                    preferredWidth: Qt.app.width
                     textStyle.base: SystemDefaults.TextStyles.SubtitleText
                     textStyle.fontWeight: FontWeight.W100
                     textStyle.color: root.hidden ? Qt.utils.secondaryText() : Qt.utils.text()
