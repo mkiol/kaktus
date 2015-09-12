@@ -154,11 +154,11 @@ Page {
             objectName: "EntryDelegate"
 
             Component.onCompleted: {
-                //console.log("image:",model.image);
-                // Dynamic creation of new items if last item is compleated
+                //Dynamic creation of new items if last item is compleated
+                //console.log("index:",index,"count:",entryModel.count());
                 if (index==entryModel.count()-2) {
-                    //console.log(index);
-                    entryModel.createItems(index+2,index+settings.offsetLimit);
+                    //console.log("index==entryModel.count()-2");
+                    entryModel.createItems(index+2,settings.offsetLimit);
                 }
             }
 
