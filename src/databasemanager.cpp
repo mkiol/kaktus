@@ -2947,6 +2947,14 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByTab(const QStr
     if (db.isOpen()) {
         QSqlQuery query(db);
 
+        /*qDebug() << QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, s.title, e.annotations, s.id, "
+                            "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.broadcast, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
+                            "FROM entries as e, streams as s, module_stream as ms, modules as m "
+                            "WHERE e.stream_id=ms.stream_id AND e.stream_id=s.id AND ms.module_id=m.id "
+                            "AND m.tab_id='%1' "
+                            "AND e.read=0 ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
+              .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC");*/
+
         bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, s.icon, s.title, e.annotations, s.id, "
                                       "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.broadcast, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
                                       "FROM entries as e, streams as s, module_stream as ms, modules as m "
@@ -2985,6 +2993,7 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByTab(const QStr
             item.crawlTime = query.value(21).toInt();
             list.append(item);
         }
+
     } else {
         qWarning() << "DB is not open!";
     }

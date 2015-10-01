@@ -472,7 +472,7 @@ void Settings::setOffsetLimit(int value)
 
 int Settings::getOffsetLimit()
 {
-    return settings.value("offsetLimit", 20).toInt();
+    return settings.value("offsetLimit", 100).toInt();
 }
 
 QString Settings::getSettingsDir()

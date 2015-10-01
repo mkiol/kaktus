@@ -597,7 +597,7 @@ Page {
             }
 
             TextSwitch {
-                text: qsTr("Enable social features")
+                text: qsTr("Social features")
                 enabled: app.isOldReader
                 description: qsTr("Following Old Reader's social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.")
                 onCheckedChanged: {

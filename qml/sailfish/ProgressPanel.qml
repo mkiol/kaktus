@@ -67,12 +67,11 @@ Item {
         anchors.left: parent.left; anchors.right: parent.right
         //anchors.fill: parent
         //fillMode: Image.PreserveAspectFit
-        source: "image://theme/graphic-gradient-home-top?"+Theme.highlightBackgroundColor
+        source: "image://theme/graphic-gradient-edge?"+Theme.highlightBackgroundColor
         //source: "image://theme/graphic-gradient-home-bottom?"+Theme.highlightBackgroundColor
         //source: "image://theme/graphic-gradient-edge?"+Theme.highlightBackgroundColor
         //source: "image://theme/graphic-keyboard-highlight-top?"+Theme.highlightBackgroundColor
         visible: root.transparent
-        opacity: 0.8
     }
 
     Rectangle {

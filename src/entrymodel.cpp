@@ -102,8 +102,10 @@ int EntryModel::createItems(int offset, int limit)
     if (offset > 0) {
         int dummyRowsCount = 0;
         int l = this->rowCount();
+        //qDebug() << "this->rowCount():" << l;
         for (int i = 0; i < l; ++i) {
             EntryItem* item = static_cast<EntryItem*>(readRow(i));
+            //qDebug() << item->id();
             if (item->id()=="last" || item->id()=="daterow") {
                 ++dummyRowsCount;
             }
@@ -449,14 +451,15 @@ void EntryModel::setAboveAsRead(int index)
 {
     Settings *s = Settings::instance();
 
+    int a = index <= idsOnActionLimit ? 0 : index - idsOnActionLimit;
+
     QString itemIds;
     QString feedIds;
     QString dates;
 
     bool ok = false;
-    int l = qMin(this->rowCount(),index);
-    for (int i=0; i<=l; ++i) {
-        EntryItem* item = static_cast<EntryItem*>(readRow(i));
+    for (a; a <= index; ++a) {
+        EntryItem* item = static_cast<EntryItem*>(readRow(a));
         QString id = item->id();
         if (id != "daterow" && id != "last" && item->read() == 0) {
             item->setRead(1);
@@ -465,7 +468,6 @@ void EntryModel::setAboveAsRead(int index)
             feedIds.append(QString("%1&").arg(item->feedId()));
             dates.append(QString("%1&").arg(item->date()));
             ok = true;
-            //qDebug() << "id:" << id << "feedId:" << item->feedId() << "date:" << item->date();
         }
     }
 
@@ -473,11 +475,6 @@ void EntryModel::setAboveAsRead(int index)
         itemIds.remove(itemIds.length()-1,1);
         feedIds.remove(feedIds.length()-1,1);
         dates.remove(dates.length()-1,1);
-
-        //qDebug() << "itemIds:" << itemIds;
-        //qDebug() << "feedIds" << feedIds;
-        //qDebug() << "dates" << dates;
-
         DatabaseManager::Action action;
         action.type = DatabaseManager::SetListRead;
         action.id1 = itemIds;
@@ -485,6 +482,10 @@ void EntryModel::setAboveAsRead(int index)
         action.id3 = dates;
         s->db->writeAction(action);
     }
+
+    if (index > idsOnActionLimit)
+        setAboveAsRead(index - idsOnActionLimit - 1);
+
 }
 
 int EntryModel::countRead()

@@ -163,7 +163,7 @@ Page {
             }
 
             onClicked: {
-                //console.log("id",model.uid);
+                //console.log("id",model.uid, "date", model.date);
                 if (timer.running) {
                     // Double click
                     timer.stop();

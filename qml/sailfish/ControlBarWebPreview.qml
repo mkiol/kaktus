@@ -105,7 +105,7 @@ Item {
     Image {
         anchors.fill: parent
         //fillMode: Image.PreserveAspectFit
-        source: "image://theme/graphic-gradient-home-top"
+        source: "image://theme/graphic-gradient-edge"
         visible: root.transparent
     }
 
@@ -159,7 +159,7 @@ Item {
             IconButton {
                 width: back.width; height: back.height
                 visible: root.canOpenBrowser
-                icon.source: "image://theme/icon-m-region?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                icon.source: "image://icons/browser?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
                 onClicked: {root.browserClicked();show();}
             }
 

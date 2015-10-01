@@ -92,13 +92,8 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeExtraSmall
-                text: PAGE
+                text: "<u>%1</u>".arg(PAGE)
                 textFormat: Text.StyledText
-                /*text: "<a href='%1'>%2</a>".arg(PAGE).arg(PAGE)
-                onLinkActivated: {
-                    notification.show(qsTr("Launching an external browser..."));
-                    Qt.openUrlExternally(link);
-                }*/
 
                 MouseArea {
                     anchors.fill: parent

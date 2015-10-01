@@ -222,6 +222,7 @@ void OldReaderFetcher::setAction()
     // Headers
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
+    request.setRawHeader("Content-Encoding", "gzip");
 
     currentReply = nam.post(request,body.toUtf8());
 
@@ -692,7 +693,7 @@ void OldReaderFetcher::finishedFeeds2()
     proggressTotal = s->getRetentionDays() > 0 ? log(s->getRetentionDays()) + 4 : 5;
     proggress = 1;
     lastDate = 0;
-    qDebug() << "finishedFeeds2" << "proggress" << proggress << "log(s->getRetentionDays())" << log(s->getRetentionDays()) << "proggressTotal" << proggressTotal;
+    //qDebug() << "finishedFeeds2" << "proggress" << proggress << "log(s->getRetentionDays())" << log(s->getRetentionDays()) << "proggressTotal" << proggressTotal;
     //emit progress(proggress, proggressTotal);
 
     /*if (busyType == Fetcher::Updating)

@@ -305,6 +305,7 @@ void NvFetcher::fetchFeedsUpdate()
     QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
 
     currentReply = nam.post(request, content.toUtf8());
+
     connect(currentReply, SIGNAL(finished()), this, SLOT(finishedFeedsUpdate()));
     connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
@@ -375,6 +376,7 @@ void NvFetcher::setAction()
     }
 
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
+    request.setRawHeader("Content-Encoding", "gzip");
     setCookie(request, s->getCookie().toLatin1());
 
     QString actions = "[";
@@ -507,11 +509,10 @@ void NvFetcher::setAction()
 
     actions += "]";
 
-    //qDebug() << "actions:" << actions;
     QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
-    //qDebug() << "content:" << content;
 
     currentReply = nam.post(request, content.toUtf8());
+
     connect(currentReply, SIGNAL(finished()), this, SLOT(finishedSetAction()));
     connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));

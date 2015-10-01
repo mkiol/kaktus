@@ -238,37 +238,37 @@ Network connection is unavailable.</source>
 <context>
     <name>EntryModel</name>
     <message>
-        <location filename="../src/entrymodel.cpp" line="208"/>
+        <location filename="../src/entrymodel.cpp" line="239"/>
         <source>Today</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="211"/>
+        <location filename="../src/entrymodel.cpp" line="242"/>
         <source>Yesterday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="214"/>
+        <location filename="../src/entrymodel.cpp" line="245"/>
         <source>Current week</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="217"/>
+        <location filename="../src/entrymodel.cpp" line="248"/>
         <source>Current month</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="220"/>
+        <location filename="../src/entrymodel.cpp" line="251"/>
         <source>Previous month</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="223"/>
+        <location filename="../src/entrymodel.cpp" line="254"/>
         <source>Current year</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="226"/>
+        <location filename="../src/entrymodel.cpp" line="257"/>
         <source>Previous year &amp; older</source>
         <translation type="unfinished"></translation>
     </message>
@@ -856,6 +856,11 @@ on the settings page.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="315"/>
+        <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="578"/>
         <source>Read mode</source>
         <translation type="unfinished"></translation>
@@ -863,11 +868,6 @@ on the settings page.</source>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="579"/>
         <source>Web pages will be reformatted into an easy to read version.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="600"/>
-        <source>Enable social features</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -933,11 +933,6 @@ on the settings page.</source>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="281"/>
         <source>Network mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="315"/>
-        <source>After sync the content of all items will be downloaded and cached for access in the Offline mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1023,6 +1018,11 @@ on the settings page.</source>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="259"/>
         <source>Current cache size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="600"/>
+        <source>Social features</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1131,6 +1131,8 @@ on the settings page.</source>
     </message>
     <message>
         <location filename="../qml/sailfish/TabPage.qml" line="95"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="193"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="197"/>
         <source>Uncategorized</source>
         <translation type="unfinished"></translation>
     </message>

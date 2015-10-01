@@ -572,6 +572,9 @@ QString Utils::getHumanFriendlyTimeString(int date)
     //qDebug() << "QDateTime::currentDateTimeUtc()" << QDateTime::currentDateTimeUtc();
     //qDebug() << "qdate.secsTo(QDateTime::currentDateTimeUtc())" << secs;
 
+    if (secs<=-18000) {
+        return tr("unknown date");
+    }
     if (secs<=0) {
         return tr("just now");
     }

@@ -344,37 +344,37 @@ Brak połączenia sieciowego.</translation>
 <context>
     <name>EntryModel</name>
     <message>
-        <location filename="../src/entrymodel.cpp" line="208"/>
+        <location filename="../src/entrymodel.cpp" line="239"/>
         <source>Today</source>
         <translation>Dzisiaj</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="211"/>
+        <location filename="../src/entrymodel.cpp" line="242"/>
         <source>Yesterday</source>
         <translation>Wczoraj</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="214"/>
+        <location filename="../src/entrymodel.cpp" line="245"/>
         <source>Current week</source>
         <translation>Obecny tydzień</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="217"/>
+        <location filename="../src/entrymodel.cpp" line="248"/>
         <source>Current month</source>
         <translation>Obecny miesiąc</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="220"/>
+        <location filename="../src/entrymodel.cpp" line="251"/>
         <source>Previous month</source>
         <translation>Poprzedni miesiąc</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="223"/>
+        <location filename="../src/entrymodel.cpp" line="254"/>
         <source>Current year</source>
         <translation>Obecny rok</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="226"/>
+        <location filename="../src/entrymodel.cpp" line="257"/>
         <source>Previous year &amp; older</source>
         <translation>Poprzedni rok oraz starsze</translation>
     </message>
@@ -1396,6 +1396,11 @@ Brak połączenia sieciowego</translation>
         <translation>Zawsze</translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="315"/>
+        <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
+        <translation>Każdorazowo podczas aktualizacji, treść artykułów będzie pobierana i zapisywana lokalnie, tak aby była dostępna podczas pracy w trybie offline.</translation>
+    </message>
+    <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="578"/>
         <source>Read mode</source>
         <translation>Tryb Czytnika</translation>
@@ -1406,14 +1411,13 @@ Brak połączenia sieciowego</translation>
         <translation>Strony zostaną przeformatowane tak aby były łatwiejsze do czytania.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="600"/>
         <source>Enable social features</source>
-        <translation>Funkcje społecznościowe</translation>
+        <translation type="vanished">Funkcje społecznościowe</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="602"/>
         <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
-        <translation>Następujące funkcje zostaną włączone: folder Obserwowani, udostępnianie obserwującym, opcja Lubię, tryb przeglądania tylko polubionych artykułów.</translation>
+        <translation>Następujące funkcje zostaną włączone: Folder obserwowani, Udostępnianie obserwującym, Opcja Lubię, Tryb przeglądania tylko polubionych artykułów.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="667"/>
@@ -1476,9 +1480,8 @@ Brak połączenia sieciowego</translation>
         <translation>Tryb sieci</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="315"/>
         <source>After sync the content of all items will be downloaded and cached for access in the Offline mode.</source>
-        <translation>Każdorazowo podczas aktualizacji, treść artykułów będzie pobierana i zapisywana lokalnie, tak aby była dostępna podczas pracy w trybie Offline.</translation>
+        <translation type="vanished">Każdorazowo podczas aktualizacji, treść artykułów będzie pobierana i zapisywana lokalnie, tak aby była dostępna podczas pracy w trybie Offline.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="326"/>
@@ -1607,6 +1610,11 @@ Brak połączenia sieciowego</translation>
         <location filename="../qml/sailfish/SettingsPage.qml" line="553"/>
         <source>Oldest first</source>
         <translation>Najstarsze są pierwsze</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="600"/>
+        <source>Social features</source>
+        <translation>Funkcje społecznościowe</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="612"/>
@@ -1869,6 +1877,8 @@ Brak połączenia sieciowego</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/TabPage.qml" line="95"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="193"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="197"/>
         <source>Uncategorized</source>
         <translation>Bez kategorii</translation>
     </message>

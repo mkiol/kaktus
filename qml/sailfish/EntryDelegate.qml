@@ -498,7 +498,7 @@ ListItem {
             }
 
             MenuItem {
-                visible: box.expandable
+                visible: box.expandable && root.expanded
                 text: root.expanded ? qsTr("Collapse") : qsTr("Expand")
                 onClicked: {
                     root.expanded = !root.expanded;

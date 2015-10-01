@@ -235,11 +235,12 @@ void FeedlyFetcher::setAction()
         return;
     }
 
-    qDebug() << "body:" << body;
+    //qDebug() << "body:" << body;
 
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Authorization",QString("OAuth %1").arg(s->getCookie()).toLatin1());
+    request.setRawHeader("Content-Encoding", "gzip");
 
     currentReply = nam.post(request,body.toUtf8());
 
@@ -619,8 +620,7 @@ void FeedlyFetcher::finishedFeeds2()
 {
     // Proggres initiating, one step is one day
     Settings *s = Settings::instance();
-    //proggressTotal = s->getRetentionDays() > 0 ? log(s->getRetentionDays()) + 1 : 2;
-    proggressTotal = s->getRetentionDays() > 0 ? s->getRetentionDays() + 1 : 2;
+    proggressTotal = s->getRetentionDays() > 0 ? log(s->getRetentionDays()) + 1 : 2;
     proggress = 1;
     lastDate = 0;
     emit progress(proggress, proggressTotal);
@@ -654,9 +654,9 @@ void FeedlyFetcher::finishedStream2()
         }
     }
 
-    double _proggresDelta = lastDate;
-    //if (lastDate > 0)
-    //    _proggresDelta = log(lastDate);
+    double _proggresDelta = 0;
+    if (lastDate > 0)
+        _proggresDelta = log(lastDate);
     emit progress(proggress + _proggresDelta, proggressTotal);
 
     if (lastContinuation == "" ||
