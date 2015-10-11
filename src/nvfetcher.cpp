@@ -320,45 +320,30 @@ void NvFetcher::setAction()
 
     QUrl url;
 
+    //qDebug() << "action type:" << action.type;
+    //qDebug() << "action id1:" << action.id1;
+
     switch (action.type) {
     case DatabaseManager::SetRead:
-        url.setUrl("http://www.netvibes.com/api/streams/read/add");
-        break;
     case DatabaseManager::SetListRead:
-        url.setUrl("http://www.netvibes.com/api/streams/read/add");
+    case DatabaseManager::SetStreamReadAll:
+    case DatabaseManager::SetTabReadAll:
+    case DatabaseManager::SetAllRead:
+    case DatabaseManager::SetSlowRead:
+        url.setUrl("http://www.netvibes.com/api/streams/read/add?pageId="+s->getDashboardInUse());
         break;
     case DatabaseManager::SetSaved:
-        url.setUrl("http://www.netvibes.com/api/streams/saved/add");
-        break;
-    case DatabaseManager::UnSetRead:
-        url.setUrl("http://www.netvibes.com/api/streams/read/remove");
+        url.setUrl("http://www.netvibes.com/api/streams/saved/add?pageId="+s->getDashboardInUse());
         break;
     case DatabaseManager::UnSetSaved:
-        url.setUrl("http://www.netvibes.com/api/streams/saved/remove");
+        url.setUrl("http://www.netvibes.com/api/streams/saved/remove?pageId="+s->getDashboardInUse());
         break;
+    case DatabaseManager::UnSetRead:
     case DatabaseManager::UnSetStreamReadAll:
-        url.setUrl("http://www.netvibes.com/api/streams/read/remove");
-        break;
-    case DatabaseManager::SetStreamReadAll:
-        url.setUrl("http://www.netvibes.com/api/streams/read/add");
-        break;
     case DatabaseManager::UnSetTabReadAll:
-        url.setUrl("http://www.netvibes.com/api/streams/read/remove");
-        break;
-    case DatabaseManager::SetTabReadAll:
-        url.setUrl("http://www.netvibes.com/api/streams/read/add");
-        break;
     case DatabaseManager::UnSetAllRead:
-        url.setUrl("http://www.netvibes.com/api/streams/read/remove");
-        break;
-    case DatabaseManager::SetAllRead:
-        url.setUrl("http://www.netvibes.com/api/streams/read/add");
-        break;
     case DatabaseManager::UnSetSlowRead:
-        url.setUrl("http://www.netvibes.com/api/streams/read/remove");
-        break;
-    case DatabaseManager::SetSlowRead:
-        url.setUrl("http://www.netvibes.com/api/streams/read/add");
+        url.setUrl("http://www.netvibes.com/api/streams/read/remove?pageId="+s->getDashboardInUse());
         break;
     default:
         // Unknown action -> skiping
@@ -487,11 +472,14 @@ void NvFetcher::setAction()
         actions += QString("{\"streams\":[{\"id\":\"%1\",\"items\":[{"
                            "\"id\":\"%2\",\"publishedAt\":%3}]}]}")
                 .arg(action.id2).arg(action.id1).arg(action.date1);
+
+        qDebug() << actions;
     }
 
     if (action.type == DatabaseManager::SetListRead) {
         actions += "{\"streams\":[";
 
+        //qDebug() << action.id1;
         QStringList idList = action.id1.split("&");
         QStringList fidList = action.id2.split("&");
         QStringList dateList = action.id3.split("&");
@@ -501,6 +489,7 @@ void NvFetcher::setAction()
         while (i != idList.end() && fi != fidList.end() && di != dateList.end()) {
             actions += QString("{\"id\":\"%1\",\"items\":[{\"id\":\"%2\",\"publishedAt\":%3}]},")
                     .arg(*fi,*i,*di);
+            //qDebug() << *fi << *i;
             ++i; ++fi; ++di;
         }
         actions.remove(actions.length()-1,1);
@@ -509,7 +498,11 @@ void NvFetcher::setAction()
 
     actions += "]";
 
+    //qDebug() << "actions:" << actions;
+
     QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
+    //QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
+
 
     currentReply = nam.post(request, content.toUtf8());
 
@@ -963,12 +956,21 @@ void NvFetcher::finishedSetAction()
 
         //qDebug() << data;
         if (currentReply->error()) {
-            emit error(500);
-            setBusy(false);
-            return;
-        }
 
-        if(!parse()) {
+            if (currentReply->error() == QNetworkReply::OperationCanceledError ||
+                currentReply->error() == QNetworkReply::TimeoutError ) {
+
+                setBusy(false);
+                return;
+            }
+
+            qWarning() << "Unknown error in setAction reply!";
+
+            //emit error(500);
+            //setBusy(false);
+            //return;
+
+        } else if (!parse()) {
             qWarning() << "Error parsing Json!";
             emit error(600);
             setBusy(false);
@@ -1315,11 +1317,11 @@ int NvFetcher::storeFeeds()
                         if (obj["error"].isObject()) {
                             int code = (int) obj["error"].toObject()["code"].toDouble();
                             if (code != 204) {
-                                qWarning() << "Nested error in Netvibes response!";
-                                qWarning() << "Code:" << code;
-                                qWarning() << "Message:" << obj["error"].toObject()["message"].toString();
-                                qWarning() << "JSON obj:" << obj;
-                                qWarning() << "id:" << obj["id"].toString();
+                                qWarning() << "Nested error in Netvibes response!" <<
+                                              "Code:" << code << "Message:" <<
+                                              obj["error"].toObject()["message"].toString();
+                                //qWarning() << "JSON obj:" << obj;
+                                //qWarning() << "id:" << obj["id"].toString();
                             }
                         }
 #else
@@ -1466,6 +1468,8 @@ int NvFetcher::storeFeeds()
                         e.publishedAt = obj["publishedAt"].toDouble();
                         e.createdAt = obj["createdAt"].toDouble();
                         e.fresh = 1;
+                        e.broadcast = 0;
+                        e.annotations = "";
 
                         // Downloading image file
                         if (s->getCachingMode() == 2 || (s->getCachingMode() == 1 && s->dm->isWLANConnected())) {

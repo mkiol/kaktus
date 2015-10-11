@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    2.1
-Release:    5
+Release:    6
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,9 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Sat Oct 10 2015 Michal Kosciesza 2.1-6
+- BUG FIX: "Unknown error" while syncing Netvibes account
 
 * Wed Sep 30 2015 Michal Kosciesza 2.1-5
 - Polishing for Sailfish 2.0

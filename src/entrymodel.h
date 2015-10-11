@@ -153,7 +153,7 @@ signals:
     void ready();
 
 private:
-   const int idsOnActionLimit = 100;
+   static const int idsOnActionLimit = 100;
    DatabaseManager* _db;
    QString _feedId;
 

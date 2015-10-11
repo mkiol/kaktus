@@ -375,7 +375,7 @@ ListItem {
             Item {
                 // Broadcast
                 anchors.left: parent.left; anchors.right: parent.right
-                visible: settings.showBroadcast && (!root.hidden || root.expanded) && (root.broadcast || root.annotations!="")
+                visible: app.isOldReader && settings.showBroadcast && (!root.hidden || root.expanded) && (root.broadcast || root.annotations!="")
                 height: Math.max(broadcastImage.height, broadcastLabel.height)
 
                 /*Image {
@@ -501,6 +501,15 @@ ListItem {
                 visible: box.expandable && root.expanded
                 text: root.expanded ? qsTr("Collapse") : qsTr("Expand")
                 onClicked: {
+
+                    /*console.log("settings.showBroadcast",settings.showBroadcast);
+                    console.log("root.hidden",root.hidden);
+                    console.log("root.expanded",root.expanded);
+                    console.log("root.broadcast",root.broadcast);
+                    console.log("root.annotations \""+root.annotations+"\"");
+                    console.log("value",settings.showBroadcast && (!root.hidden || root.expanded) && (root.broadcast || root.annotations!=""));
+                    */
+
                     root.expanded = !root.expanded;
                 }
             }

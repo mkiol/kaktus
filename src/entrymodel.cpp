@@ -261,7 +261,7 @@ int EntryModel::createItems(int offset, int limit)
             }
         }
         prevDateRow = dateRow;
-        //qDebug() << "(*i).broadcast" << (*i).broadcast;
+        //qDebug() << "(*i).broadcast" << (*i).broadcast << ((*i).broadcast==1);
         //qDebug() << (*i).id << (*i).link;
         appendRow(new EntryItem((*i).id,
                                 title.remove(re),
