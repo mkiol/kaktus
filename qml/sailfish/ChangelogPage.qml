@@ -51,6 +51,15 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("2.2")
+            }
+
+            LogItem {
+                title: 'Open articles in browser'
+                description: "Option to open articles directly in default web browser instead built-in web viewer.";
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("2.1")
             }
 

@@ -38,6 +38,19 @@ Page {
     property string title
     property int index
 
+    function navigate(url) {
+        var hcolor = Theme.highlightColor.toString().substr(1, 6);
+        var shcolor = Theme.secondaryHighlightColor.toString().substr(1, 6);
+        var imgWidth = settings.fontSize == 1 ? root.width/(1.5) : settings.fontSize == 2 ? root.width/(2.0) : root.width;
+        return url+"?fontsize=18px&width="+imgWidth+"&highlightColor="+hcolor+"&secondaryHighlightColor="+shcolor+"&margin="+Theme.paddingMedium;
+    }
+
+    function openInExaternalBrowser(index, link, uid) {
+        entryModel.setData(index, "read", 1, "");
+        notification.show(qsTr("Launching an external browser..."));
+        Qt.openUrlExternally(settings.offlineMode ? navigate(cache.getUrlbyId(uid)) : link);
+    }
+
     ActiveDetector {
         onInit: { bar.flick = listView;}
     }
@@ -220,6 +233,12 @@ Page {
                     }
 
                     expanded = false;
+
+                    if (settings.openInBrowser) {
+                        openInExaternalBrowser(model.index, model.link, model.uid);
+                        return;
+                    }
+
                     var onlineUrl = model.link;
                     var offlineUrl = cache.getUrlbyId(model.uid);
                     pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),
@@ -286,6 +305,36 @@ Page {
 
             onMarkedAboveAsRead: {
                 entryModel.setAboveAsRead(model.index);
+            }
+
+            onOpenInBrowser: {
+                // Not allowed while Syncing
+                if (dm.busy || fetcher.busy || dm.removerBusy) {
+                    notification.show(qsTr("Please wait until current task is complete."));
+                    return;
+                }
+
+                // Entry not cached and offline mode enabled
+                if (settings.offlineMode && !model.cached) {
+                    notification.show(qsTr("Offline version not available."));
+                    return;
+                }
+
+                // Switch to Offline mode if no network
+                if (!settings.offlineMode && !dm.online) {
+                    if (model.cached) {
+                        // Entry cached
+                        notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode."));
+                        settings.offlineMode = true;
+                    } else {
+                        // Entry not cached
+                        notification.show(qsTr("Network connection is unavailable."));
+                        return;
+                    }
+                }
+
+                openInExaternalBrowser(model.index, model.link, model.uid);
+
             }
         }
 

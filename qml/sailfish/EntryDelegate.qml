@@ -60,6 +60,7 @@ ListItem {
     signal markedLike
     signal unmarkedLike
     signal markedAboveAsRead
+    signal openInBrowser
 
     enabled: !last && !daterow
 
@@ -433,6 +434,17 @@ ListItem {
     Component {
         id: contextMenu
         ContextMenu {
+
+            MenuItem {
+                text: qsTr("Open in browser")
+                visible: enabled
+                enabled: !settings.openInBrowser
+                onClicked: {
+                    root.openInBrowser();
+                    root.expanded = false;
+                }
+            }
+
             MenuItem {
                 text: read ? qsTr("Mark as unread") : qsTr("Mark as read")
                 visible: enabled

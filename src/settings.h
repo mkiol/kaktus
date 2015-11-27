@@ -70,6 +70,7 @@ class Settings: public QObject
     Q_PROPERTY (bool showBroadcast READ getShowBroadcast WRITE setShowBroadcast NOTIFY showBroadcastChanged)
     Q_PROPERTY (bool showOldestFirst READ getShowOldestFirst WRITE setShowOldestFirst NOTIFY showOldestFirstChanged)
     Q_PROPERTY (bool syncRead READ getSyncRead WRITE setSyncRead NOTIFY syncReadChanged)
+    Q_PROPERTY (bool openInBrowser READ getOpenInBrowser WRITE setOpenInBrowser NOTIFY openInBrowserChanged)
 
 public:
     static Settings* instance();
@@ -149,6 +150,9 @@ public:
 
     void setSyncRead(bool value);
     bool getSyncRead();
+
+    void setOpenInBrowser(bool value);
+    bool getOpenInBrowser();
 
     void setTheme(int value);
     int getTheme();
@@ -246,6 +250,7 @@ signals:
     void showBroadcastChanged();
     void showOldestFirstChanged();
     void syncReadChanged();
+    void openInBrowserChanged();
 
     /*
     501 - Unable create settings dir

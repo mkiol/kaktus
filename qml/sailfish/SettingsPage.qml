@@ -574,6 +574,17 @@ Page {
                 }
             }
 
+            TextSwitch {
+                text: qsTr("Open articles in browser")
+                description: qsTr("Instead built-in web viewer, web pages will be opened in default browser.")
+                onCheckedChanged: {
+                    settings.openInBrowser = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.openInBrowser;
+                }
+            }
+
             TextSwitchWithIcon {
                 text: qsTr("Read mode")
                 description: qsTr("Web pages will be reformatted into an easy to read version.")

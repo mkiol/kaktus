@@ -228,6 +228,19 @@ bool Settings::getHint1Done()
     return settings.value("hint1done", false).toBool();
 }
 
+void Settings::setOpenInBrowser(bool value)
+{
+    if (getOpenInBrowser() != value) {
+        settings.setValue("openinbrowser", value);
+        emit openInBrowserChanged();
+    }
+}
+
+bool Settings::getOpenInBrowser()
+{
+    return settings.value("openinbrowser", false).toBool();
+}
+
 void Settings::setAutoDownloadOnUpdate(bool value)
 {
     if (getAutoDownloadOnUpdate() != value) {

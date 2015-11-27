@@ -312,27 +312,30 @@ void FilteringWorker::filter()
         margin = query.queryItemValue("margin").toInt();
 #endif
 
+    QString initialScale = "1.0";
     /*switch (s->getFontSize()) {
     case 1:
-        width = width/(1.5);
+        initialScale = "1.5";
         break;
     case 2:
-        width = width/(2.0);
+        initialScale = "2.0";
         break;
+    default:
+        initialScale = "1.0";
     }*/
 
     width = width-2*margin;
 
     if (s->getOfflineTheme() == "white") {
-        style = QString("<meta name='viewport' content='device-width'>"
-                        "<style>body{margin:%5px;background:#FFF;font-family:sans-serif;font-size:%1;color:#323232;}figure{margin:0;padding:0;}a:link{color:#%3;}a:visited{color:#%4;}a:active{color:#%3;}img{max-width:100%;max-height:device-height;}</style></head>")
-                .arg(fontsize).arg(highlightColor).arg(secondaryHighlightColor).arg(margin);
+        style = QString("<meta name='viewport' content='device-width,initial-scale=%6'>"
+                        "<style>body{margin:%5px;background:#FFF;font-family:sans-serif;font-size:%1;color:#323232;}figure{margin:0;padding:0;}a:link{color:#%2;}a:visited{color:#%4;}a:active{color:#%3;}img{max-width:100%;max-height:device-height;}</style></head>")
+                .arg(fontsize).arg(highlightColor).arg(highlightColor).arg(secondaryHighlightColor).arg(margin).arg(initialScale);
     }
 
     if (s->getOfflineTheme() == "black") {
-        style = QString("<meta name='viewport' content='device-width'>"
-                        "<style>body{margin:%5px;background:#141414;font-family:sans-serif;font-size:%1;color:#FFF;}figure{margin:0;padding:0;}a:link{color:#%3;}a:visited{color:#%4;}a:active{color:#%3;}img{max-width:100%;max-height:device-height;}</style></head>")
-                .arg(fontsize).arg(highlightColor).arg(secondaryHighlightColor).arg(margin);
+        style = QString("<meta name='viewport' content='device-width,initial-scale=%6'>"
+                        "<style>body{margin:%5px;background:#141414;font-family:sans-serif;font-size:%1;color:#FFF;}figure{margin:0;padding:0;}a:link{color:#%2;}a:visited{color:#%4;}a:active{color:#%3;}img{max-width:100%;max-height:device-height;}</style></head>")
+                .arg(fontsize).arg(highlightColor).arg(highlightColor).arg(secondaryHighlightColor).arg(margin).arg(initialScale);
         //qDebug() << style;
     }
 
@@ -438,6 +441,13 @@ CacheServer::~CacheServer()
 void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
 {
     //qDebug() << "handle, url=" << req->url().toString();
+    if (req->url().path() == "/test") {
+        resp->setHeader("Content-Type", "text/html");
+        resp->writeHead(200);
+        resp->end("<html><body><h1>It works!</h1></body></html>");
+        return;
+    }
+
     FilteringWorker *worker = new FilteringWorker();
     QObject::connect(this, SIGNAL(startWorker(QHttpRequest*,QHttpResponse*)), worker, SLOT(start(QHttpRequest*,QHttpResponse*)));
     QObject::connect(worker, SIGNAL(finished()), this, SLOT(handleFinish()));
@@ -463,7 +473,7 @@ void CacheServer::handleFinish()
 }
 
 
-/*#define HOST_FILTER          0x01  // => 0001
+/*#define HOST_FILTER        0x01  // => 0001
 #define REMOVE_FILTER        0x02  // => 0010
 
 void CacheServer::resolveRelativeUrls(QString &content, const QRegExp &rx, const QUrl &baseUrl, int filter)
@@ -520,7 +530,8 @@ void CacheServer::resolveRelativeUrls(QString &content, const QRegExp &rx, const
 
 QString CacheServer::getUrlbyId(const QString &item)
 {
-    return "http://127.0.0.1:" + QString::number(port) + "/" + item;
+    //return "http://127.0.0.1:" + QString::number(port) + "/" + item;
+    return "http://localhost:" + QString::number(port) + "/" + item;
 }
 
 QString CacheServer::getUrlbyUrl(const QString &url)
@@ -532,6 +543,7 @@ QString CacheServer::getUrlbyUrl(const QString &url)
         return url;
     }
 
-    return "http://127.0.0.1:" + QString::number(port) + "/" + Utils::hash(url);
+    //return "http://127.0.0.1:" + QString::number(port) + "/" + Utils::hash(url);
+    return "http://localhost:" + QString::number(port) + "/" + Utils::hash(url);
 }
 

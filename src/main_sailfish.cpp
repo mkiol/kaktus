@@ -33,14 +33,16 @@
 #include "cacheserver.h"
 #include "utils.h"
 #include "settings.h"
+#include "debugunit.h"
+#include "networkaccessmanagerfactory.h"
 
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.1 (light edition)";
+static const char *VERSION = "2.2 (light edition)";
 #else
-static const char *VERSION = "2.1";
+static const char *VERSION = "2.2";
 #endif
 
 int main(int argc, char *argv[])
@@ -79,11 +81,17 @@ int main(int argc, char *argv[])
 
     QObject::connect(view->engine(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
 
+    NetworkAccessManagerFactory NAMfactory(settings->getDmUserAgent());
+    view->engine()->setNetworkAccessManagerFactory(&NAMfactory);
+
     view->rootContext()->setContextProperty("db", &db);
     view->rootContext()->setContextProperty("utils", &utils);
     view->rootContext()->setContextProperty("dm", &dm);
     view->rootContext()->setContextProperty("cache", &cache);
     view->rootContext()->setContextProperty("settings", settings);
+
+    DebugUnit debugUnit;
+    view->rootContext()->setContextProperty("debug", &debugUnit);
 
     view->setSource(SailfishApp::pathTo("qml/sailfish/main.qml"));
     view->show();
