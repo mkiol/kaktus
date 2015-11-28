@@ -234,7 +234,9 @@ Page {
 
                     expanded = false;
 
-                    if (settings.openInBrowser) {
+                    // Open in external browser
+                    // (!dm.online && settings.offlineMode) -> WORKAROUND for https://github.com/mkiol/kaktus/issues/14
+                    if (settings.openInBrowser || (!dm.online && settings.offlineMode)) {
                         openInExaternalBrowser(model.index, model.link, model.uid);
                         return;
                     }
