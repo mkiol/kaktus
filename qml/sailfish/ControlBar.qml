@@ -36,6 +36,8 @@ Item {
     height: Theme.itemSizeMedium
     width: parent.width
 
+    clip: true
+
     function show() {
         if (openable && pageStack.currentPage.showBar) {
             if (!open)
@@ -69,19 +71,44 @@ Item {
         visible: opacity > 0.0
         Behavior on opacity { FadeAnimation {duration: 300} }
 
-        Image {
-            property int off: 85
-            property int size: 93
-            source: "image://icons/bar?"+Theme.highlightBackgroundColor
-            y: 0
-            x: settings.viewMode==0 ? -off-4*size :
-               settings.viewMode==1 ? -off-3*size :
-               settings.viewMode==3 ? -off-2*size :
-               settings.viewMode==4 ? -off-1*size :
-               settings.viewMode==5 ? -off :
-               settings.viewMode==6 ? -off :
-               -off-5*size
-            Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
+        property int off: 5
+        property int size: vm0b.width + Theme.paddingMedium
+
+        Rectangle {
+            id: leftRect
+            anchors.left: parent.left
+            anchors.top: parent.top; anchors.bottom: parent.bottom
+            color: Theme.highlightBackgroundColor
+            width: settings.viewMode==0 ? 0 :
+                   settings.viewMode==1 ? 1 * bar.size - bar.off :
+                   settings.viewMode==3 ? 2 * bar.size - bar.off :
+                   settings.viewMode==4 ? 3 * bar.size - bar.off :
+                   settings.viewMode==5 ? 4 * bar.size - bar.off :
+                   settings.viewMode==6 ? 4 * bar.size - bar.off :
+                   5 * bar.size
+            Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
+        }
+
+        Rectangle {
+            id: rightRect
+            anchors.right: parent.right
+            anchors.top: parent.top; anchors.bottom: parent.bottom
+            color: Theme.highlightBackgroundColor
+            width: settings.viewMode==0 ? root.width - bar.size + bar.off :
+                   settings.viewMode==1 ? root.width - 2 * bar.size + bar.off :
+                   settings.viewMode==3 ? root.width - 3 * bar.size + bar.off :
+                   settings.viewMode==4 ? root.width - 4 * bar.size + bar.off :
+                   settings.viewMode==5 ? root.width - 5 * bar.size + bar.off :
+                   settings.viewMode==6 ? root.width - 5 * bar.size + bar.off :
+                   0
+            Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
+        }
+
+        Rectangle {
+            anchors.right: rightRect.left; anchors.left: leftRect.right
+            anchors.bottom: parent.bottom;
+            height: root.height/10
+            color: Theme.highlightColor
         }
 
         MouseArea {
@@ -90,101 +117,107 @@ Item {
             onClicked: root.hide()
         }
 
-        IconButton {
-            id: vm0b
-            x: 0*(width+Theme.paddingMedium)
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://icons/vm0?"+Theme.highlightDimmerColor
-            highlighted: settings.viewMode==0
-            onClicked: {
-                show();
-                if (!app.progress && settings.viewMode!=0) {
-                    app.progress = true;
-                    settings.viewMode = 0;
+        Item {
+            property int off: -root.height/10
+            anchors.left: parent.left; anchors.right: parent.right
+            anchors.bottom: parent.bottom; height: parent.height
+
+            IconButton {
+                id: vm0b
+                x: 0*(width+Theme.paddingMedium)
+                y: ((parent.height-height)/2) + (highlighted ? parent.off : 0)
+                icon.source: "image://icons/vm0?"+Theme.highlightDimmerColor
+                highlighted: settings.viewMode==0
+                onClicked: {
+                    show();
+                    if (!app.progress && settings.viewMode!=0) {
+                        app.progress = true;
+                        settings.viewMode = 0;
+                    }
                 }
             }
-        }
 
-        IconButton {
-            id: vm1b
-            x: 1*(width+Theme.paddingMedium)
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://icons/vm1?"+Theme.highlightDimmerColor
-            highlighted: settings.viewMode==1
-            onClicked: {
-                show();
-                if (!app.progress && settings.viewMode!=1) {
-                    app.progress = true;
-                    settings.viewMode = 1;
+            IconButton {
+                id: vm1b
+                x: 1*(width+Theme.paddingMedium)
+                y: ((parent.height-height)/2) + (highlighted ? parent.off : 0)
+                icon.source: "image://icons/vm1?"+Theme.highlightDimmerColor
+                highlighted: settings.viewMode==1
+                onClicked: {
+                    show();
+                    if (!app.progress && settings.viewMode!=1) {
+                        app.progress = true;
+                        settings.viewMode = 1;
+                    }
                 }
             }
-        }
 
-        IconButton {
-            id: vm3b
-            x: 2*(width+Theme.paddingMedium)
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://icons/vm3?"+Theme.highlightDimmerColor
-            highlighted: settings.viewMode==3
-            onClicked: {
-                show();
-                if (!app.progress && settings.viewMode!=3) {
-                    app.progress = true;
-                    settings.viewMode = 3;
+            IconButton {
+                id: vm3b
+                x: 2*(width+Theme.paddingMedium)
+                y: ((parent.height-height)/2) + (highlighted ? parent.off : 0)
+                icon.source: "image://icons/vm3?"+Theme.highlightDimmerColor
+                highlighted: settings.viewMode==3
+                onClicked: {
+                    show();
+                    if (!app.progress && settings.viewMode!=3) {
+                        app.progress = true;
+                        settings.viewMode = 3;
+                    }
                 }
             }
-        }
 
-        IconButton {
-            id: vm4b
-            x: 3*(width+Theme.paddingMedium)
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://icons/vm4?"+Theme.highlightDimmerColor
-            highlighted: settings.viewMode==4
-            onClicked: {
-                show();
-                if (!app.progress && settings.viewMode!=4) {
-                    app.progress = true;
-                    settings.viewMode = 4;
+            IconButton {
+                id: vm4b
+                x: 3*(width+Theme.paddingMedium)
+                y: ((parent.height-height)/2) + (highlighted ? parent.off : 0)
+                icon.source: "image://icons/vm4?"+Theme.highlightDimmerColor
+                highlighted: settings.viewMode==4
+                onClicked: {
+                    show();
+                    if (!app.progress && settings.viewMode!=4) {
+                        app.progress = true;
+                        settings.viewMode = 4;
+                    }
                 }
             }
-        }
 
-        IconButton {
-            id: vm5b
-            x: 4*(width+Theme.paddingMedium)
-            visible: app.isNetvibes || (app.isOldReader && settings.showBroadcast) // Disabled for Feedly
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: app.isOldReader ? "image://icons/vm6?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor) :
-                                           "image://icons/vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
-            highlighted: settings.viewMode==5 || settings.viewMode==6
-            onClicked: {
-                show();
-                if (!app.progress && (settings.viewMode!=5 || settings.viewMode!=6)) {
-                    app.progress = true;
-                    if (settings.signinType >= 10)
-                        settings.viewMode = 6;
-                    else
-                        settings.viewMode = 5;
+            IconButton {
+                id: vm5b
+                x: 4*(width+Theme.paddingMedium)
+                visible: app.isNetvibes || (app.isOldReader && settings.showBroadcast) // Disabled for Feedly
+                y: ((parent.height-height)/2) + (highlighted ? parent.off : 0)
+                icon.source: app.isOldReader ? "image://icons/vm6?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor) :
+                                               "image://icons/vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+                highlighted: settings.viewMode==5 || settings.viewMode==6
+                onClicked: {
+                    show();
+                    if (!app.progress && (settings.viewMode!=5 || settings.viewMode!=6)) {
+                        app.progress = true;
+                        if (settings.signinType >= 10)
+                            settings.viewMode = 6;
+                        else
+                            settings.viewMode = 5;
+                    }
                 }
             }
-        }
 
-        IconButton {
-            id: offline
-            anchors.right: parent.right; anchors.rightMargin: Theme.paddingSmall
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
-                                              : "image://theme/icon-m-wlan-4?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
-            onClicked: {
-                show();
-                if (settings.offlineMode) {
-                    if (dm.online)
-                        settings.offlineMode = false;
-                    else
-                        notification.show(qsTr("Can't switch to Online mode.\nNetwork connection is unavailable."));
-                } else {
-                    settings.offlineMode = true;
+            IconButton {
+                id: offline
+                anchors.right: parent.right; anchors.rightMargin: Theme.paddingSmall
+                anchors.verticalCenter: parent.verticalCenter
+                icon.source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+                                                  : "image://theme/icon-m-wlan-4?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+                onClicked: {
+                    show();
+                    if (settings.offlineMode) {
+                        if (dm.online)
+                            settings.offlineMode = false;
+                        else
+                            notification.show(qsTr("Can't switch to Online mode.\nNetwork connection is unavailable."));
+                    } else {
+                        settings.offlineMode = true;
+                    }
                 }
             }
         }
