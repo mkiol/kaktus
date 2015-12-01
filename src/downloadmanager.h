@@ -61,6 +61,7 @@ protected:
 
 signals:
     void addDownload(DatabaseManager::CacheItem item);
+    void addingFinished(int count);
 };
 
 class CacheRemover : public QThread
@@ -156,7 +157,7 @@ Q_SIGNALS:
     501 - Save to disk error
      */
     void error(int code);
-    void progress(int remaining);
+    void progress(int current, int total);
     void onlineDownloadReady(QString id, QString url);
     void onlineDownloadFailed();
 
@@ -173,6 +174,7 @@ public Q_SLOTS:
     void cacheRemoverFinished();
     void cacheRemoverProgressChanged(int current, int total);
     void cacheSizeDetermined(int size);
+    void addingFinishedHandler(int count);
 
 private:
     static const int entriesLimit = 200;
@@ -192,6 +194,7 @@ private:
     CacheDeterminer cacheDeterminer;
 
     int lastCacheSize;
+    int downloadTotal;
     bool cacheSizeFreshFlag;
 
     void doDownload(DatabaseManager::CacheItem item);

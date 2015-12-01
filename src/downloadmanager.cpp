@@ -51,9 +51,11 @@ DownloadManager::DownloadManager(QObject *parent) :
     }*/
 
     lastCacheSize = 0;
+    downloadTotal = 0;
     cacheSizeFreshFlag = false;
 
     connect(&adder, SIGNAL(addDownload(DatabaseManager::CacheItem)), this, SLOT(addDownload(DatabaseManager::CacheItem)));
+    connect(&adder, SIGNAL(addingFinished(int)), this, SLOT(addingFinishedHandler(int)));
     connect(&cacheDeterminer, SIGNAL(cacheDetermined(int)), this, SLOT(cacheSizeDetermined(int)));
     connect(&cleaner, SIGNAL(finished()), this, SLOT(cacheCleaningFinished()));
     connect(&remover, SIGNAL(finished()), this, SLOT(cacheRemoverFinished()));
@@ -232,10 +234,11 @@ void DownloadManager::error(QNetworkReply::NetworkError code)
 void DownloadManager::addNextDownload()
 {
     if (downloads.isEmpty() && queue.isEmpty()) {
-        emit progress(0);
+        emit progress(downloadTotal, downloadTotal);
         emit ready();
         emit busyChanged();
         emit cacheSizeChanged();
+        downloadTotal = 0;
         return;
     }
 
@@ -245,7 +248,8 @@ void DownloadManager::addNextDownload()
         doDownload(item);
     }
 
-    emit progress(downloads.count() + queue.count());
+    int current = downloadTotal - (downloads.count() + queue.count());
+    emit progress(current, downloadTotal);
 }
 
 void DownloadManager::downloadFinished(QNetworkReply *reply)
@@ -882,6 +886,8 @@ void DownloadAdder::run()
         }
         ++i;
     }
+
+    emit addingFinished(list.size());
 }
 
 CacheDeterminer::CacheDeterminer(QObject *parent) : QThread(parent)
@@ -898,4 +904,9 @@ void CacheDeterminer::run()
         i.next();
     }
     emit cacheDetermined(size);
+}
+
+void DownloadManager::addingFinishedHandler(int count)
+{
+    this->downloadTotal = (downloads.count() + queue.count());
 }
