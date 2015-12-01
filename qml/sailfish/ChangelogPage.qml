@@ -56,7 +56,17 @@ Page {
 
             LogItem {
                 title: 'Open articles in browser'
-                description: "Option to open articles directly in default web browser instead built-in web viewer.";
+                description: "Context menu option to open article directly in external web browser instead built-in web viewer.";
+            }
+
+            LogItem {
+                title: 'Icon based context menu'
+                description: "Context menu can be text or icon based. This UI feature is inspired by gPodder app.";
+            }
+
+            LogItem {
+                title: 'UI improvements'
+                description: "Some small UI changes to better fit in to Sailfish 2.0 design style.";
             }
 
             SectionHeader {

@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    2.2
-Release:    1
+Release:    2
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -76,8 +76,14 @@ desktop-file-install --delete-original       \
 
 %changelog
 
+* Tue Dec 10 2015 Michal Kosciesza 2.2-2
+- New bottom bar design
+- Improvements in proggress indicator
+- BUG FIX: [Sailish 2.0] Icons are not displayed in offline mode
+
 * Fri Nov 27 2015 Michal Kosciesza 2.2-1
 - Open articles in web browser option
+- BUG FIX: Workaround for https://github.com/mkiol/kaktus/issues/14
 
 * Sat Oct 10 2015 Michal Kosciesza 2.1.1-6
 - BUG FIX: "Unknown error" while syncing Netvibes account
