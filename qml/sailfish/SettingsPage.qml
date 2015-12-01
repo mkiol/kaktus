@@ -564,6 +564,21 @@ Page {
 
             }
 
+            ComboBox {
+                width: root.width
+                label: qsTr("Context menu")
+                currentIndex: settings.iconContextMenu ? 0 : 1
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Icons") }
+                    MenuItem { text: qsTr("Text") }
+                }
+
+                onCurrentIndexChanged: {
+                    settings.iconContextMenu = (currentIndex == 0 ? true : false);
+                }
+            }
+
             TextSwitch {
                 text: qsTr("Show only unread articles")
                 onCheckedChanged: {

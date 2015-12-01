@@ -71,6 +71,7 @@ class Settings: public QObject
     Q_PROPERTY (bool showOldestFirst READ getShowOldestFirst WRITE setShowOldestFirst NOTIFY showOldestFirstChanged)
     Q_PROPERTY (bool syncRead READ getSyncRead WRITE setSyncRead NOTIFY syncReadChanged)
     Q_PROPERTY (bool openInBrowser READ getOpenInBrowser WRITE setOpenInBrowser NOTIFY openInBrowserChanged)
+    Q_PROPERTY (bool iconContextMenu READ getIconContextMenu WRITE setIconContextMenu NOTIFY iconContextMenuChanged)
 
 public:
     static Settings* instance();
@@ -114,6 +115,9 @@ public:
 
     bool getShowBroadcast();
     void setShowBroadcast(bool value);
+
+    bool getIconContextMenu();
+    void setIconContextMenu(bool value);
 
     void setDashboardInUse(const QString &value);
     QString getDashboardInUse();
@@ -251,6 +255,7 @@ signals:
     void showOldestFirstChanged();
     void syncReadChanged();
     void openInBrowserChanged();
+    void iconContextMenuChanged();
 
     /*
     501 - Unable create settings dir

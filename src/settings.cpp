@@ -119,6 +119,19 @@ bool Settings::getShowOldestFirst()
     return settings.value("showoldestfirst", false).toBool();
 }
 
+void Settings::setIconContextMenu(bool value)
+{
+    if (getIconContextMenu() != value) {
+        settings.setValue("iconcontextmenu", value);
+        emit showOldestFirstChanged();
+    }
+}
+
+bool Settings::getIconContextMenu()
+{
+    return settings.value("iconcontextmenu", true).toBool();
+}
+
 void Settings::setShowBroadcast(bool value)
 {
     if (getShowBroadcast() != value) {

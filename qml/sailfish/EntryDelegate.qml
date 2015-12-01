@@ -82,7 +82,8 @@ ListItem {
 
     function getUrlbyUrl(url){return cache.getUrlbyUrl(url)}
 
-    menu: last ? null : contextMenu
+    menu: last ? null : settings.iconContextMenu ? iconContextMenu : contextMenu
+
     contentHeight: last ?
                        app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape :
                        daterow ? dateRowbox.height :
@@ -432,18 +433,105 @@ ListItem {
     }
 
     Component {
-        id: contextMenu
-        ContextMenu {
+        id: iconContextMenu
+        IconContextMenu {
+            id: menu
+            IconMenuItem {
+                text: root.read ? qsTr("Mark as unread") : qsTr("Mark as read")
+                icon.source: root.read ? 'image://icons/unread' : 'image://icons/read'
+                visible: enabled
+                enabled: root.showMarkedAsRead
+                onClicked: {
+                    if (root.read) {
+                        root.markedAsUnread();
+                    } else {
+                        root.markedAsRead();
+                        root.expanded = false;
+                    }
+                    //menu.hide();
+                }
 
-            MenuItem {
+            }
+
+            IconMenuItem {
+                text: qsTr("Mark above as read")
+                icon.source: 'image://icons/read-aboved'
+                visible: enabled
+                enabled: root.showMarkedAsRead && root.index > 1
+                onClicked: {
+                    root.markedAboveAsRead();
+                    root.expanded = false;
+                    menu.hide();
+                }
+            }
+
+            IconMenuItem {
+                text: app.isNetvibes || app.isFeedly ?
+                      readlater ? qsTr("Unsave") : qsTr("Save") :
+                      readlater ? qsTr("Unstar") : qsTr("Star")
+                icon.source: root.readlater ? 'image://theme/icon-m-favorite-selected' : 'image://theme/icon-m-favorite'
+                //enabled: !likeItem.enabled
+                //visible: enabled
+                onClicked: {
+                    if (root.readlater) {
+                        root.unmarkedReadlater();
+                    } else {
+                        root.markedReadlater();
+                    }
+                    //menu.hide();
+                }
+            }
+
+            IconMenuItem {
+                id: likeItem
+                text: root.liked ? qsTr("Unlike") : qsTr("Like")
+                icon.source: root.liked ? 'image://icons/like-selected' : 'image://icons/like'
+                enabled: settings.showBroadcast && app.isOldReader
+                visible: enabled
+                onClicked: {
+                    if (root.liked) {
+                        root.unmarkedLike();
+                    } else {
+                        root.markedLike();
+                    }
+                    //menu.hide();
+                }
+            }
+
+            IconMenuItem {
+                text: root.broadcast ? qsTr("Unshare") : qsTr("Share")
+                icon.source: root.broadcast ? 'image://icons/unshare' : 'image://icons/share'
+                enabled: settings.showBroadcast && app.isOldReader &&
+                         !root.friendStream
+                visible: enabled
+                onClicked: {
+                    if (root.broadcast) {
+                        root.unmarkedBroadcast();
+                    } else {
+                        root.markedBroadcast();
+                    }
+                    menu.hide();
+                }
+            }
+
+            IconMenuItem {
                 text: qsTr("Open in browser")
+                icon.source: 'image://icons/browser'
                 visible: enabled
                 enabled: !settings.openInBrowser
                 onClicked: {
                     root.openInBrowser();
                     root.expanded = false;
+                    menu.hide();
                 }
             }
+
+        }
+    }
+
+    Component {
+        id: contextMenu
+        ContextMenu {
 
             MenuItem {
                 text: read ? qsTr("Mark as unread") : qsTr("Mark as read")
@@ -509,19 +597,21 @@ ListItem {
                 }
             }
 
+
+            MenuItem {
+                text: qsTr("Open in browser")
+                visible: enabled
+                enabled: !settings.openInBrowser
+                onClicked: {
+                    root.openInBrowser();
+                    root.expanded = false;
+                }
+            }
+
             MenuItem {
                 visible: box.expandable && root.expanded
                 text: root.expanded ? qsTr("Collapse") : qsTr("Expand")
                 onClicked: {
-
-                    /*console.log("settings.showBroadcast",settings.showBroadcast);
-                    console.log("root.hidden",root.hidden);
-                    console.log("root.expanded",root.expanded);
-                    console.log("root.broadcast",root.broadcast);
-                    console.log("root.annotations \""+root.annotations+"\"");
-                    console.log("value",settings.showBroadcast && (!root.hidden || root.expanded) && (root.broadcast || root.annotations!=""));
-                    */
-
                     root.expanded = !root.expanded;
                 }
             }
