@@ -88,6 +88,7 @@ Q_SIGNALS:
     void progress(double current, double total);
     void networkNotAccessible();
     void uploading();
+    void uploadProgress(double current, double total);
     void checkingCredentials();
     void newAuthUrl(const QString &url, int type);
 
@@ -138,6 +139,7 @@ protected:
     bool busy;
     double proggress;
     double proggressTotal;
+    double uploadProggressTotal;
 
     void setBusy(bool busy, Fetcher::BusyType type = Fetcher::UnknownBusyType);
     bool parse();

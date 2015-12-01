@@ -379,7 +379,7 @@ void Fetcher::prepareUploadActions()
         startFetching();
     } else {
 
-        qDebug() << actionsList.count() << " actions to upload!";
+        //qDebug() << actionsList.count() << " actions to upload!";
 
         // Actions optimalization
         // 1. Merging series of SetRead into SetListRead
@@ -389,8 +389,9 @@ void Fetcher::prepareUploadActions()
         /*mergeActionsIntoList(DatabaseManager::SetSaved, DatabaseManager::UnSetSaved,
                              DatabaseManager::SetListSaved, DatabaseManager::UnSetListSaved);*/
 
-        qDebug() << actionsList.count() << " actions to upload after opt!";
+        //qDebug() << actionsList.count() << " actions to upload after opt!";
 
+        this->uploadProggressTotal = actionsList.size();
         uploadActions();
     }
 }

@@ -786,6 +786,7 @@ void NvFetcher::finishedDashboards2()
     Settings *s = Settings::instance();
 
     if(!dashboardList.isEmpty()) {
+        emit progress(0,1);
         fetchTabs();
     } else {
         qWarning() << "No Dashboards found!";
@@ -985,6 +986,9 @@ void NvFetcher::finishedSetAction()
     // Deleting action
     DatabaseManager::Action action = actionsList.takeFirst();
     s->db->removeActionsByIdAndType(action.id1, action.type);
+
+    // Updating upload proggres
+    emit uploadProgress(this->uploadProggressTotal - actionsList.size(), this->uploadProggressTotal);
 
     if (actionsList.isEmpty()) {
         s->db->cleanDashboards();

@@ -651,6 +651,7 @@ void OldReaderFetcher::finishedTabs2()
         return;
     }
 
+    emit progress(0,1);
     fetchFriends();
 }
 
@@ -855,6 +856,7 @@ void OldReaderFetcher::finishedUnreadStream2()
 void OldReaderFetcher::finishedSetAction()
 {
     //qDebug() << data;
+
     if (currentReply != NULL && currentReply->error()) {
         int code = currentReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         if (code == 404) {
@@ -872,6 +874,9 @@ void OldReaderFetcher::finishedSetAction()
     // Deleting action
     DatabaseManager::Action action = actionsList.takeFirst();
     s->db->removeActionsByIdAndType(action.id1, action.type);
+
+    // Updating upload proggres
+    emit uploadProgress(this->uploadProggressTotal - actionsList.size(), this->uploadProggressTotal);
 
     if (actionsList.isEmpty()) {
         s->db->cleanDashboards();
