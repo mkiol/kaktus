@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    2.2
-Release:    2
+Release:    3
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,9 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Sun Dec 13 2015 Michal Kosciesza 2.2-3
+- Double-pane view in landscape mode
 
 * Tue Dec 10 2015 Michal Kosciesza 2.2-2
 - New bottom bar design
