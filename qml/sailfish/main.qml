@@ -19,12 +19,15 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import QtQuick.Window 2.0
 
 ApplicationWindow {
     id: app
 
     property bool progress: false
     property int oldViewMode
+
+    property bool isTablet: Screen.width > 540
 
     property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
     property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
@@ -34,6 +37,14 @@ ApplicationWindow {
 
     Component.onCompleted: {
         db.init();
+    }
+
+    function hideBar() {
+        bar.hide();
+    }
+
+    function showBar() {
+        bar.show();
     }
 
     function resetView() {
@@ -161,9 +172,14 @@ ApplicationWindow {
         target: dm
 
         onProgress: {
-            progressPanelDm.text = qsTr("%1 more items left...").arg(remaining);
-            if (remaining === 0) {
-                progressPanelDm.text = qsTr("All done!");
+            if (current > 0 && total != 0) {
+                progressPanelDm.text = qsTr("Caching... %1 of %2").arg(current).arg(total);
+                progressPanelDm.progress = current / total;
+                /*if (current == total) {
+                    progressPanelDm.text = qsTr("All done!");
+                }*/
+            } else {
+                progressPanelDm.text = qsTr("Caching...");
             }
         }
 
@@ -199,6 +215,7 @@ ApplicationWindow {
         fetcher.errorCheckingCredentials.connect(fetcherErrorCheckingCredentials);
         fetcher.credentialsValid.connect(fetcherCredentialsValid);
         fetcher.progress.connect(fetcherProgress);
+        fetcher.uploadProgress.connect(fetcherUploadProgress);
         fetcher.uploading.connect(fetcherUploading);
         fetcher.busyChanged.connect(fetcherBusyChanged);
         fetcher.canceled.connect(fetcherCanceled);
@@ -215,6 +232,7 @@ ApplicationWindow {
         fetcher.errorCheckingCredentials.disconnect(fetcherErrorCheckingCredentials);
         fetcher.credentialsValid.disconnect(fetcherCredentialsValid);
         fetcher.progress.disconnect(fetcherProgress);
+        fetcher.uploadProgress.disconnect(fetcherUploadProgress);
         fetcher.uploading.disconnect(fetcherUploading);
         fetcher.busyChanged.disconnect(fetcherBusyChanged);
         fetcher.canceled.disconnect(fetcherCanceled);
@@ -306,6 +324,12 @@ ApplicationWindow {
         progressPanel.progress = current / total;
     }
 
+    function fetcherUploadProgress(current, total) {
+        //console.log("fetcherUploadProgress", current, total);
+        progressPanel.text = qsTr("Sending data...");
+        progressPanel.progress = current / total;
+    }
+
     function fetcherUploading() {
         //console.log("fetcherUploading");
         progressPanel.text = qsTr("Sending data...");
@@ -357,45 +381,100 @@ ApplicationWindow {
         id: notification
     }
 
-    property int panelHeightPortrait: 1.1*Theme.itemSizeSmall
-    property int panelHeightLandscape: Theme.itemSizeSmall
+    /*property int panelHeightPortrait: 1.0*Theme.itemSizeSmall
+    property int panelHeightLandscape: 0.9*Theme.itemSizeSmall
+    property int barHeightPortrait: 1.1*Theme.itemSizeSmall
+    property int barHeightLandscape: 1.0*Theme.itemSizeSmall
     property int panelHeight: app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape
+    property int panelWidth: app.orientation==Orientation.Portrait ? app.width : app.height
+    property int barHeight: app.orientation==Orientation.Portrait ? app.barHeightPortrait : app.barHeightLandscape
+    property int barWidth: app.orientation==Orientation.Portrait ? app.width : app.height
     property int flickHeight: {
         var size = 0;
-        var d = app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape;
         if (bar.open)
-            size += d;
+            size += barHeight;
         if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
-            size += d;
+            size += panelHeight;
         return app.orientation==Orientation.Portrait ? app.height-size : app.width-size;
     }
-    property int panelX: {
+    property int barX: {
         if (app.orientation==Orientation.Portrait)
             return 0;
-        if (bar.open)
-            return 2*app.panelHeightLandscape;
-        return app.panelHeightLandscape;
+        if (bar.open && (progressPanel.open||progressPanelRemover.open||progressPanelDm.open))
+            return app.barHeightLandscape + app.panelHeightLandscape;
+        return app.barHeightLandscape;
     }
-    property int panelY: {
+    property int barY: {
         if (app.orientation==Orientation.Portrait) {
-            if (bar.open)
-                return app.height-2*app.panelHeightPortrait;
-            return app.height-app.panelHeightPortrait;
+            if (bar.open && (progressPanel.open||progressPanelRemover.open||progressPanelDm.open))
+                return app.height - (app.barHeightPortrait + app.panelHeightPortrait);
+            return app.height - app.barHeightPortrait;
         }
         return 0;
+    }
+    property int panelX: app.orientation==Orientation.Portrait ? 0 : app.panelHeight
+    property int panelY: app.orientation==Orientation.Portrait ? app.height-app.panelHeight : 0*/
+
+    property int panelHeightPortrait: 1.0*Theme.itemSizeSmall
+    property int panelHeightLandscape: 0.9*Theme.itemSizeSmall
+    property int barHeightPortrait: 1.1*Theme.itemSizeSmall
+    property int barHeightLandscape: 1.0*Theme.itemSizeSmall
+    property int panelHeight: app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape
+    property int panelWidth: app.orientation==Orientation.Portrait ? Screen.width : Screen.height
+    property int barHeight: app.orientation==Orientation.Portrait ? app.barHeightPortrait : app.barHeightLandscape
+    property int barWidth: app.orientation==Orientation.Portrait ? Screen.width : Screen.height
+    //property int landscapeContentPanelWidth: app.orientation==Orientation.Portrait ? Screen.width/2 : Screen.height/2
+    property int landscapeContentPanelWidth: isTablet ?
+                                                 app.orientation==Orientation.Portrait ? Screen.width-700 : Screen.height-700 :
+                                                 app.orientation==Orientation.Portrait ? Screen.width/2 : Screen.height/2
+    property int flickHeight: {
+        var size = 0;
+        if (bar.open)
+            size += barHeight;
+        if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
+            size += panelHeight;
+        return app.orientation==Orientation.Portrait ? Screen.height-size : Screen.width-size;
+    }
+    property int barX: {
+        if (app.orientation==Orientation.Portrait)
+            return 0;
+        if (bar.open && (progressPanel.open||progressPanelRemover.open||progressPanelDm.open))
+            return app.barHeightLandscape + app.panelHeightLandscape;
+        return app.barHeightLandscape;
+    }
+    property int barY: {
+        if (app.orientation==Orientation.Portrait) {
+            if (bar.open && (progressPanel.open||progressPanelRemover.open||progressPanelDm.open))
+                return Screen.height - (app.barHeightPortrait + app.panelHeightPortrait);
+            return Screen.height - app.barHeightPortrait;
+        }
+        return 0;
+    }
+    property int panelX: app.orientation==Orientation.Portrait ? 0 : app.panelHeight
+    property int panelY: app.orientation==Orientation.Portrait ? Screen.height-app.panelHeight : 0
+
+    ControlBar {
+        id: bar
+        rotation: app.orientation==Orientation.Portrait ? 0 : 90
+        transformOrigin: Item.TopLeft
+        height: app.barHeight
+        width: app.barWidth
+        y: app.barY
+        x: app.barX
     }
 
     ProgressPanel {
         id: progressPanelRemover
         open: dm.removerBusy
         onCloseClicked: dm.removerCancel();
+        transparent: false
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? panelHeightPortrait : panelHeightLandscape
-        width: app.orientation==Orientation.Portrait ? app.width : app.height
-        y: panelY
-        x: panelX
+        height: app.panelHeight
+        width: app.panelWidth
+        y: app.panelY
+        x: app.panelX
         text: qsTr("Removing cache data...");
         Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
         Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
@@ -405,13 +484,14 @@ ApplicationWindow {
         id: progressPanelDm
         open: dm.busy && !app.fetcherBusyStatus
         onCloseClicked: dm.cancel();
+        transparent: false
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? panelHeightPortrait : panelHeightLandscape
-        width: app.orientation==Orientation.Portrait ? app.width : app.height
-        y: panelY
-        x: panelX
+        height: app.panelHeight
+        width: app.panelWidth
+        y: app.panelY
+        x: app.panelX
         Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
         Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
     }
@@ -420,25 +500,16 @@ ApplicationWindow {
         id: progressPanel
         open: app.fetcherBusyStatus
         onCloseClicked: fetcher.cancel();
+        transparent: false
 
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? panelHeightPortrait : panelHeightLandscape
-        width: app.orientation==Orientation.Portrait ? app.width : app.height
-        y: panelY
-        x: panelX
+        height: app.panelHeight
+        width: app.panelWidth
+        y: app.panelY
+        x: app.panelX
         Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
         Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
-    }
-
-    ControlBar {
-        id: bar
-        rotation: app.orientation==Orientation.Portrait ? 0 : 90
-        transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? panelHeightPortrait : panelHeightLandscape
-        width: app.orientation==Orientation.Portrait ? app.width : app.height
-        y: app.orientation==Orientation.Portrait ? app.height-height : 0
-        x: app.orientation==Orientation.Portrait ? 0 : height
     }
 
     Guide {
@@ -448,14 +519,9 @@ ApplicationWindow {
         transformOrigin: Item.TopLeft
         height: app.orientation==Orientation.Portrait ? app.height : app.width
         width: app.orientation==Orientation.Portrait ? app.width : app.height
-        y: app.orientation==Orientation.Portrait ? app.height-height : 0
-        x: app.orientation==Orientation.Portrait ? 0 : height
+        y: 0
+        x: app.orientation==Orientation.Portrait ? 0 : app.width
     }
 
 }
-
-//fillMode: Image.PreserveAspectFit
-//source: "image://theme/graphic-gradient-edge?"+Theme.highlightBackgroundColor
-//source: "image://theme/graphic-gradient-home-bottom?"+Theme.highlightBackgroundColor
-//source: "image://theme/graphic-gradient-home-top?"+Theme.highlightBackgroundColor
 

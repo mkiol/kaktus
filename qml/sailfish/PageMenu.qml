@@ -42,6 +42,14 @@ PullDownMenu {
         }
     }*/
 
+    /*MenuItem {
+        text: qsTr("Test")
+        onClicked: {
+            //pageStack.push(Qt.resolvedUrl("DebugPage.qml"));
+            pageStack.push(Qt.resolvedUrl("DebugPage.qml"));
+        }
+    }*/
+
     MenuItem {
         text: qsTr("About")
         visible: root.showAbout

@@ -566,7 +566,7 @@ Page {
 
             ComboBox {
                 width: root.width
-                label: qsTr("Context menu")
+                label: qsTr("Context menu style")
                 currentIndex: settings.iconContextMenu ? 0 : 1
 
                 menu: ContextMenu {
@@ -591,7 +591,7 @@ Page {
 
             TextSwitch {
                 text: qsTr("Open articles in browser")
-                description: qsTr("Instead built-in web viewer, web pages will be opened in default browser.")
+                description: qsTr("Instead built-in web viewer, web pages will be opened in an external browser.")
                 onCheckedChanged: {
                     settings.openInBrowser = checked;
                 }

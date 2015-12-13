@@ -38,19 +38,10 @@ Item {
     height: Theme.itemSizeSmall
     width: parent.width
 
-    Behavior on opacity { FadeAnimation {} }
-
-    /*Rectangle {
-        anchors.fill: parent
-        visible: root.transparent
-	
-        color: Theme.rgba(Theme.highlightColor, 0.2)
-    }*/
-
-    Rectangle {
-        anchors.fill: parent
-        visible: !root.transparent
-        color: Theme.highlightBackgroundColor
+    onVisibleChanged: {
+        if (!visible) {
+            progress = 0;
+        }
     }
 
     function show(text) {
@@ -63,35 +54,51 @@ Item {
         root.progress = 0.0;
     }
 
+    Behavior on opacity { FadeAnimation {} }
+
+    Rectangle {
+        anchors.left: parent.left; anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: parent.height
+        visible: !root.transparent
+        color: Theme.highlightBackgroundColor
+    }
+
+    /*Rectangle {
+        height: 7
+        anchors.left: parent.left; anchors.top: parent.top
+        width: parent.width
+        //color: Theme.rgba(Theme.highlightBackgroundColor, 0.5)
+        color: Theme.rgba(Theme.highlightDimmerColor, 0.2)
+    }*/
+
     Image {
         anchors.left: parent.left; anchors.right: parent.right
-        //anchors.fill: parent
-        //fillMode: Image.PreserveAspectFit
         source: "image://theme/graphic-gradient-edge?"+Theme.highlightBackgroundColor
-        //source: "image://theme/graphic-gradient-home-bottom?"+Theme.highlightBackgroundColor
-        //source: "image://theme/graphic-gradient-edge?"+Theme.highlightBackgroundColor
-        //source: "image://theme/graphic-keyboard-highlight-top?"+Theme.highlightBackgroundColor
         visible: root.transparent
     }
 
     Rectangle {
         id: progressRect
-        height: parent.height
-        anchors.left: parent.left
+        height: parent.height - 0
+        anchors.left: parent.left; anchors.bottom: parent.bottom
         width: root.progress * parent.width
-        color: root.transparent ? Theme.rgba(Theme.highlightBackgroundColor, 0.3) : Theme.rgba(Theme.highlightDimmerColor, 0.2)
+        color: root.transparent ? Theme.rgba(Theme.highlightBackgroundColor, 0.3) : Theme.highlightColor //Theme.rgba(Theme.highlightDimmerColor, 0.2)
 
         Behavior on width {
-            //enabled: root.opacity == 1.0
             SmoothedAnimation {
                 velocity: 480; duration: 200
             }
         }
     }
 
+    Item {
+        anchors.left: parent.left; anchors.right: parent.right
+        anchors.bottom: parent.bottom; height: parent.height - 0
+
     Image {
         id: icon
-        height: 60; width: 60
+        height: 0.6*root.height; width: 0.6*root.height
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: Theme.paddingMedium
@@ -102,12 +109,6 @@ Item {
             to: 360
             duration: 1200
             running: root.open && Qt.application.active
-        }
-    }
-
-    onVisibleChanged: {
-        if (!visible) {
-            progress = 0;
         }
     }
 
@@ -133,6 +134,5 @@ Item {
         onClicked: root.closeClicked()
         visible: root.cancelable
     }
-
-
+    }
 }

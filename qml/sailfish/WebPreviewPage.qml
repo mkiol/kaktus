@@ -198,6 +198,14 @@ Page {
         }
 
         onLoadingChanged: {
+
+            /*console.log(">>> onLoadingChanged");
+            console.log("loadRequest.url=",loadRequest.url);
+            console.log("loadRequest.status=",loadRequest.status);
+            console.log("loadRequest.errorString=",loadRequest.errorString);
+            console.log("loadRequest.errorCode=",loadRequest.errorCode);
+            console.log("loadRequest.errorDomain=",loadRequest.errorDomain);*/
+
             switch (loadRequest.status) {
             case WebView.LoadStartedStatus:
                 proggressPanel.text = qsTr("Loading page content...");
@@ -221,7 +229,7 @@ Page {
             case WebView.LoadFailedStatus:
                 proggressPanel.open = false;
 
-                console.log("LoadFailedStatus");
+                //console.log("LoadFailedStatus");
 
                 if (settings.offlineMode) {
                     notification.show(qsTr("Failed to load item from local cache :-("));

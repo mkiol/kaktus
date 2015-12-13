@@ -147,52 +147,9 @@ CoverBackground {
             maximumLineCount: 2
         }
 
-        /*Column {
-            anchors.left: parent.left; anchors.right: parent.right;
-            visible: root.unread>0
-
-            Label {
-                font.pixelSize: Theme.fontSizeMedium
-                font.family: Theme.fontFamilyHeading
-                text: {
-                    if (root.unread==0)
-                        return qsTr("All read");
-                    if (root.unread==1)
-                        return qsTr("Unread item");
-                    if (root.unread<5)
-                        return qsTr("Unread items","less than 5 articles are unread");
-                    return qsTr("Unread items","more or equal 5 articles are unread");
-                }
-                wrapMode: Text.NoWrap
-                anchors.left: parent.left; anchors.right: parent.right;
-                horizontalAlignment: Text.AlignHCenter
-                elide: Text.ElideRight
-            }
-
-            Label {
-                id: unreadlabel
-                text: root.unread
-                color: Theme.highlightColor
-                font.pixelSize: Theme.fontSizeHuge
-                font.family: Theme.fontFamilyHeading
-                wrapMode: Text.Wrap
-                anchors.left: parent.left; anchors.right: parent.right;
-                horizontalAlignment: Text.AlignHCenter
-            }
-        }*/
-
         Column {
             anchors.left: parent.left; anchors.right: parent.right;
             visible: settings.lastUpdateDate>0
-
-            /*Label {
-                font.pixelSize: Theme.fontSizeMedium
-                font.family: Theme.fontFamilyHeading
-                text: qsTr("Last sync")
-                wrapMode: Text.Wrap
-                anchors.left: parent.left; anchors.right: parent.right;
-                horizontalAlignment: Text.AlignHCenter
-            }*/
 
             Label {
                 id: lastupdateLabel
@@ -226,8 +183,8 @@ CoverBackground {
 
         Label {
             id: progressLabel
-            font.pixelSize: Theme.fontSizeHuge
             font.family: Theme.fontFamilyHeading
+            font.pixelSize: text.length > 5 ? Theme.fontSizeLarge : Theme.fontSizeHuge
             color: Theme.highlightColor
             wrapMode: Text.Wrap
             anchors.left: parent.left; anchors.right: parent.right;
@@ -258,6 +215,7 @@ CoverBackground {
         if (typeof fetcher === 'undefined')
             return;
         fetcher.progress.connect(fetcherProgress);
+        //fetcher.progress.connect(fetcherUploadProgress);
         fetcher.busyChanged.connect(fetcherBusyChanged);
     }
 
@@ -265,12 +223,20 @@ CoverBackground {
         if (typeof fetcher === 'undefined')
             return;
         fetcher.progress.disconnect(fetcherProgress);
+        //fetcher.progress.disconnect(fetcherUploadProgress);
         fetcher.busyChanged.disconnect(fetcherBusyChanged);
     }
 
     function fetcherProgress(current, total) {
         label.text = qsTr("Syncing");
-        progressLabel.text = Math.floor((current/total)*100)+"%";
+        if (total > 0)
+            progressLabel.text = Math.floor((current/total)*100)+"%";
+    }
+
+    function fetcherUploadProgress(current, total) {
+        label.text = qsTr("Uploading");
+        if (total > 0)
+            progressLabel.text = Math.floor((current/total)*100)+"%";
     }
 
     function fetcherBusyChanged() {
@@ -284,7 +250,14 @@ CoverBackground {
             progressLabel.text = "0%"
             break;
         case 3:
+        case 4:
             label.text = qsTr("Signing in")
+            progressLabel.text = "";
+            break;
+        case 11:
+        case 21:
+        case 31:
+            label.text = qsTr("Waiting");
             progressLabel.text = "";
             break;
         }
@@ -297,46 +270,14 @@ CoverBackground {
         }
     }
 
-    /*Connections {
-        target: fetcher
-
-        onProgress: {
-            label.text = qsTr("Syncing");
-            progressLabel.text = Math.floor((current/total)*100)+"%";
-        }
-
-        onBusyChanged: {
-            switch(fetcher.busyType) {
-            case 1:
-                label.text = qsTr("Initiating");
-                progressLabel.text = "0%"
-                break;
-            case 2:
-                label.text = qsTr("Updating")
-                progressLabel.text = "0%"
-                break;
-            case 3:
-                label.text = qsTr("Signing in")
-                progressLabel.text = "";
-                break;
-            }
-
-            if (!fetcher.busy && active) {
-                root.unread = utils.getUnreadItemsCount();
-                lastupdateLabel.text = utils.getHumanFriendlyTimeString(settings.lastUpdateDate);
-                timer.setInterval();
-                timer.restart();
-            }
-        }
-    }*/
-
     Connections {
         target: dm
 
         onProgress: {
             if (!fetcher.fetcherBusyStatus) {
                 label.text = qsTr("Caching");
-                progressLabel.text = remaining;
+                if (current > 0 && total != 0)
+                    progressLabel.text = qsTr("%1 of %2").arg(current).arg(total);
             }
         }
     }

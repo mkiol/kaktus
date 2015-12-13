@@ -55,18 +55,23 @@ Page {
             }
 
             LogItem {
-                title: 'Open articles in browser'
-                description: "Context menu option to open article directly in external web browser instead built-in web viewer.";
+                title: 'Double-pane landscape view'
+                description: "Landscape view is rearanged to display content on two panes.";
             }
 
             LogItem {
-                title: 'Icon based context menu'
-                description: "Context menu can be text or icon based. This UI feature is inspired by gPodder app.";
+                title: 'Open articles in an external browser'
+                description: "Context menu option to open article directly in an external web browser instead built-in web viewer.";
+            }
+
+            LogItem {
+                title: 'Icon-based context menu'
+                description: "Context menu can be icon-based (default) or text-based. Inspiration for icon's menu comes form gPodder app.";
             }
 
             LogItem {
                 title: 'UI improvements'
-                description: "Some small UI changes to better fit in to Sailfish 2.0 design style.";
+                description: "Some small UI changes to better fit in to new Sailfish 2.0 design style.";
             }
 
             SectionHeader {
@@ -158,118 +163,6 @@ Page {
                              'Now, you can also set caching to start only when phone is connected with WiFi.'
             }
 
-            SectionHeader {
-                text: qsTr("Version %1").arg("1.2.3")
-            }
-
-            LogItem {
-                title: 'Turkish translation'
-                description: 'Turkish language is supported thanks to Mesut Aktaş.'
-            }
-
-            LogItem {
-                title: 'Caching improvements'
-                description: 'Caching process has been optimized and is now faster.'
-            }
-
-            LogItem {
-                title: 'Show only unread option in Pull-down menu'
-                description: 'Option to show only uread articles can be changed in Pull-down menu.'
-            }
-
-            LogItem {
-                title: 'Support for new Tabs icons'
-                description: 'Netvibes recently has changed stock Tab icons. Now, Kaktus is able to display them properly.'
-            }
-
-            SectionHeader {
-                text: qsTr("Version %1").arg("1.2.2")
-            }
-
-            LogItem {
-                title: 'Performance improvements'
-                description: 'Some UI functions were optimized for faster performance.'
-            }
-
-            LogItem {
-                title: 'Option to increase font size in web viewer'
-                description: 'Web viewer font size can be changed on settings page. '+
-                             'By default, "Normal" value is set and this means that the text size '+
-                             'will be increased by 50% in comparison with the previous version of Kaktus. '+
-                             'New option, works only on websites that have mobile version.'
-            }
-
-            LogItem {
-                title: 'Russian, Czech and Dutch translations'
-                description: 'Russian, Czech and Dutch languages are supported thanks to Kiratonin, fri & Stoffels.'
-            }
-
-            SectionHeader {
-                text: qsTr("Version %1").arg("1.2.1")
-            }
-
-            LogItem {
-                title: 'User Interface improvements'
-                description: 'Few user interface improvements were added.'
-            }
-
-            LogItem {
-                title: 'Option to change language'
-                description: 'UI language can be changed on settings page.'
-            }
-
-            LogItem {
-                title: 'Farsi translation'
-                description: 'Persian language is supported (thanks to Ali Adineh).'
-            }
-
-            SectionHeader {
-                text: qsTr("Version %1").arg("1.2.0")
-            }
-
-            LogItem {
-                title: 'Multi-Feed widget support'
-                description: 'Kaktus can read RSS feeds, which are aggregated with '+
-                                  'Netvibes Multi-Feed widget. So far, only simple Feed '+
-                                  'widget was supported.'
-            }
-
-            LogItem {
-                title: 'Double-click marks article as read/unread'
-                description: 'In addition to the context menu option, marking as '+
-                                  'read/unread now can be done by double-click.'
-            }
-
-            LogItem {
-                title: 'Bottom Bar & New View Modes'
-                description: 'There are new View Modes, which enable you to '+
-                                  'show all articles in the one list or group articles '+
-                                  'using tabs. You can switch between modes by clicking '+
-                                  'on the appropriate icon on the Bottom Bar.'
-            }
-
-            LogItem {
-                title: 'Slow feeds'
-                description: 'One of the new view modes gives you option to '+
-                                  'view only articles from less frequently updated feeds '+
-                                  '- so called Slow feeds. '
-            }
-
-            LogItem {
-                title: 'Indicator for new articles'
-                description: 'Articles, that have been added since last sync, '+
-                                  'are marked with small dash on the right side of the list.'
-            }
-
-            LogItem {
-                title: 'Option to delete cache data'
-                description: 'Cache data can be deleted manually. The option is located on the Settings page.'
-            }
-
-            LogItem {
-                title: 'User Guide'
-                description: 'User Guide contains information how to navigate the new UI elements like Bottom Bar and View Modes.'
-            }
 
             Item {
                 height: Theme.paddingMedium

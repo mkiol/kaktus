@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2015 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -20,6 +20,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
+
 Page {
     id: root
 
@@ -35,8 +36,7 @@ Page {
 
     property bool showBar: true
     property string title
-    property bool landscapeMode: root.orientation === Orientation.Landscape || app.isTablet
-    property EntryDelegate expandedDelegate
+    property int index
 
     function navigate(url) {
         var hcolor = Theme.highlightColor.toString().substr(1, 6);
@@ -51,94 +51,6 @@ Page {
         Qt.openUrlExternally(settings.offlineMode ? navigate(cache.getUrlbyId(uid)) : link);
     }
 
-    function setContentPane(delegate) {
-        contentPanel.index = delegate.index
-        contentPanel.content = delegate.contentall;
-        contentPanel.image = delegate.image;
-        contentPanel.expanded = false;
-        delegate.expanded = true;
-        listView.positionViewAtIndex(delegate.index, ListView.Visible);
-
-        /*if (landscapeMode) {
-            pageStack.pushAttached(Qt.resolvedUrl("WebPreviewPage.qml"),
-                           {"entryId": delegate.uid,
-                               "onlineUrl": delegate.onlineurl,
-                               "offlineUrl": delegate.offlineurl,
-                               "title": delegate.title,
-                               "stared": delegate.readlater==1,
-                               "index": delegate.index,
-                               "feedindex": delegate.index,
-                               "read" : delegate.read==1,
-                               "cached" : delegate.cached
-                           });
-        }*/
-    }
-
-    function clearContentPane(delegate) {
-        if (delegate) {
-            if (contentPanel.index == delegate.index) {
-                contentPanel.index = 0;
-                contentPanel.content = "";
-                contentPanel.image = "";
-                contentPanel.expanded = false;
-            }
-        } else {
-            contentPanel.index = 0;
-            contentPanel.content = "";
-            contentPanel.image = "";
-            contentPanel.expanded = false;
-        }
-
-        /*if (landscapeMode) {
-            pageStack.popAttached();
-        }*/
-    }
-
-    function autoSetDelegate() {
-        if (!root.expandedDelegate) {
-            var curItem = listView.itemAt(0,listView.contentY + root.height/3);
-            if (curItem.objectName === "EntryDelegate" && !curItem.last && !curItem.daterow) {
-                curItem.expanded = true;
-                expandedDelegate = curItem;
-                return;
-            } else {
-                for (var i = 0; i < listView.contentItem.children.length; i++) {
-                    curItem = listView.contentItem.children[i];
-                    if (curItem.objectName === "EntryDelegate" && !curItem.last && !curItem.daterow) {
-                        curItem.expanded = true;
-                        expandedDelegate = curItem;
-                        listView.positionViewAtIndex(curItem.index, ListView.Contain);
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
-    onExpandedDelegateChanged: {
-        if (expandedDelegate) {
-            setContentPane(expandedDelegate);
-        } else {
-            clearContentPane(expandedDelegate);
-        }
-    }
-
-    Component.onCompleted: {
-        if (landscapeMode)
-            autoSetDelegate();
-    }
-
-    onOrientationTransitionRunningChanged: {
-        if (!orientationTransitionRunning) {
-            if (landscapeMode) {
-                autoSetDelegate();
-            } else {
-                if (root.expandedDelegate)
-                    listView.positionViewAtIndex(root.expandedDelegate.index, ListView.Contain);
-            }
-        }
-    }
-
     ActiveDetector {
         onInit: { bar.flick = listView;}
     }
@@ -149,21 +61,10 @@ Page {
         id: listView
         model: entryModel
 
-        anchors { top: parent.top; left: parent.left; }
-        //width: root.landscapeMode && contentPanel.active ? parent.width - app.landscapeContentPanelWidth : parent.width
-        width: root.landscapeMode && listView.count != 0 ? parent.width - app.landscapeContentPanelWidth : parent.width
-
-        clip: true
+        anchors { top: parent.top; left: parent.left; right: parent.right }
+        clip:true
 
         height: app.flickHeight
-
-        onMovingChanged: {
-            if (root.landscapeMode && !moving) {
-                var item = itemAt(0,contentY + root.height/3);
-                if (!item.last && !item.daterow)
-                    item.expanded = true;
-            }
-        }
 
         PageMenu {
             id: menu
@@ -244,10 +145,8 @@ Page {
 
         delegate: EntryDelegate {
             id: delegate
-            uid: model.uid
             title: model.title
             content: model.content
-            contentall: model.contentall
             date: model.date
             read: model.read
             friendStream: model.feedId.substring(0,4) === "user"
@@ -266,60 +165,6 @@ Page {
             daterow: model.uid === "daterow"
             showMarkedAsRead: settings.viewMode!=4 && settings.viewMode!=6 && settings.viewMode!=7 && model.read<2
             objectName: "EntryDelegate"
-            landscapeMode: root.landscapeMode
-            onlineurl: model.link
-            offlineurl: cache.getUrlbyId(model.uid)
-
-            signal singleEntryClicked
-            signal doubleEntryClicked
-
-            function openEntry() {
-                // Not allowed while Syncing
-                if (dm.busy || fetcher.busy || dm.removerBusy) {
-                    notification.show(qsTr("Please wait until current task is complete."));
-                    return;
-                }
-
-                // Entry not cached and offline mode enabled
-                if (settings.offlineMode && !model.cached) {
-                    notification.show(qsTr("Offline version not available."));
-                    return;
-                }
-
-                // Switch to Offline mode if no network
-                if (!settings.offlineMode && !dm.online) {
-                    if (model.cached) {
-                        // Entry cached
-                        notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode."));
-                        settings.offlineMode = true;
-                    } else {
-                        // Entry not cached
-                        notification.show(qsTr("Network connection is unavailable."));
-                        return;
-                    }
-                }
-
-                expanded = false;
-
-                // Open in external browser
-                // (!dm.online && settings.offlineMode) -> WORKAROUND for https://github.com/mkiol/kaktus/issues/14
-                if (settings.openInBrowser || (!dm.online && settings.offlineMode)) {
-                    openInExaternalBrowser(model.index, model.link, model.uid);
-                    return;
-                }
-
-                pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),
-                               {"entryId": model.uid,
-                                   "onlineUrl": delegate.onlineurl,
-                                   "offlineUrl": delegate.offlineurl,
-                                   "title": model.title,
-                                   "stared": model.readlater==1,
-                                   "index": model.index,
-                                   "feedindex": root.index,
-                                   "read" : model.read==1,
-                                   "cached" : model.cached
-                               });
-            }
 
             Component.onCompleted: {
                 //Dynamic creation of new items if last item is compleated
@@ -332,70 +177,98 @@ Page {
 
             onClicked: {
                 //console.log("id",model.uid, "date", model.date);
-                //console.log("content",model.content);
-                //console.log("contentall",model.contentall);
                 if (timer.running) {
                     // Double click
                     timer.stop();
-                    doubleEntryClicked();
+
+                    if (model.read === 0) {
+                        entryModel.setData(model.index, "read", 1, "");
+                        //read = 1;
+                    } else {
+                        entryModel.setData(model.index, "read", 0, "");
+                        //read = 0;
+                    }
+
                 } else {
                     timer.start();
                 }
-            }
-
-            onDoubleEntryClicked: {
-                if (model.read === 0) {
-                    entryModel.setData(model.index, "read", 1, "");
-                    //read = 1;
-                } else {
-                    entryModel.setData(model.index, "read", 0, "");
-                    //read = 0;
-                }
-            }
-
-            onSingleEntryClicked: {
-                // Landscape mode
-                if (root.landscapeMode) {
-                    delegate.expanded = true;
-                    return;
-                }
-
-                // Portrait mode
-                openEntry();
             }
 
             Timer {
                 id: timer
                 interval: 400
                 onTriggered: {
-                    // Single click
+                    // One click
+
                     /*console.log("date: "+model.date);
                     console.log("read: "+model.read);
                     console.log("readlater: "+model.readlater);
                     console.log("image: "+model.image);
                     console.log("feedIcon: "+feedIcon+" model.feedIcon: "+model.feedIcon);
                     console.log("showMarkedAsRead: "+showMarkedAsRead);*/
-                    singleEntryClicked();
+
+                    // Not allowed while Syncing
+                    if (dm.busy || fetcher.busy || dm.removerBusy) {
+                        notification.show(qsTr("Please wait until current task is complete."));
+                        return;
+                    }
+
+                    // Entry not cached and offline mode enabled
+                    if (settings.offlineMode && !model.cached) {
+                        notification.show(qsTr("Offline version not available."));
+                        return;
+                    }
+
+                    // Switch to Offline mode if no network
+                    if (!settings.offlineMode && !dm.online) {
+                        if (model.cached) {
+                            // Entry cached
+                            notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode."));
+                            settings.offlineMode = true;
+                        } else {
+                            // Entry not cached
+                            notification.show(qsTr("Network connection is unavailable."));
+                            return;
+                        }
+                    }
+
+                    expanded = false;
+
+                    // Open in external browser
+                    // (!dm.online && settings.offlineMode) -> WORKAROUND for https://github.com/mkiol/kaktus/issues/14
+                    if (settings.openInBrowser || (!dm.online && settings.offlineMode)) {
+                        openInExaternalBrowser(model.index, model.link, model.uid);
+                        return;
+                    }
+
+                    var onlineUrl = model.link;
+                    var offlineUrl = cache.getUrlbyId(model.uid);
+                    pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),
+                                   {"entryId": model.uid,
+                                       "onlineUrl": onlineUrl,
+                                       "offlineUrl": offlineUrl,
+                                       "title": model.title,
+                                       "stared": model.readlater==1,
+                                       "index": model.index,
+                                       "feedindex": root.index,
+                                       "read" : model.read==1,
+                                       "cached" : model.cached
+                                   });
+
                 }
             }
 
             onExpandedChanged: {
+                // Collapsing all other items on expand
                 if (expanded) {
-                    // Collapsing all other items on expand
                     for (var i = 0; i < listView.contentItem.children.length; i++) {
                         var curItem = listView.contentItem.children[i];
                         if (curItem !== delegate) {
-                            if (curItem.objectName==="EntryDelegate") {
-                                if (curItem.expanded)
-                                    curItem.expanded = false;
-                            }
+                            if (curItem.objectName==="EntryDelegate")
+                                curItem.expanded = false;
                         }
                     }
-
-                    expandedDelegate = delegate;
-                } else {
-                    if (delegate === expandedDelegate)
-                        expandedDelegate = null;
+                    listView.positionViewAtIndex(model.index, ListView.Visible);
                 }
             }
 
@@ -483,35 +356,7 @@ Page {
         VerticalScrollDecorator {
             flickable: listView
         }
-    }
 
-    EntryPageContent {
-        id: contentPanel
-        property bool expanded: false
-
-        visible: root.landscapeMode && active
-        anchors.right: root.right; anchors.top: root.top
-        width: expanded ? root.width : app.landscapeContentPanelWidth
-        clip: true
-        height: app.flickHeight
-        openable: root.expandedDelegate && !dm.busy && !fetcher.busy && !dm.removerBusy && !isTablet
-
-        onClicked: {
-            if (isTablet) {
-                if (root.expandedDelegate)
-                    root.expandedDelegate.openEntry();
-            } else {
-                expanded = !expanded;
-            }
-        }
-        onOpenClicked: {
-            if (root.expandedDelegate)
-                root.expandedDelegate.openEntry();
-        }
-
-        busy: (width != root.width) && (width != app.landscapeContentPanelWidth)
-
-        Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
     }
 
     HintLabel {

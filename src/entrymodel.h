@@ -40,6 +40,7 @@ public:
         TitleRole = Qt::DisplayRole,
         AuthorRole,
         ContentRole,
+        ContentAllRole,
         LinkRole,
         ImageRole,
         FeedIdRole,
@@ -61,6 +62,7 @@ public:
                       const QString &title,
                       const QString &author,
                       const QString &content,
+                      const QString &contentall,
                       const QString &link,
                       const QString &image,
                       const QString &feedId,
@@ -82,6 +84,7 @@ public:
     inline QString title() const { return m_title; }
     inline QString author() const { return m_author; }
     inline QString content() const { return m_content; }
+    inline QString contentall() const { return m_contentall; }
     inline QString link() const { return m_link; }
     inline QString image() const { return m_image; }
     inline QString feedId() const { return m_feedId; }
@@ -107,6 +110,7 @@ private:
     QString m_title;
     QString m_author;
     QString m_content;
+    QString m_contentall;
     QString m_link;
     QString m_image;
     QString m_feedId;

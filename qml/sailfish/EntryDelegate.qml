@@ -23,12 +23,16 @@ import Sailfish.Silica 1.0
 ListItem {
     id: root
 
+    property string uid
     property string title
     property string author
+    property string onlineurl
+    property string offlineurl
     property int date
     property int read: 0
     property int readlater: 0
     property string content
+    property string contentall
     property string image
     property bool friendStream
     property string feedIcon
@@ -44,12 +48,13 @@ ListItem {
     property int index
     property bool last: false
     property bool daterow: false
-
+    property bool landscapeMode: false
     property bool showMarkedAsRead: true
-
     property bool hidden: read>0 && readlater==0
     property bool showIcon: settings.viewMode==1 || settings.viewMode==3 || settings.viewMode==4 || settings.viewMode==5 ? true : false
     property bool defaultIcon: feedIcon === "http://s.theoldreader.com/icons/user_icon.png"
+    property color highlightedColor: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
+    readonly property alias expandable: box.expandable
 
     signal markedAsRead
     signal markedAsUnread
@@ -63,6 +68,8 @@ ListItem {
     signal openInBrowser
 
     enabled: !last && !daterow
+
+    onMenuOpenChanged: { if(menuOpen) app.hideBar() }
 
     Component.onCompleted: {
         var r = feedTitle.length>0 ? (Math.abs(feedTitle.charCodeAt(0)-65)/57)%1 : 1;
@@ -106,9 +113,17 @@ ListItem {
     }
 
     Rectangle {
+        anchors.fill: parent
+        visible: opacity > 0.0
+        opacity: (landscapeMode || expandable) && expanded && !last && !daterow ? 1.0 : 0.0
+        Behavior on opacity { FadeAnimation {} }
+        color: Theme.highlightDimmerColor
+    }
+
+    Rectangle {
         anchors.top: parent.top; anchors.right: parent.right
         width: Theme.paddingSmall; height: titleLabel.height
-        visible: root.fresh && !last && !daterow
+        visible: root.fresh && !last && !daterow && !(landscapeMode && expanded)
         //radius: 10
 
         gradient: Gradient {
@@ -196,7 +211,7 @@ ListItem {
         property int sizeExpanded: sizeHidden + (contentLabel.visible ? contentLabel.height : 0) +
                                    (entryImage.enabled ? entryImage.height + contentItem.spacing : 0) +
                                    (contentLabel.visible ? contentItem.spacing : 0)
-        property bool expandable: root.hidden ? sizeHidden<sizeExpanded : sizeNormal<sizeExpanded
+        property bool expandable: root.landscapeMode ? false : root.hidden ? sizeHidden<sizeExpanded : sizeNormal<sizeExpanded
 
         height: root.expanded ? sizeExpanded : root.hidden ? sizeHidden : sizeNormal
 
@@ -290,8 +305,8 @@ ListItem {
                 id: entryImage
                 anchors.left: parent.left;
                 fillMode: Image.PreserveAspectFit
-                width: sourceSize.width>=root.width ? root.width : sourceSize.width
-                enabled: source!="" && status==Image.Ready &&
+                width: root.landscapeMode ? 0 : sourceSize.width>=root.width ? root.width : sourceSize.width
+                enabled: root.landscapeMode ? false : source!="" && status==Image.Ready &&
                          settings.showTabIcons &&
                          sourceSize.width > Theme.iconSizeMedium &&
                          sourceSize.height > Theme.iconSizeMedium
@@ -311,11 +326,13 @@ ListItem {
                 id: contentLabel
                 anchors.left: parent.left; anchors.right: parent.right;
                 anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
+                //text: root.landscapeMode ? root.contentall : root.content
                 text: root.content
                 wrapMode: Text.Wrap
+                //textFormat: root.landscapeMode ? Text.StyledText : Text.PlainText
                 textFormat: Text.PlainText
                 font.pixelSize: Theme.fontSizeSmall
-                visible: root.content!=""
+                visible: root.content!="" && !root.landscapeMode
                 color: {
                     if (root.read>0 && root.readlater==0) {
                         if (root.down)
@@ -348,6 +365,7 @@ ListItem {
     BackgroundItem {
         id: expander
         visible: !last && !daterow
+        enabled: box.expandable && !root.landscapeMode
 
         anchors {
             right: parent.right
@@ -363,7 +381,7 @@ ListItem {
             anchors.right: parent.right
             anchors.rightMargin: Theme.paddingMedium
             source: "image://theme/icon-lock-more"
-            visible: box.expandable
+            visible: box.expandable && !root.landscapeMode
         }
 
         Column {
@@ -436,6 +454,7 @@ ListItem {
         id: iconContextMenu
         IconContextMenu {
             id: menu
+
             IconMenuItem {
                 text: root.read ? qsTr("Mark as unread") : qsTr("Mark as read")
                 icon.source: root.read ? 'image://icons/unread' : 'image://icons/read'

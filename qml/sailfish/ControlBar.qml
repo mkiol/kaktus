@@ -89,8 +89,35 @@ Item {
             Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
         }
 
+        /*Rectangle {
+            // middleRect
+            visible: app.orientation==Orientation.Landscape
+            anchors.top: parent.top; anchors.bottom: parent.bottom
+            color: Theme.highlightBackgroundColor
+            x: root.width - width - app.landscapeContentPanelWidth
+            onXChanged: console.log("X:",x,"width:",width);
+            width: settings.viewMode==0 ? root.width - bar.size + bar.off - app.landscapeContentPanelWidth :
+                   settings.viewMode==1 ? root.width - 2 * bar.size + bar.off - app.landscapeContentPanelWidth :
+                   settings.viewMode==3 ? root.width - 3 * bar.size + bar.off - app.landscapeContentPanelWidth :
+                   settings.viewMode==4 ? root.width - 4 * bar.size + bar.off - app.landscapeContentPanelWidth :
+                   settings.viewMode==5 ? root.width - 5 * bar.size + bar.off - app.landscapeContentPanelWidth :
+                   settings.viewMode==6 ? root.width - 5 * bar.size + bar.off - app.landscapeContentPanelWidth :
+                   0
+            Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
+        }
+
+        Rectangle {
+            // network indicator Rect
+            visible: app.orientation==Orientation.Landscape
+            anchors.right: parent.right
+            anchors.top: parent.top; anchors.bottom: parent.bottom
+            color: Theme.highlightBackgroundColor
+            width: offline.width + bar.off + 2
+        }*/
+
         Rectangle {
             id: rightRect
+            //visible: app.orientation==Orientation.Portrait
             anchors.right: parent.right
             anchors.top: parent.top; anchors.bottom: parent.bottom
             color: Theme.highlightBackgroundColor
