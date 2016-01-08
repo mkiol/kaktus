@@ -2,6 +2,8 @@
 #define DEBUGUNIT_H
 
 #include <QObject>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
 
 class DebugUnit : public QObject
 {
@@ -9,9 +11,17 @@ class DebugUnit : public QObject
 public:
     explicit DebugUnit(QObject *parent = 0);
 
-signals:
+private slots:
+    void networkAccessibleChanged (QNetworkAccessManager::NetworkAccessibility accessible);
+    void error(QNetworkReply::NetworkError);
+    void readyRead();
+    void finished();
 
 public slots:
+    void test();
+
+private:
+    QNetworkAccessManager nam;
 };
 
 #endif // DEBUGUNIT_H

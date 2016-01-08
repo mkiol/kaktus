@@ -72,6 +72,7 @@ class Settings: public QObject
     Q_PROPERTY (bool syncRead READ getSyncRead WRITE setSyncRead NOTIFY syncReadChanged)
     Q_PROPERTY (bool openInBrowser READ getOpenInBrowser WRITE setOpenInBrowser NOTIFY openInBrowserChanged)
     Q_PROPERTY (bool iconContextMenu READ getIconContextMenu WRITE setIconContextMenu NOTIFY iconContextMenuChanged)
+    Q_PROPERTY (bool doublePane READ getDoublePane WRITE setDoublePane NOTIFY doublePaneChanged)
 
 public:
     static Settings* instance();
@@ -157,6 +158,9 @@ public:
 
     void setOpenInBrowser(bool value);
     bool getOpenInBrowser();
+
+    void setDoublePane(bool value);
+    bool getDoublePane();
 
     void setTheme(int value);
     int getTheme();
@@ -256,6 +260,7 @@ signals:
     void syncReadChanged();
     void openInBrowserChanged();
     void iconContextMenuChanged();
+    void doublePaneChanged();
 
     /*
     501 - Unable create settings dir

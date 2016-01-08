@@ -231,6 +231,19 @@ bool Settings::getHelpDone()
     return settings.value("helpdone", false).toBool();
 }
 
+void Settings::setDoublePane(bool value)
+{
+    if (getDoublePane() != value) {
+        settings.setValue("doublepane", value);
+        emit doublePaneChanged();
+    }
+}
+
+bool Settings::getDoublePane()
+{
+    return settings.value("doublepane", true).toBool();
+}
+
 void Settings::setHint1Done(bool value)
 {
     settings.setValue("hint1done", value);

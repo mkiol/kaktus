@@ -85,7 +85,7 @@ private:
     void signIn();
     void startFetching();
     void uploadActions();
-    void fetchDashboards();
+    void fetchDashboards(const QString &url = "http://www.netvibes.com/privatepage/0");
     void fetchTabs();
     void fetchFeeds();
     void fetchFeedsUpdate();
@@ -95,6 +95,7 @@ private:
     void startJob(Job job);
 
     void storeDashboards();
+    void storeDashboardsByParsingHtml();
     void storeTabs();
     int storeFeeds();
 

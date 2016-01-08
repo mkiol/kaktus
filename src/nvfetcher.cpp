@@ -123,7 +123,7 @@ void NvFetcher::startFetching()
     fetchDashboards();
 }
 
-void NvFetcher::fetchDashboards()
+/*void NvFetcher::fetchDashboards()
 {
     data.clear();
 
@@ -141,6 +141,28 @@ void NvFetcher::fetchDashboards()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
     setCookie(request, s->getCookie().toLatin1());
     currentReply = nam.post(request,"format=json");
+    connect(currentReply, SIGNAL(finished()), this, SLOT(finishedDashboards()));
+    connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+}*/
+
+void NvFetcher::fetchDashboards(const QString &url)
+{
+    data.clear();
+
+    Settings *s = Settings::instance();
+
+    if (currentReply != NULL) {
+        currentReply->disconnect();
+        currentReply->deleteLater();
+        currentReply = NULL;
+    }
+
+    QUrl _url(url);
+    QNetworkRequest request(_url);
+
+    setCookie(request, s->getCookie().toLatin1());
+    currentReply = nam.get(request);
     connect(currentReply, SIGNAL(finished()), this, SLOT(finishedDashboards()));
     connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
@@ -632,7 +654,7 @@ void NvFetcher::finishedGetAuthUrl()
 
 void NvFetcher::finishedSignIn()
 {
-    //qDebug() << this->_data;
+    //qDebug() << this->data;
 
     Settings *s = Settings::instance();
 
@@ -769,7 +791,7 @@ void NvFetcher::finishedSignInOnlyCheck()
     }
 }
 
-void NvFetcher::finishedDashboards()
+/*void NvFetcher::finishedDashboards()
 {
     //qDebug() << data;
     if (currentReply->error()) {
@@ -779,6 +801,28 @@ void NvFetcher::finishedDashboards()
     }
 
     startJob(StoreDashboards);
+}*/
+
+void NvFetcher::finishedDashboards()
+{
+    //qDebug() << data;
+    if (currentReply->error()) {
+        emit error(500);
+        setBusy(false);
+        return;
+    }
+
+    // Redirection
+    if (currentReply->attribute(QNetworkRequest::RedirectionTargetAttribute).isValid()) {
+        QString newUrl = currentReply->url().resolved(currentReply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl()).toString();
+        //qDebug() << "newUrl:" << newUrl;
+        //setBusy(false);
+        fetchDashboards(newUrl);
+        return;
+    }
+
+    storeDashboardsByParsingHtml();
+    finishedDashboards2();
 }
 
 void NvFetcher::finishedDashboards2()
@@ -1047,7 +1091,7 @@ void NvFetcher::startJob(Job job)
                 return;
             }
 
-            qWarning() << "Netvibes API error!";
+            qWarning() << "Netvibes API error!" << jsonObj;
             setBusy(false);
             emit error(500);
             //update();
@@ -1087,6 +1131,38 @@ void NvFetcher::startJob(Job job)
     }
 
     start(QThread::LowPriority);
+}
+
+void NvFetcher::storeDashboardsByParsingHtml()
+{
+    Settings *s = Settings::instance();
+
+    QRegExp rx1("<li id=\"page-([^\"]*)\" class=\"[^\"]*enabled[^\"]*\" title=\"([^\"]*)\">");
+    int pos = 0;
+    while ((pos = rx1.indexIn(this->data, pos)) != -1) {
+        //qDebug() << "enabled" << rx1.cap(1) << rx1.cap(2);
+        pos += rx1.matchedLength();
+        DatabaseManager::Dashboard d;
+        d.id = rx1.cap(1);
+        d.name = rx1.cap(1);
+        d.title = rx1.cap(2);
+        d.description = rx1.cap(2);
+        s->db->writeDashboard(d);
+        dashboardList.append(d.id);
+    }
+
+    // Active dashboard
+    QString defaultDashboardId = s->getDashboardInUse();
+    if (defaultDashboardId.isEmpty()) {
+        QRegExp rx2("<li id=\"page-([^\"]*)\" class=\"[^\"]*active[^\"]*\" title=\"([^\"]*)\">");
+        pos = 0;
+        while ((pos = rx2.indexIn(this->data, pos)) != -1) {
+            //qDebug() << "active:" << rx2.cap(1) << rx2.cap(2);
+            pos += rx2.matchedLength();
+            // Set active dashboard
+            s->setDashboardInUse(rx2.cap(1));
+        }
+    }
 }
 
 void NvFetcher::storeDashboards()
