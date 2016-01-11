@@ -55,6 +55,11 @@ Page {
             }
 
             LogItem {
+                title: 'Initial Tablet support'
+                description: "Jolla Tablet is now supported.";
+            }
+
+            LogItem {
                 title: 'Double-pane landscape view'
                 description: "Landscape view is rearanged to display content on two panes.";
             }
@@ -66,7 +71,7 @@ Page {
 
             LogItem {
                 title: 'Icon-based context menu'
-                description: "Context menu can be icon-based (default) or text-based. Inspiration for icon's menu comes form gPodder app.";
+                description: "Context menu can be icon-based (default) or text-based. Inspiration comes form gPodder app.";
             }
 
             LogItem {

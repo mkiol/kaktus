@@ -35,8 +35,10 @@ Page {
 
     property bool showBar: true
     property string title
-    property bool landscapeMode: root.orientation === Orientation.Landscape || app.isTablet
+    property bool landscapeMode: settings.doublePane && (app.isTablet || root.orientation === Orientation.Landscape)
     property EntryDelegate expandedDelegate
+    property string expandedUid: ""
+    property int expandedIndex: 0
 
     function navigate(url) {
         var hcolor = Theme.highlightColor.toString().substr(1, 6);
@@ -57,7 +59,7 @@ Page {
         contentPanel.image = delegate.image;
         contentPanel.expanded = false;
         delegate.expanded = true;
-        listView.positionViewAtIndex(delegate.index, ListView.Visible);
+        //listView.positionViewAtIndex(delegate.index, ListView.Visible);
 
         /*if (landscapeMode) {
             pageStack.pushAttached(Qt.resolvedUrl("WebPreviewPage.qml"),
@@ -72,6 +74,17 @@ Page {
                                "cached" : delegate.cached
                            });
         }*/
+    }
+
+    function getDelegateByUid(uid) {
+        for (var i = 0; i < listView.contentItem.children.length; i++) {
+            curItem = listView.contentItem.children[i];
+            if (curItem.objectName === "EntryDelegate" && !curItem.last && !curItem.daterow &&
+                    curItem.uid === uid) {
+                return curItem;
+            }
+        }
+        return undefined;
     }
 
     function clearContentPane(delegate) {
@@ -95,19 +108,25 @@ Page {
     }
 
     function autoSetDelegate() {
-        if (!root.expandedDelegate) {
-            var curItem = listView.itemAt(0,listView.contentY + root.height/3);
+        var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid!="" ? getDelegateByUid(root.expandedUid) : undefined;
+        //console.log("autoSetDelegate",delegate);
+        if (!delegate) {
+            var curItem = listView.itemAt(0,listView.contentY + root.height/4);
             if (curItem.objectName === "EntryDelegate" && !curItem.last && !curItem.daterow) {
                 curItem.expanded = true;
-                expandedDelegate = curItem;
+                //expandedDelegate = curItem;
+                //expandedUid = curItem.uid;
+                //expandedIndex = curItem.index;
                 return;
             } else {
                 for (var i = 0; i < listView.contentItem.children.length; i++) {
                     curItem = listView.contentItem.children[i];
                     if (curItem.objectName === "EntryDelegate" && !curItem.last && !curItem.daterow) {
                         curItem.expanded = true;
-                        expandedDelegate = curItem;
-                        listView.positionViewAtIndex(curItem.index, ListView.Contain);
+                        //expandedDelegate = curItem;
+                        //expandedUid = curItem.uid;
+                        //expandedIndex = curItem.index;
+                        //listView.positionViewAtIndex(curItem.index, ListView.Contain);
                         return;
                     }
                 }
@@ -115,26 +134,45 @@ Page {
         }
     }
 
-    onExpandedDelegateChanged: {
+    /*onExpandedDelegateChanged: {
         if (expandedDelegate) {
             setContentPane(expandedDelegate);
         } else {
             clearContentPane(expandedDelegate);
         }
+    }*/
+
+    onExpandedUidChanged: {
+        var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid!="" ? getDelegateByUid(root.expandedUid) : undefined;
+        if (delegate) {
+            setContentPane(delegate);
+        } else {
+            clearContentPane(delegate);
+        }
     }
 
-    Component.onCompleted: {
+    /*Component.onCompleted: {
+        console.log("Component.onCompleted",landscapeMode);
         if (landscapeMode)
             autoSetDelegate();
+    }*/
+
+    onStatusChanged: {
+        if (status === PageStatus.Active) {
+            if (landscapeMode)
+                autoSetDelegate();
+        }
     }
 
     onOrientationTransitionRunningChanged: {
         if (!orientationTransitionRunning) {
+            //console.log("onOrientationTransitionRunningChanged");
             if (landscapeMode) {
                 autoSetDelegate();
             } else {
-                if (root.expandedDelegate)
-                    listView.positionViewAtIndex(root.expandedDelegate.index, ListView.Contain);
+                var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid!="" ? getDelegateByUid(root.expandedUid) : undefined;
+                if (delegate)
+                    listView.positionViewAtIndex(delegate.index, ListView.Contain);
             }
         }
     }
@@ -157,11 +195,29 @@ Page {
 
         height: app.flickHeight
 
-        onMovingChanged: {
+        /*onMovingChanged: {
             if (root.landscapeMode && !moving) {
                 var item = itemAt(0,contentY + root.height/3);
                 if (!item.last && !item.daterow)
                     item.expanded = true;
+            }
+        }*/
+
+        onContentYChanged: {
+            if (root.landscapeMode) {
+                var itemTop = itemAt(0,contentY + root.height/5);
+                var itemBottom = itemAt(0,contentY + 4*root.height/5);
+                if (!itemTop.last && !itemTop.daterow) {
+                    if (root.expandedDelegate) {
+                        if (root.expandedDelegate.index < itemTop.index ||
+                            root.expandedDelegate.index > itemBottom.index  )
+                            itemTop.expanded = true;
+                        else
+                            return;
+                    } else {
+                        itemTop.expanded = true;
+                    }
+                }
             }
         }
 
@@ -299,7 +355,7 @@ Page {
                     }
                 }
 
-                expanded = false;
+                //expanded = false;
 
                 // Open in external browser
                 // (!dm.online && settings.offlineMode) -> WORKAROUND for https://github.com/mkiol/kaktus/issues/14
@@ -392,10 +448,15 @@ Page {
                         }
                     }
 
-                    expandedDelegate = delegate;
+                    root.expandedDelegate = delegate;
+                    root.expandedUid = delegate.uid;
+                    root.expandedIndex = delegate.index;
                 } else {
-                    if (delegate === expandedDelegate)
-                        expandedDelegate = null;
+                    if (delegate === root.expandedDelegate) {
+                        root.expandedDelegate = null;
+                        root.expandedUid = "";
+                        root.expandedIndex = 0;
+                    }
                 }
             }
 
@@ -494,24 +555,26 @@ Page {
         width: expanded ? root.width : app.landscapeContentPanelWidth
         clip: true
         height: app.flickHeight
-        openable: root.expandedDelegate && !dm.busy && !fetcher.busy && !dm.removerBusy && !isTablet
+        openable: root.expandedUid != "" && !dm.busy && !fetcher.busy && !dm.removerBusy && !isTablet
 
         onClicked: {
             if (isTablet) {
-                if (root.expandedDelegate)
-                    root.expandedDelegate.openEntry();
+                var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid !="" ? getDelegateByUid(root.expandedUid) : undefined;
+                if (delegate)
+                    delegate.openEntry();
             } else {
                 expanded = !expanded;
             }
         }
         onOpenClicked: {
-            if (root.expandedDelegate)
-                root.expandedDelegate.openEntry();
+            var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid !="" ? getDelegateByUid(root.expandedUid) : undefined;
+            if (delegate)
+                delegate.openEntry();
         }
 
         busy: (width != root.width) && (width != app.landscapeContentPanelWidth)
 
-        Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
+        //Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
     }
 
     HintLabel {

@@ -425,7 +425,7 @@ ApplicationWindow {
     property int barWidth: app.orientation==Orientation.Portrait ? Screen.width : Screen.height
     //property int landscapeContentPanelWidth: app.orientation==Orientation.Portrait ? Screen.width/2 : Screen.height/2
     property int landscapeContentPanelWidth: isTablet ?
-                                                 app.orientation==Orientation.Portrait ? Screen.width-700 : Screen.height-700 :
+                                                 app.orientation==Orientation.Portrait ? Screen.width-500 : Screen.height-700 :
                                                  app.orientation==Orientation.Portrait ? Screen.width/2 : Screen.height/2
     property int flickHeight: {
         var size = 0;

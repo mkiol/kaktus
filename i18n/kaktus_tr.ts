@@ -335,7 +335,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="52"/>
         <source>Launching an external browser...</source>
-        <translation type="unfinished">Orjinal tarayıcı açılıyor..</translation>
+        <translation>Orjinal tarayıcı açılıyor..</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="249"/>
@@ -503,12 +503,12 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/sailfish/FeedlySignInDialog.qml" line="68"/>
         <source>Sign In</source>
-        <translation type="unfinished">Giriş</translation>
+        <translation>Giriş</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/FeedlySignInDialog.qml" line="100"/>
         <source>Sign in</source>
-        <translation type="unfinished">Giriş</translation>
+        <translation>Giriş</translation>
     </message>
 </context>
 <context>
@@ -561,20 +561,18 @@ This indicator enables you to switch between the online and offline mode. In the
 Bu gösterge, çevrimdışı ve çevrimiçi modları arasında geçiş yapmanızı sağlar. Çevrimdışı modda, Kaktus yalnızca ağ bağlantısı gerekli olmayacaktır böylece web sayfaları ve görüntüleri almak için yerel önbelleği kullanır.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="162"/>
-        <source>Bottom bar lets you switch between 4 view modes.
-</source>
-        <translation type="unfinished">Alt bar 5 görüntüleme modları arasında geçiş sağlar.
-
- {4 ?}</translation>
-    </message>
-    <message>
         <location filename="../qml/sailfish/Guide.qml" line="163"/>
         <source>Bottom bar lets you switch between 5 view modes.
 </source>
         <translation>Alt bar 5 görüntüleme modları arasında geçiş sağlar.
 
 </translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/Guide.qml" line="162"/>
+        <source>Bottom bar lets you switch between 4 view modes.
+</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="186"/>
@@ -940,6 +938,36 @@ tıklayın.</translation>
         <translation>Her zaman</translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="315"/>
+        <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="569"/>
+        <source>Context menu style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="573"/>
+        <source>Icons</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="574"/>
+        <source>Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="593"/>
+        <source>Open articles in browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="594"/>
+        <source>Instead built-in web viewer, web pages will be opened in an external browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="604"/>
         <source>Read mode</source>
         <translation>Okuma modu</translation>
@@ -948,6 +976,31 @@ tıklayın.</translation>
         <location filename="../qml/sailfish/SettingsPage.qml" line="605"/>
         <source>Web pages will be reformatted into an easy to read version.</source>
         <translation>Web sayfaları kolay okunabilir versiyona geçti.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
+        <source>Double-pane reader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
+        <source>Double-pane reader in landscape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
+        <source>View with the articles will be splited in to two colums.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
+        <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="639"/>
+        <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="704"/>
@@ -975,6 +1028,36 @@ tıklayın.</translation>
         <translation>Önbelleği sil</translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="222"/>
+        <source>Most recent articles will be syncronized according to the defined timeframe.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="223"/>
+        <source>Regardless of the value, all starred, liked and shared items will be synced as well.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="223"/>
+        <source>Regardless of the value, all saved items will be synced as well.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="224"/>
+        <source>Be aware, this parameter has significant impact on the speed of synchronization.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="229"/>
+        <source>Sync read articles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="230"/>
+        <source>In addition to unread also read articles will be synced. Disabling this option will speed up synchronization, but read articles will not be accessible form Kaktus.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="281"/>
         <source>Network mode</source>
         <translation>Bağlantı modu</translation>
@@ -988,6 +1071,21 @@ tıklayın.</translation>
         <location filename="../qml/sailfish/SettingsPage.qml" line="350"/>
         <source>Default</source>
         <translation>Varsayılan</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="548"/>
+        <source>Sort order for list of articles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="552"/>
+        <source>Recent first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="553"/>
+        <source>Oldest first</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="394"/>
@@ -1050,6 +1148,11 @@ tıklayın.</translation>
         <translation>Mevcut önbellek boyutu</translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="637"/>
+        <source>Social features</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="649"/>
         <source>Power save mode</source>
         <translation>Güç tasarruf modu</translation>
@@ -1068,111 +1171,6 @@ tıklayın.</translation>
         <location filename="../qml/sailfish/SettingsPage.qml" line="320"/>
         <source>UI</source>
         <translation>Arayüz</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="222"/>
-        <source>Most recent articles will be syncronized according to the defined timeframe.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="223"/>
-        <source>Regardless of the value, all starred, liked and shared items will be synced as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="223"/>
-        <source>Regardless of the value, all saved items will be synced as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="224"/>
-        <source>Be aware, this parameter has significant impact on the speed of synchronization.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="229"/>
-        <source>Sync read articles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="230"/>
-        <source>In addition to unread also read articles will be synced. Disabling this option will speed up synchronization, but read articles will not be accessible form Kaktus.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="315"/>
-        <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="548"/>
-        <source>Sort order for list of articles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="552"/>
-        <source>Recent first</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="553"/>
-        <source>Oldest first</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="569"/>
-        <source>Context menu style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="573"/>
-        <source>Icons</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="574"/>
-        <source>Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="593"/>
-        <source>Open articles in browser</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="594"/>
-        <source>Instead built-in web viewer, web pages will be opened in an external browser.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
-        <source>Double-pane reader</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
-        <source>Double-pane reader in landscape</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
-        <source>View with the articles will be splited in to two colums.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
-        <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="637"/>
-        <source>Social features</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="639"/>
-        <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="662"/>
@@ -1231,14 +1229,14 @@ tıklayın.</translation>
         <translation>Evet</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SignOutDialog.qml" line="65"/>
-        <source>Disconnect Kaktus from your Old Reader account?</source>
-        <translation>Kaktus uygulamasından Eski Okuyucu hesabı çıkarılsın mı ?</translation>
-    </message>
-    <message>
         <location filename="../qml/sailfish/SignOutDialog.qml" line="66"/>
         <source>Disconnect Kaktus from your Feedly account?</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SignOutDialog.qml" line="65"/>
+        <source>Disconnect Kaktus from your Old Reader account?</source>
+        <translation>Kaktus uygulamasından Eski Okuyucu hesabı çıkarılsın mı ?</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SignOutDialog.qml" line="63"/>
@@ -1257,6 +1255,13 @@ tıklayın.</translation>
         <location filename="../qml/sailfish/TabPage.qml" line="230"/>
         <source>Wait until Sync finish.</source>
         <translation>Eşlemenin bitmesini bekleyin.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/TabPage.qml" line="95"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="193"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="197"/>
+        <source>Uncategorized</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/TabPage.qml" line="207"/>
@@ -1293,13 +1298,6 @@ tıklayın.</translation>
         <translation>Takip</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/TabPage.qml" line="95"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="193"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="197"/>
-        <source>Uncategorized</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/sailfish/TabPage.qml" line="231"/>
         <source>No folders</source>
         <translation>Klasör yok</translation>
@@ -1310,7 +1308,7 @@ tıklayın.</translation>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1480,6 +1478,16 @@ tıklayın.</translation>
         <translation>Beslemeler</translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/main.qml" line="176"/>
+        <source>Caching... %1 of %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/main.qml" line="182"/>
+        <source>Caching...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/sailfish/main.qml" line="187"/>
         <source>Download failed!
 Network connection is unavailable.</source>
@@ -1544,16 +1552,6 @@ Bağlantı mevcut değil.</translation>
 Restart the app to rebuild cache data.</source>
         <translation>Bir şeyler ters gitti :-(
 Önbellek verileri yeniden oluşturmak için uygulamayı yeniden başlatın.</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/main.qml" line="176"/>
-        <source>Caching... %1 of %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/main.qml" line="182"/>
-        <source>Caching...</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/main.qml" line="266"/>

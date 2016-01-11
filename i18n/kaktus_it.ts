@@ -32,7 +32,7 @@
     <message>
         <location filename="../qml/sailfish/AboutPage.qml" line="127"/>
         <source>This software is distributed under the terms of the GNU General Public Licence version 3.</source>
-        <translation>Questo software è distribuito sotto i termini della licenza GNU General Public Licence versione 3.</translation>
+        <translation>Questo software è distribuito sotto i termini della licenza GNU General Public Licence versione 3</translation>
     </message>
 </context>
 <context>
@@ -335,7 +335,7 @@ Connessione di rete non disponibile.</translation>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="52"/>
         <source>Launching an external browser...</source>
-        <translation type="unfinished">Apertura browser...</translation>
+        <translation>Apertura browser...</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="249"/>
@@ -1308,7 +1308,7 @@ nelle impostazioni.</translation>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -14,7 +14,7 @@ Name:       harbour-kaktus
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
 Version:    2.2
-Release:    6
+Release:    7
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,9 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Mon Jan 11 2016 Michal Kosciesza 2.2-7
+- Translations update
 
 * Fri Jan 08 2016 Michal Kosciesza 2.2-6
 - FIX: New netvibes API support

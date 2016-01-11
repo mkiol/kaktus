@@ -75,7 +75,7 @@
         <source>Can&apos;t switch to Online mode.
 Network connection is unavailable.</source>
         <translation>Невозможно переключиться в режим онлайн.
-Отсутствует соединение с сетью.</translation>
+Отсутствует соединение с сетью</translation>
     </message>
 </context>
 <context>
@@ -116,7 +116,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="237"/>
         <source>Uploading</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="245"/>
@@ -136,7 +136,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="260"/>
         <source>Waiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Ожидание</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="278"/>
@@ -335,7 +335,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="52"/>
         <source>Launching an external browser...</source>
-        <translation type="unfinished">Запуск браузера...</translation>
+        <translation>Запуск браузера...</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="249"/>
@@ -449,7 +449,7 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/sailfish/EntryPageContent.qml" line="109"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть</translation>
     </message>
 </context>
 <context>
@@ -952,7 +952,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="573"/>
         <source>Icons</source>
-        <translation type="unfinished"></translation>
+        <translation>Иконки</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="574"/>
@@ -1310,7 +1310,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

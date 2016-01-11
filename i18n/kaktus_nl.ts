@@ -116,7 +116,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="237"/>
         <source>Uploading</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met uploaden</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="245"/>
@@ -136,7 +136,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="260"/>
         <source>Waiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met wachten</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="278"/>
@@ -146,7 +146,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="280"/>
         <source>%1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 van %2</translation>
     </message>
 </context>
 <context>
@@ -185,7 +185,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/sailfish/DebugPage.qml" line="52"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>Foutopsporing</translation>
     </message>
 </context>
 <context>
@@ -194,7 +194,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="476"/>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="570"/>
         <source>Mark above as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Bovenstaande als gelezen markeren</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="489"/>
@@ -224,13 +224,13 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="506"/>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="593"/>
         <source>Unlike</source>
-        <translation type="unfinished"></translation>
+        <translation>Niet meer leuk vinden</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="506"/>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="593"/>
         <source>Like</source>
-        <translation type="unfinished"></translation>
+        <translation>Vind ik leuk</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="521"/>
@@ -241,13 +241,13 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="521"/>
         <source>Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Delen</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="537"/>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="621"/>
         <source>Open in browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Openen in webbrowser</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryDelegate.qml" line="606"/>
@@ -335,17 +335,17 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="52"/>
         <source>Launching an external browser...</source>
-        <translation type="unfinished">Externe browser wordt gestart...</translation>
+        <translation>Bezig met starten van externe browser...</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="249"/>
         <source>Marking all liked articles as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met het markeren van alle leuke artikelen als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="253"/>
         <source>Marking all shared articles as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met het markeren van alle gedeelde artikelen als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="288"/>
@@ -360,12 +360,12 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="292"/>
         <source>Liked</source>
-        <translation type="unfinished"></translation>
+        <translation>Leuk bevonden</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="294"/>
         <source>Shared</source>
-        <translation type="unfinished"></translation>
+        <translation>Gedeeld</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="335"/>
@@ -436,7 +436,7 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="536"/>
         <source>No liked items</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen leuk bevonden items</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/EntryPage.qml" line="588"/>
@@ -449,7 +449,7 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <message>
         <location filename="../qml/sailfish/EntryPageContent.qml" line="109"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Openen</translation>
     </message>
 </context>
 <context>
@@ -503,12 +503,12 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <message>
         <location filename="../qml/sailfish/FeedlySignInDialog.qml" line="68"/>
         <source>Sign In</source>
-        <translation type="unfinished">Inloggen</translation>
+        <translation>Inloggen</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/FeedlySignInDialog.qml" line="100"/>
         <source>Sign in</source>
-        <translation type="unfinished">Inloggen</translation>
+        <translation>Inloggen</translation>
     </message>
 </context>
 <context>
@@ -561,17 +561,17 @@ This indicator enables you to switch between the online and offline mode. In the
 Deze indicator stelt u in staat om te schakelen tussen de online- en offlinemodus. In de offlinemodus zal Kaktus alleen de lokale cache gebruiken om webpagina&apos;s en afbeeldingen te verkrijgen zodat uw netwerkverbinding niet wordt belast.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/Guide.qml" line="162"/>
-        <source>Bottom bar lets you switch between 4 view modes.
-</source>
-        <translation type="unfinished">De onderste balk laat u schakelen tussen 5 verschillende weergavemodi.
- {4 ?}</translation>
-    </message>
-    <message>
         <location filename="../qml/sailfish/Guide.qml" line="163"/>
         <source>Bottom bar lets you switch between 5 view modes.
 </source>
         <translation>De onderste balk laat u schakelen tussen 5 verschillende weergavemodi.
+</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/Guide.qml" line="162"/>
+        <source>Bottom bar lets you switch between 4 view modes.
+</source>
+        <translation>De onderste balk laat u schakelen tussen 4 verschillende weergavemodi.
 </translation>
     </message>
     <message>
@@ -651,7 +651,9 @@ Lijst van alle artikelen van minder frequent bijgewerkte feeds. Een feed is aang
         <source>Mode #5
 
 Lists all articles you have liked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Modus #5
+
+Lijst met alle artikelen die u leuk vindt.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/Guide.qml" line="322"/>
@@ -937,6 +939,36 @@ op de instellingenpagina.</translation>
         <translation>Altijd</translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="315"/>
+        <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
+        <translation>Na het synchroniseren zal de inhoud van alle items worden gedownload en in de cache worden opgeslagen zodat u er in de offline-modus bij kunt.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="569"/>
+        <source>Context menu style</source>
+        <translation>Stijl van contextmenu</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="573"/>
+        <source>Icons</source>
+        <translation>Pictogrammen</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="574"/>
+        <source>Text</source>
+        <translation>Tekst</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="593"/>
+        <source>Open articles in browser</source>
+        <translation>Open artikelen in webbrowser</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="594"/>
+        <source>Instead built-in web viewer, web pages will be opened in an external browser.</source>
+        <translation>Zal webpagina&apos;s openen in een externe webbrowser i.p.v. de ingebouwde webweergave.</translation>
+    </message>
+    <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="604"/>
         <source>Read mode</source>
         <translation>Leesmodus</translation>
@@ -945,6 +977,31 @@ op de instellingenpagina.</translation>
         <location filename="../qml/sailfish/SettingsPage.qml" line="605"/>
         <source>Web pages will be reformatted into an easy to read version.</source>
         <translation>Webpagina&apos;s zullen worden heropgemaakt zodat ze makkelijk te lezen zijn.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
+        <source>Double-pane reader</source>
+        <translation>Lezer met dubbel paneel</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
+        <source>Double-pane reader in landscape</source>
+        <translation>Lezer met dubbel paneel in landschapsmodus</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
+        <source>View with the articles will be splited in to two colums.</source>
+        <translation>De artikelweergave zal worden gesplitst in twee kolommen.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
+        <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
+        <translation>De artikelweergave zal worden gesplitst in twee kolommen in landschapsmodus.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="639"/>
+        <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
+        <translation>De volgende functies van Old Reader zullen worden ingeschakeld: het volgen van een map, het delen van een artikel met volgers, vind ik leuk-optie en de leuk bevonden artikelen-weergavemodus.</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="704"/>
@@ -972,6 +1029,36 @@ op de instellingenpagina.</translation>
         <translation>Cache wissen</translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="222"/>
+        <source>Most recent articles will be syncronized according to the defined timeframe.</source>
+        <translation>De meest recente artikelen zullen worden gesynchroniseerd in de opgegeven tijdsvolgorde.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="223"/>
+        <source>Regardless of the value, all starred, liked and shared items will be synced as well.</source>
+        <translation>Alle gefavoriete, geleukte en gedeelde items zullen worden gesynchroniseerd, ongeacht de waarde.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="223"/>
+        <source>Regardless of the value, all saved items will be synced as well.</source>
+        <translation>Alle opgeslagen items zullen ook worden gesynchroniseerd, ongeacht de waarde.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="224"/>
+        <source>Be aware, this parameter has significant impact on the speed of synchronization.</source>
+        <translation>Let op: deze parameter heeft grote impact op de synchronisatie-snelheid.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="229"/>
+        <source>Sync read articles</source>
+        <translation>Gelezen artikelen synchroniseren</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="230"/>
+        <source>In addition to unread also read articles will be synced. Disabling this option will speed up synchronization, but read articles will not be accessible form Kaktus.</source>
+        <translation>Zowel ongelezen als gelezen artikelen zullen worden gesynchroniseerd. Door deze optie uit te schakelen zal de synchronisatie-snelheid verbeteren maar zullen gelezen artikelen niet beschikbaar zijn in Kaktus.</translation>
+    </message>
+    <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="281"/>
         <source>Network mode</source>
         <translation>Netwerkmodus</translation>
@@ -985,6 +1072,21 @@ op de instellingenpagina.</translation>
         <location filename="../qml/sailfish/SettingsPage.qml" line="350"/>
         <source>Default</source>
         <translation>Standaard</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="548"/>
+        <source>Sort order for list of articles</source>
+        <translation>Sorteervolgorde van artikelenlijst</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="552"/>
+        <source>Recent first</source>
+        <translation>Recentste bovenaan</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="553"/>
+        <source>Oldest first</source>
+        <translation>Oudste bovenaan</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="394"/>
@@ -1047,6 +1149,11 @@ op de instellingenpagina.</translation>
         <translation>Huidige cachegrootte</translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="637"/>
+        <source>Social features</source>
+        <translation>Sociale functies</translation>
+    </message>
+    <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="649"/>
         <source>Power save mode</source>
         <translation>Energiebesparingsmodus</translation>
@@ -1065,111 +1172,6 @@ op de instellingenpagina.</translation>
         <location filename="../qml/sailfish/SettingsPage.qml" line="320"/>
         <source>UI</source>
         <translation>Uiterlijk</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="222"/>
-        <source>Most recent articles will be syncronized according to the defined timeframe.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="223"/>
-        <source>Regardless of the value, all starred, liked and shared items will be synced as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="223"/>
-        <source>Regardless of the value, all saved items will be synced as well.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="224"/>
-        <source>Be aware, this parameter has significant impact on the speed of synchronization.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="229"/>
-        <source>Sync read articles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="230"/>
-        <source>In addition to unread also read articles will be synced. Disabling this option will speed up synchronization, but read articles will not be accessible form Kaktus.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="315"/>
-        <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="548"/>
-        <source>Sort order for list of articles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="552"/>
-        <source>Recent first</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="553"/>
-        <source>Oldest first</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="569"/>
-        <source>Context menu style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="573"/>
-        <source>Icons</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="574"/>
-        <source>Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="593"/>
-        <source>Open articles in browser</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="594"/>
-        <source>Instead built-in web viewer, web pages will be opened in an external browser.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
-        <source>Double-pane reader</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
-        <source>Double-pane reader in landscape</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
-        <source>View with the articles will be splited in to two colums.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
-        <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="637"/>
-        <source>Social features</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="639"/>
-        <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SettingsPage.qml" line="662"/>
@@ -1228,14 +1230,14 @@ op de instellingenpagina.</translation>
         <translation>Ja</translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/SignOutDialog.qml" line="66"/>
+        <source>Disconnect Kaktus from your Feedly account?</source>
+        <translation>Weet u zeker dat u de verbinding tussen Kaktus en uw Feedly-account wilt verbreken?</translation>
+    </message>
+    <message>
         <location filename="../qml/sailfish/SignOutDialog.qml" line="65"/>
         <source>Disconnect Kaktus from your Old Reader account?</source>
         <translation>De koppeling met uw oude lezer-account verbreken?</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SignOutDialog.qml" line="66"/>
-        <source>Disconnect Kaktus from your Feedly account?</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/SignOutDialog.qml" line="63"/>
@@ -1254,6 +1256,13 @@ op de instellingenpagina.</translation>
         <location filename="../qml/sailfish/TabPage.qml" line="230"/>
         <source>Wait until Sync finish.</source>
         <translation>Wacht totdat de synchronisatie is afgerond.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/TabPage.qml" line="95"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="193"/>
+        <location filename="../qml/sailfish/TabPage.qml" line="197"/>
+        <source>Uncategorized</source>
+        <translation>Niet-gecategoriseerd</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/TabPage.qml" line="207"/>
@@ -1290,13 +1299,6 @@ op de instellingenpagina.</translation>
         <translation>Volgend</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/TabPage.qml" line="95"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="193"/>
-        <location filename="../qml/sailfish/TabPage.qml" line="197"/>
-        <source>Uncategorized</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/sailfish/TabPage.qml" line="231"/>
         <source>No folders</source>
         <translation>Geen mappen</translation>
@@ -1307,7 +1309,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1358,7 +1360,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../src/utils.cpp" line="576"/>
         <source>unknown date</source>
-        <translation type="unfinished"></translation>
+        <translation>onbekende datum</translation>
     </message>
     <message>
         <location filename="../src/utils.cpp" line="579"/>
@@ -1477,6 +1479,16 @@ op de instellingenpagina.</translation>
         <translation>Feeds</translation>
     </message>
     <message>
+        <location filename="../qml/sailfish/main.qml" line="176"/>
+        <source>Caching... %1 of %2</source>
+        <translation>Bezig met opslaan in cache... %1 van %2</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/main.qml" line="182"/>
+        <source>Caching...</source>
+        <translation>Bezig met opslaan in cache...</translation>
+    </message>
+    <message>
         <location filename="../qml/sailfish/main.qml" line="187"/>
         <source>Download failed!
 Network connection is unavailable.</source>
@@ -1541,16 +1553,6 @@ Er is geen netwerkverbinding beschikbaar.</translation>
 Restart the app to rebuild cache data.</source>
         <translation>Er ging iets mis :-(
 Herstart de app om de cacheinhoud opnieuw op te bouwen.</translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/main.qml" line="176"/>
-        <source>Caching... %1 of %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/main.qml" line="182"/>
-        <source>Caching...</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/sailfish/main.qml" line="266"/>
