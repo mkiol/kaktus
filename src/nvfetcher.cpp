@@ -69,7 +69,7 @@ void NvFetcher::signIn()
             setBusy(false);
             return;
         }
-        request.setUrl(QUrl("http://www.netvibes.com/api/auth/signin"));
+        request.setUrl(QUrl("https://www.netvibes.com/api/auth/signin"));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
         body = "email="+QUrl::toPercentEncoding(username)+"&password="+QUrl::toPercentEncoding(password)+"&session_only=1";
         currentReply = nam.post(request, body.toUtf8());
@@ -176,7 +176,7 @@ void NvFetcher::fetchTabs()
 
     QString dashbordId = dashboardList.first();
 
-    QUrl url("http://www.netvibes.com/api/my/dashboards/data");
+    QUrl url("https://www.netvibes.com/api/my/dashboards/data");
     QNetworkRequest request(url);
 
     if (currentReply != NULL) {
@@ -199,7 +199,7 @@ void NvFetcher::fetchFeeds()
 
     Settings *s = Settings::instance();
 
-    QUrl url("http://www.netvibes.com/api/streams");
+    QUrl url("https://www.netvibes.com/api/streams");
     QNetworkRequest request(url);
 
     if (currentReply != NULL) {
@@ -253,7 +253,7 @@ void NvFetcher::fetchFeedsReadlater()
 
     Settings *s = Settings::instance();
 
-    QUrl url("http://www.netvibes.com/api/streams/saved");
+    QUrl url("https://www.netvibes.com/api/streams/saved");
     QNetworkRequest request(url);
 
     if (currentReply != NULL) {
@@ -290,7 +290,7 @@ void NvFetcher::fetchFeedsUpdate()
 
     Settings *s = Settings::instance();
 
-    QUrl url("http://www.netvibes.com/api/streams");
+    QUrl url("https://www.netvibes.com/api/streams");
     QNetworkRequest request(url);
 
     if (currentReply != NULL) {
@@ -352,20 +352,20 @@ void NvFetcher::setAction()
     case DatabaseManager::SetTabReadAll:
     case DatabaseManager::SetAllRead:
     case DatabaseManager::SetSlowRead:
-        url.setUrl("http://www.netvibes.com/api/streams/read/add?pageId="+s->getDashboardInUse());
+        url.setUrl("https://www.netvibes.com/api/streams/read/add?pageId="+s->getDashboardInUse());
         break;
     case DatabaseManager::SetSaved:
-        url.setUrl("http://www.netvibes.com/api/streams/saved/add?pageId="+s->getDashboardInUse());
+        url.setUrl("https://www.netvibes.com/api/streams/saved/add?pageId="+s->getDashboardInUse());
         break;
     case DatabaseManager::UnSetSaved:
-        url.setUrl("http://www.netvibes.com/api/streams/saved/remove?pageId="+s->getDashboardInUse());
+        url.setUrl("https://www.netvibes.com/api/streams/saved/remove?pageId="+s->getDashboardInUse());
         break;
     case DatabaseManager::UnSetRead:
     case DatabaseManager::UnSetStreamReadAll:
     case DatabaseManager::UnSetTabReadAll:
     case DatabaseManager::UnSetAllRead:
     case DatabaseManager::UnSetSlowRead:
-        url.setUrl("http://www.netvibes.com/api/streams/read/remove?pageId="+s->getDashboardInUse());
+        url.setUrl("https://www.netvibes.com/api/streams/read/remove?pageId="+s->getDashboardInUse());
         break;
     default:
         // Unknown action -> skiping
@@ -579,12 +579,12 @@ void NvFetcher::getConnectUrl(int type)
 
     switch (type) {
     case 1:
-        request.setUrl(QUrl("http://www.netvibes.com/api/auth/get-url"));
+        request.setUrl(QUrl("https://www.netvibes.com/api/auth/get-url"));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
         currentReply = nam.post(request,"callbackUrl=%2Fconnect%2Ftwitter&service=twitter");
         break;
     case 2:
-        request.setUrl(QUrl("http://www.netvibes.com/api/auth/get-url"));
+        request.setUrl(QUrl("https://www.netvibes.com/api/auth/get-url"));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
         currentReply = nam.post(request,"callbackUrl=%2Fconnect%2Ffacebook&service=facebook");
         break;
@@ -1435,7 +1435,7 @@ int NvFetcher::storeFeeds()
                         // Downloading fav icon file
                         if (st.link!="") {
                             QUrl iconUrl(st.link);
-                            st.icon = QString("http://avatars.netvibes.com/favicon/%1://%2")
+                            st.icon = QString("https://avatars.netvibes.com/favicon/%1://%2")
                                     .arg(iconUrl.scheme())
                                     .arg(iconUrl.host());
                             DatabaseManager::CacheItem item;
