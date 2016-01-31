@@ -60,10 +60,11 @@
     </message>
     <message>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="54"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="83"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="112"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="63"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="97"/>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="126"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="145"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="140"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="159"/>
         <source>Version %1</source>
         <translation>Verze: %1</translation>
     </message>
@@ -191,88 +192,100 @@ Síťové spojení je nedostupné.</translation>
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="476"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="570"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="479"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="597"/>
         <source>Mark above as read</source>
         <translation>Označit výše jako přečtené</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="489"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="581"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="492"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="608"/>
         <source>Unsave</source>
         <translation>Zrušit uložení</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="489"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="581"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="492"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="608"/>
         <source>Save</source>
         <translation>Uložit</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="490"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="582"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="493"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="609"/>
         <source>Unstar</source>
         <translation>Odhvězdičkovat</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="490"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="582"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="493"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="609"/>
         <source>Star</source>
         <translation>Ohvězdičkovat</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="506"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="593"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="509"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="620"/>
         <source>Unlike</source>
         <translation>Nelíbí</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="506"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="593"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="509"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="620"/>
         <source>Like</source>
         <translation>Líbí</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="521"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="606"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="524"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="633"/>
         <source>Unshare</source>
         <translation>Přestat sdílet</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="521"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="524"/>
         <source>Share</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="537"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="621"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="540"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="647"/>
+        <source>Open in viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="552"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="658"/>
         <source>Open in browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="606"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="564"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="668"/>
+        <source>Show feed content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="633"/>
         <source>Share with followers</source>
         <translation>Sdílet se stoupenci</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="632"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="679"/>
         <source>Collapse</source>
         <translation>Složit</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="632"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="679"/>
         <source>Expand</source>
         <translation>Rozbalit</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="459"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="556"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="462"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="583"/>
         <source>Mark as unread</source>
         <translation>Označit jako nepřečtené</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="459"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="556"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="462"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="583"/>
         <source>Mark as read</source>
         <translation>Označit jako přečtené</translation>
     </message>
@@ -318,17 +331,17 @@ Síťové spojení je nedostupné.</translation>
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="536"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="566"/>
         <source>No unread items</source>
         <translation>Žádné nepřečtené položky</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="536"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="566"/>
         <source>No items</source>
         <translation>Žádné položky</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="286"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="289"/>
         <source>All feeds</source>
         <translation>Všechny kanály</translation>
     </message>
@@ -338,108 +351,104 @@ Síťové spojení je nedostupné.</translation>
         <translation>Spouští se vnější prohlížeč...</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="249"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="252"/>
         <source>Marking all liked articles as read</source>
         <translation>Všechny oblíbené články se označují jako přečtené</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="253"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="256"/>
         <source>Marking all shared articles as read</source>
         <translation>Všechny sdílené články se označují jako přečtené</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="288"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="291"/>
         <source>Saved</source>
         <translation>Uloženo</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="290"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="293"/>
         <source>Slow</source>
         <translation>Zpomalit</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="292"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="295"/>
         <source>Liked</source>
         <translation>Oblíbeno</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="294"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="297"/>
         <source>Shared</source>
         <translation>Sdíleno</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="335"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="503"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="339"/>
         <source>Please wait until current task is complete.</source>
         <translation>Počkejte, prosím, dokud nebude nynější úkol dokončen.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="341"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="509"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="345"/>
         <source>Offline version not available.</source>
         <translation>Verze pro stav bez připojení k internetu není dostupná.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="349"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="517"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="353"/>
         <source>Network connection is unavailable.
 Switching to Offline mode.</source>
         <translation>Síťové spojení je nedostupné.
 Přepíná se do režimu pro stav bez připojení k internetu.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="353"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="521"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="357"/>
         <source>Network connection is unavailable.</source>
         <translation>Síťové spojení je nedostupné.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="535"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="565"/>
         <source>No saved items</source>
         <translation>Žádné neuložené položky</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="534"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="564"/>
         <source>Wait until Sync finish.</source>
         <translation>Počkejte, dokud nebude seřizování dokončeno.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="233"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="236"/>
         <source>Marking articles as read</source>
         <translation>Články se označují jako přečtené</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="237"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="240"/>
         <source>Marking all your articles as read</source>
         <translation>Všechny vaše články se označují jako přečtené</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="243"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="246"/>
         <source>Marking all saved articles as read</source>
         <translation>Všechny uložené články se označují jako přečtené</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="244"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="247"/>
         <source>Marking all starred articles as read</source>
         <translation>Všechny ohvězdičkované články se označují jako přečtené</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="288"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="291"/>
         <source>Starred</source>
         <translation>Ohvězdičkováno</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="535"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="565"/>
         <source>No starred items</source>
         <translation>Žádné ohvězdičkované položky</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="536"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="566"/>
         <source>No liked items</source>
         <translation>Žádné oblíbené položky</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="588"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="625"/>
         <source>One-tap to open article, double-tap to mark as read</source>
         <translation>Jedno klepnutí pro otevření článku, dvojité klepnutí pro označení článku jako přečteného</translation>
     </message>
@@ -447,7 +456,7 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
 <context>
     <name>EntryPageContent</name>
     <message>
-        <location filename="../qml/sailfish/EntryPageContent.qml" line="109"/>
+        <location filename="../qml/sailfish/EntryPageContent.qml" line="111"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
@@ -463,6 +472,41 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
         <location filename="../qml/sailfish/ErrorPage.qml" line="42"/>
         <source>Sorry, something&apos;s gone wrong :-(</source>
         <translation>Promiňte. Něco není v pořádku.</translation>
+    </message>
+</context>
+<context>
+    <name>FeedContentPage</name>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="57"/>
+        <source>Please wait until current task is complete.</source>
+        <translation type="unfinished">Počkejte, prosím, dokud nebude nynější úkol dokončen.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="63"/>
+        <source>Offline version not available.</source>
+        <translation type="unfinished">Verze pro stav bez připojení k internetu není dostupná.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="71"/>
+        <source>Network connection is unavailable.
+Switching to Offline mode.</source>
+        <translation type="unfinished">Síťové spojení je nedostupné.
+Přepíná se do režimu pro stav bez připojení k internetu.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="75"/>
+        <source>Network connection is unavailable.</source>
+        <translation type="unfinished">Síťové spojení je nedostupné.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="85"/>
+        <source>Launching an external browser...</source>
+        <translation type="unfinished">Spouští se vnější prohlížeč...</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="231"/>
+        <source>URL copied to clipboard</source>
+        <translation type="unfinished">URL byla zkopírovaná do schránky</translation>
     </message>
 </context>
 <context>
@@ -960,67 +1004,57 @@ na stránce s nastavením.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="593"/>
-        <source>Open articles in browser</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="594"/>
-        <source>Instead built-in web viewer, web pages will be opened in an external browser.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="604"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="631"/>
         <source>Read mode</source>
         <translation>Režim čtení</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="605"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="632"/>
         <source>Web pages will be reformatted into an easy to read version.</source>
         <translation>Internetové stránky budou přeformátovány do snadno čitelné podoby.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="653"/>
         <source>Double-pane reader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="653"/>
         <source>Double-pane reader in landscape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="654"/>
         <source>View with the articles will be splited in to two colums.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="654"/>
         <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="639"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="666"/>
         <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
         <translation>Budou povoleny následující společenské funkce Old Reader: Sledování složek, sdílení článků se stoupenci, volba Líbí se, zobrazení oblíbených článků.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="704"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="731"/>
         <source>Web viewer font size</source>
         <translation>Velikost písma prohlížeče</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="708"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="735"/>
         <source>-50%</source>
         <translation>-50 %</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="709"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="736"/>
         <source>Normal</source>
         <translation>Normální</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="710"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="737"/>
         <source>+50%</source>
         <translation>+50 %</translation>
     </message>
@@ -1095,17 +1129,17 @@ na stránce s nastavením.</translation>
         <translation>Změny se projeví po opětovném spuštění Kaktusu.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="616"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="643"/>
         <source>Show images</source>
         <translation>Ukázat obrázky</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="719"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="746"/>
         <source>Other</source>
         <translation>Jiné</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="723"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="750"/>
         <source>Show User Guide</source>
         <translation>Ukázat průvodce uživatele</translation>
     </message>
@@ -1125,7 +1159,7 @@ na stránce s nastavením.</translation>
         <translation>Ukládat články do vyrovnávací paměti</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="583"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="599"/>
         <source>Show only unread articles</source>
         <translation>Ukázat pouze přečtené články</translation>
     </message>
@@ -1150,22 +1184,42 @@ na stránce s nastavením.</translation>
         <translation>Nynější velikost vyrovnávací paměti</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="637"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="584"/>
+        <source>Click on article action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="588"/>
+        <source>Open in viewer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="589"/>
+        <source>Open external browser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="590"/>
+        <source>Show feed content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="664"/>
         <source>Social features</source>
         <translation>Společenské funkce</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="649"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="676"/>
         <source>Power save mode</source>
         <translation>Režim šetření energií</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="650"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="677"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
         <translation>Když telefon nebo program přejde do stavu nečinnosti, všechny otevřené internetové stránky budou kvůli snížení spotřeby energie zavřeny.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="666"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="693"/>
         <source>Dynamic</source>
         <translation>Dynamický</translation>
     </message>
@@ -1175,32 +1229,32 @@ na stránce s nastavením.</translation>
         <translation>Rozhraní</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="662"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="689"/>
         <source>Orientation</source>
         <translation>Natočení</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="667"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="694"/>
         <source>Portrait</source>
         <translation>Na výšku</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="668"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="695"/>
         <source>Landscape</source>
         <translation>Na šířku</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="676"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="703"/>
         <source>Offline viewer style</source>
         <translation>Styl prohlížeče pro stav nepřipojen</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="686"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="713"/>
         <source>Black</source>
         <translation>Černý</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="687"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="714"/>
         <source>White</source>
         <translation>Bílý</translation>
     </message>
@@ -1310,7 +1364,7 @@ na stránce s nastavením.</translation>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>

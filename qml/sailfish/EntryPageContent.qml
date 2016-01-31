@@ -28,6 +28,7 @@ SilicaFlickable {
     property string image
     property bool busy: false
     property bool openable: false
+    property alias textFormat: contentLabel.textFormat
     readonly property bool active: content != "" || image != ""
 
     signal clicked
@@ -95,8 +96,9 @@ SilicaFlickable {
                 anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
                 text: root.content
                 wrapMode: Text.Wrap
-                textFormat: Text.PlainText
+                //textFormat: Text.PlainText
                 //textFormat:  root.busy ? Text.PlainText : Text.StyledText
+                linkColor: Theme.highlightColor
                 font.pixelSize: Theme.fontSizeSmall
                 visible: root.content!="" && !root.busy
                 color: Theme.primaryColor
@@ -114,7 +116,7 @@ SilicaFlickable {
             }
 
             Item {
-                height: Theme.paddingLarge
+                height: 2 * Theme.paddingLarge
                 width: parent.width
             }
         }

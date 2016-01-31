@@ -40,9 +40,9 @@ static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.2 (light edition)";
+static const char *VERSION = "2.3 (light edition)";
 #else
-static const char *VERSION = "2.2";
+static const char *VERSION = "2.3";
 #endif
 
 int main(int argc, char *argv[])

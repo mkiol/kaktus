@@ -68,7 +68,7 @@ void FilteringWorker::run()
         filename = item.finalUrl;
     }
 
-    if (!readFile(filename)) {
+    if (!CacheServer::readFile(filename, data)) {
         error = true;
         return;
     }
@@ -393,7 +393,52 @@ void FilteringWorker::filterOffline()
     //qDebug() << content;
 }
 
-bool FilteringWorker::readFile(const QString &filename)
+/*bool FilteringWorker::readFile(const QString &filename)
+{
+    Settings *s = Settings::instance();
+    QString cacheDir = s->getDmCacheDir();
+
+    QFile file(cacheDir + "/" + filename);
+
+    if (!QFile::exists(cacheDir + "/" + filename)) {
+        qWarning() << "File " << filename << "does not exists!";
+        file.close();
+        return false;
+    }
+
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Could not open" << filename << "for reading: " << file.errorString();
+        file.close();
+        return false;
+    }
+
+    data.append(file.readAll());
+    file.close();
+
+    return true;
+}*/
+
+// --------------
+
+CacheServer::CacheServer(QObject *parent) :
+    QObject(parent)
+{
+    server = new QHttpServer;
+
+    QObject::connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
+            this, SLOT(handle(QHttpRequest*, QHttpResponse*)));
+
+    if (!server->listen(port)) {
+        qWarning() << "Cache server at localhost failed to start on" << this->port << "port!";
+    }
+}
+
+CacheServer::~CacheServer()
+{
+    delete server;
+}
+
+bool CacheServer::readFile(const QString &filename, QByteArray &data)
 {
     Settings *s = Settings::instance();
     QString cacheDir = s->getDmCacheDir();
@@ -418,24 +463,55 @@ bool FilteringWorker::readFile(const QString &filename)
     return true;
 }
 
-// --------------
-
-CacheServer::CacheServer(QObject *parent) :
-    QObject(parent)
+/*QByteArray CacheServer::getData(const QString &id)
 {
-    server = new QHttpServer;
+    qDebug() << "getData, id=" << id;
 
-    QObject::connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
-            this, SLOT(handle(QHttpRequest*, QHttpResponse*)));
+    Settings *s = Settings::instance();
 
-    if (!server->listen(port)) {
-        qWarning() << "Cache server at localhost failed to start on" << this->port << "port!";
+    DatabaseManager::CacheItem item = s->db->readCacheByEntry(id);
+
+    QString filename;
+    if (item.id == "") {
+        item = s->db->readCacheByFinalUrl(id);
+        filename = id;
+    } else {
+        filename = item.finalUrl;
     }
-}
 
-CacheServer::~CacheServer()
+    QByteArray data;
+
+    if (!CacheServer::readFile(filename, data)) {
+        return data;
+    }
+
+    return data;
+}*/
+
+QString CacheServer::getFileUrl(const QString &id)
 {
-    delete server;
+    //qDebug() << "getFileUrl, id=" << id;
+
+    Settings *s = Settings::instance();
+
+    DatabaseManager::CacheItem item = s->db->readCacheByEntry(id);
+
+    QString filename;
+    if (item.id == "") {
+        item = s->db->readCacheByFinalUrl(id);
+        filename = id;
+    } else {
+        filename = item.finalUrl;
+    }
+
+    QString path = s->getDmCacheDir() + "/" + filename;
+
+    if (!QFile::exists(path)) {
+        qWarning() << "File " << path << "does not exists!";
+        return "";
+    }
+
+    return path;
 }
 
 void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
@@ -459,6 +535,7 @@ void CacheServer::handleFinish()
     FilteringWorker *worker = qobject_cast<FilteringWorker*>(sender());
 
     if (worker->error)    {
+        qDebug() << "handleFinish error:" << worker->req->url();
         worker->resp->setHeader("Content-Length", "0");
         worker->resp->setHeader("Connection", "close");
         worker->resp->writeHead(404);
@@ -546,4 +623,15 @@ QString CacheServer::getUrlbyUrl(const QString &url)
     //return "http://127.0.0.1:" + QString::number(port) + "/" + Utils::hash(url);
     return "http://localhost:" + QString::number(port) + "/" + Utils::hash(url);
 }
+
+QString CacheServer::getCacheUrlbyUrl(const QString &url)
+{
+    // If url is "image://" will not be hashed
+    if (url.isEmpty() || url.startsWith("image://")) {
+        return url;
+    }
+
+    return "cache://" + Utils::hash(url);
+}
+
 

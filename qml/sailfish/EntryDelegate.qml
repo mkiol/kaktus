@@ -33,6 +33,7 @@ ListItem {
     property int readlater: 0
     property string content
     property string contentall
+    property string contentraw
     property string image
     property bool friendStream
     property string feedIcon
@@ -65,7 +66,9 @@ ListItem {
     signal markedLike
     signal unmarkedLike
     signal markedAboveAsRead
+    signal openInViewer
     signal openInBrowser
+    signal showFeedContent
 
     enabled: !last && !daterow
 
@@ -534,12 +537,36 @@ ListItem {
             }
 
             IconMenuItem {
+                text: qsTr("Open in viewer")
+                icon.source: 'image://icons/webview'
+                visible: enabled
+                enabled: settings.clickBehavior !== 0
+                onClicked: {
+                    root.openInViewer();
+                    root.expanded = false;
+                    menu.hide();
+                }
+            }
+
+            IconMenuItem {
                 text: qsTr("Open in browser")
                 icon.source: 'image://icons/browser'
                 visible: enabled
-                enabled: !settings.openInBrowser
+                enabled: settings.clickBehavior !== 1
                 onClicked: {
                     root.openInBrowser();
+                    root.expanded = false;
+                    menu.hide();
+                }
+            }
+
+            IconMenuItem {
+                text: qsTr("Show feed content")
+                icon.source: 'image://icons/rss'
+                visible: enabled
+                enabled: settings.clickBehavior !== 2
+                onClicked: {
+                    root.showFeedContent();
                     root.expanded = false;
                     menu.hide();
                 }
@@ -616,13 +643,33 @@ ListItem {
                 }
             }
 
+            MenuItem {
+                text: qsTr("Open in viewer")
+                visible: enabled
+                enabled: settings.clickBehavior !== 0
+                onClicked: {
+                    root.openInViewer();
+                    root.expanded = false;
+                }
+            }
+
 
             MenuItem {
                 text: qsTr("Open in browser")
                 visible: enabled
-                enabled: !settings.openInBrowser
+                enabled: settings.clickBehavior !== 1
                 onClicked: {
                     root.openInBrowser();
+                    root.expanded = false;
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Show feed content")
+                visible: enabled
+                enabled: settings.clickBehavior !== 2
+                onClicked: {
+                    root.showFeedContent();
                     root.expanded = false;
                 }
             }

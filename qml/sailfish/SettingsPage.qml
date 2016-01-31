@@ -579,6 +579,22 @@ Page {
                 }
             }
 
+            ComboBox {
+                width: root.width
+                label: qsTr("Click on article action")
+                currentIndex: settings.clickBehavior
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Open in viewer") }
+                    MenuItem { text: qsTr("Open external browser") }
+                    MenuItem { text: qsTr("Show feed content") }
+                }
+
+                onCurrentIndexChanged: {
+                    settings.clickBehavior = currentIndex;
+                }
+            }
+
             TextSwitch {
                 text: qsTr("Show only unread articles")
                 onCheckedChanged: {
@@ -589,7 +605,7 @@ Page {
                 }
             }
 
-            TextSwitch {
+            /*TextSwitch {
                 text: qsTr("Open articles in browser")
                 description: qsTr("Instead built-in web viewer, web pages will be opened in an external browser.")
                 onCheckedChanged: {
@@ -599,6 +615,17 @@ Page {
                     checked = settings.openInBrowser;
                 }
             }
+
+            TextSwitch {
+                text: qsTr("Show content from the RSS feed")
+                description: qsTr("Clicking on the article item will display new page with the entire content contained in an RSS feed.")
+                onCheckedChanged: {
+                    settings.showFeedContent = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.showFeedContent;
+                }
+            }*/
 
             TextSwitchWithIcon {
                 text: qsTr("Read mode")

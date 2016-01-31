@@ -60,10 +60,11 @@
     </message>
     <message>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="54"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="83"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="112"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="63"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="97"/>
         <location filename="../qml/sailfish/ChangelogPage.qml" line="126"/>
-        <location filename="../qml/sailfish/ChangelogPage.qml" line="145"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="140"/>
+        <location filename="../qml/sailfish/ChangelogPage.qml" line="159"/>
         <source>Version %1</source>
         <translation>Wersja %1</translation>
     </message>
@@ -141,7 +142,7 @@ Brak połączenia sieciowego.</translation>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="278"/>
         <source>Caching</source>
-        <translation>Pobieranie</translation>
+        <translation type="unfinished">Tworzenie kopii</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/CoverPage.qml" line="280"/>
@@ -191,88 +192,100 @@ Brak połączenia sieciowego.</translation>
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="476"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="570"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="479"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="597"/>
         <source>Mark above as read</source>
         <translation>Oznacz powyższe jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="489"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="581"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="492"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="608"/>
         <source>Unsave</source>
         <translation>Usuń z zapisanych</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="489"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="581"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="492"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="608"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="490"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="582"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="493"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="609"/>
         <source>Unstar</source>
         <translation>Usuń gwiazdkę</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="490"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="582"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="493"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="609"/>
         <source>Star</source>
         <translation>Ogwiazdkuj</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="506"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="593"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="509"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="620"/>
         <source>Unlike</source>
         <translation>Nie lubię</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="506"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="593"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="509"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="620"/>
         <source>Like</source>
         <translation>Lubię</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="521"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="606"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="524"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="633"/>
         <source>Unshare</source>
         <translation>Przestań udostępniać</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="537"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="621"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="540"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="647"/>
+        <source>Open in viewer</source>
+        <translation>Otwórz stronę</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="552"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="658"/>
         <source>Open in browser</source>
         <translation>Otwórz w przeglądarce</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="606"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="564"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="668"/>
+        <source>Show feed content</source>
+        <translation>Pokaż zawartość RSS</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="633"/>
         <source>Share with followers</source>
         <translation>Udostepnij obserwującym</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="521"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="524"/>
         <source>Share</source>
         <translation>Udostępnij</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="632"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="679"/>
         <source>Collapse</source>
         <translation>Zwiń</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="632"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="679"/>
         <source>Expand</source>
         <translation>Rozwiń</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="459"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="556"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="462"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="583"/>
         <source>Mark as unread</source>
         <translation>Oznacz jako nieprzeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="459"/>
-        <location filename="../qml/sailfish/EntryDelegate.qml" line="556"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="462"/>
+        <location filename="../qml/sailfish/EntryDelegate.qml" line="583"/>
         <source>Mark as read</source>
         <translation>Oznacz jako przeczytane</translation>
     </message>
@@ -318,17 +331,17 @@ Brak połączenia sieciowego.</translation>
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="536"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="566"/>
         <source>No unread items</source>
         <translation>Brak nieprzeczytanych artykułów</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="536"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="566"/>
         <source>No items</source>
         <translation>Brak artykułów</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="286"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="289"/>
         <source>All feeds</source>
         <translation>Wszystkie kanały</translation>
     </message>
@@ -338,108 +351,104 @@ Brak połączenia sieciowego.</translation>
         <translation>Uruchamianie zewnętrznej przeglądarki...</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="249"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="252"/>
         <source>Marking all liked articles as read</source>
         <translation>Oznaczanie wszystkich polubionych artykułów jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="253"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="256"/>
         <source>Marking all shared articles as read</source>
         <translation>Oznaczanie wszystkich udostępnionych artykułów jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="288"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="291"/>
         <source>Saved</source>
         <translation>Zapisane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="290"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="293"/>
         <source>Slow</source>
         <translation>Rzadko aktualizowane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="292"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="295"/>
         <source>Liked</source>
         <translation>Polubione</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="294"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="297"/>
         <source>Shared</source>
         <translation>Udostępnione</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="335"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="503"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="339"/>
         <source>Please wait until current task is complete.</source>
         <translation>Zaczekaj do zakończenia obecnego zadania.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="341"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="509"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="345"/>
         <source>Offline version not available.</source>
         <translation>Brak kopii Offline.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="349"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="517"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="353"/>
         <source>Network connection is unavailable.
 Switching to Offline mode.</source>
         <translation>Brak połączenia sieciowego.
 Został włączony tryb Offline.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="353"/>
-        <location filename="../qml/sailfish/EntryPage.qml" line="521"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="357"/>
         <source>Network connection is unavailable.</source>
         <translation>Brak połączenia sieciowego.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="535"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="565"/>
         <source>No saved items</source>
         <translation>Brak zapisanych artykułów</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="534"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="564"/>
         <source>Wait until Sync finish.</source>
         <translation>Zaczekaj do zakończenia aktualizacji.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="233"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="236"/>
         <source>Marking articles as read</source>
         <translation>Oznaczanie artykułów jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="237"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="240"/>
         <source>Marking all your articles as read</source>
         <translation>Oznaczanie wszystkie artykułów jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="243"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="246"/>
         <source>Marking all saved articles as read</source>
         <translation>Oznaczanie wszystkich zapisanych artykułów jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="244"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="247"/>
         <source>Marking all starred articles as read</source>
         <translation>Oznaczanie wszystkich ogwiazdkowanych artykułów jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="288"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="291"/>
         <source>Starred</source>
         <translation>Ogwiazdkowane</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="535"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="565"/>
         <source>No starred items</source>
         <translation>Brak ogwiazdkowanych artykułów</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="536"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="566"/>
         <source>No liked items</source>
         <translation>Brak polubionych artykułów</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/EntryPage.qml" line="588"/>
+        <location filename="../qml/sailfish/EntryPage.qml" line="625"/>
         <source>One-tap to open article, double-tap to mark as read</source>
         <translation>Pojedyńcze pacnięcie otwiera artykuł, a podwójne oznacza jako przeczytany</translation>
     </message>
@@ -447,7 +456,7 @@ Został włączony tryb Offline.</translation>
 <context>
     <name>EntryPageContent</name>
     <message>
-        <location filename="../qml/sailfish/EntryPageContent.qml" line="109"/>
+        <location filename="../qml/sailfish/EntryPageContent.qml" line="111"/>
         <source>Open</source>
         <translation>Otwórz</translation>
     </message>
@@ -463,6 +472,41 @@ Został włączony tryb Offline.</translation>
         <location filename="../qml/sailfish/ErrorPage.qml" line="42"/>
         <source>Sorry, something&apos;s gone wrong :-(</source>
         <translation>Przepraszamy, coś poszło nie tak :-(</translation>
+    </message>
+</context>
+<context>
+    <name>FeedContentPage</name>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="57"/>
+        <source>Please wait until current task is complete.</source>
+        <translation>Zaczekaj do zakończenia obecnego zadania.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="63"/>
+        <source>Offline version not available.</source>
+        <translation>Brak kopii Offline.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="71"/>
+        <source>Network connection is unavailable.
+Switching to Offline mode.</source>
+        <translation>Brak połączenia sieciowego.
+Został włączony tryb Offline.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="75"/>
+        <source>Network connection is unavailable.</source>
+        <translation>Brak połączenia sieciowego.</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="85"/>
+        <source>Launching an external browser...</source>
+        <translation>Uruchamianie zewnętrznej przeglądarki...</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/FeedContentPage.qml" line="231"/>
+        <source>URL copied to clipboard</source>
+        <translation>Adres URL został skopiowany</translation>
     </message>
 </context>
 <context>
@@ -942,37 +986,57 @@ Jeśli chcesz zobaczyć ten przewodnik jeszcze raz, naciśnij &lt;i&gt;Pokaż pr
         <translation>Każdorazowo podczas aktualizacji, treść artykułów będzie pobierana i zapisywana lokalnie, tak aby była dostępna podczas pracy w trybie offline.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="604"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="584"/>
+        <source>Click on article action</source>
+        <translation>Akcja dla kliknięcia w artykuł</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="588"/>
+        <source>Open in viewer</source>
+        <translation>Otwórz stronę</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="589"/>
+        <source>Open external browser</source>
+        <translation>Otwórz w przeglądarce</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="590"/>
+        <source>Show feed content</source>
+        <translation>Pokaż zawartość RSS</translation>
+    </message>
+    <message>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="631"/>
         <source>Read mode</source>
         <translation>Tryb Czytnika</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="605"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="632"/>
         <source>Web pages will be reformatted into an easy to read version.</source>
         <translation>Strony zostaną przeformatowane tak aby były łatwiejsze do czytania.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="639"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="666"/>
         <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
         <translation>Następujące funkcje zostaną włączone: Folder obserwowani, Udostępnianie obserwującym, Opcja Lubię, Tryb przeglądania tylko polubionych artykułów.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="704"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="731"/>
         <source>Web viewer font size</source>
         <translation>Rozmiar czcionki w przeglądarce</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="708"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="735"/>
         <source>-50%</source>
         <translation>-50%</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="709"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="736"/>
         <source>Normal</source>
         <translation>Standardowy</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="710"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="737"/>
         <source>+50%</source>
         <translation>+50%</translation>
     </message>
@@ -1032,12 +1096,12 @@ Jeśli chcesz zobaczyć ten przewodnik jeszcze raz, naciśnij &lt;i&gt;Pokaż pr
         <translation>Zmiany zadziałają po ponownym uruchomieniu Kaktusa.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="616"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="643"/>
         <source>Show images</source>
         <translation>Pokazuj obrazki</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="723"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="750"/>
         <source>Show User Guide</source>
         <translation>Pokaż przewodnik</translation>
     </message>
@@ -1092,72 +1156,70 @@ Jeśli chcesz zobaczyć ten przewodnik jeszcze raz, naciśnij &lt;i&gt;Pokaż pr
         <translation>Tekst</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="593"/>
         <source>Open articles in browser</source>
-        <translation>Otwieraj artykuły w przeglądarce</translation>
+        <translation type="vanished">Otwieraj artykuły w przeglądarce</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="594"/>
         <source>Instead built-in web viewer, web pages will be opened in an external browser.</source>
-        <translation>Zamiast wewnątrz aplikacji, strony internetowe będą otwierane za pomocą zewnętrznej przeglądarki.</translation>
+        <translation type="vanished">Zamiast wewnątrz aplikacji, strony internetowe będą otwierane za pomocą zewnętrznej przeglądarki.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="653"/>
         <source>Double-pane reader</source>
         <translation>Widok w dwóch panelach</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="626"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="653"/>
         <source>Double-pane reader in landscape</source>
         <translation>Widok w dwóch panelach w trybie poziomym</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="654"/>
         <source>View with the articles will be splited in to two colums.</source>
         <translation>Widok z artykułami będzie podzielony na dwie kolumny.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="627"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="654"/>
         <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
         <translation>Widok z artykułami w trybie poziomym będzie podzielony na dwie kolumny.</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="637"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="664"/>
         <source>Social features</source>
         <translation>Funkcje społecznościowe</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="649"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="676"/>
         <source>Power save mode</source>
         <translation>Tryb oszczędności energii</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="650"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="677"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
         <translation>Gdy aplikacja przełączy się w tryb nieaktywny, wszystkie otwarte strony internetowe zostaną zamknięte aby zmniejszyć zużycie energii.   </translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="662"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="689"/>
         <source>Orientation</source>
         <translation>Orientacja</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="666"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="693"/>
         <source>Dynamic</source>
         <translation>Dynamiczna</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="667"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="694"/>
         <source>Portrait</source>
         <translation>Pionowa</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="668"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="695"/>
         <source>Landscape</source>
         <translation>Pozioma</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="719"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="746"/>
         <source>Other</source>
         <translation>Inne</translation>
     </message>
@@ -1182,22 +1244,22 @@ Jeśli chcesz zobaczyć ten przewodnik jeszcze raz, naciśnij &lt;i&gt;Pokaż pr
         <translation>Interfejs</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="583"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="599"/>
         <source>Show only unread articles</source>
         <translation>Pokazuj tylko nieprzeczytane artykuły</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="686"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="713"/>
         <source>Black</source>
         <translation>Czarny</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="687"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="714"/>
         <source>White</source>
         <translation>Biały</translation>
     </message>
     <message>
-        <location filename="../qml/sailfish/SettingsPage.qml" line="676"/>
+        <location filename="../qml/sailfish/SettingsPage.qml" line="703"/>
         <source>Offline viewer style</source>
         <translation>Styl wyświetlania w trybie Offline</translation>
     </message>
@@ -1479,12 +1541,12 @@ Jeśli chcesz zobaczyć ten przewodnik jeszcze raz, naciśnij &lt;i&gt;Pokaż pr
     <message>
         <location filename="../qml/sailfish/main.qml" line="176"/>
         <source>Caching... %1 of %2</source>
-        <translation>Pobieranie... %1 z %2</translation>
+        <translation>Tworzenie kopii... %1 z %2</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/main.qml" line="182"/>
         <source>Caching...</source>
-        <translation>Pobieranie...</translation>
+        <translation>Tworzenie kopii...</translation>
     </message>
     <message>
         <location filename="../qml/sailfish/main.qml" line="187"/>

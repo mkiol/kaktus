@@ -7,6 +7,8 @@
 #include <QStringList>
 #include <bb/cascades/Image>
 
+#include "cacheserver.h"
+
 using namespace bb::cascades;
 
 QNetworkAccessManager * WebImageView::mNetManager = new QNetworkAccessManager();
@@ -93,6 +95,9 @@ void WebImageView::setUrl(const QUrl& url)
         return;
     }
 
+    mLoading = 0;
+    mIsLoaded = false;
+
     mUrl = url;
     mLoading = 0;
     mIsLoaded = false;
@@ -127,6 +132,49 @@ void WebImageView::setUrl(const QUrl& url)
         return;
     }
 
+    // Detecting if url is "cache://"
+    if (url.toString().startsWith("cache://")) {
+        QStringList parts = url.toString().split('/');
+        QString filename = parts.at(2);
+
+        Settings *s = Settings::instance();
+        DatabaseManager::CacheItem item = s->db->readCacheByEntry(filename);
+        if (item.id == "") {
+            item = s->db->readCacheByFinalUrl(filename);
+        } else {
+            filename = item.finalUrl;
+        }
+
+        filename = s->getDmCacheDir() + "/" + filename;
+
+        if (!QFile::exists(filename)) {
+            emit urlChanged();
+            return;
+        }
+
+        if (item.contentType == "image/x-icon") {
+            // BB does not support ICO image format -> must convert
+            QFile file(filename);
+            if (!file.open(QIODevice::ReadOnly)) {
+                qWarning() << "Could not open" << filename << "for reading: " << file.errorString();
+                file.close();
+                emit urlChanged();
+                return;
+            }
+            QByteArray data;
+            data.append(file.readAll());
+            file.close();
+            setImage(Image(fromQImage(QImage::fromData(data))));
+        } else {
+            setImage(Image(QUrl(filename)));
+        }
+
+        mIsLoaded = true;
+        emit isLoadedChanged();
+        emit urlChanged();
+        return;
+    }
+
     // Create request
     QNetworkRequest request;
     request.setAttribute(QNetworkRequest::CacheLoadControlAttribute, QNetworkRequest::PreferCache);
@@ -146,6 +194,7 @@ void WebImageView::setUrl(const QUrl& url)
 void WebImageView::metaDataChanged()
 {
     QNetworkReply * reply = qobject_cast<QNetworkReply*>(sender());
+    //qDebug() << "metaDataChanged:" << reply->url();
 
     // Memory protection fix -> not loading big images
     if (reply->header(QNetworkRequest::ContentLengthHeader).isValid()) {
@@ -168,6 +217,7 @@ void WebImageView::imageLoaded() {
     QNetworkReply * reply = qobject_cast<QNetworkReply*>(sender());
 
     //qDebug() << "error" << reply->error();
+    //qDebug() << "imageLoaded:" << reply->url() << reply->error();
 
     if (reply->error() == QNetworkReply::NoError) {
         if (isARedirectedUrl(reply)) {
@@ -175,9 +225,7 @@ void WebImageView::imageLoaded() {
             return;
         } else {
             QByteArray imageData = reply->readAll();
-
-            //qDebug() << doSizeCheck << imageData.length() << url();
-
+            //qDebug() << "imageData.length" << imageData.length();
             // Memory protection & Tiny image fix -> not loading big or tiny images
             if (doSizeCheck &&
                     (imageData.length() > maxSourceSize ||
@@ -200,6 +248,7 @@ void WebImageView::imageLoaded() {
                     sourceSize = size;
                     emit sizeChanged();
                 }*/
+                //qDebug() << "ContentType:" << reply->header(QNetworkRequest::ContentTypeHeader).toString();
                 if (reply->header(QNetworkRequest::ContentTypeHeader).toString() == "image/x-icon") {
                     // BB does not support ICO image format -> must convert
                     setImage(Image(fromQImage(QImage::fromData(imageData))));
@@ -212,6 +261,7 @@ void WebImageView::imageLoaded() {
         }
     } else {
         mIsLoaded = false;
+        mUrl.clear();
     }
 
     emit isLoadedChanged();

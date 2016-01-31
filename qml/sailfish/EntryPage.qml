@@ -54,9 +54,10 @@ Page {
     }
 
     function setContentPane(delegate) {
+        //console.log("setContentPane",delegate);
         contentPanel.index = delegate.index
-        contentPanel.content = delegate.contentall;
-        contentPanel.image = delegate.image;
+        contentPanel.content = app.isTablet ? delegate.contentraw : delegate.contentall;
+        contentPanel.image = app.isTablet ? "" : delegate.image;
         contentPanel.expanded = false;
         delegate.expanded = true;
         //listView.positionViewAtIndex(delegate.index, ListView.Visible);
@@ -143,7 +144,9 @@ Page {
     }*/
 
     onExpandedUidChanged: {
+        //console.log("onExpandedUidChanged",root.expandedUid, root.expandedDelegate, root.expandedIndex);
         var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid!="" ? getDelegateByUid(root.expandedUid) : undefined;
+        //console.log("delegate",delegate);
         if (delegate) {
             setContentPane(delegate);
         } else {
@@ -304,6 +307,7 @@ Page {
             title: model.title
             content: model.content
             contentall: model.contentall
+            contentraw: model.contentraw
             date: model.date
             read: model.read
             friendStream: model.feedId.substring(0,4) === "user"
@@ -329,17 +333,17 @@ Page {
             signal singleEntryClicked
             signal doubleEntryClicked
 
-            function openEntry() {
+            function check() {
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy || dm.removerBusy) {
                     notification.show(qsTr("Please wait until current task is complete."));
-                    return;
+                    return false;
                 }
 
                 // Entry not cached and offline mode enabled
                 if (settings.offlineMode && !model.cached) {
                     notification.show(qsTr("Offline version not available."));
-                    return;
+                    return false;
                 }
 
                 // Switch to Offline mode if no network
@@ -351,15 +355,17 @@ Page {
                     } else {
                         // Entry not cached
                         notification.show(qsTr("Network connection is unavailable."));
-                        return;
+                        return false;
                     }
                 }
 
-                //expanded = false;
+                return true;
+            }
 
-                // Open in external browser
+            function openEntryInViewer() {
+
                 // (!dm.online && settings.offlineMode) -> WORKAROUND for https://github.com/mkiol/kaktus/issues/14
-                if (settings.openInBrowser || (!dm.online && settings.offlineMode)) {
+                if (!dm.online && settings.offlineMode) {
                     openInExaternalBrowser(model.index, model.link, model.uid);
                     return;
                 }
@@ -375,6 +381,40 @@ Page {
                                    "read" : model.read==1,
                                    "cached" : model.cached
                                });
+            }
+
+            function showEntryFeedContent() {
+                pageStack.push(Qt.resolvedUrl("FeedContentPage.qml"),
+                               {"entryId": model.uid,
+                                   "content":model.contentraw,
+                                   "onlineUrl": delegate.onlineurl,
+                                   "offlineUrl": delegate.offlineurl,
+                                   "title": model.title,
+                                   "stared": model.readlater==1,
+                                   "index": model.index,
+                                   "feedindex": root.index,
+                                   "read" : model.read==1,
+                                   "cached" : model.cached
+                               });
+            }
+
+            function openEntry() {
+
+                if (settings.clickBehavior === 2) {
+                    showEntryFeedContent();
+                    return;
+                }
+
+                if (!check()) {
+                    return;
+                }
+
+                if (settings.clickBehavior === 1) {
+                    openInExaternalBrowser(model.index, model.link, model.uid);
+                    return;
+                }
+
+                openEntryInViewer();
             }
 
             Component.onCompleted: {
@@ -497,34 +537,24 @@ Page {
                 entryModel.setAboveAsRead(model.index);
             }
 
+            onShowFeedContent: {
+                showEntryFeedContent();
+            }
+
             onOpenInBrowser: {
-                // Not allowed while Syncing
-                if (dm.busy || fetcher.busy || dm.removerBusy) {
-                    notification.show(qsTr("Please wait until current task is complete."));
+                if (!check()) {
                     return;
-                }
-
-                // Entry not cached and offline mode enabled
-                if (settings.offlineMode && !model.cached) {
-                    notification.show(qsTr("Offline version not available."));
-                    return;
-                }
-
-                // Switch to Offline mode if no network
-                if (!settings.offlineMode && !dm.online) {
-                    if (model.cached) {
-                        // Entry cached
-                        notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode."));
-                        settings.offlineMode = true;
-                    } else {
-                        // Entry not cached
-                        notification.show(qsTr("Network connection is unavailable."));
-                        return;
-                    }
                 }
 
                 openInExaternalBrowser(model.index, model.link, model.uid);
+            }
 
+            onOpenInViewer: {
+                if (!check()) {
+                    return;
+                }
+
+                openEntryInViewer();
             }
         }
 
@@ -555,17 +585,24 @@ Page {
         width: expanded ? root.width : app.landscapeContentPanelWidth
         clip: true
         height: app.flickHeight
-        openable: root.expandedUid != "" && !dm.busy && !fetcher.busy && !dm.removerBusy && !isTablet
+        //openable: root.expandedUid != "" && !dm.busy && !fetcher.busy && !dm.removerBusy && !app.isTablet
+        openable: false
+        textFormat: app.isTablet ? Text.StyledText : Text.PlainText
 
         onClicked: {
-            if (isTablet) {
+            /*if (isTablet) {
                 var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid !="" ? getDelegateByUid(root.expandedUid) : undefined;
                 if (delegate)
                     delegate.openEntry();
             } else {
                 expanded = !expanded;
-            }
+            }*/
+
+            var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid !="" ? getDelegateByUid(root.expandedUid) : undefined;
+            if (delegate)
+                delegate.openEntry();
         }
+
         onOpenClicked: {
             var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid !="" ? getDelegateByUid(root.expandedUid) : undefined;
             if (delegate)

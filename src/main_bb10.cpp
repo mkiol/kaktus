@@ -41,9 +41,9 @@
 using namespace bb::cascades;
 
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.1 (light edition)";
+static const char *VERSION = "2.2 (light edition)";
 #else
-static const char *VERSION = "2.1";
+static const char *VERSION = "2.2";
 #endif
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
@@ -53,8 +53,8 @@ Q_DECL_EXPORT int main(int argc, char **argv)
 {
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<QTimer>("net.mkiol.kaktus", 1, 0, "QTimer");
-    qmlRegisterType < AbstractItemModel > ("com.kdab.components", 1, 0, "AbstractItemModel");
-    qmlRegisterType < WebImageView > ("org.labsquare", 1, 0, "WebImageView");
+    qmlRegisterType <AbstractItemModel> ("com.kdab.components", 1, 0, "AbstractItemModel");
+    qmlRegisterType <WebImageView> ("org.labsquare", 1, 0, "WebImageView");
     qRegisterMetaType < DatabaseManager::CacheItem > ("CacheItem");
 
     Application app(argc, argv);
@@ -64,11 +64,16 @@ Q_DECL_EXPORT int main(int argc, char **argv)
 
     Settings* settings = Settings::instance();
 
-    /*QTranslator translator;
+    QTranslator translator;
+#ifdef KAKTUS_LIGHT
+    const QString filename = QString::fromLatin1("kaktuslight_%1").arg(
+            settings->getLocale()=="" ? QLocale().name() : settings->getLocale());
+#else
     const QString filename = QString::fromLatin1("kaktus_%1").arg(
             settings->getLocale()=="" ? QLocale().name() : settings->getLocale());
+#endif
     if (translator.load(filename, "app/native/qm"))
-        app.installTranslator(&translator);*/
+        app.installTranslator(&translator);
 
     settings->qml = QmlDocument::create("asset:///main.qml");
 

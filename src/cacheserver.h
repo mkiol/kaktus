@@ -60,17 +60,22 @@ private:
     void filterOnline();
     void removeUrls(const QRegExp &rx);
     void resolveRelativeUrls(const QRegExp &rx);
-    bool readFile(const QString &filename);
+    //bool readFile(const QString &filename);
 };
 
 class CacheServer : public QObject
 {
     Q_OBJECT
 public:
+    static bool readFile(const QString &filename, QByteArray &data);
+    static QString getFileUrl(const QString &id);
+
     explicit CacheServer(QObject *parent = 0);
     ~CacheServer();
     Q_INVOKABLE QString getUrlbyId(const QString &item);
     Q_INVOKABLE QString getUrlbyUrl(const QString &item);
+    Q_INVOKABLE QString getCacheUrlbyUrl(const QString &item);
+    //Q_INVOKABLE QByteArray getData(const QString &id);
 
 public slots:
     void handle(QHttpRequest *req, QHttpResponse *resp);

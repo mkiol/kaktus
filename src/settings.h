@@ -70,9 +70,10 @@ class Settings: public QObject
     Q_PROPERTY (bool showBroadcast READ getShowBroadcast WRITE setShowBroadcast NOTIFY showBroadcastChanged)
     Q_PROPERTY (bool showOldestFirst READ getShowOldestFirst WRITE setShowOldestFirst NOTIFY showOldestFirstChanged)
     Q_PROPERTY (bool syncRead READ getSyncRead WRITE setSyncRead NOTIFY syncReadChanged)
-    Q_PROPERTY (bool openInBrowser READ getOpenInBrowser WRITE setOpenInBrowser NOTIFY openInBrowserChanged)
+    //Q_PROPERTY (bool openInBrowser READ getOpenInBrowser WRITE setOpenInBrowser NOTIFY openInBrowserChanged)
     Q_PROPERTY (bool iconContextMenu READ getIconContextMenu WRITE setIconContextMenu NOTIFY iconContextMenuChanged)
     Q_PROPERTY (bool doublePane READ getDoublePane WRITE setDoublePane NOTIFY doublePaneChanged)
+    Q_PROPERTY (int clickBehavior READ getClickBehavior WRITE setClickBehavior NOTIFY clickBehaviorChanged)
 
 public:
     static Settings* instance();
@@ -156,11 +157,14 @@ public:
     void setSyncRead(bool value);
     bool getSyncRead();
 
-    void setOpenInBrowser(bool value);
-    bool getOpenInBrowser();
+    //void setOpenInBrowser(bool value);
+    //bool getOpenInBrowser();
 
     void setDoublePane(bool value);
     bool getDoublePane();
+
+    void setClickBehavior(int value);
+    int getClickBehavior();
 
     void setTheme(int value);
     int getTheme();
@@ -258,9 +262,10 @@ signals:
     void showBroadcastChanged();
     void showOldestFirstChanged();
     void syncReadChanged();
-    void openInBrowserChanged();
+    //void openInBrowserChanged();
     void iconContextMenuChanged();
     void doublePaneChanged();
+    void clickBehaviorChanged();
 
     /*
     501 - Unable create settings dir

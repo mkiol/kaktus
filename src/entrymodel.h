@@ -41,6 +41,7 @@ public:
         AuthorRole,
         ContentRole,
         ContentAllRole,
+        ContentRawRole,
         LinkRole,
         ImageRole,
         FeedIdRole,
@@ -63,6 +64,7 @@ public:
                       const QString &author,
                       const QString &content,
                       const QString &contentall,
+                      const QString &contentraw,
                       const QString &link,
                       const QString &image,
                       const QString &feedId,
@@ -85,6 +87,7 @@ public:
     inline QString author() const { return m_author; }
     inline QString content() const { return m_content; }
     inline QString contentall() const { return m_contentall; }
+    inline QString contentraw() const { return m_contentraw; }
     inline QString link() const { return m_link; }
     inline QString image() const { return m_image; }
     inline QString feedId() const { return m_feedId; }
@@ -111,6 +114,7 @@ private:
     QString m_author;
     QString m_content;
     QString m_contentall;
+    QString m_contentraw;
     QString m_link;
     QString m_image;
     QString m_feedId;

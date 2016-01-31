@@ -51,11 +51,20 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("2.3")
+            }
+
+            LogItem {
+                title: 'Full content from the RSS feed'
+                description: "New option to set 'click on article' action. Following actions are possible: Open article in the build-in viewer, Open article in the external browser, Show full content from the RSS feed.";
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("2.2")
             }
 
             LogItem {
-                title: 'Initial Tablet support'
+                title: 'Initial tablet support'
                 description: "Jolla Tablet is now supported.";
             }
 
@@ -72,6 +81,11 @@ Page {
             LogItem {
                 title: 'Icon-based context menu'
                 description: "Context menu can be icon-based (default) or text-based. Inspiration comes form gPodder app.";
+            }
+
+            LogItem {
+                title: 'Updated Netvibes API support'
+                description: "Fixes for updated NV API including, long-awaited, SSL support.";
             }
 
             LogItem {

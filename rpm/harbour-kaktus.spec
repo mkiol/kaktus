@@ -13,8 +13,8 @@ Name:       harbour-kaktus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
-Version:    2.2
-Release:    7
+Version:    2.3
+Release:    2
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
@@ -75,6 +75,12 @@ desktop-file-install --delete-original       \
 # << files
 
 %changelog
+
+* Sun Jan 31 2016 Michal Kosciesza 2.3-2
+- Small UI improvements
+
+* Sat Jan 23 2016 Michal Kosciesza 2.3-1
+- Option to display full content from the RSS feed
 
 * Mon Jan 11 2016 Michal Kosciesza 2.2-7
 - Translations update

@@ -192,6 +192,19 @@ bool Settings::getSyncRead()
     return settings.value("syncread", false).toBool();
 }
 
+void Settings::setClickBehavior(int value)
+{
+    if (getClickBehavior() != value) {
+        settings.setValue("clickbehavior", value);
+        emit clickBehaviorChanged();
+    }
+}
+
+int Settings::getClickBehavior()
+{
+    return settings.value("clickbehavior", 0).toInt();
+}
+
 void Settings::setShowTabIcons(bool value)
 {
     if (getShowTabIcons() != value) {
@@ -254,7 +267,7 @@ bool Settings::getHint1Done()
     return settings.value("hint1done", false).toBool();
 }
 
-void Settings::setOpenInBrowser(bool value)
+/*void Settings::setOpenInBrowser(bool value)
 {
     if (getOpenInBrowser() != value) {
         settings.setValue("openinbrowser", value);
@@ -265,7 +278,7 @@ void Settings::setOpenInBrowser(bool value)
 bool Settings::getOpenInBrowser()
 {
     return settings.value("openinbrowser", false).toBool();
-}
+}*/
 
 void Settings::setAutoDownloadOnUpdate(bool value)
 {

@@ -25,13 +25,16 @@ Item {
     id: root
 
     property bool canBack: false
+    property bool canMarkRead: false
     property bool canReader: false
     property bool canStar: false
+    property bool canOpenWebview: false
     property bool canOpenBrowser: false
     property bool canFontUp: false
     property bool canFontDown: false
     property bool canClipboard: false
     property bool stared: false
+    property bool read: false
     property bool open: false
     property int showTime: 6000
     property bool transparent: true
@@ -45,9 +48,13 @@ Item {
         var count = 0;
         if (canBack)
             count++;
+        if (canMarkRead)
+            count++;
         if (canReader)
             count++;
         if (canStar)
+            count++;
+        if (canOpenWebview)
             count++;
         if (canOpenBrowser)
             count++;
@@ -61,8 +68,10 @@ Item {
     }
 
     signal backClicked()
+    signal markReadClicked()
     signal starClicked()
     signal browserClicked()
+    signal webviewClicked()
     signal offlineClicked()
     signal readerClicked()
     signal fontUpClicked()
@@ -118,15 +127,6 @@ Item {
             onClicked: root.hide()
         }
 
-        /*IconButton {
-            id: back
-            visible: root.canBack
-            anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
-            anchors.verticalCenter: parent.verticalCenter
-            icon.source: "image://theme/icon-m-back?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-            onClicked: root.backClicked()
-        }*/
-
         Row {
             id: toolbarRow
             anchors.verticalCenter: parent.verticalCenter
@@ -142,6 +142,14 @@ Item {
             }
 
             IconButton {
+                visible: root.canMarkRead
+                icon.source: root.read ?
+                                 "image://icons/read?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                               : "image://icons/unread?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                onClicked: {root.markReadClicked();show();}
+            }
+
+            IconButton {
                 visible: root.canStar
                 icon.source: root.stared ?
                                  "image://theme/icon-m-favorite-selected?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
@@ -154,6 +162,13 @@ Item {
                 visible: root.canClipboard
                 icon.source: "image://theme/icon-m-clipboard?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
                 onClicked: {root.clipboardClicked();show();}
+            }
+
+            IconButton {
+                width: back.width; height: back.height
+                visible: root.canOpenWebview
+                icon.source: "image://icons/webview?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                onClicked: {root.webviewClicked();show();}
             }
 
             IconButton {

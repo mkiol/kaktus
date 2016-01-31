@@ -238,25 +238,25 @@ int EntryModel::createItems(int offset, int limit)
         if ((!ascOrder && dateRow>prevDateRow) || (ascOrder && dateRow<prevDateRow) || prevDateRow == 0) {
             switch (dateRow) {
             case 1:
-                appendRow(new EntryItem("daterow",tr("Today"),"","","","","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Today"),"","","","","","","","","","",false,false,false,0,0,0,0));
                 break;
             case 2:
-                appendRow(new EntryItem("daterow",tr("Yesterday"),"","","","","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Yesterday"),"","","","","","","","","","",false,false,false,0,0,0,0));
                 break;
             case 3:
-                appendRow(new EntryItem("daterow",tr("Current week"),"","","","","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current week"),"","","","","","","","","","",false,false,false,0,0,0,0));
                 break;
             case 4:
-                appendRow(new EntryItem("daterow",tr("Current month"),"","","","","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current month"),"","","","","","","","","","",false,false,false,0,0,0,0));
                 break;
             case 5:
-                appendRow(new EntryItem("daterow",tr("Previous month"),"","","","","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Previous month"),"","","","","","","","","","",false,false,false,0,0,0,0));
                 break;
             case 6:
-                appendRow(new EntryItem("daterow",tr("Current year"),"","","","","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Current year"),"","","","","","","","","","",false,false,false,0,0,0,0));
                 break;
             default:
-                appendRow(new EntryItem("daterow",tr("Previous year & older"),"","","","","","","","","",false,false,false,0,0,0,0));
+                appendRow(new EntryItem("daterow",tr("Previous year & older"),"","","","","","","","","","",false,false,false,0,0,0,0));
                 break;
             }
         }
@@ -268,6 +268,7 @@ int EntryModel::createItems(int offset, int limit)
                                 (*i).author,
                                 content,
                                 content0,
+                                (*i).content,
                                 (*i).link,
                                 imageOk? (*i).image : "",
                                 (*i).feedId,
@@ -287,7 +288,7 @@ int EntryModel::createItems(int offset, int limit)
 
     // Dummy row as workaround!
     if (list.count()>0)
-        appendRow(new EntryItem("last","","","","","","","","","","",false,false,false,0,0,0,0));
+        appendRow(new EntryItem("last","","","","","","","","","","","",false,false,false,0,0,0,0));
 
     return list.count();
 }
@@ -680,6 +681,7 @@ EntryItem::EntryItem(const QString &uid,
                    const QString &author,
                    const QString &content,
                    const QString &contentall,
+                   const QString &contentraw,
                    const QString &link,
                    const QString &image,
                    const QString &feedId,
@@ -700,6 +702,7 @@ EntryItem::EntryItem(const QString &uid,
     m_author(author),
     m_content(content),
     m_contentall(contentall),
+    m_contentraw(contentraw),
     m_link(link),
     m_image(image),
     m_feedId(feedId),
@@ -723,6 +726,7 @@ QHash<int, QByteArray> EntryItem::roleNames() const
     names[AuthorRole] = "author";
     names[ContentRole] = "content";
     names[ContentAllRole] = "contentall";
+    names[ContentRawRole] = "contentraw";
     names[LinkRole] = "link";
     names[ImageRole] = "image";
     names[FeedIdRole] = "feedId";
@@ -752,6 +756,8 @@ QVariant EntryItem::data(int role) const
         return content();
     case ContentAllRole:
         return contentall();
+    case ContentRawRole:
+        return contentraw();
     case LinkRole:
         return link();
     case ImageRole:
