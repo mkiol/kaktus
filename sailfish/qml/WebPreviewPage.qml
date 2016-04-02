@@ -253,7 +253,7 @@ Page {
 
         onNavigationRequested: {
 
-            console.log("onNavigationRequested, URL:",request.url,"navigationType:",request.navigationType);
+            //console.log("onNavigationRequested, URL:",request.url,"navigationType:",request.navigationType);
 
             if (!Qt.application.active) {
                 request.action = WebView.IgnoreRequest;

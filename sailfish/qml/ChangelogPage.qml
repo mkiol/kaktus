@@ -56,7 +56,7 @@ Page {
 
             LogItem {
                 title: 'Full content from the RSS feed'
-                description: "New option to set 'click on article' action. Following actions are possible: Open article in the built-in viewer, Open article in an external browser, Show full content from the RSS feed.";
+                description: "New option to set clicking on article behaviour. Following actions are possible: Open article in the built-in viewer, Open article in an external browser, Show full content from the RSS feed.";
             }
 
             LogItem {
