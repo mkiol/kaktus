@@ -33,7 +33,6 @@
 #include "cacheserver.h"
 #include "utils.h"
 #include "settings.h"
-#include "debugunit.h"
 #include "networkaccessmanagerfactory.h"
 
 static const char *APP_NAME = "Kaktus";
@@ -65,12 +64,13 @@ int main(int argc, char *argv[])
 
     Settings* settings = Settings::instance();
 
-    QTranslator *appTranslator = new QTranslator;
-    if (settings->getLocale() == "")
-        appTranslator->load(":/i18n/kaktus_" + QLocale::system().name() + ".qm");
-    else
-        appTranslator->load(":/i18n/kaktus_" + settings->getLocale() + ".qm");
-    app->installTranslator(appTranslator);
+    QTranslator translator;
+    QString locale = settings->getLocale() == "" ? QLocale::system().name() : settings->getLocale();
+    //locale="nl";
+    if(!translator.load(locale, "kaktus", "_", SailfishApp::pathTo("translations").toLocalFile(), ".qm")) {
+        qDebug() << "Couldn't load translation for locale " + locale + " from " + SailfishApp::pathTo("translations").toLocalFile();
+    }
+    app->installTranslator(&translator);
 
     settings->view = view.data();
     DatabaseManager db; settings->db = &db;
@@ -90,10 +90,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("cache", &cache);
     view->rootContext()->setContextProperty("settings", settings);
 
-    DebugUnit debugUnit;
-    view->rootContext()->setContextProperty("debug", &debugUnit);
-
-    view->setSource(SailfishApp::pathTo("qml/sailfish/main.qml"));
+    view->setSource(SailfishApp::pathTo("qml/main.qml"));
     view->show();
 
     return app->exec();

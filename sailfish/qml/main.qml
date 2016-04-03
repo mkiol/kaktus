@@ -27,7 +27,8 @@ ApplicationWindow {
     property bool progress: false
     property int oldViewMode
 
-    property bool isTablet: Screen.width > 540
+    property bool isTablet: Screen.sizeCategory === Screen.Large || Screen.sizeCategory === Screen.ExtraLarge
+    //property bool isTablet: Screen.width > 540
 
     property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
     property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
@@ -380,52 +381,6 @@ ApplicationWindow {
     Notification {
         id: notification
     }
-
-    /*property int panelHeightPortrait: 1.0*Theme.itemSizeSmall
-    property int panelHeightLandscape: 0.9*Theme.itemSizeSmall
-    property int barHeightPortrait: 1.1*Theme.itemSizeSmall
-    property int barHeightLandscape: 1.0*Theme.itemSizeSmall
-    property int panelHeight: app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape
-    property int panelWidth: app.orientation==Orientation.Portrait ? app.width : app.height
-    property int barHeight: app.orientation==Orientation.Portrait ? app.barHeightPortrait : app.barHeightLandscape
-    property int barWidth: app.orientation==Orientation.Portrait ? app.width : app.height
-    property int flickHeight: {
-        var size = 0;
-        if (bar.open)
-            size += barHeight;
-        if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
-            size += panelHeight;
-        return app.orientation==Orientation.Portrait ? app.height-size : app.width-size;
-    }
-    property int barX: {
-        if (app.orientation==Orientation.Portrait)
-            return 0;
-        if (bar.open && (progressPanel.open||progressPanelRemover.open||progressPanelDm.open))
-            return app.barHeightLandscape + app.panelHeightLandscape;
-        return app.barHeightLandscape;
-    }
-    property int barY: {
-        if (app.orientation==Orientation.Portrait) {
-            if (bar.open && (progressPanel.open||progressPanelRemover.open||progressPanelDm.open))
-                return app.height - (app.barHeightPortrait + app.panelHeightPortrait);
-            return app.height - app.barHeightPortrait;
-        }
-        return 0;
-    }
-    property int panelX: app.orientation==Orientation.Portrait ? 0 : app.panelHeight
-    property int panelY: app.orientation==Orientation.Portrait ? app.height-app.panelHeight : 0*/
-
-    /*property int panelHeightPortrait: 1.0*Theme.itemSizeSmall
-    property int panelHeightLandscape: 0.9*Theme.itemSizeSmall
-    property int barHeightPortrait: 1.1*Theme.itemSizeSmall
-    property int barHeightLandscape: 1.0*Theme.itemSizeSmall
-    property int panelHeight: app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape
-    property int panelWidth: app.orientation==Orientation.Portrait ? Screen.width : Screen.height
-    property int barHeight: app.orientation==Orientation.Portrait ? app.barHeightPortrait : app.barHeightLandscape
-    property int barWidth: app.orientation==Orientation.Portrait ? Screen.width : Screen.height
-    property int landscapeContentPanelWidth: isTablet ?
-                                                 app.orientation==Orientation.Portrait ? Screen.width-700 : Screen.height-700 :
-                                                 app.orientation==Orientation.Portrait ? Screen.width/2 : Screen.height/2*/
 
     property int panelHeightPortrait: Theme.itemSizeMedium
     property int panelHeightLandscape: Theme.itemSizeMedium

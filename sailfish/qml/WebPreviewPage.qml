@@ -179,6 +179,15 @@ Page {
         }
     }
 
+    Connections {
+        target: fetcher
+        onBusyChanged: {
+            if(fetcher.busy) {
+                pageStack.pop();
+            }
+        }
+    }
+
     SilicaWebView {
         id: view
 

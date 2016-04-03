@@ -569,40 +569,6 @@ int Utils::countUnread()
     return s->db->countEntriesUnreadByDashboard(s->getDashboardInUse());
 }
 
-/*bool Utils::showNotification(const QString previewSummary,
-                             const QString previewBody,
-                             const QString icon)
-{
-    QVariantMap hints;
-    hints.insert("category", "net.mkiol.kaktus.notification");
-    hints.insert("x-nemo-timestamp", QDateTime::currentDateTime().toString(Qt::ISODate));
-    hints.insert("x-nemo-preview-body", previewBody);
-    hints.insert("x-nemo-preview-summary", previewSummary);
-    hints.insert("x-nemo-item-count", 1);
-
-    QList<QVariant> argumentList;
-    argumentList << "Kaktus";
-    argumentList << (uint)0;
-    argumentList << icon;
-    argumentList << "";
-    argumentList << "";
-    argumentList << QStringList();
-    argumentList << hints;
-    argumentList << (int)5000;
-
-    static QDBusInterface notifyApp("org.freedesktop.Notifications",
-                                    "/org/freedesktop/Notifications",
-                                    "org.freedesktop.Notifications");
-    QDBusMessage reply = notifyApp.callWithArgumentList(QDBus::AutoDetect,
-                                                        "Notify", argumentList);
-
-    if(reply.type() == QDBusMessage::ErrorMessage) {
-        qWarning() << "D-Bus Error:" << reply.errorMessage();
-        return false;
-    }
-    return true;
-}*/
-
 QString Utils::getHumanFriendlySizeString(int size)
 {
     if (size==0) {

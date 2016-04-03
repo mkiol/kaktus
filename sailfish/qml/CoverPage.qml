@@ -38,7 +38,7 @@ CoverBackground {
     }
 
     onStatusChanged: {
-        if (status==Cover.Active) {
+        if (status === Cover.Active) {
             root.unread = utils.countUnread();
         }
     }

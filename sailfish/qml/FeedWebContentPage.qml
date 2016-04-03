@@ -70,6 +70,15 @@ Page {
         }
     }
 
+    Connections {
+        target: fetcher
+        onBusyChanged: {
+            if(fetcher.busy) {
+                pageStack.pop();
+            }
+        }
+    }
+
     function getFontSize() {
         return Theme.fontSizeSmall * (settings.fontSize / 10) * 0.7;
     }
@@ -330,67 +339,4 @@ Page {
             }
         }
     }
-
-    /*ControlBarWebPreview {
-        id: controlbar
-        flick: view
-        canBack: false
-        canMarkRead: true
-        canStar: true
-        canClipboard: true
-        canReader: false
-        canOpenWebview: true
-        canOpenBrowser: !settings.openInBrowser
-        stared: root.stared
-        read: root.read
-        transparent: false
-
-        onBackClicked: pageStack.pop()
-
-        onMarkReadClicked: {
-            if (read) {
-                read=false;
-                entryModel.setData(root.index, "readr", 0, "");
-            } else {
-                read=true;
-                entryModel.setData(root.index, "read", 1, "");
-            }
-        }
-
-        onStarClicked: {
-            if (stared) {
-                stared=false;
-                entryModel.setData(root.index, "readlater", 0, "");
-            } else {
-                stared=true;
-                entryModel.setData(root.index, "readlater", 1, "");
-            }
-        }
-
-        onWebviewClicked: {
-            if (!check()) {
-                return;
-            }
-            openEntryInViewer();
-        }
-
-        onBrowserClicked: {
-            openEntryInBrowser();
-        }
-
-        onFontDownClicked: {
-            if (settings.fontSize>0)
-                settings.fontSize -= 1;
-        }
-
-        onFontUpClicked: {
-            if (settings.fontSize<2)
-                settings.fontSize += 1;
-        }
-
-        onClipboardClicked: {
-            notification.show(qsTr("URL copied to clipboard"));
-            Clipboard.text = root.onlineUrl;
-        }
-    }*/
 }

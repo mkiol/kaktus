@@ -42,7 +42,7 @@ NvIconProvider::NvIconProvider() : QQuickImageProvider(QQuickImageProvider::Pixm
 QPixmap NvIconProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QStringList parts = id.split('?');
-    QPixmap iconsPixmap(SailfishApp::pathTo("qml/sailfish/sprite-icons.png").toString(QUrl::RemoveScheme));
+    QPixmap iconsPixmap(SailfishApp::pathTo("qml/sprite-icons.png").toString(QUrl::RemoveScheme));
     QPixmap iconPixmap = iconsPixmap.copy(getPosition(parts.at(0), parts.at(1)));
 
     if (size)

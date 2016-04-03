@@ -660,7 +660,9 @@ Page {
 
             TextSwitch {
                 text: app.isTablet ? qsTr("Double-pane reader") : qsTr("Double-pane reader in landscape")
+                //text: qsTr("Double-pane reader in landscape")
                 description: app.isTablet ? qsTr("View with the articles will be splited in to two colums.") : qsTr("View with the articles in the landscape orientation will be splited in to two colums.")
+                //description: qsTr("View with the articles in the landscape orientation will be splited in to two colums.")
                 onCheckedChanged: {
                     settings.doublePane = checked;
                 }
