@@ -120,7 +120,7 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <location filename="../qml/CoverPage.qml" line="120"/>
+        <location filename="../qml/CoverPage.qml" line="137"/>
         <source>Not signed in</source>
         <translation>No has iniciado sesión</translation>
     </message>
@@ -147,114 +147,87 @@
         <translation>artículos sin leer</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="64"/>
+        <location filename="../qml/CoverPage.qml" line="61"/>
         <source>Syncing</source>
         <translation>Sincronizando</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="70"/>
+        <location filename="../qml/CoverPage.qml" line="67"/>
         <source>Uploading</source>
         <translation>Subiendo</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="78"/>
+        <location filename="../qml/CoverPage.qml" line="75"/>
         <source>Initiating</source>
         <translation>Iniciando</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="82"/>
+        <location filename="../qml/CoverPage.qml" line="79"/>
         <source>Updating</source>
         <translation>Actualizando</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="87"/>
+        <location filename="../qml/CoverPage.qml" line="84"/>
         <source>Signing in</source>
         <translation>Iniciando sesión</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="93"/>
+        <location filename="../qml/CoverPage.qml" line="89"/>
         <source>Waiting</source>
         <translation>Esperando</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="112"/>
+        <location filename="../qml/CoverPage.qml" line="104"/>
         <source>Caching</source>
         <translation>Almacenando en caché</translation>
     </message>
     <message>
+        <location filename="../qml/CoverPage.qml" line="106"/>
         <source>%1 of %2</source>
-        <translation type="vanished">%1 de %2</translation>
+        <translation>%1 de %2</translation>
     </message>
 </context>
 <context>
     <name>CoverPageOld</name>
     <message>
-        <location filename="../qml/CoverPageOld.qml" line="85"/>
         <source>Not signed in</source>
-        <translation type="unfinished">No has iniciado sesión</translation>
+        <translation type="obsolete">No has iniciado sesión</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPageOld.qml" line="123"/>
-        <location filename="../qml/CoverPageOld.qml" line="143"/>
         <source>All read</source>
-        <translation type="unfinished">Todo leído</translation>
+        <translation type="obsolete">Todo leído</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPageOld.qml" line="125"/>
-        <source>Unread item</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/CoverPageOld.qml" line="127"/>
-        <source>Unread items</source>
-        <comment>less than 5 articles are unread</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/CoverPageOld.qml" line="128"/>
-        <source>Unread items</source>
-        <comment>more or equal 5 articles are unread</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/CoverPageOld.qml" line="231"/>
         <source>Syncing</source>
-        <translation type="unfinished">Sincronizando</translation>
+        <translation type="obsolete">Sincronizando</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPageOld.qml" line="237"/>
         <source>Uploading</source>
-        <translation type="unfinished">Subiendo</translation>
+        <translation type="obsolete">Subiendo</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPageOld.qml" line="245"/>
         <source>Initiating</source>
-        <translation type="unfinished">Iniciando</translation>
+        <translation type="obsolete">Iniciando</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPageOld.qml" line="249"/>
         <source>Updating</source>
-        <translation type="unfinished">Actualizando</translation>
+        <translation type="obsolete">Actualizando</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPageOld.qml" line="254"/>
         <source>Signing in</source>
-        <translation type="unfinished">Iniciando sesión</translation>
+        <translation type="obsolete">Iniciando sesión</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPageOld.qml" line="260"/>
         <source>Waiting</source>
-        <translation type="unfinished">Esperando</translation>
+        <translation type="obsolete">Esperando</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPageOld.qml" line="278"/>
         <source>Caching</source>
-        <translation type="unfinished">Almacenando en caché</translation>
+        <translation type="obsolete">Almacenando en caché</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPageOld.qml" line="280"/>
         <source>%1 of %2</source>
-        <translation type="unfinished">%1 de %2</translation>
+        <translation type="obsolete">%1 de %2</translation>
     </message>
 </context>
 <context>
@@ -635,90 +608,90 @@ Cambiando a Modo sin conexión.</translation>
 <context>
     <name>FeedWebContentPage</name>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="88"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="97"/>
         <source>Please wait until current task is complete.</source>
         <translation>Espera hasta que la tarea en curso se complete.</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="94"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="103"/>
         <source>Offline version not available.</source>
         <translation>Versión sin conexión no disponible</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="102"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="111"/>
         <source>Network connection is unavailable.
 Switching to Offline mode.</source>
         <translation>Conexión no disponible.
 Cambiando a Modo sin conexión.</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="106"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="115"/>
         <source>Network connection is unavailable.</source>
         <translation>Conexión no disponible.</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="116"/>
-        <location filename="../qml/FeedWebContentPage.qml" line="121"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="125"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="130"/>
         <source>Launching an external browser...</source>
         <translation>Abriendo navegador externo...</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="232"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="241"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="238"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="247"/>
         <source>Toggle Read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="253"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="262"/>
         <source>Toggle Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="253"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="262"/>
         <source>Toggle Star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="267"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="276"/>
         <source>Viewer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="277"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="286"/>
         <source>Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="285"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="294"/>
         <source>Toggle Like</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="295"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="304"/>
         <source>Toggle Share</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="309"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="318"/>
         <source>Increase font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="317"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="326"/>
         <source>Decrease font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="325"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="334"/>
         <source>Copy URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="328"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="337"/>
         <source>URL copied to clipboard</source>
         <translation>URL copiada al portapapeles</translation>
     </message>
@@ -1313,17 +1286,17 @@ No hay conexión disponible.</translation>
         <translation>Lector doble-panel en modo apaisado</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="663"/>
+        <location filename="../qml/SettingsPage.qml" line="664"/>
         <source>View with the articles will be splited in to two colums.</source>
         <translation>La vista de los artículos se dividirá en dos columnas.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="663"/>
+        <location filename="../qml/SettingsPage.qml" line="664"/>
         <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
         <translation>Con la orientación apaisada la vista de los artículos se dividirá en dos columnas.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="675"/>
+        <location filename="../qml/SettingsPage.qml" line="677"/>
         <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
         <translation>Se habilitarán las carácteristicas de seguimiento de Old Reader: Carpeta de seguidos, Compartir artículo con seguidores, Botón Me gusta, Vista de artículos que te gustan.</translation>
     </message>
@@ -1403,17 +1376,17 @@ No hay conexión disponible.</translation>
         <translation>Mostrar imágenes</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="743"/>
+        <location filename="../qml/SettingsPage.qml" line="745"/>
         <source>Viewer font size</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="754"/>
+        <location filename="../qml/SettingsPage.qml" line="756"/>
         <source>Other</source>
         <translation>Otro</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="758"/>
+        <location filename="../qml/SettingsPage.qml" line="760"/>
         <source>Show User Guide</source>
         <translation>Mostrar Guía de usuario</translation>
     </message>
@@ -1464,22 +1437,22 @@ No hay conexión disponible.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="673"/>
+        <location filename="../qml/SettingsPage.qml" line="675"/>
         <source>Social features</source>
         <translation>Características sociales</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="685"/>
+        <location filename="../qml/SettingsPage.qml" line="687"/>
         <source>Power save mode</source>
         <translation>Modo de ahorro de energía</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="686"/>
+        <location filename="../qml/SettingsPage.qml" line="688"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
         <translation>Cuando el teléfono o la aplicación estén en modo reposo, todas las páginas Web abiertas se cerrarán para reducir el consumo de energía.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="702"/>
+        <location filename="../qml/SettingsPage.qml" line="704"/>
         <source>Dynamic</source>
         <translation>Dinámico</translation>
     </message>
@@ -1499,32 +1472,32 @@ No hay conexión disponible.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="698"/>
+        <location filename="../qml/SettingsPage.qml" line="700"/>
         <source>Orientation</source>
         <translation>Orientación</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="703"/>
+        <location filename="../qml/SettingsPage.qml" line="705"/>
         <source>Portrait</source>
         <translation>Horizontal</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="704"/>
+        <location filename="../qml/SettingsPage.qml" line="706"/>
         <source>Landscape</source>
         <translation>Apaisado</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="712"/>
+        <location filename="../qml/SettingsPage.qml" line="714"/>
         <source>Offline viewer style</source>
         <translation>Estilo del visor sin conexión</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="722"/>
+        <location filename="../qml/SettingsPage.qml" line="724"/>
         <source>Black</source>
         <translation>Negro</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="723"/>
+        <location filename="../qml/SettingsPage.qml" line="725"/>
         <source>White</source>
         <translation>Blanco</translation>
     </message>
@@ -1678,84 +1651,84 @@ No hay conexión disponible.</translation>
 <context>
     <name>Utils</name>
     <message>
-        <location filename="../src/utils.cpp" line="609"/>
+        <location filename="../src/utils.cpp" line="575"/>
         <source>empty</source>
         <translation>Vacío</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="633"/>
+        <location filename="../src/utils.cpp" line="599"/>
         <source>unknown date</source>
         <translation>fecha desconocida</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="636"/>
+        <location filename="../src/utils.cpp" line="602"/>
         <source>just now</source>
         <translation>justo ahora</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="639"/>
+        <location filename="../src/utils.cpp" line="605"/>
         <source>1 second ago</source>
         <translation>Hace 1 segundo</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="642"/>
+        <location filename="../src/utils.cpp" line="608"/>
         <source>%1 seconds ago</source>
         <comment>less than 5 seconds</comment>
         <translation>Hace %1 segundos</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="645"/>
+        <location filename="../src/utils.cpp" line="611"/>
         <source>%1 seconds ago</source>
         <comment>more or equal 5 seconds</comment>
         <translation>Hace %1 segundos</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="648"/>
+        <location filename="../src/utils.cpp" line="614"/>
         <source>1 minute ago</source>
         <translation>Hace 1 minuto</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="651"/>
+        <location filename="../src/utils.cpp" line="617"/>
         <source>%1 minutes ago</source>
         <comment>less than 5 minutes</comment>
         <translation>Hace %1 minutos</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="654"/>
+        <location filename="../src/utils.cpp" line="620"/>
         <source>%1 minutes ago</source>
         <comment>more or equal 5 minutes</comment>
         <translation>Hace %1 minutos</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="657"/>
+        <location filename="../src/utils.cpp" line="623"/>
         <source>1 hour ago</source>
         <translation>Hace 1 hora</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="660"/>
+        <location filename="../src/utils.cpp" line="626"/>
         <source>%1 hours ago</source>
         <comment>less than 5 hours</comment>
         <translation>Hace %1 horas</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="663"/>
+        <location filename="../src/utils.cpp" line="629"/>
         <source>%1 hours ago</source>
         <comment>more or equal 5 hours</comment>
         <translation>Hace %1 horas</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="669"/>
+        <location filename="../src/utils.cpp" line="635"/>
         <source>day ago</source>
         <translation>Hace 1 día</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="672"/>
+        <location filename="../src/utils.cpp" line="638"/>
         <source>%1 days ago</source>
         <comment>less than 5 days</comment>
         <translation>Hace %1 días</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="675"/>
+        <location filename="../src/utils.cpp" line="641"/>
         <source>%1 days ago</source>
         <comment>more or equal 5 days</comment>
         <translation>Hace %1 días</translation>
@@ -1765,89 +1738,89 @@ No hay conexión disponible.</translation>
     <name>WebPreviewPage</name>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="63"/>
-        <location filename="../qml/WebPreviewPage.qml" line="215"/>
+        <location filename="../qml/WebPreviewPage.qml" line="224"/>
         <source>Loading page content...</source>
         <translation>Cargando contenido...</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="239"/>
+        <location filename="../qml/WebPreviewPage.qml" line="248"/>
         <source>Failed to load item from local cache :-(</source>
         <translation>Falló la carga del artículo desde la caché local :-(</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="245"/>
+        <location filename="../qml/WebPreviewPage.qml" line="254"/>
         <source>Failed to load page content :-(</source>
         <translation>Falló la carga de contenido :-(</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="56"/>
-        <location filename="../qml/WebPreviewPage.qml" line="357"/>
+        <location filename="../qml/WebPreviewPage.qml" line="366"/>
         <source>Launching an external browser...</source>
         <translation>Abriendo navegador externo...</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="166"/>
-        <location filename="../qml/WebPreviewPage.qml" line="242"/>
+        <location filename="../qml/WebPreviewPage.qml" line="251"/>
         <source>Failed to switch to Reader mode :-(</source>
         <translation>Falló el cambio a modo lector :-(</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="310"/>
+        <location filename="../qml/WebPreviewPage.qml" line="319"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="316"/>
+        <location filename="../qml/WebPreviewPage.qml" line="325"/>
         <source>Toggle Read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="331"/>
+        <location filename="../qml/WebPreviewPage.qml" line="340"/>
         <source>Toggle Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="331"/>
+        <location filename="../qml/WebPreviewPage.qml" line="340"/>
         <source>Toggle Star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="345"/>
+        <location filename="../qml/WebPreviewPage.qml" line="354"/>
         <source>Toggle Read mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="354"/>
+        <location filename="../qml/WebPreviewPage.qml" line="363"/>
         <source>Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="363"/>
+        <location filename="../qml/WebPreviewPage.qml" line="372"/>
         <source>Toggle Like</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="373"/>
+        <location filename="../qml/WebPreviewPage.qml" line="382"/>
         <source>Toggle Share</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="387"/>
+        <location filename="../qml/WebPreviewPage.qml" line="396"/>
         <source>Increase font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="395"/>
+        <location filename="../qml/WebPreviewPage.qml" line="404"/>
         <source>Decrease font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="403"/>
+        <location filename="../qml/WebPreviewPage.qml" line="412"/>
         <source>Copy URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="406"/>
+        <location filename="../qml/WebPreviewPage.qml" line="415"/>
         <source>URL copied to clipboard</source>
         <translation>URL copiada al portapapeles</translation>
     </message>
@@ -1855,100 +1828,100 @@ No hay conexión disponible.</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="85"/>
+        <location filename="../qml/main.qml" line="86"/>
         <source>Feeds</source>
         <translation>Canales</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="176"/>
+        <location filename="../qml/main.qml" line="177"/>
         <source>Caching... %1 of %2</source>
         <translation>Almacenando en caché... %1 de %2</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="182"/>
+        <location filename="../qml/main.qml" line="183"/>
         <source>Caching...</source>
         <translation>Almacenando en caché...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="187"/>
+        <location filename="../qml/main.qml" line="188"/>
         <source>Download failed!
 Network connection is unavailable.</source>
         <translation>¡Descarga fallida!
 Conexión no disponible.</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="270"/>
+        <location filename="../qml/main.qml" line="271"/>
         <source>Sync failed!
 Network connection is unavailable.</source>
         <translation>¡Sincronización fallida!
 Conexión no disponible.</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="281"/>
-        <location filename="../qml/main.qml" line="314"/>
+        <location filename="../qml/main.qml" line="282"/>
+        <location filename="../qml/main.qml" line="315"/>
         <source>The user name or password is incorrect!</source>
         <translation>¡Usuario o contraseña incorrectos!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="318"/>
+        <location filename="../qml/main.qml" line="319"/>
         <source>You are signed in!</source>
         <translation>¡Ya has iniciado sesión!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="323"/>
+        <location filename="../qml/main.qml" line="324"/>
         <source>Receiving data... </source>
         <translation>Recibiendo información...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="329"/>
-        <location filename="../qml/main.qml" line="335"/>
+        <location filename="../qml/main.qml" line="330"/>
+        <location filename="../qml/main.qml" line="336"/>
         <source>Sending data...</source>
         <translation>Enviando información...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="345"/>
+        <location filename="../qml/main.qml" line="346"/>
         <source>Initiating...</source>
         <translation>Iniciando...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="349"/>
+        <location filename="../qml/main.qml" line="350"/>
         <source>Updating...</source>
         <translation>Actualizando...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="353"/>
-        <location filename="../qml/main.qml" line="357"/>
+        <location filename="../qml/main.qml" line="354"/>
+        <location filename="../qml/main.qml" line="358"/>
         <source>Signing in...</source>
         <translation>Iniciando sesión...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="361"/>
-        <location filename="../qml/main.qml" line="365"/>
-        <location filename="../qml/main.qml" line="369"/>
+        <location filename="../qml/main.qml" line="362"/>
+        <location filename="../qml/main.qml" line="366"/>
+        <location filename="../qml/main.qml" line="370"/>
         <source>Waiting for network...</source>
         <translation>Esperando la conexión...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="151"/>
+        <location filename="../qml/main.qml" line="152"/>
         <source>Something went wrong :-(
 Restart the app to rebuild cache data.</source>
         <translation>Algo salió mal :-(
 Reinicia la aplicación para reconstruir la caché.</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="266"/>
+        <location filename="../qml/main.qml" line="267"/>
         <source>Something goes wrong. Unable to sign in! :-(</source>
         <translation>Algo va mal. ¡No es posible acceder! :-(</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="308"/>
+        <location filename="../qml/main.qml" line="309"/>
         <source>Something went wrong :-(
 An unknown error occurred.</source>
         <translation>Algo salió mal :-(
 Se produjo un error desconocido.</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="490"/>
+        <location filename="../qml/main.qml" line="445"/>
         <source>Removing cache data...</source>
         <translation>Borrando los datos en caché...</translation>
     </message>
