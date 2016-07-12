@@ -199,7 +199,7 @@ void NvFetcher::fetchFeeds()
 
     Settings *s = Settings::instance();
 
-    QUrl url("https://www.netvibes.com/api/streams");
+    QUrl url("https://www.netvibes.com/api/streams?pageId="+s->getDashboardInUse());
     QNetworkRequest request(url);
 
     if (currentReply != NULL) {
@@ -208,26 +208,25 @@ void NvFetcher::fetchFeeds()
         currentReply = NULL;
     }
 
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=UTF-8");
     setCookie(request, s->getCookie().toLatin1());
 
     int feedsAtOnce = s->getFeedsAtOnce();
 
     int ii = 0;
-    QString actions = "[";
+    QString content = "[";
     QList<DatabaseManager::StreamModuleTab>::iterator i = streamList.begin();
     while (i != streamList.end()) {
         if (ii > feedsAtOnce)
             break;
 
         if (ii != 0)
-            actions += ",";
+            content += ",";
 
-        // "filter":"unread"
-        actions += "{\"options\":{";
+        content += "{\"options\":{";
         if (!s->getSyncRead())
-            actions += "\"filter\":\"unread\",";
-        actions += QString("\"limit\":%1},\"streams\":[{\"id\":\"%2\",\"moduleId\":\"%3\"}]}")
+            content += "\"filter\":\"unread\",";
+        content += QString("\"limit\":%1},\"streams\":[{\"id\":\"%2\",\"moduleId\":\"%3\"}]}")
                 .arg(limitFeeds)
                 .arg((*i).streamId)
                 .arg((*i).moduleId);
@@ -237,9 +236,7 @@ void NvFetcher::fetchFeeds()
         i = streamList.erase(i);
         ++ii;
     }
-    actions += "]";
-
-    QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
+    content += "]";
 
     currentReply = nam.post(request, content.toUtf8());
     connect(currentReply, SIGNAL(finished()), this, SLOT(finishedFeeds()));
@@ -253,7 +250,7 @@ void NvFetcher::fetchFeedsReadlater()
 
     Settings *s = Settings::instance();
 
-    QUrl url("https://www.netvibes.com/api/streams/saved");
+    QUrl url("https://www.netvibes.com/api/streams/saved?pageId="+s->getDashboardInUse());
     QNetworkRequest request(url);
 
     if (currentReply != NULL) {
@@ -262,21 +259,19 @@ void NvFetcher::fetchFeedsReadlater()
         currentReply = NULL;
     }
 
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=UTF-8");
     setCookie(request, s->getCookie().toLatin1());
 
-    QString actions;
+    QString content;
     if (publishedBeforeDate==0) {
-        actions = QString("[{\"options\":{\"limit\":%1}}]").arg(limitFeedsReadlater);
+        content = QString("[{\"options\":{\"limit\":%1}}]").arg(limitFeedsReadlater);
     } else {
-        actions = QString("[{\"options\":{\"limit\":%1, "
+        content = QString("[{\"options\":{\"limit\":%1, "
                           "\"publishedBeforeDate\":%2"
                           "}}]")
                 .arg(limitFeedsReadlater)
                 .arg(publishedBeforeDate);
     }
-
-    QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
 
     currentReply = nam.post(request, content.toUtf8());
     connect(currentReply, SIGNAL(finished()), this, SLOT(finishedFeedsReadlater()));
@@ -290,7 +285,7 @@ void NvFetcher::fetchFeedsUpdate()
 
     Settings *s = Settings::instance();
 
-    QUrl url("https://www.netvibes.com/api/streams");
+    QUrl url("https://www.netvibes.com/api/streams?pageId="+s->getDashboardInUse());
     QNetworkRequest request(url);
 
     if (currentReply != NULL) {
@@ -299,20 +294,20 @@ void NvFetcher::fetchFeedsUpdate()
         currentReply = NULL;
     }
 
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=UTF-8");
     setCookie(request, s->getCookie().toLatin1());
 
     int ii = 0;
-    QString actions = "[";
+    QString content = "[";
     QList<DatabaseManager::StreamModuleTab>::iterator i = streamUpdateList.begin();
     while (i != streamUpdateList.end()) {
         if (ii >= feedsUpdateAtOnce)
             break;
 
         if (ii != 0)
-            actions += ",";
+            content += ",";
 
-        actions += QString("{\"options\":{\"limit\":%1},\"crawledAfterDate\":%2,"
+        content += QString("{\"options\":{\"limit\":%1},\"crawledAfterDate\":%2,"
                            "\"streams\":[{\"id\":\"%3\",\"moduleId\":\"%4\"}]}")
                 .arg(limitFeedsUpdate)
                 .arg((*i).date)
@@ -322,9 +317,7 @@ void NvFetcher::fetchFeedsUpdate()
         i = streamUpdateList.erase(i);
         ++ii;
     }
-    actions += "]";
-
-    QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
+    content += "]";
 
     currentReply = nam.post(request, content.toUtf8());
 
@@ -382,7 +375,7 @@ void NvFetcher::setAction()
         currentReply = NULL;
     }
 
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded; charset=UTF-8");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json; charset=UTF-8");
     request.setRawHeader("Content-Encoding", "gzip");
     setCookie(request, s->getCookie().toLatin1());
 
@@ -495,7 +488,7 @@ void NvFetcher::setAction()
                            "\"id\":\"%2\",\"publishedAt\":%3}]}]}")
                 .arg(action.id2).arg(action.id1).arg(action.date1);
 
-        qDebug() << actions;
+        //qDebug() << actions;
     }
 
     if (action.type == DatabaseManager::SetListRead) {
@@ -521,12 +514,10 @@ void NvFetcher::setAction()
     actions += "]";
 
     //qDebug() << "actions:" << actions;
-
-    QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
+    //QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
     //QString content = "actions="+QUrl::toPercentEncoding(actions)+"&pageId="+s->getDashboardInUse();
 
-
-    currentReply = nam.post(request, content.toUtf8());
+    currentReply = nam.post(request, actions.toUtf8());
 
     connect(currentReply, SIGNAL(finished()), this, SLOT(finishedSetAction()));
     connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
@@ -1075,6 +1066,7 @@ void NvFetcher::startJob(Job job)
 
     disconnect(this, SIGNAL(finished()), 0, 0);
     currentJob = job;
+    //qDebug() << "Job:" << job;
 
     if(parse()) {
         if (jsonObj.contains("success") && !jsonObj["success"].toBool()) {
