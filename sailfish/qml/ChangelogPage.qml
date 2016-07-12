@@ -51,12 +51,21 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("2.3.1")
+            }
+
+            LogItem {
+                title: 'Updated Netvibes API support'
+                description: "Fixes for updated NV API.";
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("2.3")
             }
 
             LogItem {
                 title: 'Full content from the RSS feed'
-                description: "New option to set clicking on article behaviour. Following actions are possible: Open article in the built-in viewer, Open article in an external browser, Show full content from the RSS feed.";
+                description: "New option to set clicking on article behavior. Following actions are possible: Open article in the built-in viewer, Open article in an external browser, Show full content from the RSS feed.";
             }
 
             LogItem {

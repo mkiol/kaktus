@@ -79,6 +79,13 @@ Page {
         }
     }
 
+    function navigate(url) {
+        var hcolor = Theme.highlightColor.toString().substr(1, 6);
+        var shcolor = Theme.secondaryHighlightColor.toString().substr(1, 6);
+        var imgWidth = settings.fontSize == 1 ? root.width/(1.5) : settings.fontSize == 2 ? root.width/(2.0) : root.width;
+        return url+"?fontsize=18px&width="+imgWidth+"&highlightColor="+hcolor+"&secondaryHighlightColor="+shcolor+"&margin="+Theme.paddingMedium;
+    }
+
     function getFontSize() {
         return Theme.fontSizeSmall * (settings.fontSize / 10) * 0.7;
     }
@@ -123,7 +130,7 @@ Page {
     function openEntryInBrowser() {
         entryModel.setData(index, "read", 1, "");
         notification.show(qsTr("Launching an external browser..."));
-        Qt.openUrlExternally(settings.offlineMode ? offlineUrl : onlineUrl);
+        Qt.openUrlExternally(settings.offlineMode ? navigate(offlineUrl) : onlineUrl);
     }
 
     function openUrlEntryInBrowser(url) {
