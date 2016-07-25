@@ -76,6 +76,8 @@ Dialog {
                     id: icon
                     anchors { right: label.left; rightMargin: Theme.paddingMedium }
                     source: "oldreader.png"
+                    width: Theme.iconSizeMedium
+                    height: Theme.iconSizeMedium
                 }
 
                 Label {
@@ -103,32 +105,6 @@ Dialog {
                 height: Theme.paddingMedium
                 width: Theme.paddingMedium
             }
-
-            /*PaddedLabel {
-                text: qsTr("Only connecting with Old Reader credentials are supported right now.")
-            }
-
-            SectionHeader {
-                text: qsTr("OldReader")
-            }*/
-
-            /*Item {
-                anchors { left: parent.left; right: parent.right; leftMargin: Theme.paddingLarge; rightMargin: Theme.paddingLarge}
-                height: Math.max(nvIcon.height, nvLabel.height)
-
-                Image {
-                    id: nvIcon
-                    anchors { left: parent.left }
-                    source: "oldreader.png"
-                }
-
-                Label {
-                    id: nvLabel
-                    anchors { left: nvIcon.right; right: parent.right; leftMargin: Theme.paddingLarge}
-                    text: qsTr("Enter Old Reader username and password below.")
-                    wrapMode: Text.WordWrap
-                }
-            }*/
 
             TextField {
                 id: user

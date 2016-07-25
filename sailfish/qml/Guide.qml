@@ -395,22 +395,6 @@ Rectangle {
             width: parent.width
         }
 
-        /*Rectangle {
-            id: rightRect
-            anchors.right: parent.right
-            anchors.top: parent.top; anchors.bottom: parent.bottom
-            color: Theme.highlightBackgroundColor
-            width: bar.width - bar.size + bar.off
-            Behavior on width { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
-        }
-
-        Rectangle {
-            anchors.right: rightRect.left; anchors.left: leftRect.right
-            anchors.bottom: parent.bottom;
-            height: bar.height/10
-            color: Theme.highlightColor
-        }*/
-
         Item {
             property int off: -bar.height/10
             anchors.left: parent.left; anchors.right: parent.right
@@ -420,7 +404,7 @@ Rectangle {
                 id: vm0b
                 x: 0*(width+Theme.paddingMedium)
                 y: ((parent.height-height)/2) + (highlighted ? parent.off : 0)
-                icon.source: "image://icons/vm0?"+Theme.highlightDimmerColor
+                icon.source: "image://icons/icon-m-vm0?"+Theme.highlightDimmerColor
                 //highlighted: true
             }
 
@@ -428,21 +412,21 @@ Rectangle {
                 id: vm1b
                 x: 1*(width+Theme.paddingMedium)
                 y: ((parent.height-height)/2) + (highlighted ? parent.off : 0)
-                icon.source: "image://icons/vm1?"+Theme.highlightDimmerColor
+                icon.source: "image://icons/icon-m-vm1?"+Theme.highlightDimmerColor
             }
 
             IconButton {
                 id: vm3b
                 x: 2*(width+Theme.paddingMedium)
                 y: ((parent.height-height)/2) + (highlighted ? parent.off : 0)
-                icon.source: "image://icons/vm3?"+Theme.highlightDimmerColor
+                icon.source: "image://icons/icon-m-vm3?"+Theme.highlightDimmerColor
             }
 
             IconButton {
                 id: vm4b
                 x: 3*(width+Theme.paddingMedium)
                 y: ((parent.height-height)/2) + (highlighted ? parent.off : 0)
-                icon.source: "image://icons/vm4?"+Theme.highlightDimmerColor
+                icon.source: "image://icons/icon-m-vm4?"+Theme.highlightDimmerColor
             }
 
             IconButton {
@@ -450,22 +434,15 @@ Rectangle {
                 x: 4*(width+Theme.paddingMedium)
                 visible: app.isNetvibes || (app.isOldReader && settings.showBroadcast) // Disabled for Feedly
                 y: ((parent.height-height)/2) + (highlighted ? parent.off : 0)
-                icon.source: app.isOldReader ? "image://icons/vm6?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor) :
-                                               "image://icons/vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+                icon.source: app.isOldReader ? "image://icons/icon-m-vm6?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor) :
+                                               "image://icons/icon-m-vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
             }
 
-            /*IconButton {
-                id: offline
-                anchors.right: parent.right; anchors.rightMargin: Theme.paddingSmall
-                anchors.verticalCenter: parent.verticalCenter
-                icon.source: settings.offlineMode ? "image://theme/icon-m-wlan-no-signal?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
-                                                  : "image://theme/icon-m-wlan-4?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
-            }*/
-
             IconButton {
+                id: readb
                 anchors.right: parent.right; anchors.rightMargin: Theme.paddingSmall
                 anchors.verticalCenter: parent.verticalCenter
-                icon.source: "image://icons/read?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
+                icon.source: "image://icons/icon-m-read?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
             }
         }
     }
@@ -475,8 +452,14 @@ Rectangle {
         property bool open: false
         property int space: 92
         visible: open
-        source: "image://icons/selector?"+Theme.primaryColor
-        x: root.progress!=7 ? 8 + ((root.progress-2)*space) : parent.width-space+Theme.paddingMedium
+        source: "image://icons/icon-m-selector?"+Theme.primaryColor
+        //x: root.progress!=7 ? 8 + ((root.progress-2)*space) : parent.width-space+Theme.paddingMedium
+        x: root.progress==2 ? vm0b.x :
+           root.progress==3 ? vm1b.x :
+           root.progress==4 ? vm3b.x :
+           root.progress==5 ? vm4b.x :
+           root.progress==6 ? vm5b.x : readb.x
+
         y: app.orientation==Orientation.Portrait ? parent.height-(app.panelHeightPortrait+height)/2 :
                                                    parent.height-(app.panelHeightLandscape+height)/2
         Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }

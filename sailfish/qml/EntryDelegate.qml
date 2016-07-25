@@ -87,7 +87,7 @@ ListItem {
         iconPlaceholderLabel.color = colorFg;
 
         if (defaultIcon)
-            icon.source = "image://icons/friend?" + colorFg;
+            icon.source = "image://icons/icon-m-friend?" + colorFg;
         else
             icon.source = root.feedIcon !== "" ? cache.getUrlbyUrl(root.feedIcon) : "";
     }
@@ -112,9 +112,9 @@ ListItem {
         anchors.fill: parent
         gradient: Gradient {
             GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
-            GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.2) }
+            GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.3) }
         }
-        visible: !last && !daterow
+        visible: root.readlater
     }
 
     Rectangle {
@@ -129,7 +129,6 @@ ListItem {
         anchors.top: parent.top; anchors.right: parent.right
         width: Theme.paddingSmall; height: titleLabel.height
         visible: root.fresh && !last && !daterow && !(landscapeMode && expanded)
-        //radius: 10
 
         gradient: Gradient {
             GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
@@ -156,7 +155,7 @@ ListItem {
 
     BackgroundItem {
         id: star
-        anchors.right: background.right; anchors.top: background.top
+        anchors.right: parent.right; anchors.top: parent.top
         height: Theme.iconSizeSmall + 2*Theme.paddingMedium
         width: Theme.iconSizeSmall + 2*Theme.paddingMedium
         visible: !last && !daterow
@@ -191,7 +190,6 @@ ListItem {
         visible: daterow
         height: dateRowLabel.height + 2*Theme.paddingMedium
         width: parent.width
-        //color: Theme.highlightColor
 
         Label {
             id: dateRowLabel
@@ -201,7 +199,6 @@ ListItem {
             font.family: Theme.fontFamilyHeading
             truncationMode: TruncationMode.Fade
             text: title
-            //color: Theme.highlightDimmerColor
             color: Theme.highlightColor
         }
     }
@@ -462,7 +459,7 @@ ListItem {
 
             IconMenuItem {
                 text: qsTr("Toggle Read")
-                icon.source: root.read ? 'image://icons/read-selected' : 'image://icons/read-notselected'
+                icon.source: root.read ? 'image://icons/icon-m-read-selected' : 'image://icons/icon-m-read'
                 visible: enabled
                 enabled: root.showMarkedAsRead
                 onClicked: {
@@ -479,7 +476,7 @@ ListItem {
 
             IconMenuItem {
                 text: app.isNetvibes || app.isFeedly ? qsTr("Toggle Save") : qsTr("Toggle Star")
-                icon.source: root.readlater ? 'image://icons/star-selected' : 'image://icons/star-notselected'
+                icon.source: root.readlater ? 'image://theme/icon-m-favorite-selected' : 'image://theme/icon-m-favorite'
                 onClicked: {
                     if (root.readlater) {
                         root.unmarkedReadlater();
@@ -492,7 +489,7 @@ ListItem {
 
             IconMenuItem {
                 text: qsTr("Above as read")
-                icon.source: 'image://icons/read-aboved'
+                icon.source: 'image://icons/icon-m-readabove'
                 visible: enabled
                 enabled: root.showMarkedAsRead && root.index > 1
                 onClicked: {
@@ -504,7 +501,7 @@ ListItem {
 
             IconMenuItem {
                 text: qsTr("Viewer")
-                icon.source: 'image://icons/webview'
+                icon.source: 'image://icons/icon-m-webview'
                 visible: enabled
                 //enabled: settings.clickBehavior !== 0
                 onClicked: {
@@ -516,7 +513,7 @@ ListItem {
 
             IconMenuItem {
                 text: qsTr("Browser")
-                icon.source: 'image://icons/browser'
+                icon.source: 'image://icons/icon-m-browser'
                 visible: enabled
                 //enabled: settings.clickBehavior !== 1
                 onClicked: {
@@ -528,7 +525,7 @@ ListItem {
 
             IconMenuItem {
                 text: qsTr("Feed content")
-                icon.source: 'image://icons/rss'
+                icon.source: 'image://icons/icon-m-rss'
                 visible: enabled
                 //enabled: settings.clickBehavior !== 2
                 onClicked: {
@@ -541,7 +538,7 @@ ListItem {
             IconMenuItem {
                 id: likeItem
                 text: qsTr("Toggle Like")
-                icon.source: root.liked ? 'image://icons/like-selected' : 'image://icons/like-notselected'
+                icon.source: root.liked ? 'image://icons/icon-m-like-selected' : 'image://icons/icon-m-like'
                 enabled: settings.showBroadcast && app.isOldReader
                 visible: enabled
                 onClicked: {
@@ -556,7 +553,7 @@ ListItem {
 
             IconMenuItem {
                 text: qsTr("Toggle Share")
-                icon.source: root.broadcast ? 'image://icons/share-selected' : 'image://icons/share-notselected'
+                icon.source: root.broadcast ? 'image://icons/icon-m-share-selected' : 'image://icons/icon-m-share'
                 enabled: settings.showBroadcast && app.isOldReader &&
                          !root.friendStream
                 visible: enabled
@@ -671,14 +668,6 @@ ListItem {
                     root.expanded = false;
                 }
             }
-
-            /*MenuItem {
-                visible: box.expandable && root.expanded
-                text: root.expanded ? qsTr("Collapse") : qsTr("Expand")
-                onClicked: {
-                    root.expanded = !root.expanded;
-                }
-            }*/
         }
     }
 }

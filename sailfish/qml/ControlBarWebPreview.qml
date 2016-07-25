@@ -144,8 +144,8 @@ Item {
             IconButton {
                 visible: root.canMarkRead
                 icon.source: root.read ?
-                                 "image://icons/read?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-                               : "image://icons/unread?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                                 "image://icons/icon-m-read?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                               : "image://icons/icon-m-read-selected?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
                 onClicked: {root.markReadClicked();show();}
             }
 
@@ -167,28 +167,28 @@ Item {
             IconButton {
                 width: back.width; height: back.height
                 visible: root.canOpenWebview
-                icon.source: "image://icons/webview?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                icon.source: "image://icons/icon-m-webview?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
                 onClicked: {root.webviewClicked();show();}
             }
 
             IconButton {
                 width: back.width; height: back.height
                 visible: root.canOpenBrowser
-                icon.source: "image://icons/browser?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                icon.source: "image://icons/icon-m-browser?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
                 onClicked: {root.browserClicked();show();}
             }
 
             IconButton {
                 width: back.width; height: back.height
                 visible: root.canFontUp
-                icon.source: "image://icons/fontup?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                icon.source: "image://icons/icon-m-fontup?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
                 onClicked: {root.fontUpClicked();show();}
             }
 
             IconButton {
                 width: back.width; height: back.height
                 visible: root.canFontDown
-                icon.source: "image://icons/fontdown?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                icon.source: "image://icons/icon-m-fontdown?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
                 onClicked: {root.fontDownClicked();show();}
             }
 
@@ -198,8 +198,8 @@ Item {
                 /*icon.source: settings.readerMode ? "image://theme/icon-m-document?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
                                                  : "image://theme/icon-m-document?"+(root.transparent ? Qt.darker(Theme.highlightColor,3.5) : Qt.lighter(Theme.highlightDimmerColor,3.5))
                 */
-                icon.source: settings.readerMode ? "image://icons/reader?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-                                                 : "image://icons/reader-disabled?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                icon.source: settings.readerMode ? "image://icons/icon-m-reader-selected?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+                                                 : "image://icons/icon-m-reader?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
 
                 onClicked: {
                     settings.readerMode = !settings.readerMode;

@@ -158,6 +158,11 @@ Page {
         id: _remorse
     }
 
+    Rectangle {
+        anchors.fill: parent
+        color: Theme.rgba(Theme.highlightDimmerColor, 0.2)
+    }
+
     SilicaListView {
         id: listView
         model: entryModel

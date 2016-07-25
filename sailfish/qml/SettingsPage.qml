@@ -58,6 +58,9 @@ Page {
                     anchors { right: label.left; rightMargin: Theme.paddingMedium }
                     source: app.isNetvibes ? "nv.png" :
                             app.isOldReader ? "oldreader.png" : "feedly.png"
+                    width: Theme.iconSizeMedium
+                    height: Theme.iconSizeMedium
+
                 }
 
                 Label {
@@ -585,9 +588,9 @@ Page {
                 currentIndex: settings.clickBehavior
 
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("Built-in viewer") }
-                    MenuItem { text: qsTr("External browser") }
-                    MenuItem { text: qsTr("Feed content") }
+                    MenuIconItem { text: qsTr("Built-in viewer"); icon.source: "image://icons/icon-m-webview" }
+                    MenuIconItem { text: qsTr("External browser"); icon.source: "image://icons/icon-m-browser" }
+                    MenuIconItem { text: qsTr("Feed content"); icon.source: "image://icons/icon-m-rss" }
                 }
 
                 onCurrentIndexChanged: {
@@ -604,8 +607,8 @@ Page {
 
                 menu: ContextMenu {
                     MenuItem { text: qsTr("Disabled") }
-                    MenuItem { text: qsTr("External browser") }
-                    MenuItem { text: qsTr("Built-in viewer") }
+                    MenuIconItem { text: qsTr("External browser"); icon.source: "image://icons/icon-m-browser" }
+                    MenuIconItem { text: qsTr("Built-in viewer"); icon.source: "image://icons/icon-m-webview" }
                 }
 
                 onCurrentIndexChanged: {
@@ -628,7 +631,7 @@ Page {
             TextSwitchWithIcon {
                 text: qsTr("Read mode")
                 description: qsTr("Web pages will be reformatted into an easy to read version.")
-                iconSource: settings.readerMode ? "reader-selected.png" : "reader-notselected.png"
+                iconSource: settings.readerMode ? "image://icons/icon-m-reader-selected" : "image://icons/icon-m-reader"
                 onCheckedChanged: {
                     settings.readerMode = checked;
                 }

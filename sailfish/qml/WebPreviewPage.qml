@@ -72,7 +72,9 @@ Page {
 
     function updateStyle() {
         var viewport = settings.fontSize / 10;
+        //console.log("Theme.pixelRatio: " + Theme.pixelRatio)
         viewport = viewport < 1 ? viewport.toPrecision(1) : viewport.toPrecision(2);
+        viewport *= Theme.pixelRatio;
 
         view.experimental.evaluateJavaScript(
         "(function(){
@@ -323,7 +325,7 @@ Page {
 
         IconBarItem {
             text: qsTr("Toggle Read")
-            icon: root.read ? "image://icons/read-selected" : "image://icons/read-notselected"
+            icon: root.read ? "image://icons/icon-m-read-selected" : "image://icons/icon-m-read"
             onClicked: {
                 if (root.read) {
                     root.read=false;
@@ -338,7 +340,7 @@ Page {
         IconBarItem {
             text: app.isNetvibes || app.isFeedly ?
                   qsTr("Toggle Save") : qsTr("Toggle Star")
-            icon: root.stared ? "image://icons/star-selected" : "image://icons/star-notselected"
+            icon: root.stared ? "image://theme/icon-m-favorite-selected" : "image://theme/icon-m-favorite"
             onClicked: {
                 if (root.stared) {
                     root.stared=false;
@@ -352,7 +354,7 @@ Page {
 
         IconBarItem {
             text: qsTr("Toggle Read mode")
-            icon: settings.readerMode ? "image://icons/reader-selected" : "image://icons/reader-notselected"
+            icon: settings.readerMode ? "image://icons/icon-m-reader-selected" : "image://icons/icon-m-reader"
             enabled: !settings.offlineMode
             onClicked: {
                 settings.readerMode = !settings.readerMode;
@@ -361,7 +363,7 @@ Page {
 
         IconBarItem {
             text: qsTr("Browser")
-            icon: "image://icons/browser"
+            icon: "image://icons/icon-m-browser"
             onClicked: {
                 notification.show(qsTr("Launching an external browser..."));
                 Qt.openUrlExternally(onlineUrl);
@@ -370,7 +372,7 @@ Page {
 
         IconBarItem {
             text: qsTr("Toggle Like")
-            icon: root.liked ? "image://icons/like-selected" : "image://icons/like-notselected"
+            icon: root.liked ? "image://icons/icon-m-like-selected" : "image://icons/icon-m-like"
             enabled: settings.showBroadcast && app.isOldReader
             onClicked: {
                 entryModel.setData(root.index, "liked", !root.liked, "");
@@ -380,7 +382,7 @@ Page {
 
         IconBarItem {
             text: qsTr("Toggle Share")
-            icon: root.broadcast ? "image://icons/share-selected" : "image://icons/share-notselected"
+            icon: root.broadcast ? "image://icons/icon-m-share-selected" : "image://icons/icon-m-share"
             enabled: settings.showBroadcast && app.isOldReader && !root.friendStream
             onClicked: {
                 if (root.broadcast) {
@@ -394,7 +396,7 @@ Page {
 
         IconBarItem {
             text: qsTr("Increase font")
-            icon: "image://icons/fontup"
+            icon: "image://icons/icon-m-fontup"
             onClicked: {
                 settings.fontSize++
             }
@@ -402,7 +404,7 @@ Page {
 
         IconBarItem {
             text: qsTr("Decrease font")
-            icon: "image://icons/fontdown"
+            icon: "image://icons/icon-m-fontdown"
             onClicked: {
                 settings.fontSize--
             }

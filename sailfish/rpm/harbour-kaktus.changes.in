@@ -8,6 +8,13 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Tue Jul 12 2016 Michal Kosciesza 2.4.0-0
+- UI improvements for Jolla C
+
+* Tue Jul 12 2016 Michal Kosciesza 2.3.1-1
+- FIX: New netvibes API support
+- Translations update
+
 * Tue Apr 05 2016 Michal Kosciesza 2.3-6
 - Translations update: IT, PL
 

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2014-2016 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -39,9 +39,9 @@ static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.3.1 (light edition)";
+static const char *VERSION = "2.4.0 (light edition)";
 #else
-static const char *VERSION = "2.3.1";
+static const char *VERSION = "2.4.0";
 #endif
 
 int main(int argc, char *argv[])
@@ -66,7 +66,6 @@ int main(int argc, char *argv[])
 
     QTranslator translator;
     QString locale = settings->getLocale() == "" ? QLocale::system().name() : settings->getLocale();
-    //locale="nl";
     if(!translator.load(locale, "kaktus", "_", SailfishApp::pathTo("translations").toLocalFile(), ".qm")) {
         qDebug() << "Couldn't load translation for locale " + locale + " from " + SailfishApp::pathTo("translations").toLocalFile();
     }

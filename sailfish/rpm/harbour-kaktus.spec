@@ -13,18 +13,20 @@ Name:       harbour-kaktus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
-Version:    2.3
-Release:    6
+Version:    2.4.0
+Release:    0
 Group:      Qt/Qt
 License:    LICENSE
 URL:        https://github.com/mkiol/kaktus
 Source0:    %{name}-%{version}.tar.bz2
 Source100:  harbour-kaktus.yaml
 Requires:   sailfishsilica-qt5 >= 0.10.9
+Requires:   mlite-qt5
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
+BuildRequires:  pkgconfig(mlite5)
 BuildRequires:  desktop-file-utils
 
 %description

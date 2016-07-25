@@ -1,11 +1,11 @@
 TARGET = harbour-kaktus
 
+QT += sql network dbus
 CONFIG += sailfishapp
+PKGCONFIG += mlite5
 
 DEFINES += SAILFISH
 DEFINES += ONLINE_CHECK
-
-QT += sql network
 
 SOURCES += \
     src/main_sailfish.cpp \
@@ -26,7 +26,8 @@ SOURCES += \
     src/nvfetcher.cpp \
     src/feedlyfetcher.cpp \
     src/networkaccessmanagerfactory.cpp \
-    src/customnetworkaccessmanager.cpp
+    src/customnetworkaccessmanager.cpp \
+    src/iconprovider.cpp
 
 HEADERS += \
     src/utils.h \
@@ -62,7 +63,7 @@ include(qhttpserver/qhttpserver.pri)
 OTHER_FILES += \
     rpm/harbour-kaktus.*
 
-SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
+SAILFISHAPP_ICONS = 86x86 108x108 128x128 150x150 256x256
 
 TRANSLATIONS = translations/kaktus_en.ts \
                translations/kaktus_pl.ts \
@@ -75,7 +76,11 @@ TRANSLATIONS = translations/kaktus_en.ts \
 
 translations.files = translations/*.qm
 translations.path = /usr/share/$${TARGET}/translations
-INSTALLS += translations
+images.files = images/*
+images.path = /usr/share/$${TARGET}/images
+INSTALLS += translations images
 
 DISTFILES += \
-    qml/*.qml
+    qml/*.qml \
+    qml/ScalableIconButton.qml \
+    qml/MenuIconItem.qml

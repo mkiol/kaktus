@@ -81,6 +81,8 @@ Dialog {
                     id: icon
                     anchors { right: label.left; rightMargin: Theme.paddingMedium }
                     source: "nv.png"
+                    width: Theme.iconSizeMedium
+                    height: Theme.iconSizeMedium
                 }
 
                 Label {
@@ -108,28 +110,6 @@ Dialog {
                 height: Theme.paddingMedium
                 width: Theme.paddingMedium
             }
-
-            /*SectionHeader {
-                text: qsTr("Netvibes")
-            }
-
-            Item {
-                anchors { left: parent.left; right: parent.right; leftMargin: Theme.paddingLarge; rightMargin: Theme.paddingLarge}
-                height: Math.max(nvIcon.height, nvLabel.height)
-
-                Image {
-                    id: nvIcon
-                    anchors { left: parent.left }
-                    source: "nv.png"
-                }
-
-                Label {
-                    id: nvLabel
-                    anchors { left: nvIcon.right; right: parent.right; leftMargin: Theme.paddingLarge}
-                    text: qsTr("Enter Netvibes username and password below.")
-                    wrapMode: Text.WordWrap
-                }
-            }*/
 
             TextField {
                 id: user
@@ -172,12 +152,13 @@ Dialog {
             Row {
                 height: 80
                 spacing: Theme.paddingLarge
-                //anchors.horizontalCenter: parent.horizontalCenter
                 x: Theme.paddingLarge
 
                 Image {
                     anchors.verticalCenter: parent.verticalCenter
                     source: "twitter.png"
+                    width: Theme.iconSizeMedium
+                    height: Theme.iconSizeMedium
                 }
 
                 Button {
@@ -198,12 +179,13 @@ Dialog {
             Row {
                 height: 80
                 spacing: Theme.paddingLarge
-                //anchors.horizontalCenter: parent.horizontalCenter
                 x: Theme.paddingLarge
 
                 Image {
                     anchors.verticalCenter: parent.verticalCenter
                     source: "fb.png"
+                    width: Theme.iconSizeMedium
+                    height: Theme.iconSizeMedium
                 }
 
                 Button {

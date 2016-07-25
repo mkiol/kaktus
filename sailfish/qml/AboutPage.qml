@@ -56,7 +56,7 @@ Page {
 
             Image {
                 anchors.horizontalCenter: parent.horizontalCenter
-                source: "icon.png"
+                source: "image://icons/icon-a-kaktus"
             }
 
             Label {

@@ -60,11 +60,6 @@ Page {
             forwardNavigation = false;
     }
 
-    /*onBackNavigationChanged: {
-        if (backNavigation)
-            backNavigation = false;
-    }*/
-
     showNavigationIndicator: false
 
     allowedOrientations: {

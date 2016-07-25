@@ -51,12 +51,21 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("2.4.0")
+            }
+
+            LogItem {
+                title: 'UI improvements for Jolla C/Aqua Fish and other devices'
+                description: "Few UI fixes to better support other devices than Jolla 1.";
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("2.3.1")
             }
 
             LogItem {
-                title: 'Updated Netvibes API support'
-                description: "Fixes for updated NV API.";
+                title: 'Updated support for Netvibes API'
+                description: "Fixes for updated Netvibes API.";
             }
 
             SectionHeader {

@@ -127,14 +127,8 @@ CoverBackground {
         }
     }
 
-    /*BusyIndicator {
-        anchors.centerIn: parent
-        running: root.busy
-        size: BusyIndicatorSize.Medium
-    }*/
-
     CoverPlaceholder {
         text: settings.signedIn ? root.busy ? root.label : root.unreadLabel : qsTr("Not signed in")
-        icon.source: "icon-small.png"
+        icon.source: "image://icons/icon-a-kaktus"
     }
 }

@@ -85,7 +85,7 @@ Page {
                 imagePlaceholder.color = colorBg;
                 imagePlaceholderLabel.color = colorFg;
                 if (defaultIcon)
-                    image.source = "image://icons/friend?" + colorFg;
+                    image.source = "image://icons/icon-m-friend?" + colorFg;
                 else
                     image.source = model.icon !== "" ? cache.getUrlbyUrl(model.icon) : "";
             }
