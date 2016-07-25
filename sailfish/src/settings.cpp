@@ -281,7 +281,7 @@ void Settings::setDoublePane(bool value)
 
 bool Settings::getDoublePane()
 {
-    return settings.value("doublepane", true).toBool();
+    return settings.value("doublepane", false).toBool();
 }
 
 void Settings::setHint1Done(bool value)
