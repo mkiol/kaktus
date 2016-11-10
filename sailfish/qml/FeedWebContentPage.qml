@@ -38,7 +38,27 @@ Page {
     property int index
     property int feedindex
     property bool cached
+
     property variant _settings: settings
+    property bool themeApply: true
+
+    property bool navigateBackPop: true
+
+    function init() {
+        view.loadHtml(utils.formatHtml(content, settings.offlineMode, ""))
+        navigateBackPop = true
+        themeApply = true
+    }
+
+    function navigateBack() {
+        if (view.canGoBack)
+            view.goBack()
+        else
+            if (navigateBackPop)
+                pageStack.pop()
+            else
+                init()
+    }
 
     allowedOrientations: {
         switch (settings.allowedOrientations) {
@@ -51,13 +71,9 @@ Page {
     }
 
     Component.onCompleted: {
-        bar.hide();
-        controlbar.show();
-        var fontSize = getFontSize();
-        var style = "h1,h2,h3,div,p,pre,code{word-wrap:break-word}body{margin:"+Theme.horizontalPageMargin+";margin-bottom:"+Theme.itemSizeExtraLarge+
-                ";background-color:"+Theme.highlightDimmerColor+";"+"color:"+Theme.primaryColor+";"+"font-size:"+fontSize+
-                ";font-family:"+Theme.fontFamily+"}"+"a{color:"+Theme.highlightColor+"}"+"img{height:auto;max-width:100%;width:auto;}";
-        view.loadHtml(utils.formatHtml(content, settings.offlineMode, style));
+        bar.hide()
+        controlbar.show()
+        init()
     }
 
     // Workaround for 'High Power Consumption' webkit bug
@@ -79,25 +95,6 @@ Page {
         }
     }
 
-    function navigate(url) {
-        var hcolor = Theme.highlightColor.toString().substr(1, 6);
-        var shcolor = Theme.secondaryHighlightColor.toString().substr(1, 6);
-        var imgWidth = settings.fontSize == 1 ? root.width/(1.5) : settings.fontSize == 2 ? root.width/(2.0) : root.width;
-        return url+"?fontsize=18px&width="+imgWidth+"&highlightColor="+hcolor+"&secondaryHighlightColor="+shcolor+"&margin="+Theme.paddingMedium;
-    }
-
-    function getFontSize() {
-        return (Theme.fontSizeSmall * (settings.fontSize / 10) * 0.6) * Theme.pixelRatio;
-    }
-
-    function updateFontSize() {
-        view.experimental.evaluateJavaScript(
-        "(function(){document.body.style.fontSize="+getFontSize()+";})()",
-         function(result) {
-             //console.log("result:",result);
-         });
-    }
-
     function check() {
         // Not allowed while Syncing
         if (dm.busy || fetcher.busy || dm.removerBusy) {
@@ -115,7 +112,7 @@ Page {
         if (!settings.offlineMode && !dm.online) {
             if (cached) {
                 // Entry cached
-                notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode."));
+                notification.show(qsTr("Network connection is unavailable.\nSwitching to offline mode."));
                 settings.offlineMode = true;
             } else {
                 // Entry not cached
@@ -130,7 +127,7 @@ Page {
     function openEntryInBrowser() {
         entryModel.setData(index, "read", 1, "");
         notification.show(qsTr("Launching an external browser..."));
-        Qt.openUrlExternally(settings.offlineMode ? navigate(offlineUrl) : onlineUrl);
+        Qt.openUrlExternally(settings.offlineMode ? offlineUrl : onlineUrl);
     }
 
     function openUrlEntryInBrowser(url) {
@@ -139,13 +136,6 @@ Page {
     }
 
     function openEntryInViewer() {
-
-        // (!dm.online && settings.offlineMode) -> WORKAROUND for https://github.com/mkiol/kaktus/issues/14
-        if (!dm.online && settings.offlineMode) {
-            openEntryInBrowser();
-            return;
-        }
-
         pageStack.replace(Qt.resolvedUrl("WebPreviewPage.qml"),
                           {"entryId": entryId,
                               "onlineUrl": onlineUrl,
@@ -161,8 +151,23 @@ Page {
                           });
     }
 
-    function openEntry() {
+    function openUrlInViewer(url) {
+        pageStack.replace(Qt.resolvedUrl("WebPreviewPage.qml"),
+                          {"entryId": entryId,
+                              "onlineUrl": url,
+                              "offlineUrl": url,
+                              "title": title,
+                              "stared": stared,
+                              "liked": liked,
+                              "broadcast": broadcast,
+                              "index": index,
+                              "feedindex": feedindex,
+                              "read" : read,
+                              "cached" : cached
+                          });
+    }
 
+    function openEntry() {
         if (!check()) {
             return;
         }
@@ -173,6 +178,45 @@ Page {
         }
 
         openEntryInViewer();
+    }
+
+    function initTheme() {
+        var theme = { "primaryColor": Theme.rgba(Theme.primaryColor, 1.0).toString(),
+                      "secondaryColor": Theme.rgba(Theme.secondaryColor, 1.0).toString(),
+                      "highlightColor": Theme.rgba(Theme.highlightColor, 1.0).toString(),
+                      "highlightColorDark": Qt.darker(Theme.highlightColor).toString(),
+                      "secondaryHighlightColor": Theme.rgba(Theme.secondaryHighlightColor, 1.0).toString(),
+                      "highlightDimmerColor": Theme.rgba(Theme.highlightDimmerColor, 1.0).toString(),
+                      "fontFamily": Theme.fontFamily,
+                      "fontFamilyHeading": Theme.fontFamilyHeading,
+                      "pageMargin": Theme.horizontalPageMargin/Theme.pixelRatio,
+                      "pageMarginBottom": Theme.itemSizeMedium/Theme.pixelRatio,
+                      "fontSize": Theme.fontSizeMedium,
+                      "fontSizeTitle": Theme.fontSizeLarge,
+                      "zoom": settings.zoom,
+                      "theme": settings.readerTheme }
+        postMessage("theme_set", { "theme": theme })
+        postMessage("theme_apply")
+    }
+
+    function updateZoom(delta) {
+        var zoom = settings.zoom;
+        settings.zoom = ((zoom + delta) <= 0.5) || ((zoom + delta) >= 2.0) ? zoom : zoom + delta
+        var theme = { "zoom": settings.zoom }
+        postMessage("theme_set", { "theme": theme })
+    }
+
+    function messageReceivedHandler(message) {
+        if (message.type === "theme_init") {
+            if (root.themeApply) {
+                initTheme()
+                root.themeApply = false
+            }
+        }
+    }
+
+    function postMessage(message, data) {
+        view.experimental.postMessage(JSON.stringify({ "type": message, "data": data }));
     }
 
     Connections {
@@ -192,40 +236,86 @@ Page {
         experimental.transparentBackground: true
         experimental.overview: false
         experimental.enableResizeContent: true
+        experimental.preferences.javascriptEnabled: true
+        experimental.preferences.navigatorQtObjectEnabled: true
+
+        onLoadingChanged: {
+            /*console.log("onLoadingChanged:")
+            console.log(" url: ", loadRequest.url)
+            console.log(" status: ", loadRequest.status)
+            console.log(" error string: ", loadRequest.errorString)
+            console.log(" error code:: ", loadRequest.errorCode)
+
+            if (loadRequest.status === WebView.LoadSucceededStatus) {
+                console.log(" LoadSucceededStatus")
+            }*/
+        }
+
+        experimental.userScripts: [
+            Qt.resolvedUrl("js/ObjectOverrider.js"),
+            Qt.resolvedUrl("js/Readability.js"),
+            Qt.resolvedUrl("js/Theme.js"),
+            Qt.resolvedUrl("js/ReaderModeHandler.js"),
+            Qt.resolvedUrl("js/MessageListener.js")]
+
+        experimental.onMessageReceived: {
+            console.log("onMessageReceived data:", message.data)
+            root.messageReceivedHandler(JSON.parse(message.data))
+        }
 
         onNavigationRequested: {
             if (!Qt.application.active) {
                 request.action = WebView.IgnoreRequest;
-                return;
+                return
+            }
+
+            /*var url = "" + request.url
+            if (url.indexOf("about:") === 0) {
+                request.action = WebView.IgnoreRequest
+                return
+            }*/
+
+            //console.log("request.url: " + request.url)
+            //console.log("onlineUrl: " + root.onlineUrl)
+            if (request.url == root.onlineUrl || request.url == root.offlineUrl) {
+                root.openEntryInViewer()
+                request.action = WebView.IgnoreRequest
+                return
             }
 
             // Offline
             if (settings.offlineMode) {
                 if (request.navigationType === WebView.LinkClickedNavigation) {
-                    request.action = WebView.IgnoreRequest;
+                    request.action = WebView.IgnoreRequest
                 } else {
                     request.action = WebView.AcceptRequest
                 }
-                return;
+                return
             }
 
             // Online
             if (request.navigationType === WebView.LinkClickedNavigation) {
 
                 if (_settings.webviewNavigation === 0) {
-                    request.action = WebView.IgnoreRequest;
-                    return;
+                    request.action = WebView.IgnoreRequest
+                    return
                 }
 
                 if (_settings.webviewNavigation === 1) {
-                    request.action = WebView.IgnoreRequest;
-                    root.openUrlEntryInBrowser(request.url);
-                    return;
+                    request.action = WebView.IgnoreRequest
+                    root.openUrlEntryInBrowser(request.url)
+                    return
                 }
 
                 if (_settings.webviewNavigation === 2) {
-                    request.action = WebView.AcceptRequest
+
+                    root.openUrlInViewer(request.url)
+                    request.action = WebView.IgnoreRequest
                     return;
+
+                    //request.action = WebView.AcceptRequest
+                    //navigateBackPop = false
+                    //return;
                 }
             }
         }
@@ -247,7 +337,7 @@ Page {
         IconBarItem {
             text: qsTr("Back")
             icon: "image://theme/icon-m-back"
-            onClicked: pageStack.pop()
+            onClicked: root.navigateBack()
         }
 
         IconBarItem {
@@ -325,7 +415,7 @@ Page {
             text: qsTr("Increase font")
             icon: "image://icons/icon-m-fontup"
             onClicked: {
-                settings.fontSize++;
+                root.updateZoom(0.1)
             }
         }
 
@@ -333,7 +423,7 @@ Page {
             text: qsTr("Decrease font")
             icon: "image://icons/icon-m-fontdown"
             onClicked: {
-                settings.fontSize--;
+                root.updateZoom(-0.1)
             }
         }
 

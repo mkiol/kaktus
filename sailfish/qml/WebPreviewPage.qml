@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2016 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -17,7 +17,10 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
+// Some ideas heavily inspired and partially borrowed from
+// harbour-webpirate project (https://github.com/Dax89/harbour-webpirate)
+
+import QtQuick 2.1
 import Sailfish.Silica 1.0
 import QtWebKit 3.0
 
@@ -40,74 +43,120 @@ Page {
 
     property variant _settings: settings
     property int markAsReadTime: 4000
-    property bool updateStyleDone: false
-
-    property int imgWidth: {
-        switch (settings.fontSize) {
-        case 1:
-            return view.width/(1.5);
-        case 2:
-            return view.width/(2.0);
-        }
-        return view.width;
-    }
+    property int toolbarHideTime: 4000
+    property bool readerMode: false
+    property bool readerModePossible: false
+    property bool autoReaderMode: settings.readerMode
 
     function openUrlEntryInBrowser(url) {
-        notification.show(qsTr("Launching an external browser..."));
-        Qt.openUrlExternally(url);
+        notification.show(qsTr("Launching an external browser..."))
+        Qt.openUrlExternally(url)
     }
 
     function onlineDownload(url, id) {
-        //console.log("onlineDownload url=",url);
-        dm.onlineDownload(id, url);
-        proggressPanel.text = qsTr("Loading page content...");
-        proggressPanel.open = true;
+        dm.onlineDownload(id, url)
+        proggressPanel.text = qsTr("Loading page content...")
+        proggressPanel.open = true
+    }
+
+    function init() {
+        navigate(settings.offlineMode ? offlineUrl : onlineUrl)
     }
 
     function navigate(url) {
-        var hcolor = Theme.highlightColor.toString().substr(1, 6);
-        var shcolor = Theme.secondaryHighlightColor.toString().substr(1, 6);
-        view.url = url+"?fontsize=18px&width="+imgWidth+"&highlightColor="+hcolor+"&secondaryHighlightColor="+shcolor+"&margin="+Theme.paddingMedium;
+        if (settings.offlineMode) {
+            // WORKAROUND for https://github.com/mkiol/kaktus/issues/14
+            var xhr = new XMLHttpRequest()
+            xhr.onreadystatechange = function () {
+                    if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                        view.loadHtml(xhr.responseText)
+                    }
+                }
+            xhr.open("GET", offlineUrl);
+            xhr.send()
+        } else {
+            view.url = url
+        }
     }
 
-    function updateStyle() {
-        var viewport = settings.fontSize / 10;
-        //console.log("Theme.pixelRatio: " + Theme.pixelRatio)
-        viewport = viewport < 1 ? viewport.toPrecision(1) : viewport.toPrecision(2);
-        viewport *= Theme.pixelRatio;
+    function navigateBack() {
+        if (view.canGoBack) {
+            view.goBack()
+            root.readerModePossible = false
+            //view.scrollToTop()
+        } else {
+            pageStack.pop()
+        }
+    }
 
-        view.experimental.evaluateJavaScript(
-        "(function(){
-           // viewport
-           var viewport = document.querySelector('meta[name=\"viewport\"]');
-           if (viewport) {
-             viewport.content = 'initial-scale="+viewport+"';
-           } else {
-             document.getElementsByTagName('head')[0].appendChild('<meta name=\"viewport\" content=\"initial-scale="+viewport+"\">');
-           }
+    function initTheme() {
+        var theme = { "primaryColor": Theme.rgba(Theme.primaryColor, 1.0).toString(),
+                      "secondaryColor": Theme.rgba(Theme.secondaryColor, 1.0).toString(),
+                      "highlightColor": Theme.rgba(Theme.highlightColor, 1.0).toString(),
+                      "highlightColorDark": Qt.darker(Theme.highlightColor).toString(),
+                      "secondaryHighlightColor": Theme.rgba(Theme.secondaryHighlightColor, 1.0).toString(),
+                      "highlightDimmerColor": Theme.rgba(Theme.highlightDimmerColor, 1.0).toString(),
+                      "fontFamily": Theme.fontFamily,
+                      "fontFamilyHeading": Theme.fontFamilyHeading,
+                      "pageMargin": Theme.horizontalPageMargin/Theme.pixelRatio,
+                      "pageMarginBottom": Theme.itemSizeMedium/Theme.pixelRatio,
+                      "fontSize": Theme.fontSizeMedium,
+                      "fontSizeTitle": Theme.fontSizeLarge,
+                      "zoom": settings.zoom,
+                      "theme": settings.readerTheme }
+        postMessage("theme_set", { "theme": theme })
+    }
 
-           // bottom margin
-           document.body.style.marginBottom=\""+Theme.itemSizeExtraLarge+"px\";
-           //document.body.style.maxWidth=\"100%\";
-           //document.body.style.width=\"100%\";
-           return 0;
-         })()",
-         function(result) {
-             //console.log("result:",result);
-         });
+    function updateZoom(delta) {
+        var zoom = settings.zoom;
+        settings.zoom = ((zoom + delta) <= 0.5) || ((zoom + delta) >= 2.0) ? zoom : zoom + delta
+        var theme = { "zoom": settings.zoom }
+        postMessage("theme_set", { "theme": theme })
+    }
+
+    function switchReaderMode() {
+        postMessage(root.readerMode ? "readermodehandler_disable" : "readermodehandler_enable");
+    }
+
+    function messageReceivedHandler(message) {
+        if (message.type === "theme_init") {
+
+            initTheme()
+
+        } else if (message.type === "readability_result") {
+
+            root.readerModePossible = message.data.possible
+            root.readerMode = message.data.enabled
+
+            // Auto switch to reader mode
+            if (!root.readerMode && root.readerModePossible &&
+                    (root.autoReaderMode || settings.offlineMode)) {
+                switchReaderMode()
+                root.autoReaderMode = false
+            }
+
+        } else if (message.type === "readability_status") {
+
+            console.log("readability_status: " + message.data.enabled)
+
+        } else if (message.type === "readability_enabled") {
+
+            root.readerMode = true
+            view.scrollToTop()
+
+        } else if (message.type === "readability_disabled") {
+
+            root.readerMode = false
+            view.scrollToTop()
+
+        }
+    }
+
+    function postMessage(message, data) {
+        view.experimental.postMessage(JSON.stringify({ "type": message, "data": data }));
     }
 
     ActiveDetector {}
-
-    onForwardNavigationChanged: {
-        if (forwardNavigation)
-            forwardNavigation = false;
-    }
-
-    /*onBackNavigationChanged: {
-        if (backNavigation)
-            backNavigation = false;
-    }*/
 
     showNavigationIndicator: false
 
@@ -121,55 +170,7 @@ Page {
         return Orientation.Landscape | Orientation.Portrait;
     }
 
-    Component.onCompleted: {
-        if (settings.offlineMode) {
-            navigate(offlineUrl);
-        } else {
-            if (settings.readerMode) {
-                onlineDownload(root.onlineUrl, root.entryId);
-            } else {
-                view.url = onlineUrl;
-            }
-        }
-    }
-
-    Connections {
-        target: settings
-        onReaderModeChanged: {
-            if (settings.readerMode) {
-                //onlineDownload(root.onlineUrl, root.entryId);
-                onlineDownload(root.onlineUrl, "");
-            } else {
-                view.url = onlineUrl;
-            }
-        }
-
-        onFontSizeChanged: {
-            // Changing viewport in WebView
-            updateStyle();
-        }
-    }
-
-    Connections {
-        target: dm
-        onOnlineDownloadReady: {
-            //console.log("onOnlineDownloadReady url=",url);
-            if (id=="") {
-                var newUrl = cache.getUrlbyUrl(url);
-                //console.log("newurl=",newUrl);
-                navigate(newUrl);
-                offlineUrl = newUrl;
-                return;
-            }
-            navigate(offlineUrl);
-            entryModel.setData(index,"cached",1, "");
-        }
-        onOnlineDownloadFailed: {
-            notification.show(qsTr("Failed to switch to Reader mode :-("));
-            proggressPanel.open = false;
-            //settings.readerMode = false;
-        }
-    }
+    Component.onCompleted: init()
 
     // Workaround for 'High Power Consumption' webkit bug
     Connections {
@@ -194,67 +195,51 @@ Page {
         id: view
 
         anchors { top: parent.top; left: parent.left; right: parent.right}
-        //height: parent.height - (controlbar.shown ? controlbar.height : 0)
         height: parent.height
 
-        //overridePageStackNavigation: true
-
-        experimental.userAgent: _settings.getDmUserAgent()
-        experimental.transparentBackground: _settings.offlineMode || _settings.readerMode
+        experimental.preferences.javascriptEnabled: true
+        experimental.preferences.navigatorQtObjectEnabled: true
+        experimental.preferredMinimumContentsWidth: 980
         experimental.overview: false
         experimental.enableResizeContent: true
+        experimental.userAgent: _settings.getDmUserAgent()
 
-        onLoadProgressChanged: {
-            // Changing viewport on 50% load proggress in WebView to increase font size
-            if (loadProgress>50) {
-                root.updateStyle();
-                root.updateStyleDone = true;
-            }
+        experimental.userScripts: [
+            Qt.resolvedUrl("js/ObjectOverrider.js"),
+            Qt.resolvedUrl("js/Readability.js"),
+            Qt.resolvedUrl("js/Theme.js"),
+            Qt.resolvedUrl("js/ReaderModeHandler.js"),
+            Qt.resolvedUrl("js/MessageListener.js")]
+
+        experimental.onMessageReceived: {
+            console.log("onMessageReceived data:", message.data)
+            root.messageReceivedHandler(JSON.parse(message.data))
         }
 
         onLoadingChanged: {
-
-            /*console.log(">>> onLoadingChanged");
-            console.log("loadRequest.url=",loadRequest.url);
-            console.log("loadRequest.status=",loadRequest.status);
-            console.log("loadRequest.errorString=",loadRequest.errorString);
-            console.log("loadRequest.errorCode=",loadRequest.errorCode);
-            console.log("loadRequest.errorDomain=",loadRequest.errorDomain);*/
-
             switch (loadRequest.status) {
             case WebView.LoadStartedStatus:
                 proggressPanel.text = qsTr("Loading page content...");
                 proggressPanel.open = true;
-
-                // Reseting viewport flag
-                root.updateStyleDone = false;
-
                 break;
             case WebView.LoadSucceededStatus:
                 proggressPanel.open = false;
-
-                // Changing viewport in WebView to increase font size
-                root.updateStyle();
 
                 // Start timer to mark as read
                 if (!root.read)
                     timer.start();
 
+                // Readability.js
+                postMessage("readermodehandler_check", { "title": view.canGoBack ? "" : root.title });
+
                 break;
             case WebView.LoadFailedStatus:
                 proggressPanel.open = false;
 
-                //console.log("LoadFailedStatus");
-
                 if (_settings.offlineMode) {
-                    notification.show(qsTr("Failed to load item from local cache :-("));
+                    notification.show(qsTr("Failed to load page from local cache :-("));
                 } else {
-                    if (_settings.readerMode) {
-                        notification.show(qsTr("Failed to switch to Reader mode :-("));
-                        _settings.readerMode = false;
-                    } else {
-                        notification.show(qsTr("Failed to load page content :-("));
-                    }
+                    notification.show(qsTr("Failed to load page content :-("));
                 }
                 break;
             default:
@@ -263,27 +248,34 @@ Page {
         }
 
         onNavigationRequested: {
-
-            //console.log("onNavigationRequested, URL:",request.url,"navigationType:",request.navigationType);
+            /*console.log("onNavigationRequested: ")
+            console.log(" url:",request.url)
+            console.log(" navigation type:", request.navigationType)
+            console.log(" navigation LinkClickedNavigation:", request.navigationType === WebView.LinkClickedNavigation)
+            console.log(" navigation FormSubmittedNavigation:", request.navigationType === WebView.FormSubmittedNavigation)
+            console.log(" navigation BackForwardNavigation:", request.navigationType === WebView.BackForwardNavigation)
+            console.log(" navigation ReloadNavigation:", request.navigationType === WebView.ReloadNavigation)
+            console.log(" navigation FormResubmittedNavigation:", request.navigationType === WebView.FormResubmittedNavigation)
+            console.log(" navigation OtherNavigation:", request.navigationType === WebView.OtherNavigation)
+            console.log(" action:", request.action);*/
 
             if (!Qt.application.active) {
-                request.action = WebView.IgnoreRequest;
-                return;
+                request.action = WebView.IgnoreRequest
+                return
             }
 
             // Offline
             if (settings.offlineMode) {
                 if (request.navigationType === WebView.LinkClickedNavigation) {
-                    request.action = WebView.IgnoreRequest;
+                    request.action = WebView.IgnoreRequest
                 } else {
                     request.action = WebView.AcceptRequest
                 }
-                return;
+                return
             }
 
             // Online
             if (request.navigationType === WebView.LinkClickedNavigation) {
-
                 if (_settings.webviewNavigation === 0) {
                     request.action = WebView.IgnoreRequest;
                     return;
@@ -296,14 +288,8 @@ Page {
                 }
 
                 if (_settings.webviewNavigation === 2) {
-                    onlineUrl = request.url;
-                    if (_settings.readerMode) {
-                        //console.log("Reader mode: navigation request url=",request.url);
-                        onlineDownload(request.url);
-                        request.action = WebView.IgnoreRequest;
-                        return;
-                    }
                     request.action = WebView.AcceptRequest
+                    //root.readerMode = false
                     return;
                 }
             }
@@ -316,11 +302,12 @@ Page {
         id: controlbar
         flickable: view
         transparent: false
+        showable: !hideToolbarTimer.running
 
         IconBarItem {
             text: qsTr("Back")
             icon: "image://theme/icon-m-back"
-            onClicked: pageStack.pop()
+            onClicked: root.navigateBack()
         }
 
         IconBarItem {
@@ -353,11 +340,12 @@ Page {
         }
 
         IconBarItem {
-            text: qsTr("Toggle Read mode")
-            icon: settings.readerMode ? "image://icons/icon-m-reader-selected" : "image://icons/icon-m-reader"
-            enabled: !settings.offlineMode
+            text: qsTr("Toggle Reader View")
+            icon: root.readerMode ? "image://icons/icon-m-reader-selected" : "image://icons/icon-m-reader"
+            enabled: root.readerModePossible && !settings.offlineMode
+            visible: true
             onClicked: {
-                settings.readerMode = !settings.readerMode;
+                root.switchReaderMode()
             }
         }
 
@@ -398,7 +386,7 @@ Page {
             text: qsTr("Increase font")
             icon: "image://icons/icon-m-fontup"
             onClicked: {
-                settings.fontSize++
+                root.updateZoom(0.1)
             }
         }
 
@@ -406,7 +394,7 @@ Page {
             text: qsTr("Decrease font")
             icon: "image://icons/icon-m-fontdown"
             onClicked: {
-                settings.fontSize--
+                root.updateZoom(-0.1)
             }
         }
 
@@ -418,13 +406,21 @@ Page {
                 Clipboard.text = root.onlineUrl;
             }
         }
+
+        IconBarItem {
+            text: qsTr("Hide toolbar")
+            icon: "image://theme/icon-m-dismiss"
+            onClicked: {
+                hideToolbarTimer.start()
+                controlbar.hide()
+            }
+        }
     }
 
     ProgressPanel {
         id: proggressPanel
         transparent: false
         anchors.left: parent.left
-        //height: isPortrait ? app.panelHeightPortrait : app.panelHeightLandscape
         cancelable: true
         onCloseClicked: view.stop()
 
@@ -441,5 +437,10 @@ Page {
                 entryModel.setData(root.index, "read", 1, "");
             }
         }
+    }
+
+    Timer {
+        id: hideToolbarTimer
+        interval: root.toolbarHideTime
     }
 }

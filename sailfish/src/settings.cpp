@@ -215,8 +215,8 @@ void Settings::setWebviewNavigation(int value)
 
 int Settings::getWebviewNavigation()
 {
-    // Default is 1 - open in external browser
-    return settings.value("webviewnavigation", 1).toInt();
+    // Default is 0 - open in web view
+    return settings.value("webviewnavigation", 0).toInt();
 }
 
 void Settings::setShowTabIcons(bool value)
@@ -630,36 +630,56 @@ QString Settings::getDmUserAgent()
     return settings.value("useragent", value).toString();
 }
 
-QString Settings::getOfflineTheme()
+QString Settings::getReaderTheme()
 {
-    return settings.value("theme", "black").toString();
+    QString theme = settings.value("theme", "dark").toString();
+    return theme != "light" ? "dark" : "light";
 }
 
-void Settings::setOfflineTheme(const QString &value)
+void Settings::setReaderTheme(const QString &value)
 {
-    if (getOfflineTheme() != value) {
+    if (getReaderTheme() != value) {
         settings.setValue("theme", value);
-        emit offlineThemeChanged();
+        emit readerThemeChanged();
     }
 }
 
 int Settings::getFontSize()
 {
-    int size = settings.value("fontsize", 15).toInt();
-    if (size < 10)
-        size = 15;
-    return size < 10 ? 15 : size;
+    int size = settings.value("fontsize", 10).toInt();
+    return size < 5 ? 5 : size > 50 ? 50 : size;
 }
 
 void Settings::setFontSize(int value)
 {
-    // Min value is 10 & max value is 30
-    if (value > 30 || value < 10)
+    // Min value is 5 & max value is 50
+    if (value > 50 || value < 5)
         return;
 
     if (getFontSize() != value) {
         settings.setValue("fontsize", value);
         emit fontSizeChanged();
+    }
+}
+
+float Settings::getZoom()
+{
+    float size = settings.value("zoom", 1.0).toFloat();
+    //size = static_cast<float>(static_cast<int>(size*100+0.5))/100.0;
+    return size < 0.5 ? 0.5 : size > 2.0 ? 2.0 : size;
+}
+
+void Settings::setZoom(float value)
+{
+    // Min value is 0.5 & max value is 2.0
+    if (value < 0.5 || value > 2.0)
+        return;
+
+    //value = static_cast<float>(static_cast<int>(value*100+0.5))/100.0;
+
+    if (getZoom() != value) {
+        settings.setValue("zoom", value);
+        emit zoomChanged();
     }
 }
 

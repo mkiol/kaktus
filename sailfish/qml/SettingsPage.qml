@@ -629,9 +629,9 @@ Page {
             }
 
             TextSwitchWithIcon {
-                text: qsTr("Read mode")
-                description: qsTr("Web pages will be reformatted into an easy to read version.")
-                iconSource: settings.readerMode ? "image://icons/icon-m-reader-selected" : "image://icons/icon-m-reader"
+                text: qsTr("Auto switch to Reader View")
+                description: qsTr("Reader View is a feature that strips away clutter like buttons, ads and background images, and changes the page's layout for better readability.")
+                iconSource: "image://icons/icon-m-reader"
                 onCheckedChanged: {
                     settings.readerMode = checked;
                 }
@@ -640,13 +640,46 @@ Page {
                 }
             }
 
-            TextSwitch {
-                text: qsTr("Show images")
-                onCheckedChanged: {
-                    settings.showTabIcons = checked;
+            ComboBox {
+                width: root.width
+                label: qsTr("Reader View theme")
+                description: qsTr("Style theme which will be used to display articles in Reader View.")
+                currentIndex: {
+                    if (settings.readerTheme === "dark")
+                        return 0;
+                    if (settings.readerTheme === "light")
+                        return 1;
                 }
-                Component.onCompleted: {
-                    checked = settings.showTabIcons;
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Dark") }
+                    MenuItem { text: qsTr("Light") }
+                }
+
+                onCurrentIndexChanged: {
+                    switch (currentIndex) {
+                    case 0:
+                        settings.readerTheme = "dark";
+                        break;
+                    case 1:
+                        settings.readerTheme = "light";
+                        break;
+                    }
+                }
+            }
+
+            Slider {
+                width: root.width
+                minimumValue: 50
+                maximumValue: 200
+                value: Math.floor(settings.zoom * 100)
+                label: qsTr("Viewer font size level")
+                valueText: value + "%"
+                stepSize: 10
+                onValueChanged: settings.zoom = value/100
+                onClicked: {
+                    // Default value
+                    value = 100;
                 }
             }
 
@@ -712,50 +745,7 @@ Page {
                 onCurrentIndexChanged: settings.allowedOrientations = currentIndex
             }
 
-            ComboBox {
-                width: root.width
-                label: qsTr("Offline viewer style")
-                //description: qsTr("Style which will be used to display articles in the Offline mode.")
-                currentIndex: {
-                    if (settings.offlineTheme === "black")
-                        return 0;
-                    if (settings.offlineTheme === "white")
-                        return 1;
-                }
-
-                menu: ContextMenu {
-                    MenuItem { id: blackTheme; text: qsTr("Black") }
-                    MenuItem { id: whiteTheme; text: qsTr("White") }
-                }
-
-                onCurrentIndexChanged: {
-                    switch (currentIndex) {
-                    case 0:
-                        settings.offlineTheme = "black";
-                        break;
-                    case 1:
-                        settings.offlineTheme = "white";
-                        break;
-                    }
-                }
-            }
-
-            Slider {
-                width: root.width
-                minimumValue: 1
-                maximumValue: 10
-                value: settings.fontSize-10
-                label: qsTr("Viewer font size")
-                valueText: value
-                stepSize: 1
-                onValueChanged: settings.fontSize = value+10
-                onClicked: {
-                    // Default value
-                    value = 5;
-                }
-            }
-
-            SectionHeader {
+            /*SectionHeader {
                 text: qsTr("Other")
             }
 
@@ -765,7 +755,7 @@ Page {
                 onClicked: {
                     guide.show();
                 }
-            }
+            }*/
 
             Item {
                 height: Theme.paddingMedium

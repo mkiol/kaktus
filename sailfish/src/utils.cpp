@@ -144,22 +144,13 @@ QString Utils::formatHtml(const QString & data, bool offline, const QString & st
     QRegExp rxA("<a[^>]*></a>", Qt::CaseInsensitive);
     QRegExp rxP("<p[^>]*></p>", Qt::CaseInsensitive);
 
-    /*QTextDocument doc;
-    doc.setDefaultStyleSheet("body{background-color:#00000;color:#fffff} h1{margin:0;padding:0} p{margin:0;padding:0} a{color:#0092CC}");
-    doc.setHtml(data);
-    QString content = doc.toPlainText().replace(QChar::ObjectReplacementCharacter,QChar(0x0020)).trimmed();
-    content.replace(rxHeadEnd,"<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">");
-    QRegExp rxEnter("\n\n", Qt::CaseInsensitive);
-    content = doc.toHtml();
-    content.remove(rxEnter);*/
-
     QTextDocument doc; doc.setHtml(data);
     if (doc.toPlainText().replace(QChar::ObjectReplacementCharacter,QChar(0x0020)).trimmed().isEmpty())
         return "";
 
     QString content = data;
     if (offline) {
-        content.remove(rxImg);
+        content.remove(rxImg); content.remove("</img>", Qt::CaseInsensitive);
         content.remove(rxA);
         content.remove(rxP);
     } else {

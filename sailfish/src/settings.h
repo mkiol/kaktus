@@ -62,7 +62,8 @@ class Settings: public QObject
     Q_PROPERTY (bool reinitDB READ getReinitDB WRITE setReinitDB)
     Q_PROPERTY (QString locale READ getLocale WRITE setLocale NOTIFY localeChanged)
     Q_PROPERTY (int fontSize READ getFontSize WRITE setFontSize NOTIFY fontSizeChanged)
-    Q_PROPERTY (QString offlineTheme READ getOfflineTheme WRITE setOfflineTheme NOTIFY offlineThemeChanged)
+    Q_PROPERTY (float zoom READ getZoom WRITE setZoom NOTIFY zoomChanged)
+    Q_PROPERTY (QString readerTheme READ getReaderTheme WRITE setReaderTheme NOTIFY readerThemeChanged)
     Q_PROPERTY (bool autoDownloadOnUpdate READ getAutoDownloadOnUpdate WRITE setAutoDownloadOnUpdate NOTIFY autoDownloadOnUpdateChanged)
     Q_PROPERTY (int cachingMode READ getCachingMode WRITE setCachingMode NOTIFY cachingModeChanged)
     Q_PROPERTY (int theme READ getTheme WRITE setTheme NOTIFY themeChanged)
@@ -152,8 +153,11 @@ public:
     void setFontSize(int value);
     int getFontSize();
 
-    void setOfflineTheme(const QString &value);
-    QString getOfflineTheme();
+    void setZoom(float value);
+    float getZoom();
+
+    void setReaderTheme(const QString &value);
+    QString getReaderTheme();
 
     void setAutoDownloadOnUpdate(bool value);
     bool getAutoDownloadOnUpdate();
@@ -257,8 +261,9 @@ signals:
     void viewModeChanged();
     void helpDoneChanged();
     void localeChanged();
-    void offlineThemeChanged();
+    void readerThemeChanged();
     void fontSizeChanged();
+    void zoomChanged();
     void autoDownloadOnUpdateChanged();
     void themeChanged();
     void cachingModeChanged();
