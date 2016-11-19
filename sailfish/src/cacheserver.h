@@ -69,13 +69,13 @@ class CacheServer : public QObject
 public:
     static bool readFile(const QString &filename, QByteArray &data);
     static QString getFileUrl(const QString &id);
+    static QByteArray getDataUrlByUrl(const QString &item);
 
     explicit CacheServer(QObject *parent = 0);
     ~CacheServer();
     Q_INVOKABLE QString getUrlbyId(const QString &item);
     Q_INVOKABLE QString getUrlbyUrl(const QString &item);
     Q_INVOKABLE QString getCacheUrlbyUrl(const QString &item);
-    //Q_INVOKABLE QByteArray getData(const QString &id);
 
 public slots:
     void handle(QHttpRequest *req, QHttpResponse *resp);

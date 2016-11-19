@@ -285,8 +285,8 @@ Page {
                 currentIndex: settings.offlineMode ? 1 : 0
 
                 menu: ContextMenu {
-                    MenuItem { id: onlineMode; text: qsTr("Online") }
-                    MenuItem { id: offlineMode; text: qsTr("Offline") }
+                    MenuIconItem { text: qsTr("Online"); iconSource: "image://theme/icon-m-wlan" }
+                    MenuIconItem { text: qsTr("Offline"); iconSource: "image://theme/icon-m-wlan-no-signal" }
                 }
 
                 onCurrentIndexChanged: {
@@ -296,8 +296,19 @@ Page {
                         settings.offlineMode = true;
                 }
 
-                description: qsTr("In the offline mode, Kaktus will only use local cache to get web pages and images, so "+
+                description: qsTr("In offline mode, Kaktus will only use local cache to get web pages and images, so "+
                                   "network connection won't be needed.")
+            }
+
+            TextSwitch {
+                text: qsTr("Auto network mode")
+                description: qsTr("Network mode will be switched automatically on network connection lost or restore.")
+                onCheckedChanged: {
+                    settings.autoOffline = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.autoOffline;
+                }
             }
 
             ComboBox {
@@ -317,6 +328,95 @@ Page {
 
                 description: qsTr("After sync the content of all items will be downloaded "+
                                   "and cached for access in the offline mode.")
+            }
+
+            SectionHeader {
+                text: qsTr("Web viewer")
+            }
+
+            ComboBox {
+                width: root.width
+                label: qsTr("Open link behaviour")
+                currentIndex: settings.webviewNavigation
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Disabled") }
+                    MenuIconItem { text: qsTr("External browser"); iconSource: "image://icons/icon-m-browser" }
+                    MenuIconItem { text: qsTr("Web viewer"); iconSource: "image://icons/icon-m-webview" }
+                }
+
+                onCurrentIndexChanged: {
+                    settings.webviewNavigation = currentIndex;
+                }
+
+                description: qsTr("Defines how navigation is handled inside built-in web viewer. Hyperlinks could be disabled, opened in an external browser or opened inside web viewer.")
+            }
+
+            TextSwitchWithIcon {
+                text: qsTr("Auto switch to Reader View")
+                description: qsTr("Reader View is a feature that strips away clutter like buttons, ads and background images, and changes the page's layout for better readability. By enabling this option, Reader View will be automatically switch on when page is loaded in the web viewer.")
+                iconSource: settings.readerMode ? "image://icons/icon-m-reader-selected" : "image://icons/icon-m-reader"
+                onCheckedChanged: {
+                    settings.readerMode = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.readerMode;
+                }
+            }
+
+            ComboBox {
+                width: root.width
+                label: qsTr("Reader View theme")
+                description: qsTr("Style of theme which will be used to display articles in Reader View.")
+                currentIndex: {
+                    if (settings.readerTheme === "dark")
+                        return 0;
+                    if (settings.readerTheme === "light")
+                        return 1;
+                }
+
+                menu: ContextMenu {
+                    MenuItem { text: qsTr("Dark") }
+                    MenuItem { text: qsTr("Light") }
+                }
+
+                onCurrentIndexChanged: {
+                    switch (currentIndex) {
+                    case 0:
+                        settings.readerTheme = "dark";
+                        break;
+                    case 1:
+                        settings.readerTheme = "light";
+                        break;
+                    }
+                }
+            }
+
+            TextSwitchWithIcon {
+                text: qsTr("Auto switch to Night View")
+                description: qsTr("Night View reduces the brightness of websites. By enabling this option, Night View will be automatically switch on when page is loaded in the web viewer.")
+                iconSource: settings.nightMode ? "image://icons/icon-m-night-selected" : "image://icons/icon-m-night"
+                onCheckedChanged: {
+                    settings.nightMode = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.nightMode;
+                }
+            }
+
+            Slider {
+                width: root.width
+                minimumValue: 50
+                maximumValue: 200
+                value: Math.floor(settings.zoom * 100)
+                label: qsTr("Viewer font size level")
+                valueText: value + "%"
+                stepSize: 10
+                onValueChanged: settings.zoom = value/100
+                onClicked: {
+                    // Default value
+                    value = 100;
+                }
             }
 
             SectionHeader {
@@ -504,7 +604,7 @@ Page {
                 }
             }*/
 
-            /*ComboBox {
+            ComboBox {
                 width: root.width
                 label: qsTr("View mode")
                 currentIndex: {
@@ -518,16 +618,33 @@ Page {
                     case 4:
                         return 3;
                     case 5:
+                    case 6:
                         return 4;
                     }
                 }
 
                 menu: ContextMenu {
-                    MenuItem { text: settings.getSigninType()<10 ? qsTr("Tabs & Feeds") : qsTr("Folders & Feeds") }
-                    MenuItem { text: settings.getSigninType()<10 ? qsTr("Only Folders") : qsTr("Only Folders") }
-                    MenuItem { text: qsTr("All feeds") }
-                    MenuItem { text: settings.getSigninType()<10 ? qsTr("Saved") : qsTr("Starred") }
-                    MenuItem { text: qsTr("Slow") }
+                    MenuIconItem {
+                        text: app.isNetvibes ? qsTr("Tabs, feeds & articles") : qsTr("Folders, feeds & articles")
+                        iconSource: "image://icons/icon-m-vm0"
+                    }
+                    MenuIconItem {
+                        text: app.isNetvibes ? qsTr("Tabs & articles") : qsTr("Folders & articles")
+                        iconSource: "image://icons/icon-m-vm1"
+                    }
+                    MenuIconItem {
+                        text: qsTr("All articles")
+                        iconSource: "image://icons/icon-m-vm3"
+                    }
+                    MenuIconItem {
+                        text: app.isNetvibes || app.isFeedly ? qsTr("Saved") : qsTr("Starred")
+                        iconSource: "image://icons/icon-m-vm4"
+                    }
+                    MenuIconItem {
+                        enabled: app.isNetvibes || (app.isOldReader && settings.showBroadcast)
+                        text: app.isNetvibes ? qsTr("Slow") : qsTr("Liked")
+                        iconSource: app.isNetvibes ? "image://icons/icon-m-vm5" : "image://icons/icon-m-vm6"
+                    }
                 }
 
                 onCurrentIndexChanged: {
@@ -541,10 +658,14 @@ Page {
                     case 3:
                         settings.viewMode = 4; break;
                     case 4:
-                        settings.viewMode = 5; break;
+                        if (app.isNetvibes)
+                            settings.viewMode = 5;
+                        else
+                            settings.viewMode = 6;
+                        break;
                     }
                 }
-            }*/
+            }
 
             ComboBox {
                 width: root.width
@@ -588,37 +709,21 @@ Page {
                 currentIndex: settings.clickBehavior
 
                 menu: ContextMenu {
-                    MenuIconItem { text: qsTr("Built-in viewer"); icon.source: "image://icons/icon-m-webview" }
-                    MenuIconItem { text: qsTr("External browser"); icon.source: "image://icons/icon-m-browser" }
-                    MenuIconItem { text: qsTr("Feed content"); icon.source: "image://icons/icon-m-rss" }
+                    MenuIconItem { text: qsTr("Web viewer"); iconSource: "image://icons/icon-m-webview" }
+                    MenuIconItem { text: qsTr("External browser"); iconSource: "image://icons/icon-m-browser" }
+                    MenuIconItem { text: qsTr("Feed content"); iconSource: "image://icons/icon-m-rss" }
                 }
 
                 onCurrentIndexChanged: {
                     settings.clickBehavior = currentIndex;
                 }
 
-                description: qsTr("Defines the behavior for clicking on an article item. Article can be opened in the built-in viewer, opened in an external browser or full RSS feed content can be shown.")
+                description: qsTr("Defines the behavior for clicking on an article item. Article can be opened in the built-in web viewer, opened in an external browser or full RSS feed content can be shown.")
             }
 
-            ComboBox {
-                width: root.width
-                label: qsTr("Open link behaviour")
-                currentIndex: settings.webviewNavigation
 
-                menu: ContextMenu {
-                    MenuItem { text: qsTr("Disabled") }
-                    MenuIconItem { text: qsTr("External browser"); icon.source: "image://icons/icon-m-browser" }
-                    MenuIconItem { text: qsTr("Built-in viewer"); icon.source: "image://icons/icon-m-webview" }
-                }
 
-                onCurrentIndexChanged: {
-                    settings.webviewNavigation = currentIndex;
-                }
-
-                description: qsTr("Defines how navigation is handled inside built-in viewer. Hyperlinks could be disabled, opened in an external browser or opened inside viewer.")
-            }
-
-            TextSwitch {
+            /*TextSwitch {
                 text: qsTr("Show only unread articles")
                 onCheckedChanged: {
                     settings.showOnlyUnread = checked;
@@ -626,62 +731,29 @@ Page {
                 Component.onCompleted: {
                     checked = settings.showOnlyUnread;
                 }
-            }
-
-            TextSwitchWithIcon {
-                text: qsTr("Auto switch to Reader View")
-                description: qsTr("Reader View is a feature that strips away clutter like buttons, ads and background images, and changes the page's layout for better readability.")
-                iconSource: "image://icons/icon-m-reader"
-                onCheckedChanged: {
-                    settings.readerMode = checked;
-                }
-                Component.onCompleted: {
-                    checked = settings.readerMode;
-                }
-            }
+            }*/
 
             ComboBox {
                 width: root.width
-                label: qsTr("Reader View theme")
-                description: qsTr("Style theme which will be used to display articles in Reader View.")
-                currentIndex: {
-                    if (settings.readerTheme === "dark")
-                        return 0;
-                    if (settings.readerTheme === "light")
-                        return 1;
-                }
+                label: qsTr("List filtering")
+                currentIndex: settings.filter
 
                 menu: ContextMenu {
-                    MenuItem { text: qsTr("Dark") }
-                    MenuItem { text: qsTr("Light") }
+                    MenuIconItem { text: qsTr("All articles"); iconSource: "image://icons/icon-m-filter-0" }
+                    MenuIconItem { text: app.isNetvibes || app.isFeedly ? qsTr("Unread or saved") : qsTr("Unread & starred"); iconSource: "image://icons/icon-m-filter-1" }
+                    MenuIconItem { text: qsTr("Only unread"); iconSource: "image://icons/icon-m-filter-2" }
                 }
 
                 onCurrentIndexChanged: {
-                    switch (currentIndex) {
-                    case 0:
-                        settings.readerTheme = "dark";
-                        break;
-                    case 1:
-                        settings.readerTheme = "light";
-                        break;
-                    }
+                    settings.filter = currentIndex;
                 }
+
+                description: app.isNetvibes || app.isFeedly ?
+                                 qsTr("List of articles can be filtered to display all articles, unread and saved or only unread.") :
+                                 qsTr("List of articles can be filtered to display all articles, unread and starred or only unread.")
             }
 
-            Slider {
-                width: root.width
-                minimumValue: 50
-                maximumValue: 200
-                value: Math.floor(settings.zoom * 100)
-                label: qsTr("Viewer font size level")
-                valueText: value + "%"
-                stepSize: 10
-                onValueChanged: settings.zoom = value/100
-                onClicked: {
-                    // Default value
-                    value = 100;
-                }
-            }
+
 
             TextSwitch {
                 text: qsTr("Expanded items")

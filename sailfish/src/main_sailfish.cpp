@@ -39,9 +39,9 @@ static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.4.0 (light edition)";
+static const char *VERSION = "2.5.0 (light edition)";
 #else
-static const char *VERSION = "2.4.0";
+static const char *VERSION = "2.5.0";
 #endif
 
 int main(int argc, char *argv[])
@@ -61,6 +61,7 @@ int main(int argc, char *argv[])
     view->engine()->addImageProvider(QLatin1String("nvicons"), new NvIconProvider);
 
     qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
+    //qmlRegisterMetaType<QQmlChangeSet>()
 
     Settings* settings = Settings::instance();
 

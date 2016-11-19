@@ -54,7 +54,7 @@ Page {
     function check() {
         // Not allowed while Syncing
         if (dm.busy || fetcher.busy || dm.removerBusy) {
-            notification.show(qsTr("Please wait until current task is complete."));
+            notification.show(qsTr("Wait until current task is complete."));
             return false;
         }
 
@@ -68,11 +68,11 @@ Page {
         if (!settings.offlineMode && !dm.online) {
             if (cached) {
                 // Entry cached
-                notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode."));
+                notification.show(qsTr("Enabling offline mode because network is disconnected."));
                 settings.offlineMode = true;
             } else {
                 // Entry not cached
-                notification.show(qsTr("Network connection is unavailable."));
+                notification.show(qsTr("Network is disconnected."));
                 return false;
             }
         }
@@ -82,7 +82,7 @@ Page {
 
     function openEntryInBrowser() {
         entryModel.setData(index, "read", 1, "");
-        notification.show(qsTr("Launching an external browser..."));
+        notification.show(qsTr("Launching an external browser."));
         Qt.openUrlExternally(settings.offlineMode ? offlineUrl : onlineUrl);
     }
 
@@ -228,7 +228,7 @@ Page {
         }
 
         onClipboardClicked: {
-            notification.show(qsTr("URL copied to clipboard"));
+            notification.show(qsTr("URL was copied to the clipboard."));
             Clipboard.text = root.onlineUrl;
         }
     }

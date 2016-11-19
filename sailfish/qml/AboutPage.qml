@@ -98,7 +98,7 @@ Page {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        notification.show(qsTr("Launching an external browser..."));
+                        notification.show(qsTr("Launching an external browser."));
                         Qt.openUrlExternally(PAGE);
                     }
                 }
@@ -129,7 +129,7 @@ Page {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        notification.show(qsTr("Launching an external browser..."));
+                        notification.show(qsTr("Launching an external browser."));
                         Qt.openUrlExternally("https://www.gnu.org/licenses/gpl-3.0.txt");
                     }
                 }

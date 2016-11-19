@@ -14,7 +14,7 @@ IconProvider::IconProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap)
     //qDebug() << "ratio:" << ratio;
     if (ratio == 0) {
         qWarning() << "Pixel ratio is 0, defaulting to 1.0.";
-        themeDir = SailfishApp::pathTo("images/z1.5").toString(QUrl::RemoveScheme);
+        themeDir = SailfishApp::pathTo("images/z1.0").toString(QUrl::RemoveScheme);
     } else if (ratio == 1.0) {
         themeDir = SailfishApp::pathTo("images/z1.0").toString(QUrl::RemoveScheme);
     } else if (ratio == 1.25) {

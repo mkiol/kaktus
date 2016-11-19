@@ -28,7 +28,6 @@ ApplicationWindow {
     property int oldViewMode
 
     property bool isTablet: Screen.sizeCategory === Screen.Large || Screen.sizeCategory === Screen.ExtraLarge
-    //property bool isTablet: Screen.width > 540
 
     property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
     property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
@@ -38,6 +37,18 @@ ApplicationWindow {
 
     Component.onCompleted: {
         db.init();
+
+        if (settings.autoOffline) {
+            if (dm.online) {
+                if (settings.offlineMode) {
+                    settings.offlineMode = false
+                }
+            } else {
+                if (!settings.offlineMode) {
+                    settings.offlineMode = true
+                }
+            }
+        }
     }
 
     function hideBar() {
@@ -57,7 +68,6 @@ ApplicationWindow {
         // Reconnect fetcher
         if (typeof fetcher === 'undefined') {
             var type = settings.signinType;
-            //console.log("settings.signinType:",type);
 
             if (type < 10)
                 reconnectFetcher(1);
@@ -129,8 +139,8 @@ ApplicationWindow {
                 fetcher.cancel(); dm.cancel();
                 db.init();
             } else {
-                if(!settings.helpDone)
-                    guide.showDelayed();
+                /*if(!settings.helpDone)
+                    guide.showDelayed();*/
             }
         }
 
@@ -149,7 +159,7 @@ ApplicationWindow {
             console.log("DB error! code="+code);
 
             if (code==511) {
-                notification.show(qsTr("Something went wrong :-(\nRestart the app to rebuild cache data."));
+                notification.show(qsTr("Restart the app to rebuild cache data."), qsTr("Something went wrong :-("));
                 return;
             }
 
@@ -173,28 +183,40 @@ ApplicationWindow {
         target: dm
 
         onProgress: {
-            if (current > 0 && total != 0) {
-                progressPanelDm.text = qsTr("Caching... %1 of %2").arg(current).arg(total);
-                progressPanelDm.progress = current / total;
-                /*if (current == total) {
-                    progressPanelDm.text = qsTr("All done!");
-                }*/
-            } else {
-                progressPanelDm.text = qsTr("Caching...");
+            if (!app.fetcherBusyStatus) {
+                if (current > 0 && total != 0) {
+                    bar.progressText= qsTr("Caching... %1 of %2").arg(current).arg(total);
+                    bar.progress = current / total;
+                } else {
+                    bar.progressText = qsTr("Caching...");
+                }
+            }
+        }
+
+        onOnlineChanged: {
+            if (settings.autoOffline) {
+                if (dm.online) {
+                    if (settings.offlineMode) {
+                        //notification.show(qsTr("Enabling online mode because network is connected."));
+                        settings.offlineMode = false
+                    }
+                } else {
+                    if (!settings.offlineMode) {
+                        //notification.show(qsTr("Enabling offline mode because network is disconnected."));
+                        settings.offlineMode = true
+                    }
+                }
             }
         }
 
         onNetworkNotAccessible: {
-            notification.show(qsTr("Download failed!\nNetwork connection is unavailable."));
+            notification.show(qsTr("Download has failed because network is disconnected."));
         }
 
         onRemoverProgressChanged: {
-            progressPanelRemover.progress = current / total;
+            bar.progress = current / total;
+            bar.progressText = qsTr("Removing cache data... %1 of %2").arg(current).arg(total);
         }
-
-        /*onError: {
-            console.log("DM error code:", code);
-        }*/
     }
 
     function reconnectFetcher(type) {
@@ -306,75 +328,74 @@ ApplicationWindow {
 
         } else {
             // Unknown error
-            notification.show(qsTr("Something went wrong :-(\nAn unknown error occurred."));
+            notification.show(qsTr("An unknown error occurred."), qsTr("Something went wrong :-("));
             resetView();
         }
     }
 
     function fetcherErrorCheckingCredentials() {
-        notification.show(qsTr("The user name or password is incorrect!"));
+        notification.show(qsTr("The user name or password is incorrect."));
     }
 
     function fetcherCredentialsValid() {
-        notification.show(qsTr("You are signed in!"));
+        notification.show(qsTr("You are signed in."));
     }
 
     function fetcherProgress(current, total) {
         //console.log("fetcherProgress", current, total);
-        progressPanel.text = qsTr("Receiving data... ");
-        progressPanel.progress = current / total;
+        bar.progressText = qsTr("Receiving data... ");
+        bar.progress = current / total;
     }
 
     function fetcherUploadProgress(current, total) {
         //console.log("fetcherUploadProgress", current, total);
-        progressPanel.text = qsTr("Sending data...");
-        progressPanel.progress = current / total;
+        bar.progressText = qsTr("Sending data...");
+        bar.progress = current / total;
     }
 
     function fetcherUploading() {
         //console.log("fetcherUploading");
-        progressPanel.text = qsTr("Sending data...");
+        bar.progressText = qsTr("Sending data...");
     }
 
     function fetcherBusyChanged() {
-
+        console.log("fetcherBusyChanged:", fetcher.busy, app.fetcherBusyStatus)
         if (app.fetcherBusyStatus != fetcher.busy)
             app.fetcherBusyStatus = fetcher.busy;
 
         switch(fetcher.busyType) {
         case 1:
-            progressPanel.text = qsTr("Initiating...");
-            progressPanel.progress = 0;
+            bar.progressText = qsTr("Initiating...");
+            bar.progress = 0;
             break;
         case 2:
-            progressPanel.text = qsTr("Updating...");
-            progressPanel.progress = 0;
+            bar.progressText = qsTr("Updating...");
+            bar.progress = 0;
             break;
         case 3:
-            progressPanel.text = qsTr("Signing in...");
-            progressPanel.progress = 0;
+            bar.progressText = qsTr("Signing in...");
+            bar.progress = 0;
             break;
         case 4:
-            progressPanel.text = qsTr("Signing in...");
-            progressPanel.progress = 0;
+            bar.progressText = qsTr("Signing in...");
+            bar.progress = 0;
             break;
         case 11:
-            progressPanel.text = qsTr("Waiting for network...");
-            progressPanel.progress = 0;
+            bar.progressText = qsTr("Waiting for network...");
+            bar.progress = 0;
             break;
         case 21:
-            progressPanel.text = qsTr("Waiting for network...");
-            progressPanel.progress = 0;
+            bar.progressText = qsTr("Waiting for network...");
+            bar.progress = 0;
             break;
         case 31:
-            progressPanel.text = qsTr("Waiting for network...");
-            progressPanel.progress = 0;
+            bar.progressText = qsTr("Waiting for network...");
+            bar.progress = 0;
             break;
         }
     }
 
     function fetcherCanceled() {
-        //notification.show(qsTr("Syncing canceled!"));
         resetView();
     }
 
@@ -382,101 +403,40 @@ ApplicationWindow {
         id: notification
     }
 
-    property int panelHeightPortrait: Theme.itemSizeMedium
-    property int panelHeightLandscape: Theme.itemSizeMedium
-    property int barHeightPortrait: Theme.itemSizeMedium
-    property int barHeightLandscape: Theme.itemSizeMedium
-    property int panelHeight: app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape
     property int panelWidth: app.orientation==Orientation.Portrait ? Screen.width : Screen.height
-    property int barHeight: app.orientation==Orientation.Portrait ? app.barHeightPortrait : app.barHeightLandscape
-    property int barWidth: app.orientation==Orientation.Portrait ? Screen.width : Screen.height
     property int landscapeContentPanelWidth: isTablet ?
-                                                 app.orientation==Orientation.Portrait ? Screen.width-700 : Screen.height-700 :
-                                                 app.orientation==Orientation.Portrait ? Screen.width/2 : Screen.height/2
-
+                 app.orientation==Orientation.Portrait ? Screen.width-700 : Screen.height-700 :
+                 app.orientation==Orientation.Portrait ? Screen.width/2 : Screen.height/2
     property int flickHeight: {
-        var size = 0;
+        var size = 0
         if (bar.open)
-            size += barHeight;
-        if (progressPanel.open||progressPanelRemover.open||progressPanelDm.open)
-            size += panelHeight;
+            size += bar.stdHeight
         return app.orientation==Orientation.Portrait ? Screen.height-size : Screen.width-size;
     }
-    property int barX: {
-        if (app.orientation==Orientation.Portrait)
-            return 0;
-        if (bar.open && (progressPanel.open||progressPanelRemover.open||progressPanelDm.open))
-            return app.barHeightLandscape + app.panelHeightLandscape;
-        return app.barHeightLandscape;
-    }
-    property int barY: {
-        if (app.orientation==Orientation.Portrait) {
-            if (bar.open && (progressPanel.open||progressPanelRemover.open||progressPanelDm.open))
-                return Screen.height - (app.barHeightPortrait + app.panelHeightPortrait);
-            return Screen.height - app.barHeightPortrait;
-        }
-        return 0;
-    }
-    property int panelX: app.orientation==Orientation.Portrait ? 0 : app.panelHeight
-    property int panelY: app.orientation==Orientation.Portrait ? Screen.height-app.panelHeight : 0
+    property int barX: app.orientation==Orientation.Portrait ? 0 : bar.height
+    property int barY: app.orientation==Orientation.Portrait ? Screen.height - bar.height : 0
+    readonly property alias barHeight: bar.height
 
     ControlBar {
         id: bar
+        busy: app.fetcherBusyStatus || dm.removerBusy || dm.busy
         rotation: app.orientation==Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.barHeight
-        width: app.barWidth
+        width: app.panelWidth
+
+        onCancelClicked: {
+            dm.cancel()
+            fetcher.cancel()
+            dm.removerCancel()
+        }
+
+        onBusyChanged: {
+            if (!busy)
+                hide()
+        }
+
         y: app.barY
         x: app.barX
-    }
-
-    ProgressPanel {
-        id: progressPanelRemover
-        open: dm.removerBusy
-        onCloseClicked: dm.removerCancel();
-        transparent: false
-
-        rotation: app.orientation==Orientation.Portrait ? 0 : 90
-        transformOrigin: Item.TopLeft
-        height: app.panelHeight
-        width: app.panelWidth
-        y: app.panelY
-        x: app.panelX
-        text: qsTr("Removing cache data...");
-        Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
-        Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
-    }
-
-    ProgressPanel {
-        id: progressPanelDm
-        open: dm.busy && !app.fetcherBusyStatus
-        onCloseClicked: dm.cancel();
-        transparent: false
-
-        rotation: app.orientation==Orientation.Portrait ? 0 : 90
-        transformOrigin: Item.TopLeft
-        height: app.panelHeight
-        width: app.panelWidth
-        y: app.panelY
-        x: app.panelX
-        Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
-        Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
-    }
-
-    ProgressPanel {
-        id: progressPanel
-        open: app.fetcherBusyStatus
-        onCloseClicked: fetcher.cancel();
-        transparent: false
-
-        rotation: app.orientation==Orientation.Portrait ? 0 : 90
-        transformOrigin: Item.TopLeft
-        height: app.panelHeight
-        width: app.panelWidth
-        y: app.panelY
-        x: app.panelX
-        Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
-        Behavior on x { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
     }
 
     Guide {

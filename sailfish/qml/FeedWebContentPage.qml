@@ -98,7 +98,7 @@ Page {
     function check() {
         // Not allowed while Syncing
         if (dm.busy || fetcher.busy || dm.removerBusy) {
-            notification.show(qsTr("Please wait until current task is complete."));
+            notification.show(qsTr("Wait until current task is complete."));
             return false;
         }
 
@@ -112,11 +112,11 @@ Page {
         if (!settings.offlineMode && !dm.online) {
             if (cached) {
                 // Entry cached
-                notification.show(qsTr("Network connection is unavailable.\nSwitching to offline mode."));
+                notification.show(qsTr("Enabling offline mode because network is disconnected."));
                 settings.offlineMode = true;
             } else {
                 // Entry not cached
-                notification.show(qsTr("Network connection is unavailable."));
+                notification.show(qsTr("Network is disconnected."));
                 return false;
             }
         }
@@ -126,12 +126,12 @@ Page {
 
     function openEntryInBrowser() {
         entryModel.setData(index, "read", 1, "");
-        notification.show(qsTr("Launching an external browser..."));
+        notification.show(qsTr("Launching an external browser."));
         Qt.openUrlExternally(settings.offlineMode ? offlineUrl : onlineUrl);
     }
 
     function openUrlEntryInBrowser(url) {
-        notification.show(qsTr("Launching an external browser..."));
+        notification.show(qsTr("Launching an external browser."));
         Qt.openUrlExternally(url);
     }
 
@@ -212,6 +212,7 @@ Page {
                 initTheme()
                 root.themeApply = false
             }
+            postMessage("readability_apply_fixups")
         }
     }
 
@@ -239,8 +240,8 @@ Page {
         experimental.preferences.javascriptEnabled: true
         experimental.preferences.navigatorQtObjectEnabled: true
 
-        onLoadingChanged: {
-            /*console.log("onLoadingChanged:")
+        /*onLoadingChanged: {
+            console.log("onLoadingChanged:")
             console.log(" url: ", loadRequest.url)
             console.log(" status: ", loadRequest.status)
             console.log(" error string: ", loadRequest.errorString)
@@ -248,8 +249,8 @@ Page {
 
             if (loadRequest.status === WebView.LoadSucceededStatus) {
                 console.log(" LoadSucceededStatus")
-            }*/
-        }
+            }
+        }*/
 
         experimental.userScripts: [
             Qt.resolvedUrl("js/ObjectOverrider.js"),
@@ -269,14 +270,23 @@ Page {
                 return
             }
 
+            /*console.log("onNavigationRequested: ")
+            console.log(" url:",request.url)
+            console.log(" navigation type:", request.navigationType)
+            console.log(" navigation LinkClickedNavigation:", request.navigationType === WebView.LinkClickedNavigation)
+            console.log(" navigation FormSubmittedNavigation:", request.navigationType === WebView.FormSubmittedNavigation)
+            console.log(" navigation BackForwardNavigation:", request.navigationType === WebView.BackForwardNavigation)
+            console.log(" navigation ReloadNavigation:", request.navigationType === WebView.ReloadNavigation)
+            console.log(" navigation FormResubmittedNavigation:", request.navigationType === WebView.FormResubmittedNavigation)
+            console.log(" navigation OtherNavigation:", request.navigationType === WebView.OtherNavigation)
+            console.log(" action:", request.action)*/
+
             /*var url = "" + request.url
             if (url.indexOf("about:") === 0) {
                 request.action = WebView.IgnoreRequest
                 return
             }*/
 
-            //console.log("request.url: " + request.url)
-            //console.log("onlineUrl: " + root.onlineUrl)
             if (request.url == root.onlineUrl || request.url == root.offlineUrl) {
                 root.openEntryInViewer()
                 request.action = WebView.IgnoreRequest
@@ -412,6 +422,15 @@ Page {
         }
 
         IconBarItem {
+            text: qsTr("Copy URL")
+            icon: "image://theme/icon-m-clipboard"
+            onClicked: {
+                notification.show(qsTr("URL was copied to the clipboard."));
+                Clipboard.text = root.onlineUrl;
+            }
+        }
+
+        IconBarItem {
             text: qsTr("Increase font")
             icon: "image://icons/icon-m-fontup"
             onClicked: {
@@ -424,15 +443,6 @@ Page {
             icon: "image://icons/icon-m-fontdown"
             onClicked: {
                 root.updateZoom(-0.1)
-            }
-        }
-
-        IconBarItem {
-            text: qsTr("Copy URL")
-            icon: "image://theme/icon-m-clipboard"
-            onClicked: {
-                notification.show(qsTr("URL copied to clipboard"));
-                Clipboard.text = root.onlineUrl;
             }
         }
     }

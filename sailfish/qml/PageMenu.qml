@@ -26,8 +26,8 @@ PullDownMenu {
 
     property bool showAbout: true
     property bool showSettings: true
-    property bool showSync: true
-    property bool showShowOnlyUnread: false
+    //property bool showSync: true
+    //property bool showShowOnlyUnread: false
     property bool showNetwork: true
 
     MenuItem {
@@ -51,35 +51,36 @@ PullDownMenu {
     MenuItem {
         text: settings.offlineMode ? qsTr("Network mode: offline") : qsTr("Network mode: online")
         visible: root.showNetwork
+        enabled: !settings.offlineMode || (settings.offlineMode && dm.online)
 
         onClicked: {
             if (settings.offlineMode) {
                 if (dm.online)
                     settings.offlineMode = false;
                 else
-                    notification.show(qsTr("Can't switch to Online mode.\nNetwork connection is unavailable."));
+                    notification.show(qsTr("Can't switch to online mode because network is disconnected."));
             } else {
                 settings.offlineMode = true;
             }
         }
     }
 
-    MenuItem {
+    /*MenuItem {
         text: settings.showOnlyUnread ? qsTr("Showing: only unread") : qsTr("Showing: all articles")
         enabled: root.showShowOnlyUnread
         visible: enabled
         onClicked: {
             settings.showOnlyUnread = !settings.showOnlyUnread;
         }
-    }
+    }*/
 
-    MenuItem {
+    /*MenuItem {
         text: enabled ? qsTr("Sync") : qsTr("Busy...")
         visible: root.showSync
 
         onClicked: fetcher.update()
         enabled: !fetcher.busy && !dm.busy && !dm.removerBusy
-    }
+    }*/
 
     onActiveChanged: {
         if (active) {

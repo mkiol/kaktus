@@ -34,11 +34,16 @@
 
 #include "settings.h"
 
+
 class DatabaseManager : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY (bool synced READ isSynced NOTIFY syncedChanged)
+
 public:
+    static const int version = 23;
+
     static const int dashboardsLimit = 100;
     static const int tabsLimit = 100;
     static const int streamLimit = 100;
@@ -172,6 +177,8 @@ public:
     Q_INVOKABLE void init();
     Q_INVOKABLE void newInit();
 
+    bool isSynced();
+
     void cleanDashboards();
     void cleanTabs();
     void cleanModules();
@@ -235,7 +242,9 @@ public:
 
     QList<Entry> readEntriesByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesUnreadByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesUnreadAndSavedByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesSlowUnreadByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesSlowUnreadAndSavedByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesSavedByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
     //QList<Entry> readEntriesSaved(int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesSlowByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
@@ -243,8 +252,10 @@ public:
     QList<Entry> readEntriesBroadcastByDashboard(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesByStream(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesUnreadByStream(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesUnreadAndSavedByStream(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesByTab(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesUnreadByTab(const QString &id, int offset, int limit, bool ascOrder = false);
+    QList<Entry> readEntriesUnreadAndSavedByTab(const QString &id, int offset, int limit, bool ascOrder = false);
     QList<Entry> readEntriesCachedOlderThan(int cacheDate, int limit);
     QList<QString> readCacheFinalUrlOlderThan(int cacheDate, int limit);
     QList<QString> readCacheIdsOlderThan(int cacheDate, int limit);
@@ -320,8 +331,9 @@ signals:
     void empty();
     void notEmpty();
 
+    void syncedChanged();
+
 private:
-    static const QString version;
     QSqlDatabase db;
     QString dbFilePath;
 
@@ -329,9 +341,9 @@ private:
 
     bool openDB();
     bool createDB();
-    bool alterDB_19to22();
-    bool alterDB_20to22();
-    bool alterDB_21to22();
+    //bool alterDB_19to22();
+    //bool alterDB_20to22();
+    //bool alterDB_21to22();
     bool deleteDB();
 
     bool createStructure();

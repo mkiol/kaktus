@@ -25,10 +25,28 @@
 #include <QByteArray>
 #include <QVariant>
 #include <QHash>
+#include <QThread>
 
 #include "listmodel.h"
 #include "feedmodel.h"
 #include "databasemanager.h"
+
+class EntryModel;
+
+class EntryModelIniter : public QThread
+{
+    Q_OBJECT
+
+public:
+    EntryModelIniter(QObject *parent = 0);
+    void init(EntryModel *model);
+    void init(EntryModel *model, const QString &feedId);
+
+private:
+    QString feedId;
+    EntryModel *model;
+    void run();
+};
 
 class EntryItem : public ListItem
 {
@@ -139,6 +157,7 @@ public:
 
     explicit EntryModel(DatabaseManager* db, QObject *parent = 0);
     void init(const QString &feedId);
+    void initInThread(const QString &feedId);
 
     Q_INVOKABLE void setData(int row, const QString &fieldName, QVariant newValue, QVariant newValue2);
 
@@ -156,6 +175,8 @@ public:
 
 public slots:
     void init();
+    void initInThread();
+    void initFinished();
 
 signals:
     void ready();
@@ -164,6 +185,7 @@ private:
    static const int idsOnActionLimit = 100;
    DatabaseManager* _db;
    QString _feedId;
+   EntryModelIniter initer;
 
    int getDateRowId(int date);
 };

@@ -29,14 +29,42 @@
 #include "entrymodel.h"
 #include "utils.h"
 
+EntryModelIniter::EntryModelIniter(QObject *parent) :
+    QThread(parent), feedId()
+{}
+
+void EntryModelIniter::init(EntryModel *model)
+{
+    this->model = model;
+    this->feedId.clear();
+    this->start(QThread::LowestPriority);
+}
+
+void EntryModelIniter::init(EntryModel *model, const QString &feedId)
+{
+    this->model = model;
+    this->feedId = feedId;
+    this->start(QThread::LowestPriority);
+}
+
+void EntryModelIniter::run()
+{
+    if (feedId.isEmpty())
+        this->model->init();
+    else
+        this->model->init(feedId);
+
+}
+
 EntryModel::EntryModel(DatabaseManager *db, QObject *parent) :
-    ListModel(new EntryItem, parent)
+    ListModel(new EntryItem, parent), initer(parent)
 {
     _db = db;
     reInit = false;
 
     Settings *s = Settings::instance();
-    connect(s,SIGNAL(showOnlyUnreadChanged()),this,SLOT(init()));
+    connect(s,SIGNAL(filterChanged()),this,SLOT(initInThread()));
+    connect(&initer,SIGNAL(finished()),this,SLOT(initFinished()));
     connect(s,SIGNAL(showOldestFirstChanged()),this,SLOT(init()));
 }
 
@@ -55,6 +83,22 @@ void EntryModel::init()
     Settings *s = Settings::instance();
     createItems(0,s->getOffsetLimit());
     emit ready();
+}
+
+void EntryModel::initInThread(const QString &feedId)
+{
+    this->initer.init(this, feedId);
+}
+
+void EntryModel::initInThread()
+{
+    this->initer.init(this);
+}
+
+void EntryModel::initFinished()
+{
+    this->beginResetModel();
+    this->endResetModel();
 }
 
 /*int EntryModel::fixIndex(const QString &id)
@@ -119,29 +163,37 @@ int EntryModel::createItems(int offset, int limit)
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        if (s->getShowOnlyUnread())
+        if (s->getFilter() == 2)
             list = _db->readEntriesUnreadByStream(_feedId,offset,limit,ascOrder);
+        else if (s->getFilter() == 1)
+            list = _db->readEntriesUnreadAndSavedByStream(_feedId,offset,limit,ascOrder);
         else
             list = _db->readEntriesByStream(_feedId,offset,limit,ascOrder);
         break;
     case 1:
         // View mode: Tabs->Entries
-        if (s->getShowOnlyUnread())
+        if (s->getFilter() == 2)
             list = _db->readEntriesUnreadByTab(_feedId,offset,limit,ascOrder);
+        else if (s->getFilter() == 1)
+            list = _db->readEntriesUnreadAndSavedByTab(_feedId,offset,limit,ascOrder);
         else
             list = _db->readEntriesByTab(_feedId,offset,limit,ascOrder);
         break;
     case 2:
         // View mode: Feeds->Entries
-        if (s->getShowOnlyUnread())
+        if (s->getFilter() == 2)
             list = _db->readEntriesUnreadByStream(_feedId,offset,limit,ascOrder);
+        else if (s->getFilter() == 1)
+            list = _db->readEntriesUnreadAndSavedByStream(_feedId,offset,limit,ascOrder);
         else
             list = _db->readEntriesByStream(_feedId,offset,limit,ascOrder);
         break;
     case 3:
         // View mode: Entries
-        if (s->getShowOnlyUnread())
+        if (s->getFilter() == 2)
             list = _db->readEntriesUnreadByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+        else if (s->getFilter() == 1)
+            list = _db->readEntriesUnreadAndSavedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         else
             list = _db->readEntriesByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         break;
@@ -151,8 +203,10 @@ int EntryModel::createItems(int offset, int limit)
         break;
     case 5:
         // View mode: Slow
-        if (s->getShowOnlyUnread())
+        if (s->getFilter() == 2)
             list = _db->readEntriesSlowUnreadByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+        else if (s->getFilter() == 1)
+            list = _db->readEntriesSlowUnreadAndSavedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         else
             list = _db->readEntriesSlowByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         break;

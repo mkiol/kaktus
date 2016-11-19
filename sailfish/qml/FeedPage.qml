@@ -43,8 +43,8 @@ Page {
     property int index
 
     ActiveDetector {
-        onActivated: { feedModel.updateFlags();}
-        onInit: { bar.flick = listView; }
+        onActivated: { feedModel.updateFlags() }
+        onInit: { bar.flick = listView }
     }
 
     RemorsePopup {
@@ -62,7 +62,8 @@ Page {
 
         PageMenu {
             id: menu
-            showAbout: settings.viewMode==2 ? true : false
+            //showAbout: settings.viewMode==2 ? true : false
+            showAbout: true
         }
 
         header: PageHeader {
@@ -194,7 +195,7 @@ Page {
                 MenuItem {
                     id: readItem
                     text: qsTr("Mark all as read")
-                    enabled: model.unread!=0
+                    enabled: model.unread!==0
                     visible: enabled
                     onClicked: {
                         feedModel.markAsRead(model.index);
@@ -203,7 +204,7 @@ Page {
                 MenuItem {
                     id: unreadItem
                     text: qsTr("Mark all as unread")
-                    enabled: model.read!=0 && settings.signinType<10
+                    enabled: model.read!==0 && settings.signinType<10
                     visible: enabled
                     onClicked: {
                         feedModel.markAsUnread(model.index);
@@ -215,7 +216,7 @@ Page {
         ViewPlaceholder {
             id: placeholder
             enabled: listView.count == 0
-            text: fetcher.busy ? qsTr("Wait until Sync finish.") : qsTr("No feeds")
+            text: fetcher.busy ? qsTr("Wait until sync finish") : qsTr("No feeds")
         }
 
         VerticalScrollDecorator {

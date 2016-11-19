@@ -41,6 +41,7 @@ Item {
     property bool highlighted
     property alias text: label.text
     property alias icon: icon
+    property string iconSource: "image://icons/icon-m-item"
 
     signal clicked
 
@@ -72,7 +73,7 @@ Item {
 
     Image {
         id: icon
-        source: "image://icons/icon-m-item"
+        source: parent.iconSource + "?" + (parent.highlighted ? Theme.highlightColor : parent.enabled ? Theme.primaryColor : Theme.secondaryColor)
         height: Theme.iconSizeMedium
         width: Theme.iconSizeMedium
         anchors.right: parent.right

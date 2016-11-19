@@ -69,14 +69,13 @@ SilicaFlickable {
                 fillMode: Image.PreserveAspectFit
                 width: sourceSize.width>=root.width ? root.width : sourceSize.width
                 enabled: source!="" && status==Image.Ready &&
-                         settings.showTabIcons &&
                          sourceSize.width > Theme.iconSizeMedium &&
                          sourceSize.height > Theme.iconSizeMedium
                 visible: opacity>0
                 opacity: enabled ? 1.0 : 0.0
                 Behavior on opacity { FadeAnimation {} }
                 source: {
-                    if (settings.showTabIcons && root.image!="") {
+                    if (root.image!="") {
                         return settings.offlineMode ? getUrlbyUrl(root.image) : dm.online ? root.image : getUrlbyUrl(root.image);
                     } else {
                         return "";

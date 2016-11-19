@@ -67,8 +67,8 @@ Page {
             id: placeholder
             enabled: true
             text: settings.signedIn ?
-                      app.fetcherBusyStatus || dm.busy ? qsTr("Wait until Sync finish.") :
-                      qsTr("To do feeds synchronisation, pull down and select Sync.") :
+                      app.fetcherBusyStatus || dm.busy ? qsTr("Wait until sync finish") :
+                      qsTr("To do feeds synchronization, pull down and select sync.") :
                       qsTr("You are not signed in to any account. Pull down to add one.")
         }
 

@@ -26,8 +26,11 @@ Item {
     property string icon: "image://icons/item"
     property alias enabled: iconButton.enabled
     property alias text: lbl.text
+    property string theme: "invert"
 
-    //property bool barOpen: parent.open
+    property string iconColor: theme === "black" ? Theme.primaryColor :
+                               theme === "invert" ? Theme.highlightDimmerColor :
+                                                    Theme.primaryColor
 
     width: iconButton.width
     height: iconButton.height
@@ -52,7 +55,7 @@ Item {
             horizontalCenter: parent.horizontalCenter
         }
 
-        color: bar.transparent ? Theme.highlightColor : Theme.highlightDimmerColor
+        color: iconColor
         font.pixelSize: Theme.fontSizeTiny
         wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
@@ -60,10 +63,9 @@ Item {
 
     IconButton {
         id: iconButton
-        icon.source: root.icon + "?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-        //onClicked: { if (root.barOpen){ root.clicked() } }
-        //onDownChanged: { if (down && root.barOpen){ root.downed() } }
+        icon.source: root.icon + "?" + iconColor
         onClicked: root.clicked()
         onDownChanged: { if (down){ root.downed() } }
+        enabled: root.enabled
     }
 }

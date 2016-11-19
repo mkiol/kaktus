@@ -56,7 +56,6 @@ ListItem {
     property bool defaultIcon: feedIcon === "http://s.theoldreader.com/icons/user_icon.png"
     property color highlightedColor: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
     readonly property alias expandable: box.expandable
-
     property bool expandedMode: settings.expandedMode
 
     signal markedAsRead
@@ -73,6 +72,11 @@ ListItem {
     signal showFeedContent
 
     enabled: !last && !daterow
+
+    contentHeight: last ?
+                   app.orientation === Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape :
+                   daterow ? dateRowbox.height :
+                   box.height + expander.height
 
     onMenuOpenChanged: { if(menuOpen) app.hideBar() }
 
@@ -95,11 +99,6 @@ ListItem {
     function getUrlbyUrl(url){return cache.getUrlbyUrl(url)}
 
     menu: last ? null : settings.iconContextMenu ? iconContextMenu : contextMenu
-
-    contentHeight: last ?
-                       app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape :
-                       daterow ? dateRowbox.height :
-                       box.height + expander.height
 
     onHiddenChanged: {
         if (hidden && expanded) {
@@ -309,14 +308,13 @@ ListItem {
                 fillMode: Image.PreserveAspectFit
                 width: root.landscapeMode ? 0 : sourceSize.width>=root.width ? root.width : sourceSize.width
                 enabled: root.landscapeMode ? false : source!="" && status==Image.Ready &&
-                         settings.showTabIcons &&
                          sourceSize.width > Theme.iconSizeMedium &&
                          sourceSize.height > Theme.iconSizeMedium
                 visible: opacity>0
                 opacity: enabled ? 1.0 : 0.0
                 Behavior on opacity { FadeAnimation {} }
                 source: {
-                    if (settings.showTabIcons && root.image!="") {
+                    if (root.image!="") {
                         return settings.offlineMode ? getUrlbyUrl(root.image) : dm.online ? root.image : getUrlbyUrl(root.image);
                     } else {
                         return "";

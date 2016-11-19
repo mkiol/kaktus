@@ -64,14 +64,6 @@ Item {
         color: Theme.highlightBackgroundColor
     }
 
-    /*Rectangle {
-        height: 7
-        anchors.left: parent.left; anchors.top: parent.top
-        width: parent.width
-        //color: Theme.rgba(Theme.highlightBackgroundColor, 0.5)
-        color: Theme.rgba(Theme.highlightDimmerColor, 0.2)
-    }*/
-
     Image {
         anchors.left: parent.left; anchors.right: parent.right
         source: "image://theme/graphic-gradient-edge?"+Theme.highlightBackgroundColor
@@ -130,7 +122,7 @@ Item {
         id: closeButton
         anchors.verticalCenter: parent.verticalCenter
         anchors.right: parent.right
-        icon.source: "image://theme/icon-m-close?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
+        icon.source: "image://theme/icon-m-dismiss?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
         onClicked: root.closeClicked()
         visible: root.cancelable
     }

@@ -192,7 +192,7 @@ Page {
                     MenuItem {
                         id: readItem
                         text: qsTr("Mark all as read")
-                        enabled: model.unread!=0
+                        enabled: model.unread!==0
                         visible: enabled
                         onClicked: {
                             tabModel.markAsRead(model.index);
@@ -201,7 +201,7 @@ Page {
                     MenuItem {
                         id: unreadItem
                         text: qsTr("Mark all as unread")
-                        enabled: model.read!=0 && settings.signinType<10
+                        enabled: model.read!==0 && settings.signinType<10
                         visible: enabled
                         onClicked: {
                             tabModel.markAsUnread(model.index);
@@ -214,7 +214,7 @@ Page {
         ViewPlaceholder {
             id: placeholder
             enabled: listView.count < 1
-            text: fetcher.busy ? qsTr("Wait until Sync finish.") :
+            text: fetcher.busy ? qsTr("Wait until sync finish") :
                                  settings.signinType<10 ? qsTr("No tabs") : qsTr("No folders")
         }
 

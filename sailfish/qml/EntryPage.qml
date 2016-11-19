@@ -43,17 +43,10 @@ Page {
     property string expandedUid: ""
     property int expandedIndex: 0
 
-    function navigate(url) {
-        var hcolor = Theme.highlightColor.toString().substr(1, 6);
-        var shcolor = Theme.secondaryHighlightColor.toString().substr(1, 6);
-        var imgWidth = settings.fontSize == 1 ? root.width/(1.5) : settings.fontSize == 2 ? root.width/(2.0) : root.width;
-        return url+"?fontsize=18px&width="+imgWidth+"&highlightColor="+hcolor+"&secondaryHighlightColor="+shcolor+"&margin="+Theme.paddingMedium;
-    }
-
     function openInExaternalBrowser(index, link, uid) {
         entryModel.setData(index, "read", 1, "");
-        notification.show(qsTr("Launching an external browser..."));
-        Qt.openUrlExternally(settings.offlineMode ? navigate(cache.getUrlbyId(uid)) : link);
+        notification.show(qsTr("Launching an external browser."));
+        Qt.openUrlExternally(link);
     }
 
     function setContentPane(delegate) {
@@ -203,8 +196,9 @@ Page {
 
         PageMenu {
             id: menu
-            showAbout: settings.viewMode>2  ? true : false
-            showShowOnlyUnread: settings.viewMode!=4 && settings.viewMode!=6 && settings.viewMode!=7
+            //showAbout: settings.viewMode>2  ? true : false
+            showAbout: true
+            //showShowOnlyUnread: settings.viewMode!=4 && settings.viewMode!=6 && settings.viewMode!=7
         }
 
         header: PageHeader {
@@ -261,25 +255,25 @@ Page {
             function check() {
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy || dm.removerBusy) {
-                    notification.show(qsTr("Please wait until current task is complete."));
+                    notification.show(qsTr("Wait until current task is complete."));
                     return false;
                 }
 
                 // Entry not cached and offline mode enabled
                 if (settings.offlineMode && !model.cached) {
-                    notification.show(qsTr("Offline version not available."));
+                    notification.show(qsTr("Offline version is not available."));
                     return false;
                 }
 
-                // Switch to Offline mode if no network
+                // Switch to offline mode if no network
                 if (!settings.offlineMode && !dm.online) {
                     if (model.cached) {
                         // Entry cached
-                        notification.show(qsTr("Network connection is unavailable.\nSwitching to Offline mode."));
+                        notification.show(qsTr("Enabling offline mode because network is disconnected."));
                         settings.offlineMode = true;
                     } else {
                         // Entry not cached
-                        notification.show(qsTr("Network connection is unavailable."));
+                        notification.show(qsTr("Network is disconnected."));
                         return false;
                     }
                 }
@@ -288,24 +282,17 @@ Page {
             }
 
             function openEntryInViewer() {
-
-                // (!dm.online && settings.offlineMode) -> WORKAROUND for https://github.com/mkiol/kaktus/issues/14
-                if (!dm.online && settings.offlineMode) {
-                    openInExaternalBrowser(model.index, model.link, model.uid);
-                    return;
-                }
-
                 pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),
                                {"entryId": model.uid,
                                    "onlineUrl": delegate.onlineurl,
                                    "offlineUrl": delegate.offlineurl,
                                    "title": model.title,
-                                   "stared": model.readlater==1,
+                                   "stared": model.readlater===1,
                                    "liked": model.liked,
                                    "broadcast": model.broadcast,
                                    "index": model.index,
                                    "feedindex": root.index,
-                                   "read" : model.read==1,
+                                   "read" : model.read===1,
                                    "cached" : model.cached
                                });
             }
@@ -313,7 +300,7 @@ Page {
             function showEntryFeedContent() {
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy || dm.removerBusy) {
-                    notification.show(qsTr("Please wait until current task is complete."));
+                    notification.show(qsTr("Wait until current task is complete."));
                     return false;
                 }
 
@@ -323,12 +310,12 @@ Page {
                                    "onlineUrl": delegate.onlineurl,
                                    "offlineUrl": delegate.offlineurl,
                                    "title": model.title,
-                                   "stared": model.readlater==1,
+                                   "stared": model.readlater===1,
                                    "liked": model.liked,
                                    "broadcast": model.broadcast,
                                    "index": model.index,
                                    "feedindex": root.index,
-                                   "read" : model.read==1,
+                                   "read" : model.read===1,
                                    "cached" : model.cached
                                });
             }
@@ -495,7 +482,7 @@ Page {
         ViewPlaceholder {
             id: placeholder
             enabled: listView.count == 0
-            text: fetcher.busy ? qsTr("Wait until Sync finish.") :
+            text: fetcher.busy ? qsTr("Wait until sync finish") :
                       settings.viewMode==4 ? app.isNetvibes || app.isFeedly ? qsTr("No saved items") : qsTr("No starred items")  :
                       settings.viewMode==6 ? qsTr("No liked items") : settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }

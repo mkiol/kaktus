@@ -473,7 +473,7 @@ void Utils::setEntryModel(const QString &feedId)
     Settings *s = Settings::instance();
 
     entryModel = new EntryModel(s->db);
-    entryModel->init(feedId);
+    entryModel->initInThread(feedId);
 
 #ifdef BB10
         s->qml->setContextProperty("entryModel", entryModel);

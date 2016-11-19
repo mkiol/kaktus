@@ -28,23 +28,29 @@ Item {
 
     property bool open: false
     property bool openable: true
+    property bool showable: true
 
     property int showTime: 7000
     property real barShowMoveWidth: 20
     property Flickable flickable: null
     property bool shown: opacity == 1.0
 
+
     width: parent.width
     //height: isPortrait ? app.panelHeightPortrait : app.panelHeightLandscape
     height: Theme.itemSizeMedium
     anchors.bottom: parent.bottom
     anchors.left: parent.left
+    enabled: showable
+    visible: showable
 
     clip: true
     opacity: root.open ? 1.0 : 0.0
     Behavior on opacity { FadeAnimation {duration: 300} }
 
     function show() {
+        if (!showable)
+            return
         if (!open) {
             root.open = true;
             flick.contentX = 0;
@@ -75,6 +81,7 @@ Item {
     }
 
     MouseArea {
+        enabled: root.showable
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
         height: root.open ? parent.height : parent.height / 3
         onClicked: root.show();

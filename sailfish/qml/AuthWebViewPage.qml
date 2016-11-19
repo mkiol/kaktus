@@ -90,7 +90,7 @@ Page {
         onLoadingChanged: {
             switch (loadRequest.status) {
             case WebView.LoadStartedStatus:
-                proggressPanel.text = qsTr("Loading page content...");
+                proggressPanel.text = qsTr("Loading page content");
                 proggressPanel.open = true;
                 break;
             case WebView.LoadSucceededStatus:
@@ -98,7 +98,6 @@ Page {
                 break;
             case WebView.LoadFailedStatus:
                 proggressPanel.open = false;
-                //notification.show(qsTr("Failed to load page content :-("));
                 break;
             default:
                 proggressPanel.open = false;

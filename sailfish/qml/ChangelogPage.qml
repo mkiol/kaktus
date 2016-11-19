@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2016 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -49,6 +49,45 @@ Page {
         }
 
         model: VisualItemModel {
+
+            SectionHeader {
+                text: qsTr("Version %1").arg("2.5.0")
+            }
+
+            LogItem {
+                title: 'Reader View'
+                description: "Reader View is a feature that strips away clutter like buttons, ads and background images, and changes the page's layout for better readability. Reader View implementation in Kaktus is based on Readability.js library, the same that is used in Firefox browser.";
+            }
+
+            LogItem {
+                title: 'UI redesign'
+                description: "Some options were moved from pull down menu to bootom bar and bottom bar has a new dark look.";
+            }
+
+            LogItem {
+                title: 'Unsynced data indicator'
+                description: "When Kaktus has any unsynchronized data, indicator (red dot) is shown on the bottom bar.";
+            }
+
+            LogItem {
+                title: 'Smoother offline mode'
+                description: "A few bugs were fixed and general offine mode experience has been improved.";
+            }
+
+            LogItem {
+                title: 'List filtering'
+                description: "List of articles can be filtered to display all articles, unread and saved or only unread.";
+            }
+
+            LogItem {
+                title: 'Auto network mode'
+                description: "Option to automatically enabling offline mode on network connection lost.";
+            }
+
+            LogItem {
+                title: 'Night View'
+                description: "Night View reduces the brightness of websites by inverting colors (Heavily inspired and partially borrowed from harbour-webpirate project).";
+            }
 
             SectionHeader {
                 text: qsTr("Version %1").arg("2.4.0")
@@ -169,7 +208,7 @@ Page {
                 description: 'Many improvements, like performance optimization and UI polishing were made.'
             }
 
-            SectionHeader {
+            /*SectionHeader {
                 text: qsTr("Version %1").arg("1.4")
             }
 
@@ -213,7 +252,7 @@ Page {
                 title: 'Caching only on WiFi'
                 description: 'Until now you could only enable or disable caching feature. '+
                              'Now, you can also set caching to start only when phone is connected with WiFi.'
-            }
+            }*/
 
 
             Item {

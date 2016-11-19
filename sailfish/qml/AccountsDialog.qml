@@ -48,7 +48,7 @@ Page {
         model:  ListModel {
             ListElement { name: "Netvibes"; iconSource: "nv.png"; type: 1}
             ListElement { name: "Old Reader"; iconSource: "oldreader.png"; type: 2}
-            ListElement { name: "Feedly (comming soon)"; iconSource: "feedly.png"; type: 3}
+            /*ListElement { name: "Feedly (comming soon)"; iconSource: "feedly.png"; type: 3}*/
         }
 
         header: PageHeader {
