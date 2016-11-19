@@ -22,7 +22,7 @@ Symbian and Meego versions were discontinued.
 
 ## Copyrights
 
-Copyright &copy; 2014-2015 Michal Kosciesza
+Copyright &copy; 2014-2016 Michal Kosciesza
 
 Kaktus is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
@@ -50,3 +50,6 @@ Copyright &copy; 2011-2013 Nikhil Marathe <nsm.nikhil@gmail.com>
 
 ##### QJson
 Copyright &copy; 2008 Flavio Castelli <flavio.castelli@gmail.com>
+
+##### Readability.js
+Copyright &copy; 2010 Arc90 Inc
