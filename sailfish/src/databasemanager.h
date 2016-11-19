@@ -177,6 +177,9 @@ public:
     Q_INVOKABLE void init();
     Q_INVOKABLE void newInit();
 
+    bool makeBackup();
+    bool restoreBackup();
+
     bool isSynced();
 
     void cleanDashboards();
@@ -336,6 +339,7 @@ signals:
 private:
     QSqlDatabase db;
     QString dbFilePath;
+    QString backupFilePath;
 
     void checkError(const QSqlError &error);
 

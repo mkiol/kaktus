@@ -154,11 +154,17 @@ void Fetcher::cancel()
         busyType == Fetcher::CheckingCredentialsWaiting) {
         setBusy(false);
     } else {
+
+        // Restoring backup
+        Settings *s = Settings::instance();
+        if (!s->db->restoreBackup()) {
+            qWarning() << "Unable to restore DB backup!";
+        }
+
         if (currentReply != NULL)
             currentReply->close();
         else
             setBusy(false);
-        //emit canceled();
     }
 }
 
@@ -179,7 +185,6 @@ bool Fetcher::checkCredentials()
 #endif
 
     setBusy(true, Fetcher::CheckingCredentials);
-
     return true;
 }
 

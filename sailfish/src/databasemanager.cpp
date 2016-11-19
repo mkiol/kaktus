@@ -113,6 +113,44 @@ bool DatabaseManager::openDB()
     return db.open();
 }
 
+bool DatabaseManager::makeBackup()
+{
+    Settings *s = Settings::instance();
+
+    if (backupFilePath.isEmpty()) {
+        backupFilePath = s->getSettingsDir();
+        backupFilePath.append(QDir::separator()).append("settings_backup.db");
+        backupFilePath = QDir::toNativeSeparators(backupFilePath);
+    }
+
+    if (QFile::exists(backupFilePath)) {
+        //qDebug() << "DB backup file exists and will be overwrite!";
+        QFile::remove(backupFilePath);
+    }
+
+    return QFile::copy(dbFilePath, backupFilePath);
+}
+
+bool DatabaseManager::restoreBackup()
+{
+    if (!QFile::exists(backupFilePath)) {
+        qWarning() << "DB backup file doesn't exist!";
+        return false;
+    }
+
+    if (!deleteDB()) {
+        qWarning() << "Current DB file can not be deleted!";
+        return false;
+    }
+
+    if (!QFile::rename(backupFilePath, dbFilePath)) {
+        qWarning() << "Can not rename DB backup file!";
+        return false;
+    }
+
+    return openDB();
+}
+
 bool DatabaseManager::deleteDB()
 {
     db.close();

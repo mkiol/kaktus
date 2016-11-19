@@ -104,6 +104,7 @@ Q_SIGNALS:
     503 - User ID is empty
     504 - No network
     505 - Refresh token error
+    506 - DB backup error
     600 - Error while parsing JSON
     601 - Unknown JSON response
      */

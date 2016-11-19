@@ -111,6 +111,14 @@ void NvFetcher::startFetching()
 
     storedStreamList = s->db->readStreamModuleTabListWithoutDate();
 
+    //Backup
+    if (!s->db->makeBackup()) {
+        qWarning() << "Unable to make DB backup!";
+        emit error(506);
+        setBusy(false);
+        return;
+    }
+
     s->db->cleanDashboards();
     s->db->cleanTabs();
     s->db->cleanModules();
@@ -798,6 +806,13 @@ void NvFetcher::finishedDashboards()
 {
     //qDebug() << data;
     if (currentReply->error()) {
+
+        // Restoring backup
+        Settings *s = Settings::instance();
+        if (!s->db->restoreBackup()) {
+            qWarning() << "Unable to restore DB backup!";
+        }
+
         emit error(500);
         setBusy(false);
         return;
@@ -831,6 +846,13 @@ void NvFetcher::finishedTabs()
 {
     //qDebug() << data;
     if (currentReply->error()) {
+
+        // Restoring backup
+        Settings *s = Settings::instance();
+        if (!s->db->restoreBackup()) {
+            qWarning() << "Unable to restore DB backup!";
+        }
+
         emit error(500);
         setBusy(false);
         return;
@@ -893,6 +915,13 @@ void NvFetcher::finishedFeeds()
 {
     //qDebug() << data;
     if (currentReply->error()) {
+
+        // Restoring backup
+        Settings *s = Settings::instance();
+        if (!s->db->restoreBackup()) {
+            qWarning() << "Unable to restore DB backup!";
+        }
+
         emit error(500);
         setBusy(false);
         return;
@@ -928,6 +957,13 @@ void NvFetcher::finishedFeedsReadlater()
 {
     //qDebug() << data;
     if (currentReply->error()) {
+
+        // Restoring backup
+        Settings *s = Settings::instance();
+        if (!s->db->restoreBackup()) {
+            qWarning() << "Unable to restore DB backup!";
+        }
+
         emit error(500);
         setBusy(false);
         return;
@@ -960,6 +996,13 @@ void NvFetcher::finishedFeedsUpdate()
 {
     //qDebug() << data;
     if (currentReply->error()) {
+
+        // Restoring backup
+        Settings *s = Settings::instance();
+        if (!s->db->restoreBackup()) {
+            qWarning() << "Unable to restore DB backup!";
+        }
+
         emit error(500);
         setBusy(false);
         return;
@@ -1064,6 +1107,8 @@ void NvFetcher::startJob(Job job)
         return;
     }
 
+    Settings *s = Settings::instance();
+
     disconnect(this, SIGNAL(finished()), 0, 0);
     currentJob = job;
     //qDebug() << "Job:" << job;
@@ -1072,7 +1117,6 @@ void NvFetcher::startJob(Job job)
         if (jsonObj.contains("success") && !jsonObj["success"].toBool()) {
 
             // If credentials other than Netvibes, prompting for re-auth
-            Settings *s = Settings::instance();
             if (s->getSigninType()>0) {
                 qWarning() << "Cookie expires!";
                 s->setCookie("");
@@ -1082,6 +1126,12 @@ void NvFetcher::startJob(Job job)
             }
 
             qWarning() << "Netvibes API error!" << jsonObj;
+
+            // Restoring backup
+            if (!s->db->restoreBackup()) {
+                qWarning() << "Unable to restore DB backup!";
+            }
+
             setBusy(false);
             emit error(500);
             //update();
@@ -1089,6 +1139,12 @@ void NvFetcher::startJob(Job job)
         }
     } else {
         qWarning() << "Error parsing Json!";
+
+        // Restoring backup
+        if (!s->db->restoreBackup()) {
+            qWarning() << "Unable to restore DB backup!";
+        }
+
         emit error(600);
         setBusy(false);
         return;
