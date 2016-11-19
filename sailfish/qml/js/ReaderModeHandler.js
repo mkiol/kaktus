@@ -9,6 +9,18 @@ window.Kaktus_ReaderModeHandlerObject = function() {
     this.readabilityPossible = false;
 };
 
+window.Kaktus_ReaderModeHandlerObject.prototype.applyFixups = function(doc) {
+    var elements, i;
+
+    //doc = doc ? doc : document
+
+    // target attributes
+    elements = doc.querySelectorAll("[target]");
+    for (i = 0; i < elements.length; i++) {
+        elements[i].removeAttribute("target");
+    }
+};
+
 window.Kaktus_ReaderModeHandlerObject.prototype.applyFiltering = function(doc, insert) {
     var elements, i;
 
@@ -25,7 +37,7 @@ window.Kaktus_ReaderModeHandlerObject.prototype.applyFiltering = function(doc, i
         doc.body.innerHTML = newBody;
     }
 
-    // width, height, target attributes
+    // width, height, target, class attributes
     elements = doc.querySelectorAll("[width],[height],[target],[class]");
     for (i = 0; i < elements.length; i++) {
         elements[i].removeAttribute("width");
@@ -38,8 +50,6 @@ window.Kaktus_ReaderModeHandlerObject.prototype.applyFiltering = function(doc, i
     //elements = doc.getElementsByTagName("img");
     //for (i = 0; i < elements.length; i++)
     //    elements[i].style.maxWidth = "100%";
-
-
 };
 
 window.Kaktus_ReaderModeHandlerObject.prototype.check = function(data) {

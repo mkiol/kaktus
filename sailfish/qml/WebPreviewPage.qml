@@ -45,11 +45,13 @@ Page {
     property int markAsReadTime: 4000
     property int toolbarHideTime: 4000
     property bool readerMode: false
+    property bool nightMode: false
     property bool readerModePossible: false
+    property bool nightModePossible: true
     property bool autoReaderMode: settings.readerMode
 
     function openUrlEntryInBrowser(url) {
-        notification.show(qsTr("Launching an external browser..."))
+        notification.show(qsTr("Launching an external browser."))
         Qt.openUrlExternally(url)
     }
 
@@ -66,11 +68,21 @@ Page {
     function navigate(url) {
         if (settings.offlineMode) {
             // WORKAROUND for https://github.com/mkiol/kaktus/issues/14
+            //utils.resetQtWebKit()
             var xhr = new XMLHttpRequest()
             xhr.onreadystatechange = function () {
+
+                    console.log("xhr.onreadystatechange")
+                    console.log("  xhr.readyState: " + xhr.readyState)
+                    console.log("  xhr.status: " + xhr.status)
+                    console.log("  xhr.responseType: " + xhr.responseType)
+                    console.log("  xhr.responseURL : " + xhr.responseURL )
+                    console.log("  xhr.statusText: " + xhr.statusText)
+
                     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                         view.loadHtml(xhr.responseText)
                     }
+
                 }
             xhr.open("GET", offlineUrl);
             xhr.send()
@@ -83,6 +95,7 @@ Page {
         if (view.canGoBack) {
             view.goBack()
             root.readerModePossible = false
+            root.nightModePossible = false
             //view.scrollToTop()
         } else {
             pageStack.pop()
@@ -115,16 +128,25 @@ Page {
     }
 
     function switchReaderMode() {
-        postMessage(root.readerMode ? "readermodehandler_disable" : "readermodehandler_enable");
+        postMessage(root.readerMode ? "readability_disable" : "readability_enable")
+    }
+
+    function switchNightMode() {
+        postMessage(root.nightMode ? "nightmode_disable" : "nightmode_enable")
     }
 
     function messageReceivedHandler(message) {
         if (message.type === "theme_init") {
-
             initTheme()
 
-        } else if (message.type === "readability_result") {
+            root.nightModePossible = true
+            if ((settings.nightMode || root.nightMode) && !settings.offlineMode) {
+                postMessage("nightmode_enable")
+            } else {
+                postMessage("nightmode_disable")
+            }
 
+        } else if (message.type === "readability_result") {
             root.readerModePossible = message.data.possible
             root.readerMode = message.data.enabled
 
@@ -133,6 +155,8 @@ Page {
                     (root.autoReaderMode || settings.offlineMode)) {
                 switchReaderMode()
                 root.autoReaderMode = false
+            } else if (settings.offlineMode) {
+                postMessage("theme_apply")
             }
 
         } else if (message.type === "readability_status") {
@@ -148,6 +172,14 @@ Page {
 
             root.readerMode = false
             view.scrollToTop()
+
+        } else if (message.type === "nightmode_enabled") {
+
+            root.nightMode = true
+
+        } else if (message.type === "nightmode_disabled") {
+
+            root.nightMode = false
 
         }
     }
@@ -203,12 +235,14 @@ Page {
         experimental.overview: false
         experimental.enableResizeContent: true
         experimental.userAgent: _settings.getDmUserAgent()
+        //experimental.transparentBackground: true
 
         experimental.userScripts: [
             Qt.resolvedUrl("js/ObjectOverrider.js"),
             Qt.resolvedUrl("js/Readability.js"),
             Qt.resolvedUrl("js/Theme.js"),
             Qt.resolvedUrl("js/ReaderModeHandler.js"),
+            Qt.resolvedUrl("js/NightModeHandler.js"),
             Qt.resolvedUrl("js/MessageListener.js")]
 
         experimental.onMessageReceived: {
@@ -230,16 +264,17 @@ Page {
                     timer.start();
 
                 // Readability.js
-                postMessage("readermodehandler_check", { "title": view.canGoBack ? "" : root.title });
+                postMessage("readability_apply_fixups")
+                postMessage("readability_check", { "title": view.canGoBack ? "" : root.title });
 
                 break;
             case WebView.LoadFailedStatus:
                 proggressPanel.open = false;
 
                 if (_settings.offlineMode) {
-                    notification.show(qsTr("Failed to load page from local cache :-("));
+                    notification.show(qsTr("Failed to load page from local cache."));
                 } else {
-                    notification.show(qsTr("Failed to load page content :-("));
+                    notification.show(qsTr("Failed to load page content."));
                 }
                 break;
             default:
@@ -343,9 +378,19 @@ Page {
             text: qsTr("Toggle Reader View")
             icon: root.readerMode ? "image://icons/icon-m-reader-selected" : "image://icons/icon-m-reader"
             enabled: root.readerModePossible && !settings.offlineMode
-            visible: true
+            visible: !settings.offlineMode
             onClicked: {
                 root.switchReaderMode()
+            }
+        }
+
+        IconBarItem {
+            text: qsTr("Toggle Night View")
+            icon: root.nightMode ? "image://icons/icon-m-night-selected" : "image://icons/icon-m-night"
+            enabled: !root.readerMode && !settings.offlineMode
+            visible: !settings.offlineMode
+            onClicked: {
+                root.switchNightMode()
             }
         }
 
@@ -353,7 +398,7 @@ Page {
             text: qsTr("Browser")
             icon: "image://icons/icon-m-browser"
             onClicked: {
-                notification.show(qsTr("Launching an external browser..."));
+                notification.show(qsTr("Launching an external browser."));
                 Qt.openUrlExternally(onlineUrl);
             }
         }
@@ -383,6 +428,15 @@ Page {
         }
 
         IconBarItem {
+            text: qsTr("Copy URL")
+            icon: "image://theme/icon-m-clipboard"
+            onClicked: {
+                notification.show(qsTr("URL was copied to the clipboard."));
+                Clipboard.text = root.onlineUrl;
+            }
+        }
+
+        IconBarItem {
             text: qsTr("Increase font")
             icon: "image://icons/icon-m-fontup"
             onClicked: {
@@ -395,15 +449,6 @@ Page {
             icon: "image://icons/icon-m-fontdown"
             onClicked: {
                 root.updateZoom(-0.1)
-            }
-        }
-
-        IconBarItem {
-            text: qsTr("Copy URL")
-            icon: "image://theme/icon-m-clipboard"
-            onClicked: {
-                notification.show(qsTr("URL copied to clipboard"));
-                Clipboard.text = root.onlineUrl;
             }
         }
 

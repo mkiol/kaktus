@@ -93,17 +93,17 @@ bool Settings::getPowerSaveMode()
     return settings.value("powersavemode", true).toBool();
 }
 
-void Settings::setShowOnlyUnread(bool value)
+void Settings::setFilter(int value)
 {
-    if (getShowOnlyUnread() != value) {
-        settings.setValue("showonlyunread", value);
-        emit showOnlyUnreadChanged();
+    if (getFilter() != value) {
+        settings.setValue("filter", value);
+        emit filterChanged();
     }
 }
 
-bool Settings::getShowOnlyUnread()
+int Settings::getFilter()
 {
-    return settings.value("showonlyunread", true).toBool();
+    return settings.value("filter", 0).toInt();
 }
 
 void Settings::setShowOldestFirst(bool value)
@@ -166,6 +166,19 @@ bool Settings::getOfflineMode()
 #endif
 }
 
+void Settings::setAutoOffline(bool value)
+{
+    if (getAutoOffline() != value) {
+        settings.setValue("autooffline", value);
+        emit autoOfflineChanged();
+    }
+}
+
+bool Settings::getAutoOffline()
+{
+    return settings.value("autooffline", true).toBool();
+}
+
 void Settings::setReaderMode(bool value)
 {
     if (getReaderMode() != value) {
@@ -177,6 +190,19 @@ void Settings::setReaderMode(bool value)
 bool Settings::getReaderMode()
 {
     return settings.value("readermode", false).toBool();
+}
+
+void Settings::setNightMode(bool value)
+{
+    if (getNightMode() != value) {
+        settings.setValue("nightmode", value);
+        emit nightModeChanged();
+    }
+}
+
+bool Settings::getNightMode()
+{
+    return settings.value("nightmode", false).toBool();
 }
 
 void Settings::setSyncRead(bool value)

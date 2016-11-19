@@ -47,11 +47,12 @@ class Settings: public QObject
     Q_OBJECT
 
     Q_PROPERTY (bool offlineMode READ getOfflineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
+    Q_PROPERTY (bool autoOffline READ getAutoOffline WRITE setAutoOffline NOTIFY autoOfflineChanged)
     Q_PROPERTY (bool readerMode READ getReaderMode WRITE setReaderMode NOTIFY readerModeChanged)
     Q_PROPERTY (bool showTabIcons READ getShowTabIcons WRITE setShowTabIcons NOTIFY showTabIconsChanged)
     Q_PROPERTY (bool signedIn READ getSignedIn WRITE setSignedIn NOTIFY signedInChanged)
     Q_PROPERTY (bool showStarredTab READ getShowStarredTab WRITE setShowStarredTab NOTIFY showStarredTabChanged)
-    Q_PROPERTY (bool showOnlyUnread READ getShowOnlyUnread WRITE setShowOnlyUnread NOTIFY showOnlyUnreadChanged)
+    Q_PROPERTY (int filter READ getFilter WRITE setFilter NOTIFY filterChanged)
     Q_PROPERTY (QString dashboardInUse READ getDashboardInUse WRITE setDashboardInUse NOTIFY dashboardInUseChanged)
     Q_PROPERTY (int lastUpdateDate READ getLastUpdateDate WRITE setLastUpdateDate NOTIFY lastUpdateDateChanged)
     Q_PROPERTY (int allowedOrientations READ getAllowedOrientations WRITE setAllowedOrientations NOTIFY allowedOrientationsChanged)
@@ -76,6 +77,7 @@ class Settings: public QObject
     Q_PROPERTY (int clickBehavior READ getClickBehavior WRITE setClickBehavior NOTIFY clickBehaviorChanged)
     Q_PROPERTY (bool expandedMode READ getExpandedMode WRITE setExpandedMode NOTIFY expandedModeChanged)
     Q_PROPERTY (int webviewNavigation READ getWebviewNavigation WRITE setWebviewNavigation NOTIFY webviewNavigationChanged)
+    Q_PROPERTY (bool nightMode READ getNightMode WRITE setNightMode NOTIFY nightModeChanged)
 
 public:
     static Settings* instance();
@@ -99,8 +101,14 @@ public:
     void setOfflineMode(bool value);
     bool getOfflineMode();
 
+    void setAutoOffline(bool value);
+    bool getAutoOffline();
+
     void setReaderMode(bool value);
     bool getReaderMode();
+
+    void setNightMode(bool value);
+    bool getNightMode();
 
     void setPowerSaveMode(bool value);
     bool getPowerSaveMode();
@@ -220,8 +228,8 @@ public:
     Q_INVOKABLE void setRetentionDays(int value);
     Q_INVOKABLE int getRetentionDays();
 
-    bool getShowOnlyUnread();
-    void setShowOnlyUnread(bool value);
+    int getFilter();
+    void setFilter(int value);
 
     bool getShowOldestFirst();
     void setShowOldestFirst(bool value);
@@ -248,11 +256,13 @@ public:
 
 signals:
     void offlineModeChanged();
+    void autoOfflineChanged();
     void readerModeChanged();
+    void nightModeChanged();
     void showTabIconsChanged();
     void signedInChanged();
     void showStarredTabChanged();
-    void showOnlyUnreadChanged();
+    void filterChanged();
     void dashboardInUseChanged();
     void lastUpdateDateChanged();
     void allowedOrientationsChanged();

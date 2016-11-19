@@ -9,20 +9,26 @@ window.Kaktus_MessageListenerObject.prototype.onMessage = function(message) {
     var obj = JSON.parse(message.data);
     var data = obj.data;
 
-    if(obj.type === "readermodehandler_enable")
+    if(obj.type === "readability_enable")
         Kaktus_ReaderModeHandler.switchMode(true);
-    else if(obj.type === "readermodehandler_disable")
+    else if(obj.type === "readability_disable")
         Kaktus_ReaderModeHandler.switchMode(false);
-    else if(obj.type === "readermodehandler_check")
+    else if(obj.type === "readability_check")
         Kaktus_ReaderModeHandler.check(data);
-    else if(obj.type === "readermodehandler_status")
+    else if(obj.type === "readability_status")
         Kaktus_ReaderModeHandler.status();
+    else if(obj.type === "readability_apply_fixups")
+        Kaktus_ReaderModeHandler.applyFixups(document);
     else if(obj.type === "theme_set")
         Kaktus_Theme.set(data.theme);
     else if(obj.type === "theme_update_scale")
         Kaktus_Theme.updateScale();
     else if(obj.type === "theme_apply")
         Kaktus_Theme.apply();
+    else if(obj.type === "nightmode_disable")
+        Kaktus_NightModeHandler.switchMode(false);
+    else if(obj.type === "nightmode_enable")
+        Kaktus_NightModeHandler.switchMode(true);
 };
 
 window.Kaktus_MessageListener = new window.Kaktus_MessageListenerObject();

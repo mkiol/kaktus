@@ -29,8 +29,6 @@ window.Kaktus_ThemeObject.prototype.updateScale = function() {
     var viewport_ele = document.querySelector("meta[name='viewport']");
     var content = "width=device-width/" + scale + ", initial-scale=" + scale;
 
-    // console.log("viewport content: " + content);
-
     if (viewport_ele) {
         viewport_ele.content = content;
     } else {
