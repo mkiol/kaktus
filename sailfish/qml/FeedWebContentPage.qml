@@ -126,12 +126,12 @@ Page {
 
     function openEntryInBrowser() {
         entryModel.setData(index, "read", 1, "");
-        notification.show(qsTr("Launching an external browser."));
+        notification.show(qsTr("Launching an external browser..."));
         Qt.openUrlExternally(settings.offlineMode ? offlineUrl : onlineUrl);
     }
 
     function openUrlEntryInBrowser(url) {
-        notification.show(qsTr("Launching an external browser."));
+        notification.show(qsTr("Launching an external browser..."));
         Qt.openUrlExternally(url);
     }
 
@@ -342,7 +342,7 @@ Page {
     IconBar {
         id: controlbar
         flickable: view
-        transparent: false
+        theme: "dimmer"
 
         IconBarItem {
             text: qsTr("Back")

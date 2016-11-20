@@ -48,7 +48,7 @@ Page {
                 fetcher.update();
         }
 
-        if (pageStack.depth==3) {
+        if (pageStack.depth===3) {
             pageStack.replaceAbove(null,Qt.resolvedUrl("FirstPage.qml"));
         } else {
             pageStack.pop();
@@ -75,7 +75,6 @@ Page {
     SilicaWebView {
         id: view
 
-        //anchors { top: parent.top; left: parent.left; right: parent.right; bottom: parent.bottom }
         anchors {left: parent.left; right: parent.right}
         height: controlbar.open ? parent.height - controlbar.height : parent.height
         url: root.url
@@ -90,7 +89,7 @@ Page {
         onLoadingChanged: {
             switch (loadRequest.status) {
             case WebView.LoadStartedStatus:
-                proggressPanel.text = qsTr("Loading page content");
+                proggressPanel.text = qsTr("Loading page content...");
                 proggressPanel.open = true;
                 break;
             case WebView.LoadSucceededStatus:
@@ -118,16 +117,15 @@ Page {
         }
     }
 
-    ControlBarWebPreview {
+    IconBar {
         id: controlbar
-        flick: view
-        canBack: true
-        canStar: false
-        canOpenBrowser: false
-        canReader: false
-        stared: false
-        transparent: false
-        onBackClicked: pageStack.pop()
+        flickable: view
+        theme: "black"
+        IconBarItem {
+            text: qsTr("Back")
+            icon: "image://theme/icon-m-back"
+            onClicked: view.canGoBack ? view.goBack() : pageStack.pop()
+        }
     }
 
     ProgressPanel {
@@ -135,7 +133,6 @@ Page {
         transparent: false
         anchors.left: parent.left
         anchors.bottom: parent.bottom
-        height: isPortrait ? app.panelHeightPortrait : app.panelHeightLandscape
         cancelable: true
         onCloseClicked: view.stop()
     }

@@ -64,12 +64,6 @@ Item {
         color: Theme.highlightBackgroundColor
     }
 
-    Image {
-        anchors.left: parent.left; anchors.right: parent.right
-        source: "image://theme/graphic-gradient-edge?"+Theme.highlightBackgroundColor
-        visible: root.transparent
-    }
-
     Rectangle {
         id: progressRect
         height: parent.height - 0
@@ -82,6 +76,11 @@ Item {
                 velocity: 480; duration: 200
             }
         }
+    }
+
+    Image {
+        anchors.fill: parent
+        source: "image://theme/graphic-gradient-edge"
     }
 
     Item {

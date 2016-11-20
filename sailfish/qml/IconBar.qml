@@ -24,7 +24,7 @@ Item {
     id: root
 
     default property alias children: container.children
-    property bool transparent: false
+    property string theme: "dimmer"
 
     property bool open: false
     property bool openable: true
@@ -39,14 +39,17 @@ Item {
     width: parent.width
     //height: isPortrait ? app.panelHeightPortrait : app.panelHeightLandscape
     height: Theme.itemSizeMedium
-    anchors.bottom: parent.bottom
+    //anchors.bottom: parent.bottom
     anchors.left: parent.left
     enabled: showable
     visible: showable
 
     clip: true
     opacity: root.open ? 1.0 : 0.0
-    Behavior on opacity { FadeAnimation {duration: 300} }
+    Behavior on opacity { FadeAnimation {duration: 200} }
+
+    Behavior on y {NumberAnimation { duration: 250; easing.type: Easing.OutQuad }}
+    y: open ? parent.height - height : parent.height - height/4
 
     function show() {
         if (!showable)
@@ -71,19 +74,23 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: root.transparent ? Theme.rgba(Theme.highlightColor, 0.2) : Theme.highlightBackgroundColor
+        color: root.theme === "transparent" ? Theme.rgba(Theme.highlightColor, 0.2) :
+               root.theme === "black" ? "black" : root.theme === "highlighted" ? Theme.highlightBackgroundColor :
+               root.theme === "dimmer" ? Theme.highlightDimmerColor :
+               Theme.highlightDimmerColor
     }
 
     Image {
         anchors.fill: parent
         source: "image://theme/graphic-gradient-edge"
-        visible: root.transparent
+        opacity: root.theme !== "black" ? 0.7 : 0.5
     }
 
     MouseArea {
         enabled: root.showable
         anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
-        height: root.open ? parent.height : parent.height / 3
+        //height: root.open ? parent.height : parent.height / 3
+        height: parent.height
         onClicked: root.show();
     }
 
@@ -93,7 +100,12 @@ Item {
 
         // Right
         Rectangle {
-            color: root.transparent ? Theme.secondaryColor : Theme.highlightDimmerColor
+            color: root.theme === "transparent" ? Theme.secondaryColor :
+                   root.theme === "black" ? Theme.secondaryColor :
+                   root.theme === "highlighted" ? Theme.highlightBackgroundColor :
+                   root.theme === "dimmer" ? Theme.secondaryColor :
+                   Theme.secondaryColor
+
             height: parent.height
             width: Theme.paddingSmall
             opacity: flick.contentX < (flick.contentWidth - flick.width - Theme.paddingLarge) ? 0.5 : 0.0
@@ -106,7 +118,12 @@ Item {
 
         // Left
         Rectangle {
-            color: root.transparent ? Theme.secondaryColor : Theme.highlightDimmerColor
+            color: root.theme === "transparent" ? Theme.secondaryColor :
+                   root.theme === "black" ? Theme.secondaryColor :
+                   root.theme === "highlighted" ? Theme.highlightBackgroundColor :
+                   root.theme === "dimmer" ? Theme.secondaryColor :
+                   Theme.secondaryColor
+
             height: parent.height
             width: Theme.paddingSmall
             opacity: flick.contentX > Theme.paddingLarge ? 0.5 : 0.0
@@ -129,7 +146,7 @@ Item {
 
             Flow {
                 id: container
-                property alias transparent: root.transparent
+                property alias theme: root.theme
                 property alias open: root.open
                 function show() {root.show()}
 

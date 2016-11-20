@@ -51,7 +51,7 @@ Page {
     property bool autoReaderMode: settings.readerMode
 
     function openUrlEntryInBrowser(url) {
-        notification.show(qsTr("Launching an external browser."))
+        notification.show(qsTr("Launching an external browser..."))
         Qt.openUrlExternally(url)
     }
 
@@ -336,7 +336,7 @@ Page {
     IconBar {
         id: controlbar
         flickable: view
-        transparent: false
+        theme: "black"
         showable: !hideToolbarTimer.running
 
         IconBarItem {
@@ -398,7 +398,7 @@ Page {
             text: qsTr("Browser")
             icon: "image://icons/icon-m-browser"
             onClicked: {
-                notification.show(qsTr("Launching an external browser."));
+                notification.show(qsTr("Launching an external browser..."));
                 Qt.openUrlExternally(onlineUrl);
             }
         }
@@ -466,11 +466,9 @@ Page {
         id: proggressPanel
         transparent: false
         anchors.left: parent.left
+        anchors.bottom: parent.bottom
         cancelable: true
         onCloseClicked: view.stop()
-
-        y: controlbar.open ? root.height-height-controlbar.height : root.height-height
-        Behavior on y { NumberAnimation { duration: 200;easing.type: Easing.OutQuad } }
     }
 
     Timer {

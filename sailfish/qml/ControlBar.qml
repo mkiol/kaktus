@@ -261,7 +261,9 @@ Item {
 
                 visible: opacity > 0.0
                 Behavior on opacity { FadeAnimation {} }
-                opacity: pageStack.currentPage.objectName === "entries" ? 1.0 : 0.0
+                opacity: (pageStack.currentPage.objectName === "entries" &&
+                          settings.viewMode !==4 && settings.viewMode !==6 &&
+                          settings.viewMode !==7) ? 1.0 : 0.0
 
                 icon.source: "image://icons/icon-m-filter-" + settings.filter + "?" + root.iconColor
                 onClicked: {
@@ -401,6 +403,12 @@ Item {
                 onClicked: root.cancelClicked()
                 visible: root.cancelable
             }
+        }
+
+        Image {
+            anchors.fill: parent
+            source: "image://theme/graphic-gradient-edge"
+            opacity: 0.5
         }
     }
 
