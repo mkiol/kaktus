@@ -39,7 +39,7 @@ Page {
         model: VisualItemModel {
 
             Label {
-                text: qsTr("Sorry, something's gone wrong :-(")
+                text: qsTr("Sorry, something went wrong!")
             }
 
             Label {

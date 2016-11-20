@@ -159,7 +159,7 @@ ApplicationWindow {
             console.log("DB error! code="+code);
 
             if (code==511) {
-                notification.show(qsTr("Restart the app to rebuild cache data."), qsTr("Something went wrong :-("));
+                notification.show(qsTr("Restart the app to rebuild cache data."), qsTr("Something went wrong!"));
                 return;
             }
 
@@ -286,7 +286,7 @@ ApplicationWindow {
     }
 
     function fetcherErrorGettingAuthUrl() {
-        notification.show(qsTr("Something goes wrong. Unable to sign in! :-("));
+        notification.show(qsTr("Something went wrong. Unable to sign in!"));
     }
 
     function fetcherNetworkNotAccessible() {
@@ -328,7 +328,7 @@ ApplicationWindow {
 
         } else {
             // Unknown error
-            notification.show(qsTr("An unknown error occurred."), qsTr("Something went wrong :-("));
+            notification.show(qsTr("An unknown error occurred."), qsTr("Something went wrong!"));
             resetView();
         }
     }
@@ -415,6 +415,7 @@ ApplicationWindow {
     }
     property int barX: app.orientation==Orientation.Portrait ? 0 : bar.height
     property int barY: app.orientation==Orientation.Portrait ? Screen.height - bar.height : 0
+
     readonly property alias barHeight: bar.height
 
     ControlBar {

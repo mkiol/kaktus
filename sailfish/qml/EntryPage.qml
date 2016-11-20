@@ -45,7 +45,7 @@ Page {
 
     function openInExaternalBrowser(index, link, uid) {
         entryModel.setData(index, "read", 1, "");
-        notification.show(qsTr("Launching an external browser."));
+        notification.show(qsTr("Launching an external browser..."));
         Qt.openUrlExternally(link);
     }
 

@@ -740,7 +740,7 @@ Page {
 
                 menu: ContextMenu {
                     MenuIconItem { text: qsTr("All articles"); iconSource: "image://icons/icon-m-filter-0" }
-                    MenuIconItem { text: app.isNetvibes || app.isFeedly ? qsTr("Unread or saved") : qsTr("Unread & starred"); iconSource: "image://icons/icon-m-filter-1" }
+                    MenuIconItem { text: app.isNetvibes || app.isFeedly ? qsTr("Unread or saved") : qsTr("Unread or starred"); iconSource: "image://icons/icon-m-filter-1" }
                     MenuIconItem { text: qsTr("Only unread"); iconSource: "image://icons/icon-m-filter-2" }
                 }
 

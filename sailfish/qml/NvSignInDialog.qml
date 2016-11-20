@@ -43,8 +43,8 @@ Dialog {
 
     SilicaFlickable {
         anchors {left: parent.left; right: parent.right }
-        anchors {top: parent.top; bottom: parent.bottom }
-        anchors.bottomMargin: app.barHeight
+        anchors {top: parent.top}
+        height: app.flickHeight
         clip: true
         contentHeight: content.height
 
@@ -58,7 +58,7 @@ Dialog {
             spacing: Theme.paddingSmall
 
             DialogHeader {
-                acceptText : qsTr("Sign In")
+                acceptText : qsTr("Sign in")
             }
 
             /*PaddedLabel {
