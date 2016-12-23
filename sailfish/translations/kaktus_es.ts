@@ -53,7 +53,7 @@
     <message>
         <location filename="../qml/AuthWebViewPage.qml" line="125"/>
         <source>Back</source>
-        <translation type="unfinished">Volver</translation>
+        <translation>Volver</translation>
     </message>
 </context>
 <context>
@@ -134,20 +134,6 @@
         <location filename="../qml/CoverPage.qml" line="32"/>
         <source>All read</source>
         <translation>Todo leído</translation>
-    </message>
-    <message>
-        <source>Unread item</source>
-        <translation type="vanished">Artículo sin leer</translation>
-    </message>
-    <message>
-        <source>Unread items</source>
-        <comment>less than 5 articles are unread</comment>
-        <translation type="vanished">Artículos sin leer</translation>
-    </message>
-    <message>
-        <source>Unread items</source>
-        <comment>more or equal 5 articles are unread</comment>
-        <translation type="vanished">Artículos sin leer</translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="34"/>
@@ -420,11 +406,6 @@
         <translation>Todos los canales</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="48"/>
-        <source>Launching an external browser...</source>
-        <translation>Abriendo navegador externo...</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryPage.qml" line="210"/>
         <source>Saved</source>
         <translation>Guardado</translation>
@@ -445,36 +426,19 @@
         <translation>Compartido</translation>
     </message>
     <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Espera hasta que la tarea en curso se complete.</translation>
-    </message>
-    <message>
-        <source>Offline version not available.</source>
-        <translation type="vanished">Versión sin conexión no disponible</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Conexión no disponible.
-Cambiando a Modo sin conexión.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Conexión no disponible.</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryPage.qml" line="486"/>
         <source>No saved items</source>
         <translation>No hay artículos guardados</translation>
     </message>
     <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Espera hasta que finalice la sincronización.</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryPage.qml" line="210"/>
         <source>Starred</source>
         <translation>Favoritos</translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryPage.qml" line="48"/>
+        <source>Launching an external browser...</source>
+        <translation>Abriendo navegador externo...</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="258"/>
@@ -538,39 +502,6 @@ Cambiando a Modo sin conexión.</translation>
         <source>Sorry, something went wrong!</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Sorry, something&apos;s gone wrong :-(</source>
-        <translation type="vanished">Lo siento, algo salió mal :-(</translation>
-    </message>
-</context>
-<context>
-    <name>FeedContentPage</name>
-    <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Espera hasta que la tarea en curso se complete.</translation>
-    </message>
-    <message>
-        <source>Offline version not available.</source>
-        <translation type="vanished">Versión sin conexión no disponible</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Conexión no disponible.
-Cambiando a Modo sin conexión.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Conexión no disponible.</translation>
-    </message>
-    <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Abriendo navegador externo...</translation>
-    </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">URL copiada al portapapeles</translation>
-    </message>
 </context>
 <context>
     <name>FeedPage</name>
@@ -599,37 +530,13 @@ Cambiando a Modo sin conexión.</translation>
         <source>Feeds</source>
         <translation>Canales</translation>
     </message>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Espera hasta que finalice la sincronización.</translation>
-    </message>
 </context>
 <context>
     <name>FeedWebContentPage</name>
     <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Espera hasta que la tarea en curso se complete.</translation>
-    </message>
-    <message>
         <location filename="../qml/FeedWebContentPage.qml" line="107"/>
         <source>Offline version not available.</source>
         <translation>Versión sin conexión no disponible</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Conexión no disponible.
-Cambiando a Modo sin conexión.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Conexión no disponible.</translation>
-    </message>
-    <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="129"/>
-        <location filename="../qml/FeedWebContentPage.qml" line="134"/>
-        <source>Launching an external browser...</source>
-        <translation>Abriendo navegador externo...</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="101"/>
@@ -645,6 +552,12 @@ Cambiando a Modo sin conexión.</translation>
         <location filename="../qml/FeedWebContentPage.qml" line="119"/>
         <source>Network is disconnected.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/FeedWebContentPage.qml" line="129"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="134"/>
+        <source>Launching an external browser...</source>
+        <translation>Abriendo navegador externo...</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="348"/>
@@ -706,17 +619,9 @@ Cambiando a Modo sin conexión.</translation>
         <source>Copy URL</source>
         <translation>Copiar URL</translation>
     </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">URL copiada al portapapeles</translation>
-    </message>
 </context>
 <context>
     <name>FeedlySignInDialog</name>
-    <message>
-        <source>Sign In</source>
-        <translation type="vanished">Iniciar sesión</translation>
-    </message>
     <message>
         <location filename="../qml/FeedlySignInDialog.qml" line="60"/>
         <location filename="../qml/FeedlySignInDialog.qml" line="92"/>
@@ -726,14 +631,6 @@ Cambiando a Modo sin conexión.</translation>
 </context>
 <context>
     <name>FirstPage</name>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Espere hasta que finalice la sincronización</translation>
-    </message>
-    <message>
-        <source>To do feeds synchronisation, pull down and select Sync.</source>
-        <translation type="vanished">Para sincronizar canales, desliza hacia abajo y elige Sincronizar.</translation>
-    </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="60"/>
         <source>Add account</source>
@@ -907,13 +804,9 @@ en la página de Ajustes.</translation>
 <context>
     <name>NvSignInDialog</name>
     <message>
-        <source>Sign In</source>
-        <translation type="vanished">Iniciar sesión</translation>
-    </message>
-    <message>
         <location filename="../qml/NvSignInDialog.qml" line="61"/>
         <source>Sign in</source>
-        <translation type="unfinished">Iniciar sesión</translation>
+        <translation>Iniciar sesión</translation>
     </message>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="83"/>
@@ -964,13 +857,9 @@ en la página de Ajustes.</translation>
 <context>
     <name>OldReaderSignInDialog</name>
     <message>
-        <source>Sign In</source>
-        <translation type="vanished">Iniciar sesión</translation>
-    </message>
-    <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="60"/>
         <source>Sign in</source>
-        <translation type="unfinished">Iniciar sesión</translation>
+        <translation>Iniciar sesión</translation>
     </message>
     <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="78"/>
@@ -1021,14 +910,6 @@ en la página de Ajustes.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sync</source>
-        <translation type="vanished">Sincr.</translation>
-    </message>
-    <message>
-        <source>Busy...</source>
-        <translation type="vanished">Ocupado...</translation>
-    </message>
-    <message>
         <location filename="../qml/PageMenu.qml" line="52"/>
         <source>Network mode: offline</source>
         <translation>Modo de red: sin conexión</translation>
@@ -1037,20 +918,6 @@ en la página de Ajustes.</translation>
         <location filename="../qml/PageMenu.qml" line="52"/>
         <source>Network mode: online</source>
         <translation>Modo de red: conectado</translation>
-    </message>
-    <message>
-        <source>Can&apos;t switch to Online mode.
-Network connection is unavailable.</source>
-        <translation type="vanished">No se puede cambiar a modo conectado.
-No hay conexión disponible.</translation>
-    </message>
-    <message>
-        <source>Showing: only unread</source>
-        <translation type="vanished">Mostrando: sólo no leídos</translation>
-    </message>
-    <message>
-        <source>Showing: all articles</source>
-        <translation type="vanished">Mostrando: todos los artículos</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="90"/>
@@ -1174,10 +1041,6 @@ No hay conexión disponible.</translation>
         <translation>El más largo posible</translation>
     </message>
     <message>
-        <source>In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="vanished">En el modo desconectado, Kaktus sólo usará la caché local para descargar las páginas Web e imágenes, por lo que no será necesaria la conexión a la red.</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="320"/>
         <source>Never</source>
         <translation>Nunca</translation>
@@ -1234,16 +1097,9 @@ No hay conexión disponible.</translation>
         <translation>Desactivado</translation>
     </message>
     <message>
-        <source>Defines how navigation is handled inside built-in viewer. Hyperlinks could be disabled, opened in an external browser or opened inside viewer.</source>
-        <translation type="vanished">Define cómo se navega dentro del visor incorporado. Se pueden desactivar los hipervínculos, abrir en un navegador externo o abrir en el visor.</translation>
-    </message>
-    <message>
-        <source>Read mode</source>
-        <translation type="vanished">Modo lectura</translation>
-    </message>
-    <message>
-        <source>Web pages will be reformatted into an easy to read version.</source>
-        <translation type="vanished">Las páginas Web se ajustarán a un formato de fácil lectura.</translation>
+        <location filename="../qml/SettingsPage.qml" line="743"/>
+        <source>Unread or starred</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="759"/>
@@ -1370,7 +1226,7 @@ No hay conexión disponible.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="379"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Oscuro</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="380"/>
@@ -1405,7 +1261,7 @@ No hay conexión disponible.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="609"/>
         <source>View mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo de vista</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="628"/>
@@ -1431,27 +1287,27 @@ No hay conexión disponible.</translation>
         <location filename="../qml/SettingsPage.qml" line="636"/>
         <location filename="../qml/SettingsPage.qml" line="742"/>
         <source>All articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos los artículos</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="640"/>
         <source>Saved</source>
-        <translation type="unfinished">Guardado</translation>
+        <translation>Guardado</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="640"/>
         <source>Starred</source>
-        <translation type="unfinished">Favoritos</translation>
+        <translation>Favoritos</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="645"/>
         <source>Slow</source>
-        <translation type="unfinished">Lento</translation>
+        <translation>Lento</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="645"/>
         <source>Liked</source>
-        <translation type="unfinished">Me gusta</translation>
+        <translation>Me gusta</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="672"/>
@@ -1469,30 +1325,9 @@ No hay conexión disponible.</translation>
         <translation>Antiguos primero</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="743"/>
-        <source>Unread or starred</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="497"/>
         <source>Changes will take effect after you restart Kaktus.</source>
         <translation>Los cambios tendrán efecto después de reiniciar Kaktus.</translation>
-    </message>
-    <message>
-        <source>Show images</source>
-        <translation type="vanished">Mostrar imágenes</translation>
-    </message>
-    <message>
-        <source>Viewer font size</source>
-        <translation type="vanished">Tamaño de fuente para el visor</translation>
-    </message>
-    <message>
-        <source>Other</source>
-        <translation type="vanished">Otro</translation>
-    </message>
-    <message>
-        <source>Show User Guide</source>
-        <translation type="vanished">Mostrar Guía de usuario</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="288"/>
@@ -1508,10 +1343,6 @@ No hay conexión disponible.</translation>
         <location filename="../qml/SettingsPage.qml" line="316"/>
         <source>Cache articles</source>
         <translation>Artículos en caché</translation>
-    </message>
-    <message>
-        <source>Show only unread articles</source>
-        <translation type="vanished">Mostrar sólo artículos no leídos</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="113"/>
@@ -1532,10 +1363,6 @@ No hay conexión disponible.</translation>
         <location filename="../qml/SettingsPage.qml" line="262"/>
         <source>Current cache size</source>
         <translation>Tamaño de la caché</translation>
-    </message>
-    <message>
-        <source>Built-in viewer</source>
-        <translation type="vanished">Visor incorporado</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="783"/>
@@ -1561,10 +1388,6 @@ No hay conexión disponible.</translation>
         <location filename="../qml/SettingsPage.qml" line="423"/>
         <source>UI</source>
         <translation>Interfaz</translation>
-    </message>
-    <message>
-        <source>Defines the behavior for clicking on an article item. Article can be opened in the built-in viewer, opened in an external browser or full RSS feed content can be shown.</source>
-        <translation type="vanished">Define el comportamiento al hacer clic en un artículo. El artículo se puede abrir en el visor incorporado, en un navegador externo o se puede mostrar todo el contenido del canal RSS.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="339"/>
@@ -1616,18 +1439,6 @@ No hay conexión disponible.</translation>
         <source>Landscape</source>
         <translation>Apaisado</translation>
     </message>
-    <message>
-        <source>Offline viewer style</source>
-        <translation type="vanished">Estilo del visor sin conexión</translation>
-    </message>
-    <message>
-        <source>Black</source>
-        <translation type="vanished">Negro</translation>
-    </message>
-    <message>
-        <source>White</source>
-        <translation type="vanished">Blanco</translation>
-    </message>
 </context>
 <context>
     <name>ShareDialog</name>
@@ -1676,10 +1487,6 @@ No hay conexión disponible.</translation>
         <location filename="../qml/TabPage.qml" line="68"/>
         <source>Tabs</source>
         <translation>Fichas</translation>
-    </message>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Espere hasta que finalice la sincronización.</translation>
     </message>
     <message>
         <location filename="../qml/TabPage.qml" line="82"/>
@@ -1738,7 +1545,7 @@ No hay conexión disponible.</translation>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1874,24 +1681,6 @@ No hay conexión disponible.</translation>
         <translation>Cargando contenido...</translation>
     </message>
     <message>
-        <source>Failed to load item from local cache :-(</source>
-        <translation type="vanished">Falló la carga del artículo desde la caché local :-(</translation>
-    </message>
-    <message>
-        <source>Failed to load page content :-(</source>
-        <translation type="vanished">Falló la carga de contenido :-(</translation>
-    </message>
-    <message>
-        <location filename="../qml/WebPreviewPage.qml" line="54"/>
-        <location filename="../qml/WebPreviewPage.qml" line="401"/>
-        <source>Launching an external browser...</source>
-        <translation>Abriendo navegador externo...</translation>
-    </message>
-    <message>
-        <source>Failed to switch to Reader mode :-(</source>
-        <translation type="vanished">Falló el cambio a modo lector :-(</translation>
-    </message>
-    <message>
         <location filename="../qml/WebPreviewPage.qml" line="343"/>
         <source>Back</source>
         <translation>Volver</translation>
@@ -1912,8 +1701,10 @@ No hay conexión disponible.</translation>
         <translation>Favorito</translation>
     </message>
     <message>
-        <source>Toggle Read mode</source>
-        <translation type="vanished">Modo lectura</translation>
+        <location filename="../qml/WebPreviewPage.qml" line="54"/>
+        <location filename="../qml/WebPreviewPage.qml" line="401"/>
+        <source>Launching an external browser...</source>
+        <translation>Abriendo navegador externo...</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="275"/>
@@ -1975,10 +1766,6 @@ No hay conexión disponible.</translation>
         <source>Copy URL</source>
         <translation>Copiar URL</translation>
     </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">URL copiada al portapapeles</translation>
-    </message>
 </context>
 <context>
     <name>main</name>
@@ -2003,12 +1790,6 @@ No hay conexión disponible.</translation>
         <translation>Almacenando en caché...</translation>
     </message>
     <message>
-        <source>Download failed!
-Network connection is unavailable.</source>
-        <translation type="vanished">¡Descarga fallida!
-Conexión no disponible.</translation>
-    </message>
-    <message>
         <location filename="../qml/main.qml" line="293"/>
         <source>Sync failed!
 Network connection is unavailable.</source>
@@ -2021,18 +1802,14 @@ Conexión no disponible.</translation>
         <translation>¡Usuario o contraseña incorrectos!</translation>
     </message>
     <message>
-        <source>You are signed in!</source>
-        <translation type="vanished">¡Ya has iniciado sesión!</translation>
+        <location filename="../qml/main.qml" line="213"/>
+        <source>Download has failed because network is disconnected.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="162"/>
         <location filename="../qml/main.qml" line="331"/>
         <source>Something went wrong!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="213"/>
-        <source>Download has failed because network is disconnected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2093,26 +1870,6 @@ Conexión no disponible.</translation>
         <location filename="../qml/main.qml" line="392"/>
         <source>Waiting for network...</source>
         <translation>Esperando la conexión...</translation>
-    </message>
-    <message>
-        <source>Something went wrong :-(
-Restart the app to rebuild cache data.</source>
-        <translation type="vanished">Algo salió mal :-(
-Reinicia la aplicación para reconstruir la caché.</translation>
-    </message>
-    <message>
-        <source>Something goes wrong. Unable to sign in! :-(</source>
-        <translation type="vanished">Algo va mal. ¡No es posible acceder! :-(</translation>
-    </message>
-    <message>
-        <source>Something went wrong :-(
-An unknown error occurred.</source>
-        <translation type="vanished">Algo salió mal :-(
-Se produjo un error desconocido.</translation>
-    </message>
-    <message>
-        <source>Removing cache data...</source>
-        <translation type="vanished">Borrando los datos en caché...</translation>
     </message>
 </context>
 </TS>

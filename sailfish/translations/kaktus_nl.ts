@@ -53,7 +53,7 @@
     <message>
         <location filename="../qml/AuthWebViewPage.qml" line="125"/>
         <source>Back</source>
-        <translation type="unfinished">Terug</translation>
+        <translation>Terug</translation>
     </message>
 </context>
 <context>
@@ -136,35 +136,21 @@
         <translation>Alles gelezen</translation>
     </message>
     <message>
-        <source>Unread item</source>
-        <translation type="vanished">Ongelezen item</translation>
-    </message>
-    <message>
-        <source>Unread items</source>
-        <comment>less than 5 articles are unread</comment>
-        <translation type="vanished">Ongelezen items</translation>
-    </message>
-    <message>
-        <source>Unread items</source>
-        <comment>more or equal 5 articles are unread</comment>
-        <translation type="vanished">Ongelezen items</translation>
-    </message>
-    <message>
         <location filename="../qml/CoverPage.qml" line="34"/>
         <source>unread item</source>
-        <translation type="unfinished"></translation>
+        <translation>ongelezen item</translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="36"/>
         <source>unread items</source>
         <comment>less than 5 articles are unread</comment>
-        <translation type="unfinished"></translation>
+        <translation>ongelezen items</translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="37"/>
         <source>unread items</source>
         <comment>more or equal 5 articles are unread</comment>
-        <translation type="unfinished"></translation>
+        <translation>ongelezen items</translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="61"/>
@@ -420,11 +406,6 @@
         <translation>Alle feeds</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="48"/>
-        <source>Launching an external browser...</source>
-        <translation>Bezig met starten van externe browser...</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryPage.qml" line="210"/>
         <source>Saved</source>
         <translation>Opgeslagen</translation>
@@ -445,31 +426,9 @@
         <translation>Gedeeld</translation>
     </message>
     <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Wacht alstublieft totdat de huidige taak is afgerond.</translation>
-    </message>
-    <message>
-        <source>Offline version not available.</source>
-        <translation type="vanished">Offline-versie niet beschikbaar.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Netwerkverbinding is niet beschikbaar.
-Bezig met overschakelen naar Offline-modus.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Netwerkverbinding is niet beschikbaar.</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryPage.qml" line="486"/>
         <source>No saved items</source>
         <translation>Geen opgeslagen items</translation>
-    </message>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Wacht totdat de synchronisatie is voltooid.</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="210"/>
@@ -477,30 +436,35 @@ Bezig met overschakelen naar Offline-modus.</translation>
         <translation>Gefavoriet</translation>
     </message>
     <message>
+        <location filename="../qml/EntryPage.qml" line="48"/>
+        <source>Launching an external browser...</source>
+        <translation>Bezig met starten van externe browser...</translation>
+    </message>
+    <message>
         <location filename="../qml/EntryPage.qml" line="258"/>
         <location filename="../qml/EntryPage.qml" line="303"/>
         <source>Wait until current task is complete.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wacht totdat de huidige taak is afgerond.</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="264"/>
         <source>Offline version is not available.</source>
-        <translation type="unfinished"></translation>
+        <translation>De offline-versie is niet beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="272"/>
         <source>Enabling offline mode because network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkverbinding verbroken; bezig met inschakelen van offline-modus.</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="276"/>
         <source>Network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>De netwerkverbinding is verbroken.</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="485"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Wacht totdat de synchronisatie is voltooid</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="486"/>
@@ -536,40 +500,7 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <message>
         <location filename="../qml/ErrorPage.qml" line="42"/>
         <source>Sorry, something went wrong!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sorry, something&apos;s gone wrong :-(</source>
-        <translation type="vanished">Excuses, er is een fout opgetreden :-(</translation>
-    </message>
-</context>
-<context>
-    <name>FeedContentPage</name>
-    <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Wacht alstublieft totdat de huidige taak is afgerond.</translation>
-    </message>
-    <message>
-        <source>Offline version not available.</source>
-        <translation type="vanished">Offline-versie niet beschikbaar.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Netwerkverbinding is niet beschikbaar.
-Bezig met overschakelen naar Offline-modus.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Netwerkverbinding is niet beschikbaar.</translation>
-    </message>
-    <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Bezig met starten van externe browser...</translation>
-    </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">De URL is gekopieerd naar het klembord</translation>
+        <translation>Excuses, er is een fout opgetreden!</translation>
     </message>
 </context>
 <context>
@@ -592,59 +523,41 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <message>
         <location filename="../qml/FeedPage.qml" line="219"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Wacht totdat de synchronisatie is voltooid</translation>
     </message>
     <message>
         <location filename="../qml/FeedPage.qml" line="70"/>
         <source>Feeds</source>
         <translation>Feeds</translation>
     </message>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Wacht totdat de synchronisatie is voltooid.</translation>
-    </message>
 </context>
 <context>
     <name>FeedWebContentPage</name>
-    <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Wacht alstublieft totdat de huidige taak is afgerond.</translation>
-    </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="107"/>
         <source>Offline version not available.</source>
         <translation>Offline-versie niet beschikbaar.</translation>
     </message>
     <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Netwerkverbinding is niet beschikbaar.
-Bezig met overschakelen naar Offline-modus.</translation>
+        <location filename="../qml/FeedWebContentPage.qml" line="101"/>
+        <source>Wait until current task is complete.</source>
+        <translation>Wacht totdat de huidige taak is afgerond.</translation>
     </message>
     <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Netwerkverbinding is niet beschikbaar.</translation>
+        <location filename="../qml/FeedWebContentPage.qml" line="115"/>
+        <source>Enabling offline mode because network is disconnected.</source>
+        <translation>Netwerkverbinding verbroken; bezig met inschakelen van offline-modus.</translation>
+    </message>
+    <message>
+        <location filename="../qml/FeedWebContentPage.qml" line="119"/>
+        <source>Network is disconnected.</source>
+        <translation>De netwerkverbinding is verbroken. </translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="129"/>
         <location filename="../qml/FeedWebContentPage.qml" line="134"/>
         <source>Launching an external browser...</source>
         <translation>Bezig met starten van externe browser...</translation>
-    </message>
-    <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="101"/>
-        <source>Wait until current task is complete.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="115"/>
-        <source>Enabling offline mode because network is disconnected.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="119"/>
-        <source>Network is disconnected.</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="348"/>
@@ -689,7 +602,7 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="428"/>
         <source>URL was copied to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>De URL is gekopieerd naar het klembord.</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="434"/>
@@ -706,17 +619,9 @@ Bezig met overschakelen naar Offline-modus.</translation>
         <source>Copy URL</source>
         <translation>URL kopiëren</translation>
     </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">De URL is gekopieerd naar het klembord</translation>
-    </message>
 </context>
 <context>
     <name>FeedlySignInDialog</name>
-    <message>
-        <source>Sign In</source>
-        <translation type="vanished">Inloggen</translation>
-    </message>
     <message>
         <location filename="../qml/FeedlySignInDialog.qml" line="60"/>
         <location filename="../qml/FeedlySignInDialog.qml" line="92"/>
@@ -726,14 +631,6 @@ Bezig met overschakelen naar Offline-modus.</translation>
 </context>
 <context>
     <name>FirstPage</name>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Wacht totdat de synchronisatie is afgerond.</translation>
-    </message>
-    <message>
-        <source>To do feeds synchronisation, pull down and select Sync.</source>
-        <translation type="vanished">Om feeds te synchroniseren: trek het menu naar beneden en selecteer Synchroniseren.</translation>
-    </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="60"/>
         <source>Add account</source>
@@ -747,12 +644,12 @@ Bezig met overschakelen naar Offline-modus.</translation>
     <message>
         <location filename="../qml/FirstPage.qml" line="70"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Wacht totdat de synchronisatie is voltooid</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="71"/>
         <source>To do feeds synchronization, pull down and select sync.</source>
-        <translation type="unfinished"></translation>
+        <translation>Om feeds te synchroniseren: trek het menu naar beneden en selecteer Synchroniseren.</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="72"/>
@@ -906,13 +803,9 @@ op de instellingenpagina.</translation>
 <context>
     <name>NvSignInDialog</name>
     <message>
-        <source>Sign In</source>
-        <translation type="vanished">Inloggen</translation>
-    </message>
-    <message>
         <location filename="../qml/NvSignInDialog.qml" line="61"/>
         <source>Sign in</source>
-        <translation type="unfinished">Inloggen</translation>
+        <translation>Inloggen</translation>
     </message>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="83"/>
@@ -963,13 +856,9 @@ op de instellingenpagina.</translation>
 <context>
     <name>OldReaderSignInDialog</name>
     <message>
-        <source>Sign In</source>
-        <translation type="vanished">Inloggen</translation>
-    </message>
-    <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="60"/>
         <source>Sign in</source>
-        <translation type="unfinished">Inloggen</translation>
+        <translation>Inloggen</translation>
     </message>
     <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="78"/>
@@ -1017,15 +906,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/PageMenu.qml" line="61"/>
         <source>Can&apos;t switch to online mode because network is disconnected.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation type="vanished">Synchroniseren</translation>
-    </message>
-    <message>
-        <source>Busy...</source>
-        <translation type="vanished">Bezig...</translation>
+        <translation>Overschakelen naar online-modus is niet mogelijk omdat de netwerkverbinding verbroken is.</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="52"/>
@@ -1036,20 +917,6 @@ op de instellingenpagina.</translation>
         <location filename="../qml/PageMenu.qml" line="52"/>
         <source>Network mode: online</source>
         <translation>Netwerkmodus: online</translation>
-    </message>
-    <message>
-        <source>Can&apos;t switch to Online mode.
-Network connection is unavailable.</source>
-        <translation type="vanished">Kan niet overschakelen naar Online-modus.
-Netwerkverbinding is niet beschikbaar.</translation>
-    </message>
-    <message>
-        <source>Showing: only unread</source>
-        <translation type="vanished">Weergave: alleen ongelezen</translation>
-    </message>
-    <message>
-        <source>Showing: all articles</source>
-        <translation type="vanished">Weergave: alle artikelen</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="90"/>
@@ -1173,10 +1040,6 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <translation>Zo breed mogelijk</translation>
     </message>
     <message>
-        <source>In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="vanished">In de offline-modus zal Kaktus alleen de lokale cache gebruiken om webpagina&apos;s en afbeeldingen te verkrijgen zodat u niet verbonden hoeft te zijn met het internet.</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="320"/>
         <source>Never</source>
         <translation>Nooit</translation>
@@ -1233,16 +1096,9 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <translation>Uitgeschakeld</translation>
     </message>
     <message>
-        <source>Defines how navigation is handled inside built-in viewer. Hyperlinks could be disabled, opened in an external browser or opened inside viewer.</source>
-        <translation type="vanished">Bepaalt hoe de navigatie verloopt binnen de ingebouwde weergever. Hyperlinks kunnen worden uitgeschakeld, geopend in een externe webbrowser of geopend in de ingebouwde weergever.</translation>
-    </message>
-    <message>
-        <source>Read mode</source>
-        <translation type="vanished">Leesmodus</translation>
-    </message>
-    <message>
-        <source>Web pages will be reformatted into an easy to read version.</source>
-        <translation type="vanished">Webpagina&apos;s zullen worden heropgemaakt zodat ze makkelijk te lezen zijn.</translation>
+        <location filename="../qml/SettingsPage.qml" line="743"/>
+        <source>Unread or starred</source>
+        <translation>Ongelezen of gefavoriet</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="759"/>
@@ -1322,74 +1178,74 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="299"/>
         <source>In offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>In de offline-modus zal Kaktus alleen de lokale cache gebruiken om webpagina&apos;s en afbeeldingen te verkrijgen zodat u niet verbonden hoeft te zijn met het internet.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="304"/>
         <source>Auto network mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatische netwerkmodus</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="305"/>
         <source>Network mode will be switched automatically on network connection lost or restore.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schakelt de modus in of uit, afhankelijk van de netwerkverbindingsstatus.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="334"/>
         <location filename="../qml/SettingsPage.qml" line="345"/>
         <location filename="../qml/SettingsPage.qml" line="712"/>
         <source>Web viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Webweergave</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="352"/>
         <source>Defines how navigation is handled inside built-in web viewer. Hyperlinks could be disabled, opened in an external browser or opened inside web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bepaalt hoe de navigatie verloopt binnen de ingebouwde weergever. Hyperlinks kunnen worden uitgeschakeld, geopend in een externe webbrowser of geopend in de ingebouwde weergever.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="356"/>
         <source>Auto switch to Reader View</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch overschakelen naar Leesmodus</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="357"/>
         <source>Reader View is a feature that strips away clutter like buttons, ads and background images, and changes the page&apos;s layout for better readability. By enabling this option, Reader View will be automatically switch on when page is loaded in the web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Leesmodus is een functie die chaotische dingen zoals knoppen, advertenties en achtergrondafbeeldingen verbergt en de pagina aanpast naar een leesvriendelijke versie. Door deze optie in te schakelen zal de Leesmodus automatisch worden ingeschakeld in de webweergave.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="369"/>
         <source>Reader View theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Leesmodus-thema</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="370"/>
         <source>Style of theme which will be used to display articles in Reader View.</source>
-        <translation type="unfinished"></translation>
+        <translation>Themastijl die wordt gebruikt voor artikelweergave in de Leesmodus.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="379"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Donker</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="380"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Licht</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="396"/>
         <source>Auto switch to Night View</source>
-        <translation type="unfinished"></translation>
+        <translation>Automatisch overschakelen naar nachtmodus</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="397"/>
         <source>Night View reduces the brightness of websites. By enabling this option, Night View will be automatically switch on when page is loaded in the web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachtmodus reduceert de helderheid van websites. Door deze optie in te schakelen zal de Nachtmodus automatisch worden ingeschakeld in de webweergave.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="412"/>
         <source>Viewer font size level</source>
-        <translation type="unfinished"></translation>
+        <translation>Lettertypegrootte van weergever</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="429"/>
@@ -1404,53 +1260,53 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="609"/>
         <source>View mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Weergavemodus</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="628"/>
         <source>Tabs, feeds &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabbladen, feeds &amp; artikelen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="628"/>
         <source>Folders, feeds &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Mappen, feeds &amp; artikelen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="632"/>
         <source>Tabs &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Tabbladen &amp; artikelen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="632"/>
         <source>Folders &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Mappen &amp; artikelen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="636"/>
         <location filename="../qml/SettingsPage.qml" line="742"/>
         <source>All articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle artikelen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="640"/>
         <source>Saved</source>
-        <translation type="unfinished">Opgeslagen</translation>
+        <translation>Opgeslagen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="640"/>
         <source>Starred</source>
-        <translation type="unfinished">Gefavoriet</translation>
+        <translation>Gefavoriet</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="645"/>
         <source>Slow</source>
-        <translation type="unfinished">Sloom</translation>
+        <translation>Sloom</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="645"/>
         <source>Liked</source>
-        <translation type="unfinished">Leuk bevonden</translation>
+        <translation>Leuk bevonden</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="672"/>
@@ -1468,30 +1324,9 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <translation>Oudste bovenaan</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="743"/>
-        <source>Unread or starred</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="497"/>
         <source>Changes will take effect after you restart Kaktus.</source>
         <translation>De wijzigingen zullen worden toegepast nadat Kaktus is herstart.</translation>
-    </message>
-    <message>
-        <source>Show images</source>
-        <translation type="vanished">Afbeeldingen weergeven</translation>
-    </message>
-    <message>
-        <source>Viewer font size</source>
-        <translation type="vanished">Lettertypegrootte van weergever</translation>
-    </message>
-    <message>
-        <source>Other</source>
-        <translation type="vanished">Overig</translation>
-    </message>
-    <message>
-        <source>Show User Guide</source>
-        <translation type="vanished">Gebruikershandleiding weergeven</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="288"/>
@@ -1507,10 +1342,6 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <location filename="../qml/SettingsPage.qml" line="316"/>
         <source>Cache articles</source>
         <translation>Gecachete artikelen</translation>
-    </message>
-    <message>
-        <source>Show only unread articles</source>
-        <translation type="vanished">Alleen ongelezen artikelen weergeven</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="113"/>
@@ -1531,10 +1362,6 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <location filename="../qml/SettingsPage.qml" line="262"/>
         <source>Current cache size</source>
         <translation>Huidige cachegrootte</translation>
-    </message>
-    <message>
-        <source>Built-in viewer</source>
-        <translation type="vanished">Ingebouwde weergever</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="783"/>
@@ -1562,10 +1389,6 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <translation>Uiterlijk</translation>
     </message>
     <message>
-        <source>Defines the behavior for clicking on an article item. Article can be opened in the built-in viewer, opened in an external browser or full RSS feed content can be shown.</source>
-        <translation type="vanished">Bepaalt het gedrag wanneer een artikelitem wordt aangeraakt. Het artikel kan worden geopend in de ingebouwde weergever, geopend worden in de externe browser of de volledige RSS-feed kan worden weergegeven.</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="339"/>
         <source>Open link behaviour</source>
         <translation>Gedrag van het openen van links</translation>
@@ -1573,32 +1396,32 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="721"/>
         <source>Defines the behavior for clicking on an article item. Article can be opened in the built-in web viewer, opened in an external browser or full RSS feed content can be shown.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bepaalt het gedrag wanneer een artikelitem wordt aangeraakt. Het artikel kan worden geopend in de ingebouwde weergever, geopend worden in de externe browser of de volledige RSS-feed kan worden weergegeven.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="738"/>
         <source>List filtering</source>
-        <translation type="unfinished"></translation>
+        <translation>Lijstfiltering</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="743"/>
         <source>Unread or saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Ongelezen of opgeslagen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="744"/>
         <source>Only unread</source>
-        <translation type="unfinished"></translation>
+        <translation>Alleen ongelezen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="752"/>
         <source>List of articles can be filtered to display all articles, unread and saved or only unread.</source>
-        <translation type="unfinished"></translation>
+        <translation>De artikellijst kan worden gefilterd op het weergeven van alle, ongelezen en opgeslagen of ongelezen items.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="753"/>
         <source>List of articles can be filtered to display all articles, unread and starred or only unread.</source>
-        <translation type="unfinished"></translation>
+        <translation>De artikellijst kan worden gefilterd op het weergeven van alle, ongelezen en gefavoriete of ongelezen items.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="808"/>
@@ -1614,18 +1437,6 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <location filename="../qml/SettingsPage.qml" line="814"/>
         <source>Landscape</source>
         <translation>Landschap</translation>
-    </message>
-    <message>
-        <source>Offline viewer style</source>
-        <translation type="vanished">Stijl van offlineweergave</translation>
-    </message>
-    <message>
-        <source>Black</source>
-        <translation type="vanished">Zwart</translation>
-    </message>
-    <message>
-        <source>White</source>
-        <translation type="vanished">Wit</translation>
     </message>
 </context>
 <context>
@@ -1677,10 +1488,6 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <translation>Tabbladen</translation>
     </message>
     <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Wacht totdat de synchronisatie is afgerond.</translation>
-    </message>
-    <message>
         <location filename="../qml/TabPage.qml" line="82"/>
         <location filename="../qml/TabPage.qml" line="180"/>
         <location filename="../qml/TabPage.qml" line="184"/>
@@ -1700,7 +1507,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/TabPage.qml" line="217"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Wacht totdat de synchronisatie is voltooid</translation>
     </message>
     <message>
         <location filename="../qml/TabPage.qml" line="218"/>
@@ -1737,7 +1544,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1873,24 +1680,6 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <translation>Bezig met laden van paginainhoud...</translation>
     </message>
     <message>
-        <source>Failed to load item from local cache :-(</source>
-        <translation type="vanished">Het laden van het item uit de lokale cache is mislukt :-(</translation>
-    </message>
-    <message>
-        <source>Failed to load page content :-(</source>
-        <translation type="vanished">Het laden van de paginainhoud is mislukt :-(</translation>
-    </message>
-    <message>
-        <location filename="../qml/WebPreviewPage.qml" line="54"/>
-        <location filename="../qml/WebPreviewPage.qml" line="401"/>
-        <source>Launching an external browser...</source>
-        <translation>Externe browser wordt gestart...</translation>
-    </message>
-    <message>
-        <source>Failed to switch to Reader mode :-(</source>
-        <translation type="vanished">Het overschakelen naar de leesmodus is mislukt :-(</translation>
-    </message>
-    <message>
         <location filename="../qml/WebPreviewPage.qml" line="343"/>
         <source>Back</source>
         <translation>Terug</translation>
@@ -1911,28 +1700,30 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <translation>Toevoegen aan favorieten/niet toevoegen</translation>
     </message>
     <message>
-        <source>Toggle Read mode</source>
-        <translation type="vanished">Lezermodus inschakelen/uitschakelen</translation>
+        <location filename="../qml/WebPreviewPage.qml" line="54"/>
+        <location filename="../qml/WebPreviewPage.qml" line="401"/>
+        <source>Launching an external browser...</source>
+        <translation>Externe browser wordt gestart...</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="275"/>
         <source>Failed to load page from local cache.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het laden van het item uit de lokale cache is mislukt.</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="277"/>
         <source>Failed to load page content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het laden van de paginainhoud is mislukt.</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="378"/>
         <source>Toggle Reader View</source>
-        <translation type="unfinished"></translation>
+        <translation>Leesmodus inschakelen/uitschakelen</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="388"/>
         <source>Toggle Night View</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachtmodus inschakelen/uitschakelen</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="398"/>
@@ -1952,7 +1743,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="434"/>
         <source>URL was copied to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>De URL is gekopieerd naar het klembord.</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="440"/>
@@ -1967,16 +1758,12 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="456"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Werkbalk verbergen</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="431"/>
         <source>Copy URL</source>
         <translation>URL kopiëren</translation>
-    </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">De URL is gekopieerd naar het klembord</translation>
     </message>
 </context>
 <context>
@@ -1989,7 +1776,7 @@ Netwerkverbinding is niet beschikbaar.</translation>
     <message>
         <location filename="../qml/main.qml" line="162"/>
         <source>Restart the app to rebuild cache data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Herstart de app om de cacheinhoud opnieuw op te bouwen.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="188"/>
@@ -2000,12 +1787,6 @@ Netwerkverbinding is niet beschikbaar.</translation>
         <location filename="../qml/main.qml" line="191"/>
         <source>Caching...</source>
         <translation>Bezig met opslaan in cache...</translation>
-    </message>
-    <message>
-        <source>Download failed!
-Network connection is unavailable.</source>
-        <translation type="vanished">Het downloaden is mislukt!
-Er is geen netwerkverbinding beschikbaar.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="293"/>
@@ -2020,44 +1801,40 @@ Er is geen netwerkverbinding beschikbaar.</translation>
         <translation>De gebruikersnaam of het wachtwoord is onjuist!</translation>
     </message>
     <message>
-        <source>You are signed in!</source>
-        <translation type="vanished">U bent ingelogd!</translation>
+        <location filename="../qml/main.qml" line="213"/>
+        <source>Download has failed because network is disconnected.</source>
+        <translation>Het downloaden is mislukt omdat de netwerkverbinding verbroken is.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="162"/>
         <location filename="../qml/main.qml" line="331"/>
         <source>Something went wrong!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="213"/>
-        <source>Download has failed because network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er iets is misgegaan!</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="218"/>
         <source>Removing cache data... %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met verwijderen van cacheinhoud... %1 van %2</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="289"/>
         <source>Something went wrong. Unable to sign in!</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is iets misgegaan. Het inloggen is mislukt!</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="331"/>
         <source>An unknown error occurred.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is een onbekende fout opgetreden.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="337"/>
         <source>The user name or password is incorrect.</source>
-        <translation type="unfinished"></translation>
+        <translation>De gebruikersnaam of het wachtwoord is onjuist.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="341"/>
         <source>You are signed in.</source>
-        <translation type="unfinished"></translation>
+        <translation>U bent ingelogd.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="346"/>
@@ -2092,26 +1869,6 @@ Er is geen netwerkverbinding beschikbaar.</translation>
         <location filename="../qml/main.qml" line="392"/>
         <source>Waiting for network...</source>
         <translation>Wachten op netwerk...</translation>
-    </message>
-    <message>
-        <source>Something went wrong :-(
-Restart the app to rebuild cache data.</source>
-        <translation type="vanished">Er ging iets mis :-(
-Herstart de app om de cacheinhoud opnieuw op te bouwen.</translation>
-    </message>
-    <message>
-        <source>Something goes wrong. Unable to sign in! :-(</source>
-        <translation type="vanished">Er is iets misgegaan en daardoor is het inloggen mislukt! :-(</translation>
-    </message>
-    <message>
-        <source>Something went wrong :-(
-An unknown error occurred.</source>
-        <translation type="vanished">Er ging iets mis :-(
-Er trad een onbekende fout op.</translation>
-    </message>
-    <message>
-        <source>Removing cache data...</source>
-        <translation type="vanished">Bezig met verwijderen van cacheinhoud...</translation>
     </message>
 </context>
 </TS>

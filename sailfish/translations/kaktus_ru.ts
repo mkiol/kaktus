@@ -21,7 +21,7 @@
     <message>
         <location filename="../qml/AboutPage.qml" line="81"/>
         <source>Multi services feed reader, specially designed to work offline.</source>
-        <translation>Мультисервисный RSS-ридер предназначенный для работы в автономном режиме</translation>
+        <translation>Мультисервисный RSS-ридер, предназначенный для работы в автономном режиме</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="101"/>
@@ -53,7 +53,7 @@
     <message>
         <location filename="../qml/AuthWebViewPage.qml" line="125"/>
         <source>Back</source>
-        <translation type="unfinished">Назад</translation>
+        <translation>Назад</translation>
     </message>
 </context>
 <context>
@@ -80,12 +80,12 @@
     <message>
         <location filename="../qml/ControlBar.qml" line="307"/>
         <source>Marking tabs as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Категории отмечаются как прочитанные</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="307"/>
         <source>Marking folders as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Папки отмечаются как прочитанные</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="309"/>
@@ -100,7 +100,7 @@
     <message>
         <location filename="../qml/ControlBar.qml" line="316"/>
         <source>Marking all articles as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Все статьи отмечаются как прочитанные</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="322"/>
@@ -136,35 +136,21 @@
         <translation>Все прочитано</translation>
     </message>
     <message>
-        <source>Unread item</source>
-        <translation type="vanished">Новая статья</translation>
-    </message>
-    <message>
-        <source>Unread items</source>
-        <comment>less than 5 articles are unread</comment>
-        <translation type="vanished">Новых статьи</translation>
-    </message>
-    <message>
-        <source>Unread items</source>
-        <comment>more or equal 5 articles are unread</comment>
-        <translation type="vanished">Новых статей</translation>
-    </message>
-    <message>
         <location filename="../qml/CoverPage.qml" line="34"/>
         <source>unread item</source>
-        <translation type="unfinished"></translation>
+        <translation>новая статья</translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="36"/>
         <source>unread items</source>
         <comment>less than 5 articles are unread</comment>
-        <translation type="unfinished"></translation>
+        <translation>новые статьи</translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="37"/>
         <source>unread items</source>
         <comment>more or equal 5 articles are unread</comment>
-        <translation type="unfinished"></translation>
+        <translation>новые статьи</translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="61"/>
@@ -256,22 +242,22 @@
     <message>
         <location filename="../qml/EntryDelegate.qml" line="476"/>
         <source>Toggle Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="476"/>
         <source>Toggle Star</source>
-        <translation type="unfinished"></translation>
+        <translation>Избранное</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="489"/>
         <source>Above as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Отметить предыдущие как прочитанные</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="501"/>
         <source>Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Встроенный браузер</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="513"/>
@@ -286,12 +272,12 @@
     <message>
         <location filename="../qml/EntryDelegate.qml" line="538"/>
         <source>Toggle Like</source>
-        <translation type="unfinished"></translation>
+        <translation>Нравиться</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="553"/>
         <source>Toggle Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="590"/>
@@ -336,7 +322,7 @@
     <message>
         <location filename="../qml/EntryDelegate.qml" line="640"/>
         <source>Open in viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть во встроенном браузере</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="651"/>
@@ -346,7 +332,7 @@
     <message>
         <location filename="../qml/EntryDelegate.qml" line="661"/>
         <source>Show feed content</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать содержание</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="626"/>
@@ -420,11 +406,6 @@
         <translation>Все записи</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="48"/>
-        <source>Launching an external browser...</source>
-        <translation>Запуск браузера...</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryPage.qml" line="210"/>
         <source>Saved</source>
         <translation>Закладки</translation>
@@ -445,31 +426,9 @@
         <translation>Вы поделились</translation>
     </message>
     <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Подождите, пока текущая задача не завершится</translation>
-    </message>
-    <message>
-        <source>Offline version not available.</source>
-        <translation type="vanished">Офлайн версия недоступна</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Отсутствует соединение с сетью.
-Переход в автономный режим</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Отсутствует соединение с сетью</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryPage.qml" line="486"/>
         <source>No saved items</source>
         <translation>Здесь пока нет записей</translation>
-    </message>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Дождитесь окончания синхронизации</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="210"/>
@@ -477,15 +436,20 @@ Switching to Offline mode.</source>
         <translation>Закладки</translation>
     </message>
     <message>
+        <location filename="../qml/EntryPage.qml" line="48"/>
+        <source>Launching an external browser...</source>
+        <translation>Запуск браузера...</translation>
+    </message>
+    <message>
         <location filename="../qml/EntryPage.qml" line="258"/>
         <location filename="../qml/EntryPage.qml" line="303"/>
         <source>Wait until current task is complete.</source>
-        <translation type="unfinished"></translation>
+        <translation>Подождите, пока текущая задача не завершится</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="264"/>
         <source>Offline version is not available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Офлайн версия недоступна.</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="272"/>
@@ -495,12 +459,12 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/EntryPage.qml" line="276"/>
         <source>Network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Сеть отключена.</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="485"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Дождитесь окончания синхронизации</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="486"/>
@@ -536,40 +500,7 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/ErrorPage.qml" line="42"/>
         <source>Sorry, something went wrong!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sorry, something&apos;s gone wrong :-(</source>
-        <translation type="vanished">К сожалению, что-то пошло не так :-(</translation>
-    </message>
-</context>
-<context>
-    <name>FeedContentPage</name>
-    <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Подождите, пока текущая задача не завершится</translation>
-    </message>
-    <message>
-        <source>Offline version not available.</source>
-        <translation type="vanished">Офлайн версия недоступна</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Отсутствует соединение с сетью.
-Переход в автономный режим</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Отсутствует соединение с сетью</translation>
-    </message>
-    <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Запуск браузера...</translation>
-    </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">URL скопирована в буфер обмена</translation>
+        <translation>К сожалению, что-то пошло не так!</translation>
     </message>
 </context>
 <context>
@@ -592,49 +523,25 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/FeedPage.qml" line="219"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Дождитесь окончания синхронизации</translation>
     </message>
     <message>
         <location filename="../qml/FeedPage.qml" line="70"/>
         <source>Feeds</source>
         <translation>Подписки</translation>
     </message>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Дождитесь окончания синхронизации</translation>
-    </message>
 </context>
 <context>
     <name>FeedWebContentPage</name>
-    <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Подождите, пока текущая задача не завершится</translation>
-    </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="107"/>
         <source>Offline version not available.</source>
         <translation>Офлайн версия недоступна</translation>
     </message>
     <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Отсутствует соединение с сетью.
-Переход в автономный режим</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Отсутствует соединение с сетью</translation>
-    </message>
-    <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="129"/>
-        <location filename="../qml/FeedWebContentPage.qml" line="134"/>
-        <source>Launching an external browser...</source>
-        <translation>Запуск браузера...</translation>
-    </message>
-    <message>
         <location filename="../qml/FeedWebContentPage.qml" line="101"/>
         <source>Wait until current task is complete.</source>
-        <translation type="unfinished"></translation>
+        <translation>Подождите, пока текущая задача не завершится</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="115"/>
@@ -644,7 +551,13 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="119"/>
         <source>Network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Сеть отключена.</translation>
+    </message>
+    <message>
+        <location filename="../qml/FeedWebContentPage.qml" line="129"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="134"/>
+        <source>Launching an external browser...</source>
+        <translation>Запуск браузера...</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="348"/>
@@ -659,17 +572,17 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="369"/>
         <source>Toggle Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="369"/>
         <source>Toggle Star</source>
-        <translation type="unfinished"></translation>
+        <translation>Избранное</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="383"/>
         <source>Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Встроенный браузер</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="393"/>
@@ -679,17 +592,17 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="401"/>
         <source>Toggle Like</source>
-        <translation type="unfinished"></translation>
+        <translation>Нравиться</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="411"/>
         <source>Toggle Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="428"/>
         <source>URL was copied to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>URL скопирована в буфер обмена</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="434"/>
@@ -706,17 +619,9 @@ Switching to Offline mode.</source>
         <source>Copy URL</source>
         <translation>Скопировать адрес ссылки</translation>
     </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">URL скопирована в буфер обмена</translation>
-    </message>
 </context>
 <context>
     <name>FeedlySignInDialog</name>
-    <message>
-        <source>Sign In</source>
-        <translation type="vanished">Вход</translation>
-    </message>
     <message>
         <location filename="../qml/FeedlySignInDialog.qml" line="60"/>
         <location filename="../qml/FeedlySignInDialog.qml" line="92"/>
@@ -726,14 +631,6 @@ Switching to Offline mode.</source>
 </context>
 <context>
     <name>FirstPage</name>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Дождитесь окончания синхронизации.</translation>
-    </message>
-    <message>
-        <source>To do feeds synchronisation, pull down and select Sync.</source>
-        <translation type="vanished">Чтобы начать синхронизацию, потяните вниз и выберите &quot;Обновить&quot;</translation>
-    </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="60"/>
         <source>Add account</source>
@@ -747,12 +644,12 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/FirstPage.qml" line="70"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Дождитесь окончания синхронизации</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="71"/>
         <source>To do feeds synchronization, pull down and select sync.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы начать синхронизацию, потяните вниз и выберите &quot;Обновить&quot;</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="72"/>
@@ -765,7 +662,7 @@ Switching to Offline mode.</source>
     <message>
         <location filename="../qml/Guide.qml" line="124"/>
         <source>This guide will explain you how to use bottom bar and view modes.</source>
-        <translation>Это руководство объяснит вам как использовать нижнюю панель и режимы просмотра</translation>
+        <translation>Это руководство объяснит Вам, как использовать нижнюю панель и режимы просмотра</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="139"/>
@@ -872,21 +769,25 @@ Lists all articles you have liked.</source>
         <source>Bottom bar also contains &quot;Mark as read&quot; button.
 
 With this button you can quickly mark all your tabs, feeds or articles as read.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нижняя панель также содержит кнопку &quot;Отметить как прочитанное&quot;. 
+С ее помощью Вы можете быстро отметить все Ваши записи, подписки, папки как прочитанные.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="322"/>
         <source>Bottom bar also contains &quot;Mark as read&quot; button.
 
 With this button you can quickly mark all your folders, feeds or articles as read.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нижняя панель также содержит кнопку &quot;Отметить как прочитанное&quot;. 
+С ее помощью Вы можете быстро отметить все Ваши записи, подписки, папки как прочитанные.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="343"/>
         <source>Pull-down menu contains network mode switcher.
 
 This switcher enables you to change between the online and offline mode. In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выпадающее меню содержит переключатель режима сети. 
+
+Он позволяет Вам переключаться между онлайн и оффлайн режимами.  В автономном режиме приложение будет использовать локальный кэш, чтобы получить данные и изображения, поэтому подключение к сети не потребуется.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="369"/>
@@ -901,13 +802,9 @@ on the settings page.</source>
 <context>
     <name>NvSignInDialog</name>
     <message>
-        <source>Sign In</source>
-        <translation type="vanished">Вход</translation>
-    </message>
-    <message>
         <location filename="../qml/NvSignInDialog.qml" line="61"/>
         <source>Sign in</source>
-        <translation type="unfinished">Вход</translation>
+        <translation>Вход</translation>
     </message>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="83"/>
@@ -958,13 +855,9 @@ on the settings page.</source>
 <context>
     <name>OldReaderSignInDialog</name>
     <message>
-        <source>Sign In</source>
-        <translation type="vanished">Вход</translation>
-    </message>
-    <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="60"/>
         <source>Sign in</source>
-        <translation type="unfinished">Вход</translation>
+        <translation>Вход</translation>
     </message>
     <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="78"/>
@@ -1012,15 +905,8 @@ on the settings page.</source>
     <message>
         <location filename="../qml/PageMenu.qml" line="61"/>
         <source>Can&apos;t switch to online mode because network is disconnected.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sync</source>
-        <translation type="vanished">Обновить</translation>
-    </message>
-    <message>
-        <source>Busy...</source>
-        <translation type="vanished">Подождите...</translation>
+        <translation>Невозможно переключиться в режим онлайн.
+Отсутствует соединение с сетью.</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="52"/>
@@ -1031,20 +917,6 @@ on the settings page.</source>
         <location filename="../qml/PageMenu.qml" line="52"/>
         <source>Network mode: online</source>
         <translation>Режим сети: онлайн</translation>
-    </message>
-    <message>
-        <source>Can&apos;t switch to Online mode.
-Network connection is unavailable.</source>
-        <translation type="vanished">Невозможно переключиться в режим онлайн.
-Отсутствует соединение с сетью</translation>
-    </message>
-    <message>
-        <source>Showing: only unread</source>
-        <translation type="vanished">Показывать: непрочитанные</translation>
-    </message>
-    <message>
-        <source>Showing: all articles</source>
-        <translation type="vanished">Показывать: все записи</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="90"/>
@@ -1168,10 +1040,6 @@ Network connection is unavailable.</source>
         <translation>Очень редко</translation>
     </message>
     <message>
-        <source>In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="vanished">В автономном режиме Kaktus будет использовать только локальный кэш для загрузки веб-страниц и изображений. Поэтому сетевое соединение не требуется</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="320"/>
         <source>Never</source>
         <translation>Никогда</translation>
@@ -1228,22 +1096,19 @@ Network connection is unavailable.</source>
         <translation>Игнорировать</translation>
     </message>
     <message>
-        <source>Read mode</source>
-        <translation type="vanished">Режим чтения</translation>
-    </message>
-    <message>
-        <source>Web pages will be reformatted into an easy to read version.</source>
-        <translation type="vanished">Веб-страницы будут отформатированы в удобную для чтения версию</translation>
+        <location filename="../qml/SettingsPage.qml" line="743"/>
+        <source>Unread or starred</source>
+        <translation>Непрочитанные или избранные</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="759"/>
         <source>Expanded items</source>
-        <translation type="unfinished"></translation>
+        <translation>Расширенный вид</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="760"/>
         <source>All article items on the list view be shown expanded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Все статьи будут показаны в расширенном виде.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="770"/>
@@ -1313,12 +1178,12 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/SettingsPage.qml" line="299"/>
         <source>In offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>В автономном режиме Kaktus будет использовать только локальный кэш для загрузки веб-страниц и изображений. Поэтому сетевое соединение не требуется</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="304"/>
         <source>Auto network mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматический режим сети</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="305"/>
@@ -1335,52 +1200,52 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/SettingsPage.qml" line="352"/>
         <source>Defines how navigation is handled inside built-in web viewer. Hyperlinks could be disabled, opened in an external browser or opened inside web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет, как будет осуществляться навигация внутри встроенного браузера. Гиперссылки могут быть отключены, открыты во внешнем браузере или внутри встроенного браузера.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="356"/>
         <source>Auto switch to Reader View</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматическое переключение в режим чтения</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="357"/>
         <source>Reader View is a feature that strips away clutter like buttons, ads and background images, and changes the page&apos;s layout for better readability. By enabling this option, Reader View will be automatically switch on when page is loaded in the web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим чтения - это функция, которая убирает беспорядок, рекламу, фоновые изображения и изменяет внешний вид страницы для лучшего восприятия. При активации данной функции режим чтения будет автоматически включаться, когда страница загружается в веб-браузере.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="369"/>
         <source>Reader View theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Цветовая схема в режиме чтения</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="370"/>
         <source>Style of theme which will be used to display articles in Reader View.</source>
-        <translation type="unfinished"></translation>
+        <translation>Цветовая схема, которая будет использоваться для отображения записей в режиме чтения.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="379"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Темная</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="380"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Светлая</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="396"/>
         <source>Auto switch to Night View</source>
-        <translation type="unfinished"></translation>
+        <translation>Автоматическое переключение в ночной режим</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="397"/>
         <source>Night View reduces the brightness of websites. By enabling this option, Night View will be automatically switch on when page is loaded in the web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ночной режим уменьшает яркость сайтов.  При активации данной функции ночной режим будет автоматически включаться, когда страница загружается в веб-браузере.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="412"/>
         <source>Viewer font size level</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер шрифта в режиме чтения</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="429"/>
@@ -1390,58 +1255,58 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/SettingsPage.qml" line="453"/>
         <source>Default</source>
-        <translation>По умолчанию</translation>
+        <translation>Системный</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="609"/>
         <source>View mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Режим просмотра</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="628"/>
         <source>Tabs, feeds &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Категории, ленты и статьи</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="628"/>
         <source>Folders, feeds &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Папки, ленты и статьи</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="632"/>
         <source>Tabs &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Категории и статьи</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="632"/>
         <source>Folders &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Папки и статьи</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="636"/>
         <location filename="../qml/SettingsPage.qml" line="742"/>
         <source>All articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Все статьи</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="640"/>
         <source>Saved</source>
-        <translation type="unfinished">Закладки</translation>
+        <translation>Закладки</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="640"/>
         <source>Starred</source>
-        <translation type="unfinished">Закладки</translation>
+        <translation>Закладки</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="645"/>
         <source>Slow</source>
-        <translation type="unfinished">Редкие</translation>
+        <translation>Редкие</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="645"/>
         <source>Liked</source>
-        <translation type="unfinished">Понравилось</translation>
+        <translation>Понравилось</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="672"/>
@@ -1459,30 +1324,9 @@ Network connection is unavailable.</source>
         <translation>Сначала старые</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="743"/>
-        <source>Unread or starred</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="497"/>
         <source>Changes will take effect after you restart Kaktus.</source>
         <translation>Для применения изменений перезапустите Kaktus</translation>
-    </message>
-    <message>
-        <source>Show images</source>
-        <translation type="vanished">Показывать изображения</translation>
-    </message>
-    <message>
-        <source>Viewer font size</source>
-        <translation type="vanished">Размер шрифта во встроенном браузере</translation>
-    </message>
-    <message>
-        <source>Other</source>
-        <translation type="vanished">Разное</translation>
-    </message>
-    <message>
-        <source>Show User Guide</source>
-        <translation type="vanished">Руководство пользователя</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="288"/>
@@ -1498,10 +1342,6 @@ Network connection is unavailable.</source>
         <location filename="../qml/SettingsPage.qml" line="316"/>
         <source>Cache articles</source>
         <translation>Кэширование статей</translation>
-    </message>
-    <message>
-        <source>Show only unread articles</source>
-        <translation type="vanished">Показывать только непрочитанные статьи</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="113"/>
@@ -1522,10 +1362,6 @@ Network connection is unavailable.</source>
         <location filename="../qml/SettingsPage.qml" line="262"/>
         <source>Current cache size</source>
         <translation>Размер кэша</translation>
-    </message>
-    <message>
-        <source>Built-in viewer</source>
-        <translation type="vanished">Встроенный браузер</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="783"/>
@@ -1560,32 +1396,32 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/SettingsPage.qml" line="721"/>
         <source>Defines the behavior for clicking on an article item. Article can be opened in the built-in web viewer, opened in an external browser or full RSS feed content can be shown.</source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет поведение при нажатии на статью. Статья может быть открыта в встроенном браузере, во внешнем браузере или может быть показано полное содержание RSS.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="738"/>
         <source>List filtering</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильтр записей</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="743"/>
         <source>Unread or saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Непрочитанные или сохраненные</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="744"/>
         <source>Only unread</source>
-        <translation type="unfinished"></translation>
+        <translation>Только непрочитанные</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="752"/>
         <source>List of articles can be filtered to display all articles, unread and saved or only unread.</source>
-        <translation type="unfinished"></translation>
+        <translation>Список статей может быть отфильтрован для отображения всех статей, прочитанных и сохраненных или только непрочитанных.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="753"/>
         <source>List of articles can be filtered to display all articles, unread and starred or only unread.</source>
-        <translation type="unfinished"></translation>
+        <translation>Список статей может быть отфильтрован для отображения всех статей, прочитанных и сохраненных или только непрочитанных.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="808"/>
@@ -1601,18 +1437,6 @@ Network connection is unavailable.</source>
         <location filename="../qml/SettingsPage.qml" line="814"/>
         <source>Landscape</source>
         <translation>Альбомная</translation>
-    </message>
-    <message>
-        <source>Offline viewer style</source>
-        <translation type="vanished">Стиль офлайн просмотра</translation>
-    </message>
-    <message>
-        <source>Black</source>
-        <translation type="vanished">Черный</translation>
-    </message>
-    <message>
-        <source>White</source>
-        <translation type="vanished">Белый</translation>
     </message>
 </context>
 <context>
@@ -1664,10 +1488,6 @@ Network connection is unavailable.</source>
         <translation>Категории</translation>
     </message>
     <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Дождитесь окончания синхронизации</translation>
-    </message>
-    <message>
         <location filename="../qml/TabPage.qml" line="82"/>
         <location filename="../qml/TabPage.qml" line="180"/>
         <location filename="../qml/TabPage.qml" line="184"/>
@@ -1687,7 +1507,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/TabPage.qml" line="217"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Дождитесь окончания синхронизации</translation>
     </message>
     <message>
         <location filename="../qml/TabPage.qml" line="218"/>
@@ -1724,7 +1544,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1860,24 +1680,6 @@ Network connection is unavailable.</source>
         <translation>Загрузка  содержимого страницы...</translation>
     </message>
     <message>
-        <source>Failed to load item from local cache :-(</source>
-        <translation type="vanished">Не удалось загрузить данные из локального кэша :-(</translation>
-    </message>
-    <message>
-        <source>Failed to load page content :-(</source>
-        <translation type="vanished">Не удалось загрузить содержимое страницы :-(</translation>
-    </message>
-    <message>
-        <location filename="../qml/WebPreviewPage.qml" line="54"/>
-        <location filename="../qml/WebPreviewPage.qml" line="401"/>
-        <source>Launching an external browser...</source>
-        <translation>Запуск браузера...</translation>
-    </message>
-    <message>
-        <source>Failed to switch to Reader mode :-(</source>
-        <translation type="vanished">Не удалось переключиться в режим чтения  :-(</translation>
-    </message>
-    <message>
         <location filename="../qml/WebPreviewPage.qml" line="343"/>
         <source>Back</source>
         <translation>Назад</translation>
@@ -1890,32 +1692,38 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="364"/>
         <source>Toggle Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="364"/>
         <source>Toggle Star</source>
-        <translation type="unfinished"></translation>
+        <translation>Избранное</translation>
+    </message>
+    <message>
+        <location filename="../qml/WebPreviewPage.qml" line="54"/>
+        <location filename="../qml/WebPreviewPage.qml" line="401"/>
+        <source>Launching an external browser...</source>
+        <translation>Запуск браузера...</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="275"/>
         <source>Failed to load page from local cache.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось загрузить изображение из локального кэша.</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="277"/>
         <source>Failed to load page content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Не удалось загрузить содержимое страницы.</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="378"/>
         <source>Toggle Reader View</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить режим чтения</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="388"/>
         <source>Toggle Night View</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить ночной режим</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="398"/>
@@ -1925,17 +1733,17 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="407"/>
         <source>Toggle Like</source>
-        <translation type="unfinished"></translation>
+        <translation>Нравиться</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="417"/>
         <source>Toggle Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="434"/>
         <source>URL was copied to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>URL скопирована в буфер обмена</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="440"/>
@@ -1950,16 +1758,12 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="456"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Скрыть панель инструментов</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="431"/>
         <source>Copy URL</source>
         <translation>Скопировать адрес ссылки</translation>
-    </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">URL скопирована в буфер обмена</translation>
     </message>
 </context>
 <context>
@@ -1972,7 +1776,7 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/main.qml" line="162"/>
         <source>Restart the app to rebuild cache data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Перезапустите приложение для восстановления данных кэша.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="188"/>
@@ -1983,12 +1787,6 @@ Network connection is unavailable.</source>
         <location filename="../qml/main.qml" line="191"/>
         <source>Caching...</source>
         <translation>Кеширование...</translation>
-    </message>
-    <message>
-        <source>Download failed!
-Network connection is unavailable.</source>
-        <translation type="vanished">Загрузка не удалась!
-Отсутствует соединение с сетью</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="293"/>
@@ -2002,44 +1800,40 @@ Network connection is unavailable.</source>
         <translation>Неверное имя пользователя или пароль!</translation>
     </message>
     <message>
-        <source>You are signed in!</source>
-        <translation type="vanished">Вы вошли!</translation>
+        <location filename="../qml/main.qml" line="213"/>
+        <source>Download has failed because network is disconnected.</source>
+        <translation>Загрузка не удалась из-за проблемы сети.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="162"/>
         <location filename="../qml/main.qml" line="331"/>
         <source>Something went wrong!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="213"/>
-        <source>Download has failed because network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Что-то пошло не так!</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="218"/>
         <source>Removing cache data... %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Удаление кэша данных... %1 of %2</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="289"/>
         <source>Something went wrong. Unable to sign in!</source>
-        <translation type="unfinished"></translation>
+        <translation>Что-то пошло не так. Не удается выполнить вход.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="331"/>
         <source>An unknown error occurred.</source>
-        <translation type="unfinished"></translation>
+        <translation>Произошла неизвестная ошибка.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="337"/>
         <source>The user name or password is incorrect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Неверное имя пользователя или пароль.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="341"/>
         <source>You are signed in.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы вошли.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="346"/>
@@ -2074,26 +1868,6 @@ Network connection is unavailable.</source>
         <location filename="../qml/main.qml" line="392"/>
         <source>Waiting for network...</source>
         <translation>Ожидание подключения к сети</translation>
-    </message>
-    <message>
-        <source>Something went wrong :-(
-Restart the app to rebuild cache data.</source>
-        <translation type="vanished">Что-то пошло не так :-(
-Перезапустите приложение для восстановления данных кэша.</translation>
-    </message>
-    <message>
-        <source>Something goes wrong. Unable to sign in! :-(</source>
-        <translation type="vanished">Что-то пошло не так. Не удается выполнить вход :-(</translation>
-    </message>
-    <message>
-        <source>Something went wrong :-(
-An unknown error occurred.</source>
-        <translation type="vanished">Что-то пошло не так :-(
-Произошла неизвестная ошибка.</translation>
-    </message>
-    <message>
-        <source>Removing cache data...</source>
-        <translation type="vanished">Удаление данных кэша...</translation>
     </message>
 </context>
 </TS>

@@ -53,7 +53,7 @@
     <message>
         <location filename="../qml/AuthWebViewPage.qml" line="125"/>
         <source>Back</source>
-        <translation type="unfinished">Zpět</translation>
+        <translation>Zpět</translation>
     </message>
 </context>
 <context>
@@ -134,20 +134,6 @@
         <location filename="../qml/CoverPage.qml" line="32"/>
         <source>All read</source>
         <translation>Vše přečteno</translation>
-    </message>
-    <message>
-        <source>Unread item</source>
-        <translation type="vanished">Nepřečtená položka</translation>
-    </message>
-    <message>
-        <source>Unread items</source>
-        <comment>less than 5 articles are unread</comment>
-        <translation type="vanished">Nepřečtená položka</translation>
-    </message>
-    <message>
-        <source>Unread items</source>
-        <comment>more or equal 5 articles are unread</comment>
-        <translation type="vanished">Nepřečtená položka</translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="34"/>
@@ -420,11 +406,6 @@
         <translation>Všechny kanály</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="48"/>
-        <source>Launching an external browser...</source>
-        <translation>Spouští se vnější prohlížeč...</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryPage.qml" line="210"/>
         <source>Saved</source>
         <translation>Uloženo</translation>
@@ -445,36 +426,19 @@
         <translation>Sdíleno</translation>
     </message>
     <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Počkejte, prosím, dokud nebude nynější úkol dokončen.</translation>
-    </message>
-    <message>
-        <source>Offline version not available.</source>
-        <translation type="vanished">Verze pro stav bez připojení k internetu není dostupná.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Síťové spojení je nedostupné.
-Přepíná se do režimu pro stav bez připojení k internetu.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Síťové spojení je nedostupné.</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryPage.qml" line="486"/>
         <source>No saved items</source>
         <translation>Žádné neuložené položky</translation>
     </message>
     <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Počkejte, dokud nebude seřizování dokončeno.</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryPage.qml" line="210"/>
         <source>Starred</source>
         <translation>Ohvězdičkováno</translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryPage.qml" line="48"/>
+        <source>Launching an external browser...</source>
+        <translation>Spouští se vnější prohlížeč...</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="258"/>
@@ -538,39 +502,6 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
         <source>Sorry, something went wrong!</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Sorry, something&apos;s gone wrong :-(</source>
-        <translation type="vanished">Promiňte. Něco není v pořádku.</translation>
-    </message>
-</context>
-<context>
-    <name>FeedContentPage</name>
-    <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Počkejte, prosím, dokud nebude nynější úkol dokončen.</translation>
-    </message>
-    <message>
-        <source>Offline version not available.</source>
-        <translation type="vanished">Verze pro stav bez připojení k internetu není dostupná.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Síťové spojení je nedostupné.
-Přepíná se do režimu pro stav bez připojení k internetu.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Síťové spojení je nedostupné.</translation>
-    </message>
-    <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Spouští se vnější prohlížeč...</translation>
-    </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">URL byla zkopírovaná do schránky</translation>
-    </message>
 </context>
 <context>
     <name>FeedPage</name>
@@ -599,37 +530,13 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
         <source>Feeds</source>
         <translation>Kanály</translation>
     </message>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Počkejte, dokud nebude seřizování dokončeno.</translation>
-    </message>
 </context>
 <context>
     <name>FeedWebContentPage</name>
     <message>
-        <source>Please wait until current task is complete.</source>
-        <translation type="vanished">Počkejte, prosím, dokud nebude nynější úkol dokončen.</translation>
-    </message>
-    <message>
         <location filename="../qml/FeedWebContentPage.qml" line="107"/>
         <source>Offline version not available.</source>
         <translation>Verze pro stav bez připojení k internetu není dostupná.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.
-Switching to Offline mode.</source>
-        <translation type="vanished">Síťové spojení je nedostupné.
-Přepíná se do režimu pro stav bez připojení k internetu.</translation>
-    </message>
-    <message>
-        <source>Network connection is unavailable.</source>
-        <translation type="vanished">Síťové spojení je nedostupné.</translation>
-    </message>
-    <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="129"/>
-        <location filename="../qml/FeedWebContentPage.qml" line="134"/>
-        <source>Launching an external browser...</source>
-        <translation>Spouští se vnější prohlížeč...</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="101"/>
@@ -645,6 +552,12 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
         <location filename="../qml/FeedWebContentPage.qml" line="119"/>
         <source>Network is disconnected.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/FeedWebContentPage.qml" line="129"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="134"/>
+        <source>Launching an external browser...</source>
+        <translation>Spouští se vnější prohlížeč...</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="348"/>
@@ -706,17 +619,9 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
         <source>Copy URL</source>
         <translation>Kopírovat adresu (URL)</translation>
     </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">URL byla zkopírovaná do schránky</translation>
-    </message>
 </context>
 <context>
     <name>FeedlySignInDialog</name>
-    <message>
-        <source>Sign In</source>
-        <translation type="vanished">Přihlásit se</translation>
-    </message>
     <message>
         <location filename="../qml/FeedlySignInDialog.qml" line="60"/>
         <location filename="../qml/FeedlySignInDialog.qml" line="92"/>
@@ -726,14 +631,6 @@ Přepíná se do režimu pro stav bez připojení k internetu.</translation>
 </context>
 <context>
     <name>FirstPage</name>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Počkejte, dokud nebude seřizování dokončeno.</translation>
-    </message>
-    <message>
-        <source>To do feeds synchronisation, pull down and select Sync.</source>
-        <translation type="vanished">K provedení synchronizace kanálů, stáhněte dolů a vyberte Seřídit.</translation>
-    </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="60"/>
         <source>Add account</source>
@@ -901,13 +798,9 @@ na stránce s nastavením.</translation>
 <context>
     <name>NvSignInDialog</name>
     <message>
-        <source>Sign In</source>
-        <translation type="vanished">Přihlásit se</translation>
-    </message>
-    <message>
         <location filename="../qml/NvSignInDialog.qml" line="61"/>
         <source>Sign in</source>
-        <translation type="unfinished">Přihlásit se</translation>
+        <translation>Přihlásit se</translation>
     </message>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="83"/>
@@ -958,13 +851,9 @@ na stránce s nastavením.</translation>
 <context>
     <name>OldReaderSignInDialog</name>
     <message>
-        <source>Sign In</source>
-        <translation type="vanished">Přihlásit se</translation>
-    </message>
-    <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="60"/>
         <source>Sign in</source>
-        <translation type="unfinished">Přihlásit se</translation>
+        <translation>Přihlásit se</translation>
     </message>
     <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="78"/>
@@ -1015,14 +904,6 @@ na stránce s nastavením.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sync</source>
-        <translation type="vanished">Seřízení</translation>
-    </message>
-    <message>
-        <source>Busy...</source>
-        <translation type="vanished">Zaneprázdněn...</translation>
-    </message>
-    <message>
         <location filename="../qml/PageMenu.qml" line="52"/>
         <source>Network mode: offline</source>
         <translation>Režim sítě: nepřipojen</translation>
@@ -1031,20 +912,6 @@ na stránce s nastavením.</translation>
         <location filename="../qml/PageMenu.qml" line="52"/>
         <source>Network mode: online</source>
         <translation>Režim sítě: připojen</translation>
-    </message>
-    <message>
-        <source>Can&apos;t switch to Online mode.
-Network connection is unavailable.</source>
-        <translation type="vanished">Nelze přepnout do režimu připojen k internetu.
-Síťové spojení je nedostupné.</translation>
-    </message>
-    <message>
-        <source>Showing: only unread</source>
-        <translation type="vanished">Ukazuje se: pouze nepřečtené</translation>
-    </message>
-    <message>
-        <source>Showing: all articles</source>
-        <translation type="vanished">Ukazuje se: všechny články</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="90"/>
@@ -1168,10 +1035,6 @@ Síťové spojení je nedostupné.</translation>
         <translation>Co možná nejširší</translation>
     </message>
     <message>
-        <source>In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="vanished">V režimu nepřipojen k internetu bude Kaktus k získání internetových stránek a obrázků používat pouze místní vyrovnávací paměť, takže síťové spojení nebude potřeba.</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="320"/>
         <source>Never</source>
         <translation>Nikdy</translation>
@@ -1228,12 +1091,9 @@ Síťové spojení je nedostupné.</translation>
         <translation>Zakázáno</translation>
     </message>
     <message>
-        <source>Read mode</source>
-        <translation type="vanished">Režim čtení</translation>
-    </message>
-    <message>
-        <source>Web pages will be reformatted into an easy to read version.</source>
-        <translation type="vanished">Internetové stránky budou přeformátovány do snadno čitelné podoby.</translation>
+        <location filename="../qml/SettingsPage.qml" line="743"/>
+        <source>Unread or starred</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="759"/>
@@ -1360,7 +1220,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="379"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation>Tmavý</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="380"/>
@@ -1395,7 +1255,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="609"/>
         <source>View mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Režim zobrazení</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="628"/>
@@ -1421,27 +1281,27 @@ Síťové spojení je nedostupné.</translation>
         <location filename="../qml/SettingsPage.qml" line="636"/>
         <location filename="../qml/SettingsPage.qml" line="742"/>
         <source>All articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny články</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="640"/>
         <source>Saved</source>
-        <translation type="unfinished">Uloženo</translation>
+        <translation>Uloženo</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="640"/>
         <source>Starred</source>
-        <translation type="unfinished">Ohvězdičkováno</translation>
+        <translation>Ohvězdičkováno</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="645"/>
         <source>Slow</source>
-        <translation type="unfinished">Zpomalit</translation>
+        <translation>Zpomalit</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="645"/>
         <source>Liked</source>
-        <translation type="unfinished">Oblíbeno</translation>
+        <translation>Oblíbeno</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="672"/>
@@ -1459,30 +1319,9 @@ Síťové spojení je nedostupné.</translation>
         <translation>Nejstarší první</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="743"/>
-        <source>Unread or starred</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="497"/>
         <source>Changes will take effect after you restart Kaktus.</source>
         <translation>Změny se projeví po opětovném spuštění Kaktusu.</translation>
-    </message>
-    <message>
-        <source>Show images</source>
-        <translation type="vanished">Ukázat obrázky</translation>
-    </message>
-    <message>
-        <source>Viewer font size</source>
-        <translation type="vanished">Velikost písma prohlížeče</translation>
-    </message>
-    <message>
-        <source>Other</source>
-        <translation type="vanished">Jiné</translation>
-    </message>
-    <message>
-        <source>Show User Guide</source>
-        <translation type="vanished">Ukázat průvodce uživatele</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="288"/>
@@ -1498,10 +1337,6 @@ Síťové spojení je nedostupné.</translation>
         <location filename="../qml/SettingsPage.qml" line="316"/>
         <source>Cache articles</source>
         <translation>Ukládat články do vyrovnávací paměti</translation>
-    </message>
-    <message>
-        <source>Show only unread articles</source>
-        <translation type="vanished">Ukázat pouze přečtené články</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="113"/>
@@ -1522,10 +1357,6 @@ Síťové spojení je nedostupné.</translation>
         <location filename="../qml/SettingsPage.qml" line="262"/>
         <source>Current cache size</source>
         <translation>Nynější velikost vyrovnávací paměti</translation>
-    </message>
-    <message>
-        <source>Built-in viewer</source>
-        <translation type="vanished">Vestavěný prohlížeč</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="783"/>
@@ -1602,18 +1433,6 @@ Síťové spojení je nedostupné.</translation>
         <source>Landscape</source>
         <translation>Na šířku</translation>
     </message>
-    <message>
-        <source>Offline viewer style</source>
-        <translation type="vanished">Styl prohlížeče pro stav nepřipojen</translation>
-    </message>
-    <message>
-        <source>Black</source>
-        <translation type="vanished">Černý</translation>
-    </message>
-    <message>
-        <source>White</source>
-        <translation type="vanished">Bílý</translation>
-    </message>
 </context>
 <context>
     <name>ShareDialog</name>
@@ -1662,10 +1481,6 @@ Síťové spojení je nedostupné.</translation>
         <location filename="../qml/TabPage.qml" line="68"/>
         <source>Tabs</source>
         <translation>Karty</translation>
-    </message>
-    <message>
-        <source>Wait until Sync finish.</source>
-        <translation type="vanished">Počkejte, dokud nebude seřizování dokončeno.</translation>
     </message>
     <message>
         <location filename="../qml/TabPage.qml" line="82"/>
@@ -1724,7 +1539,7 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1860,24 +1675,6 @@ Síťové spojení je nedostupné.</translation>
         <translation>Nahrává se obsah stránky...</translation>
     </message>
     <message>
-        <source>Failed to load item from local cache :-(</source>
-        <translation type="vanished">Nepodařilo se nahrát položku z místní vyrovnávací paměti</translation>
-    </message>
-    <message>
-        <source>Failed to load page content :-(</source>
-        <translation type="vanished">Nepodařilo se nahrát obsah stránky</translation>
-    </message>
-    <message>
-        <location filename="../qml/WebPreviewPage.qml" line="54"/>
-        <location filename="../qml/WebPreviewPage.qml" line="401"/>
-        <source>Launching an external browser...</source>
-        <translation>Spouští se vnější prohlížeč...</translation>
-    </message>
-    <message>
-        <source>Failed to switch to Reader mode :-(</source>
-        <translation type="vanished">Nepodařilo se přepnout se do režimu čtečky :-(</translation>
-    </message>
-    <message>
         <location filename="../qml/WebPreviewPage.qml" line="343"/>
         <source>Back</source>
         <translation>Zpět</translation>
@@ -1898,8 +1695,10 @@ Síťové spojení je nedostupné.</translation>
         <translation>Přepnout ohvězdičkování</translation>
     </message>
     <message>
-        <source>Toggle Read mode</source>
-        <translation type="vanished">Přepnout čtecí režim</translation>
+        <location filename="../qml/WebPreviewPage.qml" line="54"/>
+        <location filename="../qml/WebPreviewPage.qml" line="401"/>
+        <source>Launching an external browser...</source>
+        <translation>Spouští se vnější prohlížeč...</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="275"/>
@@ -1961,10 +1760,6 @@ Síťové spojení je nedostupné.</translation>
         <source>Copy URL</source>
         <translation>Kopírovat adresu (URL)</translation>
     </message>
-    <message>
-        <source>URL copied to clipboard</source>
-        <translation type="vanished">URL byla zkopírovaná do schránky</translation>
-    </message>
 </context>
 <context>
     <name>main</name>
@@ -1989,12 +1784,6 @@ Síťové spojení je nedostupné.</translation>
         <translation>Ukládá se do vyrovnávací paměti...</translation>
     </message>
     <message>
-        <source>Download failed!
-Network connection is unavailable.</source>
-        <translation type="vanished">Stahování selhalo!
-Síťové spojení je nedostupné.</translation>
-    </message>
-    <message>
         <location filename="../qml/main.qml" line="293"/>
         <source>Sync failed!
 Network connection is unavailable.</source>
@@ -2007,18 +1796,14 @@ Síťové spojení je nedostupné.</translation>
         <translation>Uživatelské jméno nebo heslo není správné!</translation>
     </message>
     <message>
-        <source>You are signed in!</source>
-        <translation type="vanished">Jste přihlášen</translation>
+        <location filename="../qml/main.qml" line="213"/>
+        <source>Download has failed because network is disconnected.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="162"/>
         <location filename="../qml/main.qml" line="331"/>
         <source>Something went wrong!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="213"/>
-        <source>Download has failed because network is disconnected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2079,26 +1864,6 @@ Síťové spojení je nedostupné.</translation>
         <location filename="../qml/main.qml" line="392"/>
         <source>Waiting for network...</source>
         <translation>Čeká se na síť...</translation>
-    </message>
-    <message>
-        <source>Something went wrong :-(
-Restart the app to rebuild cache data.</source>
-        <translation type="vanished">Něco níní v pořádku.
-Spusťte program znovu, aby byla data ve vyrovnávací paměti znovu sestavena.</translation>
-    </message>
-    <message>
-        <source>Something goes wrong. Unable to sign in! :-(</source>
-        <translation type="vanished">Stalo se něco špatného. Přihlášení se nepodařilo :-(</translation>
-    </message>
-    <message>
-        <source>Something went wrong :-(
-An unknown error occurred.</source>
-        <translation type="vanished">Něco níní v pořádku.
-Vyskytla se neznámá chyba!</translation>
-    </message>
-    <message>
-        <source>Removing cache data...</source>
-        <translation type="vanished">Odstraňují se data uložená ve vyrovnávací paměti...</translation>
     </message>
 </context>
 </TS>
