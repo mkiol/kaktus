@@ -51,6 +51,15 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("2.5.1")
+            }
+
+            LogItem {
+                title: 'Updated Netvibes API'
+                description: "Fixes for updated Netvibes API.";
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("2.5.0")
             }
 
@@ -61,7 +70,7 @@ Page {
 
             LogItem {
                 title: 'UI redesign'
-                description: "Some options were moved from pull down menu to bootom bar and bottom bar has a new dark look.";
+                description: "Some options were moved from pull down menu to the bottom bar and bottom bar has a new dark look.";
             }
 
             LogItem {
@@ -71,7 +80,7 @@ Page {
 
             LogItem {
                 title: 'Smoother offline mode'
-                description: "A few bugs were fixed and general offine mode experience has been improved.";
+                description: "A few bugs were fixed and general offline mode experience has been improved.";
             }
 
             LogItem {
@@ -86,7 +95,7 @@ Page {
 
             LogItem {
                 title: 'Night View'
-                description: "Night View reduces the brightness of websites by inverting colors (Heavily inspired and partially borrowed from harbour-webpirate project).";
+                description: "Night View reduces the brightness of websites by inverting colors (heavily inspired and code partially borrowed from harbour-webpirate project).";
             }
 
             SectionHeader {

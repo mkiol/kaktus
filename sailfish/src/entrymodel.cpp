@@ -97,8 +97,10 @@ void EntryModel::initInThread()
 
 void EntryModel::initFinished()
 {
+#ifndef BB10
     this->beginResetModel();
     this->endResetModel();
+#endif
 }
 
 /*int EntryModel::fixIndex(const QString &id)
@@ -222,6 +224,7 @@ int EntryModel::createItems(int offset, int limit)
 
     //qDebug() << "limit:" << limit << "Row count:" << list.count() << "new offset:" << offset;
 
+#ifndef ANDROID
     // Remove dummy row
     if (list.count()>0) {
         int l = rowCount();
@@ -232,6 +235,7 @@ int EntryModel::createItems(int offset, int limit)
                 removeRow(l-1);
         }
     }
+#endif
 
     QList<DatabaseManager::Entry>::iterator i = list.begin();
 
@@ -340,9 +344,11 @@ int EntryModel::createItems(int offset, int limit)
         ++i;
     }
 
+#ifndef ANDROID
     // Dummy row as workaround!
     if (list.count()>0)
         appendRow(new EntryItem("last","","","","","","","","","","","",false,false,false,0,0,0,0));
+#endif
 
     return list.count();
 }

@@ -335,6 +335,21 @@ bool CacheServer::readFile(const QString &filename, QByteArray &data)
     return true;
 }
 
+bool CacheServer::readFile2(const QString &path, QByteArray &data)
+{
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Could not open" << path << "for reading: " << file.errorString();
+        file.close();
+        return false;
+    }
+
+    data.append(file.readAll());
+    file.close();
+
+    return true;
+}
+
 /*QByteArray CacheServer::getData(const QString &id)
 {
     qDebug() << "getData, id=" << id;
@@ -388,18 +403,51 @@ QString CacheServer::getFileUrl(const QString &id)
 
 void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
 {
-    //qDebug() << "handle, url=" << req->url().toString();
-    if (req->url().path() == "/test") {
-        resp->setHeader("Content-Type", "text/html");
-        resp->writeHead(200);
-        resp->end("<html><body><h1>It works!</h1></body></html>");
+    //qDebug() << "handle, url:" << req->url().toString();
+
+    QStringList parts = req->url().path().split('/');
+    //qDebug() << "handle, parts.length():" << parts.length();
+    if (parts.length() > 1) {
+        if (parts[1] == "test") {
+            resp->setHeader("Content-Type", "text/html");
+            resp->writeHead(200);
+            resp->end("<html><body><h1>It works!</h1></body></html>");
+            return;
+        }
+
+        /*if (parts[1] == "assets" && parts.length() > 2) {
+            //qDebug() << "handle, path=" << req->url().path();
+            QString path = "app/native" + req->url().path();
+            if (QFile::exists(path)) {
+                QByteArray content;
+                QStringList extParts = parts[parts.length()-1].split('.');
+                QString ext = extParts.length() > 0 ? extParts[extParts.length()-1] : "";
+
+                if (ext == "js") {
+                    resp->setHeader("Content-Type", "application/javascript");
+                    resp->setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+                    resp->setHeader("Pragma", "no-cache");
+                    resp->writeHead(200);
+                    CacheServer::readFile2(path, content);
+                    resp->end(content);
+                    return;
+                }
+            }
+            resp->writeHead(404);
+            resp->end("");
+            return;
+        }*/
+
+        FilteringWorker *worker = new FilteringWorker();
+        QObject::connect(this, SIGNAL(startWorker(QHttpRequest*,QHttpResponse*)), worker, SLOT(start(QHttpRequest*,QHttpResponse*)));
+        QObject::connect(worker, SIGNAL(finished()), this, SLOT(handleFinish()));
+        emit startWorker(req, resp);
+
+    } else {
+        resp->writeHead(404);
+        resp->end("");
         return;
     }
-
-    FilteringWorker *worker = new FilteringWorker();
-    QObject::connect(this, SIGNAL(startWorker(QHttpRequest*,QHttpResponse*)), worker, SLOT(start(QHttpRequest*,QHttpResponse*)));
-    QObject::connect(worker, SIGNAL(finished()), this, SLOT(handleFinish()));
-    emit startWorker(req, resp);
 }
 
 void CacheServer::handleFinish()

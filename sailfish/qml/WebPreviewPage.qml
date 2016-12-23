@@ -72,12 +72,12 @@ Page {
             var xhr = new XMLHttpRequest()
             xhr.onreadystatechange = function () {
 
-                    console.log("xhr.onreadystatechange")
+                    /*console.log("xhr.onreadystatechange")
                     console.log("  xhr.readyState: " + xhr.readyState)
                     console.log("  xhr.status: " + xhr.status)
                     console.log("  xhr.responseType: " + xhr.responseType)
                     console.log("  xhr.responseURL : " + xhr.responseURL )
-                    console.log("  xhr.statusText: " + xhr.statusText)
+                    console.log("  xhr.statusText: " + xhr.statusText)*/
 
                     if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                         view.loadHtml(xhr.responseText)
@@ -93,10 +93,9 @@ Page {
 
     function navigateBack() {
         if (view.canGoBack) {
-            view.goBack()
             root.readerModePossible = false
             root.nightModePossible = false
-            //view.scrollToTop()
+            view.goBack()
         } else {
             pageStack.pop()
         }
@@ -118,6 +117,7 @@ Page {
                       "zoom": settings.zoom,
                       "theme": settings.readerTheme }
         postMessage("theme_set", { "theme": theme })
+        postMessage("theme_update_scale")
     }
 
     function updateZoom(delta) {
@@ -125,6 +125,8 @@ Page {
         settings.zoom = ((zoom + delta) <= 0.5) || ((zoom + delta) >= 2.0) ? zoom : zoom + delta
         var theme = { "zoom": settings.zoom }
         postMessage("theme_set", { "theme": theme })
+        postMessage("theme_update_scale")
+        baner.show("" + Math.floor(settings.zoom * 100) + "%")
     }
 
     function switchReaderMode() {
@@ -136,16 +138,16 @@ Page {
     }
 
     function messageReceivedHandler(message) {
-        if (message.type === "theme_init") {
-            initTheme()
-
+        if (message.type === "inited") {
+            // NightMode
             root.nightModePossible = true
             if ((settings.nightMode || root.nightMode) && !settings.offlineMode) {
                 postMessage("nightmode_enable")
             } else {
                 postMessage("nightmode_disable")
             }
-
+            // Theme
+            initTheme()
         } else if (message.type === "readability_result") {
             root.readerModePossible = message.data.possible
             root.readerMode = message.data.enabled
@@ -158,29 +160,18 @@ Page {
             } else if (settings.offlineMode) {
                 postMessage("theme_apply")
             }
-
         } else if (message.type === "readability_status") {
-
             console.log("readability_status: " + message.data.enabled)
-
         } else if (message.type === "readability_enabled") {
-
             root.readerMode = true
             view.scrollToTop()
-
         } else if (message.type === "readability_disabled") {
-
             root.readerMode = false
             view.scrollToTop()
-
         } else if (message.type === "nightmode_enabled") {
-
             root.nightMode = true
-
         } else if (message.type === "nightmode_disabled") {
-
             root.nightMode = false
-
         }
     }
 
@@ -238,12 +229,14 @@ Page {
         //experimental.transparentBackground: true
 
         experimental.userScripts: [
-            Qt.resolvedUrl("js/ObjectOverrider.js"),
+            Qt.resolvedUrl("js/Kaktus.js"),
+            Qt.resolvedUrl("js/Console.js"),
+            Qt.resolvedUrl("js/MessageListener.js"),
+            Qt.resolvedUrl("js/NightMode.js"),
             Qt.resolvedUrl("js/Readability.js"),
             Qt.resolvedUrl("js/Theme.js"),
-            Qt.resolvedUrl("js/ReaderModeHandler.js"),
-            Qt.resolvedUrl("js/NightModeHandler.js"),
-            Qt.resolvedUrl("js/MessageListener.js")]
+            Qt.resolvedUrl("js/ReaderMode.js"),
+            Qt.resolvedUrl("js/init.js")]
 
         experimental.onMessageReceived: {
             console.log("onMessageReceived data:", message.data)
@@ -324,13 +317,17 @@ Page {
 
                 if (_settings.webviewNavigation === 2) {
                     request.action = WebView.AcceptRequest
-                    //root.readerMode = false
                     return;
                 }
             }
 
             request.action = WebView.AcceptRequest
         }
+    }
+
+    TempBaner {
+        id: baner
+        anchors.centerIn: root
     }
 
     IconBar {
@@ -399,7 +396,10 @@ Page {
             icon: "image://icons/icon-m-browser"
             onClicked: {
                 notification.show(qsTr("Launching an external browser..."));
-                Qt.openUrlExternally(onlineUrl);
+                var url = view.url.toString().lastIndexOf("about") === 0 ||
+                          view.url.length === 0 ? root.onlineUrl : view.url
+                console.log("Opening: " + url)
+                Qt.openUrlExternally(url)
             }
         }
 
@@ -437,18 +437,18 @@ Page {
         }
 
         IconBarItem {
-            text: qsTr("Increase font")
-            icon: "image://icons/icon-m-fontup"
-            onClicked: {
-                root.updateZoom(0.1)
-            }
-        }
-
-        IconBarItem {
             text: qsTr("Decrease font")
             icon: "image://icons/icon-m-fontdown"
             onClicked: {
                 root.updateZoom(-0.1)
+            }
+        }
+
+        IconBarItem {
+            text: qsTr("Increase font")
+            icon: "image://icons/icon-m-fontup"
+            onClicked: {
+                root.updateZoom(0.1)
             }
         }
 

@@ -18,13 +18,16 @@
 */
 
 #include <QtGui/QClipboard>
-#include <QTextDocument>
 #include <QDebug>
 #include <QDateTime>
 #include <QtCore/qmath.h>
 #include <QCryptographicHash>
 #include <QRegExp>
 
+#ifdef ANDROID
+#include <QtAndroidExtras/QAndroidJniObject>
+#include <QtGui/QGuiApplication>
+#endif
 #ifdef BB10
 #include <bps/navigator.h>
 #include <QtGui/QApplication>
@@ -34,12 +37,16 @@
 #include <bb/cascades/Application>
 #include <bb/cascades/ColorTheme>
 #include <bb/cascades/VisualStyle>
+#include <bb/cascades/SystemDefaults>
+#include <bb/cascades/TextStyle>
+#include <bb/cascades/FontSize>
 #include <bb/platform/PlatformInfo>
 #include <bb/device/DisplayTechnology>
 #include <bb/platform/PlatformInfo>
 #include <QtCore/QString>
 #include <QtCore/QList>
 #include <bb/system/Clipboard>
+#include <QtGui/QTextDocument>
 #else
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #include <QGuiApplication>
@@ -50,6 +57,7 @@
 #include <QtGui/QApplication>
 #include <QDeclarativeContext>
 #endif
+#include <QTextDocument>
 #endif
 
 #include "utils.h"
@@ -65,6 +73,9 @@ Utils::Utils(QObject *parent) :
     entryModel = NULL;
     tabModel = NULL;
     feedModel = NULL;
+#ifdef ANDROID
+    screen = QGuiApplication::screens().at(0);
+#endif
 }
 
 bool Utils::isLight()
@@ -76,16 +87,45 @@ bool Utils::isLight()
 #endif
 }
 
-/*bool Utils::isOnline()
+#ifdef ANDROID
+int Utils::dp(float value)
 {
-#ifdef ONLINE_CHECK
-    qDebug() << "ncm->isOnline()" << ncm->isOnline();
-    return ncm->isOnline();
+    //float dp = value * (screen->physicalDotsPerInch() / 160) + 0.5;
+    //dp = (10 * dp + 5) / 10;
+    //qDebug() << "value=" << value << "dp=" << value * (screen->physicalDotsPerInch() / 160) << "dpp=" << dp;
+    return value * (screen->physicalDotsPerInch() / 160) + 0.5;
+}
+
+int Utils::mm(float value)
+{
+    return value * (screen->physicalDotsPerInch() / 25.4);
+}
+
+int Utils::in(float value)
+{
+    return value * screen->physicalDotsPerInch();
+}
+
+int Utils::pt(float value)
+{
+    return value * (screen->physicalDotsPerInch() / 72);
+}
+
+int Utils::sp(float value)
+{
+    return dp(value);
+}
+
+void Utils::showNotification(const QString &title, const QString &text)
+{
+    QAndroidJniObject jTitle = QAndroidJniObject::fromString(title);
+    QAndroidJniObject jText = QAndroidJniObject::fromString(text);
+    QAndroidJniObject::callStaticMethod<void>("net/mkiol/kaktus/KaktusActivity",
+                                       "notify",
+                                       "(Ljava/lang/String;Ljava/lang/String;)V",
+                                       jTitle.object<jstring>(), jText.object<jstring>());
+}
 #endif
-#ifndef ONLINE_CHECK
-    return true;
-#endif
-}*/
 
 #ifdef BB10
 void Utils::launchBrowser(const QString &url)
@@ -139,6 +179,7 @@ QString Utils::formatHtml(const QString & data, bool offline, const QString & st
 {
     QRegExp rxImg("<img[^>]*>", Qt::CaseInsensitive);
     QRegExp rxWidth("\\s*width\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
+    QRegExp rxTarget("\\s*target\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
     QRegExp rxHeight("\\s*height\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
     QRegExp rxSizes("\\s*sizes\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
     QRegExp rxA("<a[^>]*></a>", Qt::CaseInsensitive);
@@ -149,6 +190,7 @@ QString Utils::formatHtml(const QString & data, bool offline, const QString & st
         return "";
 
     QString content = data;
+    content.remove(rxTarget);
     if (offline) {
         content.remove(rxImg); content.remove("</img>", Qt::CaseInsensitive);
         content.remove(rxA);
@@ -192,6 +234,21 @@ bool Utils::removeDir(const QString &dirName)
 }
 
 #ifdef BB10
+QString Utils::readAsset(const QString &path)
+{
+    QFile file("app/native/assets/" + path);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Could not open" << path << "for reading: " << file.errorString();
+        file.close();
+        return "";
+    }
+
+    QString data = QString(file.readAll());
+    file.close();
+
+    return data;
+}
+
 // Source: http://hecgeek.blogspot.com/2014/10/blackberry-10-multiple-os-versions-from.html
 bool Utils::checkOSVersion(int major, int minor, int patch, int build)
 {
@@ -349,6 +406,28 @@ bb::cascades::Color Utils::textOnPlain()
 {
     return text();
 }
+
+/*float Utils::primaryTextFontSize()
+{
+    bb::cascades::TextStyle style = bb::cascades::SystemDefaults::TextStyles::primaryText();
+    qDebug() << "primaryText:" << style.fontSize() << bb::cascades::FontSize::Medium;
+    return bb::cascades::SystemDefaults::TextStyles::primaryText().fontSizeValue();
+}
+
+QString Utils::primaryTextFontFamily()
+{
+    return bb::cascades::SystemDefaults::TextStyles::primaryText().fontFamily();
+}
+
+float Utils::titleTextFontSize()
+{
+    return bb::cascades::SystemDefaults::TextStyles::titleText().fontSizeValue();
+}
+
+QString Utils::titleTextFontFamily()
+{
+    return bb::cascades::SystemDefaults::TextStyles::titleText().fontFamily();
+}*/
 #endif
 
 void Utils::setRootModel()
@@ -370,7 +449,7 @@ void Utils::setRootModel()
 #ifdef BB10
         s->qml->setContextProperty("tabModel", tabModel);
 #else
-        s->view->rootContext()->setContextProperty("tabModel", tabModel);
+        s->context->setContextProperty("tabModel", tabModel);
 #endif
         if (oldTabModel != NULL) {
             delete oldTabModel;
@@ -389,7 +468,7 @@ void Utils::setRootModel()
 #ifdef BB10
         s->qml->setContextProperty("tabModel", tabModel);
 #else
-        s->view->rootContext()->setContextProperty("tabModel", tabModel);
+        s->context->setContextProperty("tabModel", tabModel);
 #endif
         if (oldTabModel != NULL) {
             delete oldTabModel;
@@ -408,7 +487,7 @@ void Utils::setRootModel()
 #ifdef BB10
         s->qml->setContextProperty("feedModel", feedModel);
 #else
-        s->view->rootContext()->setContextProperty("feedModel", feedModel);
+        s->context->setContextProperty("feedModel", feedModel);
 #endif
         if (tabModel != NULL)
             delete tabModel; tabModel = NULL;
@@ -434,7 +513,7 @@ void Utils::setRootModel()
 #ifdef BB10
         s->qml->setContextProperty("entryModel", entryModel);
 #else
-        s->view->rootContext()->setContextProperty("entryModel", entryModel);
+        s->context->setContextProperty("entryModel", entryModel);
 #endif
         if (tabModel != NULL)
             delete tabModel; tabModel = NULL;
@@ -459,7 +538,7 @@ void Utils::setFeedModel(const QString &tabId)
 #ifdef BB10
         s->qml->setContextProperty("feedModel", feedModel);
 #else
-        s->view->rootContext()->setContextProperty("feedModel", feedModel);
+        s->context->setContextProperty("feedModel", feedModel);
 #endif
 
     if (oldFeedModel != NULL) {
@@ -478,7 +557,7 @@ void Utils::setEntryModel(const QString &feedId)
 #ifdef BB10
         s->qml->setContextProperty("entryModel", entryModel);
 #else
-        s->view->rootContext()->setContextProperty("entryModel", entryModel);
+        s->context->setContextProperty("entryModel", entryModel);
 #endif
 
     if (oldEntryModel != NULL) {
@@ -497,7 +576,7 @@ void Utils::setDashboardModel()
 #ifdef BB10
         s->qml->setContextProperty("dashboardModel", dashboardModel);
 #else
-        s->view->rootContext()->setContextProperty("dashboardModel", dashboardModel);
+       s->context->setContextProperty("dashboardModel", dashboardModel);
 #endif
 
     if (oldDashboardModel != NULL)
@@ -713,7 +792,7 @@ void Utils::resetFetcher(int type)
 #ifdef BB10
         s->qml->setContextProperty("fetcher", s->fetcher);
 #else
-        s->view->rootContext()->setContextProperty("fetcher", s->fetcher);
+        s->context->setContextProperty("fetcher", s->fetcher);
 #endif
 
 }

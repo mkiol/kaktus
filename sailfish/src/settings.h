@@ -30,7 +30,7 @@
 #include <bb/cascades/QmlDocument>
 #else
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-#include <QQuickView>
+#include <QQmlContext>
 #else
 #include <QDeclarativeView>
 #endif
@@ -91,7 +91,7 @@ public:
     bb::cascades::QmlDocument* qml;
 #else
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    QQuickView* view;
+    QQmlContext* context;
 #else
     QDeclarativeView* view;
 #endif

@@ -1,34 +1,41 @@
 // Code heavily inspired and partially borrowed from
 // harbour-webpirate project (https://github.com/Dax89/harbour-webpirate)
 
-window.Kaktus_MessageListenerObject = function() {
+window.KaktusMessageListenerObject = function() {
     navigator.qt.onmessage = this.onMessage.bind(this);
 };
 
-window.Kaktus_MessageListenerObject.prototype.onMessage = function(message) {
-    var obj = JSON.parse(message.data);
-    var data = obj.data;
+window.KaktusMessageListenerObject.prototype.onMessage = function(message) {
+    //console.log("onMessage: " + message);
+    try {
+   
+        var obj = JSON.parse(message.data);
+        var data = obj.data;
 
-    if(obj.type === "readability_enable")
-        Kaktus_ReaderModeHandler.switchMode(true);
-    else if(obj.type === "readability_disable")
-        Kaktus_ReaderModeHandler.switchMode(false);
-    else if(obj.type === "readability_check")
-        Kaktus_ReaderModeHandler.check(data);
-    else if(obj.type === "readability_status")
-        Kaktus_ReaderModeHandler.status();
-    else if(obj.type === "readability_apply_fixups")
-        Kaktus_ReaderModeHandler.applyFixups(document);
-    else if(obj.type === "theme_set")
-        Kaktus_Theme.set(data.theme);
-    else if(obj.type === "theme_update_scale")
-        Kaktus_Theme.updateScale();
-    else if(obj.type === "theme_apply")
-        Kaktus_Theme.apply();
-    else if(obj.type === "nightmode_disable")
-        Kaktus_NightModeHandler.switchMode(false);
-    else if(obj.type === "nightmode_enable")
-        Kaktus_NightModeHandler.switchMode(true);
+	    if(obj.type === "readability_enable")
+	    	KaktusReaderMode.switchMode(true);
+	    else if(obj.type === "readability_disable")
+	    	KaktusReaderMode.switchMode(false);
+	    else if(obj.type === "readability_check")
+	    	KaktusReaderMode.check(data);
+	    else if(obj.type === "readability_status")
+	    	KaktusReaderMode.status();
+	    else if(obj.type === "readability_apply_fixups")
+	    	KaktusReaderMode.applyFixups(document);
+	    else if(obj.type === "theme_set")
+	    	KaktusTheme.set(data.theme);
+	    else if(obj.type === "theme_update_scale")
+	    	KaktusTheme.updateScale();
+	    else if(obj.type === "theme_apply")
+	    	KaktusTheme.apply();
+        else if(obj.type === "nightmode_disable")
+	    	KaktusNightMode.switchMode(false);
+	    else if(obj.type === "nightmode_enable")
+            KaktusNightMode.switchMode(true);
+    
+    } catch (err) {
+    	console.error("Exception in KaktusMessageListener.onMessage: " + err);;
+    }
 };
 
-window.Kaktus_MessageListener = new window.Kaktus_MessageListenerObject();
+window.KaktusMessageListener = new window.KaktusMessageListenerObject();

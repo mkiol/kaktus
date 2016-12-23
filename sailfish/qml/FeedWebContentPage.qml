@@ -127,7 +127,8 @@ Page {
     function openEntryInBrowser() {
         entryModel.setData(index, "read", 1, "");
         notification.show(qsTr("Launching an external browser..."));
-        Qt.openUrlExternally(settings.offlineMode ? offlineUrl : onlineUrl);
+        //Qt.openUrlExternally(settings.offlineMode ? offlineUrl : onlineUrl);
+        Qt.openUrlExternally(onlineUrl)
     }
 
     function openUrlEntryInBrowser(url) {
@@ -204,10 +205,12 @@ Page {
         settings.zoom = ((zoom + delta) <= 0.5) || ((zoom + delta) >= 2.0) ? zoom : zoom + delta
         var theme = { "zoom": settings.zoom }
         postMessage("theme_set", { "theme": theme })
+        postMessage("theme_apply")
+        baner.show("" + Math.floor(settings.zoom * 100) + "%")
     }
 
     function messageReceivedHandler(message) {
-        if (message.type === "theme_init") {
+        if (message.type === "inited") {
             if (root.themeApply) {
                 initTheme()
                 root.themeApply = false
@@ -253,11 +256,13 @@ Page {
         }*/
 
         experimental.userScripts: [
-            Qt.resolvedUrl("js/ObjectOverrider.js"),
+            Qt.resolvedUrl("js/Kaktus.js"),
+            Qt.resolvedUrl("js/Console.js"),
+            Qt.resolvedUrl("js/MessageListener.js"),
             Qt.resolvedUrl("js/Readability.js"),
             Qt.resolvedUrl("js/Theme.js"),
-            Qt.resolvedUrl("js/ReaderModeHandler.js"),
-            Qt.resolvedUrl("js/MessageListener.js")]
+            Qt.resolvedUrl("js/ReaderMode.js"),
+            Qt.resolvedUrl("js/init.js")]
 
         experimental.onMessageReceived: {
             console.log("onMessageReceived data:", message.data)
@@ -281,13 +286,20 @@ Page {
             console.log(" navigation OtherNavigation:", request.navigationType === WebView.OtherNavigation)
             console.log(" action:", request.action)*/
 
-            /*var url = "" + request.url
-            if (url.indexOf("about:") === 0) {
-                request.action = WebView.IgnoreRequest
-                return
-            }*/
+            if (request.url.toString() === root.onlineUrl ||
+                    request.url.toString() === root.offlineUrl) {
 
-            if (request.url == root.onlineUrl || request.url == root.offlineUrl) {
+                if (_settings.webviewNavigation === 0) {
+                    request.action = WebView.IgnoreRequest
+                    return
+                }
+
+                if (_settings.webviewNavigation === 1 && !_settings.offlineMode) {
+                    request.action = WebView.IgnoreRequest
+                    root.openUrlEntryInBrowser(request.url)
+                    return
+                }
+
                 root.openEntryInViewer()
                 request.action = WebView.IgnoreRequest
                 return
@@ -318,14 +330,9 @@ Page {
                 }
 
                 if (_settings.webviewNavigation === 2) {
-
                     root.openUrlInViewer(request.url)
                     request.action = WebView.IgnoreRequest
                     return;
-
-                    //request.action = WebView.AcceptRequest
-                    //navigateBackPop = false
-                    //return;
                 }
             }
         }
@@ -337,6 +344,11 @@ Page {
 
     VerticalScrollDecorator {
         flickable: view
+    }
+
+    TempBaner {
+        id: baner
+        anchors.centerIn: root
     }
 
     IconBar {
@@ -431,18 +443,18 @@ Page {
         }
 
         IconBarItem {
-            text: qsTr("Increase font")
-            icon: "image://icons/icon-m-fontup"
-            onClicked: {
-                root.updateZoom(0.1)
-            }
-        }
-
-        IconBarItem {
             text: qsTr("Decrease font")
             icon: "image://icons/icon-m-fontdown"
             onClicked: {
                 root.updateZoom(-0.1)
+            }
+        }
+
+        IconBarItem {
+            text: qsTr("Increase font")
+            icon: "image://icons/icon-m-fontup"
+            onClicked: {
+                root.updateZoom(0.1)
             }
         }
     }

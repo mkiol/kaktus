@@ -18,13 +18,18 @@
 */
 
 #include <QGuiApplication>
-#include <QScopedPointer>
 #include <QQmlEngine>
 #include <QQmlContext>
 #include <QQuickView>
-#include <sailfishapp.h>
 #include <QtDebug>
 #include <QTranslator>
+#include <QScopedPointer>
+#ifdef SAILFISH
+#include <sailfishapp.h>
+#endif
+#ifdef ANDROID
+#include <QQmlApplicationEngine>
+#endif
 
 #include "iconprovider.h"
 #include "nviconprovider.h"
@@ -39,59 +44,78 @@ static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.5.0 (light edition)";
+static const char *VERSION = "2.5.1 (light edition)";
 #else
-static const char *VERSION = "2.5.0";
+static const char *VERSION = "2.5.1";
 #endif
+
 
 int main(int argc, char *argv[])
 {
+#ifdef SAILFISH
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QScopedPointer<QQuickView> view(SailfishApp::createView());
+    QScopedPointer<QQmlEngine> engine(view->engine());
+    QQmlContext *context = view->rootContext();
+    QString translationsDirPath = SailfishApp::pathTo("translations").toLocalFile();
+#endif
+#ifdef ANDROID
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QScopedPointer<QGuiApplication> app(new QGuiApplication(argc, argv));
+    QScopedPointer<QQmlApplicationEngine> engine(new QQmlApplicationEngine());
+    QQmlContext *context = engine->rootContext();
+    QString translationsDirPath = "";
+    //TODO
+#endif
 
+    app->setApplicationName(APP_NAME);
     app->setApplicationDisplayName(APP_NAME);
     app->setApplicationVersion(VERSION);
 
-    view->rootContext()->setContextProperty("APP_NAME", APP_NAME);
-    view->rootContext()->setContextProperty("VERSION", VERSION);
-    view->rootContext()->setContextProperty("AUTHOR", AUTHOR);
-    view->rootContext()->setContextProperty("PAGE", PAGE);
+    context->setContextProperty("APP_NAME", APP_NAME);
+    context->setContextProperty("VERSION", VERSION);
+    context->setContextProperty("AUTHOR", AUTHOR);
+    context->setContextProperty("PAGE", PAGE);
 
-    view->engine()->addImageProvider(QLatin1String("icons"), new IconProvider);
-    view->engine()->addImageProvider(QLatin1String("nvicons"), new NvIconProvider);
+    engine->addImageProvider(QLatin1String("icons"), new IconProvider);
+    engine->addImageProvider(QLatin1String("nvicons"), new NvIconProvider);
 
     qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
-    //qmlRegisterMetaType<QQmlChangeSet>()
 
-    Settings* settings = Settings::instance();
+    Settings *settings = Settings::instance();
 
     QTranslator translator;
     QString locale = settings->getLocale() == "" ? QLocale::system().name() : settings->getLocale();
-    if(!translator.load(locale, "kaktus", "_", SailfishApp::pathTo("translations").toLocalFile(), ".qm")) {
-        qDebug() << "Couldn't load translation for locale " + locale + " from " + SailfishApp::pathTo("translations").toLocalFile();
+    if(!translator.load(locale, "kaktus", "_", translationsDirPath, ".qm")) {
+        qDebug() << "Couldn't load translation for locale " + locale + " from " + translationsDirPath;
     }
     app->installTranslator(&translator);
 
-    settings->view = view.data();
+    settings->context = context;
     DatabaseManager db; settings->db = &db;
     DownloadManager dm; settings->dm = &dm;
     CacheServer cache(&db); settings->cache = &cache;
 
     Utils utils;
 
-    QObject::connect(view->engine(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
+    QObject::connect(engine.data(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
 
     NetworkAccessManagerFactory NAMfactory(settings->getDmUserAgent());
-    view->engine()->setNetworkAccessManagerFactory(&NAMfactory);
+    engine->setNetworkAccessManagerFactory(&NAMfactory);
 
-    view->rootContext()->setContextProperty("db", &db);
-    view->rootContext()->setContextProperty("utils", &utils);
-    view->rootContext()->setContextProperty("dm", &dm);
-    view->rootContext()->setContextProperty("cache", &cache);
-    view->rootContext()->setContextProperty("settings", settings);
+    context->setContextProperty("db", &db);
+    context->setContextProperty("utils", &utils);
+    context->setContextProperty("dm", &dm);
+    context->setContextProperty("cache", &cache);
+    context->setContextProperty("settings", settings);
 
+#ifdef SAILFISH
     view->setSource(SailfishApp::pathTo("qml/main.qml"));
     view->show();
+#endif
+#ifdef ANDROID
+    engine->load(QUrl(QLatin1String("qrc:/qml/main.qml")));
+#endif
 
     return app->exec();
 }

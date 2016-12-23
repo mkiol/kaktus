@@ -1054,16 +1054,16 @@ void OldReaderFetcher::storeTabs()
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (jsonObj["tags"].isArray()) {
-        QJsonArray::const_iterator i = jsonObj["tags"].toArray().constBegin();
-        QJsonArray::const_iterator end = jsonObj["tags"].toArray().constEnd();
+        QJsonArray arr = jsonObj["tags"].toArray();
+        int end = arr.count();
 #else
     if (jsonObj["tags"].type()==QVariant::List) {
         QVariantList::const_iterator i = jsonObj["tags"].toList().constBegin();
         QVariantList::const_iterator end = jsonObj["tags"].toList().constEnd();
 #endif
-        while (i != end) {
+        for (int i = 0; i < end; ++i) {
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-            QJsonObject obj = (*i).toObject();
+            QJsonObject obj = arr.at(i).toObject();
 #else
             QVariantMap obj = (*i).toMap();
 #endif
@@ -1079,8 +1079,6 @@ void OldReaderFetcher::storeTabs()
                 s->db->writeTab(t);
                 tabList.append(t.id);
             }
-
-            ++i;
         }
 
     }  else {
@@ -1267,22 +1265,21 @@ void OldReaderFetcher::storeFeeds()
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (jsonObj["subscriptions"].isArray()) {
-        QJsonArray::const_iterator i = jsonObj["subscriptions"].toArray().constBegin();
-        QJsonArray::const_iterator end = jsonObj["subscriptions"].toArray().constEnd();
+        QJsonArray arr = jsonObj["subscriptions"].toArray();
+        int end = arr.count();
 #else
     if (jsonObj["subscriptions"].type()==QVariant::List) {
         QVariantList::const_iterator i = jsonObj["subscriptions"].toList().constBegin();
         QVariantList::const_iterator end = jsonObj["subscriptions"].toList().constEnd();
 #endif
-        while (i != end) {
+        for (int i = 0; i < end; ++i) {
             QString tabId, tabName;
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 
             // Checking tab (folder)
-            QJsonObject obj = (*i).toObject();
+            QJsonObject obj = arr.at(i).toObject();
             if (obj["categories"].isArray()) {
                 getFolderFromCategories(obj["categories"].toArray(), tabId, tabName);
-
             }
 #else
             QVariantMap obj = (*i).toMap();
@@ -1341,8 +1338,6 @@ void OldReaderFetcher::storeFeeds()
                 smt.tabId = tabId;
                 feedList.append(smt);*/
             }
-
-            ++i;
         }
 
     }  else {
@@ -1373,8 +1368,8 @@ void OldReaderFetcher::storeStream()
         qWarning() << "No updated param in stream!";
     }
     if (jsonObj["items"].isArray()) {
-        QJsonArray::const_iterator i = jsonObj["items"].toArray().constBegin();
-        QJsonArray::const_iterator end = jsonObj["items"].toArray().constEnd();
+        QJsonArray arr = jsonObj["items"].toArray();
+        int end = arr.count();
 #else
     //qDebug() << jsonObj["updated"].type();
     if (jsonObj["updated"].type()==QVariant::ULongLong) {
@@ -1387,10 +1382,10 @@ void OldReaderFetcher::storeStream()
         QVariantList::const_iterator end = jsonObj["items"].toList().constEnd();
 #endif
         //qDebug() << "Updated:" << updated;
-        while (i != end) {
+        for (int i = 0; i < end; ++i) {
             QString feedId;
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-            QJsonObject obj = (*i).toObject();
+            QJsonObject obj = arr.at(i).toObject();
             if (obj["origin"].isObject()) {
                 feedId = obj["origin"].toObject()["streamId"].toString();
             }
@@ -1492,8 +1487,6 @@ void OldReaderFetcher::storeStream()
                     lastDate = newLastDate;
                 }
             }
-
-            ++i;
         }
     }
 

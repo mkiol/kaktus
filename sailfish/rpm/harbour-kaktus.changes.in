@@ -8,6 +8,33 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Thu Dec 22 2016 Michal Kosciesza 2.5.1-2
+- DE & RU translations update
+
+* Mon Dec 19 2016 Michal Kosciesza 2.5.1-1
+- FIX: New netvibes API
+
+* Sat Dec 03 2016 Michal Kosciesza 2.5.0-4
+- Bug fixes
+
+* Mon Nov 28 2016 Michal Kosciesza 2.5.0-3
+- Translations update
+
+* Sat Nov 19 2016 Michal Kosciesza 2.5.0-2
+- Night View
+- Translations update
+
+* Sun Nov 13 2016 Michal Kosciesza 2.5.0-1
+- List filtering
+- Auto network mode
+- Bug fixes
+
+* Tue Nov 08 2016 Michal Kosciesza 2.5.0-0
+- Reader View with Readablility.js
+- Bottom bar improvements
+- Smoother offline mode
+- Unsynced data indicator
+
 * Tue Jul 12 2016 Michal Kosciesza 2.4.0-0
 - UI improvements for Jolla C
 

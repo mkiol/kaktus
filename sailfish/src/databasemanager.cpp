@@ -232,7 +232,7 @@ bool DatabaseManager::checkParameters()
             if (query.first()) {
                 int cur_db_ver = query.value(0).toString().toInt();
 
-                qDebug() << "DB version=" << cur_db_ver;
+                //qDebug() << "DB version =" << cur_db_ver;
 
                 if (cur_db_ver != DatabaseManager::version) {
                     qWarning() << "DB version mismatch!";
@@ -880,31 +880,6 @@ void DatabaseManager::writeEntry(const Entry &item)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-#ifdef BB10
-        bool ret = query.exec(QString("INSERT OR REPLACE INTO entries (id, stream_id, title, author, content, link, image, annotations, "
-                                      "fresh_or, read, saved, liked, broadcast, created_at, published_at, crawl_time, timestamp, last_update, fresh, cached) "
-                                      "VALUES ('%1','%2','%3','%4','%5','%6','%7','%8',%9,%10,%11,%12,%13,%14,%15,%16,%17,%18,%19, "
-                                      "coalesce((SELECT cached FROM entries WHERE id='%20'),0));")
-                                      .arg(item.id)
-                                      .arg(item.streamId)
-                                      .arg(QString(item.title.toUtf8().toBase64()))
-                                      .arg(QString(item.author.toUtf8().toBase64()))
-                                      .arg(QString(item.content.toUtf8().toBase64()))
-                                      .arg(QString(item.link.toUtf8().toBase64()))
-                                      .arg(QString(item.image.toUtf8().toBase64()))
-                                      .arg(QString(item.annotations.toUtf8().toBase64()))
-                                      .arg(item.freshOR)
-                                      .arg(item.read)
-                                      .arg(item.saved)
-                                      .arg(item.liked)
-                                      .arg(item.broadcast)
-                                      .arg(item.createdAt)
-                                      .arg(item.publishedAt)
-                                      .arg(item.crawlTime)
-                                      .arg(item.timestamp)
-                                      .arg(QDateTime::currentDateTimeUtc().toTime_t())
-                                      .arg(item.fresh).arg(item.id));
-#else
         query.prepare("INSERT OR REPLACE INTO entries (id, stream_id, title, author, content, link, image, annotations, "
                       "fresh_or, read, saved, liked, broadcast, created_at, published_at, crawl_time, timestamp, "
                       "last_update, fresh, cached) "
@@ -932,7 +907,7 @@ void DatabaseManager::writeEntry(const Entry &item)
         query.addBindValue(QDateTime::currentDateTimeUtc().toTime_t());
         query.addBindValue(item.id);
         query.addBindValue(item.id);
-#endif
+
         if (!query.exec()) {
            qWarning() << "SQL Error!" << query.lastQuery();checkError(query.lastError());
         }
@@ -1402,12 +1377,6 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readStreamModuleTabList
                               "WHERE ms.module_id=m.id AND m.tab_id='%1';")
                               .arg(id));
 
-        /*bool ret = query.exec(QString("SELECT e.stream_id, m.id, m.tab_id, max(e.published_at) "
-                              "FROM entries as e, module_stream as ms, modules as m "
-                              "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id='%1' "
-                              "GROUP BY e.stream_id;")
-                              .arg(id));*/
-
         if (!ret) {
            qWarning() << "SQL Error!" << query.lastQuery();checkError(query.lastError());
         }
@@ -1439,12 +1408,6 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readStreamModuleTabList
                               "FROM module_stream as ms, modules as m, tabs as t "
                               "WHERE ms.module_id=m.id AND m.tab_id=t.id AND t.dashboard_id='%1';")
                               .arg(id));
-
-        /*bool ret = query.exec(QString("SELECT e.stream_id, m.id, m.tab_id, max(e.published_at) "
-                              "FROM entries as e, module_stream as ms, modules as m, tabs as t "
-                              "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id AND t.dashboard_id='%1' "
-                              "GROUP BY e.stream_id;")
-                              .arg(id));*/
 
         if (!ret) {
            qWarning() << "SQL Error!" << query.lastQuery();checkError(query.lastError());
@@ -1479,14 +1442,6 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readSlowStreamModuleTab
                               "WHERE s.id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                               "AND t.dashboard_id='%1' AND s.slow=1;")
                               .arg(id));
-
-        /*bool ret = query.exec(QString("SELECT e.stream_id, m.id, m.tab_id, max(e.published_at) "
-                              "FROM entries as e, module_stream as ms, modules as m, tabs as t "
-                              "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
-                              "AND t.dashboard_id='%1' AND s.slow=1 "
-                              "GROUP BY e.stream_id;")
-                              .arg(id));*/
-
 
         if (!ret) {
            qWarning() << "SQL Error!" << query.lastQuery();checkError(query.lastError());

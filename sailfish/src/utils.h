@@ -28,7 +28,10 @@
 #include <QFileInfo>
 #include <QFileInfoList>
 #include <QDate>
-//#include <QNetworkConfigurationManager>
+
+#ifdef ANDROID
+#include <QScreen>
+#endif
 
 #ifdef BB10
 #include <bb/device/DisplayInfo>
@@ -74,9 +77,18 @@ public:
     static bool isSameWeek(const QDate &date1, const QDate &date2);
     Q_INVOKABLE static void log(const QString &data);
 
+#ifdef ANDROID
+    Q_INVOKABLE int dp(float value);
+    Q_INVOKABLE int mm(float value);
+    Q_INVOKABLE int in(float value);
+    Q_INVOKABLE int pt(float value);
+    Q_INVOKABLE int sp(float value);
+    Q_INVOKABLE void showNotification(const QString &title, const QString &text);
+#endif
+
 #ifdef BB10
-    Q_INVOKABLE bool checkOSVersion(int major, int minor, int patch = 0, int build = 0);
     Q_INVOKABLE int du(float value);
+    Q_INVOKABLE bool checkOSVersion(int major, int minor, int patch = 0, int build = 0);
     Q_INVOKABLE bb::cascades::Color background();
     Q_INVOKABLE bb::cascades::Color plain();
     Q_INVOKABLE bb::cascades::Color plainBase();
@@ -84,7 +96,12 @@ public:
     Q_INVOKABLE bb::cascades::Color text();
     Q_INVOKABLE bb::cascades::Color secondaryText();
     Q_INVOKABLE bb::cascades::Color primary();
+    /*Q_INVOKABLE float primaryTextFontSize();
+    Q_INVOKABLE QString primaryTextFontFamily();
+    Q_INVOKABLE float titleTextFontSize();
+    Q_INVOKABLE QString titleTextFontFamily();*/
     Q_INVOKABLE void launchBrowser(const QString &url);
+    Q_INVOKABLE QString readAsset(const QString &path);
 #endif
 
 public slots:
@@ -96,6 +113,9 @@ private:
     TabModel* tabModel;
     DashboardModel* dashboardModel;
     //QNetworkConfigurationManager* ncm;
+#ifdef ANDROID
+    QScreen* screen;
+#endif
 #ifdef BB10
     bb::device::DisplayInfo display;
 #endif

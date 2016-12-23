@@ -1,6 +1,8 @@
+#ifdef SAILFISH
 #include <sailfishapp.h>
-#include <QPainter>
 #include <mlite5/MGConfItem>
+#endif
+#include <QPainter>
 #include <QDebug>
 #include <QFile>
 #include <QDir>
@@ -9,6 +11,7 @@
 
 IconProvider::IconProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap)
 {
+#ifdef SAILFISH
     // Getting pixel ratio
     double ratio = MGConfItem("/desktop/sailfish/silica/theme_pixel_ratio").value().toDouble();
     //qDebug() << "ratio:" << ratio;
@@ -31,6 +34,11 @@ IconProvider::IconProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap)
         qWarning() << "Theme " + themeDir + " for ratio " + ratio + " doesn't exist!";
         themeDir = SailfishApp::pathTo("images/z1.0").toString(QUrl::RemoveScheme);
     }
+#endif
+#if ANDROID
+    //TODO
+    themeDir = "";
+#endif
 }
 
 QPixmap IconProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
@@ -42,7 +50,7 @@ QPixmap IconProvider::requestPixmap(const QString &id, QSize *size, const QSize 
         filepath = themeDir + "/icon-m-item.png";
     }
 
-    QPixmap sourcePixmap(themeDir + "/" + parts.at(0) + ".png");
+    QPixmap sourcePixmap(filepath);
 
     if (size)
         *size  = sourcePixmap.size();

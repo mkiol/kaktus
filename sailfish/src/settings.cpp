@@ -241,8 +241,8 @@ void Settings::setWebviewNavigation(int value)
 
 int Settings::getWebviewNavigation()
 {
-    // Default is 0 - open in web view
-    return settings.value("webviewnavigation", 0).toInt();
+    // Default is 2 - open in web view
+    return settings.value("webviewnavigation", 2).toInt();
 }
 
 void Settings::setShowTabIcons(bool value)
@@ -495,7 +495,11 @@ void Settings::setLocale(const QString &value)
 
 QString Settings::getLocale()
 {
-    return settings.value("locale", "").toString();
+    QString locale = settings.value("locale", "").toString();
+    if (locale == "" || locale == "cs" || locale == "de" || locale == "es" ||
+        locale == "en" || locale == "it" || locale == "nl" || locale == "pl" || locale == "ru")
+        return locale;
+    return "";
 }
 
 void Settings::setLastUpdateDate(int value)

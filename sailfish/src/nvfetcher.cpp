@@ -838,6 +838,13 @@ void NvFetcher::finishedDashboards2()
         fetchTabs();
     } else {
         qWarning() << "No Dashboards found!";
+
+        // Restoring backup
+        Settings *s = Settings::instance();
+        if (!s->db->restoreBackup()) {
+            qWarning() << "Unable to restore DB backup!";
+        }
+
         taskEnd();
     }
 }
@@ -1183,7 +1190,7 @@ void NvFetcher::storeDashboardsByParsingHtml()
 {
     Settings *s = Settings::instance();
 
-    QRegExp rx1("<li id=\"page-([^\"]*)\" class=\"[^\"]*enabled[^\"]*\" title=\"([^\"]*)\">");
+    QRegExp rx1("<div id=\"page-([^\"]*)\" class=\"[^\"]*private-page[^\"]*\" title=\"([^\"]*)\">");
     int pos = 0;
     while ((pos = rx1.indexIn(this->data, pos)) != -1) {
         //qDebug() << "enabled" << rx1.cap(1) << rx1.cap(2);
@@ -1200,7 +1207,7 @@ void NvFetcher::storeDashboardsByParsingHtml()
     // Active dashboard
     QString defaultDashboardId = s->getDashboardInUse();
     if (defaultDashboardId.isEmpty()) {
-        QRegExp rx2("<li id=\"page-([^\"]*)\" class=\"[^\"]*active[^\"]*\" title=\"([^\"]*)\">");
+        QRegExp rx2("<div id=\"page-([^\"]*)\" class=\"[^\"]*active[^\"]*\" title=\"([^\"]*)\">");
         pos = 0;
         while ((pos = rx2.indexIn(this->data, pos)) != -1) {
             //qDebug() << "active:" << rx2.cap(1) << rx2.cap(2);
@@ -1284,16 +1291,16 @@ void NvFetcher::storeTabs()
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (jsonObj["userData"].toObject()["tabs"].isArray()) {
-        QJsonArray::const_iterator i = jsonObj["userData"].toObject()["tabs"].toArray().constBegin();
-        QJsonArray::const_iterator end = jsonObj["userData"].toObject()["tabs"].toArray().constEnd();
+        QJsonArray arr = jsonObj["userData"].toObject()["tabs"].toArray();
+        int end = arr.count();
 #else
     if (jsonObj["userData"].toMap()["tabs"].type()==QVariant::List) {
         QVariantList::const_iterator i = jsonObj["userData"].toMap()["tabs"].toList().constBegin();
         QVariantList::const_iterator end = jsonObj["userData"].toMap()["tabs"].toList().constEnd();
 #endif
-        while (i != end) {
+        for (int i = 0; i < end; ++i) {
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-            QJsonObject obj = (*i).toObject();
+            QJsonObject obj = arr.at(i).toObject();
 #else
             QVariantMap obj = (*i).toMap();
 #endif
@@ -1334,8 +1341,6 @@ void NvFetcher::storeTabs()
                 emit addDownload(item);
                 //qDebug() << "icon:" << t.icon;
             }
-
-            ++i;
         }
     }  else {
         qWarning() << "No \"tabs\" element found!";
@@ -1343,16 +1348,17 @@ void NvFetcher::storeTabs()
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (jsonObj["userData"].toObject()["modules"].isArray()) {
-        QJsonArray::const_iterator i = jsonObj["userData"].toObject()["modules"].toArray().constBegin();
-        QJsonArray::const_iterator end = jsonObj["userData"].toObject()["modules"].toArray().constEnd();
+        QJsonArray arr = jsonObj["userData"].toObject()["modules"].toArray();
+        int end = arr.count();
 #else
     if (jsonObj["userData"].toMap()["modules"].type()==QVariant::List) {
         QVariantList::const_iterator i = jsonObj["userData"].toMap()["modules"].toList().constBegin();
         QVariantList::const_iterator end = jsonObj["userData"].toMap()["modules"].toList().constEnd();
 #endif
-        while (i != end) {
+        //while (i != end) {
+        for (int i = 0; i < end; ++i) {
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-            QJsonObject obj = (*i).toObject();
+            QJsonObject obj = arr.at(i).toObject();
 #else
             QVariantMap obj = (*i).toMap();
 #endif
@@ -1372,10 +1378,10 @@ void NvFetcher::storeTabs()
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                 if (obj["streams"].isArray()) {
-                    QJsonArray::const_iterator mi = obj["streams"].toArray().constBegin();
-                    QJsonArray::const_iterator mend = obj["streams"].toArray().constEnd();
-                    while (mi != mend) {
-                        QJsonObject mobj = (*mi).toObject();
+                    QJsonArray marr = obj["streams"].toArray();
+                    int mend = marr.count();
+                    for (int mi = 0; mi < mend; ++mi) {
+                        QJsonObject mobj = marr.at(mi).toObject();
 #else
                 if (obj["streams"].type()==QVariant::List) {
                     QVariantList::const_iterator mi = obj["streams"].toList().constBegin();
@@ -1390,17 +1396,13 @@ void NvFetcher::storeTabs()
                         streamList.append(smt);
                         m.streamList.append(smt.streamId);
                         //qDebug() << "Writing module: " << "tabid:" << smt.tabId << "moduleId:" << smt.moduleId << "streamId:" << smt.streamId << m.title;
-                        ++mi;
                     }
                 } else {
                     qWarning() << "Module"<<m.id<<"without streams!";
                 }
 
-
                 s->db->writeModule(m);
             }
-
-            ++i;
         }
     }  else {
         qWarning() << "No modules element found!";
@@ -1418,28 +1420,28 @@ int NvFetcher::storeFeeds()
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (jsonObj["results"].isArray()) {
-        QJsonArray::const_iterator i = jsonObj["results"].toArray().constBegin();
-        QJsonArray::const_iterator end = jsonObj["results"].toArray().constEnd();
+        QJsonArray arr = jsonObj["results"].toArray();
+        int end = arr.count();
 #else
     if (jsonObj["results"].type()==QVariant::List) {
         QVariantList::const_iterator i = jsonObj["results"].toList().constBegin();
         QVariantList::const_iterator end = jsonObj["results"].toList().constEnd();
 #endif
-        while (i != end) {
+        for (int i = 0; i < end; ++i) {
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-            if ((*i).isObject()) {
-                if ((*i).toObject()["streams"].isArray()) {
-                    QJsonArray::const_iterator ai = (*i).toObject()["streams"].toArray().constBegin();
-                    QJsonArray::const_iterator aend = (*i).toObject()["streams"].toArray().constEnd();
+            if (arr.at(i).isObject()) {
+                if (arr.at(i).toObject()["streams"].isArray()) {
+                    QJsonArray aarr = arr.at(i).toObject()["streams"].toArray();
+                    int aend = arr.count();
 #else
             if ((*i).type()==QVariant::Map) {
                 if ((*i).toMap()["streams"].type()==QVariant::List) {
                     QVariantList::const_iterator ai = (*i).toMap()["streams"].toList().constBegin();
                     QVariantList::const_iterator aend = (*i).toMap()["streams"].toList().constEnd();
 #endif
-                    while (ai != aend) {
+                    for (int ai = 0; ai < aend; ++ai) {
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-                        QJsonObject obj = (*ai).toObject();
+                        QJsonObject obj = aarr.at(ai).toObject();
                         if (obj["error"].isObject()) {
                             int code = (int) obj["error"].toObject()["code"].toDouble();
                             if (code != 204) {
@@ -1493,24 +1495,22 @@ int NvFetcher::storeFeeds()
 
                         //qDebug() << "Writing Stream: " << st.id << st.title;
                         s->db->writeStream(st);
-                        ++ai;
                     }
                 } else {
                     qWarning() << "No \"streams\" element found!";
                 }
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-                if ((*i).toObject()["items"].isArray()) {
-                    QJsonArray::const_iterator ai = (*i).toObject()["items"].toArray().constBegin();
-                    QJsonArray::const_iterator aend = (*i).toObject()["items"].toArray().constEnd();
+                if (arr.at(i).toObject()["items"].isArray()) {
+                    QJsonArray aarr = arr.at(i).toObject()["items"].toArray();
+                    int aend = arr.count();
 #else
-
                 if ((*i).toMap()["items"].type()==QVariant::List) {
                     QVariantList::const_iterator ai = (*i).toMap()["items"].toList().constBegin();
                     QVariantList::const_iterator aend = (*i).toMap()["items"].toList().constEnd();
 #endif
-                    while (ai != aend) {
+                    for (int ai = 0; ai < aend; ++ai) {
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-                        QJsonObject obj = (*ai).toObject();
+                        QJsonObject obj = aarr.at(ai).toObject();
 #else
                         QVariantMap obj = (*ai).toMap();
 #endif
@@ -1634,15 +1634,11 @@ int NvFetcher::storeFeeds()
 
                         if (e.publishedAt>0)
                             publishedBeforeDate = e.publishedAt;
-
-                        ++ai;
                     }
                 } else {
                     qWarning() << "No \"items\" element found!";
                 }
             }
-
-            ++i;
         }
     }  else {
         qWarning() << "No \"relults\" element found!";

@@ -61,6 +61,13 @@ Page {
                 onClicked: pageStack.push(Qt.resolvedUrl("AccountsDialog.qml"));
                 enabled: !settings.signedIn && !app.fetcherBusyStatus && !dm.busy && !dm.removerBusy
             }
+
+            MenuItem {
+                text: enabled ? qsTr("Sync") : qsTr("Busy...")
+                visible: settings.signedIn && enabled
+                onClicked: fetcher.update()
+                enabled: !fetcher.busy && !dm.busy && !dm.removerBusy
+            }
         }
 
         ViewPlaceholder {

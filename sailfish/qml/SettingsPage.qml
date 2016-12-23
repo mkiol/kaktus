@@ -404,12 +404,13 @@ Page {
                 }
             }
 
-            Slider {
-                width: root.width
+            IconSlider {
+                leftIconSource: "image://icons/icon-m-fontdown"
+                rightIconSource: "image://icons/icon-m-fontup"
+                label: qsTr("Viewer font size level")
                 minimumValue: 50
                 maximumValue: 200
                 value: Math.floor(settings.zoom * 100)
-                label: qsTr("Viewer font size level")
                 valueText: value + "%"
                 stepSize: 10
                 onValueChanged: settings.zoom = value/100
@@ -432,33 +433,36 @@ Page {
                         return 0;
                     if (settings.locale === "cs")
                         return 1;
-                    if (settings.locale === "en")
+                    if (settings.locale === "de")
                         return 2;
-                    if (settings.locale === "es")
+                    if (settings.locale === "en")
                         return 3;
-                    if (settings.locale === "it")
+                    if (settings.locale === "es")
                         return 4;
-                    if (settings.locale === "nl")
+                    if (settings.locale === "it")
                         return 5;
-                    if (settings.locale === "pl")
+                    if (settings.locale === "nl")
                         return 6;
-                    if (settings.locale === "ru")
+                    if (settings.locale === "pl")
                         return 7;
-                    if (settings.locale === "tr")
+                    if (settings.locale === "ru")
                         return 8;
+                    /*if (settings.locale === "tr")
+                        return 9;*/
                     return 0;
                 }
 
                 menu: ContextMenu {
                     MenuItem { text: qsTr("Default"); onClicked: locale.showMessage() }
                     MenuItem { text: "Čeština"; onClicked: locale.showMessage() }
+                    MenuItem { text: "Deutsch"; onClicked: locale.showMessage() }
                     MenuItem { text: "English"; onClicked: locale.showMessage() }
                     MenuItem { text: "Espanol"; onClicked: locale.showMessage() }
                     MenuItem { text: "Italiano"; onClicked: locale.showMessage() }
                     MenuItem { text: "Nederlands"; onClicked: locale.showMessage() }
                     MenuItem { text: "Polski"; onClicked: locale.showMessage()  }
                     MenuItem { text: "Русский"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Türkçe"; onClicked: locale.showMessage() }
+                    //MenuItem { text: "Türkçe"; onClicked: locale.showMessage() }
                 }
 
                 onCurrentIndexChanged: {
@@ -470,26 +474,29 @@ Page {
                         settings.locale = "cs";
                         break;
                     case 2:
-                        settings.locale = "en";
+                        settings.locale = "de";
                         break;
                     case 3:
-                        settings.locale = "es";
+                        settings.locale = "en";
                         break;
                     case 4:
-                        settings.locale = "it";
+                        settings.locale = "es";
                         break;
                     case 5:
-                        settings.locale = "nl";
+                        settings.locale = "it";
                         break;
                     case 6:
-                        settings.locale = "pl";
+                        settings.locale = "nl";
                         break;
                     case 7:
-                        settings.locale = "ru";
+                        settings.locale = "pl";
                         break;
                     case 8:
-                        settings.locale = "tr";
+                        settings.locale = "ru";
                         break;
+                    /*case 9:
+                        settings.locale = "tr";
+                        break;*/
                     }
                 }
 

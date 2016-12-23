@@ -359,7 +359,7 @@ ApplicationWindow {
     }
 
     function fetcherBusyChanged() {
-        console.log("fetcherBusyChanged:", fetcher.busy, app.fetcherBusyStatus)
+        //console.log("fetcherBusyChanged:", fetcher.busy, app.fetcherBusyStatus)
         if (app.fetcherBusyStatus != fetcher.busy)
             app.fetcherBusyStatus = fetcher.busy;
 

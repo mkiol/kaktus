@@ -17,7 +17,9 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#ifdef SAILFISH
 #include <sailfishapp.h>
+#endif
 #include <QPainter>
 #include <QRect>
 #include <QColor>
@@ -42,7 +44,14 @@ NvIconProvider::NvIconProvider() : QQuickImageProvider(QQuickImageProvider::Pixm
 QPixmap NvIconProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QStringList parts = id.split('?');
-    QPixmap iconsPixmap(SailfishApp::pathTo("qml/sprite-icons.png").toString(QUrl::RemoveScheme));
+    QString spriteImagePath = "";
+#ifdef SAILFISH
+    spriteImagePath = SailfishApp::pathTo("qml/sprite-icons.png").toString(QUrl::RemoveScheme);
+#endif
+#ifdef ANDROID
+    spriteImagePath = ":/images/sprite-icons.png";
+#endif
+    QPixmap iconsPixmap(spriteImagePath);
     QPixmap iconPixmap = iconsPixmap.copy(getPosition(parts.at(0), parts.at(1)));
 
     if (size)

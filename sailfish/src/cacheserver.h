@@ -68,6 +68,7 @@ class CacheServer : public QObject
     Q_OBJECT
 public:
     static bool readFile(const QString &filename, QByteArray &data);
+    static bool readFile2(const QString &path, QByteArray &data);
     static QString getFileUrl(const QString &id);
     static QByteArray getDataUrlByUrl(const QString &item);
 
