@@ -31,6 +31,7 @@
 
 #ifdef ANDROID
 #include <QScreen>
+#include <QColor>
 #endif
 
 #ifdef BB10
@@ -70,6 +71,7 @@ public:
     Q_INVOKABLE void resetFetcher(int type);
     //Q_INVOKABLE bool isOnline();
     Q_INVOKABLE QString formatHtml(const QString &data, bool offline, const QString &style = QString());
+    Q_INVOKABLE QString readAsset(const QString &path);
 
     static QString hash(const QString &url);
     static int monthsTo(const QDate &from, const QDate &to);
@@ -84,6 +86,7 @@ public:
     Q_INVOKABLE int pt(float value);
     Q_INVOKABLE int sp(float value);
     Q_INVOKABLE void showNotification(const QString &title, const QString &text);
+    Q_INVOKABLE void setStatusBarColor(const QColor &color);
 #endif
 
 #ifdef BB10
@@ -101,7 +104,6 @@ public:
     Q_INVOKABLE float titleTextFontSize();
     Q_INVOKABLE QString titleTextFontFamily();*/
     Q_INVOKABLE void launchBrowser(const QString &url);
-    Q_INVOKABLE QString readAsset(const QString &path);
 #endif
 
 public slots:

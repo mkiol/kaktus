@@ -80,24 +80,6 @@ ListItem {
 
     onMenuOpenChanged: { if(menuOpen) app.hideBar() }
 
-    Component.onCompleted: {
-        var r = feedTitle.length>0 ? (Math.abs(feedTitle.charCodeAt(0)-65)/57)%1 : 1;
-        var g = feedTitle.length>1 ? (Math.abs(feedTitle.charCodeAt(1)-65)/57)%1 : 1;
-        var b = feedTitle.length>2 ? (Math.abs(feedTitle.charCodeAt(2)-65)/57)%1 : 1;
-        var colorBg = Qt.rgba(r,g,b,0.9);
-        var colorFg = (r+g+b)>1.5 ? Theme.highlightDimmerColor : Theme.primaryColor;
-
-        iconPlaceholder.color = colorBg;
-        iconPlaceholderLabel.color = colorFg;
-
-        if (defaultIcon)
-            icon.source = "image://icons/icon-m-friend?" + colorFg;
-        else
-            icon.source = root.feedIcon !== "" ? cache.getUrlbyUrl(root.feedIcon) : "";
-    }
-
-    function getUrlbyUrl(url){return cache.getUrlbyUrl(url)}
-
     menu: last ? null : settings.iconContextMenu ? iconContextMenu : contextMenu
 
     onHiddenChanged: {
@@ -233,20 +215,19 @@ ListItem {
 
             Item {
                 id: titleItem
-                anchors.left: parent.left; anchors.right: parent.right;
-                //anchors.leftMargin: Theme.paddingLarge
+                anchors.left: parent.left; anchors.right: parent.right
                 anchors.rightMargin: star.width
-                height: Math.max(titleLabel.height, icon.height+Theme.paddingSmall, iconPlaceholder.height+Theme.paddingSmall)
-                //color: "red"
+                height: Math.max(titleLabel.height, icon.height+Theme.paddingSmall, icon.height+Theme.paddingSmall)
 
                 // Title
 
                 Label {
                     id: titleLabel
-                    //anchors.right: parent.right; anchors.left: icon.visible ? icon.right : parent.left;
-                    anchors.right: parent.right; anchors.left: icon.visible ? icon.right : iconPlaceholder.visible ? iconPlaceholder.right : parent.left
-                    //anchors.leftMargin: icon.visible ? Theme.paddingMedium : Theme.paddingLarge
-                    anchors.leftMargin: showIcon ? Theme.paddingMedium : Theme.paddingLarge
+                    anchors {
+                        right: parent.right
+                        left: icon.visible ? icon.right : parent.left
+                        leftMargin: showIcon ? Theme.paddingMedium : Theme.paddingLarge
+                    }
                     font.pixelSize: Theme.fontSizeMedium
                     font.family: Theme.fontFamilyHeading
                     font.bold: !root.read || root.readlater
@@ -267,69 +248,37 @@ ListItem {
                     }
                 }
 
-                // Feed Icon
-
-                Rectangle {
-                    id: iconPlaceholder
-                    width: visible ? 1.2*Theme.iconSizeSmall : 0
-                    height: width
-                    anchors.left: parent.left;
-                    anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
-                    y: Theme.paddingMedium
-                    visible: (root.defaultIcon || !icon.visible) && root.showIcon
-
-                    Label {
-                        id: iconPlaceholderLabel
-                        anchors.centerIn: parent
-                        text: feedTitle.substring(0,1).toUpperCase()
-                        visible: !root.defaultIcon
-                    }
-                }
-
-                Rectangle {
-                    anchors.fill: icon
-                    color: "white"
-                    visible: icon.visible && !root.defaultIcon
-                }
-
-                Image {
+                FeedIcon {
                     id: icon
+                    visible: root.showIcon
+                    showPlaceholder: !root.defaultIcon
+                    showBackground: true
+                    source: root.feedIcon
+                    text: root.feedTitle
+                    anchors {
+                        left: parent.left
+                        top: titleLabel.top
+                        topMargin: Theme.paddingSmall
+                    }
                     width: visible ? 1.2*Theme.iconSizeSmall: 0
                     height: width
-                    anchors.left: parent.left;
-                    anchors.top: titleLabel.top; anchors.topMargin: Theme.paddingSmall
-                    visible: status!=Image.Error && status!=Image.Null && root.showIcon
                 }
             }
 
-            Image {
+            CachedImage {
                 id: entryImage
-                anchors.left: parent.left;
-                fillMode: Image.PreserveAspectFit
-                width: root.landscapeMode ? 0 : sourceSize.width>=root.width ? root.width : sourceSize.width
-                enabled: root.landscapeMode ? false : source!="" && status==Image.Ready &&
-                         sourceSize.width > Theme.iconSizeMedium &&
-                         sourceSize.height > Theme.iconSizeMedium
-                visible: opacity>0
-                opacity: enabled ? 1.0 : 0.0
-                Behavior on opacity { FadeAnimation {} }
-                source: {
-                    if (root.image!="") {
-                        return settings.offlineMode ? getUrlbyUrl(root.image) : dm.online ? root.image : getUrlbyUrl(root.image);
-                    } else {
-                        return "";
-                    }
-                }
+                anchors.left: parent.left
+                maxWidth: root.width
+                minWidth: Theme.iconSizeMedium
+                orgSource: root.image
             }
 
             Label {
                 id: contentLabel
                 anchors.left: parent.left; anchors.right: parent.right;
                 anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                //text: root.landscapeMode ? root.contentall : root.content
                 text: root.content
                 wrapMode: Text.Wrap
-                //textFormat: root.landscapeMode ? Text.StyledText : Text.PlainText
                 textFormat: Text.PlainText
                 font.pixelSize: Theme.fontSizeSmall
                 visible: root.content!="" && !root.landscapeMode

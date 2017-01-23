@@ -62,7 +62,6 @@ Page {
 
         PageMenu {
             id: menu
-            //showAbout: settings.viewMode==2 ? true : false
             showAbout: true
         }
 
@@ -73,28 +72,12 @@ Page {
         delegate: ListItem {
             id: listItem
 
-            property bool last: model.uid=="last"
+            property bool last: model.uid==="last"
             property bool defaultIcon: model.icon === "http://s.theoldreader.com/icons/user_icon.png"
 
-            Component.onCompleted: {
-                var r = title.length>0 ? (Math.abs(title.charCodeAt(0)-65)/57)%1 : 1;
-                var g = title.length>1 ? (Math.abs(title.charCodeAt(1)-65)/57)%1 : 1;
-                var b = title.length>2 ? (Math.abs(title.charCodeAt(2)-65)/57)%1 : 1;
-                var colorBg = Qt.rgba(r,g,b,0.9);
-                var colorFg = (r+g+b)>1.5 ? Theme.highlightDimmerColor : Theme.primaryColor;
-
-                imagePlaceholder.color = colorBg;
-                imagePlaceholderLabel.color = colorFg;
-                if (defaultIcon)
-                    image.source = "image://icons/icon-m-friend?" + colorFg;
-                else
-                    image.source = model.icon !== "" ? cache.getUrlbyUrl(model.icon) : "";
-            }
-
             enabled: !last
-
             contentHeight: last ?
-                             app.orientation==Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape :
+                             app.orientation===Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape :
                              Math.max(item.height, image.height) + 2 * Theme.paddingMedium
 
             Rectangle {
@@ -109,36 +92,59 @@ Page {
                 }
             }
 
-            Column {
+            FeedIcon {
+                id: image
+                visible: !listItem.last
+                y: Theme.paddingMedium
+                anchors.left: parent.left
+                showPlaceholder: true
+                showBackground: !listItem.defaultIcon
+                source: listItem.defaultIcon ? "image://icons/icon-m-friend" : model.icon
+                text: model.title
+                width: visible ? 1.2*Theme.iconSizeSmall : 0
+                height: width
+            }
+
+            Label {
+                id: item
+                visible: !listItem.last
+                wrapMode: Text.AlignLeft
+                y: Theme.paddingMedium
+                anchors {
+                    left: image.visible ? image.right : parent.left
+                    right: unreadbox.visible ? unreadbox.left : parent.right
+                    verticalCenter: parent.verticalCenter
+                    leftMargin: Theme.paddingLarge
+                    rightMargin: Theme.paddingLarge
+                }
+                font.pixelSize: Theme.fontSizeMedium
+                text: model.title
+                color: listItem.down ?
+                        (model.unread ? Theme.highlightColor : Theme.secondaryHighlightColor) :
+                        (model.unread ? Theme.primaryColor : Theme.secondaryColor)
+            }
+
+            /*Column {
                 id: item
                 spacing: 0.5*Theme.paddingSmall
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.left: image.visible ? image.right : imagePlaceholder.right
+                //anchors.left: image.visible ? image.right : Theme.fontSizeMedium
                 anchors.right: unreadbox.visible ? unreadbox.left : parent.right
                 visible: !listItem.last
-
-                Label {
-                    id: itemLabel
-                    wrapMode: Text.AlignLeft
-                    anchors.left: parent.left; anchors.right: parent.right;
-                    anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                    font.pixelSize: Theme.fontSizeMedium
-                    text: title
-                    color: listItem.down ?
-                               (model.unread ? Theme.highlightColor : Theme.secondaryHighlightColor) :
-                               (model.unread ? Theme.primaryColor : Theme.secondaryColor)
-                }
-            }
+            }*/
 
             Rectangle {
                 id: unreadbox
-                anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
                 y: Theme.paddingSmall
+                anchors {
+                    right: parent.right
+                    rightMargin: Theme.paddingLarge
+                }
                 width: unreadlabel.width + 2 * Theme.paddingSmall
                 height: unreadlabel.height + 2 * Theme.paddingSmall
                 color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
                 radius: 5
-                visible: model.unread!=0 && !listItem.last
+                visible: model.unread!==0 && !listItem.last
 
                 Label {
                     id: unreadlabel
@@ -146,39 +152,6 @@ Page {
                     text: model.unread
                     color: Theme.highlightColor
                 }
-
-            }
-
-            Rectangle {
-                id: imagePlaceholder
-                width: visible ? 1.2*Theme.iconSizeSmall : 0
-                height: width
-                anchors.left: parent.left
-                y: Theme.paddingMedium
-                visible: listItem.defaultIcon || (!image.visible && !listItem.last)
-
-                Label {
-                    id: imagePlaceholderLabel
-                    anchors.centerIn: parent
-                    text: title.substring(0,1).toUpperCase()
-                    visible: !listItem.defaultIcon
-                }
-            }
-
-            Rectangle {
-                // Image white background
-                anchors.fill: image
-                visible: image.visible && !listItem.defaultIcon
-                color: "white"
-            }
-
-            Image {
-                id: image
-                width: visible ? 1.2*Theme.iconSizeSmall : 0
-                height: width
-                anchors.left: parent.left
-                visible: status!=Image.Error && status!=Image.Null && !listItem.last
-                y: Theme.paddingMedium
             }
 
             onClicked: {

@@ -238,6 +238,7 @@ public:
     QList<StreamModuleTab> readStreamModuleTabListWithoutDate();
 
     QString readEntryImageById(const QString &id);
+    QString readEntryContentById(const QString &id);
 
     QString readLatestEntryIdByDashboard(const QString &id);
     QString readLatestEntryIdByTab(const QString &id);

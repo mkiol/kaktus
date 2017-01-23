@@ -29,6 +29,8 @@
 #endif
 #ifdef ANDROID
 #include <QQmlApplicationEngine>
+#include <QtWebView>
+#include <QColor>
 #endif
 
 #include "iconprovider.h"
@@ -44,9 +46,9 @@ static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.5.1 (light edition)";
+static const char *VERSION = "2.5.2 (light edition)";
 #else
-static const char *VERSION = "2.5.1";
+static const char *VERSION = "2.5.2";
 #endif
 
 
@@ -62,10 +64,15 @@ int main(int argc, char *argv[])
 #ifdef ANDROID
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QScopedPointer<QGuiApplication> app(new QGuiApplication(argc, argv));
+    QtWebView::initialize();
     QScopedPointer<QQmlApplicationEngine> engine(new QQmlApplicationEngine());
     QQmlContext *context = engine->rootContext();
-    QString translationsDirPath = "";
-    //TODO
+    QString translationsDirPath = ""; //TODO
+#endif
+
+    Utils utils;
+#ifdef ANDROID
+    utils.setStatusBarColor(QColor("#00796b"));
 #endif
 
     app->setApplicationName(APP_NAME);
@@ -95,8 +102,6 @@ int main(int argc, char *argv[])
     DatabaseManager db; settings->db = &db;
     DownloadManager dm; settings->dm = &dm;
     CacheServer cache(&db); settings->cache = &cache;
-
-    Utils utils;
 
     QObject::connect(engine.data(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
 

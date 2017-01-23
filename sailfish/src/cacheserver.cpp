@@ -438,6 +438,29 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
             return;
         }*/
 
+        /*if (parts[1] == "rssdata" && parts.length() > 2) {
+            qDebug() << "handle, path=" << req->url().path();
+            Settings *s = Settings::instance();
+            QString id = parts[2];
+            QString content = s->db->readEntryContentById(id);
+            QString style = "";//img {max-width: 100% !important; max-height: device-height !important;}";
+
+            content = "<html><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>" +
+                      (style.isEmpty() ? "" : "<style>" + style + "</style>") +
+                      "</head><body>" + content + "</body></html>";
+
+            content = "<!DOCTYPE html>\n<html><head><meta content='width=device-width, initial-scale=1.0' name='viewport'>" +
+                      (style.isEmpty() ? "" : "<style>" + style + "</style>") +
+                      "</head><body>" + content + "</body></html>";
+
+            resp->setHeader("Content-Type", "text/html");
+            resp->setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+            resp->setHeader("Pragma", "no-cache");
+            resp->writeHead(200);
+            resp->end(content.toUtf8());
+            return;
+        }*/
+
         FilteringWorker *worker = new FilteringWorker();
         QObject::connect(this, SIGNAL(startWorker(QHttpRequest*,QHttpResponse*)), worker, SLOT(start(QHttpRequest*,QHttpResponse*)));
         QObject::connect(worker, SIGNAL(finished()), this, SLOT(handleFinish()));
@@ -478,12 +501,28 @@ QString CacheServer::getUrlbyUrl(const QString &url)
 {
     //qDebug() << "getUrlbyUrl, url=" << url << "hash=" << Utils::hash(url);
 
-    // If url is "image://" will not be hashed
-    if (url.isEmpty() || url.startsWith("image://")) {
+    if (url.isEmpty()) {
         return url;
     }
 
-    return "http://localhost:" + QString::number(port) + "/" + Utils::hash(url);
+    // If url is "image://" will not be hashed
+    if (url.startsWith("image://")) {
+        return url;
+    }
+
+    // If url is "http://localhost" will not be hashed
+    if (url.startsWith("http://localhost")) {
+        return url;
+    }
+
+    QString filename = Utils::hash(url);
+    Settings *s = Settings::instance();
+    if (!QFile::exists(s->getDmCacheDir() + "/" + filename)) {
+        qWarning() << "File " << filename << "does not exists!";
+        return "";
+    }
+
+    return "http://localhost:" + QString::number(port) + "/" + filename;
 }
 
 QByteArray CacheServer::getDataUrlByUrl(const QString &url)

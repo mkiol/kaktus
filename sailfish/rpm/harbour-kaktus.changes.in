@@ -8,6 +8,13 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sat Jan 22 2016 Michal Kosciesza 2.5.2-1
+- Caching improvements
+- Minor UI improvements
+
+* Sat Dec 23 2016 Michal Kosciesza 2.5.1-3
+- RU translations update
+
 * Thu Dec 22 2016 Michal Kosciesza 2.5.1-2
 - DE & RU translations update
 

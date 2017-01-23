@@ -27,11 +27,11 @@ ApplicationWindow {
     property bool progress: false
     property int oldViewMode
 
-    property bool isTablet: Screen.sizeCategory === Screen.Large || Screen.sizeCategory === Screen.ExtraLarge
-
-    property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
-    property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
-    property bool isFeedly: settings.signinType >= 20 && settings.signinType < 30
+    readonly property bool isTablet: Screen.sizeCategory === Screen.Large || Screen.sizeCategory === Screen.ExtraLarge
+    readonly property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
+    readonly property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
+    readonly property bool isFeedly: settings.signinType >= 20 && settings.signinType < 30
+    readonly property variant _cache: cache
 
     cover: CoverPage {}
 

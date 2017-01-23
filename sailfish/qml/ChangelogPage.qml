@@ -51,6 +51,15 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("2.5.2")
+            }
+
+            LogItem {
+                title: 'Bug fixes'
+                description: "Some bugs related to caching process have been fixed.";
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("2.5.1")
             }
 

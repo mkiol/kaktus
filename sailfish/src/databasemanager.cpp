@@ -1557,6 +1557,29 @@ QString DatabaseManager::readEntryImageById(const QString &id)
     return "";
 }
 
+QString DatabaseManager::readEntryContentById(const QString &id)
+{
+    if (db.isOpen()) {
+        QSqlQuery query(db);
+
+        bool ret = query.exec(QString("SELECT content FROM entries WHERE id='%1';")
+                              .arg(id));
+
+        if (!ret) {
+           qWarning() << "SQL Error!" << query.lastQuery();checkError(query.lastError());
+        }
+
+        while(query.next()) {
+            return query.value(0).toString();
+        }
+
+    } else {
+        qWarning() << "DB is not open!";
+    }
+
+    return "";
+}
+
 QList<QString> DatabaseManager::readModuleIdByStream(const QString &id)
 {
     QList<QString> list;

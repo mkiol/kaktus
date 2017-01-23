@@ -142,7 +142,7 @@ void Settings::setShowBroadcast(bool value)
 
 bool Settings::getShowBroadcast()
 {
-    return settings.value("showbroadcast", true).toBool();
+    return settings.value("showbroadcast", false).toBool();
 }
 
 void Settings::setOfflineMode(bool value)
@@ -695,7 +695,6 @@ void Settings::setFontSize(int value)
 float Settings::getZoom()
 {
     float size = settings.value("zoom", 1.0).toFloat();
-    //size = static_cast<float>(static_cast<int>(size*100+0.5))/100.0;
     return size < 0.5 ? 0.5 : size > 2.0 ? 2.0 : size;
 }
 
@@ -704,8 +703,6 @@ void Settings::setZoom(float value)
     // Min value is 0.5 & max value is 2.0
     if (value < 0.5 || value > 2.0)
         return;
-
-    //value = static_cast<float>(static_cast<int>(value*100+0.5))/100.0;
 
     if (getZoom() != value) {
         settings.setValue("zoom", value);

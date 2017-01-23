@@ -24,6 +24,9 @@
 #include <QCryptographicHash>
 #include <QRegExp>
 
+#ifdef SAILFISH
+#include <sailfishapp.h>
+#endif
 #ifdef ANDROID
 #include <QtAndroidExtras/QAndroidJniObject>
 #include <QtGui/QGuiApplication>
@@ -125,6 +128,15 @@ void Utils::showNotification(const QString &title, const QString &text)
                                        "(Ljava/lang/String;Ljava/lang/String;)V",
                                        jTitle.object<jstring>(), jText.object<jstring>());
 }
+
+void Utils::setStatusBarColor(const QColor &color)
+{
+    int acolor = (color.alpha() << 24) | (color.red() << 16) | (color.green() << 8) | color.blue();
+    QAndroidJniObject::callStaticMethod<void>("net/mkiol/kaktus/KaktusActivity",
+                                              "setStatusBarColor",
+                                              "(I)V", acolor);
+}
+
 #endif
 
 #ifdef BB10
@@ -133,6 +145,29 @@ void Utils::launchBrowser(const QString &url)
     navigator_invoke(url.toStdString().c_str(),0);
 }
 #endif
+
+QString Utils::readAsset(const QString &path)
+{
+#ifdef BB10
+    QFile file("app/native/assets/" + path);
+#endif
+#ifdef ANDROID
+    QFile file(":/" + path);
+#endif
+#ifdef SAILFISH
+    QFile file(SailfishApp::pathTo(path).toLocalFile());
+#endif
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Could not open" << path << "for reading: " << file.errorString();
+        file.close();
+        return "";
+    }
+
+    QString data = QString(file.readAll());
+    file.close();
+
+    return data;
+}
 
 void Utils::copyToClipboard(const QString &text)
 {
@@ -201,10 +236,9 @@ QString Utils::formatHtml(const QString & data, bool offline, const QString & st
         content.remove(rxSizes);
     }
 
-    if (!style.isEmpty())
-        content = "<style>" + style + "</style>" + content;
-
-    content = "<html><head><meta name=\"viewport\" content=\"initial-scale=1.0\"></head><body>" + content + "</body></html>";
+    content = "<html><head><meta name=\"viewport\" content=\"width=device-width, maximum-scale=1.0, initial-scale=1.0\">" +
+              (style.isEmpty() ? "" : "<style>" + style + "</style>") +
+              "</head><body>" + content + "</body></html>";
 
     return content;
 }
@@ -234,21 +268,6 @@ bool Utils::removeDir(const QString &dirName)
 }
 
 #ifdef BB10
-QString Utils::readAsset(const QString &path)
-{
-    QFile file("app/native/assets/" + path);
-    if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "Could not open" << path << "for reading: " << file.errorString();
-        file.close();
-        return "";
-    }
-
-    QString data = QString(file.readAll());
-    file.close();
-
-    return data;
-}
-
 // Source: http://hecgeek.blogspot.com/2014/10/blackberry-10-multiple-os-versions-from.html
 bool Utils::checkOSVersion(int major, int minor, int patch, int build)
 {

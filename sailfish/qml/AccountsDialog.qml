@@ -75,6 +75,8 @@ Page {
                     Image {
                         id: icon
                         anchors { left: parent.left }
+                        width: 1.2*Theme.iconSizeSmall
+                        height: 1.2*Theme.iconSizeSmall
                         source: iconSource
                     }
 

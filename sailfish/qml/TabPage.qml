@@ -31,19 +31,19 @@ Page {
     allowedOrientations: {
         switch (settings.allowedOrientations) {
         case 1:
-            return Orientation.Portrait;
+            return Orientation.Portrait
         case 2:
-            return Orientation.Landscape;
+            return Orientation.Landscape
         }
-        return Orientation.Landscape | Orientation.Portrait;
+        return Orientation.Landscape | Orientation.Portrait
     }
 
     ActiveDetector {
         onActivated: {
-            tabModel.updateFlags();
+            tabModel.updateFlags()
         }
         onInit: {
-            bar.flick = listView;
+            bar.flick = listView
         }
     }
 
@@ -101,36 +101,37 @@ Page {
                     }
                 }
 
-                Column {
+                Label {
                     id: item
-
-                    spacing: 0.5*Theme.paddingSmall
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: image.visible ? image.right : imagePlaceholder.right
-                    anchors.right: unreadbox.visible ? unreadbox.left : parent.right
                     visible: !listItem.last
-
-                    Label {
-                        wrapMode: Text.AlignLeft
-                        anchors.left: parent.left; anchors.right: parent.right;
-                        anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                        font.pixelSize: Theme.fontSizeMedium
-                        color: listItem.down ?
-                                   (model.unread ? Theme.highlightColor : Theme.secondaryHighlightColor) :
-                                   (model.unread ? Theme.primaryColor : Theme.secondaryColor)
-                        text: listItem.title
+                    wrapMode: Text.AlignLeft
+                    y: Theme.paddingMedium
+                    anchors {
+                        left: image.visible ? image.right : parent.left
+                        right: unreadbox.visible ? unreadbox.left : parent.right
+                        verticalCenter: parent.verticalCenter
+                        leftMargin: Theme.paddingLarge
+                        rightMargin: Theme.paddingLarge
                     }
+                    font.pixelSize: Theme.fontSizeMedium
+                    color: listItem.down ?
+                                (model.unread ? Theme.highlightColor : Theme.secondaryHighlightColor) :
+                                (model.unread ? Theme.primaryColor : Theme.secondaryColor)
+                    text: listItem.title
                 }
 
                 Rectangle {
                     id: unreadbox
-                    anchors.right: parent.right; anchors.rightMargin: Theme.paddingLarge
                     y: Theme.paddingSmall
+                    anchors {
+                        right: parent.right
+                        rightMargin: Theme.paddingLarge
+                    }
                     width: unreadlabel.width + 3 * Theme.paddingSmall
                     height: unreadlabel.height + 2 * Theme.paddingSmall
                     color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
                     radius: 5
-                    visible: model.unread!=0 && !listItem.last
+                    visible: model.unread !==0 && !listItem.last
 
                     Label {
                         id: unreadlabel
@@ -140,48 +141,28 @@ Page {
                     }
                 }
 
-                Rectangle {
-                    id: imagePlaceholder
-                    width: visible ? 1.2*Theme.iconSizeSmall : 0
-                    height: width
-                    anchors.left: parent.left
-                    y: Theme.paddingMedium
-                    visible: !image.visible && !listItem.last
-
-                    Label {
-                        id: imagePlaceholderLabel
-                        anchors.centerIn: parent
-                        text: listItem.title.substring(0,1).toUpperCase()
-                    }
-
-                    Component.onCompleted: {
-                        var r = listItem.title.length>0 ? (Math.abs(listItem.title.charCodeAt(0)-65)/57)%1 : 1;
-                        var g = listItem.title.length>1 ? (Math.abs(listItem.title.charCodeAt(1)-65)/57)%1 : 1;
-                        var b = listItem.title.length>2 ? (Math.abs(listItem.title.charCodeAt(2)-65)/57)%1 : 1;
-                        imagePlaceholder.color = Qt.rgba(r,g,b,0.9);
-                        imagePlaceholderLabel.color = (r+g+b)>1.5 ? Theme.highlightDimmerColor : Theme.primaryColor;
-                    }
-                }
-
-                Image {
+                FeedIcon {
                     id: image
+                    visible: !listItem.last
+                    y: Theme.paddingMedium
+                    anchors.left: parent.left
+                    showPlaceholder: true
+                    showBackground: false
+                    source: listItem.imageSource
+                    text: listItem.title
                     width: visible ? 1.2*Theme.iconSizeSmall : 0
                     height: width
-                    anchors.left: parent.left; //anchors.leftMargin: Theme.paddingLarge
-                    visible: status!=Image.Error && status!=Image.Null && !listItem.last
-                    y: Theme.paddingMedium
-                    source: listItem.imageSource
                 }
 
                 onClicked: {
                     if (!listItem.last) {
                         if (settings.viewMode == 0) {
                             utils.setFeedModel(uid);
-                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : model.uid=="global.uncategorized" ? qsTr("Uncategorized") : title, "index": model.index});
+                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.uid==="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : model.uid=="global.uncategorized" ? qsTr("Uncategorized") : title, "index": model.index});
                         }
                         if (settings.viewMode == 1) {
                             utils.setEntryModel(uid);
-                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.uid=="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : model.uid=="global.uncategorized" ? qsTr("Uncategorized") : title, "readlater": false});
+                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.uid==="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : model.uid=="global.uncategorized" ? qsTr("Uncategorized") : title, "readlater": false});
                         }
                     }
                 }
