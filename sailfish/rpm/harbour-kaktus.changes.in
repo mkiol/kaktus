@@ -8,7 +8,10 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
-* Sat Jan 22 2016 Michal Kosciesza 2.5.2-1
+* Tue Jan 24 2017 Michal Kosciesza 2.5.2-2
+- Critical bug fix
+
+* Sat Jan 22 2017 Michal Kosciesza 2.5.2-1
 - Caching improvements
 - Minor UI improvements
 

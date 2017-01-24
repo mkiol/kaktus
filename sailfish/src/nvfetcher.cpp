@@ -1432,7 +1432,7 @@ int NvFetcher::storeFeeds()
             if (arr.at(i).isObject()) {
                 if (arr.at(i).toObject()["streams"].isArray()) {
                     QJsonArray aarr = arr.at(i).toObject()["streams"].toArray();
-                    int aend = arr.count();
+                    int aend = aarr.count();
 #else
             if ((*i).type()==QVariant::Map) {
                 if ((*i).toMap()["streams"].type()==QVariant::List) {
@@ -1502,7 +1502,7 @@ int NvFetcher::storeFeeds()
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                 if (arr.at(i).toObject()["items"].isArray()) {
                     QJsonArray aarr = arr.at(i).toObject()["items"].toArray();
-                    int aend = arr.count();
+                    int aend = aarr.count();
 #else
                 if ((*i).toMap()["items"].type()==QVariant::List) {
                     QVariantList::const_iterator ai = (*i).toMap()["items"].toList().constBegin();
