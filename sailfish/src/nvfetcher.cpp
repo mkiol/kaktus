@@ -281,6 +281,9 @@ void NvFetcher::fetchFeedsReadlater()
                 .arg(publishedBeforeDate);
     }
 
+    //qDebug() << url.toString();
+    //qDebug() << content;
+
     currentReply = nam.post(request, content.toUtf8());
     connect(currentReply, SIGNAL(finished()), this, SLOT(finishedFeedsReadlater()));
     connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
@@ -964,7 +967,6 @@ void NvFetcher::finishedFeedsReadlater()
 {
     //qDebug() << data;
     if (currentReply->error()) {
-
         // Restoring backup
         Settings *s = Settings::instance();
         if (!s->db->restoreBackup()) {
@@ -1097,9 +1099,8 @@ void NvFetcher::run()
         break;
     case StoreFeedsReadlater:
         count = storeFeeds();
-        if (count<limitFeedsReadlater) {
+        if (count == 0)
             publishedBeforeDate = 0;
-        }
         break;
     default:
         qWarning() << "Unknown Job!";
@@ -1631,6 +1632,7 @@ int NvFetcher::storeFeeds()
 
                         s->db->writeEntry(e);
                         ++entriesCount;
+                        //qDebug() << "entriesCount:" << entriesCount;
 
                         if (e.publishedAt>0)
                             publishedBeforeDate = e.publishedAt;

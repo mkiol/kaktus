@@ -116,7 +116,7 @@ Page {
                 anchors.left: parent.left; anchors.right: parent.right
                 font.pixelSize: Theme.fontSizeExtraSmall
                 textFormat: Text.RichText
-                text: "Copyright &copy; 2014-2016 Michal Kosciesza"
+                text: "Copyright &copy; 2014-2017 Michal Kosciesza"
             }
 
             Label {

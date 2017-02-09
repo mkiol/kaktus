@@ -8,6 +8,9 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Tue Feb 09 2017 Michal Kosciesza 2.5.3-1
+- FIX: Sync process did not download all saved articles in Netvibes
+
 * Tue Jan 24 2017 Michal Kosciesza 2.5.2-2
 - Critical bug fix
 

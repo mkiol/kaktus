@@ -51,6 +51,15 @@ Page {
         model: VisualItemModel {
 
             SectionHeader {
+                text: qsTr("Version %1").arg("2.5.3")
+            }
+
+            LogItem {
+                title: 'Bug fixes for Netvibes'
+                description: "Bug related to syncing process in Netvibes has been fixed.";
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("2.5.2")
             }
 
