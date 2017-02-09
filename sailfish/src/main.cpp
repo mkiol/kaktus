@@ -26,6 +26,8 @@
 #include <QScopedPointer>
 #ifdef SAILFISH
 #include <sailfishapp.h>
+#include <QFile>
+#include <QDir>
 #endif
 #ifdef ANDROID
 #include <QQmlApplicationEngine>
@@ -46,9 +48,9 @@ static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.5.2 (light edition)";
+static const char *VERSION = "2.5.3 (light edition)";
 #else
-static const char *VERSION = "2.5.2";
+static const char *VERSION = "2.5.3";
 #endif
 
 
@@ -73,9 +75,9 @@ int main(int argc, char *argv[])
     Utils utils;
 #ifdef ANDROID
     utils.setStatusBarColor(QColor("#00796b"));
+    app->setApplicationName(APP_NAME);
 #endif
 
-    app->setApplicationName(APP_NAME);
     app->setApplicationDisplayName(APP_NAME);
     app->setApplicationVersion(VERSION);
 
@@ -88,6 +90,31 @@ int main(int argc, char *argv[])
     engine->addImageProvider(QLatin1String("nvicons"), new NvIconProvider);
 
     qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
+
+#ifdef SAILFISH
+    //-- temp fix --
+    // config file
+    if (QFile::exists("/home/nemo/.config/harbour-kaktus/Kaktus.conf")) {
+        qWarning() << "Old config file exists -> doing migration";
+        QFile::remove("/home/nemo/.config/harbour-kaktus/harbour-kaktus.conf");
+        if (QFile::copy("/home/nemo/.config/harbour-kaktus/Kaktus.conf",
+                    "/home/nemo/.config/harbour-kaktus/harbour-kaktus.conf")) {
+            QFile::remove("/home/nemo/.config/harbour-kaktus/Kaktus.conf");
+        }
+    }
+    // cache file
+    QDir newDir("/home/nemo/.cache/harbour-kaktus/Kaktus/");
+    if (newDir.exists()) {
+        qWarning() << "Old cache dir exists -> doing migration";
+        QDir oldDir("/home/nemo/.cache/harbour-kaktus/harbour-kaktus/");
+        if (oldDir.exists()) {
+            oldDir.removeRecursively();
+        }
+        qDebug() << newDir.rename("/home/nemo/.cache/harbour-kaktus/Kaktus/",
+                                  "/home/nemo/.cache/harbour-kaktus/harbour-kaktus/");
+    }
+    //--
+#endif
 
     Settings *settings = Settings::instance();
 
