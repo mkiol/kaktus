@@ -27,6 +27,9 @@ Item {
     property alias description: textswitch.description
     property alias checked: textswitch.checked
     property alias iconSource: icon.source
+    property alias automaticCheck: textswitch.automaticCheck
+    property alias busy: textswitch.busy
+    signal clicked
 
     anchors.left: parent.left; anchors.right: parent.right
     height: Math.max(textswitch.height, icon.height)
@@ -35,6 +38,7 @@ Item {
         id: textswitch
         anchors.verticalCenter: parent.verticalCenter
         width: parent.width - icon.width - icon.anchors.rightMargin
+        onClicked: root.clicked()
     }
 
     Image {

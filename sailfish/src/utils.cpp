@@ -188,12 +188,18 @@ void Utils::copyToClipboard(const QString &text)
 void Utils::resetQtWebKit()
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    QString value = QDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation)).path();
+    QStringList dataDirs = QStandardPaths::standardLocations(QStandardPaths::DataLocation);
+    if(dataDirs.size() > 0) {
+        QDir dir(QDir(dataDirs.at(0)).filePath(".QtWebKit"));
+        qDebug() << dir.path();
+        if (dir.exists())
+            dir.removeRecursively();
+    }
 #else
     QString value = QDir(QDesktopServices::storageLocation(QDesktopServices::DataLocation)).path();
-#endif
     value = value + "/.QtWebKit";
     removeDir(value);
+#endif
 }
 
 void Utils::log(const QString & data)

@@ -248,6 +248,7 @@ Page {
             landscapeMode: root.landscapeMode
             onlineurl: model.link
             offlineurl: cache.getUrlbyId(model.uid)
+            evaluation: ai.evaluation(model.uid)
 
             signal singleEntryClicked
             signal doubleEntryClicked
@@ -431,6 +432,10 @@ Page {
 
             onMarkedReadlater: {
                 entryModel.setData(index, "readlater", 1, "");
+                if (evaluation !== -1) {
+                    evaluation = 1
+                    ai.addEvaluation(model.uid, model.title, evaluation)
+                }
             }
 
             onUnmarkedReadlater: {
@@ -464,18 +469,30 @@ Page {
 
             onOpenInBrowser: {
                 if (!check()) {
-                    return;
+                    return
                 }
 
-                openInExaternalBrowser(model.index, model.link, model.uid);
+                openInExaternalBrowser(model.index, model.link, model.uid)
             }
 
             onOpenInViewer: {
                 if (!check()) {
-                    return;
+                    return
                 }
 
-                openEntryInViewer();
+                openEntryInViewer()
+            }
+
+            onEvaluated: {
+                ai.addEvaluation(model.uid, model.title, evaluation)
+            }
+
+            onShare: {
+                pageStack.push(Qt.resolvedUrl("ShareLinkPage.qml"),{"link": model.link, "linkTitle": model.title})
+            }
+
+            onPocketAdd: {
+                pocket.add(model.link, model.title)
             }
         }
 

@@ -27,6 +27,12 @@ DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)
 {}
 
+DatabaseManager::~DatabaseManager()
+{
+    db.close();
+    QSqlDatabase::removeDatabase("qt_sql_kaktus_connection");
+}
+
 bool DatabaseManager::isSynced()
 {
     if (db.isOpen()) {

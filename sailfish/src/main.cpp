@@ -28,6 +28,7 @@
 #include <sailfishapp.h>
 #include <QFile>
 #include <QDir>
+#include <QStandardPaths>
 #endif
 #ifdef ANDROID
 #include <QQmlApplicationEngine>
@@ -43,14 +44,15 @@
 #include "utils.h"
 #include "settings.h"
 #include "networkaccessmanagerfactory.h"
+#include "ai.h"
 
 static const char *APP_NAME = "Kaktus";
 static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
 static const char *PAGE = "https://github.com/mkiol/kaktus";
 #ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.5.3 (light edition)";
+static const char *VERSION = "2.6.0 (light edition)";
 #else
-static const char *VERSION = "2.5.3";
+static const char *VERSION = "2.6.0";
 #endif
 
 
@@ -94,24 +96,26 @@ int main(int argc, char *argv[])
 #ifdef SAILFISH
     //-- temp fix --
     // config file
-    if (QFile::exists("/home/nemo/.config/harbour-kaktus/Kaktus.conf")) {
+    QString path = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation)).path();
+    if (QFile::exists(path + "/harbour-kaktus/Kaktus.conf")) {
         qWarning() << "Old config file exists -> doing migration";
-        QFile::remove("/home/nemo/.config/harbour-kaktus/harbour-kaktus.conf");
-        if (QFile::copy("/home/nemo/.config/harbour-kaktus/Kaktus.conf",
-                    "/home/nemo/.config/harbour-kaktus/harbour-kaktus.conf")) {
-            QFile::remove("/home/nemo/.config/harbour-kaktus/Kaktus.conf");
+        QFile::remove(path + "/harbour-kaktus/harbour-kaktus.conf");
+        if (QFile::copy(path + "/harbour-kaktus/Kaktus.conf",
+                    path + "/harbour-kaktus/harbour-kaktus.conf")) {
+            QFile::remove(path + "/harbour-kaktus/Kaktus.conf");
         }
     }
     // cache file
-    QDir newDir("/home/nemo/.cache/harbour-kaktus/Kaktus/");
+    path = QDir(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation)).path();
+    QDir newDir(path + "/harbour-kaktus/Kaktus/");
     if (newDir.exists()) {
         qWarning() << "Old cache dir exists -> doing migration";
-        QDir oldDir("/home/nemo/.cache/harbour-kaktus/harbour-kaktus/");
+        QDir oldDir(path + "/harbour-kaktus/harbour-kaktus/");
         if (oldDir.exists()) {
             oldDir.removeRecursively();
         }
-        qDebug() << newDir.rename("/home/nemo/.cache/harbour-kaktus/Kaktus/",
-                                  "/home/nemo/.cache/harbour-kaktus/harbour-kaktus/");
+        qDebug() << newDir.rename(path + "/harbour-kaktus/Kaktus/",
+                                  path + "/harbour-kaktus/harbour-kaktus/");
     }
     //--
 #endif
@@ -129,6 +133,7 @@ int main(int argc, char *argv[])
     DatabaseManager db; settings->db = &db;
     DownloadManager dm; settings->dm = &dm;
     CacheServer cache(&db); settings->cache = &cache;
+    Ai ai; ai.init();
 
     QObject::connect(engine.data(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
 
@@ -139,6 +144,7 @@ int main(int argc, char *argv[])
     context->setContextProperty("utils", &utils);
     context->setContextProperty("dm", &dm);
     context->setContextProperty("cache", &cache);
+    context->setContextProperty("ai", &ai);
     context->setContextProperty("settings", settings);
 
 #ifdef SAILFISH

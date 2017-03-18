@@ -58,6 +58,8 @@ ListItem {
     readonly property alias expandable: box.expandable
     property bool expandedMode: settings.expandedMode
 
+    property int evaluation: 0
+
     signal markedAsRead
     signal markedAsUnread
     signal markedReadlater
@@ -70,6 +72,9 @@ ListItem {
     signal openInViewer
     signal openInBrowser
     signal showFeedContent
+    signal evaluated(int evaluation)
+    signal share
+    signal pocketAdd
 
     enabled: !last && !daterow
 
@@ -80,7 +85,7 @@ ListItem {
 
     onMenuOpenChanged: { if(menuOpen) app.hideBar() }
 
-    menu: last ? null : settings.iconContextMenu ? iconContextMenu : contextMenu
+    menu: last ? null : iconContextMenu
 
     onHiddenChanged: {
         if (hidden && expanded) {
@@ -134,7 +139,7 @@ ListItem {
         }
     }*/
 
-    BackgroundItem {
+    /*BackgroundItem {
         id: star
         anchors.right: parent.right; anchors.top: parent.top
         height: Theme.iconSizeSmall + 2*Theme.paddingMedium
@@ -163,6 +168,22 @@ ListItem {
                     return "image://theme/icon-m-favorite-selected?"+Theme.primaryColor;
                 return "image://theme/icon-m-favorite?"+Theme.primaryColor;
             }
+        }
+    }*/
+
+    SmallIconButton {
+        id: star
+        anchors.right: parent.right; anchors.top: parent.top
+        marginV: 2*Theme.paddingMedium
+        visible: !last && !daterow
+
+        icon.source: root.readlater ? "image://theme/icon-m-favorite-selected":
+                                      "image://theme/icon-m-favorite"
+        onClicked: {
+            if (root.readlater)
+                root.unmarkedReadlater()
+            else
+                root.markedReadlater()
         }
     }
 
@@ -326,7 +347,7 @@ ListItem {
 
         Image {
             id: expanderIcon
-            anchors.bottom: parent.bottom
+            anchors.verticalCenter: expanderLabel.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: Theme.paddingMedium
             source: "image://theme/icon-lock-more"
@@ -382,7 +403,8 @@ ListItem {
 
 
             Label {
-                anchors.left: parent.left; anchors.right: parent.right
+                id: authorLabel
+                anchors {left: parent.left; right: parent.right}
                 font.pixelSize: Theme.fontSizeExtraSmall
                 color: root.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
                 truncationMode: TruncationMode.Fade
@@ -390,6 +412,53 @@ ListItem {
                       ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
                       : utils.getHumanFriendlyTimeString(date)
             }
+
+            /*Item {
+                anchors.left: parent.left; anchors.right: parent.right
+                height: evaluationButtons.height
+
+                Label {
+                    id: authorLabel
+                    anchors {left: parent.left; right: evaluationButtons.left; verticalCenter: parent.verticalCenter}
+                    font.pixelSize: Theme.fontSizeExtraSmall
+                    color: root.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
+                    truncationMode: TruncationMode.Fade
+                    text: root.author!=""
+                          ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
+                          : utils.getHumanFriendlyTimeString(date)
+                }
+
+                Row {
+                    id: evaluationButtons
+                    anchors {right: parent.right; verticalCenter: parent.verticalCenter}
+
+                    SmallIconButton {
+                        icon.source: root.evaluation === 1 ?
+                                         "image://icons/icon-m-good-selected" :
+                                         "image://icons/icon-m-good"
+                        onClicked: {
+                            if (root.evaluation === 1)
+                                root.evaluation = 0
+                            else
+                                root.evaluation = 1
+                            evaluated(root.evaluation)
+                        }
+                    }
+
+                    SmallIconButton {
+                        icon.source: root.evaluation === -1 ?
+                                         "image://icons/icon-m-bad-selected" :
+                                         "image://icons/icon-m-bad"
+                        onClicked: {
+                            if (root.evaluation === -1)
+                                root.evaluation = 0
+                            else
+                                root.evaluation = -1
+                            evaluated(root.evaluation)
+                        }
+                    }
+                }
+            }*/
         }
 
         onClicked: {
@@ -476,143 +545,56 @@ ListItem {
                 visible: enabled
                 //enabled: settings.clickBehavior !== 2
                 onClicked: {
-                    root.showFeedContent();
-                    root.expanded = false;
-                    menu.hide();
+                    root.showFeedContent()
+                    root.expanded = false
+                    menu.hide()
                 }
+            }
+
+            IconMenuItem {
+                text: qsTr("Add to Pocket")
+                visible: settings.pocketEnabled
+                enabled: settings.pocketEnabled && dm.online
+                icon.source: "image://icons/icon-m-pocket"
+                busy: pocket.busy
+                onClicked: root.pocketAdd()
+            }
+
+            IconMenuItem {
+                text: qsTr("Share link")
+                icon.source: "image://theme/icon-m-share"
+                onClicked: root.share()
             }
 
             IconMenuItem {
                 id: likeItem
                 text: qsTr("Toggle Like")
-                icon.source: root.liked ? 'image://icons/icon-m-like-selected' : 'image://icons/icon-m-like'
+                icon.source: root.liked ? "image://icons/icon-m-like-selected" : "image://icons/icon-m-like"
                 enabled: settings.showBroadcast && app.isOldReader
                 visible: enabled
                 onClicked: {
                     if (root.liked) {
-                        root.unmarkedLike();
+                        root.unmarkedLike()
                     } else {
-                        root.markedLike();
+                        root.markedLike()
                     }
-                    menu.hide();
+                    menu.hide()
                 }
             }
 
             IconMenuItem {
                 text: qsTr("Toggle Share")
-                icon.source: root.broadcast ? 'image://icons/icon-m-share-selected' : 'image://icons/icon-m-share'
+                icon.source: root.broadcast ? "image://icons/icon-m-share-selected" : "image://icons/icon-m-share"
                 enabled: settings.showBroadcast && app.isOldReader &&
                          !root.friendStream
                 visible: enabled
                 onClicked: {
                     if (root.broadcast) {
-                        root.unmarkedBroadcast();
+                        root.unmarkedBroadcast()
                     } else {
-                        root.markedBroadcast();
+                        root.markedBroadcast()
                     }
-                    menu.hide();
-                }
-            }
-
-        }
-    }
-
-    Component {
-        id: contextMenu
-        ContextMenu {
-
-            MenuItem {
-                text: read ? qsTr("Mark as unread") : qsTr("Mark as read")
-                visible: enabled
-                enabled: root.showMarkedAsRead
-                onClicked: {
-                    if (read) {
-                        root.markedAsUnread();
-                    } else {
-                        root.markedAsRead();
-                        root.expanded = false;
-                    }
-                }
-            }
-
-            MenuItem {
-                text: qsTr("Mark above as read")
-                visible: enabled
-                enabled: root.showMarkedAsRead && index > 1
-                onClicked: {
-                    root.markedAboveAsRead();
-                    root.expanded = false;
-                }
-            }
-
-            MenuItem {
-                text: app.isNetvibes || app.isFeedly ?
-                          readlater ? qsTr("Unsave") : qsTr("Save") :
-                          readlater ? qsTr("Unstar") : qsTr("Star")
-                onClicked: {
-                    if (readlater) {
-                        root.unmarkedReadlater();
-                    } else {
-                        root.markedReadlater();
-                    }
-                }
-            }
-
-            MenuItem {
-                text: liked ? qsTr("Unlike") : qsTr("Like")
-                enabled: settings.showBroadcast && app.isOldReader
-                visible: enabled
-                onClicked: {
-                    if (liked) {
-                        root.unmarkedLike();
-                    } else {
-                        root.markedLike();
-                    }
-                }
-            }
-
-            MenuItem {
-                text: broadcast ? qsTr("Unshare") : qsTr("Share with followers")
-                enabled: settings.showBroadcast && app.isOldReader &&
-                         !root.friendStream
-                visible: enabled
-                onClicked: {
-                    if (broadcast) {
-                        root.unmarkedBroadcast();
-                    } else {
-                        root.markedBroadcast();
-                    }
-                }
-            }
-
-            MenuItem {
-                text: qsTr("Open in viewer")
-                visible: enabled
-                //enabled: settings.clickBehavior !== 0
-                onClicked: {
-                    root.openInViewer();
-                    root.expanded = false;
-                }
-            }
-
-
-            MenuItem {
-                text: qsTr("Open in browser")
-                visible: enabled
-                //enabled: settings.clickBehavior !== 1
-                onClicked: {
-                    root.openInBrowser();
-                    root.expanded = false;
-                }
-            }
-
-            MenuItem {
-                text: qsTr("Show feed content")
-                visible: enabled
-                //enabled: settings.clickBehavior !== 2
-                onClicked: {
-                    root.showFeedContent();
-                    root.expanded = false;
+                    menu.hide()
                 }
             }
         }

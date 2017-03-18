@@ -62,6 +62,11 @@ Settings* Settings::instance()
     return Settings::inst;
 }
 
+QString Settings::pocketConsumerKey()
+{
+    return pocket_consumer_key;
+}
+
 const QList<QVariant> Settings::viewModeHistory()
 {
     return settings.value("viewmodehistory").toList();
@@ -117,19 +122,6 @@ void Settings::setShowOldestFirst(bool value)
 bool Settings::getShowOldestFirst()
 {
     return settings.value("showoldestfirst", false).toBool();
-}
-
-void Settings::setIconContextMenu(bool value)
-{
-    if (getIconContextMenu() != value) {
-        settings.setValue("iconcontextmenu", value);
-        emit showOldestFirstChanged();
-    }
-}
-
-bool Settings::getIconContextMenu()
-{
-    return settings.value("iconcontextmenu", true).toBool();
 }
 
 void Settings::setShowBroadcast(bool value)
@@ -190,6 +182,96 @@ void Settings::setReaderMode(bool value)
 bool Settings::getReaderMode()
 {
     return settings.value("readermode", false).toBool();
+}
+
+void Settings::setPocketEnabled(bool value)
+{
+    if (getPocketEnabled() != value) {
+        settings.setValue("pocketenabled", value);
+        emit pocketEnabledChanged();
+    }
+}
+
+bool Settings::getPocketEnabled()
+{
+    return settings.value("pocketenabled", false).toBool();
+}
+
+void Settings::setPocketQuickAdd(bool value)
+{
+    if (getPocketQuickAdd() != value) {
+        settings.setValue("pocketquickadd", value);
+        emit pocketQuickAddChanged();
+    }
+}
+
+bool Settings::getPocketQuickAdd()
+{
+    return settings.value("pocketquickadd", false).toBool();
+}
+
+void Settings::setPocketFavorite(bool value)
+{
+    if (getPocketFavorite() != value) {
+        settings.setValue("pocketfavorite", value);
+        emit pocketFavoriteChanged();
+    }
+}
+
+bool Settings::getPocketFavorite()
+{
+    return settings.value("pocketfavorite", false).toBool();
+}
+
+void Settings::setPocketToken(const QString &value)
+{
+    if (getPocketToken() != value) {
+        SimpleCrypt crypto(KEY);
+        QString encryptedToken = crypto.encryptToString(value);
+        if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+            emit error(532);
+            return;
+        }
+        settings.setValue("pockettoken", encryptedToken);
+        emit pocketTokenChanged();
+    }
+}
+
+QString Settings::getPocketToken()
+{
+    SimpleCrypt crypto(KEY);
+    QString plainToken = crypto.decryptToString(settings.value("pockettoken", "").toString());
+    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        emit error(531);
+        return "";
+    }
+    return plainToken;
+}
+
+void Settings::setPocketTags(const QString &value)
+{
+    if (getPocketTags() != value) {
+        settings.setValue("pockettags", value);
+        emit pocketTagsChanged();
+    }
+}
+
+QString Settings::getPocketTags()
+{
+    return settings.value("pockettags", "").toString();
+}
+
+void Settings::setPocketTagsHistory(const QString &value)
+{
+    if (getPocketTagsHistory() != value) {
+        settings.setValue("pockettagshistory", value);
+        emit pocketTagsHistoryChanged();
+    }
+}
+
+QString Settings::getPocketTagsHistory()
+{
+    return settings.value("pockettagshistory", "").toString();
 }
 
 void Settings::setNightMode(bool value)

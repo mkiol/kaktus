@@ -38,17 +38,58 @@ Page {
 
     ActiveDetector {}
 
-    SilicaListView {
-        anchors { top: parent.top; left: parent.left; right: parent.right }
-        clip: true
-
-        height: app.flickHeight
-
-        header: PageHeader {
-            title: qsTr("Changelog")
+    SilicaFlickable {
+        id: flick
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
         }
+        height: app.flickHeight
+        clip: true
+        contentHeight: content.height
 
-        model: VisualItemModel {
+        Column {
+            id: content
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+
+            spacing: Theme.paddingMedium
+
+            PageHeader {
+                title: qsTr("Changelog")
+            }
+
+            SectionHeader {
+                text: qsTr("Version %1").arg("2.6.0")
+            }
+
+            LogItem {
+                title: "Pocket integration"
+                description: "Pocket is an Internet tool for saving articles to read later. Integration implemented in Kaktus provides \"Add to Pocket\" button in the articles list and in the web viewer.";
+            }
+
+            LogItem {
+                title: "Share link"
+                description: "\"Share link\" button has been added. Due to Jolla Store restrictions it will be enabled only in OpenRepos package.";
+            }
+
+            LogItem {
+                title: "Improved app icon"
+                description: "Kaktus icon has a new fresh look!"
+            }
+
+            LogItem {
+                title: "Delete web viewer cookies"
+                description: "Option in the settings that allows you to clear cache and cookies of the web viewer."
+            }
+
+            LogItem {
+                title: "Spanish translation update"
+                description: "Spanish translations has been updated."
+            }
 
             SectionHeader {
                 text: qsTr("Version %1").arg("2.5.3")
@@ -282,13 +323,11 @@ Page {
             }*/
 
 
-            Item {
-                height: Theme.paddingMedium
-            }
-
+            Spacer {}
         }
-
-        VerticalScrollDecorator {}
     }
 
+    VerticalScrollDecorator {
+        flickable: flick
+    }
 }

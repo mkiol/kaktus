@@ -451,5 +451,8 @@ ApplicationWindow {
         x: app.orientation==Orientation.Portrait ? 0 : app.width
     }
 
+    Pocket {
+        id: pocket
+    }
 }
 

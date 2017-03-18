@@ -173,6 +173,7 @@ public:
     };
 
     explicit DatabaseManager(QObject *parent = 0);
+    ~DatabaseManager();
 
     Q_INVOKABLE void init();
     Q_INVOKABLE void newInit();

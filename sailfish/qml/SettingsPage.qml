@@ -37,25 +37,41 @@ Page {
 
     ActiveDetector {}
 
-    SilicaListView {
-        anchors { top: parent.top; left: parent.left; right: parent.right }
-        clip: true
-
-        height: app.flickHeight
-
-        header: PageHeader {
-            title: qsTr("Settings")
+    SilicaFlickable {
+        id: flick
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
         }
+        height: app.flickHeight
+        clip: true
+        contentHeight: content.height
 
-        model: VisualItemModel {
-            id: model
+        Column {
+            id: content
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+
+            spacing: Theme.paddingMedium
+
+            PageHeader {
+                title: qsTr("Settings")
+            }
+
             Item {
                 anchors { left: parent.left; right: parent.right}
                 height: Math.max(icon.height, label.height)
 
                 Image {
                     id: icon
-                    anchors { right: label.left; rightMargin: Theme.paddingMedium }
+                    anchors {
+                        right: label.left
+                        rightMargin: Theme.paddingMedium
+                        verticalCenter: parent.verticalCenter
+                    }
                     source: app.isNetvibes ? "nv.png" :
                             app.isOldReader ? "oldreader.png" : "feedly.png"
                     width: Theme.iconSizeMedium
@@ -65,14 +81,17 @@ Page {
 
                 Label {
                     id: label
-                    anchors { right: parent.right; rightMargin: Theme.paddingLarge}
+                    anchors {
+                        right: parent.right
+                        rightMargin: Theme.paddingLarge
+                        verticalCenter: parent.verticalCenter
+                    }
                     text: app.isNetvibes ? "Netvibes":
                           app.isOldReader ? "Old Reader" : "Feedly"
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignRight
                     color: Theme.highlightColor
                     font.pixelSize: Theme.fontSizeSmall
-                    y: Theme.paddingSmall/2
                 }
             }
 
@@ -420,6 +439,15 @@ Page {
                 }
             }
 
+            ButtonItem {
+                button.text: qsTr("Delete cookies")
+                description: qsTr("Clear web viewer cache and cookies. Changes will take effect after restart.")
+                button.onClicked: {
+                    utils.resetQtWebKit()
+                    notification.show(qsTr("Cache and cookies have been deleted."))
+                }
+            }
+
             SectionHeader {
                 text: qsTr("UI")
             }
@@ -692,22 +720,6 @@ Page {
                         settings.showOldestFirst = true; break;
                     }
                 }
-
-            }
-
-            ComboBox {
-                width: root.width
-                label: qsTr("Context menu style")
-                currentIndex: settings.iconContextMenu ? 0 : 1
-
-                menu: ContextMenu {
-                    MenuItem { text: qsTr("Icons") }
-                    MenuItem { text: qsTr("Text") }
-                }
-
-                onCurrentIndexChanged: {
-                    settings.iconContextMenu = (currentIndex == 0 ? true : false);
-                }
             }
 
             ComboBox {
@@ -760,7 +772,17 @@ Page {
                                  qsTr("List of articles can be filtered to display all articles, unread and starred or only unread.")
             }
 
-
+            TextSwitch {
+                text: qsTr("Social features")
+                enabled: app.isOldReader
+                description: qsTr("Following Old Reader's social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.")
+                onCheckedChanged: {
+                    settings.showBroadcast = checked;
+                }
+                Component.onCompleted: {
+                    checked = settings.showBroadcast;
+                }
+            }
 
             TextSwitch {
                 text: qsTr("Expanded items")
@@ -783,18 +805,6 @@ Page {
                 }
                 Component.onCompleted: {
                     checked = settings.doublePane;
-                }
-            }
-
-            TextSwitch {
-                text: qsTr("Social features")
-                enabled: app.isOldReader
-                description: qsTr("Following Old Reader's social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.")
-                onCheckedChanged: {
-                    settings.showBroadcast = checked;
-                }
-                Component.onCompleted: {
-                    checked = settings.showBroadcast;
                 }
             }
 
@@ -824,9 +834,126 @@ Page {
                 onCurrentIndexChanged: settings.allowedOrientations = currentIndex
             }
 
+            SectionHeader {
+                text: qsTr("Pocket")
+            }
+
+            TextSwitchWithIcon {
+                text: qsTr("Pocket integration")
+                description: qsTr("Pocket is an Internet tool for saving articles to read later. Integration implemented in Kaktus provides \"Add to Pocket\" button in the articles list and in the web viewer.")
+                iconSource: "image://icons/icon-m-pocket"
+                checked: settings.pocketEnabled
+                busy: pocket.busy
+                enabled: dm.online
+                automaticCheck: false
+                onClicked: {
+                    if (checked) {
+                        settings.pocketEnabled = false
+                    } else {
+                        pocket.enable()
+                    }
+                }
+            }
+
+            TextFieldItem {
+                id: pocketTagsField
+                enabled: settings.pocketEnabled
+                textField.placeholderText: qsTr("Default tags")
+                textField.label: qsTr("Default tags")
+                textField.labelVisible: false
+                description: qsTr("List of comma seperated tags that will be automatically inserted when you add article to Pocket.")
+                textField.inputMethodHints: Qt.ImhNoAutoUppercase
+                textField.onTextChanged: timer.restart()
+                Component.onCompleted: textField.text = settings.pocketTags
+
+                EnterKey.iconSource: "image://theme/icon-m-enter-close"
+                EnterKey.onClicked: {
+                    checkTags()
+                    parent.focus = true
+                }
+
+                onFocusChanged: {
+                    if (!focus)
+                        checkTags()
+                }
+
+                function checkTags() {
+                    timer.stop()
+                    pocketTagsField.textField.text = pocket.fixTags(pocketTagsField.textField.text)
+                    settings.pocketTags = pocketTagsField.textField.text
+                }
+
+                Timer {
+                    id: timer
+                    interval: 1000
+                    onTriggered: pocketTagsField.checkTags()
+                }
+            }
+
+            TextSwitch {
+                text: qsTr("Quick adding")
+                description: qsTr("If enabled, article will be send to Pocket immediately after you click on \"Add to Pocket\" button, so without any confirmation dialog. All tags from \"Default tags\" field will be automatically added.")
+                checked: settings.pocketQuickAdd
+                enabled: settings.pocketEnabled
+                onCheckedChanged: {
+                    settings.pocketQuickAdd = checked
+                }
+            }
+
+            ButtonItem {
+                enabled: settings.pocketEnabled
+                button.text: qsTr("Delete saved tags")
+                button.onClicked: {
+                    settings.pocketTagsHistory = ""
+                    notification.show(qsTr("Saved tags have been deleted."))
+                }
+            }
+
+            /*SectionHeader {
+                text: qsTr("Experimental")
+            }
+
+            Column {
+                x: Theme.horizontalPageMargin
+                spacing: Theme.paddingMedium
+
+                Row {
+                    spacing: Theme.paddingMedium
+
+                    Image {
+                        source: "image://icons/icon-m-good"
+                        height: Theme.iconSizeSmall
+                        width: Theme.iconSizeSmall
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    Label {
+                        text: ai.evaluationCount(1)
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                Row {
+                    spacing: Theme.paddingMedium
+
+                    Image {
+                        source: "image://icons/icon-m-bad"
+                        height: Theme.iconSizeSmall
+                        width: Theme.iconSizeSmall
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    Label {
+                        text: ai.evaluationCount(-1)
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                }
+            }*/
+
             /*SectionHeader {
                 text: qsTr("Other")
             }
+
 
             Button {
                 text: qsTr("Show User Guide")
@@ -836,13 +963,12 @@ Page {
                 }
             }*/
 
-            Item {
-                height: Theme.paddingMedium
-                width: height
-            }
-
+            Spacer {}
         }
+    }
 
-        VerticalScrollDecorator {}
+    VerticalScrollDecorator {
+        flickable: flick
     }
 }
+

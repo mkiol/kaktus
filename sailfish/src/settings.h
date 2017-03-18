@@ -72,12 +72,17 @@ class Settings: public QObject
     Q_PROPERTY (bool showBroadcast READ getShowBroadcast WRITE setShowBroadcast NOTIFY showBroadcastChanged)
     Q_PROPERTY (bool showOldestFirst READ getShowOldestFirst WRITE setShowOldestFirst NOTIFY showOldestFirstChanged)
     Q_PROPERTY (bool syncRead READ getSyncRead WRITE setSyncRead NOTIFY syncReadChanged)
-    Q_PROPERTY (bool iconContextMenu READ getIconContextMenu WRITE setIconContextMenu NOTIFY iconContextMenuChanged)
     Q_PROPERTY (bool doublePane READ getDoublePane WRITE setDoublePane NOTIFY doublePaneChanged)
     Q_PROPERTY (int clickBehavior READ getClickBehavior WRITE setClickBehavior NOTIFY clickBehaviorChanged)
     Q_PROPERTY (bool expandedMode READ getExpandedMode WRITE setExpandedMode NOTIFY expandedModeChanged)
     Q_PROPERTY (int webviewNavigation READ getWebviewNavigation WRITE setWebviewNavigation NOTIFY webviewNavigationChanged)
     Q_PROPERTY (bool nightMode READ getNightMode WRITE setNightMode NOTIFY nightModeChanged)
+    Q_PROPERTY (bool pocketEnabled READ getPocketEnabled WRITE setPocketEnabled NOTIFY pocketEnabledChanged)
+    Q_PROPERTY (bool pocketQuickAdd READ getPocketQuickAdd WRITE setPocketQuickAdd NOTIFY pocketQuickAddChanged)
+    Q_PROPERTY (bool pocketFavorite READ getPocketFavorite WRITE setPocketFavorite NOTIFY pocketFavoriteChanged)
+    Q_PROPERTY (QString pocketToken READ getPocketToken WRITE setPocketToken NOTIFY pocketTokenChanged)
+    Q_PROPERTY (QString pocketTags READ getPocketTags WRITE setPocketTags NOTIFY pocketTagsChanged)
+    Q_PROPERTY (QString pocketTagsHistory READ getPocketTagsHistory WRITE setPocketTagsHistory NOTIFY pocketTagsHistoryChanged)
 
 public:
     static Settings* instance();
@@ -128,8 +133,23 @@ public:
     bool getShowBroadcast();
     void setShowBroadcast(bool value);
 
-    bool getIconContextMenu();
-    void setIconContextMenu(bool value);
+    bool getPocketEnabled();
+    void setPocketEnabled(bool value);
+
+    bool getPocketQuickAdd();
+    void setPocketQuickAdd(bool value);
+
+    bool getPocketFavorite();
+    void setPocketFavorite(bool value);
+
+    void setPocketToken(const QString &value);
+    QString getPocketToken();
+
+    void setPocketTags(const QString &value);
+    QString getPocketTags();
+
+    void setPocketTagsHistory(const QString &value);
+    QString getPocketTagsHistory();
 
     void setDashboardInUse(const QString &value);
     QString getDashboardInUse();
@@ -254,6 +274,8 @@ public:
 
     Q_INVOKABLE const QList<QVariant> viewModeHistory();
 
+    Q_INVOKABLE QString pocketConsumerKey();
+
 signals:
     void offlineModeChanged();
     void autoOfflineChanged();
@@ -281,11 +303,16 @@ signals:
     void showBroadcastChanged();
     void showOldestFirstChanged();
     void syncReadChanged();
-    void iconContextMenuChanged();
     void doublePaneChanged();
     void clickBehaviorChanged();
     void expandedModeChanged();
     void webviewNavigationChanged();
+    void pocketEnabledChanged();
+    void pocketTokenChanged();
+    void pocketTagsChanged();
+    void pocketTagsHistoryChanged();
+    void pocketFavoriteChanged();
+    void pocketQuickAddChanged();
 
     /*
     501 - Unable create settings dir

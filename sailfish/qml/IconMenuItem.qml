@@ -25,6 +25,7 @@ Item {
     property alias icon: iconButton.icon
     property alias enabled: iconButton.enabled
     property alias text: lbl.text
+    property bool busy: false
 
     width: iconButton.width
     height: iconButton.height
@@ -48,6 +49,21 @@ Item {
         font.pixelSize: Theme.fontSizeTiny
         wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
+    }
+
+    Image {
+        anchors.fill: parent
+        opacity: root.busy ? 1.0 : 0.0
+        visible: opacity > 0.0
+        Behavior on opacity { FadeAnimation {} }
+        source: "image://theme/graphic-busyindicator-medium"
+        RotationAnimation on rotation {
+            loops: Animation.Infinite
+            from: 0
+            to: 360
+            duration: 1200
+            running: root.busy && Qt.application.active
+        }
     }
 
     IconButton {

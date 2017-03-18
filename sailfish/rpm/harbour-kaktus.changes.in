@@ -8,6 +8,14 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Wed Mar 15 2017 Michal Kosciesza 2.6.0-2
+- Pocket integration
+- New app icon
+
+* Sun Feb 19 2017 Michal Kosciesza 2.6.0-1
+- Share link option (only in openrepos package)
+- ES translation update
+
 * Tue Feb 09 2017 Michal Kosciesza 2.5.3-1
 - FIX: Sync process did not download all saved articles in Netvibes
 

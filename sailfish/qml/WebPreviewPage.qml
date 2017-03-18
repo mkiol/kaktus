@@ -50,6 +50,10 @@ Page {
     property bool nightModePossible: true
     property bool autoReaderMode: settings.readerMode
 
+    function share() {
+        pageStack.push(Qt.resolvedUrl("ShareLinkPage.qml"),{"link": root.onlineUrl, "linkTitle": root.title});
+    }
+
     function openUrlEntryInBrowser(url) {
         notification.show(qsTr("Launching an external browser..."))
         Qt.openUrlExternally(url)
@@ -138,6 +142,7 @@ Page {
     }
 
     function messageReceivedHandler(message) {
+        //console.log("view.url: " + view.url)
         if (message.type === "inited") {
             // NightMode
             root.nightModePossible = true
@@ -179,8 +184,6 @@ Page {
         view.experimental.postMessage(JSON.stringify({ "type": message, "data": data }));
     }
 
-    ActiveDetector {}
-
     showNavigationIndicator: false
 
     allowedOrientations: {
@@ -199,8 +202,15 @@ Page {
     Connections {
         target: Qt.application
         onActiveChanged: {
-            if(!Qt.application.active && settings.powerSaveMode) {
-                pageStack.pop();
+            if(!Qt.application.active) {
+                if (settings.powerSaveMode && root.status === PageStatus.Active) {
+                    pageStack.pop()
+                    return
+                }
+                if (root.status !== PageStatus.Active) {
+                    pageStack.pop(pageStack.previousPage(root), PageStackAction.Immediate)
+                    return
+                }
             }
         }
     }
@@ -401,6 +411,23 @@ Page {
                 console.log("Opening: " + url)
                 Qt.openUrlExternally(url)
             }
+        }
+
+        IconMenuItem {
+            text: qsTr("Add to Pocket")
+            visible: settings.pocketEnabled
+            enabled: settings.pocketEnabled && dm.online
+            icon.source: "image://icons/icon-m-pocket"
+            busy: pocket.busy
+            onClicked: {
+                pocket.add(root.onlineUrl, root.title)
+            }
+        }
+
+        IconMenuItem {
+            text: qsTr("Share link")
+            icon.source: "image://theme/icon-m-share"
+            onClicked: root.share()
         }
 
         IconBarItem {

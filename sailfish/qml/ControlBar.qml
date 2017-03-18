@@ -56,7 +56,6 @@ Item {
     }
 
     onBusyChanged: {
-        //console.log("onBusyChanged:", busy)
         open = busy
     }
 

@@ -80,8 +80,15 @@ Page {
     Connections {
         target: Qt.application
         onActiveChanged: {
-            if(!Qt.application.active && settings.powerSaveMode) {
-                pageStack.pop();
+            if(!Qt.application.active) {
+                if (settings.powerSaveMode && root.status === PageStatus.Active) {
+                    pageStack.pop()
+                    return
+                }
+                if (root.status !== PageStatus.Active) {
+                    pageStack.pop(pageStack.previousPage(root), PageStackAction.Immediate)
+                    return
+                }
             }
         }
     }
@@ -93,6 +100,10 @@ Page {
                 pageStack.pop();
             }
         }
+    }
+
+    function share() {
+        pageStack.push(Qt.resolvedUrl("ShareLinkPage.qml"),{"link": root.onlineUrl, "linkTitle": root.title});
     }
 
     function check() {
@@ -407,6 +418,23 @@ Page {
             onClicked: {
                 root.openEntryInBrowser();
             }
+        }
+
+        IconMenuItem {
+            text: qsTr("Add to Pocket")
+            visible: settings.pocketEnabled
+            enabled: settings.pocketEnabled && dm.online
+            icon.source: "image://icons/icon-m-pocket"
+            busy: pocket.busy
+            onClicked: {
+                pocket.add(root.onlineUrl, root.title)
+            }
+        }
+
+        IconMenuItem {
+            text: qsTr("Share link")
+            icon.source: "image://theme/icon-m-share"
+            onClicked: root.share()
         }
 
         IconBarItem {
