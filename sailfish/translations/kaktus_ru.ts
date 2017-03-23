@@ -59,18 +59,22 @@
 <context>
     <name>ChangelogPage</name>
     <message>
-        <location filename="../qml/ChangelogPage.qml" line="48"/>
+        <location filename="../qml/ChangelogPage.qml" line="62"/>
         <source>Changelog</source>
         <translation>Список изменений</translation>
     </message>
     <message>
-        <location filename="../qml/ChangelogPage.qml" line="54"/>
-        <location filename="../qml/ChangelogPage.qml" line="93"/>
-        <location filename="../qml/ChangelogPage.qml" line="102"/>
-        <location filename="../qml/ChangelogPage.qml" line="111"/>
-        <location filename="../qml/ChangelogPage.qml" line="135"/>
-        <location filename="../qml/ChangelogPage.qml" line="169"/>
-        <location filename="../qml/ChangelogPage.qml" line="198"/>
+        <location filename="../qml/ChangelogPage.qml" line="66"/>
+        <location filename="../qml/ChangelogPage.qml" line="95"/>
+        <location filename="../qml/ChangelogPage.qml" line="104"/>
+        <location filename="../qml/ChangelogPage.qml" line="113"/>
+        <location filename="../qml/ChangelogPage.qml" line="122"/>
+        <location filename="../qml/ChangelogPage.qml" line="161"/>
+        <location filename="../qml/ChangelogPage.qml" line="170"/>
+        <location filename="../qml/ChangelogPage.qml" line="179"/>
+        <location filename="../qml/ChangelogPage.qml" line="203"/>
+        <location filename="../qml/ChangelogPage.qml" line="237"/>
+        <location filename="../qml/ChangelogPage.qml" line="266"/>
         <source>Version %1</source>
         <translation>Версия %1</translation>
     </message>
@@ -78,47 +82,47 @@
 <context>
     <name>ControlBar</name>
     <message>
-        <location filename="../qml/ControlBar.qml" line="307"/>
+        <location filename="../qml/ControlBar.qml" line="306"/>
         <source>Marking tabs as read</source>
-        <translation>Категории отмечаются как прочитанные</translation>
+        <translation>Отметить категории как прочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="307"/>
+        <location filename="../qml/ControlBar.qml" line="306"/>
         <source>Marking folders as read</source>
-        <translation>Папки отмечаются как прочитанные</translation>
+        <translation>Отметить папки как прочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="309"/>
+        <location filename="../qml/ControlBar.qml" line="308"/>
         <source>Marking feeds as read</source>
-        <translation>Ленты отмечаются как прочитанные</translation>
+        <translation>Отметить ленты как прочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="312"/>
+        <location filename="../qml/ControlBar.qml" line="311"/>
         <source>Marking articles as read</source>
-        <translation>Статьи отмечаются как прочитанные</translation>
+        <translation>Отметить статьи как прочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="316"/>
+        <location filename="../qml/ControlBar.qml" line="315"/>
         <source>Marking all articles as read</source>
-        <translation>Все статьи отмечаются как прочитанные</translation>
+        <translation>Отметить все как прочитанные</translation>
+    </message>
+    <message>
+        <location filename="../qml/ControlBar.qml" line="321"/>
+        <source>Marking all saved articles as read</source>
+        <translation>Отметить все как прочитанные</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="322"/>
-        <source>Marking all saved articles as read</source>
-        <translation>Записи отмечаются как прочитанные</translation>
-    </message>
-    <message>
-        <location filename="../qml/ControlBar.qml" line="323"/>
         <source>Marking all starred articles as read</source>
         <translation>Отметить все как прочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="328"/>
+        <location filename="../qml/ControlBar.qml" line="327"/>
         <source>Marking all liked articles as read</source>
         <translation>Отметить все как прочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="332"/>
+        <location filename="../qml/ControlBar.qml" line="331"/>
         <source>Marking all shared articles as read</source>
         <translation>Отметить все как прочитанные</translation>
     </message>
@@ -235,155 +239,151 @@
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="459"/>
+        <location filename="../qml/EntryDelegate.qml" line="477"/>
         <source>Toggle Read</source>
         <translation>Прочитанное / непрочитанное</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="476"/>
+        <location filename="../qml/EntryDelegate.qml" line="494"/>
         <source>Toggle Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="476"/>
+        <location filename="../qml/EntryDelegate.qml" line="494"/>
         <source>Toggle Star</source>
         <translation>Избранное</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="489"/>
+        <location filename="../qml/EntryDelegate.qml" line="507"/>
         <source>Above as read</source>
         <translation>Отметить предыдущие как прочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="501"/>
+        <location filename="../qml/EntryDelegate.qml" line="519"/>
         <source>Viewer</source>
         <translation>Встроенный браузер</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="513"/>
+        <location filename="../qml/EntryDelegate.qml" line="531"/>
         <source>Browser</source>
         <translation>Браузер</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="525"/>
+        <location filename="../qml/EntryDelegate.qml" line="543"/>
         <source>Feed content</source>
         <translation>Показать содержание</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="538"/>
-        <source>Toggle Like</source>
-        <translation>Нравиться</translation>
+        <location filename="../qml/EntryDelegate.qml" line="555"/>
+        <source>Add to Pocket</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="553"/>
+        <location filename="../qml/EntryDelegate.qml" line="564"/>
+        <source>Share link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryDelegate.qml" line="571"/>
+        <source>Toggle Like</source>
+        <translation>Нравится</translation>
+    </message>
+    <message>
+        <location filename="../qml/EntryDelegate.qml" line="586"/>
         <source>Toggle Share</source>
         <translation>Примечание</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="590"/>
         <source>Mark above as read</source>
-        <translation>Отметить предыдущие как прочитанные</translation>
+        <translation type="vanished">Предыдущие как прочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="601"/>
         <source>Unsave</source>
-        <translation>Убрать из сохранённого</translation>
+        <translation type="vanished">Убрать из сохранённого</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="601"/>
         <source>Save</source>
-        <translation>Сохранить</translation>
+        <translation type="vanished">Сохранить</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="602"/>
         <source>Unstar</source>
-        <translation>Убрать из закладок</translation>
+        <translation type="vanished">Убрать из закладок</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="602"/>
         <source>Star</source>
-        <translation>В закладки</translation>
+        <translation type="vanished">В закладки</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="613"/>
         <source>Unlike</source>
-        <translation>Не нравится</translation>
+        <translation type="vanished">Не нравится</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="613"/>
         <source>Like</source>
-        <translation>Нравится</translation>
+        <translation type="vanished">Нравится</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="626"/>
         <source>Unshare</source>
-        <translation>Отменить</translation>
+        <translation type="vanished">Отменить</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="640"/>
         <source>Open in viewer</source>
-        <translation>Открыть во встроенном браузере</translation>
+        <translation type="vanished">Открыть во встроенном браузере</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="651"/>
         <source>Open in browser</source>
-        <translation>Открыть в браузере</translation>
+        <translation type="vanished">Открыть в браузере</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="661"/>
         <source>Show feed content</source>
-        <translation>Показать содержание</translation>
+        <translation type="vanished">Показать содержание</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="626"/>
         <source>Share with followers</source>
-        <translation>Поделиться с подписчиками</translation>
+        <translation type="vanished">Поделиться с подписчиками</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="576"/>
         <source>Mark as unread</source>
-        <translation>Отметить как непрочитанное</translation>
+        <translation type="vanished">Отметить как непрочитанное</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="576"/>
         <source>Mark as read</source>
-        <translation>Отметить как прочитанное</translation>
+        <translation type="vanished">Отметить как прочитанное</translation>
     </message>
 </context>
 <context>
     <name>EntryModel</name>
     <message>
-        <location filename="../src/entrymodel.cpp" line="295"/>
+        <location filename="../src/entrymodel.cpp" line="299"/>
         <source>Today</source>
         <translation>Сегодня</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="298"/>
+        <location filename="../src/entrymodel.cpp" line="302"/>
         <source>Yesterday</source>
         <translation>Вчера</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="301"/>
+        <location filename="../src/entrymodel.cpp" line="305"/>
         <source>Current week</source>
         <translation>На этой неделе</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="304"/>
+        <location filename="../src/entrymodel.cpp" line="308"/>
         <source>Current month</source>
-        <translation>В этом меяце</translation>
+        <translation>В этом месяце</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="307"/>
+        <location filename="../src/entrymodel.cpp" line="311"/>
         <source>Previous month</source>
         <translation>В прошлом месяце</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="310"/>
+        <location filename="../src/entrymodel.cpp" line="314"/>
         <source>Current year</source>
         <translation>В этом году</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="313"/>
+        <location filename="../src/entrymodel.cpp" line="317"/>
         <source>Previous year &amp; older</source>
         <translation>В прошлом году и раньше</translation>
     </message>
@@ -391,12 +391,12 @@
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/EntryPage.qml" line="487"/>
+        <location filename="../qml/EntryPage.qml" line="504"/>
         <source>No unread items</source>
         <translation>Нет новых статей</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="487"/>
+        <location filename="../qml/EntryPage.qml" line="504"/>
         <source>No items</source>
         <translation>Нет статей</translation>
     </message>
@@ -426,7 +426,7 @@
         <translation>Вы поделились</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="486"/>
+        <location filename="../qml/EntryPage.qml" line="503"/>
         <source>No saved items</source>
         <translation>Здесь пока нет записей</translation>
     </message>
@@ -441,43 +441,43 @@
         <translation>Запуск браузера...</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="258"/>
-        <location filename="../qml/EntryPage.qml" line="303"/>
+        <location filename="../qml/EntryPage.qml" line="259"/>
+        <location filename="../qml/EntryPage.qml" line="304"/>
         <source>Wait until current task is complete.</source>
-        <translation>Подождите, пока текущая задача не завершится</translation>
+        <translation>Подождите завершения текущей задачи.</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="264"/>
+        <location filename="../qml/EntryPage.qml" line="265"/>
         <source>Offline version is not available.</source>
-        <translation>Офлайн версия недоступна.</translation>
+        <translation>Оффлайн версия недоступна.</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="272"/>
+        <location filename="../qml/EntryPage.qml" line="273"/>
         <source>Enabling offline mode because network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Включение автономного режима, так как сеть недоступна.</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="276"/>
+        <location filename="../qml/EntryPage.qml" line="277"/>
         <source>Network is disconnected.</source>
         <translation>Сеть отключена.</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="485"/>
+        <location filename="../qml/EntryPage.qml" line="502"/>
         <source>Wait until sync finish</source>
         <translation>Дождитесь окончания синхронизации</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="486"/>
+        <location filename="../qml/EntryPage.qml" line="503"/>
         <source>No starred items</source>
         <translation>Здесь пока нет записей</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="487"/>
+        <location filename="../qml/EntryPage.qml" line="504"/>
         <source>No liked items</source>
         <translation>Здесь пока нет записей</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="543"/>
+        <location filename="../qml/EntryPage.qml" line="560"/>
         <source>One-tap to open article, double-tap to mark as read</source>
         <translation>Одно нажатие чтобы открыть статью, двойное нажатие чтобы отметить как прочитанное</translation>
     </message>
@@ -506,27 +506,27 @@
 <context>
     <name>FeedPage</name>
     <message>
-        <location filename="../qml/FeedPage.qml" line="197"/>
+        <location filename="../qml/FeedPage.qml" line="170"/>
         <source>Mark all as read</source>
         <translation>Отметить все как прочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="206"/>
+        <location filename="../qml/FeedPage.qml" line="179"/>
         <source>Mark all as unread</source>
         <translation>Отметить все как непрочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="219"/>
+        <location filename="../qml/FeedPage.qml" line="192"/>
         <source>No feeds</source>
         <translation>Записей пока нет</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="219"/>
+        <location filename="../qml/FeedPage.qml" line="192"/>
         <source>Wait until sync finish</source>
         <translation>Дождитесь окончания синхронизации</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="70"/>
+        <location filename="../qml/FeedPage.qml" line="69"/>
         <source>Feeds</source>
         <translation>Подписки</translation>
     </message>
@@ -534,88 +534,98 @@
 <context>
     <name>FeedWebContentPage</name>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="107"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="118"/>
         <source>Offline version not available.</source>
-        <translation>Офлайн версия недоступна</translation>
+        <translation>Оффлайн версия недоступна</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="101"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="112"/>
         <source>Wait until current task is complete.</source>
-        <translation>Подождите, пока текущая задача не завершится</translation>
+        <translation>Подождите завершения текущей задачи.</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="115"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="126"/>
         <source>Enabling offline mode because network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Включение автономного режима, так как сеть недоступна.</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="119"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="130"/>
         <source>Network is disconnected.</source>
         <translation>Сеть отключена.</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="129"/>
-        <location filename="../qml/FeedWebContentPage.qml" line="134"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="140"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="146"/>
         <source>Launching an external browser...</source>
         <translation>Запуск браузера...</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="348"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="371"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="354"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="377"/>
         <source>Toggle Read</source>
         <translation>Прочитанное / непрочитанное</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="369"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="392"/>
         <source>Toggle Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="369"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="392"/>
         <source>Toggle Star</source>
         <translation>Избранное</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="383"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="406"/>
         <source>Viewer</source>
         <translation>Встроенный браузер</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="393"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="416"/>
         <source>Browser</source>
         <translation>Браузер</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="401"/>
-        <source>Toggle Like</source>
-        <translation>Нравиться</translation>
+        <location filename="../qml/FeedWebContentPage.qml" line="424"/>
+        <source>Add to Pocket</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="411"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="435"/>
+        <source>Share link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/FeedWebContentPage.qml" line="441"/>
+        <source>Toggle Like</source>
+        <translation>Нравится</translation>
+    </message>
+    <message>
+        <location filename="../qml/FeedWebContentPage.qml" line="451"/>
         <source>Toggle Share</source>
         <translation>Примечание</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="428"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="468"/>
         <source>URL was copied to the clipboard.</source>
         <translation>URL скопирована в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="434"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="482"/>
         <source>Increase font</source>
         <translation>Увеличить размер шрифта</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="442"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="474"/>
         <source>Decrease font</source>
         <translation>Уменьшить размер шрифта</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="425"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="465"/>
         <source>Copy URL</source>
         <translation>Скопировать адрес ссылки</translation>
     </message>
@@ -642,19 +652,29 @@
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../qml/FirstPage.qml" line="70"/>
+        <location filename="../qml/FirstPage.qml" line="66"/>
+        <source>Sync</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/FirstPage.qml" line="66"/>
+        <source>Busy...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/FirstPage.qml" line="77"/>
         <source>Wait until sync finish</source>
         <translation>Дождитесь окончания синхронизации</translation>
     </message>
     <message>
-        <location filename="../qml/FirstPage.qml" line="71"/>
+        <location filename="../qml/FirstPage.qml" line="78"/>
         <source>To do feeds synchronization, pull down and select sync.</source>
         <translation>Чтобы начать синхронизацию, потяните вниз и выберите &quot;Обновить&quot;</translation>
     </message>
     <message>
-        <location filename="../qml/FirstPage.qml" line="72"/>
+        <location filename="../qml/FirstPage.qml" line="79"/>
         <source>You are not signed in to any account. Pull down to add one.</source>
-        <translation>Вы не вошли ни в один аккаунт. Потяните вниз и добавьте один</translation>
+        <translation>Вы не вошли ни в один аккаунт. Потяните вниз для добавления аккаунта.</translation>
     </message>
 </context>
 <context>
@@ -662,7 +682,7 @@
     <message>
         <location filename="../qml/Guide.qml" line="124"/>
         <source>This guide will explain you how to use bottom bar and view modes.</source>
-        <translation>Это руководство объяснит Вам, как использовать нижнюю панель и режимы просмотра</translation>
+        <translation>Это руководство объясняет, как использовать нижнюю панель и режимы просмотра.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="139"/>
@@ -688,89 +708,89 @@
         <source>Mode #1
 
 Lists all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.</source>
-        <translation>Режим #1
+        <translation>Режим №1
 
-Список всех категорий.  Подписки сгруппированы по папкам, которым они принадлежат, а записи сгруппированы в подписки</translation>
+Список всех категорий. Подписки сгруппированы по папкам, а записи — по подпискам.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="187"/>
         <source>Mode #1
 
 Lists all your folders. Feeds are grouped by the folders they belong to and articles are grouped in the feeds.</source>
-        <translation>Режим #1
+        <translation>Режим №1
 
-Список всех папок.  Подписки сгруппированы по папкам, которым они принадлежат, а записи сгруппированы в подписки</translation>
+Список всех папок. Подписки сгруппированы по папкам, а записи — по подпискам.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="208"/>
         <source>Mode #2
 
 Lists all your tabs. Articles are grouped by the tabs they belong to.</source>
-        <translation>Режим #2
+        <translation>Режим №2
 
-Список всех категорий.  Записи сгруппированы по категориям, которым они принадлежат</translation>
+Список всех категорий. Записи сгруппированы по категориям.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="209"/>
         <source>Mode #2
 
 Lists all your folders. Articles are grouped by the folders they belong to.</source>
-        <translation>Режим #2
+        <translation>Режим №2
 
-Список всех папок.  Записи сгруппированы по папкам, которым они принадлежат</translation>
+Список всех папок. Записи сгруппированы по папкам.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="230"/>
         <source>Mode #3
 
 Lists all articles from all your feeds in one list. Items are ordered by publication date.</source>
-        <translation>Режим # 3
+        <translation>Режим №3
 
-Список всех записей из всех ваших подписок. Записи упорядочены по дате публикации</translation>
+Список всех записей из всех подписок. Записи упорядочены по дате публикации.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="251"/>
         <source>Mode #4
 
 Lists all articles you have saved.</source>
-        <translation>Режим #4
+        <translation>Режим №4
 
-Список всех записей, которые вы добавили в закладки</translation>
+Список всех записей, добавленных в закладки.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="252"/>
         <source>Mode #4
 
 Lists all articles you have starred.</source>
-        <translation>Режим #4
+        <translation>Режим №4
 
-Список всех записей, которые вы добавили в закладки</translation>
+Список всех записей, добавленных в закладки.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="273"/>
         <source>Mode #5 &quot;Slow&quot;
 
 List articles from less frequently updated feeds. A feed is considered &quot;slow&quot; when it publishes less than 5 articles in a month.</source>
-        <translation>Режим #5 &quot;Редкие&quot;
+        <translation>Режим №5 &quot;Редкие&quot;
 
-Список всех записей из редко обновляемых подписок. Подписка считается &quot;редкой&quot;, если в ней публикуется менее 5 записей в месяц</translation>
+Список всех записей из редко обновляемых подписок. Подписка считается &quot;редкой&quot;, если в ней публикуется менее 5 записей в месяц.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="275"/>
         <source>Mode #5
 
 Lists all articles you have liked.</source>
-        <translation>Режим #5
+        <translation>Режим №5
 
-Список всех записей, которые вам понравились</translation>
+Список всех понравившихся записей.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="321"/>
         <source>Bottom bar also contains &quot;Mark as read&quot; button.
 
 With this button you can quickly mark all your tabs, feeds or articles as read.</source>
-        <translation>Нижняя панель также содержит кнопку &quot;Отметить как прочитанное&quot;. 
-С ее помощью Вы можете быстро отметить все Ваши записи, подписки, папки как прочитанные.</translation>
+        <translation>Также, нижняя панель содержит кнопку &quot;Отметить как прочитанное&quot;. 
+С ее помощью можно быстро отметить все записи, подписки и папки как прочитанные.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="322"/>
@@ -930,6 +950,66 @@ on the settings page.</source>
     </message>
 </context>
 <context>
+    <name>Pocket</name>
+    <message>
+        <location filename="../qml/Pocket.qml" line="64"/>
+        <location filename="../qml/Pocket.qml" line="79"/>
+        <source>Pocket authorization has failed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Pocket.qml" line="74"/>
+        <source>Pocket authorization was successful.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Pocket.qml" line="117"/>
+        <source>Article has been successfully added to Pocket.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Pocket.qml" line="123"/>
+        <source>Error while adding article to Pocket.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PocketAuthWebViewPage</name>
+    <message>
+        <location filename="../qml/PocketAuthWebViewPage.qml" line="77"/>
+        <source>Loading page content...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PocketAuthWebViewPage.qml" line="123"/>
+        <source>Back</source>
+        <translation type="unfinished">Назад</translation>
+    </message>
+</context>
+<context>
+    <name>PocketDialog</name>
+    <message>
+        <location filename="../qml/PocketDialog.qml" line="82"/>
+        <source>Add to Pocket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PocketDialog.qml" line="90"/>
+        <source>Insert comma seperated tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PocketDialog.qml" line="91"/>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/PocketDialog.qml" line="116"/>
+        <source>Previously used tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ReadAllDialog</name>
     <message>
         <location filename="../qml/ReadAllDialog.qml" line="54"/>
@@ -970,471 +1050,534 @@ on the settings page.</source>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="47"/>
+        <location filename="../qml/SettingsPage.qml" line="61"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="144"/>
+        <location filename="../qml/SettingsPage.qml" line="163"/>
         <source>Dashboard in use</source>
         <translation>Рабочий стол</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="144"/>
+        <location filename="../qml/SettingsPage.qml" line="163"/>
         <source>Dashboard not selected</source>
         <translation>Рабочий стол не выбран</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="158"/>
+        <location filename="../qml/SettingsPage.qml" line="177"/>
         <source>Change</source>
         <translation>Изменить</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="92"/>
+        <location filename="../qml/SettingsPage.qml" line="111"/>
         <source>Not signed in </source>
         <translation>Вход не выполнен</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="96"/>
+        <location filename="../qml/SettingsPage.qml" line="115"/>
         <source>Signed in with</source>
         <translation>Вошли как</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="168"/>
+        <location filename="../qml/SettingsPage.qml" line="187"/>
         <source>Syncronization</source>
         <translation>Синхронизация</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="173"/>
+        <location filename="../qml/SettingsPage.qml" line="192"/>
         <source>Sync timeframe</source>
         <translation>Интервал синхронизации</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="193"/>
+        <location filename="../qml/SettingsPage.qml" line="212"/>
         <source>1 Day</source>
         <translation>1 день</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="194"/>
+        <location filename="../qml/SettingsPage.qml" line="213"/>
         <source>3 Days</source>
         <translation>3 дня</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="195"/>
+        <location filename="../qml/SettingsPage.qml" line="214"/>
         <source>1 Week</source>
         <translation>1 неделя</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="196"/>
+        <location filename="../qml/SettingsPage.qml" line="215"/>
         <source>2 Weeks</source>
         <translation>2 недели</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="197"/>
+        <location filename="../qml/SettingsPage.qml" line="216"/>
         <source>1 Month</source>
         <translation>1 месяц</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="198"/>
+        <location filename="../qml/SettingsPage.qml" line="217"/>
         <source>Wide as possible</source>
         <translation>Очень редко</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="320"/>
+        <location filename="../qml/SettingsPage.qml" line="339"/>
         <source>Never</source>
         <translation>Никогда</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="321"/>
+        <location filename="../qml/SettingsPage.qml" line="340"/>
         <source>WiFi only</source>
         <translation>Только по WiFi </translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="322"/>
+        <location filename="../qml/SettingsPage.qml" line="341"/>
         <source>Always</source>
         <translation>Всегда</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="329"/>
+        <location filename="../qml/SettingsPage.qml" line="348"/>
         <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
-        <translation>После синхронизации содержание все записи будут кэшироваться для доступа в автономном режиме</translation>
+        <translation>После синхронизации содержание всех записей будет загружено для доступа в автономном режиме.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="693"/>
         <source>Context menu style</source>
-        <translation>Стиль контекстного меню</translation>
+        <translation type="vanished">Стиль контекстного меню</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="697"/>
         <source>Icons</source>
-        <translation>Значки</translation>
+        <translation type="vanished">Значки</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="698"/>
         <source>Text</source>
-        <translation>Текст</translation>
+        <translation type="vanished">Текст</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="708"/>
+        <location filename="../qml/SettingsPage.qml" line="727"/>
         <source>Clicking on article behaviour</source>
         <translation>При клике по статье</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="344"/>
-        <location filename="../qml/SettingsPage.qml" line="713"/>
+        <location filename="../qml/SettingsPage.qml" line="363"/>
+        <location filename="../qml/SettingsPage.qml" line="732"/>
         <source>External browser</source>
         <translation>Системный браузер</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="714"/>
+        <location filename="../qml/SettingsPage.qml" line="733"/>
         <source>Feed content</source>
         <translation>Показать содержание</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="343"/>
+        <location filename="../qml/SettingsPage.qml" line="362"/>
         <source>Disabled</source>
         <translation>Игнорировать</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="743"/>
+        <location filename="../qml/SettingsPage.qml" line="762"/>
         <source>Unread or starred</source>
         <translation>Непрочитанные или избранные</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="759"/>
+        <location filename="../qml/SettingsPage.qml" line="788"/>
         <source>Expanded items</source>
         <translation>Расширенный вид</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="760"/>
+        <location filename="../qml/SettingsPage.qml" line="789"/>
         <source>All article items on the list view be shown expanded.</source>
         <translation>Все статьи будут показаны в расширенном виде.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="770"/>
+        <location filename="../qml/SettingsPage.qml" line="799"/>
         <source>Double-pane reader</source>
         <translation>Двухпанельный режим</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="770"/>
+        <location filename="../qml/SettingsPage.qml" line="799"/>
         <source>Double-pane reader in landscape</source>
         <translation>Двухпанельный режим в альбомной ориентации</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="772"/>
+        <location filename="../qml/SettingsPage.qml" line="801"/>
         <source>View with the articles will be splited in to two colums.</source>
         <translation>Статьи будут отображаться в две колонки.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="772"/>
+        <location filename="../qml/SettingsPage.qml" line="801"/>
         <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
         <translation>В альбомной ориентации экрана статьи будут отображаться в две колонки.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="785"/>
+        <location filename="../qml/SettingsPage.qml" line="778"/>
         <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
-        <translation>Включает социальные функции Old Reader: возможность ставить лайки и делиться записями с читателями</translation>
+        <translation>Включает социальные функции Old Reader: возможность ставить лайки и делиться записями с читателями.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="273"/>
+        <location filename="../qml/SettingsPage.qml" line="292"/>
         <source>Delete cache</source>
         <translation>Очистить кэш</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="225"/>
+        <location filename="../qml/SettingsPage.qml" line="244"/>
         <source>Most recent articles will be syncronized according to the defined timeframe.</source>
-        <translation>Последние статьи будет синхронизированы с заданным интервалом</translation>
+        <translation>Последние статьи будут синхронизированы с заданным интервалом.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="226"/>
+        <location filename="../qml/SettingsPage.qml" line="245"/>
         <source>Regardless of the value, all starred, liked and shared items will be synced as well.</source>
-        <translation>Независимо от значения все ваши закладки, понравившиеся записи и те, которыми вы поделились будут синхронизироваться также</translation>
+        <translation>Ваши закладки, понравившиеся записи, а также записи, которыми вы поделились, будут синхронизироваться независимо от выбранного значения.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="226"/>
+        <location filename="../qml/SettingsPage.qml" line="245"/>
         <source>Regardless of the value, all saved items will be synced as well.</source>
         <translation>Независимо от значения все ваши закладки будут синхронизироваться также</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="227"/>
+        <location filename="../qml/SettingsPage.qml" line="246"/>
         <source>Be aware, this parameter has significant impact on the speed of synchronization.</source>
-        <translation>Внимание, этот параметр оказывает существенное влияние на скорость синхронизации</translation>
+        <translation>Внимание, этот параметр оказывает существенное влияние на скорость синхронизации.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="232"/>
+        <location filename="../qml/SettingsPage.qml" line="251"/>
         <source>Sync read articles</source>
         <translation>Синхронизировать прочитанные записи</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="233"/>
+        <location filename="../qml/SettingsPage.qml" line="252"/>
         <source>In addition to unread also read articles will be synced. Disabling this option will speed up synchronization, but read articles will not be accessible form Kaktus.</source>
-        <translation>Кроме новых записей также будут синхронизироваться и уже прочитанные. Отключение этой опции позволит ускорить синхронизацию, но прочитанные записи не будут доступны</translation>
+        <translation>Прочитанные записи будут синхронизироваться также, как и новые. Отключение этой опции позволит ускорить синхронизацию, но прочитанные записи не будут доступны.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="284"/>
+        <location filename="../qml/SettingsPage.qml" line="303"/>
         <source>Network mode</source>
         <translation>Режим сети</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="299"/>
+        <location filename="../qml/SettingsPage.qml" line="318"/>
         <source>In offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation>В автономном режиме Kaktus будет использовать только локальный кэш для загрузки веб-страниц и изображений. Поэтому сетевое соединение не требуется</translation>
+        <translation>Для отображения веб-страниц и изображений в автономном режиме Kaktus будет использовать только локальный кэш без необходимости сетевого соединения.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="304"/>
+        <location filename="../qml/SettingsPage.qml" line="323"/>
         <source>Auto network mode</source>
         <translation>Автоматический режим сети</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="305"/>
+        <location filename="../qml/SettingsPage.qml" line="324"/>
         <source>Network mode will be switched automatically on network connection lost or restore.</source>
-        <translation type="unfinished"></translation>
+        <translation>Сетевой режим будет переключаться автоматически при изменении доступности сети.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="334"/>
-        <location filename="../qml/SettingsPage.qml" line="345"/>
-        <location filename="../qml/SettingsPage.qml" line="712"/>
+        <location filename="../qml/SettingsPage.qml" line="353"/>
+        <location filename="../qml/SettingsPage.qml" line="364"/>
+        <location filename="../qml/SettingsPage.qml" line="731"/>
         <source>Web viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Встроенный браузер</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="352"/>
+        <location filename="../qml/SettingsPage.qml" line="371"/>
         <source>Defines how navigation is handled inside built-in web viewer. Hyperlinks could be disabled, opened in an external browser or opened inside web viewer.</source>
-        <translation>Определяет, как будет осуществляться навигация внутри встроенного браузера. Гиперссылки могут быть отключены, открыты во внешнем браузере или внутри встроенного браузера.</translation>
+        <translation>Данная опция определяет поведение гиперссылок внутри встроенного браузера. Они могут быть отключены, открыты во внешнем браузере или внутри встроенного браузера.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="356"/>
+        <location filename="../qml/SettingsPage.qml" line="375"/>
         <source>Auto switch to Reader View</source>
         <translation>Автоматическое переключение в режим чтения</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="357"/>
+        <location filename="../qml/SettingsPage.qml" line="376"/>
         <source>Reader View is a feature that strips away clutter like buttons, ads and background images, and changes the page&apos;s layout for better readability. By enabling this option, Reader View will be automatically switch on when page is loaded in the web viewer.</source>
         <translation>Режим чтения - это функция, которая убирает беспорядок, рекламу, фоновые изображения и изменяет внешний вид страницы для лучшего восприятия. При активации данной функции режим чтения будет автоматически включаться, когда страница загружается в веб-браузере.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="369"/>
+        <location filename="../qml/SettingsPage.qml" line="388"/>
         <source>Reader View theme</source>
         <translation>Цветовая схема в режиме чтения</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="370"/>
+        <location filename="../qml/SettingsPage.qml" line="389"/>
         <source>Style of theme which will be used to display articles in Reader View.</source>
         <translation>Цветовая схема, которая будет использоваться для отображения записей в режиме чтения.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="379"/>
+        <location filename="../qml/SettingsPage.qml" line="398"/>
         <source>Dark</source>
         <translation>Темная</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="380"/>
+        <location filename="../qml/SettingsPage.qml" line="399"/>
         <source>Light</source>
         <translation>Светлая</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="396"/>
+        <location filename="../qml/SettingsPage.qml" line="415"/>
         <source>Auto switch to Night View</source>
         <translation>Автоматическое переключение в ночной режим</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="397"/>
+        <location filename="../qml/SettingsPage.qml" line="416"/>
         <source>Night View reduces the brightness of websites. By enabling this option, Night View will be automatically switch on when page is loaded in the web viewer.</source>
         <translation>Ночной режим уменьшает яркость сайтов.  При активации данной функции ночной режим будет автоматически включаться, когда страница загружается в веб-браузере.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="412"/>
+        <location filename="../qml/SettingsPage.qml" line="429"/>
         <source>Viewer font size level</source>
         <translation>Размер шрифта в режиме чтения</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="429"/>
+        <location filename="../qml/SettingsPage.qml" line="443"/>
+        <source>Delete cookies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="444"/>
+        <source>Clear web viewer cache and cookies. Changes will take effect after restart.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="447"/>
+        <source>Cache and cookies have been deleted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="458"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="453"/>
+        <location filename="../qml/SettingsPage.qml" line="484"/>
         <source>Default</source>
         <translation>Системный</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="609"/>
+        <location filename="../qml/SettingsPage.qml" line="644"/>
         <source>View mode</source>
         <translation>Режим просмотра</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="628"/>
+        <location filename="../qml/SettingsPage.qml" line="663"/>
         <source>Tabs, feeds &amp; articles</source>
         <translation>Категории, ленты и статьи</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="628"/>
+        <location filename="../qml/SettingsPage.qml" line="663"/>
         <source>Folders, feeds &amp; articles</source>
         <translation>Папки, ленты и статьи</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="632"/>
+        <location filename="../qml/SettingsPage.qml" line="667"/>
         <source>Tabs &amp; articles</source>
         <translation>Категории и статьи</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="632"/>
+        <location filename="../qml/SettingsPage.qml" line="667"/>
         <source>Folders &amp; articles</source>
         <translation>Папки и статьи</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="636"/>
-        <location filename="../qml/SettingsPage.qml" line="742"/>
+        <location filename="../qml/SettingsPage.qml" line="671"/>
+        <location filename="../qml/SettingsPage.qml" line="761"/>
         <source>All articles</source>
         <translation>Все статьи</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="640"/>
+        <location filename="../qml/SettingsPage.qml" line="675"/>
         <source>Saved</source>
         <translation>Закладки</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="640"/>
+        <location filename="../qml/SettingsPage.qml" line="675"/>
         <source>Starred</source>
         <translation>Закладки</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="645"/>
+        <location filename="../qml/SettingsPage.qml" line="680"/>
         <source>Slow</source>
         <translation>Редкие</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="645"/>
+        <location filename="../qml/SettingsPage.qml" line="680"/>
         <source>Liked</source>
         <translation>Понравилось</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="672"/>
+        <location filename="../qml/SettingsPage.qml" line="707"/>
         <source>Sort order for list of articles</source>
         <translation>Сортировка записей в ленте</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="676"/>
+        <location filename="../qml/SettingsPage.qml" line="711"/>
         <source>Recent first</source>
         <translation>Сначала новые</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="677"/>
+        <location filename="../qml/SettingsPage.qml" line="712"/>
         <source>Oldest first</source>
         <translation>Сначала старые</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="497"/>
+        <location filename="../qml/SettingsPage.qml" line="838"/>
+        <source>Pocket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="842"/>
+        <source>Pocket integration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="843"/>
+        <source>Pocket is an Internet tool for saving articles to read later. Integration implemented in Kaktus provides &quot;Add to Pocket&quot; button in the articles list and in the web viewer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="861"/>
+        <location filename="../qml/SettingsPage.qml" line="862"/>
+        <source>Default tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="864"/>
+        <source>List of comma seperated tags that will be automatically inserted when you add article to Pocket.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="894"/>
+        <source>Quick adding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="895"/>
+        <source>If enabled, article will be send to Pocket immediately after you click on &quot;Add to Pocket&quot; button, so without any confirmation dialog. All tags from &quot;Default tags&quot; field will be automatically added.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="905"/>
+        <source>Delete saved tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="908"/>
+        <source>Saved tags have been deleted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="913"/>
+        <source>Experimental</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="532"/>
         <source>Changes will take effect after you restart Kaktus.</source>
         <translation>Для применения изменений перезапустите Kaktus</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="288"/>
+        <location filename="../qml/SettingsPage.qml" line="307"/>
         <source>Online</source>
         <translation>Онлайн</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="289"/>
+        <location filename="../qml/SettingsPage.qml" line="308"/>
         <source>Offline</source>
-        <translation>Офлайн</translation>
+        <translation>Оффлайн</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="316"/>
+        <location filename="../qml/SettingsPage.qml" line="335"/>
         <source>Cache articles</source>
         <translation>Кэширование статей</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="113"/>
+        <location filename="../qml/SettingsPage.qml" line="132"/>
         <source>Sign out</source>
         <translation>Выйти</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="113"/>
+        <location filename="../qml/SettingsPage.qml" line="132"/>
         <source>Sign in</source>
         <translation>Вход</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="244"/>
+        <location filename="../qml/SettingsPage.qml" line="263"/>
         <source>Cache</source>
         <translation>Кэш</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="262"/>
+        <location filename="../qml/SettingsPage.qml" line="281"/>
         <source>Current cache size</source>
         <translation>Размер кэша</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="783"/>
+        <location filename="../qml/SettingsPage.qml" line="776"/>
         <source>Social features</source>
         <translation>Социальные функции</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="795"/>
+        <location filename="../qml/SettingsPage.qml" line="812"/>
         <source>Power save mode</source>
         <translation>Режим экономии энергии</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="796"/>
+        <location filename="../qml/SettingsPage.qml" line="813"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
-        <translation>Когда телефон или приложение переходит в спящий режим, все открытые веб-страницы будут закрыты с целью снижения энергопотребления</translation>
+        <translation>Когда телефон или приложение переходит в спящий режим, все открытые веб-страницы будут закрыты с целью снижения энергопотребления.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="812"/>
+        <location filename="../qml/SettingsPage.qml" line="829"/>
         <source>Dynamic</source>
         <translation>Свободная</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="423"/>
+        <location filename="../qml/SettingsPage.qml" line="452"/>
         <source>UI</source>
         <translation>Интерфейс</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="339"/>
+        <location filename="../qml/SettingsPage.qml" line="358"/>
         <source>Open link behaviour</source>
         <translation>При клике по ссылке</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="721"/>
+        <location filename="../qml/SettingsPage.qml" line="740"/>
         <source>Defines the behavior for clicking on an article item. Article can be opened in the built-in web viewer, opened in an external browser or full RSS feed content can be shown.</source>
         <translation>Определяет поведение при нажатии на статью. Статья может быть открыта в встроенном браузере, во внешнем браузере или может быть показано полное содержание RSS.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="738"/>
+        <location filename="../qml/SettingsPage.qml" line="757"/>
         <source>List filtering</source>
         <translation>Фильтр записей</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="743"/>
+        <location filename="../qml/SettingsPage.qml" line="762"/>
         <source>Unread or saved</source>
         <translation>Непрочитанные или сохраненные</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="744"/>
+        <location filename="../qml/SettingsPage.qml" line="763"/>
         <source>Only unread</source>
         <translation>Только непрочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="752"/>
+        <location filename="../qml/SettingsPage.qml" line="771"/>
         <source>List of articles can be filtered to display all articles, unread and saved or only unread.</source>
         <translation>Список статей может быть отфильтрован для отображения всех статей, прочитанных и сохраненных или только непрочитанных.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="753"/>
+        <location filename="../qml/SettingsPage.qml" line="772"/>
         <source>List of articles can be filtered to display all articles, unread and starred or only unread.</source>
         <translation>Список статей может быть отфильтрован для отображения всех статей, прочитанных и сохраненных или только непрочитанных.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="808"/>
+        <location filename="../qml/SettingsPage.qml" line="825"/>
         <source>Orientation</source>
         <translation>Ориентация экрана</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="813"/>
+        <location filename="../qml/SettingsPage.qml" line="830"/>
         <source>Portrait</source>
         <translation>Книжная</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="814"/>
+        <location filename="../qml/SettingsPage.qml" line="831"/>
         <source>Landscape</source>
         <translation>Альбомная</translation>
     </message>
@@ -1458,6 +1601,19 @@ on the settings page.</source>
     </message>
 </context>
 <context>
+    <name>ShareLinkPage</name>
+    <message>
+        <location filename="../qml/ShareLinkPage.qml" line="40"/>
+        <source>Share link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/ShareLinkPage.qml" line="52"/>
+        <source>No sharing accounts available. You can add accounts in settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SignOutDialog</name>
     <message>
         <location filename="../qml/SignOutDialog.qml" line="53"/>
@@ -1477,7 +1633,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/SignOutDialog.qml" line="63"/>
         <source>Disconnect Kaktus from your Netvibes account?</source>
-        <translation>Отключить Кактус от вашего аккаунта Netvibes?</translation>
+        <translation>Отключить Kaktus от вашего аккаунта Netvibes?</translation>
     </message>
 </context>
 <context>
@@ -1489,28 +1645,28 @@ on the settings page.</source>
     </message>
     <message>
         <location filename="../qml/TabPage.qml" line="82"/>
-        <location filename="../qml/TabPage.qml" line="180"/>
-        <location filename="../qml/TabPage.qml" line="184"/>
+        <location filename="../qml/TabPage.qml" line="161"/>
+        <location filename="../qml/TabPage.qml" line="165"/>
         <source>Uncategorized</source>
         <translation>Без категории</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="194"/>
+        <location filename="../qml/TabPage.qml" line="175"/>
         <source>Mark all as read</source>
         <translation>Отметить все как прочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="203"/>
+        <location filename="../qml/TabPage.qml" line="184"/>
         <source>Mark all as unread</source>
         <translation>Отметить все как непрочитанные</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="217"/>
+        <location filename="../qml/TabPage.qml" line="198"/>
         <source>Wait until sync finish</source>
         <translation>Дождитесь окончания синхронизации</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="218"/>
+        <location filename="../qml/TabPage.qml" line="199"/>
         <source>No tabs</source>
         <translation>Нет категорий</translation>
     </message>
@@ -1521,20 +1677,20 @@ on the settings page.</source>
     </message>
     <message>
         <location filename="../qml/TabPage.qml" line="80"/>
-        <location filename="../qml/TabPage.qml" line="180"/>
-        <location filename="../qml/TabPage.qml" line="184"/>
+        <location filename="../qml/TabPage.qml" line="161"/>
+        <location filename="../qml/TabPage.qml" line="165"/>
         <source>Subscriptions</source>
         <translation>Подписки</translation>
     </message>
     <message>
         <location filename="../qml/TabPage.qml" line="81"/>
-        <location filename="../qml/TabPage.qml" line="180"/>
-        <location filename="../qml/TabPage.qml" line="184"/>
+        <location filename="../qml/TabPage.qml" line="161"/>
+        <location filename="../qml/TabPage.qml" line="165"/>
         <source>Following</source>
         <translation>Следующий</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="218"/>
+        <location filename="../qml/TabPage.qml" line="199"/>
         <source>No folders</source>
         <translation>Здесь еще нет папок</translation>
     </message>
@@ -1544,7 +1700,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1588,84 +1744,84 @@ on the settings page.</source>
 <context>
     <name>Utils</name>
     <message>
-        <location filename="../src/utils.cpp" line="566"/>
+        <location filename="../src/utils.cpp" line="670"/>
         <source>empty</source>
         <translation>пусто</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="590"/>
+        <location filename="../src/utils.cpp" line="694"/>
         <source>unknown date</source>
         <translation>неизвестная дата</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="593"/>
+        <location filename="../src/utils.cpp" line="697"/>
         <source>just now</source>
         <translation>только что</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="596"/>
+        <location filename="../src/utils.cpp" line="700"/>
         <source>1 second ago</source>
         <translation>1 секунду назад</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="599"/>
+        <location filename="../src/utils.cpp" line="703"/>
         <source>%1 seconds ago</source>
         <comment>less than 5 seconds</comment>
         <translation>%1 секунды назад</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="602"/>
+        <location filename="../src/utils.cpp" line="706"/>
         <source>%1 seconds ago</source>
         <comment>more or equal 5 seconds</comment>
         <translation>%1 секунд назад</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="605"/>
+        <location filename="../src/utils.cpp" line="709"/>
         <source>1 minute ago</source>
         <translation>1 минуту назад</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="608"/>
+        <location filename="../src/utils.cpp" line="712"/>
         <source>%1 minutes ago</source>
         <comment>less than 5 minutes</comment>
         <translation>%1 минуты назад</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="611"/>
+        <location filename="../src/utils.cpp" line="715"/>
         <source>%1 minutes ago</source>
         <comment>more or equal 5 minutes</comment>
         <translation>%1 минут назад</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="614"/>
+        <location filename="../src/utils.cpp" line="718"/>
         <source>1 hour ago</source>
         <translation>1 час назад</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="617"/>
+        <location filename="../src/utils.cpp" line="721"/>
         <source>%1 hours ago</source>
         <comment>less than 5 hours</comment>
         <translation>%1 часа назад</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="620"/>
+        <location filename="../src/utils.cpp" line="724"/>
         <source>%1 hours ago</source>
         <comment>more or equal 5 hours</comment>
         <translation>%1 часов назад</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="626"/>
+        <location filename="../src/utils.cpp" line="730"/>
         <source>day ago</source>
         <translation>день назад</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="629"/>
+        <location filename="../src/utils.cpp" line="733"/>
         <source>%1 days ago</source>
         <comment>less than 5 days</comment>
         <translation>%1 дня назад</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="632"/>
+        <location filename="../src/utils.cpp" line="736"/>
         <source>%1 days ago</source>
         <comment>more or equal 5 days</comment>
         <translation>%1 дней назад</translation>
@@ -1674,96 +1830,106 @@ on the settings page.</source>
 <context>
     <name>WebPreviewPage</name>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="60"/>
-        <location filename="../qml/WebPreviewPage.qml" line="256"/>
+        <location filename="../qml/WebPreviewPage.qml" line="64"/>
+        <location filename="../qml/WebPreviewPage.qml" line="259"/>
         <source>Loading page content...</source>
-        <translation>Загрузка  содержимого страницы...</translation>
+        <translation>Загрузка страницы...</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="343"/>
+        <location filename="../qml/WebPreviewPage.qml" line="350"/>
         <source>Back</source>
         <translation>Назад</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="349"/>
+        <location filename="../qml/WebPreviewPage.qml" line="356"/>
         <source>Toggle Read</source>
         <translation>Прочитанное / непрочитанное</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="364"/>
+        <location filename="../qml/WebPreviewPage.qml" line="371"/>
         <source>Toggle Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="364"/>
+        <location filename="../qml/WebPreviewPage.qml" line="371"/>
         <source>Toggle Star</source>
         <translation>Избранное</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="54"/>
-        <location filename="../qml/WebPreviewPage.qml" line="401"/>
+        <location filename="../qml/WebPreviewPage.qml" line="58"/>
+        <location filename="../qml/WebPreviewPage.qml" line="408"/>
         <source>Launching an external browser...</source>
         <translation>Запуск браузера...</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="275"/>
+        <location filename="../qml/WebPreviewPage.qml" line="278"/>
         <source>Failed to load page from local cache.</source>
         <translation>Не удалось загрузить изображение из локального кэша.</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="277"/>
+        <location filename="../qml/WebPreviewPage.qml" line="280"/>
         <source>Failed to load page content.</source>
-        <translation>Не удалось загрузить содержимое страницы.</translation>
+        <translation>Не удалось загрузить страницу.</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="378"/>
+        <location filename="../qml/WebPreviewPage.qml" line="385"/>
         <source>Toggle Reader View</source>
         <translation>Включить режим чтения</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="388"/>
+        <location filename="../qml/WebPreviewPage.qml" line="395"/>
         <source>Toggle Night View</source>
         <translation>Включить ночной режим</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="398"/>
+        <location filename="../qml/WebPreviewPage.qml" line="405"/>
         <source>Browser</source>
         <translation>Браузер</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="407"/>
+        <location filename="../qml/WebPreviewPage.qml" line="417"/>
+        <source>Add to Pocket</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/WebPreviewPage.qml" line="428"/>
+        <source>Share link</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/WebPreviewPage.qml" line="434"/>
         <source>Toggle Like</source>
         <translation>Нравиться</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="417"/>
+        <location filename="../qml/WebPreviewPage.qml" line="444"/>
         <source>Toggle Share</source>
         <translation>Примечание</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="434"/>
+        <location filename="../qml/WebPreviewPage.qml" line="461"/>
         <source>URL was copied to the clipboard.</source>
-        <translation>URL скопирована в буфер обмена</translation>
+        <translation>Ссылка скопирована в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="440"/>
+        <location filename="../qml/WebPreviewPage.qml" line="475"/>
         <source>Increase font</source>
         <translation>Увеличить размер шрифта</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="448"/>
+        <location filename="../qml/WebPreviewPage.qml" line="467"/>
         <source>Decrease font</source>
         <translation>Уменьшить размер шрифта</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="456"/>
+        <location filename="../qml/WebPreviewPage.qml" line="483"/>
         <source>Hide toolbar</source>
         <translation>Скрыть панель инструментов</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="431"/>
+        <location filename="../qml/WebPreviewPage.qml" line="458"/>
         <source>Copy URL</source>
-        <translation>Скопировать адрес ссылки</translation>
+        <translation>Скопировать ссылку</translation>
     </message>
 </context>
 <context>
@@ -1776,7 +1942,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/main.qml" line="162"/>
         <source>Restart the app to rebuild cache data.</source>
-        <translation>Перезапустите приложение для восстановления данных кэша.</translation>
+        <translation>Перезапустите приложение для обновления кэша.</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="188"/>
