@@ -343,12 +343,12 @@ Brak połączenia sieciowego.</translation>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="555"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj do Pocket</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="564"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Udostępnij</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="571"/>
@@ -772,12 +772,12 @@ Został włączony tryb Offline.</translation>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="424"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj do Pocket</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="435"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Udostępnij</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="441"/>
@@ -850,12 +850,12 @@ Został włączony tryb Offline.</translation>
     <message>
         <location filename="../qml/FirstPage.qml" line="66"/>
         <source>Sync</source>
-        <translation type="unfinished">Aktualizuj</translation>
+        <translation>Aktualizuj</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="66"/>
         <source>Busy...</source>
-        <translation type="unfinished">Zajęty...</translation>
+        <translation>Zajęty...</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="77"/>
@@ -1232,22 +1232,22 @@ Brak połączenia sieciowego.</translation>
         <location filename="../qml/Pocket.qml" line="64"/>
         <location filename="../qml/Pocket.qml" line="79"/>
         <source>Pocket authorization has failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoryzacja Pocket nie udała się.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="74"/>
         <source>Pocket authorization was successful.</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoryzacja Pocket powiodła się.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="117"/>
         <source>Article has been successfully added to Pocket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomyślnie dodano artykuł do Pocket.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="123"/>
         <source>Error while adding article to Pocket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wystąpił błąd podczas dodawania artykułu do Pocket.</translation>
     </message>
 </context>
 <context>
@@ -1255,12 +1255,12 @@ Brak połączenia sieciowego.</translation>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="77"/>
         <source>Loading page content...</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie strony...</translation>
     </message>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="123"/>
         <source>Back</source>
-        <translation type="unfinished">Cofnij</translation>
+        <translation>Cofnij</translation>
     </message>
 </context>
 <context>
@@ -1268,22 +1268,22 @@ Brak połączenia sieciowego.</translation>
     <message>
         <location filename="../qml/PocketDialog.qml" line="82"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj do Pocket</translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="90"/>
         <source>Insert comma seperated tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Podaj tagi rozdzielane przecinkami</translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="91"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Tagi</translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="116"/>
         <source>Previously used tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Poprzednio użyte tagi</translation>
     </message>
 </context>
 <context>
@@ -1580,17 +1580,17 @@ Brak połączenia sieciowego.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="443"/>
         <source>Delete cookies</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń cookies</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="444"/>
         <source>Clear web viewer cache and cookies. Changes will take effect after restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuwa podręczny cache i pliki cookie wbudowanej przeglądarki. Zmiany będą widoczne po restarcie.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="447"/>
         <source>Cache and cookies have been deleted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cache i pliki cookie zostały usunięte.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="458"/>
@@ -1645,53 +1645,53 @@ Brak połączenia sieciowego.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="838"/>
         <source>Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Pocket</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="842"/>
         <source>Pocket integration</source>
-        <translation type="unfinished"></translation>
+        <translation>Integracja z Pocket</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="843"/>
         <source>Pocket is an Internet tool for saving articles to read later. Integration implemented in Kaktus provides &quot;Add to Pocket&quot; button in the articles list and in the web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pocket jest internetowym narzędziem do zapisywania artykułów lub robienia zakładek. Integracja zaimplementowana w Kaktusie dodaje przycisk &quot;Dodaj do Pocket&quot; widoczny na liście z artykułami oraz w podglądzie strony.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="861"/>
         <location filename="../qml/SettingsPage.qml" line="862"/>
         <source>Default tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Domyślne tagi</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="864"/>
         <source>List of comma seperated tags that will be automatically inserted when you add article to Pocket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista tagów rozdzielonych przecinkami, które będą automatycznie dodane przy zapisywaniu artykułu w Pocket.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="894"/>
         <source>Quick adding</source>
-        <translation type="unfinished"></translation>
+        <translation>Szybkie dodawanie</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="895"/>
         <source>If enabled, article will be send to Pocket immediately after you click on &quot;Add to Pocket&quot; button, so without any confirmation dialog. All tags from &quot;Default tags&quot; field will be automatically added.</source>
-        <translation type="unfinished"></translation>
+        <translation>Artykuł zostanie natychmiastowo przesłany do Pocket od razu po tym jak naciśnięty zostanie przycisk &quot;Dodaj do Pocket&quot;. Pominiętę zostanie pytanie o potwierdzenie. Wszystkie &quot;Domyślne tagi&quot; zostaną automatycznie dodane.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="905"/>
         <source>Delete saved tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń zapamiętane tagi</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="908"/>
         <source>Saved tags have been deleted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapamiętane tagi zostały usunięte.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="913"/>
         <source>Experimental</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksperymenty</translation>
     </message>
     <message>
         <source>Build-in viewer</source>
@@ -1986,12 +1986,12 @@ Brak połączenia sieciowego.</translation>
     <message>
         <location filename="../qml/ShareLinkPage.qml" line="40"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Udostępnij</translation>
     </message>
     <message>
         <location filename="../qml/ShareLinkPage.qml" line="52"/>
         <source>No sharing accounts available. You can add accounts in settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znaleziono żadnego konta. Możesz dodać konto w ustawieniach kont</translation>
     </message>
 </context>
 <context>
@@ -2290,12 +2290,12 @@ Brak połączenia sieciowego.</translation>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="417"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Dodaj do Pocket</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="428"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Udostępnij</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="434"/>

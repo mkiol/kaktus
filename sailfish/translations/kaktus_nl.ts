@@ -276,12 +276,12 @@
     <message>
         <location filename="../qml/EntryDelegate.qml" line="555"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen aan Pocket</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="564"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Link delen</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="571"/>
@@ -292,62 +292,6 @@
         <location filename="../qml/EntryDelegate.qml" line="586"/>
         <source>Toggle Share</source>
         <translation>Delen/niet delen</translation>
-    </message>
-    <message>
-        <source>Mark above as read</source>
-        <translation type="vanished">Bovenstaande als gelezen markeren</translation>
-    </message>
-    <message>
-        <source>Unsave</source>
-        <translation type="vanished">Opslaan ongedaan maken</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">Opslaan</translation>
-    </message>
-    <message>
-        <source>Unstar</source>
-        <translation type="vanished">Uit favorieten verwijderen</translation>
-    </message>
-    <message>
-        <source>Star</source>
-        <translation type="vanished">Aan favorieten toevoegen</translation>
-    </message>
-    <message>
-        <source>Unlike</source>
-        <translation type="vanished">Niet meer leuk vinden</translation>
-    </message>
-    <message>
-        <source>Like</source>
-        <translation type="vanished">Vind ik leuk</translation>
-    </message>
-    <message>
-        <source>Unshare</source>
-        <translation type="vanished">Niet meer delen</translation>
-    </message>
-    <message>
-        <source>Open in viewer</source>
-        <translation type="vanished">Openen in weergever</translation>
-    </message>
-    <message>
-        <source>Open in browser</source>
-        <translation type="vanished">Openen in webbrowser</translation>
-    </message>
-    <message>
-        <source>Show feed content</source>
-        <translation type="vanished">Feedinhoud weergeven</translation>
-    </message>
-    <message>
-        <source>Share with followers</source>
-        <translation type="vanished">Delen met volgers</translation>
-    </message>
-    <message>
-        <source>Mark as unread</source>
-        <translation type="vanished">Markeren als ongelezen</translation>
-    </message>
-    <message>
-        <source>Mark as read</source>
-        <translation type="vanished">Markeren als gelezen</translation>
     </message>
 </context>
 <context>
@@ -592,12 +536,12 @@
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="424"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen aan Pocket</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="435"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Link delen</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="441"/>
@@ -654,12 +598,12 @@
     <message>
         <location filename="../qml/FirstPage.qml" line="66"/>
         <source>Sync</source>
-        <translation type="unfinished"></translation>
+        <translation>Synchroniseren</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="66"/>
         <source>Busy...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig...</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="77"/>
@@ -955,22 +899,22 @@ op de instellingenpagina.</translation>
         <location filename="../qml/Pocket.qml" line="64"/>
         <location filename="../qml/Pocket.qml" line="79"/>
         <source>Pocket authorization has failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>De Pocket-autorisatie is mislukt.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="74"/>
         <source>Pocket authorization was successful.</source>
-        <translation type="unfinished"></translation>
+        <translation>De Pocket-autorisatie is gelukt.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="117"/>
         <source>Article has been successfully added to Pocket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Het artikel is succesvol toegevoegd aan Pocket.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="123"/>
         <source>Error while adding article to Pocket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Er is een fout opgetreden tijdens het toevoegen aan Pocket.</translation>
     </message>
 </context>
 <context>
@@ -978,12 +922,12 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="77"/>
         <source>Loading page content...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met het laden van de paginainhoud...</translation>
     </message>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="123"/>
         <source>Back</source>
-        <translation type="unfinished">Terug</translation>
+        <translation>Terug</translation>
     </message>
 </context>
 <context>
@@ -991,22 +935,22 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/PocketDialog.qml" line="82"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen aan Pocket </translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="90"/>
         <source>Insert comma seperated tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Komma-gescheiden labels invoeren</translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="91"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Labels</translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="116"/>
         <source>Previously used tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Eerder gebruikte labels</translation>
     </message>
 </context>
 <context>
@@ -1138,18 +1082,6 @@ op de instellingenpagina.</translation>
         <location filename="../qml/SettingsPage.qml" line="348"/>
         <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
         <translation>Na het synchroniseren zal de inhoud van alle items worden gedownload en in de cache worden opgeslagen zodat u er in de offline-modus bij kunt.</translation>
-    </message>
-    <message>
-        <source>Context menu style</source>
-        <translation type="vanished">Stijl van contextmenu</translation>
-    </message>
-    <message>
-        <source>Icons</source>
-        <translation type="vanished">Pictogrammen</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">Tekst</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="727"/>
@@ -1327,17 +1259,17 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="443"/>
         <source>Delete cookies</source>
-        <translation type="unfinished"></translation>
+        <translation>Cookies verwijderen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="444"/>
         <source>Clear web viewer cache and cookies. Changes will take effect after restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wis cookies en de webweergave-cache. Wijzigingen zullen worden toegepast nadat de app is herstart.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="447"/>
         <source>Cache and cookies have been deleted.</source>
-        <translation type="unfinished"></translation>
+        <translation>De cookies en cache zijn verwijderd.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="458"/>
@@ -1418,53 +1350,53 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="838"/>
         <source>Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Pocket</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="842"/>
         <source>Pocket integration</source>
-        <translation type="unfinished"></translation>
+        <translation>Pocket-integratie</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="843"/>
         <source>Pocket is an Internet tool for saving articles to read later. Integration implemented in Kaktus provides &quot;Add to Pocket&quot; button in the articles list and in the web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pocket is een internethulpmiddel voor het opslaan van artikelen om ze later te kunnen lezen. Pocket is geïntegreerd in Kaktus en biedt een &quot;Toevoegen aan Pocket&quot;-knop in de artikellijst en de webweergave.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="861"/>
         <location filename="../qml/SettingsPage.qml" line="862"/>
         <source>Default tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Standaard labels</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="864"/>
         <source>List of comma seperated tags that will be automatically inserted when you add article to Pocket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lijst van komma-gescheiden labels die automatisch zullen worden ingevoerd tijdens toevoegen van een artikel aan Pocket.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="894"/>
         <source>Quick adding</source>
-        <translation type="unfinished"></translation>
+        <translation>Snel toevoegen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="895"/>
         <source>If enabled, article will be send to Pocket immediately after you click on &quot;Add to Pocket&quot; button, so without any confirmation dialog. All tags from &quot;Default tags&quot; field will be automatically added.</source>
-        <translation type="unfinished"></translation>
+        <translation>Als dit is ingeschakeld, dan zal een artikel direct worden verstuurd naar Pocket na het klikken op &quot;Toevoegen aan Pocket&quot;-knop, zonder bevestigingsvraag. Alle labels uit de lijst met &quot;Standaard labels&quot; worden automatisch toegevoegd.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="905"/>
         <source>Delete saved tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Opgeslagen labels verwijderen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="908"/>
         <source>Saved tags have been deleted.</source>
-        <translation type="unfinished"></translation>
+        <translation>De opgeslagen labels zijn verwijderd.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="913"/>
         <source>Experimental</source>
-        <translation type="unfinished"></translation>
+        <translation>Experimenteel</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="532"/>
@@ -1605,12 +1537,12 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/ShareLinkPage.qml" line="40"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Link delen</translation>
     </message>
     <message>
         <location filename="../qml/ShareLinkPage.qml" line="52"/>
         <source>No sharing accounts available. You can add accounts in settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Er zijn geen accounts beschikbaar voor delen. U kunt accounts toevoegen in de instellingen.</translation>
     </message>
 </context>
 <context>
@@ -1700,7 +1632,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1889,12 +1821,12 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="417"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Toevoegen aan Pocket</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="428"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Link delen</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="434"/>

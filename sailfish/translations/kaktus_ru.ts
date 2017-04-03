@@ -276,12 +276,12 @@
     <message>
         <location filename="../qml/EntryDelegate.qml" line="555"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить в Pocket</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="564"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Поделиться ссылкой</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="571"/>
@@ -292,62 +292,6 @@
         <location filename="../qml/EntryDelegate.qml" line="586"/>
         <source>Toggle Share</source>
         <translation>Примечание</translation>
-    </message>
-    <message>
-        <source>Mark above as read</source>
-        <translation type="vanished">Предыдущие как прочитанные</translation>
-    </message>
-    <message>
-        <source>Unsave</source>
-        <translation type="vanished">Убрать из сохранённого</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">Сохранить</translation>
-    </message>
-    <message>
-        <source>Unstar</source>
-        <translation type="vanished">Убрать из закладок</translation>
-    </message>
-    <message>
-        <source>Star</source>
-        <translation type="vanished">В закладки</translation>
-    </message>
-    <message>
-        <source>Unlike</source>
-        <translation type="vanished">Не нравится</translation>
-    </message>
-    <message>
-        <source>Like</source>
-        <translation type="vanished">Нравится</translation>
-    </message>
-    <message>
-        <source>Unshare</source>
-        <translation type="vanished">Отменить</translation>
-    </message>
-    <message>
-        <source>Open in viewer</source>
-        <translation type="vanished">Открыть во встроенном браузере</translation>
-    </message>
-    <message>
-        <source>Open in browser</source>
-        <translation type="vanished">Открыть в браузере</translation>
-    </message>
-    <message>
-        <source>Show feed content</source>
-        <translation type="vanished">Показать содержание</translation>
-    </message>
-    <message>
-        <source>Share with followers</source>
-        <translation type="vanished">Поделиться с подписчиками</translation>
-    </message>
-    <message>
-        <source>Mark as unread</source>
-        <translation type="vanished">Отметить как непрочитанное</translation>
-    </message>
-    <message>
-        <source>Mark as read</source>
-        <translation type="vanished">Отметить как прочитанное</translation>
     </message>
 </context>
 <context>
@@ -592,12 +536,12 @@
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="424"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить в Pocket</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="435"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Поделиться ссылкой</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="441"/>
@@ -654,12 +598,12 @@
     <message>
         <location filename="../qml/FirstPage.qml" line="66"/>
         <source>Sync</source>
-        <translation type="unfinished"></translation>
+        <translation>Обновить</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="66"/>
         <source>Busy...</source>
-        <translation type="unfinished"></translation>
+        <translation>Подождите...</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="77"/>
@@ -955,22 +899,22 @@ on the settings page.</source>
         <location filename="../qml/Pocket.qml" line="64"/>
         <location filename="../qml/Pocket.qml" line="79"/>
         <source>Pocket authorization has failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Авторизация в сервисе Pocket не удалась.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="74"/>
         <source>Pocket authorization was successful.</source>
-        <translation type="unfinished"></translation>
+        <translation>Авторизация в сервисе Pocket прошла успешно.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="117"/>
         <source>Article has been successfully added to Pocket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Статья успешно добавлен в Pocket.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="123"/>
         <source>Error while adding article to Pocket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка при добавлении статьи в Pocket.</translation>
     </message>
 </context>
 <context>
@@ -978,12 +922,12 @@ on the settings page.</source>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="77"/>
         <source>Loading page content...</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка страницы...</translation>
     </message>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="123"/>
         <source>Back</source>
-        <translation type="unfinished">Назад</translation>
+        <translation>Назад</translation>
     </message>
 </context>
 <context>
@@ -991,7 +935,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/PocketDialog.qml" line="82"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить в Pocket</translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="90"/>
@@ -1001,12 +945,12 @@ on the settings page.</source>
     <message>
         <location filename="../qml/PocketDialog.qml" line="91"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Теги</translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="116"/>
         <source>Previously used tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Ранее используемые теги</translation>
     </message>
 </context>
 <context>
@@ -1138,18 +1082,6 @@ on the settings page.</source>
         <location filename="../qml/SettingsPage.qml" line="348"/>
         <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
         <translation>После синхронизации содержание всех записей будет загружено для доступа в автономном режиме.</translation>
-    </message>
-    <message>
-        <source>Context menu style</source>
-        <translation type="vanished">Стиль контекстного меню</translation>
-    </message>
-    <message>
-        <source>Icons</source>
-        <translation type="vanished">Значки</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">Текст</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="727"/>
@@ -1327,17 +1259,17 @@ on the settings page.</source>
     <message>
         <location filename="../qml/SettingsPage.qml" line="443"/>
         <source>Delete cookies</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить куки</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="444"/>
         <source>Clear web viewer cache and cookies. Changes will take effect after restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Очистить кэш веб-просмотра и файлы cookie. Изменения вступят в силу после перезагрузки.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="447"/>
         <source>Cache and cookies have been deleted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Кеш и куки были удалены.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="458"/>
@@ -1418,53 +1350,53 @@ on the settings page.</source>
     <message>
         <location filename="../qml/SettingsPage.qml" line="838"/>
         <source>Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Pocket</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="842"/>
         <source>Pocket integration</source>
-        <translation type="unfinished"></translation>
+        <translation>Интеграция с Pocket</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="843"/>
         <source>Pocket is an Internet tool for saving articles to read later. Integration implemented in Kaktus provides &quot;Add to Pocket&quot; button in the articles list and in the web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pocket - это удобный сервис для сохранения статей для чтения &quot;на потом&quot;. Интеграция предлагает кнопку &quot;Добавить в Pocket&quot; в списке статей и в веб-просмотре.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="861"/>
         <location filename="../qml/SettingsPage.qml" line="862"/>
         <source>Default tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Теги по умолчанию</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="864"/>
         <source>List of comma seperated tags that will be automatically inserted when you add article to Pocket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Список разделенных запятыми тегов, которые будут установлены автоматически при добавлении статьи в Pocket.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="894"/>
         <source>Quick adding</source>
-        <translation type="unfinished"></translation>
+        <translation>Быстрое добавление</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="895"/>
         <source>If enabled, article will be send to Pocket immediately after you click on &quot;Add to Pocket&quot; button, so without any confirmation dialog. All tags from &quot;Default tags&quot; field will be automatically added.</source>
-        <translation type="unfinished"></translation>
+        <translation>Если включено, то статья будет отправлена в Pocket сразу же после нажатия на кнопку &quot;Добавить в Pocket&quot; без диалогового окно подтверждения с присвоением тега &quot;по умолчанию&quot;.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="905"/>
         <source>Delete saved tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить сохраненные теги</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="908"/>
         <source>Saved tags have been deleted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохраненные теги были удалены.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="913"/>
         <source>Experimental</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспериментальные</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="532"/>
@@ -1605,7 +1537,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/ShareLinkPage.qml" line="40"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Поделиться ссылкой</translation>
     </message>
     <message>
         <location filename="../qml/ShareLinkPage.qml" line="52"/>
@@ -1700,7 +1632,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/sailfish/TourPage.qml" line="61"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1889,12 +1821,12 @@ on the settings page.</source>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="417"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить в Pocket</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="428"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Поделиться ссылкой</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="434"/>
