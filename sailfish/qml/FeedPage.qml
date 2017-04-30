@@ -76,9 +76,7 @@ Page {
             property bool defaultIcon: model.icon === "http://s.theoldreader.com/icons/user_icon.png"
 
             enabled: !last
-            contentHeight: last ?
-                             app.orientation===Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape :
-                             Math.max(item.height, image.height) + 2 * Theme.paddingMedium
+            contentHeight: last ? app.stdHeight : Math.max(item.height, image.height) + 2 * Theme.paddingMedium
 
             Rectangle {
                 anchors.top: parent.top; anchors.right: parent.right

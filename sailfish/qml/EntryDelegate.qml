@@ -78,10 +78,7 @@ ListItem {
 
     enabled: !last && !daterow
 
-    contentHeight: last ?
-                   app.orientation === Orientation.Portrait ? app.panelHeightPortrait : app.panelHeightLandscape :
-                   daterow ? dateRowbox.height :
-                   box.height + expander.height
+    contentHeight: last ? app.stdHeight : daterow ? dateRowbox.height : box.height + expander.height
 
     onMenuOpenChanged: { if(menuOpen) app.hideBar() }
 
@@ -413,7 +410,7 @@ ListItem {
                       : utils.getHumanFriendlyTimeString(date)
             }
 
-            /*Item {
+           /*Item {
                 anchors.left: parent.left; anchors.right: parent.right
                 height: evaluationButtons.height
 

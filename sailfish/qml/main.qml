@@ -32,6 +32,7 @@ ApplicationWindow {
     readonly property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
     readonly property bool isFeedly: settings.signinType >= 20 && settings.signinType < 30
     readonly property variant _cache: cache
+    readonly property int stdHeight: orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8 * Theme.itemSizeMedium
 
     cover: CoverPage {}
 
