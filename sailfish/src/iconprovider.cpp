@@ -24,7 +24,7 @@ IconProvider::IconProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap)
         themeDir = SailfishApp::pathTo("images/z1.25").toString(QUrl::RemoveScheme);
     } else if (ratio == 1.5) {
         themeDir = SailfishApp::pathTo("images/z1.5").toString(QUrl::RemoveScheme);
-    } else if (ratio == 1.75) {
+    } else if (ratio == 1.75 || ratio == 1.8) {
         themeDir = SailfishApp::pathTo("images/z1.75").toString(QUrl::RemoveScheme);
     } else if (ratio == 2.0) {
         themeDir = SailfishApp::pathTo("images/z2.0").toString(QUrl::RemoveScheme);

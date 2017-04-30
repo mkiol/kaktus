@@ -8,6 +8,15 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sun Apr 30 2017 Michal Kosciesza 2.6.1-1
+- 1.8 pixel ratio support (for OnePlus X)
+
+* Tue Apr 18 2017 Michal Kosciesza 2.6.0-6
+- RU translations update
+
+* Fri Apr 14 2017 Michal Kosciesza 2.6.0-4
+- RU and CS translations update
+
 * Mon Apr 03 2017 Michal Kosciesza 2.6.0-3
 - IT, NL, PL and RU translations update
 
