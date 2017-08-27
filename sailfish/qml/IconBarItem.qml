@@ -26,12 +26,13 @@ Item {
     property string icon: "image://icons/item"
     property alias enabled: iconButton.enabled
     property alias text: lbl.text
+    property string theme: ""
 
-    property string iconColor: root.theme === "transparent" ? Theme.secondaryColor :
-                               root.theme === "black" ? Theme.secondaryColor :
+    property string iconColor: root.theme === "transparent" ? Theme.primaryColor :
+                               root.theme === "black" ? Theme.primaryColor :
                                root.theme === "highlighted" ? Theme.highlightBackgroundColor :
-                               root.theme === "dimmer" ? Theme.secondaryColor :
-                               Theme.secondaryColor
+                               root.theme === "dimmer" ? Theme.primaryColor :
+                               Theme.primaryColor
 
     width: iconButton.width
     height: iconButton.height

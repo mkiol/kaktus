@@ -44,7 +44,7 @@ Item {
 
     // other
     readonly property bool isPortrait: app.orientation === Orientation.Portrait
-    readonly property color iconColor: Theme.secondaryColor
+    readonly property color iconColor: Theme.primaryColor
     readonly property int stdHeight: isPortrait ? Theme.itemSizeMedium : 0.8 * Theme.itemSizeMedium
 
     height: root.stdHeight
