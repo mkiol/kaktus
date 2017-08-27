@@ -8,6 +8,10 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sun Aug 27 2017 Michal Kosciesza 2.6.1-2
+- UI minor fixes
+- Readability.js updated to latest git version
+
 * Sun Apr 30 2017 Michal Kosciesza 2.6.1-1
 - 1.8 pixel ratio support (for OnePlus X)
 
