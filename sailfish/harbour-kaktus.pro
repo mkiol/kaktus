@@ -8,7 +8,8 @@ DEFINES += SAILFISH
 DEFINES += ONLINE_CHECK
 
 SOURCES += \
-    src/main_sailfish.cpp \
+    src/main.cpp \
+    src/ai.cpp \
     src/utils.cpp \
     src/tabmodel.cpp \
     src/listmodel.cpp \
@@ -30,6 +31,7 @@ SOURCES += \
     src/iconprovider.cpp
 
 HEADERS += \
+    src/ai.h \
     src/utils.h \
     src/tabmodel.h \
     src/listmodel.h \
