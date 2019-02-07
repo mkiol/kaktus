@@ -68,6 +68,7 @@
 #include "oldreaderfetcher.h"
 #include "nvfetcher.h"
 #include "feedlyfetcher.h"
+#include "ttrssfetcher.h"
 
 Utils::Utils(QObject *parent) :
     QObject(parent)//, ncm(new QNetworkConfigurationManager(parent))
@@ -811,6 +812,11 @@ void Utils::resetFetcher(int type)
     if (type == 3) {
         // Feedly fetcher
         s->fetcher = new FeedlyFetcher();
+    }
+
+    if (type == 4) {
+        // Tiny Tiny Rss fetcher
+        s->fetcher = new TTRssFetcher();
     }
 
     if (s->fetcher != NULL)

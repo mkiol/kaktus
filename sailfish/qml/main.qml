@@ -31,6 +31,7 @@ ApplicationWindow {
     readonly property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
     readonly property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
     readonly property bool isFeedly: settings.signinType >= 20 && settings.signinType < 30
+    readonly property bool isTTRss: settings.signinType >= 30 && settings.signinType < 40
     readonly property variant _cache: cache
     readonly property int stdHeight: orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8 * Theme.itemSizeMedium
 
@@ -76,6 +77,8 @@ ApplicationWindow {
                 reconnectFetcher(2);
             else if (type < 30)
                 reconnectFetcher(3);
+            else if (type < 40)
+                reconnectFetcher(4);
         }
 
         utils.setRootModel();
@@ -324,6 +327,10 @@ ApplicationWindow {
             }
             if (type < 30) {
                 pageStack.push(Qt.resolvedUrl("FeedlySignInDialog.qml"),{"code": code});
+                return;
+            }
+            if (type < 40) {
+                pageStack.push(Qt.resolvedUrl("TTRssSignInDialog.qml"),{"code": code});
                 return;
             }
 

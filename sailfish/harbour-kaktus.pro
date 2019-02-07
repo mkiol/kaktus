@@ -26,6 +26,7 @@ SOURCES += \
     src/oldreaderfetcher.cpp \
     src/nvfetcher.cpp \
     src/feedlyfetcher.cpp \
+    src/ttrssfetcher.cpp \
     src/networkaccessmanagerfactory.cpp \
     src/customnetworkaccessmanager.cpp \
     src/iconprovider.cpp
@@ -49,6 +50,7 @@ HEADERS += \
     src/oldreaderfetcher.h \
     src/nvfetcher.h \
     src/feedlyfetcher.h \
+    src/ttrssfetcher.h \
     src/networkaccessmanagerfactory.h \
     src/customnetworkaccessmanager.h \
     feedly.h \
@@ -85,4 +87,5 @@ INSTALLS += translations images
 DISTFILES += \
     qml/*.qml \
     qml/ScalableIconButton.qml \
-    qml/MenuIconItem.qml
+    qml/MenuIconItem.qml \
+    qml/TTRssSignInDialog.qml

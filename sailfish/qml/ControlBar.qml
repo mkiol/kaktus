@@ -191,7 +191,7 @@ Item {
 
                 IconButton {
                     id: vm5b
-                    visible: app.isNetvibes || (app.isOldReader && settings.showBroadcast) // Disabled for Feedly
+                    visible: app.isNetvibes || app.isTTRss || (app.isOldReader && settings.showBroadcast) // Disabled for Feedly
                     anchors.verticalCenter: parent.verticalCenter
                     icon.source: app.isOldReader ? "image://icons/icon-m-vm6?"+root.iconColor :
                                                    "image://icons/icon-m-vm5?"+root.iconColor
