@@ -38,6 +38,7 @@ Page {
     property int index
     property int feedindex
     property bool cached
+    property bool autoRead: true
 
     property variant _settings: settings
     property bool themeApply: true
@@ -48,6 +49,10 @@ Page {
         view.loadHtml(utils.formatHtml(content, settings.offlineMode, ""))
         navigateBackPop = true
         themeApply = true
+        if (!read) {
+            read = true
+            entryModel.setData(index, "read", 1, "");
+        }
     }
 
     function navigateBack() {
@@ -136,7 +141,6 @@ Page {
     }
 
     function openEntryInBrowser() {
-        entryModel.setData(index, "read", 1, "");
         notification.show(qsTr("Launching an external browser..."));
         //Qt.openUrlExternally(settings.offlineMode ? offlineUrl : onlineUrl);
         Qt.openUrlExternally(onlineUrl)
@@ -159,7 +163,8 @@ Page {
                               "index": index,
                               "feedindex": feedindex,
                               "read" : read,
-                              "cached" : cached
+                              "cached" : cached,
+                              "autoRead" : autoRead
                           });
     }
 
@@ -377,6 +382,7 @@ Page {
             text: qsTr("Toggle Read")
             icon: root.read ? "image://icons/icon-m-read-selected" : "image://icons/icon-m-read"
             onClicked: {
+                root.autoRead=false;
                 if (root.read) {
                     root.read=false;
                     entryModel.setData(root.index, "read", 0, "");

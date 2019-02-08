@@ -49,6 +49,7 @@ Page {
     property bool readerModePossible: false
     property bool nightModePossible: true
     property bool autoReaderMode: settings.readerMode
+    property bool autoRead: true
 
     function share() {
         pageStack.push(Qt.resolvedUrl("ShareLinkPage.qml"),{"link": root.onlineUrl, "linkTitle": root.title});
@@ -263,7 +264,7 @@ Page {
                 proggressPanel.open = false;
 
                 // Start timer to mark as read
-                if (!root.read)
+                if (!root.read && root.autoRead)
                     timer.start();
 
                 // Readability.js
