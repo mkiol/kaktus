@@ -41,6 +41,7 @@ Page {
     ActiveDetector {
         onActivated: {
             tabModel.updateFlags()
+            bar.flick = listView
         }
         onInit: {
             bar.flick = listView

@@ -144,7 +144,7 @@ Page {
     }
 
     ActiveDetector {
-        onInit: { bar.flick = listView;}
+        onInit: { bar.flick = listView }
     }
 
     RemorsePopup {
