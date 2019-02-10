@@ -1,5 +1,6 @@
 /*
-  Copyright (C) 2015 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2019 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2019 Renaud Casenave-Péré <renaud@casenave-pere.fr>
 
   This file is part of Kaktus.
 
