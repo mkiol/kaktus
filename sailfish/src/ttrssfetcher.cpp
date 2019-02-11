@@ -604,6 +604,10 @@ void TTRssFetcher::setAction()
 
 void TTRssFetcher::finishedSetAction()
 {
+    if (!processResponse()) {
+        return;
+    }
+
     Settings *s = Settings::instance();
 
     DatabaseManager::Action action = actionsList.takeFirst();
