@@ -681,6 +681,7 @@ Page {
                         iconSource: "image://icons/icon-m-vm4"
                     }
                     MenuIconItem {
+                        visible: !app.isTTRss
                         enabled: app.isNetvibes || (app.isOldReader && settings.showBroadcast)
                         text: app.isNetvibes ? qsTr("Slow") : qsTr("Liked")
                         iconSource: app.isNetvibes ? "image://icons/icon-m-vm5" : "image://icons/icon-m-vm6"
