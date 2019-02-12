@@ -115,7 +115,6 @@ void TTRssFetcher::finishedSignIn()
             emit credentialsValid();
             setBusy(false);
         } else {
-            data.clear();
             sendApiCall("getConfig", FETCHER_SLOT(finishedConfig));
         }
     }
@@ -624,8 +623,6 @@ void TTRssFetcher::finishedSetAction()
 
 void TTRssFetcher::callNextCmd()
 {
-    data.clear();
-
     if (!commandList.isEmpty()) {
         proggress = proggressTotal - commandList.size() - Settings::instance()->getRetentionDays() + lastDate;
         emit progress(proggress, proggressTotal);
@@ -692,6 +689,8 @@ void TTRssFetcher::sendApiCall(const QString& op, const QJsonObject& params, Rep
 void TTRssFetcher::sendApiCall(const QString& op, const QString& params, ReplyCallback callback);
 #endif
 {
+    data.clear();
+
     if (currentReply != NULL) {
         currentReply->disconnect();
         currentReply->deleteLater();
