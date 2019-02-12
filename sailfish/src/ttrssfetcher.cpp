@@ -95,7 +95,6 @@ void TTRssFetcher::signIn()
 
 void TTRssFetcher::finishedSignIn()
 {
-    qDebug() << data;
     Settings *s = Settings::instance();
     if (!processResponse()) {
         s->setSignedIn(false);
@@ -122,8 +121,6 @@ void TTRssFetcher::finishedSignIn()
 
 void TTRssFetcher::finishedConfig()
 {
-    qDebug() << data;
-
     if (!processResponse()) {
         return;
     }
@@ -194,8 +191,6 @@ void TTRssFetcher::finishedCategories()
         return;
     }
 
-    qWarning() << data;
-
     startJob(StoreCategories);
 }
 
@@ -217,7 +212,6 @@ void TTRssFetcher::finishedFeeds()
         return;
     }
 
-    qWarning() << data;
     startJob(StoreFeeds);
 }
 
@@ -243,8 +237,6 @@ void TTRssFetcher::finishedStream()
 
 void TTRssFetcher::finishedStream2()
 {
-    qDebug() << "stored " << lastCount << " entries ; last date: " << lastDate;
-
     Settings *s = Settings::instance();
     if ((s->getRetentionDays() > 0 && lastDate > s->getRetentionDays()) ||
         lastCount < streamLimit) {
@@ -711,8 +703,6 @@ void TTRssFetcher::sendApiCall(const QString& op, const QString& params, ReplyCa
 #else
     QString body = "{\"op\":\"" + op + "\"" + (!params.isEmpty() ? params : "") + "}";
 #endif
-
-    qDebug() << "send json: " << body;
 
     currentReply = nam.post(request, body.toUtf8());
     connect(currentReply, &QNetworkReply::finished, this, callback);
