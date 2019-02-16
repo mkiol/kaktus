@@ -73,7 +73,9 @@ Page {
                         verticalCenter: parent.verticalCenter
                     }
                     source: app.isNetvibes ? "nv.png" :
-                            app.isOldReader ? "oldreader.png" : "feedly.png"
+                        app.isOldReader ? "oldreader.png" :
+                        app.isFeedly ? "feedly.png" :
+                        app.isTTRss ? "ttrss.png" : null
                     width: Theme.iconSizeMedium
                     height: Theme.iconSizeMedium
 
@@ -87,7 +89,9 @@ Page {
                         verticalCenter: parent.verticalCenter
                     }
                     text: app.isNetvibes ? "Netvibes":
-                          app.isOldReader ? "Old Reader" : "Feedly"
+                        app.isOldReader ? "Old Reader" :
+                        app.isFeedly ? "Feedly" :
+                        app.isTTRss ? "Tiny Tiny Rss" : null
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignRight
                     color: Theme.highlightColor
@@ -119,11 +123,12 @@ Page {
                         color: Theme.highlightColor
                         visible: settings.signedIn
                         text: settings.signedIn ?
-                                  settings.signinType==0 ? settings.getUsername() :
-                                  settings.signinType==1 ? "Twitter" :
-                                  settings.signinType==2 ? "Facebook" :
-                                  settings.signinType==10 ? settings.getUsername() :
-                                  settings.signinType==20 ? settings.getProvider() : "" : ""
+                            (settings.signinType==0 ? settings.getUsername() :
+                             settings.signinType==1 ? "Twitter" :
+                             settings.signinType==2 ? "Facebook" :
+                             settings.signinType==10 ? settings.getUsername() :
+                             settings.signinType==20 ? settings.getProvider() :
+                             settings.signinType==30 ? settings.getUsername() : "") : ""
                     }
                 }
 
@@ -676,6 +681,7 @@ Page {
                         iconSource: "image://icons/icon-m-vm4"
                     }
                     MenuIconItem {
+                        visible: !app.isTTRss
                         enabled: app.isNetvibes || (app.isOldReader && settings.showBroadcast)
                         text: app.isNetvibes ? qsTr("Slow") : qsTr("Liked")
                         iconSource: app.isNetvibes ? "image://icons/icon-m-vm5" : "image://icons/icon-m-vm6"

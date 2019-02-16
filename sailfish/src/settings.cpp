@@ -415,6 +415,16 @@ bool Settings::getAutoDownloadOnUpdate()
     return settings.value("autodownloadonupdate", true).toBool();
 }
 
+void Settings::setUrl(const QString &value)
+{
+    settings.setValue("url", value);
+}
+
+QString Settings::getUrl()
+{
+    return settings.value("url", "").toString();
+}
+
 void Settings::setUsername(const QString &value)
 {
     settings.setValue("username", value);

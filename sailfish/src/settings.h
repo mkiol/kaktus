@@ -212,6 +212,7 @@ public:
     // 10 - Oldreader
     // 20 - Feedly
     // 22 - Feedly with FB
+    // 30 - Tiny Tiny Rss
     void setSigninType(int);
     int getSigninType();
 
@@ -226,7 +227,9 @@ public:
     Q_INVOKABLE void setRefreshCookie(const QString &value);
     Q_INVOKABLE QString getRefreshCookie();
 
-    // Username & Password
+    // Url & Username & Password
+    Q_INVOKABLE void setUrl(const QString &value);
+    Q_INVOKABLE QString getUrl();
     Q_INVOKABLE void setUsername(const QString &value);
     Q_INVOKABLE QString getUsername();
     Q_INVOKABLE void setPassword(const QString &value);

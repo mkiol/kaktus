@@ -49,6 +49,7 @@ Page {
             ListElement { name: "Netvibes"; iconSource: "nv.png"; type: 1}
             ListElement { name: "Old Reader"; iconSource: "oldreader.png"; type: 2}
             /*ListElement { name: "Feedly (comming soon)"; iconSource: "feedly.png"; type: 3}*/
+            ListElement { name: "Tiny Tiny Rss"; iconSource: "ttrss.png"; type: 4}
         }
 
         header: PageHeader {
@@ -106,6 +107,10 @@ Page {
                     utils.resetQtWebKit();
                     fetcher.getConnectUrl(20);
                     //pageStack.replaceAbove(pageStack.previousPage(),Qt.resolvedUrl("FeedlySignInDialog.qml"),{"code": 400});
+                }
+                if (type == 4) {
+                    app.reconnectFetcher(4);
+                    pageStack.replaceAbove(pageStack.previousPage(), Qt.resolvedUrl("TTRssSignInDialog.qml"), {"code": 400});
                 }
             }
 
