@@ -22,9 +22,10 @@ window.KaktusThemeObject.prototype.getPixelRatio = function() {
 };
 
 window.KaktusThemeObject.prototype.isBlacklisted = function() {
-	var host = document.location.hostname;
+    /*var host = document.location.hostname;
 	if (host === "www.reddit.com" || host === "reddit.com")
-		return true;
+        return true;*/
+    return false;
 };
 
 window.KaktusThemeObject.prototype.updateScale = function() {

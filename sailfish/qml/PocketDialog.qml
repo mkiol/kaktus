@@ -87,7 +87,7 @@ Dialog {
                 anchors.left: parent.left; anchors.right: parent.right
                 inputMethodHints: Qt.ImhNoAutoUppercase
                 wrapMode: TextEdit.WordWrap
-                placeholderText: qsTr("Insert comma seperated tags")
+                placeholderText: qsTr("Insert comma separated tags")
                 label: qsTr("Tags")
                 text: settings.pocketTags
 

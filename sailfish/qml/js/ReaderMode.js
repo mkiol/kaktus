@@ -17,6 +17,14 @@ window.KaktusReaderModeObject.prototype.applyFixups = function(doc) {
     for (i = 0; i < elements.length; i++) {
         elements[i].removeAttribute("target");
     }
+
+    // reddit fixup
+    var host = doc.location.host;
+    if (host.indexOf("reddit.com") !== -1) {
+        var bar = document.querySelector("div.side");
+        if (bar)
+            bar.parentNode.removeChild(bar)
+    }
 };
 
 window.KaktusReaderModeObject.prototype.applyFiltering = function(doc, insert) {
