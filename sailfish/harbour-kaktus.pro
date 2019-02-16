@@ -1,11 +1,18 @@
 TARGET = harbour-kaktus
 
+CONFIG += c++11 sailfishapp json no_lflags_merge object_parallel_to_source
+
 QT += sql network dbus
-CONFIG += sailfishapp
+
 PKGCONFIG += mlite5
+
+linux-g++-32: CONFIG += x86
+linux-g++: CONFIG += arm
 
 DEFINES += SAILFISH
 DEFINES += ONLINE_CHECK
+
+INCLUDEPATH += src
 
 SOURCES += \
     src/main.cpp \
@@ -55,37 +62,90 @@ HEADERS += \
     src/customnetworkaccessmanager.h \
     feedly.h \
     key.h
-    
-#QJson if Qt < 5
-lessThan(QT_MAJOR_VERSION, 5) {
-    include(./QJson/json.pri)
-}
-    
-# QHttpServer
-include(qhttpserver/qhttpserver.pri)
 
-OTHER_FILES += \
-    rpm/harbour-kaktus.*
+# libs
+include(qhttpserver/qhttpserver.pri)
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 150x150 256x256
 
-TRANSLATIONS = translations/kaktus_en.ts \
-               translations/kaktus_pl.ts \
-               translations/kaktus_ru.ts \
-               translations/kaktus_cs.ts \
-               translations/kaktus_nl.ts \
-               translations/kaktus_tr.ts \
-               translations/kaktus_es.ts \
-               translations/kaktus_it.ts
+CONFIG += sailfishapp_i18n_include_obsolete
+TRANSLATIONS += \
+    translations/kaktus_en.ts \
+    translations/kaktus_pl.ts \
+    translations/kaktus_ru.ts \
+    translations/kaktus_cs.ts \
+    translations/kaktus_nl.ts \
+    translations/kaktus_tr.ts \
+    translations/kaktus_es.ts \
+    translations/kaktus_it.ts \
+    translations/kaktus_de.ts
+include(sailfishapp_i18n.pri)
 
-translations.files = translations/*.qm
-translations.path = /usr/share/$${TARGET}/translations
 images.files = images/*
 images.path = /usr/share/$${TARGET}/images
-INSTALLS += translations images
+INSTALLS += images
 
-DISTFILES += \
-    qml/*.qml \
-    qml/ScalableIconButton.qml \
-    qml/MenuIconItem.qml \
-    qml/TTRssSignInDialog.qml
+OTHER_FILES += \
+    AboutPage.qml \
+    AccountsDialog.qml \
+    ActiveDetector.qml \
+    AuthWebViewPage.qml \
+    ButtonItem.qml \
+    CachedImage.qml \
+    ChangelogPage.qml \
+    ControlBar.qml \
+    CoverPage.qml \
+    DashboardDialog.qml \
+    DashboardPage.qml \
+    DebugPage.qml \
+    Dot.qml \
+    EntryDelegate.qml \
+    EntryPageContent.qml \
+    EntryPage.qml \
+    ErrorPage.qml \
+    FeedIcon.qml \
+    FeedlySignInDialog.qml \
+    FeedPage.qml \
+    FeedWebContentPage.qml \
+    FirstPage.qml \
+    Guide.qml \
+    HintLabel.qml \
+    IconBarItem.qml \
+    IconBar.qml \
+    IconContextMenu.qml \
+    IconMenuItem.qml \
+    IconPlaceholder.qml \
+    IconSlider.qml \
+    LogItem.qml \
+    main.qml \
+    MenuIconItem.qml \
+    Notification.qml \
+    NvSignInDialog.qml \
+    OldReaderSignInDialog.qml \
+    PaddedLabel.qml \
+    PageMenu.qml \
+    PocketAuthWebViewPage.qml \
+    PocketDialog.qml \
+    Pocket.qml \
+    ProgressPanel.qml \
+    ReadAllDialog.qml \
+    SettingsPage.qml \
+    ShareDialog.qml \
+    ShareLinkPage.qml \
+    SignOutDialog.qml \
+    SmallIconButton.qml \
+    Spacer.qml \
+    TabPage.qml \
+    TempBaner.qml \
+    TextAreaItem.qml \
+    TextFieldItem.qml \
+    TextSwitchWithIcon.qml \
+    TTRssSignInDialog.qml \
+    UnreadAllDialog.qml \
+    WebPreviewPage.qml
+
+OTHER_FILES += \
+    rpm/$${TARGET}.yaml \
+    rpm/$${TARGET}.changes.in \
+    rpm/$${TARGET}.spec
+

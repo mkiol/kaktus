@@ -1039,7 +1039,7 @@ on the settings page.</source>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="90"/>
-        <source>Insert comma seperated tags</source>
+        <source>Insert comma separated tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1235,17 +1235,17 @@ on the settings page.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="812"/>
+        <location filename="../qml/SettingsPage.qml" line="810"/>
         <source>Power save mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="813"/>
+        <location filename="../qml/SettingsPage.qml" line="811"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="829"/>
+        <location filename="../qml/SettingsPage.qml" line="827"/>
         <source>Dynamic</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1464,7 +1464,7 @@ on the settings page.</source>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="671"/>
-        <location filename="../qml/SettingsPage.qml" line="761"/>
+        <location filename="../qml/SettingsPage.qml" line="759"/>
         <source>All articles</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1509,138 +1509,138 @@ on the settings page.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="757"/>
+        <location filename="../qml/SettingsPage.qml" line="755"/>
         <source>List filtering</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="762"/>
+        <location filename="../qml/SettingsPage.qml" line="760"/>
         <source>Unread or saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="762"/>
+        <location filename="../qml/SettingsPage.qml" line="760"/>
         <source>Unread or starred</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="763"/>
+        <location filename="../qml/SettingsPage.qml" line="761"/>
         <source>Only unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="771"/>
+        <location filename="../qml/SettingsPage.qml" line="769"/>
         <source>List of articles can be filtered to display all articles, unread and saved or only unread.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="772"/>
+        <location filename="../qml/SettingsPage.qml" line="770"/>
         <source>List of articles can be filtered to display all articles, unread and starred or only unread.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="776"/>
+        <location filename="../qml/SettingsPage.qml" line="774"/>
         <source>Social features</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="778"/>
+        <location filename="../qml/SettingsPage.qml" line="776"/>
         <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="788"/>
+        <location filename="../qml/SettingsPage.qml" line="786"/>
         <source>Expanded items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="789"/>
+        <location filename="../qml/SettingsPage.qml" line="787"/>
         <source>All article items on the list view be shown expanded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="799"/>
+        <location filename="../qml/SettingsPage.qml" line="797"/>
         <source>Double-pane reader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="799"/>
+        <location filename="../qml/SettingsPage.qml" line="797"/>
         <source>Double-pane reader in landscape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="801"/>
+        <location filename="../qml/SettingsPage.qml" line="799"/>
         <source>View with the articles will be splited in to two colums.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="801"/>
+        <location filename="../qml/SettingsPage.qml" line="799"/>
         <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="825"/>
+        <location filename="../qml/SettingsPage.qml" line="823"/>
         <source>Orientation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="830"/>
+        <location filename="../qml/SettingsPage.qml" line="828"/>
         <source>Portrait</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="831"/>
+        <location filename="../qml/SettingsPage.qml" line="829"/>
         <source>Landscape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="838"/>
+        <location filename="../qml/SettingsPage.qml" line="836"/>
         <source>Pocket</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="842"/>
+        <location filename="../qml/SettingsPage.qml" line="840"/>
         <source>Pocket integration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="843"/>
+        <location filename="../qml/SettingsPage.qml" line="841"/>
         <source>Pocket is an Internet tool for saving articles to read later. Integration implemented in Kaktus provides &quot;Add to Pocket&quot; button in the articles list and in the web viewer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="861"/>
-        <location filename="../qml/SettingsPage.qml" line="862"/>
+        <location filename="../qml/SettingsPage.qml" line="859"/>
+        <location filename="../qml/SettingsPage.qml" line="860"/>
         <source>Default tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="864"/>
-        <source>List of comma seperated tags that will be automatically inserted when you add article to Pocket.</source>
+        <location filename="../qml/SettingsPage.qml" line="862"/>
+        <source>List of comma separated tags that will be automatically inserted when you add article to Pocket.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="894"/>
+        <location filename="../qml/SettingsPage.qml" line="892"/>
         <source>Quick adding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="895"/>
+        <location filename="../qml/SettingsPage.qml" line="893"/>
         <source>If enabled, article will be send to Pocket immediately after you click on &quot;Add to Pocket&quot; button, so without any confirmation dialog. All tags from &quot;Default tags&quot; field will be automatically added.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="905"/>
+        <location filename="../qml/SettingsPage.qml" line="903"/>
         <source>Delete saved tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="908"/>
+        <location filename="../qml/SettingsPage.qml" line="906"/>
         <source>Saved tags have been deleted.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="913"/>
+        <location filename="../qml/SettingsPage.qml" line="911"/>
         <source>Experimental</source>
         <translation type="unfinished"></translation>
     </message>

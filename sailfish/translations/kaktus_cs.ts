@@ -38,7 +38,7 @@
 <context>
     <name>AccountsDialog</name>
     <message>
-        <location filename="../qml/AccountsDialog.qml" line="55"/>
+        <location filename="../qml/AccountsDialog.qml" line="56"/>
         <source>Add account</source>
         <translation>Přidat účet</translation>
     </message>
@@ -65,16 +65,17 @@
     </message>
     <message>
         <location filename="../qml/ChangelogPage.qml" line="66"/>
-        <location filename="../qml/ChangelogPage.qml" line="95"/>
-        <location filename="../qml/ChangelogPage.qml" line="104"/>
-        <location filename="../qml/ChangelogPage.qml" line="113"/>
-        <location filename="../qml/ChangelogPage.qml" line="122"/>
-        <location filename="../qml/ChangelogPage.qml" line="161"/>
-        <location filename="../qml/ChangelogPage.qml" line="170"/>
-        <location filename="../qml/ChangelogPage.qml" line="179"/>
-        <location filename="../qml/ChangelogPage.qml" line="203"/>
-        <location filename="../qml/ChangelogPage.qml" line="237"/>
-        <location filename="../qml/ChangelogPage.qml" line="266"/>
+        <location filename="../qml/ChangelogPage.qml" line="75"/>
+        <location filename="../qml/ChangelogPage.qml" line="99"/>
+        <location filename="../qml/ChangelogPage.qml" line="108"/>
+        <location filename="../qml/ChangelogPage.qml" line="117"/>
+        <location filename="../qml/ChangelogPage.qml" line="126"/>
+        <location filename="../qml/ChangelogPage.qml" line="165"/>
+        <location filename="../qml/ChangelogPage.qml" line="174"/>
+        <location filename="../qml/ChangelogPage.qml" line="183"/>
+        <location filename="../qml/ChangelogPage.qml" line="207"/>
+        <location filename="../qml/ChangelogPage.qml" line="241"/>
+        <location filename="../qml/ChangelogPage.qml" line="270"/>
         <source>Version %1</source>
         <translation>Verze: %1</translation>
     </message>
@@ -142,19 +143,19 @@
     <message>
         <location filename="../qml/CoverPage.qml" line="34"/>
         <source>unread item</source>
-        <translation type="unfinished"></translation>
+        <translation>nepřečtená položka</translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="36"/>
         <source>unread items</source>
         <comment>less than 5 articles are unread</comment>
-        <translation type="unfinished"></translation>
+        <translation>nepřečtené položky</translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="37"/>
         <source>unread items</source>
         <comment>more or equal 5 articles are unread</comment>
-        <translation type="unfinished"></translation>
+        <translation>nepřečtených položek</translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="61"/>
@@ -239,115 +240,59 @@
 <context>
     <name>EntryDelegate</name>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="477"/>
+        <location filename="../qml/EntryDelegate.qml" line="474"/>
         <source>Toggle Read</source>
         <translation>Přepnout čtení</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="494"/>
+        <location filename="../qml/EntryDelegate.qml" line="491"/>
         <source>Toggle Save</source>
         <translation>Přepnout ukládání</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="494"/>
+        <location filename="../qml/EntryDelegate.qml" line="491"/>
         <source>Toggle Star</source>
         <translation>Přepnout ohvězdičkování</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="507"/>
+        <location filename="../qml/EntryDelegate.qml" line="504"/>
         <source>Above as read</source>
         <translation>Výše jako přečtené</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="519"/>
+        <location filename="../qml/EntryDelegate.qml" line="516"/>
         <source>Viewer</source>
         <translation>Prohlížeč</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="531"/>
+        <location filename="../qml/EntryDelegate.qml" line="528"/>
         <source>Browser</source>
         <translation>Prohlížeč</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="543"/>
+        <location filename="../qml/EntryDelegate.qml" line="540"/>
         <source>Feed content</source>
         <translation>Obsah kanálu</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="555"/>
+        <location filename="../qml/EntryDelegate.qml" line="552"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat do Pocket</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="564"/>
+        <location filename="../qml/EntryDelegate.qml" line="561"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Sdílet odkaz</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="571"/>
+        <location filename="../qml/EntryDelegate.qml" line="568"/>
         <source>Toggle Like</source>
         <translation>Přepnout zalíbení</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="586"/>
+        <location filename="../qml/EntryDelegate.qml" line="583"/>
         <source>Toggle Share</source>
         <translation>Přepnout sdílení</translation>
-    </message>
-    <message>
-        <source>Mark above as read</source>
-        <translation type="vanished">Označit výše jako přečtené</translation>
-    </message>
-    <message>
-        <source>Unsave</source>
-        <translation type="vanished">Zrušit uložení</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">Uložit</translation>
-    </message>
-    <message>
-        <source>Unstar</source>
-        <translation type="vanished">Odhvězdičkovat</translation>
-    </message>
-    <message>
-        <source>Star</source>
-        <translation type="vanished">Ohvězdičkovat</translation>
-    </message>
-    <message>
-        <source>Unlike</source>
-        <translation type="vanished">Nelíbí</translation>
-    </message>
-    <message>
-        <source>Like</source>
-        <translation type="vanished">Líbí</translation>
-    </message>
-    <message>
-        <source>Unshare</source>
-        <translation type="vanished">Přestat sdílet</translation>
-    </message>
-    <message>
-        <source>Open in viewer</source>
-        <translation type="vanished">Otevřít v prohlížeči</translation>
-    </message>
-    <message>
-        <source>Open in browser</source>
-        <translation type="vanished">Otevřít v prohlížeči</translation>
-    </message>
-    <message>
-        <source>Show feed content</source>
-        <translation type="vanished">Ukázat obsah kanálu</translation>
-    </message>
-    <message>
-        <source>Share with followers</source>
-        <translation type="vanished">Sdílet se stoupenci</translation>
-    </message>
-    <message>
-        <source>Mark as unread</source>
-        <translation type="vanished">Označit jako nepřečtené</translation>
-    </message>
-    <message>
-        <source>Mark as read</source>
-        <translation type="vanished">Označit jako přečtené</translation>
     </message>
 </context>
 <context>
@@ -444,27 +389,27 @@
         <location filename="../qml/EntryPage.qml" line="259"/>
         <location filename="../qml/EntryPage.qml" line="304"/>
         <source>Wait until current task is complete.</source>
-        <translation type="unfinished"></translation>
+        <translation>Počkejte, dokud nebude nynější úkol dokončen.</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="265"/>
         <source>Offline version is not available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Verze pro stav bez připojení k internetu není dostupná.</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="273"/>
         <source>Enabling offline mode because network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Povoluje se kancelářský režim, protože síť je odpojena.</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="277"/>
         <source>Network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Síť je odpojena.</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="502"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Počkejte, dokud nebude seřizování dokončeno</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="503"/>
@@ -500,33 +445,33 @@
     <message>
         <location filename="../qml/ErrorPage.qml" line="42"/>
         <source>Sorry, something went wrong!</source>
-        <translation type="unfinished"></translation>
+        <translation>Promiňte. Něco není v pořádku!</translation>
     </message>
 </context>
 <context>
     <name>FeedPage</name>
     <message>
-        <location filename="../qml/FeedPage.qml" line="170"/>
+        <location filename="../qml/FeedPage.qml" line="173"/>
         <source>Mark all as read</source>
         <translation>Označit vše jako přečtené</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="179"/>
+        <location filename="../qml/FeedPage.qml" line="182"/>
         <source>Mark all as unread</source>
         <translation>Označit vše jako nepřečtené</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="192"/>
+        <location filename="../qml/FeedPage.qml" line="195"/>
         <source>No feeds</source>
         <translation>Žádné kanály</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="192"/>
+        <location filename="../qml/FeedPage.qml" line="195"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Počkejte, dokud nebude seřizování dokončeno</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="69"/>
+        <location filename="../qml/FeedPage.qml" line="74"/>
         <source>Feeds</source>
         <translation>Kanály</translation>
     </message>
@@ -534,98 +479,98 @@
 <context>
     <name>FeedWebContentPage</name>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="118"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="123"/>
         <source>Offline version not available.</source>
         <translation>Verze pro stav bez připojení k internetu není dostupná.</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="112"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="117"/>
         <source>Wait until current task is complete.</source>
-        <translation type="unfinished"></translation>
+        <translation>Počkejte, dokud nebude nynější úkol dokončen.</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="126"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="131"/>
         <source>Enabling offline mode because network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Povoluje se kancelářský režim, protože síť je odpojena.</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="130"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="135"/>
         <source>Network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Síť je odpojena.</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="140"/>
-        <location filename="../qml/FeedWebContentPage.qml" line="146"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="144"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="150"/>
         <source>Launching an external browser...</source>
         <translation>Spouští se vnější prohlížeč...</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="371"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="376"/>
         <source>Back</source>
         <translation>Zpět</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="377"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="382"/>
         <source>Toggle Read</source>
         <translation>Přepnout čtení</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="392"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="398"/>
         <source>Toggle Save</source>
         <translation>Přepnout ukládání</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="392"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="398"/>
         <source>Toggle Star</source>
         <translation>Přepnout ohvězdičkování</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="406"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="412"/>
         <source>Viewer</source>
         <translation>Prohlížeč</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="416"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="422"/>
         <source>Browser</source>
         <translation>Prohlížeč</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="424"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="430"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="435"/>
-        <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat do Pocket</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="441"/>
+        <source>Share link</source>
+        <translation>Sdílet odkaz</translation>
+    </message>
+    <message>
+        <location filename="../qml/FeedWebContentPage.qml" line="447"/>
         <source>Toggle Like</source>
         <translation>Přepnout zalíbení</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="451"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="457"/>
         <source>Toggle Share</source>
         <translation>Přepnout sdílení</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="468"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="474"/>
         <source>URL was copied to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresa (URL) byla zkopírovaná do schránky.</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="482"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="488"/>
         <source>Increase font</source>
         <translation>Zvětšit písmo</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="474"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="480"/>
         <source>Decrease font</source>
         <translation>Zmenšit písmo</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="465"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="471"/>
         <source>Copy URL</source>
         <translation>Kopírovat adresu (URL)</translation>
     </message>
@@ -654,22 +599,22 @@
     <message>
         <location filename="../qml/FirstPage.qml" line="66"/>
         <source>Sync</source>
-        <translation type="unfinished"></translation>
+        <translation>Seřízení</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="66"/>
         <source>Busy...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaneprázdněn...</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="77"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Počkejte, dokud nebude seřizování dokončeno</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="78"/>
         <source>To do feeds synchronization, pull down and select sync.</source>
-        <translation type="unfinished"></translation>
+        <translation>K provedení synchronizace kanálů, stáhněte dolů a vyberte Seřídit.</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="79"/>
@@ -789,21 +734,27 @@ Vypisuje všechny články, které se vám líbily.</translation>
         <source>Bottom bar also contains &quot;Mark as read&quot; button.
 
 With this button you can quickly mark all your tabs, feeds or articles as read.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dolní pruh také obsahuje tlačítko Označit jako přečtené.
+
+Tímto tlačítkem můžete rychle označit všechny své karty, kanály nebo články jako přečtené.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="322"/>
         <source>Bottom bar also contains &quot;Mark as read&quot; button.
 
 With this button you can quickly mark all your folders, feeds or articles as read.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dolní pruh také obsahuje tlačítko Označit jako přečtené.
+
+Tímto tlačítkem můžete rychle označit všechny své složky, kanály nebo články jako přečtené.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="343"/>
         <source>Pull-down menu contains network mode switcher.
 
 This switcher enables you to change between the online and offline mode. In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vysunovací nabídka také obsahuje přepínač režimu sítě.
+
+Tento přepínač vám umožňuje měnit mezi režimy připojen k internetu a nepřipojen k internetu. V režimu nepřipojen k internetu bude Kaktus k získání internetových stránek a obrázků používat pouze místní vyrovnávací paměť, takže síťové spojení nebude potřeba.</translation>
     </message>
     <message>
         <location filename="../qml/Guide.qml" line="369"/>
@@ -921,7 +872,7 @@ na stránce s nastavením.</translation>
     <message>
         <location filename="../qml/PageMenu.qml" line="61"/>
         <source>Can&apos;t switch to online mode because network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze přepnout do režimu připojen k internetu, protože síť je odpojena.</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="52"/>
@@ -950,22 +901,22 @@ na stránce s nastavením.</translation>
         <location filename="../qml/Pocket.qml" line="64"/>
         <location filename="../qml/Pocket.qml" line="79"/>
         <source>Pocket authorization has failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ověření u služby Pocket selhalo.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="74"/>
         <source>Pocket authorization was successful.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ověření u služby Pocket bylo úspěšné.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="117"/>
         <source>Article has been successfully added to Pocket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Článek byl úspěšně přidán do Pocket.</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="123"/>
         <source>Error while adding article to Pocket.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při přidávání článku do Pocket.</translation>
     </message>
 </context>
 <context>
@@ -973,12 +924,12 @@ na stránce s nastavením.</translation>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="77"/>
         <source>Loading page content...</source>
-        <translation type="unfinished">Nahrává se obsah stránky...</translation>
+        <translation>Nahrává se obsah stránky...</translation>
     </message>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="123"/>
         <source>Back</source>
-        <translation type="unfinished">Zpět</translation>
+        <translation>Zpět</translation>
     </message>
 </context>
 <context>
@@ -986,22 +937,22 @@ na stránce s nastavením.</translation>
     <message>
         <location filename="../qml/PocketDialog.qml" line="82"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat do Pocket</translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="90"/>
-        <source>Insert comma seperated tags</source>
-        <translation type="unfinished"></translation>
+        <source>Insert comma separated tags</source>
+        <translation>Vložit čárkou oddělené značky</translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="91"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Značky</translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="116"/>
         <source>Previously used tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Předtím použité značky</translation>
     </message>
 </context>
 <context>
@@ -1050,529 +1001,520 @@ na stránce s nastavením.</translation>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="163"/>
+        <location filename="../qml/SettingsPage.qml" line="168"/>
         <source>Dashboard in use</source>
         <translation>Nástěnka k použití</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="163"/>
+        <location filename="../qml/SettingsPage.qml" line="168"/>
         <source>Dashboard not selected</source>
         <translation>Nástěnka nevybrána</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="177"/>
+        <location filename="../qml/SettingsPage.qml" line="182"/>
         <source>Change</source>
         <translation>Změnit</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="111"/>
+        <location filename="../qml/SettingsPage.qml" line="115"/>
         <source>Not signed in </source>
         <translation>Nepřihlášen</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="115"/>
+        <location filename="../qml/SettingsPage.qml" line="119"/>
         <source>Signed in with</source>
         <translation>Přihlášený s</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="187"/>
+        <location filename="../qml/SettingsPage.qml" line="192"/>
         <source>Syncronization</source>
         <translation>Seřízení</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="192"/>
+        <location filename="../qml/SettingsPage.qml" line="197"/>
         <source>Sync timeframe</source>
         <translation>Seřídit časový rámec</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="212"/>
+        <location filename="../qml/SettingsPage.qml" line="217"/>
         <source>1 Day</source>
         <translation>1 den</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="213"/>
+        <location filename="../qml/SettingsPage.qml" line="218"/>
         <source>3 Days</source>
         <translation>3 dny</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="214"/>
+        <location filename="../qml/SettingsPage.qml" line="219"/>
         <source>1 Week</source>
         <translation>1 týden</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="215"/>
+        <location filename="../qml/SettingsPage.qml" line="220"/>
         <source>2 Weeks</source>
         <translation>2 týdny</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="216"/>
+        <location filename="../qml/SettingsPage.qml" line="221"/>
         <source>1 Month</source>
         <translation>1 měsíc</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="217"/>
+        <location filename="../qml/SettingsPage.qml" line="222"/>
         <source>Wide as possible</source>
         <translation>Co možná nejširší</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="339"/>
+        <location filename="../qml/SettingsPage.qml" line="344"/>
         <source>Never</source>
         <translation>Nikdy</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="340"/>
+        <location filename="../qml/SettingsPage.qml" line="345"/>
         <source>WiFi only</source>
         <translation>Pouze WiFi</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="341"/>
+        <location filename="../qml/SettingsPage.qml" line="346"/>
         <source>Always</source>
         <translation>Vždy</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="348"/>
+        <location filename="../qml/SettingsPage.qml" line="353"/>
         <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
         <translation>Po seřízení bude stažen a do vyrovnávací paměti uložen obsah všech položek pro přístup v režimu nepřipojen k internetu.</translation>
     </message>
     <message>
-        <source>Context menu style</source>
-        <translation type="vanished">Styl související nabídky</translation>
-    </message>
-    <message>
-        <source>Icons</source>
-        <translation type="vanished">Ikony</translation>
-    </message>
-    <message>
-        <source>Text</source>
-        <translation type="vanished">Text</translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="727"/>
+        <location filename="../qml/SettingsPage.qml" line="733"/>
         <source>Clicking on article behaviour</source>
         <translation>Klepnutí na chování článku</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="363"/>
-        <location filename="../qml/SettingsPage.qml" line="732"/>
+        <location filename="../qml/SettingsPage.qml" line="368"/>
+        <location filename="../qml/SettingsPage.qml" line="738"/>
         <source>External browser</source>
         <translation>Vnější prohlížeč</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="733"/>
+        <location filename="../qml/SettingsPage.qml" line="739"/>
         <source>Feed content</source>
         <translation>Obsah kanálu</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="362"/>
+        <location filename="../qml/SettingsPage.qml" line="367"/>
         <source>Disabled</source>
         <translation>Zakázáno</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="762"/>
+        <location filename="../qml/SettingsPage.qml" line="768"/>
         <source>Unread or starred</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepřečteno nebo ohvězdičkováno</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="788"/>
+        <location filename="../qml/SettingsPage.qml" line="794"/>
         <source>Expanded items</source>
         <translation>Rozbalené položky</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="789"/>
+        <location filename="../qml/SettingsPage.qml" line="795"/>
         <source>All article items on the list view be shown expanded.</source>
         <translation>Všechny položky článků v pohledu se seznamem budou ukázány rozbalené.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="799"/>
+        <location filename="../qml/SettingsPage.qml" line="805"/>
         <source>Double-pane reader</source>
         <translation>Dvoupanelová čtečka</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="799"/>
+        <location filename="../qml/SettingsPage.qml" line="805"/>
         <source>Double-pane reader in landscape</source>
         <translation>Dvoupanelová čtečka ve formátu na šířku</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="801"/>
+        <location filename="../qml/SettingsPage.qml" line="807"/>
         <source>View with the articles will be splited in to two colums.</source>
         <translation>Pohled s články bude rozdělen do dvou sloupců.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="801"/>
+        <location filename="../qml/SettingsPage.qml" line="807"/>
         <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
         <translation>Pohled s články v natočení na šířku bude rozdělen do dvou sloupců.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="778"/>
+        <location filename="../qml/SettingsPage.qml" line="784"/>
         <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
         <translation>Budou povoleny následující společenské funkce Old Reader: Sledování složek, sdílení článků se stoupenci, volba Líbí se, zobrazení oblíbených článků.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="292"/>
+        <location filename="../qml/SettingsPage.qml" line="297"/>
         <source>Delete cache</source>
         <translation>Smazat vyrovnávací paměť</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="244"/>
+        <location filename="../qml/SettingsPage.qml" line="249"/>
         <source>Most recent articles will be syncronized according to the defined timeframe.</source>
         <translation>Nejnovější články budou seřízeny podle stanoveného časového rámce.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="245"/>
+        <location filename="../qml/SettingsPage.qml" line="250"/>
         <source>Regardless of the value, all starred, liked and shared items will be synced as well.</source>
         <translation>Bez ohledu na hodnotu budou seřízeny veškeré ohvězdičkované, oblíbené a sdílené položky.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="245"/>
+        <location filename="../qml/SettingsPage.qml" line="250"/>
         <source>Regardless of the value, all saved items will be synced as well.</source>
         <translation>Bez ohledu na hodnotu budou seřízeny všechny uložené položky.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="246"/>
+        <location filename="../qml/SettingsPage.qml" line="251"/>
         <source>Be aware, this parameter has significant impact on the speed of synchronization.</source>
         <translation>Opatrně, tento parametr má podstatný dopad na rychlost seřizování.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="251"/>
+        <location filename="../qml/SettingsPage.qml" line="256"/>
         <source>Sync read articles</source>
         <translation>Seřídit přečtené články</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="252"/>
+        <location filename="../qml/SettingsPage.qml" line="257"/>
         <source>In addition to unread also read articles will be synced. Disabling this option will speed up synchronization, but read articles will not be accessible form Kaktus.</source>
         <translation>Vedle nepřečtených budou dále seřízeny i přečtené články. Zakázáním této volby dojde ke zrychlení seřizování, ale přečtené články nebudou z Kaktusu přístupny.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="303"/>
+        <location filename="../qml/SettingsPage.qml" line="308"/>
         <source>Network mode</source>
         <translation>Režim sítě</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="318"/>
-        <source>In offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="323"/>
+        <source>In offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
+        <translation>V režimu nepřipojen k internetu bude Kaktus k získání internetových stránek a obrázků používat pouze místní vyrovnávací paměť, takže síťové spojení nebude potřeba.</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="328"/>
         <source>Auto network mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Režim sítě automaticky</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="324"/>
+        <location filename="../qml/SettingsPage.qml" line="329"/>
         <source>Network mode will be switched automatically on network connection lost or restore.</source>
-        <translation type="unfinished"></translation>
+        <translation>Režim sítě bude přepnut automaticky při ztrátě síťového spojení nebo při obnovení.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="353"/>
-        <location filename="../qml/SettingsPage.qml" line="364"/>
-        <location filename="../qml/SettingsPage.qml" line="731"/>
+        <location filename="../qml/SettingsPage.qml" line="358"/>
+        <location filename="../qml/SettingsPage.qml" line="369"/>
+        <location filename="../qml/SettingsPage.qml" line="737"/>
         <source>Web viewer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="371"/>
-        <source>Defines how navigation is handled inside built-in web viewer. Hyperlinks could be disabled, opened in an external browser or opened inside web viewer.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="375"/>
-        <source>Auto switch to Reader View</source>
-        <translation type="unfinished"></translation>
+        <translation>Prohlížeč internetu</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="376"/>
+        <source>Defines how navigation is handled inside built-in web viewer. Hyperlinks could be disabled, opened in an external browser or opened inside web viewer.</source>
+        <translation>Určuje, jak se ve vestavěném prohlížeči internetových stránek řeší pohyb po nich. Odkazy lze zakázat, otevřít ve vnějším prohlížeči nebo otevřít v prohlížeči internetových stránek.</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="380"/>
+        <source>Auto switch to Reader View</source>
+        <translation>Přepnout automaticky do čtenářského pohledu</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="381"/>
         <source>Reader View is a feature that strips away clutter like buttons, ads and background images, and changes the page&apos;s layout for better readability. By enabling this option, Reader View will be automatically switch on when page is loaded in the web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Čtenářský pohled je funkce, která odstraní nepotřebná tlačítka, reklamy a obrázky na pozadí, a změní rozvržení strany pro lepší čitelnost. Povolením této volby bude přepnuto do pohledu na čtečku automaticky, když je strana nahrána do prohlížeče internetu.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="388"/>
+        <location filename="../qml/SettingsPage.qml" line="393"/>
         <source>Reader View theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Vzhled čtenářského pohledu</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="389"/>
+        <location filename="../qml/SettingsPage.qml" line="394"/>
         <source>Style of theme which will be used to display articles in Reader View.</source>
-        <translation type="unfinished"></translation>
+        <translation>Styl vzhledu, který se použije k zobrazení článků ve čtenářském pohledu.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="398"/>
+        <location filename="../qml/SettingsPage.qml" line="403"/>
         <source>Dark</source>
         <translation>Tmavý</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="399"/>
+        <location filename="../qml/SettingsPage.qml" line="404"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Světlo</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="415"/>
+        <location filename="../qml/SettingsPage.qml" line="420"/>
         <source>Auto switch to Night View</source>
-        <translation type="unfinished"></translation>
+        <translation>Přepnout automaticky do nočního pohledu</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="416"/>
+        <location filename="../qml/SettingsPage.qml" line="421"/>
         <source>Night View reduces the brightness of websites. By enabling this option, Night View will be automatically switch on when page is loaded in the web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Noční pohled sníží jas internetových stránek. Povolením této volby bude přepnuto do nočního pohledu automaticky, když je strana nahrána do prohlížeče internetu.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="429"/>
+        <location filename="../qml/SettingsPage.qml" line="434"/>
         <source>Viewer font size level</source>
-        <translation type="unfinished"></translation>
+        <translation>Úroveň velikosti písma prohlížeče</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="443"/>
+        <location filename="../qml/SettingsPage.qml" line="448"/>
         <source>Delete cookies</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat koláčky</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="444"/>
+        <location filename="../qml/SettingsPage.qml" line="449"/>
         <source>Clear web viewer cache and cookies. Changes will take effect after restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyprázdnit vyrovnávací paměť prohlížeče internetu a smazat koláčky. Změny se projeví po opětovném spuštění programu.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="447"/>
+        <location filename="../qml/SettingsPage.qml" line="452"/>
         <source>Cache and cookies have been deleted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyrovnávací paměť a koláčky byly smazány.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="458"/>
+        <location filename="../qml/SettingsPage.qml" line="463"/>
         <source>Language</source>
         <translation>Jazyk</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="484"/>
+        <location filename="../qml/SettingsPage.qml" line="489"/>
         <source>Default</source>
         <translation>Výchozí</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="644"/>
+        <location filename="../qml/SettingsPage.qml" line="649"/>
         <source>View mode</source>
         <translation>Režim zobrazení</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="663"/>
+        <location filename="../qml/SettingsPage.qml" line="668"/>
         <source>Tabs, feeds &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Karty, kanály a články</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="663"/>
+        <location filename="../qml/SettingsPage.qml" line="668"/>
         <source>Folders, feeds &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Složky, kanály a články</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="667"/>
+        <location filename="../qml/SettingsPage.qml" line="672"/>
         <source>Tabs &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Karty a články</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="667"/>
+        <location filename="../qml/SettingsPage.qml" line="672"/>
         <source>Folders &amp; articles</source>
-        <translation type="unfinished"></translation>
+        <translation>Složky a články</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="671"/>
-        <location filename="../qml/SettingsPage.qml" line="761"/>
+        <location filename="../qml/SettingsPage.qml" line="676"/>
+        <location filename="../qml/SettingsPage.qml" line="767"/>
         <source>All articles</source>
         <translation>Všechny články</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="675"/>
+        <location filename="../qml/SettingsPage.qml" line="680"/>
         <source>Saved</source>
         <translation>Uloženo</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="675"/>
+        <location filename="../qml/SettingsPage.qml" line="680"/>
         <source>Starred</source>
         <translation>Ohvězdičkováno</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="680"/>
+        <location filename="../qml/SettingsPage.qml" line="686"/>
         <source>Slow</source>
         <translation>Zpomalit</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="680"/>
+        <location filename="../qml/SettingsPage.qml" line="686"/>
         <source>Liked</source>
         <translation>Oblíbeno</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="707"/>
+        <location filename="../qml/SettingsPage.qml" line="713"/>
         <source>Sort order for list of articles</source>
         <translation>Postup třídění článků</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="711"/>
+        <location filename="../qml/SettingsPage.qml" line="717"/>
         <source>Recent first</source>
         <translation>Nejnovější první</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="712"/>
+        <location filename="../qml/SettingsPage.qml" line="718"/>
         <source>Oldest first</source>
         <translation>Nejstarší první</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="838"/>
+        <location filename="../qml/SettingsPage.qml" line="844"/>
         <source>Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Pocket</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="842"/>
+        <location filename="../qml/SettingsPage.qml" line="848"/>
         <source>Pocket integration</source>
-        <translation type="unfinished"></translation>
+        <translation>Začlenění Pocket</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="843"/>
+        <location filename="../qml/SettingsPage.qml" line="849"/>
         <source>Pocket is an Internet tool for saving articles to read later. Integration implemented in Kaktus provides &quot;Add to Pocket&quot; button in the articles list and in the web viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pocket je internetový nástroj na ukládání článků pro pozdější přečtení. Začlenění provedené v Kaktusu poskytuje tlačítko Přidat do Pocket v seznamu článků a v prohlížeči internetových stránek.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="861"/>
-        <location filename="../qml/SettingsPage.qml" line="862"/>
+        <location filename="../qml/SettingsPage.qml" line="867"/>
+        <location filename="../qml/SettingsPage.qml" line="868"/>
         <source>Default tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Výchozí značky</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="864"/>
+        <location filename="../qml/SettingsPage.qml" line="870"/>
         <source>List of comma seperated tags that will be automatically inserted when you add article to Pocket.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="894"/>
+        <source>List of comma separated tags that will be automatically inserted when you add article to Pocket.</source>
+        <translation type="vanished">Seznam čárkou oddělených značek, které budou při přidání článku do Pocket automaticky vloženy.</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="900"/>
         <source>Quick adding</source>
-        <translation type="unfinished"></translation>
+        <translation>Rychlé přidání</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="895"/>
+        <location filename="../qml/SettingsPage.qml" line="901"/>
         <source>If enabled, article will be send to Pocket immediately after you click on &quot;Add to Pocket&quot; button, so without any confirmation dialog. All tags from &quot;Default tags&quot; field will be automatically added.</source>
-        <translation type="unfinished"></translation>
+        <translation>Je-li povoleno, článek bude okamžitě odeslán do Pocket, poté co klepnete na tlačítko Přidat do Pocket, čili bez jakéhokoli potvrzovacího dialogu. Všechny značky z pole Výchozí značky budou přidány automaticky.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="905"/>
+        <location filename="../qml/SettingsPage.qml" line="911"/>
         <source>Delete saved tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Smazat uložené značky</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="908"/>
+        <location filename="../qml/SettingsPage.qml" line="914"/>
         <source>Saved tags have been deleted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložené značky byly smazány.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="913"/>
         <source>Experimental</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Pokusné</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="532"/>
+        <location filename="../qml/SettingsPage.qml" line="537"/>
         <source>Changes will take effect after you restart Kaktus.</source>
         <translation>Změny se projeví po opětovném spuštění Kaktusu.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="307"/>
+        <location filename="../qml/SettingsPage.qml" line="312"/>
         <source>Online</source>
         <translation>Připojen</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="308"/>
+        <location filename="../qml/SettingsPage.qml" line="313"/>
         <source>Offline</source>
         <translation>Nepřipojen</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="335"/>
+        <location filename="../qml/SettingsPage.qml" line="340"/>
         <source>Cache articles</source>
         <translation>Ukládat články do vyrovnávací paměti</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="132"/>
+        <location filename="../qml/SettingsPage.qml" line="137"/>
         <source>Sign out</source>
         <translation>Odhlásit se</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="132"/>
+        <location filename="../qml/SettingsPage.qml" line="137"/>
         <source>Sign in</source>
         <translation>Přihlásit se</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="263"/>
+        <location filename="../qml/SettingsPage.qml" line="268"/>
         <source>Cache</source>
         <translation>Vyrovnávací paměť</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="281"/>
+        <location filename="../qml/SettingsPage.qml" line="286"/>
         <source>Current cache size</source>
         <translation>Nynější velikost vyrovnávací paměti</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="776"/>
+        <location filename="../qml/SettingsPage.qml" line="782"/>
         <source>Social features</source>
         <translation>Společenské funkce</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="812"/>
+        <location filename="../qml/SettingsPage.qml" line="818"/>
         <source>Power save mode</source>
         <translation>Režim šetření energií</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="813"/>
+        <location filename="../qml/SettingsPage.qml" line="819"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
         <translation>Když telefon nebo program přejde do stavu nečinnosti, všechny otevřené internetové stránky budou kvůli snížení spotřeby energie zavřeny.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="829"/>
+        <location filename="../qml/SettingsPage.qml" line="835"/>
         <source>Dynamic</source>
         <translation>Dynamický</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="452"/>
+        <location filename="../qml/SettingsPage.qml" line="457"/>
         <source>UI</source>
         <translation>Rozhraní</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="358"/>
+        <location filename="../qml/SettingsPage.qml" line="363"/>
         <source>Open link behaviour</source>
         <translation>Otevřít chování odkazu</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="740"/>
+        <location filename="../qml/SettingsPage.qml" line="746"/>
         <source>Defines the behavior for clicking on an article item. Article can be opened in the built-in web viewer, opened in an external browser or full RSS feed content can be shown.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="757"/>
-        <source>List filtering</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="762"/>
-        <source>Unread or saved</source>
-        <translation type="unfinished"></translation>
+        <translation>Určuje chování pro klepnutí na položku článku. Článek může být otevřen ve vestavěném prohlížeči internetových stránek, ve vnějším prohlížeči nebo může být ukázán celý obsah kanálu RSS.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="763"/>
+        <source>List filtering</source>
+        <translation>Filtrování seznamu</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="768"/>
+        <source>Unread or saved</source>
+        <translation>Nepřečteno nebouloženo</translation>
+    </message>
+    <message>
+        <location filename="../qml/SettingsPage.qml" line="769"/>
         <source>Only unread</source>
-        <translation type="unfinished"></translation>
+        <translation>Pouze nepřečtené</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="771"/>
+        <location filename="../qml/SettingsPage.qml" line="777"/>
         <source>List of articles can be filtered to display all articles, unread and saved or only unread.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam článků lze filtrovat k zobrazení všech článků, nepřečtených a uložených nebo pouze nepřečtených.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="772"/>
+        <location filename="../qml/SettingsPage.qml" line="778"/>
         <source>List of articles can be filtered to display all articles, unread and starred or only unread.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seznam článků lze filtrovat k zobrazení všech článků, nepřečtených a ohvězdičkovaných nebo pouze nepřečtených.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="825"/>
+        <location filename="../qml/SettingsPage.qml" line="831"/>
         <source>Orientation</source>
         <translation>Natočení</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="830"/>
+        <location filename="../qml/SettingsPage.qml" line="836"/>
         <source>Portrait</source>
         <translation>Na výšku</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="831"/>
+        <location filename="../qml/SettingsPage.qml" line="837"/>
         <source>Landscape</source>
         <translation>Na šířku</translation>
     </message>
@@ -1600,12 +1542,12 @@ na stránce s nastavením.</translation>
     <message>
         <location filename="../qml/ShareLinkPage.qml" line="40"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Sdílet odkaz</translation>
     </message>
     <message>
         <location filename="../qml/ShareLinkPage.qml" line="52"/>
         <source>No sharing accounts available. You can add accounts in settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Nejsou dostupné žádné sdílecí účty. Účty můžete přidat v nastavení</translation>
     </message>
 </context>
 <context>
@@ -1632,60 +1574,108 @@ na stránce s nastavením.</translation>
     </message>
 </context>
 <context>
+    <name>TTRssSignInDialog</name>
+    <message>
+        <location filename="../qml/TTRssSignInDialog.qml" line="61"/>
+        <source>Sign in</source>
+        <translation type="unfinished">Přihlásit se</translation>
+    </message>
+    <message>
+        <location filename="../qml/TTRssSignInDialog.qml" line="79"/>
+        <source>Tiny Tiny Rss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/TTRssSignInDialog.qml" line="94"/>
+        <source>Enter server url and credentials below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/TTRssSignInDialog.qml" line="107"/>
+        <source>Enter the url of your server here!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/TTRssSignInDialog.qml" line="108"/>
+        <source>Server Url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/TTRssSignInDialog.qml" line="125"/>
+        <source>Enter username here!</source>
+        <translation type="unfinished">Zde zadejte uživatelské jméno!</translation>
+    </message>
+    <message>
+        <location filename="../qml/TTRssSignInDialog.qml" line="126"/>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/TTRssSignInDialog.qml" line="143"/>
+        <source>Enter password here!</source>
+        <translation type="unfinished">Zde zadejte heslo!</translation>
+    </message>
+    <message>
+        <location filename="../qml/TTRssSignInDialog.qml" line="144"/>
+        <source>Password</source>
+        <translation type="unfinished">Heslo</translation>
+    </message>
+</context>
+<context>
     <name>TabPage</name>
     <message>
-        <location filename="../qml/TabPage.qml" line="68"/>
+        <location filename="../qml/TabPage.qml" line="69"/>
         <source>Tabs</source>
         <translation>Karty</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="82"/>
-        <location filename="../qml/TabPage.qml" line="161"/>
-        <location filename="../qml/TabPage.qml" line="165"/>
+        <location filename="../qml/TabPage.qml" line="83"/>
+        <location filename="../qml/TabPage.qml" line="160"/>
+        <location filename="../qml/TabPage.qml" line="164"/>
         <source>Uncategorized</source>
         <translation>Nezařazeno</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="175"/>
+        <location filename="../qml/TabPage.qml" line="174"/>
         <source>Mark all as read</source>
         <translation>Označit vše jako přečtené</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="184"/>
+        <location filename="../qml/TabPage.qml" line="183"/>
         <source>Mark all as unread</source>
         <translation>Označit vše jako nepřečtené</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="198"/>
+        <location filename="../qml/TabPage.qml" line="197"/>
         <source>Wait until sync finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Počkejte, dokud nebude seřizování dokončeno</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="199"/>
+        <location filename="../qml/TabPage.qml" line="198"/>
         <source>No tabs</source>
         <translation>Žádné karty</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="68"/>
+        <location filename="../qml/TabPage.qml" line="69"/>
         <source>Folders</source>
         <translation>Složky</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="80"/>
-        <location filename="../qml/TabPage.qml" line="161"/>
-        <location filename="../qml/TabPage.qml" line="165"/>
+        <location filename="../qml/TabPage.qml" line="81"/>
+        <location filename="../qml/TabPage.qml" line="160"/>
+        <location filename="../qml/TabPage.qml" line="164"/>
         <source>Subscriptions</source>
         <translation>Odběry</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="81"/>
-        <location filename="../qml/TabPage.qml" line="161"/>
-        <location filename="../qml/TabPage.qml" line="165"/>
+        <location filename="../qml/TabPage.qml" line="82"/>
+        <location filename="../qml/TabPage.qml" line="160"/>
+        <location filename="../qml/TabPage.qml" line="164"/>
         <source>Following</source>
         <translation>Sledování</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="199"/>
+        <location filename="../qml/TabPage.qml" line="198"/>
         <source>No folders</source>
         <translation>Žádné složky</translation>
     </message>
@@ -1739,84 +1729,84 @@ na stránce s nastavením.</translation>
 <context>
     <name>Utils</name>
     <message>
-        <location filename="../src/utils.cpp" line="670"/>
+        <location filename="../src/utils.cpp" line="668"/>
         <source>empty</source>
         <translation>prázdné</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="694"/>
+        <location filename="../src/utils.cpp" line="692"/>
         <source>unknown date</source>
         <translation>neznámé datum</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="697"/>
+        <location filename="../src/utils.cpp" line="695"/>
         <source>just now</source>
         <translation>pouze nyní</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="700"/>
+        <location filename="../src/utils.cpp" line="698"/>
         <source>1 second ago</source>
         <translation>před 1 sekundou</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="703"/>
+        <location filename="../src/utils.cpp" line="701"/>
         <source>%1 seconds ago</source>
         <comment>less than 5 seconds</comment>
         <translation>před %1 sekundami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="706"/>
+        <location filename="../src/utils.cpp" line="704"/>
         <source>%1 seconds ago</source>
         <comment>more or equal 5 seconds</comment>
         <translation>před %1 sekundami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="709"/>
+        <location filename="../src/utils.cpp" line="707"/>
         <source>1 minute ago</source>
         <translation>před 1 minutou</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="712"/>
+        <location filename="../src/utils.cpp" line="710"/>
         <source>%1 minutes ago</source>
         <comment>less than 5 minutes</comment>
         <translation>před %1 minutami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="715"/>
+        <location filename="../src/utils.cpp" line="713"/>
         <source>%1 minutes ago</source>
         <comment>more or equal 5 minutes</comment>
         <translation>před %1 minutami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="718"/>
+        <location filename="../src/utils.cpp" line="716"/>
         <source>1 hour ago</source>
         <translation>před 1 hodinou</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="721"/>
+        <location filename="../src/utils.cpp" line="719"/>
         <source>%1 hours ago</source>
         <comment>less than 5 hours</comment>
         <translation>před %1 hodinami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="724"/>
+        <location filename="../src/utils.cpp" line="722"/>
         <source>%1 hours ago</source>
         <comment>more or equal 5 hours</comment>
         <translation>před %1 hodinami</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="730"/>
+        <location filename="../src/utils.cpp" line="728"/>
         <source>day ago</source>
         <translation>včera</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="733"/>
+        <location filename="../src/utils.cpp" line="731"/>
         <source>%1 days ago</source>
         <comment>less than 5 days</comment>
         <translation>před %1 dny</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="736"/>
+        <location filename="../src/utils.cpp" line="734"/>
         <source>%1 days ago</source>
         <comment>more or equal 5 days</comment>
         <translation>před %1 dny</translation>
@@ -1825,104 +1815,104 @@ na stránce s nastavením.</translation>
 <context>
     <name>WebPreviewPage</name>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="64"/>
-        <location filename="../qml/WebPreviewPage.qml" line="259"/>
+        <location filename="../qml/WebPreviewPage.qml" line="65"/>
+        <location filename="../qml/WebPreviewPage.qml" line="260"/>
         <source>Loading page content...</source>
         <translation>Nahrává se obsah stránky...</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="350"/>
+        <location filename="../qml/WebPreviewPage.qml" line="351"/>
         <source>Back</source>
         <translation>Zpět</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="356"/>
+        <location filename="../qml/WebPreviewPage.qml" line="357"/>
         <source>Toggle Read</source>
         <translation>Přepnout čtení</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="371"/>
+        <location filename="../qml/WebPreviewPage.qml" line="372"/>
         <source>Toggle Save</source>
         <translation>Přepnout ukládání</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="371"/>
+        <location filename="../qml/WebPreviewPage.qml" line="372"/>
         <source>Toggle Star</source>
         <translation>Přepnout ohvězdičkování</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="58"/>
-        <location filename="../qml/WebPreviewPage.qml" line="408"/>
+        <location filename="../qml/WebPreviewPage.qml" line="59"/>
+        <location filename="../qml/WebPreviewPage.qml" line="409"/>
         <source>Launching an external browser...</source>
         <translation>Spouští se vnější prohlížeč...</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="278"/>
+        <location filename="../qml/WebPreviewPage.qml" line="279"/>
         <source>Failed to load page from local cache.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se nahrát stránku z místní vyrovnávací paměti.</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="280"/>
+        <location filename="../qml/WebPreviewPage.qml" line="281"/>
         <source>Failed to load page content.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nepodařilo se nahrát obsah stránky.</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="385"/>
+        <location filename="../qml/WebPreviewPage.qml" line="386"/>
         <source>Toggle Reader View</source>
-        <translation type="unfinished"></translation>
+        <translation>Přepnout čtenářský pohled</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="395"/>
+        <location filename="../qml/WebPreviewPage.qml" line="396"/>
         <source>Toggle Night View</source>
-        <translation type="unfinished"></translation>
+        <translation>Přepnout noční pohled</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="405"/>
+        <location filename="../qml/WebPreviewPage.qml" line="406"/>
         <source>Browser</source>
         <translation>Prohlížeč</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="417"/>
+        <location filename="../qml/WebPreviewPage.qml" line="418"/>
         <source>Add to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Přidat do Pocket</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="428"/>
+        <location filename="../qml/WebPreviewPage.qml" line="429"/>
         <source>Share link</source>
-        <translation type="unfinished"></translation>
+        <translation>Sdílet odkaz</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="434"/>
+        <location filename="../qml/WebPreviewPage.qml" line="435"/>
         <source>Toggle Like</source>
         <translation>Přepnout zalíbení</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="444"/>
+        <location filename="../qml/WebPreviewPage.qml" line="445"/>
         <source>Toggle Share</source>
         <translation>Přepnout sdílení</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="461"/>
+        <location filename="../qml/WebPreviewPage.qml" line="462"/>
         <source>URL was copied to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresa (URL) byla zkopírovaná do schránky.</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="475"/>
+        <location filename="../qml/WebPreviewPage.qml" line="476"/>
         <source>Increase font</source>
         <translation>Zvětšit písmo</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="467"/>
+        <location filename="../qml/WebPreviewPage.qml" line="468"/>
         <source>Decrease font</source>
         <translation>Zmenšit písmo</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="483"/>
+        <location filename="../qml/WebPreviewPage.qml" line="484"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Skrýt nástrojový pruh</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="458"/>
+        <location filename="../qml/WebPreviewPage.qml" line="459"/>
         <source>Copy URL</source>
         <translation>Kopírovat adresu (URL)</translation>
     </message>
@@ -1930,104 +1920,104 @@ na stránce s nastavením.</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="96"/>
+        <location filename="../qml/main.qml" line="100"/>
         <source>Feeds</source>
         <translation>Kanály</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="162"/>
+        <location filename="../qml/main.qml" line="166"/>
         <source>Restart the app to rebuild cache data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spusťte program znovu, aby byla data ve vyrovnávací paměti znovu sestavena.</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="188"/>
+        <location filename="../qml/main.qml" line="192"/>
         <source>Caching... %1 of %2</source>
         <translation>Ukládá se do vyrovnávací paměti... %1 z %2</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="191"/>
+        <location filename="../qml/main.qml" line="195"/>
         <source>Caching...</source>
         <translation>Ukládá se do vyrovnávací paměti...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="293"/>
+        <location filename="../qml/main.qml" line="297"/>
         <source>Sync failed!
 Network connection is unavailable.</source>
         <translation>Seřizování selhalo!
 Síťové spojení je nedostupné.</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="304"/>
+        <location filename="../qml/main.qml" line="308"/>
         <source>The user name or password is incorrect!</source>
         <translation>Uživatelské jméno nebo heslo není správné!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="213"/>
+        <location filename="../qml/main.qml" line="217"/>
         <source>Download has failed because network is disconnected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stahování selhalo, protože síť je odpojena.</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="162"/>
-        <location filename="../qml/main.qml" line="331"/>
+        <location filename="../qml/main.qml" line="166"/>
+        <location filename="../qml/main.qml" line="339"/>
         <source>Something went wrong!</source>
-        <translation type="unfinished"></translation>
+        <translation>Něco není v pořádku!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="218"/>
+        <location filename="../qml/main.qml" line="222"/>
         <source>Removing cache data... %1 of %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Odstraňují se data uložená ve vyrovnávací paměti... %1 z %2</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="289"/>
+        <location filename="../qml/main.qml" line="293"/>
         <source>Something went wrong. Unable to sign in!</source>
-        <translation type="unfinished"></translation>
+        <translation>Něco není v pořádku. Přihlášení se nepodařilo!</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="331"/>
+        <location filename="../qml/main.qml" line="339"/>
         <source>An unknown error occurred.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyskytla se neznámá chyba.</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="337"/>
+        <location filename="../qml/main.qml" line="345"/>
         <source>The user name or password is incorrect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelské jméno nebo heslo není správné.</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="341"/>
+        <location filename="../qml/main.qml" line="349"/>
         <source>You are signed in.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jste přihlášen.</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="346"/>
+        <location filename="../qml/main.qml" line="354"/>
         <source>Receiving data... </source>
         <translation>Přijímají se data...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="352"/>
-        <location filename="../qml/main.qml" line="358"/>
+        <location filename="../qml/main.qml" line="360"/>
+        <location filename="../qml/main.qml" line="366"/>
         <source>Sending data...</source>
         <translation>Posílají se data...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="368"/>
+        <location filename="../qml/main.qml" line="376"/>
         <source>Initiating...</source>
         <translation>Spouští se...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="372"/>
+        <location filename="../qml/main.qml" line="380"/>
         <source>Updating...</source>
         <translation>Aktualizuje se...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="376"/>
-        <location filename="../qml/main.qml" line="380"/>
+        <location filename="../qml/main.qml" line="384"/>
+        <location filename="../qml/main.qml" line="388"/>
         <source>Signing in...</source>
         <translation>Přihlašuje se...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="384"/>
-        <location filename="../qml/main.qml" line="388"/>
         <location filename="../qml/main.qml" line="392"/>
+        <location filename="../qml/main.qml" line="396"/>
+        <location filename="../qml/main.qml" line="400"/>
         <source>Waiting for network...</source>
         <translation>Čeká se na síť...</translation>
     </message>
