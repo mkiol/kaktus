@@ -43,8 +43,13 @@ Page {
     property int index
 
     ActiveDetector {
-        onActivated: { feedModel.updateFlags() }
-        onInit: { bar.flick = listView }
+        onActivated: {
+            feedModel.updateFlags()
+            bar.flick = listView
+        }
+        onInit: {
+            bar.flick = listView
+        }
     }
 
     RemorsePopup {

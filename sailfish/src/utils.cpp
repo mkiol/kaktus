@@ -227,11 +227,8 @@ QString Utils::formatHtml(const QString & data, bool offline, const QString & st
     QRegExp rxA("<a[^>]*></a>", Qt::CaseInsensitive);
     QRegExp rxP("<p[^>]*></p>", Qt::CaseInsensitive);
 
-    QTextDocument doc; doc.setHtml(data);
-    if (doc.toPlainText().replace(QChar::ObjectReplacementCharacter,QChar(0x0020)).trimmed().isEmpty())
-        return "";
-
     QString content = data;
+
     content.remove(rxTarget);
     if (offline) {
         content.remove(rxImg); content.remove("</img>", Qt::CaseInsensitive);
