@@ -63,6 +63,15 @@ Page {
             }
 
             SectionHeader {
+                text: qsTr("Version %1").arg("2.6.1")
+            }
+
+            LogItem {
+                title: "Support for OnePlus X"
+                description: "Missing icons on OnePlus X have beed fixed.";
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("2.6.0")
             }
 
@@ -84,11 +93,6 @@ Page {
             LogItem {
                 title: "Delete web viewer cookies"
                 description: "Option in the settings that allows you to clear cache and cookies of the web viewer."
-            }
-
-            LogItem {
-                title: "Spanish translation update"
-                description: "Spanish translations has been updated."
             }
 
             SectionHeader {
