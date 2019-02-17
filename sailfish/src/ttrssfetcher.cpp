@@ -533,10 +533,13 @@ void TTRssFetcher::setAction()
     {
         QList<QString> streams = s->db->readStreamIdsByTab(action.id1);
         for (int i = 0; i < streams.count(); ++i) {
-            if (!ids.isEmpty())
-                ids += ",";
-            ids += mergeEntryIds(s->db->readEntriesByStream(streams[i], 0, s->db->countEntriesByStream(streams[i])),
-                                 action.type == DatabaseManager::SetTabReadAll);
+            QString streamIds = mergeEntryIds(s->db->readEntriesByStream(streams[i], 0, s->db->countEntriesByStream(streams[i])),
+                                              action.type == DatabaseManager::SetTabReadAll);
+            if (!streamIds.isEmpty()) {
+                if (!ids.isEmpty())
+                    ids += ",";
+                ids += streamIds;
+            }
         }
 
         mode = action.type == DatabaseManager::SetTabReadAll ? 0 : 1;
@@ -548,10 +551,13 @@ void TTRssFetcher::setAction()
     {
         QList<DatabaseManager::Stream> streams = s->db->readStreamsByDashboard(action.id1);
         for (int i = 0; i < streams.count(); ++i) {
-            if (!ids.isEmpty())
-                ids += ",";
-            ids += mergeEntryIds(s->db->readEntriesByStream(streams[i].id, 0, s->db->countEntriesByStream(streams[i].id)),
-                                 action.type == DatabaseManager::SetAllRead);
+            QString streamIds = mergeEntryIds(s->db->readEntriesByStream(streams[i].id, 0, s->db->countEntriesByStream(streams[i].id)),
+                                              action.type == DatabaseManager::SetAllRead);
+            if (!streamIds.isEmpty()) {
+                if (!ids.isEmpty())
+                    ids += ",";
+                ids += streamIds;
+            }
         }
 
         mode = action.type == DatabaseManager::SetAllRead ? 0 : 1;
