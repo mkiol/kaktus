@@ -932,3 +932,16 @@ void Settings::reset()
         setShowBroadcast(true);
     }
 }
+
+void Settings::setIgnoreSslErrors(bool value)
+{
+    if (getIgnoreSslErrors() != value) {
+        settings.setValue("ignoresslerrors", value);
+        emit ignoreSslErrorsChanged();
+    }
+}
+
+bool Settings::getIgnoreSslErrors()
+{
+    return settings.value("ignoresslerrors", false).toBool();
+}

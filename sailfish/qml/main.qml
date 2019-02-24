@@ -303,17 +303,13 @@ ApplicationWindow {
 
         if (code < 400)
             return;
-        if (code >= 400 && code < 500) {
-            if (code == 402)
+        if (code === 700 || (code >= 400 && code < 500)) {
+            if (code === 402)
                 notification.show(qsTr("The user name or password is incorrect!"));
-            /*if (code == 403) {
-                notification.show(qsTr("Your login credentials have expired!"));
-                if (settings.getSigninType()>0) {
-                    fetcher.getAuthUrl();
-                    return;
-                }
-            }*/
-            //console.log("settings.signinType",settings.getSigninType());
+            else if (code === 404)  // TT-RSS API disabled
+                notification.show(qsTr("Access through API is disabled on a server"));
+            else if (code === 700)  // SSL error
+                notification.show(qsTr("Problem with SSL certificate"));
 
             // Sign in
             var type = settings.signinType;
@@ -333,10 +329,9 @@ ApplicationWindow {
                 pageStack.push(Qt.resolvedUrl("TTRssSignInDialog.qml"),{"code": code});
                 return;
             }
-
         } else {
             // Unknown error
-            notification.show(qsTr("An unknown error occurred."), qsTr("Something went wrong!"));
+            notification.show(qsTr("Unknown error"));
             resetView();
         }
     }

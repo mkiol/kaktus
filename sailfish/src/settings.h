@@ -83,6 +83,7 @@ class Settings: public QObject
     Q_PROPERTY (QString pocketToken READ getPocketToken WRITE setPocketToken NOTIFY pocketTokenChanged)
     Q_PROPERTY (QString pocketTags READ getPocketTags WRITE setPocketTags NOTIFY pocketTagsChanged)
     Q_PROPERTY (QString pocketTagsHistory READ getPocketTagsHistory WRITE setPocketTagsHistory NOTIFY pocketTagsHistoryChanged)
+    Q_PROPERTY (bool ignoreSslErrors READ getIgnoreSslErrors WRITE setIgnoreSslErrors NOTIFY ignoreSslErrorsChanged)
 
 public:
     static Settings* instance();
@@ -272,6 +273,9 @@ public:
     void setFeedsUpdateAtOnce(int value);
     int getFeedsUpdateAtOnce();
 
+    void setIgnoreSslErrors(bool value);
+    bool getIgnoreSslErrors();
+
     Q_INVOKABLE void setHint1Done(bool value);
     Q_INVOKABLE bool getHint1Done();
 
@@ -316,6 +320,7 @@ signals:
     void pocketTagsHistoryChanged();
     void pocketFavoriteChanged();
     void pocketQuickAddChanged();
+    void ignoreSslErrorsChanged();
 
     /*
     501 - Unable create settings dir

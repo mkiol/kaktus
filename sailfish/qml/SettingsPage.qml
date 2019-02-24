@@ -969,6 +969,16 @@ Page {
                 }
             }*/
 
+            SectionHeader {
+                text: qsTr("Other")
+            }
+
+            TextSwitch {
+                text: qsTr("Ignore SSL errors")
+                onCheckedChanged: settings.ignoreSslErrors = checked;
+                Component.onCompleted: checked = settings.ignoreSslErrors
+            }
+
             Spacer {}
         }
     }

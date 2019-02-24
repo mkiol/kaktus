@@ -151,6 +151,14 @@ Dialog {
                 }
             }
 
+            TextSwitch {
+                text: qsTr("Ignore SSL errors")
+                onCheckedChanged: {
+                    settings.ignoreSslErrors = checked
+                }
+                Component.onCompleted: checked = settings.ignoreSslErrors
+            }
+
             Item {
                 height: Theme.itemSizeLarge
                 width: Theme.itemSizeLarge

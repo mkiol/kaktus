@@ -19,6 +19,7 @@
 */
 
 #include <QRegExp>
+#include <QSslError>
 #include <QtCore/qmath.h>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -714,12 +715,26 @@ void TTRssFetcher::sendApiCall(const QString& op, const QString& params, ReplyCa
     connect(currentReply, &QNetworkReply::finished, this, callback);
     connect(currentReply, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(networkError(QNetworkReply::NetworkError)));
+    connect(currentReply, &QNetworkReply::sslErrors, [this](const QList<QSslError> &errors) {
+        qWarning() << "SSL error:" << errors;
+        if (Settings::instance()->getIgnoreSslErrors()) {
+            qDebug() << "Ignoring SSL errors";
+            currentReply->ignoreSslErrors();
+        }
+    });
 }
 
 bool TTRssFetcher::processResponse()
 {
-    if (currentReply->error() && currentReply->error() != QNetworkReply::OperationCanceledError) {
-        emit error(500);
+    auto e = currentReply->error();
+    if (e != QNetworkReply::NoError &&
+        e != QNetworkReply::OperationCanceledError) {
+        qDebug() << "Request error:" << e;
+        if (e == QNetworkReply::SslHandshakeFailedError) {
+            emit error(700);
+        } else {
+            emit error(500);
+        }
         setBusy(false);
         return false;
     }
@@ -745,6 +760,8 @@ bool TTRssFetcher::processResponse()
             }
         } else if (err == "NOT_LOGGED_IN") {
             emit error(401);
+        } else if (err == "API_DISABLED") {
+            emit error(404);
         } else {
             emit error(601);
         }

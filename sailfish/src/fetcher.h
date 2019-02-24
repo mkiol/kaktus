@@ -98,7 +98,8 @@ Q_SIGNALS:
     401 - SignIn failed
     402 - SignIn user/password do no match
     403 - Cookie expired
-    500 - Network error
+    404 - TT-RSS API disabled
+    500 - Generic network error
     501 - SignIn resposne is null
     502 - Internal error
     503 - User ID is empty
@@ -107,6 +108,7 @@ Q_SIGNALS:
     506 - DB backup error
     600 - Error while parsing JSON
     601 - Unknown JSON response
+    700 - Generic SSL error
      */
     void credentialsValid();
     void errorCheckingCredentials(int code);
