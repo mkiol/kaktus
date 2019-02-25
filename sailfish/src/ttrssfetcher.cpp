@@ -335,7 +335,7 @@ void TTRssFetcher::storeCategories()
 #endif
             if (obj["id"].toInt() >= 0) {
                 DatabaseManager::Tab t;
-                t.id = QString::number(obj["id"].toInt());
+                t.id = obj["id"].isString() ? obj["id"].toString() : QString::number(obj["id"].toInt());
                 t.dashboardId = dashboardId;
                 t.title = obj["title"].toString();
                 s->db->writeTab(t);
@@ -366,7 +366,7 @@ void TTRssFetcher::storeFeeds()
             QVariantMap obj = (*i).toMap();
 #endif
             DatabaseManager::Stream st;
-            st.id = QString::number(obj["id"].toInt());
+            st.id = obj["id"].isString() ? obj["id"].toString() : QString::number(obj["id"].toInt());
             st.title = obj["title"].toString();
             st.link = obj["feed_url"].toString();
             st.query = st.link;
@@ -397,7 +397,7 @@ void TTRssFetcher::storeFeeds()
             m.status = "";
             m.widgetId = "";
             m.pageId = "";
-            m.tabId = QString::number(obj["cat_id"].toInt());
+            m.tabId = obj["id"].isString() ? obj["cat_id"].toString() : QString::number(obj["cat_id"].toInt());
             m.streamList.append(st.id);
             s->db->writeModule(m);
         }
@@ -431,9 +431,9 @@ void TTRssFetcher::storeStream()
 #endif
 
             DatabaseManager::Entry e;
-            e.id = QString::number(obj["id"].toInt());
-            e.streamId = QString::number(obj["feed_id"].toInt());
-            e.title =obj["title"].toString();
+            e.id = obj["id"].isString() ? obj["id"].toString() : QString::number(obj["id"].toInt());
+            e.streamId = obj["feed_id"].isString() ? obj["feed_id"].toString() : QString::number(obj["feed_id"].toInt());
+            e.title = obj["title"].toString();
             e.author = obj["author"].toString();
 
             if (obj["content"].isString())
