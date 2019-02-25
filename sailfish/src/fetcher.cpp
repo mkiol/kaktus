@@ -308,8 +308,13 @@ bool Fetcher::parse()
 void Fetcher::sslErrors(const QList<QSslError> &sslErrors)
 {
 #ifndef QT_NO_SSL
-    foreach (const QSslError &error, sslErrors)
+    for (const QSslError &error : sslErrors)
         qWarning() << "SSL error: " << error.errorString();
+    if (Settings::instance()->getIgnoreSslErrors()) {
+        qDebug() << "Ignoring SSL errors";
+        auto reply = dynamic_cast<QNetworkReply*>(sender());
+        reply->ignoreSslErrors();
+    }
 #else
     Q_UNUSED(sslErrors);
 #endif

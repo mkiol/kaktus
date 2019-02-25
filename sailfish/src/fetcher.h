@@ -82,7 +82,7 @@ public:
     BusyType readBusyType();
     bool isBusy();
 
-Q_SIGNALS:
+signals:
     void quit();
     void busyChanged();
     void progress(double current, double total);
@@ -118,12 +118,8 @@ Q_SIGNALS:
     void ready();
     void addDownload(DatabaseManager::CacheItem item);
 
-private Q_SLOTS:
+public slots:
     void sslErrors(const QList<QSslError> &errors);
-    void networkAccessibleChanged (QNetworkAccessManager::NetworkAccessibility accessible);
-    bool delayedUpdate(bool state);
-    void networkError(QNetworkReply::NetworkError);
-    void readyRead();
 
 protected:
     QNetworkAccessManager nam;
@@ -148,6 +144,12 @@ protected:
     bool parse();
     void prepareUploadActions();
     void taskEnd();
+
+private slots:
+    void networkAccessibleChanged (QNetworkAccessManager::NetworkAccessibility accessible);
+    bool delayedUpdate(bool state);
+    void networkError(QNetworkReply::NetworkError);
+    void readyRead();
 
 private:
     virtual void signIn() = 0;
