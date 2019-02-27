@@ -39,6 +39,7 @@ SOURCES += \
     src/iconprovider.cpp
 
 HEADERS += \
+    src/info.h \
     src/ai.h \
     src/utils.h \
     src/tabmodel.h \

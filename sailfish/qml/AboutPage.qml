@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2014-2019 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -37,126 +37,38 @@ Page {
 
     ActiveDetector {}
 
-    SilicaListView {
+    SilicaFlickable {
         anchors { top: parent.top; left: parent.left; right: parent.right }
         clip: true
 
         height: app.flickHeight
 
+        contentHeight: column.height
 
-        anchors.leftMargin: Theme.paddingLarge
-        anchors.rightMargin: Theme.paddingLarge
-        spacing: Theme.paddingLarge
+        Column {
+            id: column
 
-        header: PageHeader {
-            title: qsTr("About")
-        }
+            width: root.width
+            spacing: Theme.paddingLarge
 
-        model: VisualItemModel {
+            PageHeader {
+                title: qsTr("About")
+            }
 
             Image {
                 anchors.horizontalCenter: parent.horizontalCenter
                 source: "image://icons/icon-i-kaktus"
             }
 
-            Label {
-                anchors.horizontalCenter: parent.horizontalCenter
-                font.pixelSize: Theme.fontSizeHuge
+            InfoLabel {
                 text: APP_NAME
             }
 
-            Label {
-                anchors.horizontalCenter: parent.horizontalCenter
+            PaddedLabel {
+                horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: Theme.fontSizeMedium
                 color: Theme.highlightColor
-                wrapMode: Text.WordWrap
-                text: qsTr("Version: %1").arg(VERSION);
-            }
-
-            Label {
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-                anchors.left: parent.left; anchors.right: parent.right
-                font.pixelSize: Theme.fontSizeSmall
-                text: qsTr("Multi services feed reader, specially designed to work offline.");
-            }
-
-            /*Separator {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                color: Theme.primaryColor
-            }*/
-
-            Label {
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-                anchors.left: parent.left; anchors.right: parent.right
-                font.pixelSize: Theme.fontSizeExtraSmall
-                text: "<u>%1</u>".arg(PAGE)
-                textFormat: Text.StyledText
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        notification.show(qsTr("Launching an external browser..."));
-                        Qt.openUrlExternally(PAGE);
-                    }
-                }
-            }
-
-            /*Separator {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                color: Theme.primaryColor
-            }*/
-
-            Label {
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-                anchors.left: parent.left; anchors.right: parent.right
-                font.pixelSize: Theme.fontSizeExtraSmall
-                textFormat: Text.RichText
-                text: "Copyright &copy; 2014-2017 Michal Kosciesza"
-            }
-
-            Label {
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignHCenter
-                anchors.left: parent.left; anchors.right: parent.right
-                font.pixelSize: Theme.fontSizeExtraSmall
-                text: qsTr("This software is distributed under the terms of the "+
-                           "GNU General Public Licence version 3.")
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        notification.show(qsTr("Launching an external browser..."));
-                        Qt.openUrlExternally("https://www.gnu.org/licenses/gpl-3.0.txt");
-                    }
-                }
-
-            }
-
-            /*Label {
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.HorizontalFit
-                anchors.left: parent.left; anchors.right: parent.right
-
-                font.pixelSize: Theme.fontSizeExtraSmall
-                text: qsTr("Be aware that Kaktus is an UNOFFICIAL application. It means is distributed in the hope " +
-                           "that it will be useful, but WITHOUT ANY WARRANTY. Without even the implied warranty of " +
-                           "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. " +
-                           "See the GNU General Public License for more details.")
-
-            }*/
-
-            /*Separator {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                color: Theme.primaryColor
-            }*/
-
-            Item {
-                height: Theme.paddingLarge
+                text: qsTr("Version %1").arg(APP_VERSION);
             }
 
             Button {
@@ -165,11 +77,78 @@ Page {
                 onClicked: pageStack.push(Qt.resolvedUrl("ChangelogPage.qml"))
             }
 
-            Item {
-                height: Theme.paddingLarge
+            Button {
+                text: qsTr("Project website")
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: Qt.openUrlExternally(PAGE)
             }
+
+            SectionHeader {
+                text: qsTr("Authors")
+            }
+
+            PaddedLabel {
+                horizontalAlignment: Text.AlignLeft
+                textFormat: Text.RichText
+                text: ("Copyright &copy; %1 %2")
+                .arg(COPYRIGHT_YEAR)
+                .arg(AUTHOR)
+            }
+
+            PaddedLabel {
+                horizontalAlignment: Text.AlignLeft
+                textFormat: Text.RichText
+                text: ("Copyright &copy; %1 %2")
+                .arg(COPYRIGHT_YEAR1)
+                .arg(AUTHOR1)
+            }
+
+            PaddedLabel {
+                horizontalAlignment: Text.AlignLeft
+                text: qsTr("Translations are provided by:")
+            }
+
+            PaddedLabel {
+                horizontalAlignment: Text.AlignLeft
+                text: "Nathan Follens \nFri \nJozef Mlích \nCarmen Fernández B. " +
+                      "\nGökhan Kalayci \nFallaffel Box \nBenjamin (schnubbbi) \nR.G. Sidler " +
+                      "\nKoleesch \nFravaccaro \nPetr Tsymbarovich \nAndrey Getmantsev " +
+                      "\nKiratonin \nАлексей Дедун \nmentaljam \nJosé Jiménez \nMesut Aktaş"
+            }
+
+            PaddedLabel {
+                horizontalAlignment: Text.AlignLeft
+                textFormat: Text.StyledText
+                text: qsTr("%1 is developed as an open source project under %2.")
+                .arg(APP_NAME)
+                .arg("<a href=\"" + LICENSE_URL + "\">" + LICENSE + "</a>")
+            }
+
+            SectionHeader {
+                text: qsTr("Libraries")
+            }
+
+            PaddedLabel {
+                horizontalAlignment: Text.AlignLeft
+                textFormat: Text.RichText
+                text: "QHTTPServer - Copyright &copy; 2011-2014 Nikhil Marathe"
+            }
+
+            PaddedLabel {
+                horizontalAlignment: Text.AlignLeft
+                textFormat: Text.RichText
+                text: "Readability.js - Copyright &copy; 2010 Arc90 Inc"
+            }
+
+            PaddedLabel {
+                horizontalAlignment: Text.AlignLeft
+                textFormat: Text.RichText
+                text: "SimpleCrypt - Copyright &copy; 2011 Andre Somers"
+            }
+
+            Spacer {}
         }
 
-        //VerticalScrollDecorator {}
+        VerticalScrollDecorator {}
     }
 }

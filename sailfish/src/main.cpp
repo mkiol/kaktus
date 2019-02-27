@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014-2016 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2014-2019 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -36,6 +36,7 @@
 #include <QColor>
 #endif
 
+#include "info.h"
 #include "iconprovider.h"
 #include "nviconprovider.h"
 #include "databasemanager.h"
@@ -45,16 +46,6 @@
 #include "settings.h"
 #include "networkaccessmanagerfactory.h"
 #include "ai.h"
-
-static const char *APP_NAME = "Kaktus";
-static const char *AUTHOR = "Michal Kosciesza <michal@mkiol.net>";
-static const char *PAGE = "https://github.com/mkiol/kaktus";
-#ifdef KAKTUS_LIGHT
-static const char *VERSION = "2.6.1 (light edition)";
-#else
-static const char *VERSION = "2.6.1";
-#endif
-
 
 int main(int argc, char *argv[])
 {
@@ -80,13 +71,19 @@ int main(int argc, char *argv[])
     app->setApplicationName(APP_NAME);
 #endif
 
-    app->setApplicationDisplayName(APP_NAME);
-    app->setApplicationVersion(VERSION);
+    app->setApplicationDisplayName(Kaktus::APP_NAME);
+    app->setApplicationVersion(Kaktus::APP_VERSION);
 
-    context->setContextProperty("APP_NAME", APP_NAME);
-    context->setContextProperty("VERSION", VERSION);
-    context->setContextProperty("AUTHOR", AUTHOR);
-    context->setContextProperty("PAGE", PAGE);
+    context->setContextProperty("APP_NAME", Kaktus::APP_NAME);
+    context->setContextProperty("APP_VERSION", Kaktus::APP_VERSION);
+    context->setContextProperty("AUTHOR", Kaktus::AUTHOR);
+    context->setContextProperty("COPYRIGHT_YEAR", Kaktus::COPYRIGHT_YEAR);
+    context->setContextProperty("AUTHOR1", Kaktus::AUTHOR1);
+    context->setContextProperty("COPYRIGHT_YEAR1", Kaktus::COPYRIGHT_YEAR1);
+    context->setContextProperty("SUPPORT_EMAIL", Kaktus::SUPPORT_EMAIL);
+    context->setContextProperty("PAGE", Kaktus::PAGE);
+    context->setContextProperty("LICENSE", Kaktus::LICENSE);
+    context->setContextProperty("LICENSE_URL", Kaktus::LICENSE_URL);
 
     engine->addImageProvider(QLatin1String("icons"), new IconProvider);
     engine->addImageProvider(QLatin1String("nvicons"), new NvIconProvider);

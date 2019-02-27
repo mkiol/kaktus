@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2016-2019 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -20,7 +20,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-
 Page {
     id: root
 
@@ -29,11 +28,11 @@ Page {
     allowedOrientations: {
         switch (settings.allowedOrientations) {
         case 1:
-            return Orientation.Portrait;
+            return Orientation.Portrait
         case 2:
-            return Orientation.Landscape;
+            return Orientation.Landscape
         }
-        return Orientation.Landscape | Orientation.Portrait;
+        return Orientation.Landscape | Orientation.Portrait
     }
 
     ActiveDetector {}
@@ -45,17 +44,17 @@ Page {
             right: parent.right
             top: parent.top
         }
+
         height: app.flickHeight
+
         clip: true
+
         contentHeight: content.height
 
         Column {
             id: content
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
 
+            width: root.width
             spacing: Theme.paddingMedium
 
             PageHeader {
@@ -95,7 +94,7 @@ Page {
                 description: "Option in the settings that allows you to clear cache and cookies of the web viewer."
             }
 
-            SectionHeader {
+            /*SectionHeader {
                 text: qsTr("Version %1").arg("2.5.3")
             }
 
@@ -280,7 +279,7 @@ Page {
                 description: 'Many improvements, like performance optimization and UI polishing were made.'
             }
 
-            /*SectionHeader {
+            SectionHeader {
                 text: qsTr("Version %1").arg("1.4")
             }
 

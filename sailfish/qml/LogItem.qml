@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2014-2019 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -28,7 +28,7 @@ Row {
 
     anchors.left: parent.left; anchors.right: parent.right
     anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-    spacing: 1.0*Theme.paddingLarge
+    spacing: Theme.paddingLarge
 
     Column {
         spacing: Theme.paddingSmall
@@ -39,21 +39,22 @@ Row {
             id: label1
             width: parent.width
             wrapMode: Text.WordWrap
-            color: Theme.primaryColor
-            font.bold: true
-
+            color: Theme.highlightColor
         }
 
         Label {
             id: label2
             width: parent.width
             wrapMode: Text.WordWrap
-            color: Theme.primaryColor
+            font.pixelSize: Theme.fontSizeSmall
+            color: Theme.highlightColor
+            linkColor: Theme.primaryColor
+            textFormat: Text.StyledText
+            onLinkActivated: {
+                Qt.openUrlExternally(link);
+            }
         }
 
-        Item {
-            height: Theme.paddingLarge
-            width: parent.width
-        }
+        Spacer {}
     }
 }

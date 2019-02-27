@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2014-2019 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -20,8 +20,15 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-
 Label {
-    anchors { left: parent.left; right: parent.right; leftMargin: Theme.paddingLarge; rightMargin: Theme.paddingLarge}
+    x: Theme.horizontalPageMargin
+    width: parent.width - 2*x
     wrapMode: Text.WordWrap
+    color: Theme.highlightColor
+    linkColor: Theme.primaryColor
+    font.pixelSize: Theme.fontSizeSmall
+    onLinkActivated: {
+        Qt.openUrlExternally(link);
+    }
 }
+

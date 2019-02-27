@@ -17,12 +17,24 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
+#ifndef INFO_H
+#define INFO_H
 
-Item {
-    property real space: Theme.paddingLarge
-    height: space
-    width: space
+namespace Kaktus {
+static const char* APP_NAME = "Kaktus";
+#ifdef SAILFISH
+static const char* APP_VERSION = "2.6.1";
+#elif ANDROID
+static const char* APP_VERSION = "2.6.1";
+#endif
+static const char* AUTHOR = "Michal Kosciesza";
+static const char* COPYRIGHT_YEAR = "2014-2019";
+static const char* AUTHOR1 = "Renaud Casenave-Péré";
+static const char* COPYRIGHT_YEAR1 = "2019";
+static const char* SUPPORT_EMAIL = "kaktus@mkiol.net";
+static const char* PAGE = "https://github.com/mkiol/kaktus";
+static const char* LICENSE = "GNU General Public Licence version 3";
+static const char* LICENSE_URL = "https://www.gnu.org/licenses/gpl-3.0.html";
 }
 
+#endif // INFO_H
