@@ -46,10 +46,10 @@ Page {
         height: app.flickHeight
 
         model:  ListModel {
-            ListElement { name: "Netvibes"; iconSource: "nv.png"; type: 1}
-            ListElement { name: "Old Reader"; iconSource: "oldreader.png"; type: 2}
+            ListElement { name: "Netvibes"; iconSource: "image://icons/icon-m-netvibes"; type: 1}
+            ListElement { name: "Old Reader"; iconSource: "image://icons/icon-m-oldreader"; type: 2}
             /*ListElement { name: "Feedly (comming soon)"; iconSource: "feedly.png"; type: 3}*/
-            ListElement { name: "Tiny Tiny Rss"; iconSource: "ttrss.png"; type: 4}
+            ListElement { name: "Tiny Tiny Rss"; iconSource: "image://icons/icon-m-ttrss"; type: 4}
         }
 
         header: PageHeader {
@@ -59,7 +59,7 @@ Page {
         delegate: ListItem {
             id: listItem
             contentHeight: item.height + 2 * Theme.paddingMedium
-            highlighted: root.accountType == type
+            highlighted: root.accountType === type
             enabled: type != 3
             opacity: enabled ? 1.0 : 0.5
 

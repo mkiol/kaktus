@@ -27,7 +27,7 @@ Dialog {
     property bool showBar: false
     property int code
 
-    canAccept: url.text != "" && user.text != "" && password.text != ""
+    canAccept: url.text.length > 0 && user.text.length > 0 && password.text.length > 0
 
     allowedOrientations: {
         switch (settings.allowedOrientations) {
@@ -42,8 +42,7 @@ Dialog {
     ActiveDetector {}
 
     SilicaFlickable {
-        anchors {left: parent.left; right: parent.right }
-        anchors {top: parent.top}
+        anchors {left: parent.left; right: parent.right; top: parent.top }
         height: app.flickHeight
         clip: true
         contentHeight: content.height
@@ -61,50 +60,36 @@ Dialog {
                 acceptText : qsTr("Sign in")
             }
 
-            Item {
-                anchors { left: parent.left; right: parent.right}
+            Row {
+                anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin}
+                spacing: Theme.paddingMedium
                 height: Math.max(icon.height, label.height)
 
                 Image {
                     id: icon
-                    anchors { right: label.left; rightMargin: Theme.paddingMedium }
-                    source: "ttrss.png"
+                    anchors.verticalCenter: parent.verticalCenter
+                    source: "image://icons/icon-m-ttrss"
                     width: Theme.iconSizeMedium
                     height: Theme.iconSizeMedium
                 }
 
                 Label {
                     id: label
-                    anchors { right: parent.right; rightMargin: Theme.paddingLarge}
+                    anchors.verticalCenter: parent.verticalCenter
                     text: qsTr("Tiny Tiny Rss")
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignRight
                     color: Theme.highlightColor
                     font.pixelSize: Theme.fontSizeSmall
-                    y: Theme.paddingSmall/2
                 }
             }
 
-            Item {
-                height: Theme.paddingMedium
-                width: Theme.paddingMedium
-            }
-
-            PaddedLabel {
-                text: qsTr("Enter server url and credentials below.")
-            }
-
-            Item {
-                height: Theme.paddingMedium
-                width: Theme.paddingMedium
-            }
+            Spacer {}
 
             TextField {
                 id: url
                 anchors.left:parent.left; anchors.right: parent.right
 
                 inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-                placeholderText: qsTr("Enter the url of your server here!")
+                placeholderText: qsTr("Enter the url of your server")
                 label: qsTr("Server Url")
 
                 Component.onCompleted: {
@@ -121,8 +106,8 @@ Dialog {
                 id: user
                 anchors.left: parent.left; anchors.right: parent.right
 
-                inputMethodHints: Qt.ImhEmailCharactersOnly| Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-                placeholderText: qsTr("Enter username here!")
+                inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
+                placeholderText: qsTr("Enter username")
                 label: qsTr("Username")
 
                 Component.onCompleted: {
@@ -140,13 +125,13 @@ Dialog {
                 anchors.left: parent.left; anchors.right: parent.right
                 inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText | Qt.ImhSensitiveData
                 echoMode: TextInput.Password
-                placeholderText: qsTr("Enter password here!")
+                placeholderText: qsTr("Enter password")
                 label: qsTr("Password")
 
-                EnterKey.iconSource: url.text!=="" && user.text!=="" ? "image://theme/icon-m-enter-accept" : "image://theme/icon-m-enter-close"
+                EnterKey.iconSource: url.text.length > 0 && user.text.length > 0 ? "image://theme/icon-m-enter-accept" : "image://theme/icon-m-enter-close"
                 EnterKey.onClicked: {
                     Qt.inputMethod.hide();
-                    if (url.text!=="" && user.text!=="")
+                    if (url.text.length > 0 && user.text.length > 0)
                         root.accept();
                 }
             }
@@ -159,10 +144,7 @@ Dialog {
                 Component.onCompleted: checked = settings.ignoreSslErrors
             }
 
-            Item {
-                height: Theme.itemSizeLarge
-                width: Theme.itemSizeLarge
-            }
+            Spacer {}
         }
     }
 
@@ -182,7 +164,7 @@ Dialog {
         if (code == 0) {
             fetcher.checkCredentials();
         } else {
-            if (! dm.busy)
+            if (!dm.busy)
                 dm.cancel();
             m.doUpdate = true;
         }
@@ -202,5 +184,4 @@ Dialog {
                 fetcher.update();
         }
     }
-
 }

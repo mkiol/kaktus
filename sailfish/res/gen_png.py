@@ -56,7 +56,10 @@ icons = {
     "filter-0" : [1],
     "filter-2" : [1],
     "filter-1" : [1],
-    "pocket" : [1]
+    "pocket" : [1],
+    "netvibes" : [1],
+    "oldreader" : [1],
+    "ttrss" : [1]
 }
 
 size_names = {

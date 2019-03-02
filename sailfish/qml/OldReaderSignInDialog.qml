@@ -26,7 +26,7 @@ Dialog {
     property bool showBar: false
     property int code
 
-    canAccept: user.text != "" && validateEmail(user.text) && password.text != ""
+    canAccept: user.text.length > 0 && password.text.length > 0
 
     allowedOrientations: {
         switch (settings.allowedOrientations) {
@@ -41,8 +41,7 @@ Dialog {
     ActiveDetector {}
 
     SilicaFlickable {
-        anchors {left: parent.left; right: parent.right }
-        anchors {top: parent.top}
+        anchors {left: parent.left; right: parent.right; top: parent.top }
         height: app.flickHeight
         clip: true
         contentHeight: content.height
@@ -60,51 +59,37 @@ Dialog {
                 acceptText : qsTr("Sign in")
             }
 
-            Item {
-                anchors { left: parent.left; right: parent.right}
+            Row {
+                anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin}
+                spacing: Theme.paddingMedium
                 height: Math.max(icon.height, label.height)
 
                 Image {
                     id: icon
-                    anchors { right: label.left; rightMargin: Theme.paddingMedium }
-                    source: "oldreader.png"
+                    anchors.verticalCenter: parent.verticalCenter
+                    source: "image://icons/icon-m-oldreader"
                     width: Theme.iconSizeMedium
                     height: Theme.iconSizeMedium
                 }
 
                 Label {
                     id: label
-                    anchors { right: parent.right; rightMargin: Theme.paddingLarge}
+                    anchors.verticalCenter: parent.verticalCenter
                     text: qsTr("Old Reader")
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignRight
                     color: Theme.highlightColor
                     font.pixelSize: Theme.fontSizeSmall
-                    y: Theme.paddingSmall/2
                 }
             }
 
-            Item {
-                height: Theme.paddingMedium
-                width: Theme.paddingMedium
-            }
-
-            PaddedLabel {
-                text: qsTr("Enter username and password below.")
-            }
-
-            Item {
-                height: Theme.paddingMedium
-                width: Theme.paddingMedium
-            }
+            Spacer {}
 
             TextField {
                 id: user
                 anchors.left: parent.left; anchors.right: parent.right
 
                 inputMethodHints: Qt.ImhEmailCharactersOnly| Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
-                placeholderText: qsTr("Enter username here!")
-                label: qsTr("Username (your e-mail)")
+                placeholderText: qsTr("Enter username")
+                label: qsTr("Username (your e-mail address)")
 
                 Component.onCompleted: {
                     text = settings.getUsername();
@@ -121,22 +106,19 @@ Dialog {
                 anchors.left: parent.left; anchors.right: parent.right
                 inputMethodHints: Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText | Qt.ImhSensitiveData
                 echoMode: TextInput.Password
-                placeholderText: qsTr("Enter password here!")
+                placeholderText: qsTr("Enter password")
                 label: qsTr("Password")
 
-                EnterKey.iconSource: user.text!=="" ? "image://theme/icon-m-enter-accept" : "image://theme/icon-m-enter-close"
+                EnterKey.iconSource: user.text.length > 0 ? "image://theme/icon-m-enter-accept" : "image://theme/icon-m-enter-close"
                 EnterKey.onClicked: {
                     Qt.inputMethod.hide();
-                    if (user.text!=="")
+                    if (user.text.length > 0)
                         root.accept();
                 }
             }
-        }
-    }
 
-    function validateEmail(email) {
-        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
+            Spacer {}
+        }
     }
 
     onAccepted: {
@@ -149,7 +131,7 @@ Dialog {
         if (code == 0) {
             fetcher.checkCredentials();
         } else {
-            if (! dm.busy)
+            if (!dm.busy)
                 dm.cancel();
             m.doUpdate = true;
         }
@@ -169,5 +151,4 @@ Dialog {
                 fetcher.update();
         }
     }
-
 }

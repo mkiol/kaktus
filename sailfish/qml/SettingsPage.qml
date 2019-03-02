@@ -72,10 +72,9 @@ Page {
                         rightMargin: Theme.paddingMedium
                         verticalCenter: parent.verticalCenter
                     }
-                    source: app.isNetvibes ? "nv.png" :
-                        app.isOldReader ? "oldreader.png" :
-                        app.isFeedly ? "feedly.png" :
-                        app.isTTRss ? "ttrss.png" : null
+                    source: app.isNetvibes ? "image://icons/icon-m-netvibes" :
+                        app.isOldReader ? "image://icons/icon-m-oldreader" :
+                        app.isTTRss ? "image://icons/icon-m-ttrss" : null
                     width: Theme.iconSizeMedium
                     height: Theme.iconSizeMedium
 
@@ -90,7 +89,6 @@ Page {
                     }
                     text: app.isNetvibes ? "Netvibes":
                         app.isOldReader ? "Old Reader" :
-                        app.isFeedly ? "Feedly" :
                         app.isTTRss ? "Tiny Tiny Rss" : null
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignRight
@@ -309,8 +307,8 @@ Page {
                 currentIndex: settings.offlineMode ? 1 : 0
 
                 menu: ContextMenu {
-                    MenuIconItem { text: qsTr("Online"); iconSource: "image://theme/icon-m-wlan" }
-                    MenuIconItem { text: qsTr("Offline"); iconSource: "image://theme/icon-m-wlan-no-signal" }
+                    MenuItem { text: qsTr("Online"); }
+                    MenuItem { text: qsTr("Offline"); }
                 }
 
                 onCurrentIndexChanged: {
@@ -765,7 +763,7 @@ Page {
 
                 menu: ContextMenu {
                     MenuIconItem { text: qsTr("All articles"); iconSource: "image://icons/icon-m-filter-0" }
-                    MenuIconItem { text: app.isNetvibes || app.isFeedly ? qsTr("Unread or saved") : qsTr("Unread or starred"); iconSource: "image://icons/icon-m-filter-1" }
+                    MenuIconItem { text: app.isNetvibes ? qsTr("Unread or saved") : qsTr("Unread or starred"); iconSource: "image://icons/icon-m-filter-1" }
                     MenuIconItem { text: qsTr("Only unread"); iconSource: "image://icons/icon-m-filter-2" }
                 }
 
@@ -773,7 +771,7 @@ Page {
                     settings.filter = currentIndex;
                 }
 
-                description: app.isNetvibes || app.isFeedly ?
+                description: app.isNetvibes ?
                                  qsTr("List of articles can be filtered to display all articles, unread and saved or only unread.") :
                                  qsTr("List of articles can be filtered to display all articles, unread and starred or only unread.")
             }
@@ -803,9 +801,7 @@ Page {
 
             TextSwitch {
                 text: app.isTablet ? qsTr("Double-pane reader") : qsTr("Double-pane reader in landscape")
-                //text: qsTr("Double-pane reader in landscape")
                 description: app.isTablet ? qsTr("View with the articles will be splited in to two colums.") : qsTr("View with the articles in the landscape orientation will be splited in to two colums.")
-                //description: qsTr("View with the articles in the landscape orientation will be splited in to two colums.")
                 onCheckedChanged: {
                     settings.doublePane = checked;
                 }
@@ -916,7 +912,7 @@ Page {
             }
 
             /*SectionHeader {
-                text: qsTr("Experimental")
+                text: qsTr("Experiments")
             }
 
             Column {
@@ -956,19 +952,6 @@ Page {
                 }
             }*/
 
-            /*SectionHeader {
-                text: qsTr("Other")
-            }
-
-
-            Button {
-                text: qsTr("Show User Guide")
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: {
-                    guide.show();
-                }
-            }*/
-
             SectionHeader {
                 text: qsTr("Other")
             }
@@ -978,6 +961,14 @@ Page {
                 onCheckedChanged: settings.ignoreSslErrors = checked;
                 Component.onCompleted: checked = settings.ignoreSslErrors
             }
+
+            /*Button {
+                text: qsTr("Show User Guide")
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: {
+                    guide.show();
+                }
+            }*/
 
             Spacer {}
         }

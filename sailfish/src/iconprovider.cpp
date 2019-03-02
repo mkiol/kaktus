@@ -1,3 +1,22 @@
+/*
+  Copyright (C) 2014-2019 Michal Kosciesza <michal@mkiol.net>
+
+  This file is part of Kaktus.
+
+  Kaktus is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Kaktus is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #ifdef SAILFISH
 #include <sailfishapp.h>
 #include <mlite5/MGConfItem>
@@ -11,10 +30,14 @@
 
 IconProvider::IconProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap)
 {
+    this->themeDir = IconProvider::themeDirPath();
+}
+
+QString IconProvider::themeDirPath()
+{
+    QString themeDir;
 #ifdef SAILFISH
-    // Getting pixel ratio
     double ratio = MGConfItem("/desktop/sailfish/silica/theme_pixel_ratio").value().toDouble();
-    //qDebug() << "ratio:" << ratio;
     if (ratio == 0) {
         qWarning() << "Pixel ratio is 0, defaulting to 1.0.";
         themeDir = SailfishApp::pathTo("images/z1.0").toString(QUrl::RemoveScheme);
@@ -31,19 +54,19 @@ IconProvider::IconProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap)
     }
 
     if (!QDir(themeDir).exists()) {
-        qWarning() << "Theme " + themeDir + " for ratio " + ratio + " doesn't exist!";
+        qWarning() << "Theme" << themeDir << "for ratio" << ratio << "doesn't exist!";
         themeDir = SailfishApp::pathTo("images/z1.0").toString(QUrl::RemoveScheme);
     }
+#else
+    //TODO theme dir for desktop
 #endif
-#if ANDROID
-    //TODO
-    themeDir = "";
-#endif
+    return themeDir;
 }
 
 QPixmap IconProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QStringList parts = id.split('?');
+
     QString filepath = themeDir + "/" + parts.at(0) + ".png";
     if (!QFile::exists(filepath)) {
         // Icon file is not exist -> fallback to default icon
@@ -56,8 +79,7 @@ QPixmap IconProvider::requestPixmap(const QString &id, QSize *size, const QSize 
         *size  = sourcePixmap.size();
 
     if (parts.length() > 1)
-        if (QColor::isValidColor(parts.at(1)))
-        {
+        if (QColor::isValidColor(parts.at(1))) {
             QPainter painter(&sourcePixmap);
             painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
             painter.fillRect(sourcePixmap.rect(), parts.at(1));

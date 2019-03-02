@@ -143,7 +143,8 @@ OTHER_FILES += \
     TextSwitchWithIcon.qml \
     TTRssSignInDialog.qml \
     UnreadAllDialog.qml \
-    WebPreviewPage.qml
+    WebPreviewPage.qml \
+    ClickableLabel.qml
 
 OTHER_FILES += \
     rpm/$${TARGET}.yaml \
