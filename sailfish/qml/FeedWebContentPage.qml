@@ -394,7 +394,7 @@ Page {
         }
 
         IconBarItem {
-            text: app.isNetvibes || app.isFeedly ?
+            text: app.isNetvibes ?
                   qsTr("Toggle Save") : qsTr("Toggle Star")
             icon: root.stared ? "image://theme/icon-m-favorite-selected" : "image://theme/icon-m-favorite"
             onClicked: {

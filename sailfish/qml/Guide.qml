@@ -46,7 +46,7 @@ Rectangle {
     Timer {
         id: timer1
         interval: 3000
-        onTriggered: {
+        onTriggered: {s
             root.show();
         }
     }
@@ -159,8 +159,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             //textFormat: Text.StyledText
 
-            text: app.isFeedly ? qsTr("Bottom bar lets you switch between 4 view modes.\n") :
-                                 qsTr("Bottom bar lets you switch between 5 view modes.\n");
+            text:  qsTr("Bottom bar lets you switch between 5 view modes.\n");
         }
     }
 
@@ -248,8 +247,8 @@ Rectangle {
             font.family: Theme.fontFamily
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            text: app.isNetvibes || app.isFeedly ? qsTr("Mode #4\n\nLists all articles you have saved.") :
-                                                   qsTr("Mode #4\n\nLists all articles you have starred.")
+            text: app.isNetvibes ? qsTr("Mode #4\n\nLists all articles you have saved.") :
+                                   qsTr("Mode #4\n\nLists all articles you have starred.")
         }
     }
 
@@ -432,7 +431,7 @@ Rectangle {
             IconButton {
                 id: vm5b
                 x: 4*(width+Theme.paddingMedium)
-                visible: app.isNetvibes || (app.isOldReader && settings.showBroadcast) // Disabled for Feedly
+                visible: app.isNetvibes || (app.isOldReader && settings.showBroadcast)
                 y: ((parent.height-height)/2) + (highlighted ? parent.off : 0)
                 icon.source: app.isOldReader ? "image://icons/icon-m-vm6?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor) :
                                                "image://icons/icon-m-vm5?"+(root.transparent ? Theme.primaryColor : Theme.highlightDimmerColor)
@@ -485,9 +484,9 @@ Rectangle {
                     selector.open = true;
                 }
 
-                if (root.progress==5 && app.isFeedly) {
+                /*if (root.progress==5 && app.isFeedly) {
                     root.progress++;
-                }
+                }*/
 
                 if (root.progress==7) {
                     bar.open = false;

@@ -61,37 +61,27 @@ Page {
                 title: qsTr("Settings")
             }
 
-            Item {
-                anchors { left: parent.left; right: parent.right}
+            Row {
+                anchors { right: parent.right; rightMargin: Theme.horizontalPageMargin}
+                spacing: Theme.paddingMedium
                 height: Math.max(icon.height, label.height)
 
                 Image {
                     id: icon
-                    anchors {
-                        right: label.left
-                        rightMargin: Theme.paddingMedium
-                        verticalCenter: parent.verticalCenter
-                    }
+                    anchors.verticalCenter: parent.verticalCenter
                     source: app.isNetvibes ? "image://icons/icon-m-netvibes" :
                         app.isOldReader ? "image://icons/icon-m-oldreader" :
                         app.isTTRss ? "image://icons/icon-m-ttrss" : null
                     width: Theme.iconSizeMedium
                     height: Theme.iconSizeMedium
-
                 }
 
                 Label {
                     id: label
-                    anchors {
-                        right: parent.right
-                        rightMargin: Theme.paddingLarge
-                        verticalCenter: parent.verticalCenter
-                    }
+                    anchors.verticalCenter: parent.verticalCenter
                     text: app.isNetvibes ? "Netvibes":
                         app.isOldReader ? "Old Reader" :
                         app.isTTRss ? "Tiny Tiny Rss" : null
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignRight
                     color: Theme.highlightColor
                     font.pixelSize: Theme.fontSizeSmall
                 }
@@ -114,26 +104,23 @@ Page {
                         visible: !settings.signedIn
                     }
                     Label {
-                        text: qsTr("Signed in with")
+                        text: settings.signinType == 1 || settings.signinType == 2 ?
+                                  qsTr("Signed in with") : qsTr("Signed in as")
                         visible: settings.signedIn
                     }
                     Label {
                         color: Theme.highlightColor
                         visible: settings.signedIn
                         text: settings.signedIn ?
-                            (settings.signinType==0 ? settings.getUsername() :
-                             settings.signinType==1 ? "Twitter" :
-                             settings.signinType==2 ? "Facebook" :
-                             settings.signinType==10 ? settings.getUsername() :
-                             settings.signinType==20 ? settings.getProvider() :
-                             settings.signinType==30 ? settings.getUsername() : "") : ""
+                            (settings.signinType == 1 ? "Twitter" :
+                             settings.signinType == 2 ? "Facebook" :
+                             settings.getUsername()) : ""
                     }
                 }
 
                 menu: ContextMenu {
                     MenuItem {
                         text: settings.signedIn ? qsTr("Sign out") : qsTr("Sign in")
-                        //enabled: settings.signedIn ? true : dm.online
                         onClicked: {
                             if (settings.signedIn) {
                                 pageStack.push(Qt.resolvedUrl("SignOutDialog.qml"));
@@ -675,7 +662,7 @@ Page {
                         iconSource: "image://icons/icon-m-vm3"
                     }
                     MenuIconItem {
-                        text: app.isNetvibes || app.isFeedly ? qsTr("Saved") : qsTr("Starred")
+                        text: app.isNetvibes ? qsTr("Saved") : qsTr("Starred")
                         iconSource: "image://icons/icon-m-vm4"
                     }
                     MenuIconItem {

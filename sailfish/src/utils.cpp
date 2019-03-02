@@ -67,16 +67,15 @@
 #include "fetcher.h"
 #include "oldreaderfetcher.h"
 #include "nvfetcher.h"
-#include "feedlyfetcher.h"
 #include "ttrssfetcher.h"
 
 Utils::Utils(QObject *parent) :
     QObject(parent)//, ncm(new QNetworkConfigurationManager(parent))
 {
-    dashboardModel = NULL;
-    entryModel = NULL;
-    tabModel = NULL;
-    feedModel = NULL;
+    dashboardModel = nullptr;
+    entryModel = nullptr;
+    tabModel = nullptr;
+    feedModel = nullptr;
 #ifdef ANDROID
     screen = QGuiApplication::screens().at(0);
 #endif
@@ -474,14 +473,14 @@ void Utils::setRootModel()
 #else
         s->context->setContextProperty("tabModel", tabModel);
 #endif
-        if (oldTabModel != NULL) {
+        if (oldTabModel != nullptr) {
             delete oldTabModel;
         }
-        if (feedModel != NULL) {
-            delete feedModel; feedModel = NULL;
+        if (feedModel != nullptr) {
+            delete feedModel; feedModel = nullptr;
         }
-        if (entryModel != NULL) {
-            delete entryModel; entryModel = NULL;
+        if (entryModel != nullptr) {
+            delete entryModel; entryModel = nullptr;
         }
         break;
     case 1:
@@ -493,14 +492,14 @@ void Utils::setRootModel()
 #else
         s->context->setContextProperty("tabModel", tabModel);
 #endif
-        if (oldTabModel != NULL) {
+        if (oldTabModel != nullptr) {
             delete oldTabModel;
         }
-        if (feedModel != NULL) {
-            delete feedModel; feedModel = NULL;
+        if (feedModel != nullptr) {
+            delete feedModel; feedModel = nullptr;
         }
-        if (entryModel != NULL) {
-            delete entryModel; entryModel = NULL;
+        if (entryModel != nullptr) {
+            delete entryModel; entryModel = nullptr;
         }
         break;
     case 2:
@@ -512,13 +511,13 @@ void Utils::setRootModel()
 #else
         s->context->setContextProperty("feedModel", feedModel);
 #endif
-        if (tabModel != NULL)
-            delete tabModel; tabModel = NULL;
-        if (oldFeedModel != NULL) {
+        if (tabModel != nullptr)
+            delete tabModel; tabModel = nullptr;
+        if (oldFeedModel != nullptr) {
             delete oldFeedModel;
         }
-        if (entryModel != NULL) {
-            delete entryModel; entryModel = NULL;
+        if (entryModel != nullptr) {
+            delete entryModel; entryModel = nullptr;
         }
         break;
     case 3:
@@ -538,12 +537,12 @@ void Utils::setRootModel()
 #else
         s->context->setContextProperty("entryModel", entryModel);
 #endif
-        if (tabModel != NULL)
-            delete tabModel; tabModel = NULL;
-        if (feedModel != NULL) {
-            delete feedModel; feedModel = NULL;
+        if (tabModel != nullptr)
+            delete tabModel; tabModel = nullptr;
+        if (feedModel != nullptr) {
+            delete feedModel; feedModel = nullptr;
         }
-        if (oldEntryModel != NULL) {
+        if (oldEntryModel != nullptr) {
             delete oldEntryModel;
         }
         break;
@@ -564,7 +563,7 @@ void Utils::setFeedModel(const QString &tabId)
         s->context->setContextProperty("feedModel", feedModel);
 #endif
 
-    if (oldFeedModel != NULL) {
+    if (oldFeedModel != nullptr) {
         delete oldFeedModel;
     }
 }
@@ -583,7 +582,7 @@ void Utils::setEntryModel(const QString &feedId)
         s->context->setContextProperty("entryModel", entryModel);
 #endif
 
-    if (oldEntryModel != NULL) {
+    if (oldEntryModel != nullptr) {
         delete oldEntryModel;
     }
 }
@@ -602,37 +601,37 @@ void Utils::setDashboardModel()
        s->context->setContextProperty("dashboardModel", dashboardModel);
 #endif
 
-    if (oldDashboardModel != NULL)
+    if (oldDashboardModel != nullptr)
         delete oldDashboardModel;
 }
 
 void Utils::updateModels()
 {
-    if (dashboardModel != NULL)
+    if (dashboardModel != nullptr)
         dashboardModel->init();
 
-    if (tabModel != NULL)
+    if (tabModel != nullptr)
         tabModel->init();
 
-    if (feedModel != NULL)
+    if (feedModel != nullptr)
         feedModel->init();
 
-    if (entryModel != NULL)
+    if (entryModel != nullptr)
         entryModel->init();
 }
 
 Utils::~Utils()
 {
-    if (entryModel != NULL)
+    if (entryModel != nullptr)
         delete entryModel;
 
-    if (feedModel != NULL)
+    if (feedModel != nullptr)
         delete feedModel;
 
-    if (tabModel != NULL)
+    if (tabModel != nullptr)
         delete tabModel;
 
-    if (dashboardModel != NULL)
+    if (dashboardModel != nullptr)
         delete dashboardModel;
 }
 
@@ -790,10 +789,10 @@ void Utils::resetFetcher(int type)
 {
     Settings *s = Settings::instance();
 
-    if (s->fetcher != NULL) {
+    if (s->fetcher != nullptr) {
         s->fetcher->disconnect();
         delete s->fetcher;
-        s->fetcher = NULL;
+        s->fetcher = nullptr;
     }
 
     if (type == 1) {
@@ -806,17 +805,12 @@ void Utils::resetFetcher(int type)
         s->fetcher = new OldReaderFetcher();
     }
 
-    if (type == 3) {
-        // Feedly fetcher
-        s->fetcher = new FeedlyFetcher();
-    }
-
     if (type == 4) {
         // Tiny Tiny Rss fetcher
         s->fetcher = new TTRssFetcher();
     }
 
-    if (s->fetcher != NULL)
+    if (s->fetcher != nullptr)
 #ifdef BB10
         s->qml->setContextProperty("fetcher", s->fetcher);
 #else

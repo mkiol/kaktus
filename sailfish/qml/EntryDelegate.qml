@@ -472,7 +472,8 @@ ListItem {
 
             IconMenuItem {
                 text: qsTr("Toggle Read")
-                icon.source: root.read ? 'image://icons/icon-m-read-selected' : 'image://icons/icon-m-read'
+                icon.source: root.read ? 'image://icons/icon-m-read-selected' :
+                                         'image://icons/icon-m-read'
                 visible: enabled
                 enabled: root.showMarkedAsRead
                 onClicked: {
@@ -488,8 +489,9 @@ ListItem {
             }
 
             IconMenuItem {
-                text: app.isNetvibes || app.isFeedly ? qsTr("Toggle Save") : qsTr("Toggle Star")
-                icon.source: root.readlater ? 'image://theme/icon-m-favorite-selected' : 'image://theme/icon-m-favorite'
+                text: app.isNetvibes ? qsTr("Toggle Save") : qsTr("Toggle Star")
+                icon.source: root.readlater ? 'image://theme/icon-m-favorite-selected' :
+                                              'image://theme/icon-m-favorite'
                 onClicked: {
                     if (root.readlater) {
                         root.unmarkedReadlater();

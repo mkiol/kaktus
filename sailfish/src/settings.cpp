@@ -859,6 +859,17 @@ int Settings::getFeedsUpdateAtOnce()
 #endif
 }
 
+/*
+View modes:
+0 - Tabs->Feeds->Entries
+1 - Tabs->Entries
+2 - Feeds->Entries
+3 - All entries
+4 - Saved entries
+5 - Slow entries
+6 - Liked entries (Old Reader)
+7 - Broadcasted entries (Old Reader)
+*/
 void Settings::setViewMode(int value)
 {
     int type = getSigninType();
@@ -866,15 +877,15 @@ void Settings::setViewMode(int value)
         if (type < 10) {
             // Netvibes, Forbidden modes: 6, 7
             if (value == 6 || value == 7) {
-                qWarning() << "Netvibes forbidden mode!";
+                qWarning() << "Netvibes forbidden mode";
                 return;
             }
         } else if (type >= 10 && type < 20) {
             // OldReader, Forbidden modes: none
-        } else if (type >= 20 && type < 30) {
-            // Feedly, Forbidden modes: 6, 7
-            if (value == 6 || value == 7) {
-                qWarning() << "Old Reader forbidden mode!";
+        } else if (type >= 30 && type < 40) {
+            // TT-RSS, Forbidden modes: 5, 6, 7
+            if (value == 5 || value == 6 || value == 7) {
+                qWarning() << "TT-RSS forbidden mode";
                 return;
             }
         }

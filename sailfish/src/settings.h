@@ -173,6 +173,17 @@ public:
     void setOffsetLimit(int value);
     int getOffsetLimit();
 
+    /*
+    View modes:
+    0 - Tabs->Feeds->Entries
+    1 - Tabs->Entries
+    2 - Feeds->Entries
+    3 - All entries
+    4 - Saved entries
+    5 - Slow entries
+    6 - Liked entries (Old Reader)
+    7 - Broadcasted entries (Old Reader)
+    */
     void setViewMode(int value);
     int getViewMode();
 
@@ -211,8 +222,8 @@ public:
     //  1 - Netvibes with Twitter
     //  2 - Netvibes with FB
     // 10 - Oldreader
-    // 20 - Feedly
-    // 22 - Feedly with FB
+    // 20 - Feedly (not supported)
+    // 22 - Feedly with FB (not supported)
     // 30 - Tiny Tiny Rss
     void setSigninType(int);
     int getSigninType();

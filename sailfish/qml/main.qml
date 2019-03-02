@@ -30,7 +30,6 @@ ApplicationWindow {
     readonly property bool isTablet: Screen.sizeCategory === Screen.Large || Screen.sizeCategory === Screen.ExtraLarge
     readonly property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
     readonly property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
-    readonly property bool isFeedly: settings.signinType >= 20 && settings.signinType < 30
     readonly property bool isTTRss: settings.signinType >= 30 && settings.signinType < 40
     readonly property variant _cache: cache
     readonly property int stdHeight: orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8 * Theme.itemSizeMedium
@@ -298,8 +297,7 @@ ApplicationWindow {
     }
 
     function fetcherError(code) {
-        console.log("Fetcher error");
-        console.log("code=" + code);
+        console.log("Fetcher error, code=" + code);
 
         if (code < 400)
             return;
@@ -319,10 +317,6 @@ ApplicationWindow {
             }
             if (type < 20) {
                 pageStack.push(Qt.resolvedUrl("OldReaderSignInDialog.qml"),{"code": code});
-                return;
-            }
-            if (type < 30) {
-                pageStack.push(Qt.resolvedUrl("FeedlySignInDialog.qml"),{"code": code});
                 return;
             }
             if (type < 40) {

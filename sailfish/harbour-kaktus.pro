@@ -32,7 +32,6 @@ SOURCES += \
     src/fetcher.cpp \
     src/oldreaderfetcher.cpp \
     src/nvfetcher.cpp \
-    src/feedlyfetcher.cpp \
     src/ttrssfetcher.cpp \
     src/networkaccessmanagerfactory.cpp \
     src/customnetworkaccessmanager.cpp \
@@ -57,11 +56,9 @@ HEADERS += \
     src/fetcher.h \
     src/oldreaderfetcher.h \
     src/nvfetcher.h \
-    src/feedlyfetcher.h \
     src/ttrssfetcher.h \
     src/networkaccessmanagerfactory.h \
     src/customnetworkaccessmanager.h \
-    feedly.h \
     key.h
 
 # libs
@@ -105,7 +102,6 @@ OTHER_FILES += \
     EntryPage.qml \
     ErrorPage.qml \
     FeedIcon.qml \
-    FeedlySignInDialog.qml \
     FeedPage.qml \
     FeedWebContentPage.qml \
     FirstPage.qml \

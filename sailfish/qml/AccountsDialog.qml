@@ -48,7 +48,6 @@ Page {
         model:  ListModel {
             ListElement { name: "Netvibes"; iconSource: "image://icons/icon-m-netvibes"; type: 1}
             ListElement { name: "Old Reader"; iconSource: "image://icons/icon-m-oldreader"; type: 2}
-            /*ListElement { name: "Feedly (comming soon)"; iconSource: "feedly.png"; type: 3}*/
             ListElement { name: "Tiny Tiny Rss"; iconSource: "image://icons/icon-m-ttrss"; type: 4}
         }
 
@@ -84,8 +83,12 @@ Page {
                     Label {
                         id: label
                         wrapMode: Text.AlignLeft
-                        anchors.left: icon.right; anchors.right: parent.right;
-                        anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingLarge
+                        anchors {
+                            left: icon.right
+                            right: parent.right;
+                            leftMargin: Theme.paddingMedium
+                            rightMargin: Theme.paddingLarge
+                        }
                         font.pixelSize: Theme.fontSizeMedium
                         text: name
                         color: listItem.down ? Theme.highlightColor : Theme.primaryColor
@@ -96,29 +99,25 @@ Page {
             onClicked: {
                 if (type == 1) {
                     app.reconnectFetcher(1);
-                    pageStack.replaceAbove(pageStack.previousPage(),Qt.resolvedUrl("NvSignInDialog.qml"),{"code": 400});
-                }
-                if (type == 2) {
+                    pageStack.replaceAbove(pageStack.previousPage(),
+                                           Qt.resolvedUrl("NvSignInDialog.qml"),
+                                           {"code": 400});
+                } else if (type == 2) {
                     app.reconnectFetcher(2);
-                    pageStack.replaceAbove(pageStack.previousPage(),Qt.resolvedUrl("OldReaderSignInDialog.qml"),{"code": 400});
-                }
-                if (type == 3) {
-                    app.reconnectFetcher(3);
-                    utils.resetQtWebKit();
-                    fetcher.getConnectUrl(20);
-                    //pageStack.replaceAbove(pageStack.previousPage(),Qt.resolvedUrl("FeedlySignInDialog.qml"),{"code": 400});
-                }
-                if (type == 4) {
+                    pageStack.replaceAbove(pageStack.previousPage(),
+                                           Qt.resolvedUrl("OldReaderSignInDialog.qml"),
+                                           {"code": 400});
+                } else if (type == 4) {
                     app.reconnectFetcher(4);
-                    pageStack.replaceAbove(pageStack.previousPage(), Qt.resolvedUrl("TTRssSignInDialog.qml"), {"code": 400});
+                    pageStack.replaceAbove(pageStack.previousPage(),
+                                           Qt.resolvedUrl("TTRssSignInDialog.qml"),
+                                           {"code": 400});
                 }
             }
-
         }
 
         VerticalScrollDecorator {
             flickable: listView
         }
-
     }
 }

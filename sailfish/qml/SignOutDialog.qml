@@ -49,9 +49,17 @@ Dialog {
         spacing: Theme.paddingSmall
 
         DialogHeader {
-            //title: qsTr("Sign out")
             acceptText : qsTr("Yes")
         }
+
+        // Sign in types:
+        //  0 - Netvibes
+        //  1 - Netvibes with Twitter
+        //  2 - Netvibes with FB
+        // 10 - Oldreader
+        // 20 - Feedly (not supported)
+        // 22 - Feedly with FB (not supported)
+        // 30 - Tiny Tiny Rss
 
         Label {
             anchors.left: parent.left; anchors.right: parent.right
@@ -60,15 +68,16 @@ Dialog {
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.primaryColor
             text: settings.signinType < 10 ?
-                      qsTr("Disconnect Kaktus from your Netvibes account?") :
+                      qsTr("Disconnect Kaktus from Netvibes account?") :
                   settings.signinType < 20 ?
-                      qsTr("Disconnect Kaktus from your Old Reader account?") :
-                      qsTr("Disconnect Kaktus from your Feedly account?")
+                      qsTr("Disconnect Kaktus from Old Reader account?") :
+                  settings.signinType < 30 ?
+                      qsTr("Disconnect Kaktus from Feedly account?") :
+                  qsTr("Disconnect Kaktus from Tiny Tiny RSS account?")
         }
     }
 
     onAccepted: {
         settings.signedIn = false;
     }
-
 }

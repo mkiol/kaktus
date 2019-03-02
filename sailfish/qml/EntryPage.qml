@@ -207,7 +207,7 @@ Page {
                 case 3:
                     return qsTr("All feeds");
                 case 4:
-                    return app.isNetvibes || app.isFeedly ? qsTr("Saved") : qsTr("Starred");
+                    return app.isNetvibes ? qsTr("Saved") : qsTr("Starred");
                 case 5:
                     return qsTr("Slow");
                 case 6:
@@ -500,7 +500,7 @@ Page {
             id: placeholder
             enabled: listView.count == 0
             text: fetcher.busy ? qsTr("Wait until sync finish") :
-                      settings.viewMode==4 ? app.isNetvibes || app.isFeedly ? qsTr("No saved items") : qsTr("No starred items")  :
+                      settings.viewMode==4 ? app.isNetvibes ? qsTr("No saved items") : qsTr("No starred items")  :
                       settings.viewMode==6 ? qsTr("No liked items") : settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }
 
