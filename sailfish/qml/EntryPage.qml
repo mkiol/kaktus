@@ -554,7 +554,7 @@ Page {
         anchors.bottom: parent.bottom
         backgroundColor: Theme.highlightDimmerColor
         Behavior on opacity { FadeAnimation { duration: 400 } }
-        opacity: settings.getHint1Done() ? 0.0 : 1.0
+        opacity: bar.open || settings.getHint1Done() ? 0.0 : 1.0
         visible: opacity != 0
 
         text: qsTr("One-tap to open article, double-tap to mark as read")
