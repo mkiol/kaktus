@@ -227,7 +227,6 @@ void DownloadManager::error(QNetworkReply::NetworkError code)
     QNetworkReply* reply = dynamic_cast<QNetworkReply*>(sender());
     int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     QByteArray httpPhrase = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toByteArray();
-    //qWarning() << "Error in DownloadManager!, error code:" << code << ", HTTP code:" << httpCode << httpPhrase << reply->readAll();
     qWarning() << "Error in DownloadManager!, error code:" << code << ", HTTP code:" << httpCode << httpPhrase;
 }
 
@@ -547,8 +546,13 @@ bool DownloadManager::saveToDisk(const QString &filename, const QByteArray &cont
 void DownloadManager::sslErrors(const QList<QSslError> &sslErrors)
 {
 #ifndef QT_NO_SSL
-    foreach (const QSslError &error, sslErrors)
+    for (const QSslError &error : sslErrors)
         qWarning() << "SSL error: " << error.errorString();
+    if (Settings::instance()->getIgnoreSslErrors()) {
+        qDebug() << "Ignoring SSL errors";
+        auto reply = dynamic_cast<QNetworkReply*>(sender());
+        reply->ignoreSslErrors();
+    }
 #else
     Q_UNUSED(sslErrors);
 #endif
