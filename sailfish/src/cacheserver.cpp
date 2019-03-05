@@ -499,8 +499,6 @@ QString CacheServer::getUrlbyId(const QString &item)
 
 QString CacheServer::getUrlbyUrl(const QString &url)
 {
-    //qDebug() << "getUrlbyUrl, url=" << url << "hash=" << Utils::hash(url);
-
     if (url.isEmpty()) {
         return url;
     }
@@ -517,12 +515,34 @@ QString CacheServer::getUrlbyUrl(const QString &url)
 
     QString filename = Utils::hash(url);
     Settings *s = Settings::instance();
-    if (!QFile::exists(s->getDmCacheDir() + "/" + filename)) {
-        qWarning() << "File " << filename << "does not exists!";
-        return "";
+    QString path = QDir(s->getDmCacheDir()).absoluteFilePath(filename);
+
+    return QFile::exists(path) ?
+                "http://localhost:" + QString::number(port) + "/" + filename :
+                "";
+}
+
+QString CacheServer::getPathByUrl(const QString &url)
+{
+    if (url.isEmpty()) {
+        return url;
     }
 
-    return "http://localhost:" + QString::number(port) + "/" + filename;
+    // If url is "image://" will not be hashed
+    if (url.startsWith("image://")) {
+        return url;
+    }
+
+    // If url is "http://localhost" will not be hashed
+    if (url.startsWith("http://localhost")) {
+        return url;
+    }
+
+    QString filename = Utils::hash(url);
+    Settings *s = Settings::instance();
+    QString path = QDir(s->getDmCacheDir()).absoluteFilePath(filename);
+
+    return QFile::exists(path) ? path : "";
 }
 
 QByteArray CacheServer::getDataUrlByUrl(const QString &url)

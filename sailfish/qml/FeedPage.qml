@@ -61,9 +61,8 @@ Page {
         model: feedModel
 
         anchors { top: parent.top; left: parent.left; right: parent.right }
-        clip:true
-
         height: app.flickHeight
+        clip: true
 
         PageMenu {
             id: menu
@@ -71,120 +70,48 @@ Page {
         }
 
         header: PageHeader {
-            title: settings.viewMode==2 ? qsTr("Feeds") : root.title
+            title: settings.viewMode == 2 ? qsTr("Feeds") : root.title
         }
 
-        delegate: ListItem {
-            id: listItem
-
-            property bool last: model.uid==="last"
+        delegate: SimpleListItem {
+            property bool last: model.uid === "last"
             property bool defaultIcon: model.icon === "http://s.theoldreader.com/icons/user_icon.png"
 
+            showPlaceholder: true
+            small: true
+            title: model.title
+            icon: defaultIcon ? "image://icons/icon-m-friend" : model.icon
             enabled: !last
-            contentHeight: last ? app.stdHeight : Math.max(item.height, image.height) + 2 * Theme.paddingMedium
-
-            Rectangle {
-                anchors.top: parent.top; anchors.right: parent.right
-                width: Theme.paddingSmall; height: item.height
-                visible: model.fresh && !listItem.last
-                radius: 10
-
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
-                    GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
-                }
-            }
-
-            FeedIcon {
-                id: image
-                visible: !listItem.last
-                y: Theme.paddingMedium
-                anchors.left: parent.left
-                showPlaceholder: true
-                showBackground: !listItem.defaultIcon
-                source: listItem.defaultIcon ? "image://icons/icon-m-friend" : model.icon
-                text: model.title
-                width: visible ? 1.2*Theme.iconSizeSmall : 0
-                height: width
-            }
-
-            Label {
-                id: item
-                visible: !listItem.last
-                wrapMode: Text.AlignLeft
-                y: Theme.paddingMedium
-                anchors {
-                    left: image.visible ? image.right : parent.left
-                    right: unreadbox.visible ? unreadbox.left : parent.right
-                    verticalCenter: parent.verticalCenter
-                    leftMargin: Theme.paddingLarge
-                    rightMargin: Theme.paddingLarge
-                }
-                font.pixelSize: Theme.fontSizeMedium
-                text: model.title
-                color: listItem.down ?
-                        (model.unread ? Theme.highlightColor : Theme.secondaryHighlightColor) :
-                        (model.unread ? Theme.primaryColor : Theme.secondaryColor)
-            }
-
-            /*Column {
-                id: item
-                spacing: 0.5*Theme.paddingSmall
-                anchors.verticalCenter: parent.verticalCenter
-                //anchors.left: image.visible ? image.right : Theme.fontSizeMedium
-                anchors.right: unreadbox.visible ? unreadbox.left : parent.right
-                visible: !listItem.last
-            }*/
-
-            Rectangle {
-                id: unreadbox
-                y: Theme.paddingSmall
-                anchors {
-                    right: parent.right
-                    rightMargin: Theme.paddingLarge
-                }
-                width: unreadlabel.width + 2 * Theme.paddingSmall
-                height: unreadlabel.height + 2 * Theme.paddingSmall
-                color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
-                radius: 5
-                visible: model.unread!==0 && !listItem.last
-
-                Label {
-                    id: unreadlabel
-                    anchors.centerIn: parent
-                    text: model.unread
-                    color: Theme.highlightColor
-                }
-            }
-
-            onClicked: {
-                if (!listItem.last) {
-                    utils.setEntryModel(uid);
-                    pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": title, "index": model.index, "readlater": false});
-                }
-            }
-
-            showMenuOnPressAndHold: !listItem.last && (readItem.enabled || unreadItem.enabled)
+            unreadCount: enabled ? model.unread : 0
 
             menu: ContextMenu {
-                id: contextMenu
                 MenuItem {
                     id: readItem
                     text: qsTr("Mark all as read")
-                    enabled: model.unread!==0
+                    enabled: model.unread !== 0
                     visible: enabled
                     onClicked: {
-                        feedModel.markAsRead(model.index);
+                        feedModel.markAsRead(model.index)
                     }
                 }
                 MenuItem {
                     id: unreadItem
                     text: qsTr("Mark all as unread")
-                    enabled: model.read!==0 && settings.signinType<10
+                    enabled: model.read !== 0 && settings.signinType < 10 // Only Netvibes
                     visible: enabled
                     onClicked: {
-                        feedModel.markAsUnread(model.index);
+                        feedModel.markAsUnread(model.index)
                     }
+                }
+            }
+
+            openMenuOnPressAndHold: enabled && (readItem.enabled || unreadItem.enabled)
+
+            onClicked: {
+                if (enabled) {
+                    utils.setEntryModel(uid);
+                    pageStack.push(Qt.resolvedUrl("EntryPage.qml"),
+                                   {"title": title.text, "index": model.index, "readlater": false})
                 }
             }
         }

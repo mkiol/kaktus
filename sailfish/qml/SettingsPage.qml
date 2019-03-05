@@ -81,7 +81,7 @@ Page {
                     anchors.verticalCenter: parent.verticalCenter
                     text: app.isNetvibes ? "Netvibes":
                         app.isOldReader ? "Old Reader" :
-                        app.isTTRss ? "Tiny Tiny Rss" : null
+                        app.isTTRss ? "Tiny Tiny RSS" : null
                     color: Theme.highlightColor
                     font.pixelSize: Theme.fontSizeSmall
                 }

@@ -46,7 +46,7 @@ Rectangle {
     Timer {
         id: timer1
         interval: 3000
-        onTriggered: {s
+        onTriggered: {
             root.show();
         }
     }

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2014-2019 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -54,32 +54,14 @@ Dialog {
             acceptText : qsTr("Change")
         }
 
-        delegate: ListItem {
-            id: listItem
-            contentHeight: item.height + 2 * Theme.paddingMedium
-
-            Column {
-                id: item
-                spacing: Theme.paddingSmall
-                anchors.verticalCenter: parent.verticalCenter
-                width: parent.width
-
-                Label {
-                    wrapMode: Text.AlignLeft
-                    anchors.left: parent.left; anchors.right: parent.right;
-                    anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
-                    font.pixelSize: Theme.fontSizeMedium
-                    text: title
-                    color: listItem.down ? Theme.highlightColor : Theme.primaryColor
-                }
-            }
+        delegate: SimpleListItem {
+            title: model.title
 
             onClicked: {
                 settings.dashboardInUse = uid;
                 root.canAccept = true;
                 root.accept();
             }
-
         }
 
         ViewPlaceholder {
@@ -91,9 +73,5 @@ Dialog {
         VerticalScrollDecorator {
             flickable: listView
         }
-
-    }
-
-    onAccepted: {
     }
 }

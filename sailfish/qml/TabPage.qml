@@ -58,7 +58,7 @@ Page {
 
         anchors { top: parent.top; left: parent.left; right: parent.right }
         height: app.flickHeight
-        clip:true
+        clip: true
 
         PageMenu {
             id: menu
@@ -66,126 +66,57 @@ Page {
         }
 
         header: PageHeader {
-            title: settings.signinType<10 ? qsTr("Tabs") : qsTr("Folders")
+            title: settings.signinType < 10 ? qsTr("Tabs") : qsTr("Folders")
         }
 
-        delegate: Item {
+        delegate: SimpleListItem {
+            property bool last: model.uid === "last"
 
-            anchors.left: parent.left; anchors.right: parent.right
-            height: listItem.height
+            small: true
+            showPlaceholder: true
+            title: model.uid === "subscriptions" ? qsTr("Subscriptions") :
+                   model.uid === "friends" ? qsTr("Following") :
+                   model.uid === "global.uncategorized" ? qsTr("Uncategorized") :
+                   model.title
+            icon: model.uid === "friends" ? "image://icons/icon-m-friend" :
+                  model.iconUrl.length > 0 ? iconUrl : ""
+            enabled: !last
+            unreadCount: enabled ? model.unread : 0
 
-            ListItem {
-                id: listItem
-
-                property bool last: model.uid=="last"
-                property string title: model.uid=="subscriptions" ? qsTr("Subscriptions") :
-                                       model.uid=="friends" ? qsTr("Following") :
-                                       model.uid=="global.uncategorized" ? qsTr("Uncategorized") : model.title
-                property string imageSource: model.uid=="friends" ? "image://icons/icon-m-friend?"+Theme.primaryColor :
-                                           model.iconUrl != "" ? cache.getUrlbyUrl(iconUrl) : ""
-                enabled: !last
-
-                anchors.top: parent.top
-                contentHeight: last ? app.stdHeight : Math.max(item.height, image.height) + 2 * Theme.paddingMedium;
-
-                Rectangle {
-                    anchors.top: parent.top; anchors.right: parent.right
-                    width: Theme.paddingSmall; height: item.height
-                    visible: model.fresh && !listItem.last
-                    radius: 10
-
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
-                        GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
+            menu: ContextMenu {
+                MenuItem {
+                    id: readItem
+                    text: qsTr("Mark all as read")
+                    enabled: model.unread !== 0
+                    visible: enabled
+                    onClicked: {
+                        tabModel.markAsRead(model.index)
                     }
                 }
-
-                Label {
-                    id: item
-                    visible: !listItem.last
-                    wrapMode: Text.AlignLeft
-                    y: Theme.paddingMedium
-                    anchors {
-                        left: image.visible ? image.right : parent.left
-                        right: unreadbox.visible ? unreadbox.left : parent.right
-                        verticalCenter: parent.verticalCenter
-                        leftMargin: Theme.paddingLarge
-                        rightMargin: Theme.paddingLarge
-                    }
-                    font.pixelSize: Theme.fontSizeMedium
-                    color: listItem.down ?
-                                (model.unread ? Theme.highlightColor : Theme.secondaryHighlightColor) :
-                                (model.unread ? Theme.primaryColor : Theme.secondaryColor)
-                    text: listItem.title
-                }
-
-                Rectangle {
-                    id: unreadbox
-                    y: Theme.paddingSmall
-                    anchors {
-                        right: parent.right
-                        rightMargin: Theme.paddingLarge
-                    }
-                    width: unreadlabel.width + 3 * Theme.paddingSmall
-                    height: unreadlabel.height + 2 * Theme.paddingSmall
-                    color: Theme.rgba(Theme.highlightBackgroundColor, 0.2)
-                    radius: 5
-                    visible: model.unread !==0 && !listItem.last
-
-                    Label {
-                        id: unreadlabel
-                        anchors.centerIn: parent
-                        text: model.unread
-                        color: Theme.highlightColor
+                MenuItem {
+                    id: unreadItem
+                    text: qsTr("Mark all as unread")
+                    enabled: model.read !== 0 && settings.signinType < 10 // Only Netvibes
+                    visible: enabled
+                    onClicked: {
+                        tabModel.markAsUnread(model.index)
                     }
                 }
+            }
 
-                FeedIcon {
-                    id: image
-                    visible: !listItem.last
-                    y: Theme.paddingMedium
-                    anchors.left: parent.left
-                    showPlaceholder: true
-                    showBackground: false
-                    source: listItem.imageSource
-                    text: listItem.title
-                    width: visible ? 1.2*Theme.iconSizeSmall : 0
-                    height: width
-                }
+            openMenuOnPressAndHold: enabled && (readItem.enabled || unreadItem.enabled)
 
-                onClicked: {
-                    if (!listItem.last) {
-                        if (settings.viewMode == 0) {
-                            utils.setFeedModel(uid);
-                            pageStack.push(Qt.resolvedUrl("FeedPage.qml"),{"title": model.uid==="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : model.uid=="global.uncategorized" ? qsTr("Uncategorized") : title, "index": model.index});
-                        }
-                        if (settings.viewMode == 1) {
-                            utils.setEntryModel(uid);
-                            pageStack.push(Qt.resolvedUrl("EntryPage.qml"),{"title": model.uid==="subscriptions" ? qsTr("Subscriptions") : model.uid=="friends" ? qsTr("Following") : model.uid=="global.uncategorized" ? qsTr("Uncategorized") : title, "readlater": false});
-                        }
-                    }
-                }
-
-                showMenuOnPressAndHold: !listItem.last && (readItem.enabled || unreadItem.enabled)
-
-                menu: ContextMenu {
-                    MenuItem {
-                        id: readItem
-                        text: qsTr("Mark all as read")
-                        enabled: model.unread!==0
-                        visible: enabled
-                        onClicked: {
-                            tabModel.markAsRead(model.index);
-                        }
-                    }
-                    MenuItem {
-                        id: unreadItem
-                        text: qsTr("Mark all as unread")
-                        enabled: model.read!==0 && settings.signinType<10
-                        visible: enabled
-                        onClicked: {
-                            tabModel.markAsUnread(model.index);
-                        }
+            onClicked: {
+                if (enabled) {
+                    var vm = settings.viewMode
+                    if (vm == 0) {
+                        utils.setFeedModel(uid);
+                        pageStack.push(Qt.resolvedUrl("FeedPage.qml"),
+                                       {"title": title.text, "index": model.index})
+                    } else if (vm == 1) {
+                        utils.setEntryModel(uid);
+                        pageStack.push(Qt.resolvedUrl("EntryPage.qml"),
+                                       {"title": title.text, "readlater": false})
                     }
                 }
             }
@@ -195,7 +126,7 @@ Page {
             id: placeholder
             enabled: listView.count < 1
             text: fetcher.busy ? qsTr("Wait until sync finish") :
-                                 settings.signinType<10 ? qsTr("No tabs") : qsTr("No folders")
+                  settings.signinType < 10 ? qsTr("No tabs") : qsTr("No folders")
         }
 
         VerticalScrollDecorator {

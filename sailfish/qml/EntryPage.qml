@@ -247,7 +247,7 @@ Page {
             objectName: "EntryDelegate"
             landscapeMode: root.landscapeMode
             onlineurl: model.link
-            offlineurl: cache.getUrlbyId(model.uid)
+            offlineurl: cserver.getUrlbyId(model.uid)
             evaluation: ai.evaluation(model.uid)
 
             signal singleEntryClicked

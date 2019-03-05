@@ -31,7 +31,6 @@ ApplicationWindow {
     readonly property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
     readonly property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
     readonly property bool isTTRss: settings.signinType >= 30 && settings.signinType < 40
-    readonly property variant _cache: cache
     readonly property int stdHeight: orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8 * Theme.itemSizeMedium
 
     cover: CoverPage {}

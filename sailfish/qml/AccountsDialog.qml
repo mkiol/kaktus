@@ -48,53 +48,17 @@ Page {
         model:  ListModel {
             ListElement { name: "Netvibes"; iconSource: "image://icons/icon-m-netvibes"; type: 1}
             ListElement { name: "Old Reader"; iconSource: "image://icons/icon-m-oldreader"; type: 2}
-            ListElement { name: "Tiny Tiny Rss"; iconSource: "image://icons/icon-m-ttrss"; type: 4}
+            ListElement { name: "Tiny Tiny RSS"; iconSource: "image://icons/icon-m-ttrss"; type: 4}
         }
 
         header: PageHeader {
             title: qsTr("Add account")
         }
 
-        delegate: ListItem {
-            id: listItem
-            contentHeight: item.height + 2 * Theme.paddingMedium
+        delegate: SimpleListItem {
             highlighted: root.accountType === type
-            enabled: type != 3
-            opacity: enabled ? 1.0 : 0.5
-
-            Column {
-                id: item
-                spacing: Theme.paddingSmall
-                anchors.verticalCenter: parent.verticalCenter
-                width: parent.width
-
-                Item {
-                    anchors.left: parent.left; anchors.right: parent.right;
-                    height: Math.max(icon.height,label.height)
-
-                    Image {
-                        id: icon
-                        anchors { left: parent.left }
-                        width: 1.2*Theme.iconSizeSmall
-                        height: 1.2*Theme.iconSizeSmall
-                        source: iconSource
-                    }
-
-                    Label {
-                        id: label
-                        wrapMode: Text.AlignLeft
-                        anchors {
-                            left: icon.right
-                            right: parent.right;
-                            leftMargin: Theme.paddingMedium
-                            rightMargin: Theme.paddingLarge
-                        }
-                        font.pixelSize: Theme.fontSizeMedium
-                        text: name
-                        color: listItem.down ? Theme.highlightColor : Theme.primaryColor
-                    }
-                }
-            }
+            icon: iconSource
+            title: name
 
             onClicked: {
                 if (type == 1) {

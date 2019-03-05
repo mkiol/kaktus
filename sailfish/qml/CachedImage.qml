@@ -39,16 +39,16 @@ Image {
     }
 
     onOrgSourceChanged: {
-        if (orgSource !== "") {
+        if (orgSource.length > 0) {
             if (cached) {
-                var cachedUrl = app._cache.getUrlbyUrl(orgSource)
-                if (cachedUrl === "") {
+                var cachedSource = cserver.getPathByUrl(orgSource)
+                if (cachedSource.length === 0) {
                     if (!settings.offlineMode && dm.online) {
                         cached = false
                         source = orgSource
                     }
                 } else {
-                    source = cachedUrl
+                    source = cachedSource
                 }
             } else {
                 source = orgSource
@@ -59,7 +59,7 @@ Image {
     }
 
     onStatusChanged: {
-        if (cached && orgSource !== "" && status===Image.Error &&
+        if (cached && orgSource.length > 0 && status === Image.Error &&
                 !settings.offlineMode && dm.online) {
             cached = false
             source = orgSource

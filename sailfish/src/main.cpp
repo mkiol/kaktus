@@ -141,6 +141,7 @@ int main(int argc, char *argv[])
     context->setContextProperty("utils", &utils);
     context->setContextProperty("dm", &dm);
     context->setContextProperty("cache", &cache);
+    context->setContextProperty("cserver", &cache);
     context->setContextProperty("ai", &ai);
     context->setContextProperty("settings", settings);
 

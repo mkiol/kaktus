@@ -34,8 +34,6 @@ SilicaFlickable {
     signal clicked
     signal openClicked
 
-    function getUrlbyUrl(url){return cache.getUrlbyUrl(url)}
-
     contentWidth: width
     contentHeight: column.height
 
@@ -76,7 +74,8 @@ SilicaFlickable {
                 Behavior on opacity { FadeAnimation {} }
                 source: {
                     if (root.image!="") {
-                        return settings.offlineMode ? getUrlbyUrl(root.image) : dm.online ? root.image : getUrlbyUrl(root.image);
+                        return settings.offlineMode ? cserver.getUrlbyUrl(root.image) :
+                               dm.online ? root.image : cserver.getUrlbyUrl(root.image);
                     } else {
                         return "";
                     }

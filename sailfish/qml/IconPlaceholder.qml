@@ -37,11 +37,12 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        var r = text.length>0 ? hash(text,0)/255 : 1
-        var g = text.length>1 ? hash(text,1)/255 : 1
-        var b = text.length>2 ? hash(text,2)/255 : 1
-        var colorBg = Qt.rgba(r,g,b,0.8)
-        var colorFg = (r+g+b)>1.5 ? Qt.rgba(0,0,0,1) : Qt.rgba(1,1,1,1)
+        var r = text.length > 0 ? hash(text,0)/255 : 1
+        var g = text.length > 1 ? hash(text,1)/255 : 1
+        var b = text.length > 2 ? hash(text,2)/255 : 1
+        var base = Qt.rgba(r, g, b, .8)
+        var colorBg = Qt.darker(base, 1.5)
+        var colorFg = Qt.lighter(base, 3.0)
         color = colorBg
         label.color = colorFg
     }
@@ -51,7 +52,7 @@ Rectangle {
         text: root.text.substring(0,1).toUpperCase()
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        font.pixelSize: Theme.fontSizeLarge
+        font.pixelSize: root.height * 0.8
         anchors.fill: parent
     }
 }

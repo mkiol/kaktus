@@ -77,6 +77,7 @@ public:
     Q_INVOKABLE QString getUrlbyId(const QString &item);
     Q_INVOKABLE QString getUrlbyUrl(const QString &item);
     Q_INVOKABLE QString getCacheUrlbyUrl(const QString &item);
+    Q_INVOKABLE QString getPathByUrl(const QString &url);
 
 public slots:
     void handle(QHttpRequest *req, QHttpResponse *resp);
