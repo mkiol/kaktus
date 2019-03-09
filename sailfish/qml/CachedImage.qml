@@ -27,10 +27,11 @@ Image {
     property int minWidth: 0
     property string orgSource: ""
     property bool cached: true
+    property bool hidden: false
+    readonly property bool filled: maxWidth > 0 && implicitWidth > maxWidth/3
 
-    fillMode: Image.PreserveAspectFit
-    width: sourceSize.width >= maxWidth ? maxWidth : sourceSize.width
-    enabled: status === Image.Ready &&
+    width: filled ? maxWidth : sourceSize.width
+    enabled: !hidden && status === Image.Ready &&
              (minWidth === 0 || (sourceSize.width > minWidth && sourceSize.height > minWidth))
     visible: opacity > 0 && enabled
     opacity: enabled ? 1.0 : 0.0
@@ -59,8 +60,18 @@ Image {
     }
 
     onStatusChanged: {
-        if (cached && orgSource.length > 0 && status === Image.Error &&
-                !settings.offlineMode && dm.online) {
+        if (status === Image.Ready) {
+            if (filled) {
+                var ratio = width / implicitWidth
+                height = implicitHeight * ratio
+                if (width < sourceSize.width)
+                    sourceSize.width = width
+                if (height < sourceSize.height)
+                    sourceSize.height = height
+            }
+        } else if (status === Image.Error &&
+                   cached && orgSource.length > 0 &&
+                   !settings.offlineMode && dm.online) {
             cached = false
             source = orgSource
         }

@@ -51,8 +51,9 @@ ListItem {
     property bool daterow: false
     property bool landscapeMode: false
     property bool showMarkedAsRead: true
-    property bool hidden: read>0 && readlater==0
-    property bool showIcon: settings.viewMode==1 || settings.viewMode==3 || settings.viewMode==4 || settings.viewMode==5 ? true : false
+    property bool hidden: read > 0 && readlater === 0
+    property bool showIcon: settings.viewMode === 1 || settings.viewMode === 3 ||
+                            settings.viewMode === 4 || settings.viewMode === 5 ? true : false
     property bool defaultIcon: feedIcon === "http://s.theoldreader.com/icons/user_icon.png"
     property color highlightedColor: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
     readonly property alias expandable: box.expandable
@@ -108,7 +109,7 @@ ListItem {
         color: Theme.highlightDimmerColor
     }
 
-    Rectangle {
+    /*Rectangle {
         anchors.top: parent.top; anchors.right: parent.right
         width: Theme.paddingSmall; height: titleLabel.height
         visible: root.fresh && !last && !daterow && !(landscapeMode && expanded)
@@ -117,72 +118,7 @@ ListItem {
             GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
             GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
         }
-    }
-
-    /*Item {
-        id: likeButton
-        anchors.right: star.left; anchors.top: background.top
-        height: Theme.iconSizeSmall+2*Theme.paddingMedium
-        width: Theme.iconSizeSmall
-        visible: !last && !daterow && root.liked
-
-        Image {
-            anchors.centerIn: parent;
-            width: Theme.iconSizeSmall
-            height: Theme.iconSizeSmall
-            source: root.down ? "image://icons/like?"+Theme.highlightColor :
-                    root.hidden ? "image://icons/like?"+Theme.secondaryColor :
-                                  "image://icons/like?"+Theme.primaryColor
-        }
     }*/
-
-    /*BackgroundItem {
-        id: star
-        anchors.right: parent.right; anchors.top: parent.top
-        height: Theme.iconSizeSmall + 2*Theme.paddingMedium
-        width: Theme.iconSizeSmall + 2*Theme.paddingMedium
-        visible: !last && !daterow
-
-        onClicked: {
-            if (root.readlater) {
-                root.unmarkedReadlater();
-            } else {
-                root.markedReadlater();
-            }
-        }
-
-        Image {
-            anchors.centerIn: parent;
-            width: Theme.iconSizeSmall
-            height: Theme.iconSizeSmall
-            source: {
-                if (root.down) {
-                    if (root.readlater)
-                        return "image://theme/icon-m-favorite-selected?"+Theme.highlightColor;
-                    return "image://theme/icon-m-favorite?"+Theme.highlightColor;
-                }
-                if (root.readlater)
-                    return "image://theme/icon-m-favorite-selected?"+Theme.primaryColor;
-                return "image://theme/icon-m-favorite?"+Theme.primaryColor;
-            }
-        }
-    }*/
-
-    SmallIconButton {
-        id: star
-        anchors.right: parent.right; anchors.top: parent.top
-        marginV: 2*Theme.paddingMedium
-        visible: !last && !daterow
-
-        icon.source: root.readlater ? "image://theme/icon-m-favorite-selected":
-                                      "image://theme/icon-m-favorite"
-        onClicked: {
-            if (root.readlater)
-                root.unmarkedReadlater()
-            else
-                root.markedReadlater()
-        }
-    }
 
     Item {
         id: dateRowbox
@@ -217,7 +153,7 @@ ListItem {
         height: root.expanded || root.expandedMode ? sizeExpanded : root.hidden ? sizeHidden : sizeNormal
 
         clip: true
-        anchors.left: parent.left; anchors.right: parent.right;
+        width: parent.width
 
         Behavior on height {
             NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }
@@ -228,23 +164,29 @@ ListItem {
         Column {
             id: contentItem
             spacing: entryImage.enabled ? Theme.paddingMedium : Theme.paddingSmall
-            anchors.top: parent.top; anchors.topMargin: Theme.paddingMedium
-            anchors.left: parent.left; anchors.right: parent.right
+            anchors {
+                top: parent.top; topMargin: Theme.paddingMedium
+                left: parent.left; right: parent.right
+            }
 
             Item {
                 id: titleItem
-                anchors.left: parent.left; anchors.right: parent.right
-                anchors.rightMargin: star.width
-                height: Math.max(titleLabel.height, icon.height+Theme.paddingSmall, icon.height+Theme.paddingSmall)
+                anchors {
+                    left: parent.left; right: parent.right
+                    leftMargin: Theme.horizontalPageMargin
+                }
+                height: Math.max(titleLabel.height, icon.height + Theme.paddingSmall,
+                                 icon.height + Theme.paddingSmall)
 
                 // Title
 
                 Label {
                     id: titleLabel
                     anchors {
-                        right: parent.right
+                        right: star.left
+                        rightMargin: Theme.paddingMedium
                         left: icon.visible ? icon.right : parent.left
-                        leftMargin: showIcon ? Theme.paddingMedium : Theme.paddingLarge
+                        leftMargin: icon.visible ? Theme.paddingMedium : 0
                     }
                     font.pixelSize: Theme.fontSizeMedium
                     font.family: Theme.fontFamilyHeading
@@ -270,36 +212,65 @@ ListItem {
                     id: icon
                     visible: root.showIcon
                     showPlaceholder: !root.defaultIcon
-                    showBackground: true
-                    source: root.feedIcon
+                    icon: root.feedIcon
                     text: root.feedTitle
-                    anchors {
-                        left: parent.left
-                        top: titleLabel.top
-                        topMargin: Theme.paddingSmall
+                    small: true
+                    anchors.left: parent.left
+                }
+
+                MouseArea {
+                    id: star
+
+                    property bool highlighted: pressed && containsMouse
+                    property int iconWidth: Theme.itemSizeExtraSmall/2
+
+                    anchors.right: parent.right
+                    height: parent.height
+                    width: iconWidth + (root.landscapeMode ? Theme.paddingMedium : Theme.horizontalPageMargin)
+
+                    onClicked: {
+                        if (root.readlater)
+                            root.unmarkedReadlater()
+                        else
+                            root.markedReadlater()
                     }
-                    width: visible ? 1.2*Theme.iconSizeSmall: 0
-                    height: width
+
+                    Image {
+                        source: {
+                            var col = parent.highlighted ? Theme.highlightColor : Theme.primaryColor
+                            if (root.readlater)
+                                return "image://theme/icon-m-favorite-selected?" + col
+                            else
+                                return "image://theme/icon-m-favorite?" + col
+                        }
+
+                        width: parent.iconWidth
+                        height: width
+                    }
                 }
             }
 
             CachedImage {
                 id: entryImage
-                anchors.left: parent.left
+                anchors.horizontalCenter: parent.horizontalCenter
                 maxWidth: root.width
                 minWidth: Theme.iconSizeMedium
                 orgSource: root.image
+                hidden: root.landscapeMode
             }
 
             Label {
                 id: contentLabel
-                anchors.left: parent.left; anchors.right: parent.right;
-                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
+                anchors {
+                    left: parent.left; right: parent.right
+                    leftMargin: Theme.horizontalPageMargin
+                    rightMargin: Theme.horizontalPageMargin
+                }
                 text: root.content
                 wrapMode: Text.Wrap
                 textFormat: Text.PlainText
                 font.pixelSize: Theme.fontSizeSmall
-                visible: root.content!="" && !root.landscapeMode
+                visible: root.content.length > 0 && !root.landscapeMode
                 color: {
                     if (root.read>0 && root.readlater==0) {
                         if (root.down)
@@ -340,13 +311,13 @@ ListItem {
             bottom: parent.bottom
         }
 
-        height: Math.max(expanderIcon.height,expanderLabel.height)+Theme.paddingMedium
+        height: Math.max(expanderIcon.height,expanderLabel.height) + Theme.paddingMedium
 
         Image {
             id: expanderIcon
             anchors.verticalCenter: expanderLabel.verticalCenter
             anchors.right: parent.right
-            anchors.rightMargin: Theme.paddingMedium
+            anchors.rightMargin: root.landscapeMode ? Theme.paddingMedium : Theme.horizontalPageMargin
             source: "image://theme/icon-lock-more"
             visible: box.expandable && !root.landscapeMode
         }
@@ -355,7 +326,7 @@ ListItem {
             id: expanderLabel
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left; anchors.right: expanderIcon.left;
-            anchors.leftMargin: Theme.paddingLarge
+            anchors.leftMargin: Theme.horizontalPageMargin
             anchors.rightMargin: Theme.paddingMedium
             spacing: Theme.paddingSmall
 
@@ -365,19 +336,9 @@ ListItem {
                 visible: app.isOldReader && settings.showBroadcast && (!root.hidden || root.expanded) && (root.broadcast || root.annotations!="")
                 height: Math.max(broadcastImage.height, broadcastLabel.height)
 
-                /*Image {
-                    id: likeImage
-                    visible: root.liked
-                    anchors.left: parent.left; anchors.top: parent.top
-                    width: Theme.iconSizeSmall
-                    height: Theme.iconSizeSmall
-                    source: root.down ? "image://icons/like?"+Theme.secondaryHighlightColor :
-                            root.hidden ? "image://icons/like?"+Theme.secondaryColor : "image://icons/like?"+Theme.primaryColor
-                }*/
-
                 Image {
                     id: broadcastImage
-                    visible: root.broadcast || root.annotations!=""
+                    visible: root.broadcast || root.annotations.length > 0
                     anchors.left: parent.left; anchors.top: parent.top
                     width: Theme.iconSizeSmall
                     height: Theme.iconSizeSmall
@@ -409,53 +370,6 @@ ListItem {
                       ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
                       : utils.getHumanFriendlyTimeString(date)
             }
-
-           /*Item {
-                anchors.left: parent.left; anchors.right: parent.right
-                height: evaluationButtons.height
-
-                Label {
-                    id: authorLabel
-                    anchors {left: parent.left; right: evaluationButtons.left; verticalCenter: parent.verticalCenter}
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    color: root.down ? Theme.secondaryHighlightColor : Theme.secondaryColor
-                    truncationMode: TruncationMode.Fade
-                    text: root.author!=""
-                          ? utils.getHumanFriendlyTimeString(date)+" • "+root.author
-                          : utils.getHumanFriendlyTimeString(date)
-                }
-
-                Row {
-                    id: evaluationButtons
-                    anchors {right: parent.right; verticalCenter: parent.verticalCenter}
-
-                    SmallIconButton {
-                        icon.source: root.evaluation === 1 ?
-                                         "image://icons/icon-m-good-selected" :
-                                         "image://icons/icon-m-good"
-                        onClicked: {
-                            if (root.evaluation === 1)
-                                root.evaluation = 0
-                            else
-                                root.evaluation = 1
-                            evaluated(root.evaluation)
-                        }
-                    }
-
-                    SmallIconButton {
-                        icon.source: root.evaluation === -1 ?
-                                         "image://icons/icon-m-bad-selected" :
-                                         "image://icons/icon-m-bad"
-                        onClicked: {
-                            if (root.evaluation === -1)
-                                root.evaluation = 0
-                            else
-                                root.evaluation = -1
-                            evaluated(root.evaluation)
-                        }
-                    }
-                }
-            }*/
         }
 
         onClicked: {

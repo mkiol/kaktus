@@ -43,17 +43,19 @@ Page {
     property string expandedUid: ""
     property int expandedIndex: 0
 
-    function openInExaternalBrowser(index, link, uid) {
+    function openBrowser(index, link, uid) {
         entryModel.setData(index, "read", 1, "");
-        notification.show(qsTr("Launching an external browser..."));
+        notification.show(qsTr("Launching a browser..."));
         Qt.openUrlExternally(link);
     }
 
     function setContentPane(delegate) {
         //console.log("setContentPane",delegate);
         contentPanel.index = delegate.index
-        contentPanel.content = app.isTablet ? delegate.contentraw : delegate.contentall;
-        contentPanel.image = app.isTablet ? "" : delegate.image;
+        //contentPanel.content = app.isTablet ? delegate.contentraw : delegate.contentall;
+        contentPanel.content = delegate.contentall;
+        //contentPanel.image = app.isTablet ? "" : delegate.image;
+        contentPanel.image = delegate.image;
         contentPanel.expanded = false;
         delegate.expanded = true;
     }
@@ -71,7 +73,7 @@ Page {
 
     function clearContentPane(delegate) {
         if (delegate) {
-            if (contentPanel.index == delegate.index) {
+            if (contentPanel.index === delegate.index) {
                 contentPanel.index = 0;
                 contentPanel.content = "";
                 contentPanel.image = "";
@@ -178,17 +180,17 @@ Page {
 
         onContentYChanged: {
             if (root.landscapeMode) {
-                var itemTop = itemAt(0,contentY + root.height/5);
-                var itemBottom = itemAt(0,contentY + 4*root.height/5);
+                var itemTop = itemAt(0,contentY + root.height/5)
+                var itemBottom = itemAt(0,contentY + 4*root.height/5)
                 if (!itemTop.last && !itemTop.daterow) {
                     if (root.expandedDelegate) {
                         if (root.expandedDelegate.index < itemTop.index ||
                             root.expandedDelegate.index > itemBottom.index  )
-                            itemTop.expanded = true;
+                            itemTop.expanded = true
                         else
-                            return;
+                            return
                     } else {
-                        itemTop.expanded = true;
+                        itemTop.expanded = true
                     }
                 }
             }
@@ -205,17 +207,17 @@ Page {
             title: {
                 switch (settings.viewMode) {
                 case 3:
-                    return qsTr("All feeds");
+                    return qsTr("All feeds")
                 case 4:
-                    return app.isNetvibes ? qsTr("Saved") : qsTr("Starred");
+                    return app.isNetvibes ? qsTr("Saved") : qsTr("Starred")
                 case 5:
-                    return qsTr("Slow");
+                    return qsTr("Slow")
                 case 6:
-                    return qsTr("Liked");
+                    return qsTr("Liked")
                 case 7:
-                    return qsTr("Shared");
+                    return qsTr("Shared")
                 default:
-                    return root.title;
+                    return root.title
                 }
             }
         }
@@ -257,13 +259,13 @@ Page {
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy || dm.removerBusy) {
                     notification.show(qsTr("Wait until current task is complete."));
-                    return false;
+                    return false
                 }
 
                 // Entry not cached and offline mode enabled
                 if (settings.offlineMode && !model.cached) {
                     notification.show(qsTr("Offline version is not available."));
-                    return false;
+                    return false
                 }
 
                 // Switch to offline mode if no network
@@ -275,11 +277,11 @@ Page {
                     } else {
                         // Entry not cached
                         notification.show(qsTr("Network is disconnected."));
-                        return false;
+                        return false
                     }
                 }
 
-                return true;
+                return true
             }
 
             function openEntryInViewer() {
@@ -295,14 +297,14 @@ Page {
                                    "feedindex": root.index,
                                    "read" : model.read===1,
                                    "cached" : model.cached
-                               });
+                               })
             }
 
             function showEntryFeedContent() {
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy || dm.removerBusy) {
-                    notification.show(qsTr("Wait until current task is complete."));
-                    return false;
+                    notification.show(qsTr("Wait until current task is complete."))
+                    return false
                 }
 
                 pageStack.push(Qt.resolvedUrl("FeedWebContentPage.qml"),
@@ -318,55 +320,50 @@ Page {
                                    "feedindex": root.index,
                                    "read" : model.read===1,
                                    "cached" : model.cached
-                               });
+                               })
             }
 
             function openEntry() {
                 if (settings.clickBehavior === 2) {
                     showEntryFeedContent();
-                    return;
+                    return
                 }
 
                 if (!check()) {
-                    return;
+                    return
                 }
 
                 if (settings.clickBehavior === 1) {
-                    openInExaternalBrowser(model.index, model.link, model.uid);
-                    return;
+                    openBrowser(model.index, model.link, model.uid);
+                    return
                 }
 
-                openEntryInViewer();
+                openEntryInViewer()
             }
 
             Component.onCompleted: {
                 //Dynamic creation of new items if last item is compleated
-                //console.log("index:",index,"count:",entryModel.count());
                 if (index==entryModel.count()-2) {
-                    //console.log("index==entryModel.count()-2");
-                    entryModel.createItems(index+2,settings.offsetLimit);
+                    entryModel.createItems(index+2,settings.offsetLimit)
                 }
             }
 
             onClicked: {
-                //console.log("id",model.uid, "date", model.date);
-                //console.log("content",model.content);
-                //console.log("contentall",model.contentall);
                 if (timer.running) {
                     // Double click
-                    timer.stop();
-                    doubleEntryClicked();
+                    timer.stop()
+                    doubleEntryClicked()
                 } else {
-                    timer.start();
+                    timer.start()
                 }
             }
 
             onDoubleEntryClicked: {
                 if (model.read === 0) {
-                    entryModel.setData(model.index, "read", 1, "");
+                    entryModel.setData(model.index, "read", 1, "")
                     //read = 1;
                 } else {
-                    entryModel.setData(model.index, "read", 0, "");
+                    entryModel.setData(model.index, "read", 0, "")
                     //read = 0;
                 }
             }
@@ -374,12 +371,12 @@ Page {
             onSingleEntryClicked: {
                 // Landscape mode
                 if (root.landscapeMode) {
-                    delegate.expanded = true;
-                    return;
+                    delegate.expanded = true
+                    return
                 }
 
                 // Portrait mode
-                openEntry();
+                openEntry()
             }
 
             Timer {
@@ -387,13 +384,7 @@ Page {
                 interval: 400
                 onTriggered: {
                     // Single click
-                    /*console.log("date: "+model.date);
-                    console.log("read: "+model.read);
-                    console.log("readlater: "+model.readlater);
-                    console.log("image: "+model.image);
-                    console.log("feedIcon: "+feedIcon+" model.feedIcon: "+model.feedIcon);
-                    console.log("showMarkedAsRead: "+showMarkedAsRead);*/
-                    singleEntryClicked();
+                    singleEntryClicked()
                 }
             }
 
@@ -401,37 +392,37 @@ Page {
                 if (expanded) {
                     // Collapsing all other items on expand
                     for (var i = 0; i < listView.contentItem.children.length; i++) {
-                        var curItem = listView.contentItem.children[i];
+                        var curItem = listView.contentItem.children[i]
                         if (curItem !== delegate) {
                             if (curItem.objectName==="EntryDelegate") {
                                 if (curItem.expanded)
-                                    curItem.expanded = false;
+                                    curItem.expanded = false
                             }
                         }
                     }
 
-                    root.expandedDelegate = delegate;
-                    root.expandedUid = delegate.uid;
-                    root.expandedIndex = delegate.index;
+                    root.expandedDelegate = delegate
+                    root.expandedUid = delegate.uid
+                    root.expandedIndex = delegate.index
                 } else {
                     if (delegate === root.expandedDelegate) {
-                        root.expandedDelegate = null;
-                        root.expandedUid = "";
-                        root.expandedIndex = 0;
+                        root.expandedDelegate = null
+                        root.expandedUid = ""
+                        root.expandedIndex = 0
                     }
                 }
             }
 
             onMarkedAsRead: {
-                entryModel.setData(model.index, "read", 1, "");
+                entryModel.setData(model.index, "read", 1, "")
             }
 
             onMarkedAsUnread: {
-                entryModel.setData(model.index, "read", 0, "");
+                entryModel.setData(model.index, "read", 0, "")
             }
 
             onMarkedReadlater: {
-                entryModel.setData(index, "readlater", 1, "");
+                entryModel.setData(index, "readlater", 1, "")
                 if (evaluation !== -1) {
                     evaluation = 1
                     ai.addEvaluation(model.uid, model.title, evaluation)
@@ -439,32 +430,31 @@ Page {
             }
 
             onUnmarkedReadlater: {
-                entryModel.setData(index, "readlater", 0, "");
+                entryModel.setData(index, "readlater", 0, "")
             }
 
             onMarkedLike: {
-                entryModel.setData(model.index, "liked", true, "");
+                entryModel.setData(model.index, "liked", true, "")
             }
 
             onUnmarkedLike: {
-                entryModel.setData(model.index, "liked", false, "");
+                entryModel.setData(model.index, "liked", false, "")
             }
 
             onMarkedBroadcast: {
-                pageStack.push(Qt.resolvedUrl("ShareDialog.qml"),{"index": model.index,});
-                //entryModel.setData(model.index, "broadcast", true, "");
+                pageStack.push(Qt.resolvedUrl("ShareDialog.qml"),{"index": model.index,})
             }
 
             onUnmarkedBroadcast: {
-                entryModel.setData(model.index, "broadcast", false, "");
+                entryModel.setData(model.index, "broadcast", false, "")
             }
 
             onMarkedAboveAsRead: {
-                entryModel.setAboveAsRead(model.index);
+                entryModel.setAboveAsRead(model.index)
             }
 
             onShowFeedContent: {
-                showEntryFeedContent();
+                showEntryFeedContent()
             }
 
             onOpenInBrowser: {
@@ -472,7 +462,7 @@ Page {
                     return
                 }
 
-                openInExaternalBrowser(model.index, model.link, model.uid)
+                openBrowser(model.index, model.link, model.uid)
             }
 
             onOpenInViewer: {
@@ -498,16 +488,11 @@ Page {
 
         ViewPlaceholder {
             id: placeholder
-            enabled: listView.count == 0
+            enabled: listView.count === 0
             text: fetcher.busy ? qsTr("Wait until sync finish") :
-                      settings.viewMode==4 ? app.isNetvibes ? qsTr("No saved items") : qsTr("No starred items")  :
-                      settings.viewMode==6 ? qsTr("No liked items") : settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+                      settings.viewMode === 4 ? app.isNetvibes ? qsTr("No saved items") : qsTr("No starred items")  :
+                      settings.viewMode === 6 ? qsTr("No liked items") : settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }
-
-        /*Component.onCompleted: {
-            if (listView.count == 0 && settings.viewMode>2)
-                bar.open();
-        }*/
 
         VerticalScrollDecorator {
             flickable: listView
@@ -523,31 +508,27 @@ Page {
         width: expanded ? root.width : app.landscapeContentPanelWidth
         clip: true
         height: app.flickHeight
-        //openable: root.expandedUid != "" && !dm.busy && !fetcher.busy && !dm.removerBusy && !app.isTablet
         openable: false
         textFormat: app.isTablet ? Text.StyledText : Text.PlainText
 
         onClicked: {
-            /*if (isTablet) {
-                var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid !="" ? getDelegateByUid(root.expandedUid) : undefined;
-                if (delegate)
-                    delegate.openEntry();
-            } else {
-                expanded = !expanded;
-            }*/
-
-            var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid !="" ? getDelegateByUid(root.expandedUid) : undefined;
+            var delegate = root.expandedDelegate ?
+                        root.expandedDelegate : root.expandedUid !="" ?
+                            getDelegateByUid(root.expandedUid) : undefined
             if (delegate)
-                delegate.openEntry();
+                delegate.openEntry()
         }
 
         onOpenClicked: {
-            var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid !="" ? getDelegateByUid(root.expandedUid) : undefined;
+            var delegate = root.expandedDelegate ?
+                        root.expandedDelegate : root.expandedUid !="" ?
+                            getDelegateByUid(root.expandedUid) : undefined
             if (delegate)
-                delegate.openEntry();
+                delegate.openEntry()
         }
 
-        busy: (width != root.width) && (width != app.landscapeContentPanelWidth)
+        busy: (width != root.width) &&
+              (width !== app.landscapeContentPanelWidth)
     }
 
     HintLabel {

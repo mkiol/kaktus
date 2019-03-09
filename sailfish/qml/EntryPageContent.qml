@@ -29,7 +29,7 @@ SilicaFlickable {
     property bool busy: false
     property bool openable: false
     property alias textFormat: contentLabel.textFormat
-    readonly property bool active: content != "" || image != ""
+    readonly property bool active: content.length > 0 || image.length > 0
 
     signal clicked
     signal openClicked
@@ -61,25 +61,12 @@ SilicaFlickable {
             spacing: Theme.paddingMedium
             width: root.width
 
-            Image {
+            CachedImage {
                 id: entryImage
-                anchors.left: parent.left;
-                fillMode: Image.PreserveAspectFit
-                width: sourceSize.width>=root.width ? root.width : sourceSize.width
-                enabled: source!="" && status==Image.Ready &&
-                         sourceSize.width > Theme.iconSizeMedium &&
-                         sourceSize.height > Theme.iconSizeMedium
-                visible: opacity>0
-                opacity: enabled ? 1.0 : 0.0
-                Behavior on opacity { FadeAnimation {} }
-                source: {
-                    if (root.image!="") {
-                        return settings.offlineMode ? cserver.getUrlbyUrl(root.image) :
-                               dm.online ? root.image : cserver.getUrlbyUrl(root.image);
-                    } else {
-                        return "";
-                    }
-                }
+                anchors.horizontalCenter: parent.horizontalCenter
+                maxWidth: root.width
+                minWidth: Theme.iconSizeMedium
+                orgSource: root.image
             }
 
             Item {
@@ -90,15 +77,17 @@ SilicaFlickable {
 
             Label {
                 id: contentLabel
-                anchors.left: parent.left; anchors.right: parent.right;
-                anchors.leftMargin: Theme.paddingLarge; anchors.rightMargin: Theme.paddingLarge
+                anchors {
+                    left: parent.left;
+                    right: parent.right;
+                    leftMargin: Theme.paddingLarge;
+                    rightMargin: Theme.horizontalPageMargin
+                }
                 text: root.content
                 wrapMode: Text.Wrap
-                //textFormat: Text.PlainText
-                //textFormat:  root.busy ? Text.PlainText : Text.StyledText
                 linkColor: Theme.highlightColor
                 font.pixelSize: Theme.fontSizeSmall
-                visible: root.content!="" && !root.busy
+                visible: root.content.length > 0 && !root.busy
                 color: Theme.primaryColor
             }
 
@@ -124,4 +113,3 @@ SilicaFlickable {
         flickable: root
     }
 }
-

@@ -18,39 +18,31 @@
 */
 
 import QtQuick 2.0
+import Sailfish.Silica 1.0
 
 Item {
     id: root
 
     property bool showPlaceholder: false
-    property bool showBackground: false
-    property alias backgroundColor: background.color
-    property alias text: placeholder.text
-    property alias source: icon.orgSource
+    property alias text: _placeholder.text
+    property alias icon: _icon.orgSource
+    property bool small: false
 
-    Rectangle {
-        // icon background
-        id: background
-        enabled: root.showBackground && !placeholder.visible && icon.enabled
+    height: root.small ? Theme.iconSizeMedium * 0.7 : Theme.iconSizeMedium
+    width: height
+
+    IconPlaceholder {
+        // placeholder
+        id: _placeholder
         anchors.fill: parent
-        color: "white"
-        visible: opacity > 0 && enabled
-        opacity: enabled ? 1.0 : 0.0
-        Behavior on opacity {
-            NumberAnimation { duration: 200 }
-        }
+        visible: root.showPlaceholder &&
+                 _icon.status !== Image.Ready &&
+                 title.length > 0
     }
 
     CachedImage {
         // feed icon
-        id: icon
-        anchors.fill: parent
-    }
-
-    IconPlaceholder {
-        // placeholder
-        id: placeholder
-        visible: root.showPlaceholder && !icon.enabled
+        id: _icon
         anchors.fill: parent
     }
 }

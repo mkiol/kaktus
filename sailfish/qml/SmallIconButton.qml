@@ -23,7 +23,7 @@ import Sailfish.Silica 1.0
 IconButton {
     id: root
 
-    property int iconSize: Theme.iconSizeSmall
+    property int iconSize: Theme.iconSizeMe
     property int marginV: Theme.paddingMedium
     property int marginH: Theme.paddingMedium
 

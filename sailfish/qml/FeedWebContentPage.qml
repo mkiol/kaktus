@@ -141,13 +141,12 @@ Page {
     }
 
     function openEntryInBrowser() {
-        notification.show(qsTr("Launching an external browser..."));
-        //Qt.openUrlExternally(settings.offlineMode ? offlineUrl : onlineUrl);
+        notification.show(qsTr("Launching a browser..."));
         Qt.openUrlExternally(onlineUrl)
     }
 
     function openUrlEntryInBrowser(url) {
-        notification.show(qsTr("Launching an external browser..."));
+        notification.show(qsTr("Launching a browser..."));
         Qt.openUrlExternally(url);
     }
 

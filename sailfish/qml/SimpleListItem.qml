@@ -37,7 +37,6 @@ ListItem {
 
     IconPlaceholder {
         // placeholder
-        id: placeholder
         anchors {
             left: parent.left
             leftMargin: Theme.horizontalPageMargin

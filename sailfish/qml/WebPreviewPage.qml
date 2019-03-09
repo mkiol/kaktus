@@ -56,7 +56,7 @@ Page {
     }
 
     function openUrlEntryInBrowser(url) {
-        notification.show(qsTr("Launching an external browser..."))
+        notification.show(qsTr("Launching a browser..."))
         Qt.openUrlExternally(url)
     }
 
@@ -405,7 +405,7 @@ Page {
             text: qsTr("Browser")
             icon: "image://icons/icon-m-browser"
             onClicked: {
-                notification.show(qsTr("Launching an external browser..."));
+                notification.show(qsTr("Launching a browser..."));
                 var url = view.url.toString().lastIndexOf("about") === 0 ||
                           view.url.length === 0 ? root.onlineUrl : view.url
                 console.log("Opening: " + url)
