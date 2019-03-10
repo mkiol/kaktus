@@ -43,10 +43,10 @@ SilicaFlickable {
 
     Rectangle {
         anchors.fill: bgitem
-        color: Theme.highlightDimmerColor
         visible: opacity > 0.0
-        opacity: root.active ? 1.0 : 0.0
+        opacity: root.active ? 0.5 : 0.0
         Behavior on opacity { FadeAnimation {} }
+        color: Theme.colorScheme ? "white" : "black"
     }
 
     BackgroundItem {

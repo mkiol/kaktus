@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2015 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2015-2019 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -162,21 +162,12 @@ Page {
         id: listView
         model: entryModel
 
-        anchors { top: parent.top; left: parent.left; }
-        //width: root.landscapeMode && contentPanel.active ? parent.width - app.landscapeContentPanelWidth : parent.width
-        width: root.landscapeMode && listView.count != 0 ? parent.width - app.landscapeContentPanelWidth : parent.width
-
+        anchors { top: parent.top; left: parent.left }
+        width: root.landscapeMode && listView.count != 0 ?
+                   parent.width - app.landscapeContentPanelWidth : parent.width
         clip: true
-
         height: app.flickHeight
-
-        /*onMovingChanged: {
-            if (root.landscapeMode && !moving) {
-                var item = itemAt(0,contentY + root.height/3);
-                if (!item.last && !item.daterow)
-                    item.expanded = true;
-            }
-        }*/
+        Behavior on height {NumberAnimation { duration: 200; easing.type: Easing.OutQuad }}
 
         onContentYChanged: {
             if (root.landscapeMode) {
@@ -198,9 +189,7 @@ Page {
 
         PageMenu {
             id: menu
-            //showAbout: settings.viewMode>2  ? true : false
             showAbout: true
-            //showShowOnlyUnread: settings.viewMode!=4 && settings.viewMode!=6 && settings.viewMode!=7
         }
 
         header: PageHeader {

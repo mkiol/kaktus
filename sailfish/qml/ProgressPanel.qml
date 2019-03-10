@@ -28,7 +28,6 @@ Item {
     property bool cancelable: true
     property bool open: false
     property real progress: 0.0
-    property bool transparent: true
     signal closeClicked
 
     enabled: open
@@ -60,8 +59,7 @@ Item {
         anchors.left: parent.left; anchors.right: parent.right
         anchors.bottom: parent.bottom
         height: parent.height
-        visible: !root.transparent
-        color: Theme.highlightBackgroundColor
+        color: Qt.lighter(Theme.highlightBackgroundColor)
     }
 
     Rectangle {
@@ -69,7 +67,7 @@ Item {
         height: parent.height - 0
         anchors.left: parent.left; anchors.bottom: parent.bottom
         width: root.progress * parent.width
-        color: root.transparent ? Theme.rgba(Theme.highlightBackgroundColor, 0.3) : Theme.highlightColor //Theme.rgba(Theme.highlightDimmerColor, 0.2)
+        color: Theme.highlightDimmerColor
 
         Behavior on width {
             SmoothedAnimation {
@@ -80,50 +78,50 @@ Item {
 
     Image {
         anchors.fill: parent
-        source: "image://theme/graphic-gradient-edge"
+        source: "image://theme/graphic-gradient-edge?#ffffff"
     }
 
     Item {
         anchors.left: parent.left; anchors.right: parent.right
         anchors.bottom: parent.bottom; height: parent.height - 0
 
-    Image {
-        id: icon
-        height: 0.6*root.height; width: 0.6*root.height
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        anchors.leftMargin: Theme.paddingMedium
-        source: "image://theme/graphic-busyindicator-medium?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-        RotationAnimation on rotation {
-            loops: Animation.Infinite
-            from: 0
-            to: 360
-            duration: 1200
-            running: root.open && Qt.application.active
+        Image {
+            id: icon
+            height: 0.6*root.height; width: 0.6*root.height
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: Theme.paddingMedium
+            source: "image://theme/graphic-busyindicator-medium?#000000"
+            RotationAnimation on rotation {
+                loops: Animation.Infinite
+                from: 0
+                to: 360
+                duration: 1200
+                running: root.open && Qt.application.active
+            }
         }
-    }
 
-    Label {
-        id: titleBar
-        height: icon.height
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: icon.right; anchors.right: closeButton.left
-        anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
-        font.pixelSize: Theme.fontSizeSmall
-        font.family: Theme.fontFamily
-        text: root.text
-        color: root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignLeft
-    }
+        Label {
+            id: titleBar
+            height: icon.height
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: icon.right; anchors.right: closeButton.left
+            anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
+            font.pixelSize: Theme.fontSizeSmall
+            font.family: Theme.fontFamily
+            text: root.text
+            color: "black"
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+        }
 
-    IconButton {
-        id: closeButton
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.right: parent.right
-        icon.source: "image://theme/icon-m-dismiss?"+(root.transparent ? Theme.highlightColor : Theme.highlightDimmerColor)
-        onClicked: root.closeClicked()
-        visible: root.cancelable
-    }
+        IconButton {
+            id: closeButton
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            icon.source: "image://theme/icon-m-dismiss?#000000"
+            onClicked: root.closeClicked()
+            visible: root.cancelable
+        }
     }
 }

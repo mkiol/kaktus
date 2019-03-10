@@ -752,20 +752,6 @@ QString Settings::getDmUserAgent()
     return settings.value("useragent", value).toString();
 }
 
-QString Settings::getReaderTheme()
-{
-    QString theme = settings.value("theme", "dark").toString();
-    return theme != "light" ? "dark" : "light";
-}
-
-void Settings::setReaderTheme(const QString &value)
-{
-    if (getReaderTheme() != value) {
-        settings.setValue("theme", value);
-        emit readerThemeChanged();
-    }
-}
-
 int Settings::getFontSize()
 {
     int size = settings.value("fontsize", 10).toInt();

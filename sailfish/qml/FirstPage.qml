@@ -40,14 +40,13 @@ Page {
         id: listView
 
         anchors { top: parent.top; left: parent.left; right: parent.right }
-
         height: app.flickHeight
-
-        clip:true
+        Behavior on height {NumberAnimation { duration: 200; easing.type: Easing.OutQuad }}
+        clip: true
 
         PullDownMenu {
             id: menu
-            enabled: !guide.open
+            //enabled: !guide.open
 
             MenuItem {
                 text: qsTr("About")

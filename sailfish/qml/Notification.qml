@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2016-2019 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -19,7 +19,7 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import org.nemomobile.notifications 1.0
+import Nemo.Notifications 1.0
 
 Notification {
     id: root
@@ -28,7 +28,7 @@ Notification {
     maxContentLines: 10
 
     function show(bodyText, summaryText, clickedHandler) {
-        if (!bodyText || bodyText === "")
+        if (!bodyText || bodyText.length === 0)
             return
 
         if (bodyText === root.body)

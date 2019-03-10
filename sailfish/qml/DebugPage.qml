@@ -39,10 +39,9 @@ Page {
 
     SilicaListView {
         anchors { top: parent.top; left: parent.left; right: parent.right }
-        clip: true
-
         height: app.flickHeight
-
+        Behavior on height {NumberAnimation { duration: 200; easing.type: Easing.OutQuad }}
+        clip: true
 
         anchors.leftMargin: Theme.paddingLarge
         anchors.rightMargin: Theme.paddingLarge

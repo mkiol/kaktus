@@ -37,6 +37,7 @@ ListItem {
 
     IconPlaceholder {
         // placeholder
+        id: placeholder
         anchors {
             left: parent.left
             leftMargin: Theme.horizontalPageMargin
@@ -68,8 +69,7 @@ ListItem {
         truncationMode: TruncationMode.Fade
 
         anchors {
-            left: _icon.status !== Image.Ready &&
-                  !placeholder.visible ? parent.left : _icon.right
+            left: !placeholder.visible && !_icon.visible ? parent.left : _icon.right
             right: unreadBox.visible ? unreadBox.left : parent.right
             leftMargin: Theme.horizontalPageMargin;
             rightMargin: Theme.horizontalPageMargin;

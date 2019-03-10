@@ -42,6 +42,8 @@ Page {
 
     property variant _settings: settings
     property bool themeApply: true
+    readonly property color bgColor: Theme.colorScheme ? Qt.lighter(Theme.highlightBackgroundColor, 1.9) :
+                                                         Qt.darker(Theme.highlightBackgroundColor, 3.0)
 
     property bool navigateBackPop: true
 
@@ -200,17 +202,16 @@ Page {
         var theme = { "primaryColor": Theme.rgba(Theme.primaryColor, 1.0).toString(),
                       "secondaryColor": Theme.rgba(Theme.secondaryColor, 1.0).toString(),
                       "highlightColor": Theme.rgba(Theme.highlightColor, 1.0).toString(),
-                      "highlightColorDark": Qt.darker(Theme.highlightColor).toString(),
+                      "highlightColorDark": (Theme.colorScheme ? Qt.lighter(Theme.highlightColor).toString() : Qt.darker(Theme.highlightColor).toString()),
                       "secondaryHighlightColor": Theme.rgba(Theme.secondaryHighlightColor, 1.0).toString(),
-                      "highlightDimmerColor": Theme.rgba(Theme.highlightDimmerColor, 1.0).toString(),
+                      "highlightDimmerColor": root.bgColor.toString(),
                       "fontFamily": Theme.fontFamily,
                       "fontFamilyHeading": Theme.fontFamilyHeading,
                       "pageMargin": Theme.horizontalPageMargin/Theme.pixelRatio,
                       "pageMarginBottom": Theme.itemSizeMedium/Theme.pixelRatio,
                       "fontSize": Theme.fontSizeMedium,
                       "fontSizeTitle": Theme.fontSizeLarge,
-                      "zoom": settings.zoom,
-                      "theme": settings.readerTheme }
+                      "zoom": settings.zoom}
         postMessage("theme_set", { "theme": theme })
         postMessage("theme_apply")
     }
@@ -245,7 +246,7 @@ Page {
 
     Rectangle {
         anchors.fill: parent
-        color: Theme.highlightDimmerColor
+        color: root.bgColor
     }
 
     SilicaWebView {
@@ -369,7 +370,7 @@ Page {
     IconBar {
         id: controlbar
         flickable: view
-        theme: "dimmer"
+        color: root.bgColor
 
         IconBarItem {
             text: qsTr("Back")
@@ -429,7 +430,7 @@ Page {
             text: qsTr("Add to Pocket")
             visible: settings.pocketEnabled
             enabled: settings.pocketEnabled && dm.online
-            icon.source: "image://icons/icon-m-pocket"
+            icon.source: "image://icons/icon-m-pocket?" + Theme.primaryColor
             busy: pocket.busy
             onClicked: {
                 pocket.add(root.onlineUrl, root.title)

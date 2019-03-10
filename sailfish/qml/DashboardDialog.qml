@@ -42,9 +42,9 @@ Dialog {
         id: listView
 
         anchors { top: parent.top; left: parent.left; right: parent.right }
-        clip: true
-
         height: app.flickHeight
+        Behavior on height {NumberAnimation { duration: 200; easing.type: Easing.OutQuad }}
+        clip: true
 
         spacing: Theme.paddingMedium
         model: dashboardModel
@@ -56,6 +56,7 @@ Dialog {
 
         delegate: SimpleListItem {
             title: model.title
+            showPlaceholder: true
 
             onClicked: {
                 settings.dashboardInUse = uid;
@@ -66,7 +67,7 @@ Dialog {
 
         ViewPlaceholder {
             id: placeholder
-            enabled: listView.count == 0
+            enabled: listView.count === 0
             text: qsTr("No dashboards")
         }
 

@@ -45,6 +45,7 @@ Page {
             top: parent.top
         }
         height: app.flickHeight
+        Behavior on height {NumberAnimation { duration: 200; easing.type: Easing.OutQuad }}
         clip: true
         contentHeight: content.height
 
@@ -131,7 +132,7 @@ Page {
                     }
                 }
 
-                onClicked: showMenu();
+                onClicked: openMenu();
             }
 
             ListItem {
@@ -160,7 +161,7 @@ Page {
                     }
                 }
 
-                onClicked: showMenu();
+                onClicked: openMenu();
 
                 menu: ContextMenu {
                     MenuItem {
@@ -257,7 +258,7 @@ Page {
                 contentHeight: flow3.height + 2*Theme.paddingLarge
                 enabled: true
 
-                onClicked: showMenu()
+                onClicked: openMenu()
 
                 Flow {
                     id: flow3
@@ -350,8 +351,8 @@ Page {
 
                 menu: ContextMenu {
                     MenuItem { text: qsTr("Disabled") }
-                    MenuIconItem { text: qsTr("External browser"); iconSource: "image://icons/icon-m-browser" }
-                    MenuIconItem { text: qsTr("Web viewer"); iconSource: "image://icons/icon-m-webview" }
+                    MenuIconItem { text: qsTr("External browser"); iconSource: "image://icons/icon-m-browser?" + Theme.primaryColor }
+                    MenuIconItem { text: qsTr("Web viewer"); iconSource: "image://icons/icon-m-webview?" + Theme.primaryColor }
                 }
 
                 onCurrentIndexChanged: {
@@ -364,7 +365,7 @@ Page {
             TextSwitchWithIcon {
                 text: qsTr("Auto switch to Reader View")
                 description: qsTr("Reader View is a feature that strips away clutter like buttons, ads and background images, and changes the page's layout for better readability. By enabling this option, Reader View will be automatically switch on when page is loaded in the web viewer.")
-                iconSource: settings.readerMode ? "image://icons/icon-m-reader-selected" : "image://icons/icon-m-reader"
+                iconSource: settings.readerMode ? "image://icons/icon-m-reader-selected?" + Theme.primaryColor : "image://icons/icon-m-reader?" + Theme.primaryColor
                 onCheckedChanged: {
                     settings.readerMode = checked;
                 }
@@ -373,7 +374,7 @@ Page {
                 }
             }
 
-            ComboBox {
+            /*ComboBox {
                 width: root.width
                 label: qsTr("Reader View theme")
                 description: qsTr("Style of theme which will be used to display articles in Reader View.")
@@ -399,12 +400,12 @@ Page {
                         break;
                     }
                 }
-            }
+            }*/
 
             TextSwitchWithIcon {
                 text: qsTr("Auto switch to Night View")
                 description: qsTr("Night View reduces the brightness of websites. By enabling this option, Night View will be automatically switch on when page is loaded in the web viewer.")
-                iconSource: settings.nightMode ? "image://icons/icon-m-night-selected" : "image://icons/icon-m-night"
+                iconSource: settings.nightMode ? "image://icons/icon-m-night-selected?" + Theme.primaryColor : "image://icons/icon-m-night?" + Theme.primaryColor
                 onCheckedChanged: {
                     settings.nightMode = checked;
                 }
@@ -414,8 +415,8 @@ Page {
             }
 
             IconSlider {
-                leftIconSource: "image://icons/icon-m-fontdown"
-                rightIconSource: "image://icons/icon-m-fontup"
+                leftIconSource: "image://icons/icon-m-fontdown?" + Theme.primaryColor
+                rightIconSource: "image://icons/icon-m-fontup?" + Theme.primaryColor
                 label: qsTr("Viewer font size level")
                 minimumValue: 50
                 maximumValue: 200
@@ -651,25 +652,25 @@ Page {
                 menu: ContextMenu {
                     MenuIconItem {
                         text: app.isNetvibes ? qsTr("Tabs, feeds & articles") : qsTr("Folders, feeds & articles")
-                        iconSource: "image://icons/icon-m-vm0"
+                        iconSource: "image://icons/icon-m-vm0?" + Theme.primaryColor
                     }
                     MenuIconItem {
                         text: app.isNetvibes ? qsTr("Tabs & articles") : qsTr("Folders & articles")
-                        iconSource: "image://icons/icon-m-vm1"
+                        iconSource: "image://icons/icon-m-vm1?" + Theme.primaryColor
                     }
                     MenuIconItem {
                         text: qsTr("All articles")
-                        iconSource: "image://icons/icon-m-vm3"
+                        iconSource: "image://icons/icon-m-vm3?" + Theme.primaryColor
                     }
                     MenuIconItem {
                         text: app.isNetvibes ? qsTr("Saved") : qsTr("Starred")
-                        iconSource: "image://icons/icon-m-vm4"
+                        iconSource: "image://icons/icon-m-vm4?" + Theme.primaryColor
                     }
                     MenuIconItem {
                         visible: !app.isTTRss
                         enabled: app.isNetvibes || (app.isOldReader && settings.showBroadcast)
                         text: app.isNetvibes ? qsTr("Slow") : qsTr("Liked")
-                        iconSource: app.isNetvibes ? "image://icons/icon-m-vm5" : "image://icons/icon-m-vm6"
+                        iconSource: app.isNetvibes ? "image://icons/icon-m-vm5?" + Theme.primaryColor : "image://icons/icon-m-vm6?" + Theme.primaryColor
                     }
                 }
 
@@ -719,9 +720,9 @@ Page {
                 currentIndex: settings.clickBehavior
 
                 menu: ContextMenu {
-                    MenuIconItem { text: qsTr("Web viewer"); iconSource: "image://icons/icon-m-webview" }
-                    MenuIconItem { text: qsTr("External browser"); iconSource: "image://icons/icon-m-browser" }
-                    MenuIconItem { text: qsTr("Feed content"); iconSource: "image://icons/icon-m-rss" }
+                    MenuIconItem { text: qsTr("Web viewer"); iconSource: "image://icons/icon-m-webview?" + Theme.primaryColor }
+                    MenuIconItem { text: qsTr("External browser"); iconSource: "image://icons/icon-m-browser?" + Theme.primaryColor }
+                    MenuIconItem { text: qsTr("Feed content"); iconSource: "image://icons/icon-m-rss?" + Theme.primaryColor }
                 }
 
                 onCurrentIndexChanged: {
@@ -749,9 +750,9 @@ Page {
                 currentIndex: settings.filter
 
                 menu: ContextMenu {
-                    MenuIconItem { text: qsTr("All articles"); iconSource: "image://icons/icon-m-filter-0" }
-                    MenuIconItem { text: app.isNetvibes ? qsTr("Unread or saved") : qsTr("Unread or starred"); iconSource: "image://icons/icon-m-filter-1" }
-                    MenuIconItem { text: qsTr("Only unread"); iconSource: "image://icons/icon-m-filter-2" }
+                    MenuIconItem { text: qsTr("All articles"); iconSource: "image://icons/icon-m-filter-0?" + Theme.primaryColor }
+                    MenuIconItem { text: app.isNetvibes ? qsTr("Unread or saved") : qsTr("Unread or starred"); iconSource: "image://icons/icon-m-filter-1?" + Theme.primaryColor }
+                    MenuIconItem { text: qsTr("Only unread"); iconSource: "image://icons/icon-m-filter-2?" + Theme.primaryColor }
                 }
 
                 onCurrentIndexChanged: {
@@ -830,7 +831,7 @@ Page {
             TextSwitchWithIcon {
                 text: qsTr("Pocket integration")
                 description: qsTr("Pocket is an Internet tool for saving articles to read later. Integration implemented in Kaktus provides \"Add to Pocket\" button in the articles list and in the web viewer.")
-                iconSource: "image://icons/icon-m-pocket"
+                iconSource: "image://icons/icon-m-pocket?" + Theme.primaryColor
                 checked: settings.pocketEnabled
                 busy: pocket.busy
                 enabled: dm.online

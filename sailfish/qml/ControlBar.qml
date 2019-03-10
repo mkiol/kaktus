@@ -44,7 +44,6 @@ Item {
 
     // other
     readonly property bool isPortrait: app.orientation === Orientation.Portrait
-    readonly property color iconColor: Theme.primaryColor
     readonly property int stdHeight: isPortrait ? Theme.itemSizeMedium : 0.8 * Theme.itemSizeMedium
 
     height: root.stdHeight
@@ -92,12 +91,24 @@ Item {
 
         width: parent.width
         height: parent.height
-        color: "black"
+        //color: Theme.colorScheme ? "white" : "black"
+        color: "transparent"
 
         clip: true
 
         Behavior on y {NumberAnimation { duration: 200; easing.type: Easing.OutQuad }}
         y: open ? 0 : height
+
+        Rectangle {
+            anchors.fill: parent
+            opacity: 0.4
+            color: Theme.colorScheme ? "white" : "black"
+        }
+
+        Image {
+            anchors.fill: parent
+            source: "image://theme/graphic-gradient-edge?" + Theme.primaryColor
+        }
 
         MouseArea {
             enabled: root.open
@@ -115,7 +126,7 @@ Item {
             IconButton {
                 anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
                 anchors.verticalCenter: parent.verticalCenter
-                icon.source: "image://theme/icon-m-dismiss?"+root.iconColor
+                icon.source: "image://theme/icon-m-dismiss?" + Theme.primaryColor
                 onClicked: {
                     show()
                     root.vmOpen = !root.vmOpen
@@ -132,7 +143,7 @@ Item {
                 IconButton {
                     id: vm0b
                     anchors.verticalCenter: parent.verticalCenter
-                    icon.source: "image://icons/icon-m-vm0?"+root.iconColor
+                    icon.source: "image://icons/icon-m-vm0?" + Theme.primaryColor
                     highlighted: settings.viewMode==0
                     onClicked: {
                         show()
@@ -147,7 +158,7 @@ Item {
                 IconButton {
                     id: vm1b
                     anchors.verticalCenter: parent.verticalCenter
-                    icon.source: "image://icons/icon-m-vm1?"+root.iconColor
+                    icon.source: "image://icons/icon-m-vm1?" + Theme.primaryColor
                     highlighted: settings.viewMode==1
                     onClicked: {
                         show()
@@ -162,7 +173,7 @@ Item {
                 IconButton {
                     id: vm3b
                     anchors.verticalCenter: parent.verticalCenter
-                    icon.source: "image://icons/icon-m-vm3?"+root.iconColor
+                    icon.source: "image://icons/icon-m-vm3?" + Theme.primaryColor
                     highlighted: settings.viewMode==3
                     onClicked: {
                         show()
@@ -177,7 +188,7 @@ Item {
                 IconButton {
                     id: vm4b
                     anchors.verticalCenter: parent.verticalCenter
-                    icon.source: "image://icons/icon-m-vm4?"+root.iconColor
+                    icon.source: "image://icons/icon-m-vm4?" + Theme.primaryColor
                     highlighted: settings.viewMode==4
                     onClicked: {
                         show()
@@ -193,8 +204,8 @@ Item {
                     id: vm5b
                     visible: app.isNetvibes || (app.isOldReader && settings.showBroadcast)
                     anchors.verticalCenter: parent.verticalCenter
-                    icon.source: app.isOldReader ? "image://icons/icon-m-vm6?"+root.iconColor :
-                                                   "image://icons/icon-m-vm5?"+root.iconColor
+                    icon.source: app.isOldReader ? "image://icons/icon-m-vm6?" + Theme.primaryColor :
+                                                   "image://icons/icon-m-vm5?" + Theme.primaryColor
                     highlighted: settings.viewMode==5 || settings.viewMode==6
                     onClicked: {
                         show()
@@ -223,8 +234,7 @@ Item {
                 id: vmIcon
                 anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
                 anchors.verticalCenter: parent.verticalCenter
-                //icon.source: "image://theme/icon-m-menu?"+root.iconColor
-                icon.source: "image://icons/icon-m-vm" + settings.viewMode + "?" + root.iconColor
+                icon.source: "image://icons/icon-m-vm" + settings.viewMode + "?" + Theme.primaryColor
                 highlighted: root.vmOpen
                 onClicked: {
                     show()
@@ -236,7 +246,7 @@ Item {
                 id: refreshIcon
                 anchors.right: vmIcon.left; anchors.rightMargin: Theme.paddingMedium
                 anchors.verticalCenter: parent.verticalCenter
-                icon.source: "image://theme/icon-m-refresh?"+root.iconColor
+                icon.source: "image://theme/icon-m-refresh?" + Theme.primaryColor
                 enabled: !fetcher.busy && !dm.busy && !dm.removerBusy && dm.online
                 onClicked: {
                     show()
@@ -250,7 +260,7 @@ Item {
                     width: Theme.paddingMedium
                     height: Theme.paddingMedium
                     radius: Theme.paddingMedium/2
-                    color: "red"
+                    color: Theme.errorColor
                 }
             }
 
@@ -264,7 +274,7 @@ Item {
                           settings.viewMode !==4 && settings.viewMode !==6 &&
                           settings.viewMode !==7) ? 1.0 : 0.0
 
-                icon.source: "image://icons/icon-m-filter-" + settings.filter + "?" + root.iconColor
+                icon.source: "image://icons/icon-m-filter-" + settings.filter + "?" + Theme.primaryColor
                 onClicked: {
                     show()
                     settings.filter = settings.filter === 2 ? 0 : settings.filter + 1
@@ -297,7 +307,7 @@ Item {
                 anchors.left: parent.left; anchors.leftMargin: Theme.paddingMedium
                 //anchors.left: networkIcon.right; anchors.leftMargin: Theme.paddingMedium
                 anchors.verticalCenter: parent.verticalCenter
-                icon.source: "image://icons/icon-m-read?"+root.iconColor
+                icon.source: "image://icons/icon-m-read?" + Theme.primaryColor
                 onClicked: {
                     show()
                     var remorse = pageStack.currentPage.remorse;
@@ -371,7 +381,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: Theme.paddingMedium
-                source: "image://theme/graphic-busyindicator-medium?"+root.iconColor
+                source: "image://theme/graphic-busyindicator-medium?" + Theme.primaryColor
                 RotationAnimation on rotation {
                     loops: Animation.Infinite
                     from: 0
@@ -389,7 +399,6 @@ Item {
                 anchors.leftMargin: Theme.paddingMedium; anchors.rightMargin: Theme.paddingMedium
                 font.pixelSize: Theme.fontSizeSmall
                 font.family: Theme.fontFamily
-                color: root.iconColor
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
             }
@@ -398,16 +407,10 @@ Item {
                 id: closeButton
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
-                icon.source: "image://theme/icon-m-dismiss?"+root.iconColor
+                icon.source: "image://theme/icon-m-dismiss?" + Theme.primaryColor
                 onClicked: root.cancelClicked()
                 visible: root.cancelable
             }
-        }
-
-        Image {
-            anchors.fill: parent
-            source: "image://theme/graphic-gradient-edge"
-            opacity: 0.5
         }
     }
 

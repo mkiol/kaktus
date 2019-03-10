@@ -130,7 +130,6 @@ Page {
 
     ProgressPanel {
         id: proggressPanel
-        transparent: false
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         cancelable: true

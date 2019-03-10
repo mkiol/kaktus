@@ -401,23 +401,23 @@ ApplicationWindow {
 
     property int panelWidth: app.orientation==Orientation.Portrait ? Screen.width : Screen.height
     property int landscapeContentPanelWidth: isTablet ?
-                 app.orientation==Orientation.Portrait ? Screen.width-700 : Screen.height-700 :
-                 app.orientation==Orientation.Portrait ? Screen.width/2 : Screen.height/2
+                 app.orientation === Orientation.Portrait ? Screen.width-700 : Screen.height-700 :
+                 app.orientation === Orientation.Portrait ? Screen.width/2 : Screen.height/2
     property int flickHeight: {
         var size = 0
         if (bar.open)
             size += bar.stdHeight
-        return app.orientation==Orientation.Portrait ? Screen.height-size : Screen.width-size;
+        return app.orientation === Orientation.Portrait ? Screen.height-size : Screen.width-size;
     }
-    property int barX: app.orientation==Orientation.Portrait ? 0 : bar.height
-    property int barY: app.orientation==Orientation.Portrait ? Screen.height - bar.height : 0
+    property int barX: app.orientation === Orientation.Portrait ? 0 : bar.height
+    property int barY: app.orientation === Orientation.Portrait ? Screen.height - bar.height : 0
 
     readonly property alias barHeight: bar.height
 
     ControlBar {
         id: bar
         busy: app.fetcherBusyStatus || dm.removerBusy || dm.busy
-        rotation: app.orientation==Orientation.Portrait ? 0 : 90
+        rotation: app.orientation === Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
         width: app.panelWidth
 
@@ -436,16 +436,16 @@ ApplicationWindow {
         x: app.barX
     }
 
-    Guide {
+    /*Guide {
         id: guide
 
-        rotation: app.orientation==Orientation.Portrait ? 0 : 90
+        rotation: app.orientation === Orientation.Portrait ? 0 : 90
         transformOrigin: Item.TopLeft
-        height: app.orientation==Orientation.Portrait ? app.height : app.width
-        width: app.orientation==Orientation.Portrait ? app.width : app.height
+        height: app.orientation === Orientation.Portrait ? app.height : app.width
+        width: app.orientation === Orientation.Portrait ? app.width : app.height
         y: 0
-        x: app.orientation==Orientation.Portrait ? 0 : app.width
-    }
+        x: app.orientation === Orientation.Portrait ? 0 : app.width
+    }*/
 
     Pocket {
         id: pocket

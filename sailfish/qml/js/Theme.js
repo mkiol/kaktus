@@ -61,9 +61,7 @@ window.KaktusThemeObject.prototype.apply = function() {
     var fontSize = Math.floor(this.fontSize / scale);
     var fontSizeTitle = Math.floor(this.fontSizeTitle / scale);
 
-    var css = "";
-
-    if (this.theme === "dark") {
+    /*if (this.theme === "dark") {
         css = "* { font-family: \"" + this.fontFamily + "\";\n" +
               "background-color: " + this.highlightDimmerColor + " !important;\n" +
               "color: " + this.primaryColor + " !important;\n }\n\n";
@@ -75,7 +73,13 @@ window.KaktusThemeObject.prototype.apply = function() {
               "color: " + this.highlightDimmerColor + " !important;\n }\n\n";
         css += "select { color: " + this.highlightColorDark + " !important; }\n";
         css += "a { color: " + this.highlightColorDark + " !important; }\n";
-    }
+    }*/
+
+    var css = "* { font-family: \"" + this.fontFamily + "\";\n" +
+          "background-color: " + this.highlightDimmerColor + " !important;\n" +
+          "color: " + this.primaryColor + " !important;\n }\n\n";
+    css += "select { color: " + this.highlightDimmerColor + " !important; }\n";
+    css += "a { color: " + this.highlightColor + " !important; }\n";
 
     //css += "body { max-width: " + maxWidth + "px; \n" +
     css += "body { " +

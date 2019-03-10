@@ -32,6 +32,6 @@ Rectangle {
         id: unreadlabel
         text: count
         anchors.centerIn: parent
-        color: Theme.highlightColor
+        color: Theme.colorScheme ? Qt.darker(Theme.highlightColor) : Theme.highlightColor
     }
 }

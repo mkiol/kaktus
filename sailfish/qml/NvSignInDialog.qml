@@ -44,6 +44,7 @@ Dialog {
     SilicaFlickable {
         anchors {left: parent.left; right: parent.right; top: parent.top }
         height: app.flickHeight
+        Behavior on height {NumberAnimation { duration: 200; easing.type: Easing.OutQuad }}
         clip: true
         contentHeight: content.height
 

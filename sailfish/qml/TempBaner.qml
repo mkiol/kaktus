@@ -51,5 +51,6 @@ Rectangle {
         horizontalAlignment: Text.AlignHCenter
         anchors.left: parent.left; anchors.right: parent.right
         font.pixelSize: Theme.fontSizeExtraLarge
+        color: "white"
     }
 }

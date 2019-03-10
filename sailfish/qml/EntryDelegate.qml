@@ -104,21 +104,10 @@ ListItem {
     Rectangle {
         anchors.fill: parent
         visible: opacity > 0.0
-        opacity: (landscapeMode || expandable) && expanded && !last && !daterow ? 1.0 : 0.0
+        opacity: (landscapeMode || expandable) && expanded && !last && !daterow ? 0.5 : 0.0
         Behavior on opacity { FadeAnimation {} }
-        color: Theme.highlightDimmerColor
+        color: Theme.colorScheme ? "white" : "black"
     }
-
-    /*Rectangle {
-        anchors.top: parent.top; anchors.right: parent.right
-        width: Theme.paddingSmall; height: titleLabel.height
-        visible: root.fresh && !last && !daterow && !(landscapeMode && expanded)
-
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
-            GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
-        }
-    }*/
 
     Item {
         id: dateRowbox
@@ -318,7 +307,7 @@ ListItem {
             anchors.verticalCenter: expanderLabel.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: root.landscapeMode ? Theme.paddingMedium : Theme.horizontalPageMargin
-            source: "image://theme/icon-lock-more"
+            source: "image://theme/icon-lock-more?" + Theme.primaryColor
             visible: box.expandable && !root.landscapeMode
         }
 
@@ -386,8 +375,8 @@ ListItem {
 
             IconMenuItem {
                 text: qsTr("Toggle Read")
-                icon.source: root.read ? 'image://icons/icon-m-read-selected' :
-                                         'image://icons/icon-m-read'
+                icon.source: root.read ? "image://icons/icon-m-read-selected?" + Theme.primaryColor :
+                                         "image://icons/icon-m-read?" + Theme.primaryColor
                 visible: enabled
                 enabled: root.showMarkedAsRead
                 onClicked: {
@@ -397,70 +386,70 @@ ListItem {
                         root.markedAsRead();
                         root.expanded = false;
                     }
-                    menu.hide();
+                    menu.close()
                 }
 
             }
 
             IconMenuItem {
                 text: app.isNetvibes ? qsTr("Toggle Save") : qsTr("Toggle Star")
-                icon.source: root.readlater ? 'image://theme/icon-m-favorite-selected' :
-                                              'image://theme/icon-m-favorite'
+                icon.source: root.readlater ? "image://theme/icon-m-favorite-selected?" + Theme.primaryColor :
+                                              "image://theme/icon-m-favorite?" + Theme.primaryColor
                 onClicked: {
                     if (root.readlater) {
                         root.unmarkedReadlater();
                     } else {
                         root.markedReadlater();
                     }
-                    menu.hide();
+                    menu.close()
                 }
             }
 
             IconMenuItem {
                 text: qsTr("Above as read")
-                icon.source: 'image://icons/icon-m-readabove'
+                icon.source: "image://icons/icon-m-readabove?" + Theme.primaryColor
                 visible: enabled
                 enabled: root.showMarkedAsRead && root.index > 1
                 onClicked: {
                     root.markedAboveAsRead();
                     root.expanded = false;
-                    menu.hide();
+                    menu.close()
                 }
             }
 
             IconMenuItem {
                 text: qsTr("Viewer")
-                icon.source: 'image://icons/icon-m-webview'
+                icon.source: "image://icons/icon-m-webview?" + Theme.primaryColor
                 visible: enabled
                 //enabled: settings.clickBehavior !== 0
                 onClicked: {
                     root.openInViewer();
                     root.expanded = false;
-                    menu.hide();
+                    menu.close()
                 }
             }
 
             IconMenuItem {
                 text: qsTr("Browser")
-                icon.source: 'image://icons/icon-m-browser'
+                icon.source: "image://icons/icon-m-browser?" + Theme.primaryColor
                 visible: enabled
                 //enabled: settings.clickBehavior !== 1
                 onClicked: {
                     root.openInBrowser();
                     root.expanded = false;
-                    menu.hide();
+                    menu.close()
                 }
             }
 
             IconMenuItem {
                 text: qsTr("Feed content")
-                icon.source: 'image://icons/icon-m-rss'
+                icon.source: "image://icons/icon-m-rss?" + Theme.primaryColor
                 visible: enabled
                 //enabled: settings.clickBehavior !== 2
                 onClicked: {
                     root.showFeedContent()
                     root.expanded = false
-                    menu.hide()
+                    menu.close()
                 }
             }
 
@@ -468,21 +457,21 @@ ListItem {
                 text: qsTr("Add to Pocket")
                 visible: settings.pocketEnabled
                 enabled: settings.pocketEnabled && dm.online
-                icon.source: "image://icons/icon-m-pocket"
+                icon.source: "image://icons/icon-m-pocket?" + Theme.primaryColor
                 busy: pocket.busy
                 onClicked: root.pocketAdd()
             }
 
             IconMenuItem {
                 text: qsTr("Share link")
-                icon.source: "image://theme/icon-m-share"
+                icon.source: "image://theme/icon-m-share?" + Theme.primaryColor
                 onClicked: root.share()
             }
 
             IconMenuItem {
                 id: likeItem
                 text: qsTr("Toggle Like")
-                icon.source: root.liked ? "image://icons/icon-m-like-selected" : "image://icons/icon-m-like"
+                icon.source: root.liked ? "image://icons/icon-m-like-selected?" + Theme.primaryColor : "image://icons/icon-m-like?" + Theme.primaryColor
                 enabled: settings.showBroadcast && app.isOldReader
                 visible: enabled
                 onClicked: {
@@ -491,13 +480,13 @@ ListItem {
                     } else {
                         root.markedLike()
                     }
-                    menu.hide()
+                    menu.close()
                 }
             }
 
             IconMenuItem {
                 text: qsTr("Toggle Share")
-                icon.source: root.broadcast ? "image://icons/icon-m-share-selected" : "image://icons/icon-m-share"
+                icon.source: root.broadcast ? "image://icons/icon-m-share-selected?" + Theme.primaryColor : "image://icons/icon-m-share?" + Theme.primaryColor
                 enabled: settings.showBroadcast && app.isOldReader &&
                          !root.friendStream
                 visible: enabled
@@ -507,7 +496,7 @@ ListItem {
                     } else {
                         root.markedBroadcast()
                     }
-                    menu.hide()
+                    menu.close()
                 }
             }
         }
