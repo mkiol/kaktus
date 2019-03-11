@@ -1615,7 +1615,8 @@ int NvFetcher::storeFeeds()
                                 QRegExp rx("<img\\s[^>]*src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
                                 if (rx.indexIn(e.content)!=-1) {
                                     QString imgSrc = rx.cap(1); imgSrc = imgSrc.mid(1,imgSrc.length()-2);
-                                    if (imgSrc!="") {
+                                    if (!imgSrc.isEmpty()) {
+                                        imgSrc.replace("&amp;","&", Qt::CaseInsensitive);
                                         if (!s->db->isCacheExistsByFinalUrl(Utils::hash(imgSrc))) {
                                             DatabaseManager::CacheItem item;
                                             item.origUrl = imgSrc;
