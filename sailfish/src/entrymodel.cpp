@@ -260,8 +260,11 @@ int EntryModel::createItems(int offset, int limit)
                 .replace(QChar::ObjectReplacementCharacter,QChar(0x0020)).trimmed();
 #endif
         QString content = content0.simplified();
-        if (content.length()>1000)
+        if (content.length()>1000) {
             content = content.left(997)+"...";
+        } else if (content.length() < 15) {
+            content.clear();
+        }
 
         doc.setHtml((*i).title);
         QString title = doc.toPlainText()
