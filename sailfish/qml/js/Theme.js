@@ -61,26 +61,11 @@ window.KaktusThemeObject.prototype.apply = function() {
     var fontSize = Math.floor(this.fontSize / scale);
     var fontSizeTitle = Math.floor(this.fontSizeTitle / scale);
 
-    /*if (this.theme === "dark") {
-        css = "* { font-family: \"" + this.fontFamily + "\";\n" +
-              "background-color: " + this.highlightDimmerColor + " !important;\n" +
-              "color: " + this.primaryColor + " !important;\n }\n\n";
-        css += "select { color: " + this.highlightDimmerColor + " !important; }\n";
-        css += "a { color: " + this.highlightColor + " !important; }\n";
-    } else if (this.theme === "light") {
-        css = "* { font-family: \"" + this.fontFamily + "\";\n" +
-              "background-color: " + this.secondaryColor + " !important;\n" +
-              "color: " + this.highlightDimmerColor + " !important;\n }\n\n";
-        css += "select { color: " + this.highlightColorDark + " !important; }\n";
-        css += "a { color: " + this.highlightColorDark + " !important; }\n";
-    }*/
-
     var css = "* { font-family: \"" + this.fontFamily + "\";\n" +
-          "background-color: " + this.highlightDimmerColor + " !important;\n" +
+          "background-color: " + this.bgColor + " !important;\n" +
           "color: " + this.primaryColor + " !important;\n }\n\n";
-    css += "select { color: " + this.highlightDimmerColor + " !important; }\n";
+    css += "select { color: " + this.bgColor + " !important; }\n";
     css += "a { color: " + this.highlightColor + " !important; }\n";
-
     //css += "body { max-width: " + maxWidth + "px; \n" +
     css += "body { " +
             "margin: 0; \n" +

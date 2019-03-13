@@ -65,21 +65,21 @@ window.KaktusReaderModeObject.prototype.applyFiltering = function(doc, insert) {
 };
 
 window.KaktusReaderModeObject.prototype.check = function(data) {
-    var loc = document.location;
-    var uri = { "spec": loc.href,
-                "host": loc.host,
-                "prePath": loc.protocol + "//" + loc.host,
-                "scheme": loc.protocol.substr(0, loc.protocol.indexOf(":")),
-                "pathBase": loc.protocol + "//" + loc.host + loc.pathname.substr(0, loc.pathname.lastIndexOf("/") + 1) };
-
     var newDoc1 = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
     var newBody1 = document.createElementNS('http://www.w3.org/1999/xhtml', 'body');
+    var newHead1 = document.createElementNS('http://www.w3.org/1999/xhtml', 'head');
+    var newBase1 = document.createElementNS('http://www.w3.org/1999/xhtml', 'base');
+    newBase1.setAttribute('href', document.baseURI);
+    newHead1.appendChild(newBase1);
+    newDoc1.documentElement.appendChild(newHead1);
     newBody1.innerHTML = document.body.innerHTML;
     newDoc1.documentElement.appendChild(newBody1);
+    //console.log("document.baseURI: " + document.baseURI);
+    //console.log("document.documentURI: " + document.documentURI);
 
     var article = null;
     try {
-        article = new window.Readability(uri, newDoc1).parse();
+        article = new Readability(newDoc1).parse();
     } catch (err) {
     	console.error("Exception in KaktusReaderMode.check: " + err);
     }
@@ -94,12 +94,11 @@ window.KaktusReaderModeObject.prototype.check = function(data) {
         var newDoc2 = document.implementation.createDocument('http://www.w3.org/1999/xhtml', 'html', null);
         var newBody2 = document.createElementNS('http://www.w3.org/1999/xhtml', 'body');
         newBody2.innerHTML = insert + article.content;
-        newDoc2.documentElement.appendChild(newBody2);
+        newDoc2.documentElement.appendChild(newBody2);       
         this.applyFiltering(newDoc2, insert);
         this.readabilityDoc = newDoc2.documentElement.innerHTML;
         this.orginalDoc = document.documentElement.innerHTML;
-
-        //console.log("Readability: " + this.readabilityDoc);
+        //console.log("Readability doc: " + this.readabilityDoc);
     }
 
     kaktusPostMessage("readability_result", { possible: this.readabilityPossible, enabled: this.enabled });

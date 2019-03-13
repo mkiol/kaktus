@@ -309,15 +309,17 @@ Readability.prototype = {
    */
   _fixRelativeUris: function(articleContent) {
     var baseURI = this._doc.baseURI;
-    var documentURI = this._doc.documentURI;
+    var doc = this._doc;
     function toAbsoluteURI(uri) {
       // Leave hash links alone if the base URI matches the document URI:
-      if (baseURI == documentURI && uri.charAt(0) == "#") {
+      if (uri.charAt(0) == "#") {
         return uri;
       }
       // Otherwise, resolve against base URI:
       try {
-        return new URL(uri, baseURI).href;
+          var a = doc.createElement('a');
+          a.href = uri;
+          return a.href;
       } catch (ex) {
         // Something went wrong, just return the original:
       }

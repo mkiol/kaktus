@@ -51,7 +51,7 @@ Page {
     property bool autoReaderMode: settings.readerMode
     property bool autoRead: true
     readonly property color bgColor: Theme.colorScheme ? Qt.lighter(Theme.highlightBackgroundColor, 1.9) :
-                                                         Qt.darker(Theme.highlightBackgroundColor, 3.0)
+                                                         Qt.darker(Theme.highlightBackgroundColor, 4.0)
 
     function share() {
         pageStack.push(Qt.resolvedUrl("ShareLinkPage.qml"),{"link": root.onlineUrl, "linkTitle": root.title});
@@ -112,9 +112,7 @@ Page {
         var theme = { "primaryColor": Theme.rgba(Theme.primaryColor, 1.0).toString(),
                       "secondaryColor": Theme.rgba(Theme.secondaryColor, 1.0).toString(),
                       "highlightColor": Theme.rgba(Theme.highlightColor, 1.0).toString(),
-                      "highlightColorDark": (Theme.colorScheme ? Qt.lighter(Theme.highlightColor).toString() : Qt.darker(Theme.highlightColor).toString()),
-                      "secondaryHighlightColor": Theme.rgba(Theme.secondaryHighlightColor, 1.0).toString(),
-                      "highlightDimmerColor": root.bgColor.toString(),
+                      "bgColor": root.bgColor.toString(),
                       "fontFamily": Theme.fontFamily,
                       "fontFamilyHeading": Theme.fontFamilyHeading,
                       "pageMargin": Theme.horizontalPageMargin/Theme.pixelRatio,
