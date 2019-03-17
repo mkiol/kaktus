@@ -473,6 +473,10 @@ Page {
             onPocketAdd: {
                 pocket.add(model.link, model.title)
             }
+
+            onSaveImage: {
+                fetcher.saveImage(model.image)
+            }
         }
 
         ViewPlaceholder {

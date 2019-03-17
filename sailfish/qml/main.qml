@@ -244,6 +244,7 @@ ApplicationWindow {
         fetcher.uploading.connect(fetcherUploading);
         fetcher.busyChanged.connect(fetcherBusyChanged);
         fetcher.canceled.connect(fetcherCanceled);
+        fetcher.imageSaved.connect(fetcherImageSaved);
     }
 
     function disconnectFetcher() {
@@ -261,6 +262,7 @@ ApplicationWindow {
         fetcher.uploading.disconnect(fetcherUploading);
         fetcher.busyChanged.disconnect(fetcherBusyChanged);
         fetcher.canceled.disconnect(fetcherCanceled);
+        fetcher.imageSaved.disconnect(fetcherImageSaved);
     }
 
     property bool fetcherBusyStatus: false
@@ -322,6 +324,10 @@ ApplicationWindow {
                 pageStack.push(Qt.resolvedUrl("TTRssSignInDialog.qml"),{"code": code});
                 return;
             }
+        } else if (code === 800) {
+            notification.show(qsTr("Cannot save the image file"));
+        } else if (code === 801) {
+            notification.show(qsTr("Image file already exists"));
         } else {
             // Unknown error
             notification.show(qsTr("Unknown error"));
@@ -393,6 +399,10 @@ ApplicationWindow {
 
     function fetcherCanceled() {
         resetView();
+    }
+
+    function fetcherImageSaved(filename) {
+        notification.show(qsTr("Image saved as \"" + filename + "\""));
     }
 
     Notification {

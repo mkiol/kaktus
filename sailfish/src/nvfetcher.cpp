@@ -107,25 +107,25 @@ void NvFetcher::signIn()
 
 void NvFetcher::startFetching()
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
-    storedStreamList = s->db->readStreamModuleTabListWithoutDate();
+    storedStreamList = db->readStreamModuleTabListWithoutDate();
 
     //Backup
-    if (!s->db->makeBackup()) {
+    if (!db->makeBackup()) {
         qWarning() << "Unable to make DB backup!";
         emit error(506);
         setBusy(false);
         return;
     }
 
-    s->db->cleanDashboards();
-    s->db->cleanTabs();
-    s->db->cleanModules();
+    db->cleanDashboards();
+    db->cleanTabs();
+    db->cleanModules();
 
     // Create Cache structure
     if(busyType == Fetcher::Initiating) {
-        s->db->cleanCache();
+        db->cleanCache();
     }
 
     fetchDashboards();
@@ -341,7 +341,8 @@ void NvFetcher::setAction()
 {
     data.clear();
 
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
     DatabaseManager::Action action = actionsList.first();
 
     QUrl url;
@@ -395,7 +396,7 @@ void NvFetcher::setAction()
     if (action.type == DatabaseManager::SetTabReadAll ||
             action.type == DatabaseManager::UnSetTabReadAll) {
 
-        QList<DatabaseManager::StreamModuleTab> list = s->db->readStreamModuleTabListByTab(action.id1);
+        QList<DatabaseManager::StreamModuleTab> list = db->readStreamModuleTabListByTab(action.id1);
 
         if (list.empty()) {
             qWarning() << "Action is broken!";
@@ -403,7 +404,7 @@ void NvFetcher::setAction()
             return;
         }
 
-        int lastPublishedAt = s->db->readLastPublishedAtByTab(action.id1)+1;
+        int lastPublishedAt = db->readLastPublishedAtByTab(action.id1)+1;
 
         actions += QString("{\"options\":{\"publishedBeforeDate\":%1},\"streams\":[").arg(lastPublishedAt);
 
@@ -423,7 +424,7 @@ void NvFetcher::setAction()
     if (action.type == DatabaseManager::SetAllRead ||
             action.type == DatabaseManager::UnSetAllRead) {
 
-        QList<DatabaseManager::StreamModuleTab> list = s->db->readStreamModuleTabListByDashboard(s->getDashboardInUse());
+        QList<DatabaseManager::StreamModuleTab> list = db->readStreamModuleTabListByDashboard(s->getDashboardInUse());
 
         if (list.empty()) {
             qWarning() << "Action is broken!";
@@ -431,7 +432,7 @@ void NvFetcher::setAction()
             return;
         }
 
-        int lastPublishedAt = s->db->readLastPublishedAtByDashboard(s->getDashboardInUse())+1;
+        int lastPublishedAt = db->readLastPublishedAtByDashboard(s->getDashboardInUse())+1;
 
         actions += QString("{\"options\":{\"publishedBeforeDate\":%1},\"streams\":[").arg(lastPublishedAt);
 
@@ -451,7 +452,7 @@ void NvFetcher::setAction()
     if (action.type == DatabaseManager::SetSlowRead ||
             action.type == DatabaseManager::UnSetSlowRead) {
 
-        QList<DatabaseManager::StreamModuleTab> list = s->db->readSlowStreamModuleTabListByDashboard(s->getDashboardInUse());
+        QList<DatabaseManager::StreamModuleTab> list = db->readSlowStreamModuleTabListByDashboard(s->getDashboardInUse());
 
         if (list.empty()) {
             qWarning() << "Action is broken!";
@@ -459,7 +460,7 @@ void NvFetcher::setAction()
             return;
         }
 
-        int lastPublishedAt = s->db->readLastPublishedAtSlowByDashboard(s->getDashboardInUse())+1;
+        int lastPublishedAt = db->readLastPublishedAtSlowByDashboard(s->getDashboardInUse())+1;
 
         actions += QString("{\"options\":{\"publishedBeforeDate\":%1},\"streams\":[").arg(lastPublishedAt);
 
@@ -479,7 +480,7 @@ void NvFetcher::setAction()
     if (action.type == DatabaseManager::SetStreamReadAll ||
             action.type == DatabaseManager::UnSetStreamReadAll) {
 
-        int lastPublishedAt = s->db->readLastPublishedAtByStream(action.id1)+1;
+        int lastPublishedAt = db->readLastPublishedAtByStream(action.id1)+1;
 
         actions += QString("{\"options\":{\"publishedBeforeDate\":%1},\"streams\":[").arg(lastPublishedAt);
         actions += QString("{\"id\":\"%1\"}").arg(action.id1);
@@ -811,8 +812,8 @@ void NvFetcher::finishedDashboards()
     if (currentReply->error()) {
 
         // Restoring backup
-        Settings *s = Settings::instance();
-        if (!s->db->restoreBackup()) {
+        auto db = DatabaseManager::instance();
+        if (!db->restoreBackup()) {
             qWarning() << "Unable to restore DB backup!";
         }
 
@@ -843,8 +844,8 @@ void NvFetcher::finishedDashboards2()
         qWarning() << "No Dashboards found!";
 
         // Restoring backup
-        Settings *s = Settings::instance();
-        if (!s->db->restoreBackup()) {
+        auto db = DatabaseManager::instance();
+        if (!db->restoreBackup()) {
             qWarning() << "Unable to restore DB backup!";
         }
 
@@ -858,8 +859,8 @@ void NvFetcher::finishedTabs()
     if (currentReply->error()) {
 
         // Restoring backup
-        Settings *s = Settings::instance();
-        if (!s->db->restoreBackup()) {
+        auto db = DatabaseManager::instance();
+        if (!db->restoreBackup()) {
             qWarning() << "Unable to restore DB backup!";
         }
 
@@ -873,7 +874,7 @@ void NvFetcher::finishedTabs()
 
 void NvFetcher::finishedTabs2()
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     if(!dashboardList.isEmpty()) {
         fetchTabs();
@@ -887,14 +888,14 @@ void NvFetcher::finishedTabs2()
         } else {
             if (busyType == Fetcher::Updating) {
                 // Set current entries as not fresh
-                s->db->updateEntriesFreshFlag(0);
+                db->updateEntriesFreshFlag(0);
 
-                streamUpdateList = s->db->readStreamModuleTabList();
+                streamUpdateList = db->readStreamModuleTabList();
 
                 cleanRemovedFeeds();
                 cleanNewFeeds();
 
-                s->db->cleanStreams();
+                db->cleanStreams();
 
                 if (streamList.isEmpty()) {
                     qDebug() << "No new Feeds!";
@@ -909,9 +910,9 @@ void NvFetcher::finishedTabs2()
             }
 
             if (busyType == Fetcher::Initiating) {
-                s->db->cleanStreams();
-                s->db->cleanEntries();
-                //s->db->cleanCache();
+                db->cleanStreams();
+                db->cleanEntries();
+                //db->cleanCache();
 
                 proggressTotal = qCeil(streamList.count()/feedsAtOnce)+3;
                 emit progress(3,proggressTotal);
@@ -927,8 +928,8 @@ void NvFetcher::finishedFeeds()
     if (currentReply->error()) {
 
         // Restoring backup
-        Settings *s = Settings::instance();
-        if (!s->db->restoreBackup()) {
+        auto db = DatabaseManager::instance();
+        if (!db->restoreBackup()) {
             qWarning() << "Unable to restore DB backup!";
         }
 
@@ -942,14 +943,14 @@ void NvFetcher::finishedFeeds()
 
 void NvFetcher::finishedFeeds2()
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     emit progress(proggressTotal-((streamList.count()/feedsAtOnce)+(streamUpdateList.count()/feedsUpdateAtOnce)),proggressTotal);
 
     if (streamList.isEmpty()) {
 
         if(busyType == Fetcher::Updating) {
-            streamUpdateList = s->db->readStreamModuleTabList();
+            streamUpdateList = db->readStreamModuleTabList();
             fetchFeedsUpdate();
         }
 
@@ -968,8 +969,8 @@ void NvFetcher::finishedFeedsReadlater()
     //qDebug() << data;
     if (currentReply->error()) {
         // Restoring backup
-        Settings *s = Settings::instance();
-        if (!s->db->restoreBackup()) {
+        auto db = DatabaseManager::instance();
+        if (!db->restoreBackup()) {
             qWarning() << "Unable to restore DB backup!";
         }
 
@@ -988,8 +989,10 @@ void NvFetcher::finishedFeedsReadlater2()
         fetchFeedsReadlater();
     } else {
         // Fix for very old entries. Mark as unsaved entries unmarked on server
-        Settings *s = Settings::instance();
-        s->db->updateEntriesSavedFlagByFlagAndDashboard(s->getDashboardInUse(),9,0);
+        auto s = Settings::instance();
+        auto db = DatabaseManager::instance();
+
+        db->updateEntriesSavedFlagByFlagAndDashboard(s->getDashboardInUse(),9,0);
 
         dashboardList.clear();
         tabList.clear();
@@ -1007,8 +1010,8 @@ void NvFetcher::finishedFeedsUpdate()
     if (currentReply->error()) {
 
         // Restoring backup
-        Settings *s = Settings::instance();
-        if (!s->db->restoreBackup()) {
+        auto db = DatabaseManager::instance();
+        if (!db->restoreBackup()) {
             qWarning() << "Unable to restore DB backup!";
         }
 
@@ -1022,14 +1025,16 @@ void NvFetcher::finishedFeedsUpdate()
 
 void NvFetcher::finishedFeedsUpdate2()
 {
-    Settings *s = Settings::instance();
-
     emit progress(proggressTotal-qCeil(streamUpdateList.count()/feedsUpdateAtOnce),proggressTotal);
 
     if (streamUpdateList.isEmpty()) {
         // Fetching Saved items
         publishedBeforeDate = 0;
-        s->db->updateEntriesSavedFlagByFlagAndDashboard(s->getDashboardInUse(),1,9);
+
+        auto s = Settings::instance();
+        auto db = DatabaseManager::instance();
+
+        db->updateEntriesSavedFlagByFlagAndDashboard(s->getDashboardInUse(),1,9);
         fetchFeedsReadlater();
     } else {
         fetchFeedsUpdate();
@@ -1039,13 +1044,10 @@ void NvFetcher::finishedFeedsUpdate2()
 void NvFetcher::finishedSetAction()
 {
     if (currentReply != NULL) {
-
         //qDebug() << data;
         if (currentReply->error()) {
-
             if (currentReply->error() == QNetworkReply::OperationCanceledError ||
                 currentReply->error() == QNetworkReply::TimeoutError ) {
-
                 setBusy(false);
                 return;
             }
@@ -1066,17 +1068,17 @@ void NvFetcher::finishedSetAction()
         checkError();
     }
 
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     // Deleting action
     DatabaseManager::Action action = actionsList.takeFirst();
-    s->db->removeActionsByIdAndType(action.id1, action.type);
+    db->removeActionsByIdAndType(action.id1, action.type);
 
     // Updating upload proggres
     emit uploadProgress(this->uploadProggressTotal - actionsList.size(), this->uploadProggressTotal);
 
     if (actionsList.isEmpty()) {
-        s->db->cleanDashboards();
+        db->cleanDashboards();
         startFetching();
     } else {
         uploadActions();
@@ -1115,7 +1117,8 @@ void NvFetcher::startJob(Job job)
         return;
     }
 
-    Settings *s = Settings::instance();
+    auto *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     disconnect(this, SIGNAL(finished()), 0, 0);
     currentJob = job;
@@ -1136,7 +1139,7 @@ void NvFetcher::startJob(Job job)
             qWarning() << "Netvibes API error!" << jsonObj;
 
             // Restoring backup
-            if (!s->db->restoreBackup()) {
+            if (!db->restoreBackup()) {
                 qWarning() << "Unable to restore DB backup!";
             }
 
@@ -1149,7 +1152,7 @@ void NvFetcher::startJob(Job job)
         qWarning() << "Error parsing Json!";
 
         // Restoring backup
-        if (!s->db->restoreBackup()) {
+        if (!db->restoreBackup()) {
             qWarning() << "Unable to restore DB backup!";
         }
 
@@ -1189,7 +1192,8 @@ void NvFetcher::startJob(Job job)
 
 void NvFetcher::storeDashboardsByParsingHtml()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     QRegExp rx1("<div id=\"page-([^\"]*)\" class=\"[^\"]*private-page[^\"]*\" title=\"([^\"]*)\">");
     int pos = 0;
@@ -1201,7 +1205,7 @@ void NvFetcher::storeDashboardsByParsingHtml()
         d.name = rx1.cap(1);
         d.title = rx1.cap(2);
         d.description = rx1.cap(2);
-        s->db->writeDashboard(d);
+        db->writeDashboard(d);
         dashboardList.append(d.id);
     }
 
@@ -1225,7 +1229,8 @@ void NvFetcher::storeDashboards()
         return;
     }
 
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (jsonObj["dashboards"].isObject()) {
@@ -1256,7 +1261,7 @@ void NvFetcher::storeDashboards()
                 d.name = obj["name"].toString();
                 d.title = obj["title"].toString();
                 d.description = obj["description"].toString();
-                s->db->writeDashboard(d);
+                db->writeDashboard(d);
                 dashboardList.append(d.id);
                 //qDebug() << "Writing dashboard: " << d.title;
 
@@ -1287,7 +1292,7 @@ void NvFetcher::storeTabs()
         return;
     }
 
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
     QString dashboardId = dashboardList.takeFirst();
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -1328,7 +1333,7 @@ void NvFetcher::storeTabs()
             }
 #endif
 
-            s->db->writeTab(t);
+            db->writeTab(t);
             tabList.append(t.id);
 
             //qDebug() << "Writing tab: " << t.id << t.title;
@@ -1402,7 +1407,7 @@ void NvFetcher::storeTabs()
                     qWarning() << "Module"<<m.id<<"without streams!";
                 }
 
-                s->db->writeModule(m);
+                db->writeModule(m);
             }
         }
     }  else {
@@ -1416,7 +1421,10 @@ int NvFetcher::storeFeeds()
         return 0;
     }
 
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+    auto dm = DownloadManager::instance();
+
     int entriesCount = 0;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -1495,7 +1503,7 @@ int NvFetcher::storeFeeds()
                         }
 
                         //qDebug() << "Writing Stream: " << st.id << st.title;
-                        s->db->writeStream(st);
+                        db->writeStream(st);
                     }
                 } else {
                     qWarning() << "No \"streams\" element found!";
@@ -1599,11 +1607,11 @@ int NvFetcher::storeFeeds()
                         e.annotations = "";
 
                         // Downloading image file
-                        if (s->getCachingMode() == 2 || (s->getCachingMode() == 1 && s->dm->isWLANConnected())) {
+                        if (s->getCachingMode() == 2 || (s->getCachingMode() == 1 && dm->isWLANConnected())) {
                             if (image!="") {
                                 //qDebug() << "netvibes image:" << image;
                                 // Image provided by Netvibes API :-)
-                                if (!s->db->isCacheExistsByFinalUrl(Utils::hash(image))) {
+                                if (!db->isCacheExistsByFinalUrl(Utils::hash(image))) {
                                     DatabaseManager::CacheItem item;
                                     item.origUrl = image;
                                     item.finalUrl = image;
@@ -1617,7 +1625,7 @@ int NvFetcher::storeFeeds()
                                     QString imgSrc = rx.cap(1); imgSrc = imgSrc.mid(1,imgSrc.length()-2);
                                     if (!imgSrc.isEmpty()) {
                                         imgSrc.replace("&amp;","&", Qt::CaseInsensitive);
-                                        if (!s->db->isCacheExistsByFinalUrl(Utils::hash(imgSrc))) {
+                                        if (!db->isCacheExistsByFinalUrl(Utils::hash(imgSrc))) {
                                             DatabaseManager::CacheItem item;
                                             item.origUrl = imgSrc;
                                             item.finalUrl = imgSrc;
@@ -1631,7 +1639,7 @@ int NvFetcher::storeFeeds()
                             }
                         }
 
-                        s->db->writeEntry(e);
+                        db->writeEntry(e);
                         ++entriesCount;
                         //qDebug() << "entriesCount:" << entriesCount;
 
@@ -1754,7 +1762,7 @@ void NvFetcher::cleanNewFeeds()
 
 void NvFetcher::cleanRemovedFeeds()
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
     QList<DatabaseManager::StreamModuleTab>::iterator i = storedStreamList.begin();
 
     while (i != storedStreamList.end()) {
@@ -1776,7 +1784,7 @@ void NvFetcher::cleanRemovedFeeds()
 
         if (removedStream) {
             qDebug() << "Removing stream" << (*i).streamId << "in tab" << (*i).tabId;
-            s->db->removeStreamsByStream((*i).streamId);
+            db->removeStreamsByStream((*i).streamId);
 
             // Removing stream from streamUpdateList
             QList<DatabaseManager::StreamModuleTab>::iterator sui = streamUpdateList.begin();
@@ -1797,12 +1805,12 @@ void NvFetcher::cleanRemovedFeeds()
 void NvFetcher::removeAction()
 {
     DatabaseManager::Action action = actionsList.takeFirst();
+    auto db = DatabaseManager::instance();
 
-    Settings *s = Settings::instance();
-    s->db->removeActionsById(action.id1);
+    db->removeActionsById(action.id1);
 
     if (actionsList.isEmpty()) {
-        s->db->cleanDashboards();
+        db->cleanDashboards();
         startFetching();
     } else {
         uploadActions();

@@ -19,13 +19,13 @@
 
 #include <QRegExp>
 
+#include "databasemanager.h"
 #include "feedmodel.h"
 
-FeedModel::FeedModel(DatabaseManager *db, QObject *parent) :
-    ListModel(new FeedItem, parent)
+FeedModel::FeedModel(QObject *parent) :
+    ListModel(new FeedItem, parent),
+    _tabId()
 {
-    _db = db;
-    _tabId = "";
 }
 
 void FeedModel::init(const QString &tabId)
@@ -43,21 +43,25 @@ void FeedModel::init()
 
 void FeedModel::createItems(const QString &tabId)
 {
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     QList<DatabaseManager::Stream> list;
-    Settings *s = Settings::instance();
+
     int mode = s->getViewMode();
+
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        list = _db->readStreamsByTab(tabId);
+        list = db->readStreamsByTab(tabId);
         break;
     case 1:
         // View mode: Tabs->Entries
-        list = _db->readStreamsByTab(tabId);
+        list = db->readStreamsByTab(tabId);
         break;
     case 2:
         // View mode: Feeds->Entries
-        list = _db->readStreamsByDashboard(s->getDashboardInUse());
+        list = db->readStreamsByDashboard(s->getDashboardInUse());
         break;
     case 3:
         // View mode: Entries
@@ -71,7 +75,7 @@ void FeedModel::createItems(const QString &tabId)
 
     QRegExp re("<[^>]*>");
     QList<DatabaseManager::Stream>::iterator i = list.begin();
-    while( i != list.end() ) {
+    while (i != list.end() ) {
         appendRow(new FeedItem((*i).id,
                               (*i).title.remove(re),
                               (*i).content,
@@ -79,62 +83,67 @@ void FeedModel::createItems(const QString &tabId)
                               (*i).query,
                               (*i).icon,
                               0,
-                              _db->countEntriesUnreadByStream((*i).id),
-                              _db->countEntriesReadByStream((*i).id),
+                              db->countEntriesUnreadByStream((*i).id),
+                              db->countEntriesReadByStream((*i).id),
                               (*i).saved,
-                              _db->countEntriesFreshByStream((*i).id)
+                              db->countEntriesFreshByStream((*i).id)
                              ));
         ++i;
     }
 
-//#ifdef BB10
     // Dummy row as workaround!
-    if (list.count()>0)
+    if (!list.isEmpty())
         appendRow(new FeedItem("last","","","","","",0,0,0,0,0));
-//#endif
 }
 
 void FeedModel::markAsUnread(int row)
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     if (s->getSigninType() >= 10) {
         // markAsUnread not supported in API
         qWarning() << "Mark feed as unread is not supported!";
         return;
     }
 
-    FeedItem* item = static_cast<FeedItem*>(readRow(row));
-    _db->updateEntriesReadFlagByStream(item->id(),0);
-    item->setRead(0); item->setUnread(_db->countEntriesUnreadByStream(item->id()));
+    FeedItem* item = dynamic_cast<FeedItem*>(readRow(row));
+    db->updateEntriesReadFlagByStream(item->id(),0);
+    item->setRead(0); item->setUnread(db->countEntriesUnreadByStream(item->id()));
 
     DatabaseManager::Action action;
     action.type = DatabaseManager::UnSetStreamReadAll;
     action.id1 = item->id();
-    action.date1 = _db->readLastUpdateByStream(item->id());
-    _db->writeAction(action);
+    action.date1 = db->readLastUpdateByStream(item->id());
+    db->writeAction(action);
 }
 
 void FeedModel::markAsRead(int row)
 {
-    FeedItem* item = static_cast<FeedItem*>(readRow(row));
-    _db->updateEntriesReadFlagByStream(item->id(),1);
-    item->setUnread(0); item->setRead(_db->countEntriesReadByStream(item->id()));
+    auto db = DatabaseManager::instance();
+
+    FeedItem* item = dynamic_cast<FeedItem*>(readRow(row));
+    db->updateEntriesReadFlagByStream(item->id(),1);
+    item->setUnread(0); item->setRead(db->countEntriesReadByStream(item->id()));
 
     DatabaseManager::Action action;
     action.type = DatabaseManager::SetStreamReadAll;
     action.id1 = item->id();
-    action.date1 = _db->readLastUpdateByStream(item->id());
-    _db->writeAction(action);
+    action.date1 = db->readLastUpdateByStream(item->id());
+    db->writeAction(action);
 }
 
 int FeedModel::countRead()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     int mode = s->getViewMode();
+
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        return _db->countEntriesReadByTab(_tabId);
+        return db->countEntriesReadByTab(_tabId);
         break;
     case 1:
         // View mode: Tabs->Entries
@@ -142,7 +151,7 @@ int FeedModel::countRead()
         return 0;
     case 2:
         // View mode: Feeds->Entries
-        return _db->countEntriesReadByDashboard(s->getDashboardInUse());
+        return db->countEntriesReadByDashboard(s->getDashboardInUse());
     case 3:
         // View mode: Entries
     case 4:
@@ -158,12 +167,15 @@ int FeedModel::countRead()
 
 int FeedModel::countUnread()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     int mode = s->getViewMode();
+
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        return _db->countEntriesUnreadByTab(_tabId);
+        return db->countEntriesUnreadByTab(_tabId);
         break;
     case 1:
         // View mode: Tabs->Entries
@@ -171,7 +183,7 @@ int FeedModel::countUnread()
         return 0;
     case 2:
         // View mode: Feeds->Entries
-        return _db->countEntriesUnreadByDashboard(s->getDashboardInUse());
+        return db->countEntriesUnreadByDashboard(s->getDashboardInUse());
     case 3:
         // View mode: Entries
     case 4:
@@ -187,7 +199,9 @@ int FeedModel::countUnread()
 
 void FeedModel::setAllAsUnread()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     if (s->getSigninType() >= 10) {
         // setAllAsUnread not supported in API
         qWarning() << "Mark tab as unread is not supported!";
@@ -199,10 +213,10 @@ void FeedModel::setAllAsUnread()
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        _db->updateEntriesReadFlagByTab(_tabId,0);
+        db->updateEntriesReadFlagByTab(_tabId,0);
         action.type = DatabaseManager::UnSetTabReadAll;
         action.id1 = _tabId;
-        action.date1 = _db->readLastUpdateByTab(_tabId);
+        action.date1 = db->readLastUpdateByTab(_tabId);
         break;
     case 1:
         // View mode: Tabs->Entries
@@ -210,10 +224,10 @@ void FeedModel::setAllAsUnread()
         return;
     case 2:
         // View mode: Feeds->Entries
-        _db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),0);
+        db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),0);
         action.type = DatabaseManager::UnSetAllRead;
         action.id1 = s->getDashboardInUse();
-        action.date1 = _db->readLastUpdateByTab(_tabId);
+        action.date1 = db->readLastUpdateByTab(_tabId);
         break;
     case 3:
         // View mode: Entries
@@ -227,21 +241,25 @@ void FeedModel::setAllAsUnread()
 
     updateFlags();
 
-    _db->writeAction(action);
+    db->writeAction(action);
 }
 
 void FeedModel::setAllAsRead()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     DatabaseManager::Action action;
+
     int mode = s->getViewMode();
+
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        _db->updateEntriesReadFlagByTab(_tabId,1);
+        db->updateEntriesReadFlagByTab(_tabId,1);
         action.type = DatabaseManager::SetTabReadAll;
         action.id1 = _tabId;
-        action.date1 = _db->readLastUpdateByTab(_tabId);
+        action.date1 = db->readLastUpdateByTab(_tabId);
         break;
     case 1:
         // View mode: Tabs->Entries
@@ -249,10 +267,10 @@ void FeedModel::setAllAsRead()
         return;
     case 2:
         // View mode: Feeds->Entries
-        _db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),1);
+        db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),1);
         action.type = DatabaseManager::SetAllRead;
         action.id1 = s->getDashboardInUse();
-        action.date1 = _db->readLastUpdateByDashboard(s->getDashboardInUse());
+        action.date1 = db->readLastUpdateByDashboard(s->getDashboardInUse());
         break;
     case 3:
         // View mode: Entries
@@ -266,16 +284,18 @@ void FeedModel::setAllAsRead()
 
     updateFlags();
 
-    _db->writeAction(action);
+    db->writeAction(action);
 }
 
 void FeedModel::updateFlags()
 {
+    auto db = DatabaseManager::instance();
+
     int l = this->rowCount();
-    for (int i=0; i<l; ++i) {
-        FeedItem* item = static_cast<FeedItem*>(readRow(i));
-        item->setUnread(_db->countEntriesUnreadByStream(item->uid()));
-        item->setRead(_db->countEntriesReadByStream(item->uid()));
+    for (int i = 0; i < l; ++i) {
+        FeedItem* item = dynamic_cast<FeedItem*>(readRow(i));
+        item->setUnread(db->countEntriesUnreadByStream(item->uid()));
+        item->setRead(db->countEntriesReadByStream(item->uid()));
     }
 }
 

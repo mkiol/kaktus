@@ -46,10 +46,10 @@ void OldReaderFetcher::signIn()
 {
     data.clear();
 
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
 
     // Check is already have cookie
-    if (s->getCookie() != "") {
+    if (!s->getCookie().isEmpty()) {
         prepareUploadActions();
         return;
     }
@@ -69,7 +69,7 @@ void OldReaderFetcher::signIn()
 
     switch (type) {
     case 10:
-        if (password == "" || username == "") {
+        if (password.isEmpty() || username.isEmpty()) {
             qWarning() << "Username & password do not match!";
             if (busyType == Fetcher::CheckingCredentials)
                 emit errorCheckingCredentials(400);
@@ -126,7 +126,8 @@ void OldReaderFetcher::setAction()
 
     DatabaseManager::Action action = actionsList.first();
 
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     if (currentReply != NULL) {
         currentReply->disconnect();
@@ -168,13 +169,13 @@ void OldReaderFetcher::setAction()
     case DatabaseManager::SetStreamReadAll:
         url.setUrl("https://theoldreader.com/reader/api/0/mark-all-as-read");
         body = QString("s=%1&ts=%2").arg(action.id1).arg(
-                    QString::number(s->db->readLastLastUpdateByStream(action.id1))+"000000"
+                    QString::number(db->readLastLastUpdateByStream(action.id1))+"000000"
                     );
         break;
     case DatabaseManager::SetTabReadAll:
         if (action.id1 == "subscriptions") {
             // Adding SetStreamReadAll action for every stream in substriptions folder
-            QStringList list = s->db->readStreamIdsByTab("subscriptions");
+            QStringList list = db->readStreamIdsByTab("subscriptions");
             QStringList::iterator it = list.begin();
             while (it != list.end()) {
                 DatabaseManager::Action action;
@@ -190,13 +191,13 @@ void OldReaderFetcher::setAction()
 
         url.setUrl("https://theoldreader.com/reader/api/0/mark-all-as-read");
         body = QString("s=%1&ts=%2").arg(action.id1).arg(
-                    QString::number(s->db->readLastLastUpdateByTab(action.id1))+"000000"
+                    QString::number(db->readLastLastUpdateByTab(action.id1))+"000000"
                     );
         break;
     case DatabaseManager::SetAllRead:
         url.setUrl("https://theoldreader.com/reader/api/0/mark-all-as-read");
         body = QString("s=user/-/state/com.google/reading-list&ts=%1").arg(
-                    QString::number(s->db->readLastLastUpdateByDashboard(s->getDashboardInUse()))+"000000"
+                    QString::number(db->readLastLastUpdateByDashboard(s->getDashboardInUse()))+"000000"
                     );
         break;
     case DatabaseManager::SetBroadcast:
@@ -623,14 +624,14 @@ void OldReaderFetcher::finishedTabs()
         return;
     }
 
-    Settings *s = Settings::instance();
-    s->db->cleanTabs();
+    auto db = DatabaseManager::instance();
+    db->cleanTabs();
     startJob(StoreTabs);
 }
 
 void OldReaderFetcher::finishedTabs2()
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     lastContinuation = "";
     continuationCount = 0;
@@ -638,15 +639,15 @@ void OldReaderFetcher::finishedTabs2()
     if (tabList.isEmpty()) {
         qWarning() << "No Tabs to download!";
         if (busyType == Fetcher::Initiating)
-            s->db->cleanEntries();
+            db->cleanEntries();
 
         // Proggres initiating
         proggressTotal = 2;
         proggress = 1;
         emit progress(proggress, proggressTotal);
 
-        s->db->cleanStreams();
-        s->db->cleanModules();
+        db->cleanStreams();
+        db->cleanModules();
         fetchStarredStream();
         return;
     }
@@ -664,9 +665,9 @@ void OldReaderFetcher::finishedFriends()
         return;
     }
 
-    Settings *s = Settings::instance();
-    s->db->cleanStreams();
-    s->db->cleanModules();
+    auto db = DatabaseManager::instance();
+    db->cleanStreams();
+    db->cleanModules();
     startJob(StoreFriends);
 }
 
@@ -700,7 +701,8 @@ void OldReaderFetcher::finishedFeeds2()
     /*if (busyType == Fetcher::Updating)
         removeDeletedFeeds();*/
 
-    s->db->updateEntriesFlag(1); // Marking as old
+    auto db = DatabaseManager::instance();
+    db->updateEntriesFlag(1); // Marking as old
 
     fetchStream();
 }
@@ -727,14 +729,14 @@ void OldReaderFetcher::finishedStream2()
         emit progress(proggress + log(lastDate), proggressTotal);
     }
 
-    if (lastContinuation == "" ||
+    if (lastContinuation.isEmpty() ||
         continuationCount > continuationLimit) {
 
         proggress += s->getRetentionDays() > 0 ? log(lastDate) : 1;
         //qDebug() << "finishedStream2" << "proggress" << proggress;
 
 
-        lastContinuation = "";
+        lastContinuation.clear();
         continuationCount = 0;
         lastDate = 0;
 
@@ -759,7 +761,7 @@ void OldReaderFetcher::finishedStarredStream()
 
 void OldReaderFetcher::finishedStarredStream2()
 {
-    if (lastContinuation == "" ||
+    if (lastContinuation.isEmpty() ||
         continuationCount > continuationLimit) {
 
         ++proggress;
@@ -787,7 +789,7 @@ void OldReaderFetcher::finishedLikedStream()
 
 void OldReaderFetcher::finishedLikedStream2()
 {
-    if (lastContinuation == "" ||
+    if (lastContinuation.isEmpty() ||
         continuationCount > continuationLimit) {
 
         ++proggress;
@@ -815,7 +817,7 @@ void OldReaderFetcher::finishedBroadcastStream()
 
 void OldReaderFetcher::finishedBroadcastStream2()
 {
-    if (lastContinuation == "" ||
+    if (lastContinuation.isEmpty() ||
         continuationCount > continuationLimit) {
 
         ++proggress;
@@ -844,7 +846,7 @@ void OldReaderFetcher::finishedUnreadStream()
 
 void OldReaderFetcher::finishedUnreadStream2()
 {
-    if (lastContinuation == "" ||
+    if (lastContinuation.isEmpty() ||
         continuationCount > continuationLimit) {
         taskEnd();
         return;
@@ -869,17 +871,17 @@ void OldReaderFetcher::finishedSetAction()
         }
     }
 
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     // Deleting action
     DatabaseManager::Action action = actionsList.takeFirst();
-    s->db->removeActionsByIdAndType(action.id1, action.type);
+    db->removeActionsByIdAndType(action.id1, action.type);
 
     // Updating upload proggres
     emit uploadProgress(this->uploadProggressTotal - actionsList.size(), this->uploadProggressTotal);
 
     if (actionsList.isEmpty()) {
-        s->db->cleanDashboards();
+        db->cleanDashboards();
         startFetching();
         return;
     }
@@ -890,8 +892,8 @@ void OldReaderFetcher::finishedSetAction()
 void OldReaderFetcher::finishedMarkSlow()
 {
     // Deleting old entries
-    Settings *s = Settings::instance();
-    s->db->removeEntriesByFlag(1);
+    auto db = DatabaseManager::instance();
+    db->removeEntriesByFlag(1);
 
     taskEnd();
     return;
@@ -916,17 +918,18 @@ void OldReaderFetcher::getConnectUrl(int type)
 
 void OldReaderFetcher::startFetching()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     // Create DB structure
-    s->db->cleanDashboards();
+    db->cleanDashboards();
     if(busyType == Fetcher::Initiating) {
-        s->db->cleanCache();
-        s->db->cleanEntries();
+        db->cleanCache();
+        db->cleanEntries();
     }
 
     if (busyType == Fetcher::Updating) {
-        s->db->updateEntriesFreshFlag(0); // Set current entries as not fresh
+        db->updateEntriesFreshFlag(0); // Set current entries as not fresh
     }
 
     // Old Reader API doesnt have Dashboards
@@ -936,7 +939,7 @@ void OldReaderFetcher::startFetching()
     d.name = "Default";
     d.title = "Default";
     d.description = "Old Reader default dashboard";
-    s->db->writeDashboard(d);
+    db->writeDashboard(d);
     s->setDashboardInUse(d.id);
 
     fetchTabs();
@@ -1041,7 +1044,8 @@ void OldReaderFetcher::run()
 
 void OldReaderFetcher::storeTabs()
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     QString dashboardId = "oldreader";
 
     // Adding Subscriptions folder
@@ -1049,7 +1053,7 @@ void OldReaderFetcher::storeTabs()
     t.id = "subscriptions";
     t.dashboardId = dashboardId;
     t.title = "Subscriptions";
-    s->db->writeTab(t);
+    db->writeTab(t);
     tabList.append(t.id);
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -1075,8 +1079,8 @@ void OldReaderFetcher::storeTabs()
                 DatabaseManager::Tab t;
                 t.id = obj["id"].toString();
                 t.dashboardId = dashboardId;
-                t.title = id.at(3);
-                s->db->writeTab(t);
+                t.title = id.at(3);             
+                db->writeTab(t);
                 tabList.append(t.id);
             }
         }
@@ -1116,8 +1120,8 @@ void OldReaderFetcher::getFolderFromCategories(const QVariantList &categories, Q
         ++i;
     }
 
-    tabId = "";
-    tabName = "";
+    tabId.clear();
+    tabName.clear();
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -1183,7 +1187,7 @@ void OldReaderFetcher::storeFriends()
 {
     tabList.clear();
 
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (jsonObj["friends"].isArray()) {
@@ -1222,7 +1226,7 @@ void OldReaderFetcher::storeFriends()
                 item.type = "icon";
                 emit addDownload(item);
             }
-            s->db->writeStream(st);
+            db->writeStream(st);
 
             // Module
             DatabaseManager::Module m;
@@ -1231,7 +1235,7 @@ void OldReaderFetcher::storeFriends()
             m.title = st.title;
             m.tabId = "friends";
             m.streamList.append(st.id);
-            s->db->writeModule(m);
+            db->writeModule(m);
 
             /*DatabaseManager::StreamModuleTab smt;
             smt.streamId = st.id;
@@ -1248,7 +1252,7 @@ void OldReaderFetcher::storeFriends()
             t.id = "friends";
             t.dashboardId = "oldreader";
             t.title = "Following";
-            s->db->writeTab(t);
+            db->writeTab(t);
             tabList.append(t.id);
         }
 
@@ -1259,7 +1263,7 @@ void OldReaderFetcher::storeFriends()
 
 void OldReaderFetcher::storeFeeds()
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     bool subscriptionsFolderFeed = false;
 
@@ -1288,7 +1292,7 @@ void OldReaderFetcher::storeFeeds()
             }
 #endif
             QStringList id = obj["id"].toString().split('/');
-            if (tabId == "" && !id.isEmpty() && id.at(0) == "feed") {
+            if (tabId.isEmpty() && !id.isEmpty() && id.at(0) == "feed") {
                 // Feed without label -> Subscriptions folder
                 tabId = "subscriptions";
                 subscriptionsFolderFeed = true;
@@ -1318,7 +1322,7 @@ void OldReaderFetcher::storeFeeds()
                     item.type = "icon";
                     emit addDownload(item);
                 }
-                s->db->writeStream(st);
+                db->writeStream(st);
 
                 // Module
                 DatabaseManager::Module m;
@@ -1330,7 +1334,7 @@ void OldReaderFetcher::storeFeeds()
                 m.pageId = "";
                 m.tabId = tabId;
                 m.streamList.append(st.id);
-                s->db->writeModule(m);
+                db->writeModule(m);
 
                 /*DatabaseManager::StreamModuleTab smt;
                 smt.streamId = st.id;
@@ -1346,13 +1350,15 @@ void OldReaderFetcher::storeFeeds()
 
     if (!subscriptionsFolderFeed) {
         // Removing Subscriptions folder
-        s->db->removeTabById("subscriptions");
+        db->removeTabById("subscriptions");
     }
 }
 
 void OldReaderFetcher::storeStream()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+    auto dm = DownloadManager::instance();
 
     double updated = 0;
     int retentionDays = s->getRetentionDays();
@@ -1456,8 +1462,8 @@ void OldReaderFetcher::storeStream()
                 QString imgSrc = rx.cap(1); imgSrc = imgSrc.mid(1,imgSrc.length()-2);
                 if (!imgSrc.isEmpty()) {
                     imgSrc.replace("&amp;","&", Qt::CaseInsensitive);
-                    if (s->getCachingMode() == 2 || (s->getCachingMode() == 1 && s->dm->isWLANConnected())) {
-                        if (!s->db->isCacheExistsByFinalUrl(Utils::hash(imgSrc))) {
+                    if (s->getCachingMode() == 2 || (s->getCachingMode() == 1 && dm->isWLANConnected())) {
+                        if (!db->isCacheExistsByFinalUrl(Utils::hash(imgSrc))) {
                             DatabaseManager::CacheItem item;
                             item.origUrl = imgSrc;
                             item.finalUrl = imgSrc;
@@ -1469,7 +1475,7 @@ void OldReaderFetcher::storeStream()
                 }
             }
 
-            s->db->writeEntry(e);
+            db->writeEntry(e);
 
             // Progress, only for StoreStream
             //++items;
@@ -1538,14 +1544,15 @@ void OldReaderFetcher::markSlowFeeds()
     // A feed is considered "slow" when it publishes
     // less than 5 articles in a month.
 
-    Settings *s = Settings::instance();
-    QStringList list = s->db->readStreamIds();
+    auto db = DatabaseManager::instance();
+
+    QStringList list = db->readStreamIds();
     QStringList::iterator it = list.begin();
     while (it != list.end()) {
-        int n = s->db->countEntriesNewerThanByStream(*it, QDateTime::currentDateTime().addDays(-30));
+        int n = db->countEntriesNewerThanByStream(*it, QDateTime::currentDateTime().addDays(-30));
         if (n<5) {
             // Slow detected
-            s->db->updateStreamSlowFlagById(*it, 1);
+            db->updateStreamSlowFlagById(*it, 1);
         }
         ++it;
     }

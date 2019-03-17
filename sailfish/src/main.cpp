@@ -127,9 +127,6 @@ int main(int argc, char *argv[])
     app->installTranslator(&translator);
 
     settings->context = context;
-    DatabaseManager db; settings->db = &db;
-    DownloadManager dm; settings->dm = &dm;
-    CacheServer cache(&db); settings->cache = &cache;
     Ai ai; ai.init();
 
     QObject::connect(engine.data(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
@@ -137,11 +134,11 @@ int main(int argc, char *argv[])
     NetworkAccessManagerFactory NAMfactory(settings->getDmUserAgent());
     engine->setNetworkAccessManagerFactory(&NAMfactory);
 
-    context->setContextProperty("db", &db);
+    context->setContextProperty("db", DatabaseManager::instance());
     context->setContextProperty("utils", &utils);
-    context->setContextProperty("dm", &dm);
-    context->setContextProperty("cache", &cache);
-    context->setContextProperty("cserver", &cache);
+    context->setContextProperty("dm", DownloadManager::instance());
+    context->setContextProperty("cache", CacheServer::instance());
+    context->setContextProperty("cserver", CacheServer::instance());
     context->setContextProperty("ai", &ai);
     context->setContextProperty("settings", settings);
 

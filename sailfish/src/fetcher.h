@@ -44,7 +44,8 @@ class FetcherCookieJar : public QNetworkCookieJar
     Q_OBJECT
 public:
     FetcherCookieJar(QObject *parent = 0);
-    virtual bool setCookiesFromUrl(const QList<QNetworkCookie> & cookieList, const QUrl & url);
+    virtual bool setCookiesFromUrl(const QList<QNetworkCookie> & cookieList,
+                                   const QUrl & url);
 };
 
 class Fetcher : public QThread
@@ -78,6 +79,7 @@ public:
 
     Q_INVOKABLE virtual void getConnectUrl(int type) = 0;
     Q_INVOKABLE virtual bool setConnectUrl(const QString &url) = 0;
+    Q_INVOKABLE void saveImage(const QString &url);
 
     BusyType readBusyType();
     bool isBusy();
@@ -91,6 +93,7 @@ signals:
     void uploadProgress(double current, double total);
     void checkingCredentials();
     void newAuthUrl(const QString &url, int type);
+    void imageSaved(const QString &filename);
 
     /*
     200 - Fether is busy
@@ -109,6 +112,8 @@ signals:
     600 - Error while parsing JSON
     601 - Unknown JSON response
     700 - Generic SSL error
+    800 - Image download error
+    801 - Image already exists
      */
     void credentialsValid();
     void errorCheckingCredentials(int code);
@@ -146,7 +151,7 @@ protected:
     void taskEnd();
 
 private slots:
-    void networkAccessibleChanged (QNetworkAccessManager::NetworkAccessibility accessible);
+    void networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility accessible);
     bool delayedUpdate(bool state);
     void networkError(QNetworkReply::NetworkError);
     void readyRead();
@@ -156,7 +161,11 @@ private:
     virtual void startFetching() = 0;
     virtual void uploadActions() = 0;
 
-    void mergeActionsIntoList(DatabaseManager::ActionsTypes typeSet, DatabaseManager::ActionsTypes typeUnset, DatabaseManager::ActionsTypes typeSetList, DatabaseManager::ActionsTypes typeUnsetList);
+    void mergeActionsIntoList(DatabaseManager::ActionsTypes typeSet,
+                              DatabaseManager::ActionsTypes typeUnset,
+                              DatabaseManager::ActionsTypes typeSetList,
+                              DatabaseManager::ActionsTypes typeUnsetList);
+    void addExtension(const QString &contentType, QString &path);
 };
 
 #endif // FETCHER_H

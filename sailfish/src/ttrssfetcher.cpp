@@ -137,32 +137,33 @@ void TTRssFetcher::finishedConfig()
 
 void TTRssFetcher::startFetching()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
-    if (!s->db->makeBackup ()) {
+    if (!db->makeBackup ()) {
         qWarning() << "Unable to make DB backup!";
         emit error(506);
         setBusy(false);
         return;
     }
 
-    s->db->cleanDashboards();
+    db->cleanDashboards();
 
     DatabaseManager::Dashboard d;
     d.id = "ttrss";
     d.name = "Default";
     d.title = "Default";
     d.description = "Tiny Tiny Rss default dashboard";
-    s->db->writeDashboard(d);
+    db->writeDashboard(d);
     s->setDashboardInUse(d.id);
 
-    s->db->cleanTabs();
-    s->db->cleanStreams();
-    s->db->cleanModules();
+    db->cleanTabs();
+    db->cleanStreams();
+    db->cleanModules();
 
     if(busyType == Fetcher::Initiating) {
-        s->db->cleanCache();
-        s->db->cleanEntries();
+        db->cleanCache();
+        db->cleanEntries();
     }
 
     commandList.clear();
@@ -218,10 +219,11 @@ void TTRssFetcher::finishedFeeds()
 
 void TTRssFetcher::fetchStream()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     if (offset == 0) {
-        s->db->updateEntriesFlag(1);
+        db->updateEntriesFlag(1);
     }
 
     getHeadlines(AllArticles, true, !s->getSyncRead(), offset, FETCHER_SLOT(finishedStream));
@@ -263,7 +265,7 @@ void TTRssFetcher::fetchPublishedStream()
 
 void TTRssFetcher::pruneOld()
 {
-    Settings::instance()->db->removeEntriesByFlag(1);
+    DatabaseManager::instance()->removeEntriesByFlag(1);
     callNextCmd();
 }
 
@@ -315,7 +317,7 @@ void TTRssFetcher::run()
 
 void TTRssFetcher::storeCategories()
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
     QString dashboardId = "ttrss";
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -338,7 +340,7 @@ void TTRssFetcher::storeCategories()
                 t.id = obj["id"].isString() ? obj["id"].toString() : QString::number(obj["id"].toInt());
                 t.dashboardId = dashboardId;
                 t.title = obj["title"].toString();
-                s->db->writeTab(t);
+                db->writeTab(t);
             }
         }
     } else {
@@ -348,7 +350,8 @@ void TTRssFetcher::storeCategories()
 
 void TTRssFetcher::storeFeeds()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if (jsonObj["content"].isArray()) {
@@ -388,7 +391,7 @@ void TTRssFetcher::storeFeeds()
                 emit addDownload(item);
             }
 
-            s->db->writeStream(st);
+            db->writeStream(st);
 
             DatabaseManager::Module m;
             m.id = st.id;
@@ -399,7 +402,7 @@ void TTRssFetcher::storeFeeds()
             m.pageId = "";
             m.tabId = obj["id"].isString() ? obj["cat_id"].toString() : QString::number(obj["cat_id"].toInt());
             m.streamList.append(st.id);
-            s->db->writeModule(m);
+            db->writeModule(m);
         }
     } else {
         qWarning() << "No feeds found!";
@@ -408,7 +411,10 @@ void TTRssFetcher::storeFeeds()
 
 void TTRssFetcher::storeStream()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+    auto dm = DownloadManager::instance();
+
     int count = 0;
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -454,8 +460,8 @@ void TTRssFetcher::storeStream()
                 QString imgSrc = rx.cap(1); imgSrc = imgSrc.mid(1,imgSrc.length()-2);
                 if (!imgSrc.isEmpty()) {
                     imgSrc.replace("&amp;","&", Qt::CaseInsensitive);
-                    if (s->getCachingMode() == 2 || (s->getCachingMode() == 1 && s->dm->isWLANConnected())) {
-                        if (!s->db->isCacheExistsByFinalUrl(Utils::hash(imgSrc))) {
+                    if (s->getCachingMode() == 2 || (s->getCachingMode() == 1 && dm->isWLANConnected())) {
+                        if (!db->isCacheExistsByFinalUrl(Utils::hash(imgSrc))) {
                             DatabaseManager::CacheItem item;
                             item.origUrl = imgSrc;
                             item.finalUrl = imgSrc;
@@ -467,7 +473,7 @@ void TTRssFetcher::storeStream()
                 }
             }
 
-            s->db->writeEntry(e);
+            db->writeEntry(e);
             if (!e.saved && !e.broadcast && s->getRetentionDays() > 0) {
                 int date = QDateTime::fromTime_t(e.timestamp).daysTo(QDateTime::currentDateTimeUtc());
                 if (date > lastDate)
@@ -489,7 +495,7 @@ void TTRssFetcher::uploadActions()
 
 void TTRssFetcher::setAction()
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
     DatabaseManager::Action action = actionsList.first();
 
     QString ids;
@@ -524,7 +530,7 @@ void TTRssFetcher::setAction()
     case DatabaseManager::SetStreamReadAll:
     case DatabaseManager::UnSetStreamReadAll:
     {
-        ids = mergeEntryIds(s->db->readEntriesByStream(action.id1, 0, s->db->countEntriesByStream(action.id1)),
+        ids = mergeEntryIds(db->readEntriesByStream(action.id1, 0, db->countEntriesByStream(action.id1)),
                             action.type == DatabaseManager::SetStreamReadAll);
         mode = action.type == DatabaseManager::SetStreamReadAll ? 0 : 1;
         field = 2;
@@ -533,9 +539,9 @@ void TTRssFetcher::setAction()
     case DatabaseManager::SetTabReadAll:
     case DatabaseManager::UnSetTabReadAll:
     {
-        QList<QString> streams = s->db->readStreamIdsByTab(action.id1);
+        QList<QString> streams = db->readStreamIdsByTab(action.id1);
         for (int i = 0; i < streams.count(); ++i) {
-            QString streamIds = mergeEntryIds(s->db->readEntriesByStream(streams[i], 0, s->db->countEntriesByStream(streams[i])),
+            QString streamIds = mergeEntryIds(db->readEntriesByStream(streams[i], 0, db->countEntriesByStream(streams[i])),
                                               action.type == DatabaseManager::SetTabReadAll);
             if (!streamIds.isEmpty()) {
                 if (!ids.isEmpty())
@@ -551,9 +557,9 @@ void TTRssFetcher::setAction()
     case DatabaseManager::SetAllRead:
     case DatabaseManager::UnSetAllRead:
     {
-        QList<DatabaseManager::Stream> streams = s->db->readStreamsByDashboard(action.id1);
+        QList<DatabaseManager::Stream> streams = db->readStreamsByDashboard(action.id1);
         for (int i = 0; i < streams.count(); ++i) {
-            QString streamIds = mergeEntryIds(s->db->readEntriesByStream(streams[i].id, 0, s->db->countEntriesByStream(streams[i].id)),
+            QString streamIds = mergeEntryIds(db->readEntriesByStream(streams[i].id, 0, db->countEntriesByStream(streams[i].id)),
                                               action.type == DatabaseManager::SetAllRead);
             if (!streamIds.isEmpty()) {
                 if (!ids.isEmpty())
@@ -607,10 +613,10 @@ void TTRssFetcher::finishedSetAction()
         return;
     }
 
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     DatabaseManager::Action action = actionsList.takeFirst();
-    s->db->removeActionsByIdAndType(action.id1, action.type);
+    db->removeActionsByIdAndType(action.id1, action.type);
 
     emit uploadProgress(uploadProggressTotal - actionsList.size(), uploadProggressTotal);
 

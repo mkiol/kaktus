@@ -22,6 +22,16 @@
 
 #include "databasemanager.h"
 
+DatabaseManager* DatabaseManager::m_instance = nullptr;
+
+DatabaseManager* DatabaseManager::instance(QObject *parent)
+{
+    if (DatabaseManager::m_instance == nullptr) {
+        DatabaseManager::m_instance = new DatabaseManager(parent);
+    }
+
+    return DatabaseManager::m_instance;
+}
 
 DatabaseManager::DatabaseManager(QObject *parent) :
     QObject(parent)

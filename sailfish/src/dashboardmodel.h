@@ -30,7 +30,6 @@
 #include <QModelIndex>
 
 #include "listmodel.h"
-#include "databasemanager.h"
 #include "tabmodel.h"
 
 class DashboardItem : public ListItem
@@ -46,7 +45,7 @@ public:
     };
 
 public:
-    DashboardItem(QObject *parent = 0): ListItem(parent) {}
+    DashboardItem(QObject *parent = nullptr): ListItem(parent) {}
     explicit DashboardItem(const QString &uid,
                       const QString &name,
                       const QString &title,
@@ -72,14 +71,12 @@ class DashboardModel : public ListModel
     Q_OBJECT
 
 public:
-    explicit DashboardModel(DatabaseManager* db, QObject *parent = 0);
+    explicit DashboardModel(QObject *parent = nullptr);
     Q_INVOKABLE void init();
     Q_INVOKABLE int count();
     Q_INVOKABLE QObject* get(int i);
 
 private:
-    DatabaseManager* _db;
-
     void createItems();
     void sort();
 };

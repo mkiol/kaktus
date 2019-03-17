@@ -86,10 +86,6 @@ class Settings: public QObject
 
 public:
     static Settings* instance();
-
-    DatabaseManager* db;
-    CacheServer* cache;
-    DownloadManager* dm;
     Fetcher* fetcher;
 
 #ifdef BB10
@@ -336,14 +332,14 @@ signals:
      */
     void error(int);
 
-public Q_SLOTS:
+public slots:
     void reset();
 
 private:
     QSettings settings;
-    static Settings *inst;
+    static Settings *m_instance;
 
-    explicit Settings(QObject *parent = 0);
+    explicit Settings(QObject *parent = nullptr);
 };
 
 #endif // SETTINGS_H

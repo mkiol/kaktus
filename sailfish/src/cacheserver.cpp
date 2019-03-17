@@ -45,18 +45,18 @@ void FilteringWorker::start(QHttpRequest *req, QHttpResponse *resp)
 
 void FilteringWorker::run()
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     QString entryId = req->url().path();
     if (entryId.at(0) == '/')
         entryId = entryId.right(entryId.length()-1);
-    item = s->db->readCacheByEntry(entryId);
+    item = db->readCacheByEntry(entryId);
     //qDebug() << "baseUrl3" << item.baseUrl;
     //qDebug() << "finalUrl3" << item.finalUrl;
 
     QString filename;
-    if (item.id == "") {
-        item = s->db->readCacheByFinalUrl(entryId);
+    if (item.id.isEmpty()) {
+        item = db->readCacheByFinalUrl(entryId);
         //qDebug() << "baseUrl4" << item.baseUrl;
         //qDebug() << "finalUrl4" << item.finalUrl;
         filename = entryId;
@@ -252,10 +252,10 @@ void FilteringWorker::filterOffline()
     content.replace(rxFrame,"\\1");
 
     // Inserting image after <body> tag
-    Settings *s = Settings::instance();
-    QString image = "";
-    if(item.entryId!="")
-        image = s->db->readEntryImageById(item.entryId);
+    auto db = DatabaseManager::instance();
+    QString image;
+    if(!item.entryId.isEmpty())
+        image = db->readEntryImageById(item.entryId);
     if (!image.isEmpty()) {
         image = QString(CacheServer::getDataUrlByUrl(image));
         if (!image.isEmpty()) {
@@ -292,6 +292,17 @@ void FilteringWorker::filterOffline()
 
 // --------------
 
+CacheServer* CacheServer::m_instance = nullptr;
+
+CacheServer* CacheServer::instance(QObject *parent)
+{
+    if (CacheServer::m_instance == nullptr) {
+        CacheServer::m_instance = new CacheServer(parent);
+    }
+
+    return CacheServer::m_instance;
+}
+
 CacheServer::CacheServer(QObject *parent) :
     QObject(parent)
 {
@@ -303,11 +314,6 @@ CacheServer::CacheServer(QObject *parent) :
     if (!server->listen(port)) {
         qWarning() << "Cache server at localhost failed to start on" << this->port << "port!";
     }
-}
-
-CacheServer::~CacheServer()
-{
-    delete server;
 }
 
 bool CacheServer::readFile(const QString &filename, QByteArray &data)
@@ -379,13 +385,14 @@ QString CacheServer::getFileUrl(const QString &id)
 {
     //qDebug() << "getFileUrl, id=" << id;
 
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
-    DatabaseManager::CacheItem item = s->db->readCacheByEntry(id);
+    DatabaseManager::CacheItem item = db->readCacheByEntry(id);
 
     QString filename;
-    if (item.id == "") {
-        item = s->db->readCacheByFinalUrl(id);
+    if (item.id.isEmpty()) {
+        item = db->readCacheByFinalUrl(id);
         filename = id;
     } else {
         filename = item.finalUrl;
@@ -395,7 +402,7 @@ QString CacheServer::getFileUrl(const QString &id)
 
     if (!QFile::exists(path)) {
         qWarning() << "File " << path << "does not exists!";
-        return "";
+        return QString();
     }
 
     return path;
@@ -468,7 +475,7 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
 
     } else {
         resp->writeHead(404);
-        resp->end("");
+        resp->end();
         return;
     }
 }
@@ -482,7 +489,7 @@ void CacheServer::handleFinish()
         worker->resp->setHeader("Content-Length", "0");
         worker->resp->setHeader("Connection", "close");
         worker->resp->writeHead(404);
-        worker->resp->end("");
+        worker->resp->end();
         return;
     }
 
@@ -545,16 +552,35 @@ QString CacheServer::getPathByUrl(const QString &url)
     return QFile::exists(path) ? path : "";
 }
 
+bool CacheServer::getPathAndContentTypeByUrl(
+        const QString &url, QString &path, QString &contentType) {
+
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
+    QString filename = Utils::hash(url);
+    path = QDir(s->getDmCacheDir()).absoluteFilePath(filename);
+    if (QFile::exists(path)) {
+        contentType = db->readCacheByOrigUrl(filename).contentType;
+        if (contentType.isEmpty())
+            return false;
+    } else {
+        return false;
+    }
+
+    return true;
+}
+
 QByteArray CacheServer::getDataUrlByUrl(const QString &url)
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     QString entryId = Utils::hash(url);
-    DatabaseManager::CacheItem item = s->db->readCacheByEntry(entryId);
+    DatabaseManager::CacheItem item = db->readCacheByEntry(entryId);
 
     QString filename;
-    if (item.id == "") {
-        item = s->db->readCacheByFinalUrl(entryId);
+    if (item.id.isEmpty()) {
+        item = db->readCacheByFinalUrl(entryId);
         filename = entryId;
     } else {
         filename = item.finalUrl;

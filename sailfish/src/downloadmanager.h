@@ -34,14 +34,13 @@
 #include "databasemanager.h"
 #include "settings.h"
 
-
 class QSslError;
 
 class CacheDeterminer : public QThread
 {
     Q_OBJECT
 public:
-    CacheDeterminer(QObject * parent = 0);
+    CacheDeterminer(QObject *parent = nullptr);
 
 protected:
     void run();
@@ -54,7 +53,7 @@ class DownloadAdder : public QThread
 {
     Q_OBJECT
 public:
-    DownloadAdder(QObject * parent = 0);
+    DownloadAdder(QObject *parent = nullptr);
 
 protected:
     void run();
@@ -68,7 +67,7 @@ class CacheRemover : public QThread
 {
     Q_OBJECT
 public:
-    CacheRemover(QObject * parent = 0);
+    CacheRemover(QObject *parent = nullptr);
     void cancel();
 
 protected:
@@ -126,9 +125,7 @@ class DownloadManager: public QObject
     Q_PROPERTY (bool removerBusy READ isRemoverBusy NOTIFY removerBusyChanged)
 
 public:
-    DownloadManager(QObject *parent = 0);
-    ~DownloadManager();
-
+    static DownloadManager* instance(QObject *parent = nullptr);
     Q_INVOKABLE void cancel();
     Q_INVOKABLE void removerCancel();
     Q_INVOKABLE int itemsToDownloadCount();
@@ -142,7 +139,7 @@ public:
     int getCacheSize();
     bool isRemoverBusy();
 
-Q_SIGNALS:
+signals:
     void cacheCleaned();
     void cacheSizeChanged();
     void busyChanged();
@@ -158,10 +155,13 @@ Q_SIGNALS:
      */
     void error(int code);
     void progress(int current, int total);
-    void onlineDownloadReady(QString id, QString url);
+    void onlineDownloadReady(const QString &id, const QString &url);
     void onlineDownloadFailed();
+    void downloadReady(const QString &url, const QString &path,
+                       const QString &contentType);
+    void downloadFailed(const QString &url);
 
-public Q_SLOTS:
+public slots:
     void addDownload(DatabaseManager::CacheItem item);
     void startDownload();
     void downloadFinished(QNetworkReply *reply);
@@ -177,6 +177,7 @@ public Q_SLOTS:
     void addingFinishedHandler(int count);
 
 private:
+    static DownloadManager* m_instance;
     static const int entriesLimit = 200;
     static const int cacheRetencyFeedLimit = 20;
     static const int maxCacheRetency = 604800; // 1 week
@@ -197,12 +198,12 @@ private:
     int downloadTotal;
     bool cacheSizeFreshFlag;
 
+    DownloadManager(QObject *parent = nullptr);
     void doDownload(DatabaseManager::CacheItem item);
-    bool saveToDisk(const QString &filename, const QByteArray &content);
+    QString saveToDisk(const QString &filename, const QByteArray &content);
     bool isUrlinQueue(const QString &origUrl, const QString &finalUrl);
     void scanHtml(const QByteArray &content, const QUrl &url);
     void addNextDownload();
-    QString hash(const QString &url);
     bool checkIfHeadersAreValid(QNetworkReply *reply);
 };
 

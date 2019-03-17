@@ -29,7 +29,6 @@
 
 #include "listmodel.h"
 #include "feedmodel.h"
-#include "databasemanager.h"
 
 class EntryModel;
 
@@ -38,7 +37,7 @@ class EntryModelIniter : public QThread
     Q_OBJECT
 
 public:
-    EntryModelIniter(QObject *parent = 0);
+    EntryModelIniter(QObject *parent = nullptr);
     void init(EntryModel *model);
     void init(EntryModel *model, const QString &feedId);
 
@@ -76,7 +75,7 @@ public:
     };
 
 public:
-    EntryItem(QObject *parent = 0): ListItem(parent) {}
+    EntryItem(QObject *parent = nullptr): ListItem(parent) {}
     explicit EntryItem(const QString &uid,
                       const QString &title,
                       const QString &author,
@@ -155,11 +154,12 @@ class EntryModel : public ListModel
 public:
     bool reInit; // if true init existing model on setEntryModel
 
-    explicit EntryModel(DatabaseManager* db, QObject *parent = 0);
+    explicit EntryModel(QObject *parent = nullptr);
     void init(const QString &feedId);
     void initInThread(const QString &feedId);
 
-    Q_INVOKABLE void setData(int row, const QString &fieldName, QVariant newValue, QVariant newValue2);
+    Q_INVOKABLE void setData(int row, const QString &fieldName,
+                             QVariant newValue, QVariant newValue2);
 
     Q_INVOKABLE void setAllAsUnread();
     Q_INVOKABLE void setAllAsRead();
@@ -183,7 +183,7 @@ signals:
 
 private:
    static const int idsOnActionLimit = 100;
-   DatabaseManager* _db;
+
    QString _feedId;
    EntryModelIniter initer;
 

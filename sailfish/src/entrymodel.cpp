@@ -26,6 +26,7 @@
 #include <QDateTime>
 #include <QUrl>
 
+#include "databasemanager.h"
 #include "entrymodel.h"
 #include "utils.h"
 
@@ -56,10 +57,9 @@ void EntryModelIniter::run()
 
 }
 
-EntryModel::EntryModel(DatabaseManager *db, QObject *parent) :
+EntryModel::EntryModel(QObject *parent) :
     ListModel(new EntryItem, parent), initer(parent)
 {
-    _db = db;
     reInit = false;
 
     Settings *s = Settings::instance();
@@ -138,9 +138,10 @@ int EntryModel::getDateRowId(int date)
 
 int EntryModel::createItems(int offset, int limit)
 {
-    QList<DatabaseManager::Entry> list;
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
-    Settings *s = Settings::instance();
+    QList<DatabaseManager::Entry> list;
 
     bool ascOrder = s->getShowOldestFirst();
 
@@ -150,7 +151,7 @@ int EntryModel::createItems(int offset, int limit)
         int l = this->rowCount();
         //qDebug() << "this->rowCount():" << l;
         for (int i = 0; i < l; ++i) {
-            EntryItem* item = static_cast<EntryItem*>(readRow(i));
+            EntryItem* item = dynamic_cast<EntryItem*>(readRow(i));
             //qDebug() << item->id();
             if (item->id()=="last" || item->id()=="daterow") {
                 ++dummyRowsCount;
@@ -166,59 +167,59 @@ int EntryModel::createItems(int offset, int limit)
     case 0:
         // View mode: Tabs->Feeds->Entries
         if (s->getFilter() == 2)
-            list = _db->readEntriesUnreadByStream(_feedId,offset,limit,ascOrder);
+            list = db->readEntriesUnreadByStream(_feedId,offset,limit,ascOrder);
         else if (s->getFilter() == 1)
-            list = _db->readEntriesUnreadAndSavedByStream(_feedId,offset,limit,ascOrder);
+            list = db->readEntriesUnreadAndSavedByStream(_feedId,offset,limit,ascOrder);
         else
-            list = _db->readEntriesByStream(_feedId,offset,limit,ascOrder);
+            list = db->readEntriesByStream(_feedId,offset,limit,ascOrder);
         break;
     case 1:
         // View mode: Tabs->Entries
         if (s->getFilter() == 2)
-            list = _db->readEntriesUnreadByTab(_feedId,offset,limit,ascOrder);
+            list = db->readEntriesUnreadByTab(_feedId,offset,limit,ascOrder);
         else if (s->getFilter() == 1)
-            list = _db->readEntriesUnreadAndSavedByTab(_feedId,offset,limit,ascOrder);
+            list = db->readEntriesUnreadAndSavedByTab(_feedId,offset,limit,ascOrder);
         else
-            list = _db->readEntriesByTab(_feedId,offset,limit,ascOrder);
+            list = db->readEntriesByTab(_feedId,offset,limit,ascOrder);
         break;
     case 2:
         // View mode: Feeds->Entries
         if (s->getFilter() == 2)
-            list = _db->readEntriesUnreadByStream(_feedId,offset,limit,ascOrder);
+            list = db->readEntriesUnreadByStream(_feedId,offset,limit,ascOrder);
         else if (s->getFilter() == 1)
-            list = _db->readEntriesUnreadAndSavedByStream(_feedId,offset,limit,ascOrder);
+            list = db->readEntriesUnreadAndSavedByStream(_feedId,offset,limit,ascOrder);
         else
-            list = _db->readEntriesByStream(_feedId,offset,limit,ascOrder);
+            list = db->readEntriesByStream(_feedId,offset,limit,ascOrder);
         break;
     case 3:
         // View mode: Entries
         if (s->getFilter() == 2)
-            list = _db->readEntriesUnreadByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+            list = db->readEntriesUnreadByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         else if (s->getFilter() == 1)
-            list = _db->readEntriesUnreadAndSavedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+            list = db->readEntriesUnreadAndSavedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         else
-            list = _db->readEntriesByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+            list = db->readEntriesByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         break;
     case 4:
         // View mode: Saved
-        list = _db->readEntriesSavedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+        list = db->readEntriesSavedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         break;
     case 5:
         // View mode: Slow
         if (s->getFilter() == 2)
-            list = _db->readEntriesSlowUnreadByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+            list = db->readEntriesSlowUnreadByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         else if (s->getFilter() == 1)
-            list = _db->readEntriesSlowUnreadAndSavedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+            list = db->readEntriesSlowUnreadAndSavedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         else
-            list = _db->readEntriesSlowByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+            list = db->readEntriesSlowByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         break;
     case 6:
         // View mode: Liked
-        list = _db->readEntriesLikedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+        list = db->readEntriesLikedByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         break;
     case 7:
         // View mode: Broadcast
-        list = _db->readEntriesBroadcastByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
+        list = db->readEntriesBroadcastByDashboard(s->getDashboardInUse(),offset,limit,ascOrder);
         break;
     }
 
@@ -247,7 +248,7 @@ int EntryModel::createItems(int offset, int limit)
     }
 
     QRegExp re("<[^>]*>");
-    while( i != list.end() ) {
+    while (i != list.end() ) {
 
         // Removing html tags!
         QTextDocument doc;
@@ -336,7 +337,7 @@ int EntryModel::createItems(int offset, int limit)
                                 (*i).feedIcon,
                                 (*i).feedTitle.remove(re),
                                 (*i).annotations,
-                                _db->isCacheExistsByEntryId((*i).id),
+                                db->isCacheExistsByEntryId((*i).id),
                                 (*i).broadcast==1,
                                 (*i).liked==1,
                                 (*i).fresh,
@@ -349,7 +350,7 @@ int EntryModel::createItems(int offset, int limit)
 
 #ifndef ANDROID
     // Dummy row as workaround!
-    if (list.count()>0)
+    if (!list.isEmpty())
         appendRow(new EntryItem("last","","","","","","","","","","","",false,false,false,0,0,0,0));
 #endif
 
@@ -358,7 +359,9 @@ int EntryModel::createItems(int offset, int limit)
 
 void EntryModel::setAllAsUnread()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     if (s->getSigninType() >= 10) {
         // setAllAsUnread not supported in API
         qWarning() << "Mark all as unread is not supported!";
@@ -367,7 +370,7 @@ void EntryModel::setAllAsUnread()
 
     int l = this->rowCount();
     for (int i=0; i<l; ++i) {
-        EntryItem* item = static_cast<EntryItem*>(readRow(i));
+        EntryItem* item = dynamic_cast<EntryItem*>(readRow(i));
         item->setRead(0);
     }
 
@@ -377,38 +380,38 @@ void EntryModel::setAllAsUnread()
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        _db->updateEntriesReadFlagByStream(_feedId,0);
+        db->updateEntriesReadFlagByStream(_feedId,0);
 
         action.type = DatabaseManager::UnSetStreamReadAll;
         action.id1 = _feedId;
-        action.date1 = _db->readLastUpdateByStream(_feedId);
+        action.date1 = db->readLastUpdateByStream(_feedId);
 
         break;
     case 1:
         // View mode: Tabs->Entries
-        _db->updateEntriesReadFlagByTab(_feedId,0);
+        db->updateEntriesReadFlagByTab(_feedId,0);
 
         action.type = DatabaseManager::UnSetTabReadAll;
         action.id1 = _feedId;
-        action.date1 = _db->readLastUpdateByTab(_feedId);
+        action.date1 = db->readLastUpdateByTab(_feedId);
 
         break;
     case 2:
         // View mode: Feeds->Entries
-        _db->updateEntriesReadFlagByStream(_feedId,0);
+        db->updateEntriesReadFlagByStream(_feedId,0);
 
         action.type = DatabaseManager::UnSetStreamReadAll;
         action.id1 = _feedId;
-        action.date1 = _db->readLastUpdateByStream(_feedId);
+        action.date1 = db->readLastUpdateByStream(_feedId);
 
         break;
     case 3:
         // View mode: Entries
-        _db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),0);
+        db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),0);
 
         action.type = DatabaseManager::UnSetAllRead;
         action.id1 = s->getDashboardInUse();
-        action.date1 = _db->readLastUpdateByDashboard(s->getDashboardInUse());
+        action.date1 = db->readLastUpdateByDashboard(s->getDashboardInUse());
 
         break;
     case 4:
@@ -417,11 +420,11 @@ void EntryModel::setAllAsUnread()
         return;
     case 5:
         // View mode: Slow
-        _db->updateEntriesSlowReadFlagByDashboard(s->getDashboardInUse(),0);
+        db->updateEntriesSlowReadFlagByDashboard(s->getDashboardInUse(),0);
 
         action.type = DatabaseManager::UnSetSlowRead;
         action.id1 = s->getDashboardInUse();
-        action.date1 = _db->readLastUpdateByDashboard(s->getDashboardInUse());
+        action.date1 = db->readLastUpdateByDashboard(s->getDashboardInUse());
 
         break;
     case 6:
@@ -434,7 +437,7 @@ void EntryModel::setAllAsUnread()
         return;
     }
 
-    _db->writeAction(action);
+    db->writeAction(action);
 }
 
 void EntryModel::setAllAsRead()
@@ -446,44 +449,46 @@ void EntryModel::setAllAsRead()
     }
 
     // DB change
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     DatabaseManager::Action action;
     int mode = s->getViewMode();
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        _db->updateEntriesReadFlagByStream(_feedId,1);
+        db->updateEntriesReadFlagByStream(_feedId,1);
 
         action.type = DatabaseManager::SetStreamReadAll;
         action.id1 = _feedId;
-        action.date1 = _db->readLastUpdateByStream(_feedId);
+        action.date1 = db->readLastUpdateByStream(_feedId);
 
         break;
     case 1:
         // View mode: Tabs->Entries
-        _db->updateEntriesReadFlagByTab(_feedId,1);
+        db->updateEntriesReadFlagByTab(_feedId,1);
 
         action.type = DatabaseManager::SetTabReadAll;
         action.id1 = _feedId;
-        action.date1 = _db->readLastUpdateByTab(_feedId);
+        action.date1 = db->readLastUpdateByTab(_feedId);
 
         break;
     case 2:
         // View mode: Feeds->Entries
-        _db->updateEntriesReadFlagByStream(_feedId,1);
+        db->updateEntriesReadFlagByStream(_feedId,1);
 
         action.type = DatabaseManager::SetStreamReadAll;
         action.id1 = _feedId;
-        action.date1 = _db->readLastUpdateByStream(_feedId);
+        action.date1 = db->readLastUpdateByStream(_feedId);
 
         break;
     case 3:
         // View mode: Entries
-        _db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),1);
+        db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),1);
 
         action.type = DatabaseManager::SetAllRead;
         action.id1 = s->getDashboardInUse();
-        action.date1 = _db->readLastUpdateByDashboard(s->getDashboardInUse());
+        action.date1 = db->readLastUpdateByDashboard(s->getDashboardInUse());
 
         break;
     case 4:
@@ -492,11 +497,11 @@ void EntryModel::setAllAsRead()
         return;
     case 5:
         // View mode: Slow
-        _db->updateEntriesSlowReadFlagByDashboard(s->getDashboardInUse(),1);
+        db->updateEntriesSlowReadFlagByDashboard(s->getDashboardInUse(),1);
 
         action.type = DatabaseManager::SetSlowRead;
         action.id1 = s->getDashboardInUse();
-        action.date1 = _db->readLastUpdateByDashboard(s->getDashboardInUse());
+        action.date1 = db->readLastUpdateByDashboard(s->getDashboardInUse());
 
         break;
     case 6:
@@ -509,12 +514,12 @@ void EntryModel::setAllAsRead()
         return;
     }
 
-    _db->writeAction(action);
+    db->writeAction(action);
 }
 
 void EntryModel::setAboveAsRead(int index)
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     int a = index <= idsOnActionLimit ? 0 : index - idsOnActionLimit;
 
@@ -524,11 +529,11 @@ void EntryModel::setAboveAsRead(int index)
 
     bool ok = false;
     for (; a <= index; ++a) {
-        EntryItem* item = static_cast<EntryItem*>(readRow(a));
+        EntryItem* item = dynamic_cast<EntryItem*>(readRow(a));
         QString id = item->id();
         if (id != "daterow" && id != "last" && item->read() == 0) {
             item->setRead(1);
-            s->db->updateEntriesReadFlagByEntry(id,1);
+            db->updateEntriesReadFlagByEntry(id,1);
             itemIds.append(QString("%1&").arg(id));
             feedIds.append(QString("%1&").arg(item->feedId()));
             dates.append(QString("%1&").arg(item->date()));
@@ -545,34 +550,36 @@ void EntryModel::setAboveAsRead(int index)
         action.id1 = itemIds;
         action.id2 = feedIds;
         action.id3 = dates;
-        s->db->writeAction(action);
+        db->writeAction(action);
     }
 
     if (index > idsOnActionLimit)
         setAboveAsRead(index - idsOnActionLimit - 1);
-
 }
 
 int EntryModel::countRead()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     int mode = s->getViewMode();
+
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        return _db->countEntriesReadByStream(_feedId);
+        return db->countEntriesReadByStream(_feedId);
         break;
     case 1:
         // View mode: Tabs->Entries
-        return _db->countEntriesReadByTab(_feedId);
+        return db->countEntriesReadByTab(_feedId);
         break;
     case 2:
         // View mode: Feeds->Entries
-        return _db->countEntriesReadByStream(_feedId);
+        return db->countEntriesReadByStream(_feedId);
         break;
     case 3:
         // View mode: Entries
-        return _db->countEntriesReadByDashboard(s->getDashboardInUse());
+        return db->countEntriesReadByDashboard(s->getDashboardInUse());
         break;
     case 4:
         // View mode: Saved
@@ -580,7 +587,7 @@ int EntryModel::countRead()
         return 0;
     case 5:
         // View mode: Slow
-        return _db->countEntriesSlowReadByDashboard(s->getDashboardInUse());
+        return db->countEntriesSlowReadByDashboard(s->getDashboardInUse());
         break;
     case 6:
         // View mode: Liked
@@ -597,24 +604,27 @@ int EntryModel::countRead()
 
 int EntryModel::countUnread()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     int mode = s->getViewMode();
+
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        return _db->countEntriesUnreadByStream(_feedId);
+        return db->countEntriesUnreadByStream(_feedId);
         break;
     case 1:
         // View mode: Tabs->Entries
-        return _db->countEntriesUnreadByTab(_feedId);
+        return db->countEntriesUnreadByTab(_feedId);
         break;
     case 2:
         // View mode: Feeds->Entries
-        return _db->countEntriesUnreadByStream(_feedId);
+        return db->countEntriesUnreadByStream(_feedId);
         break;
     case 3:
         // View mode: Entries
-        return _db->countEntriesUnreadByDashboard(s->getDashboardInUse());
+        return db->countEntriesUnreadByDashboard(s->getDashboardInUse());
         break;
     case 4:
         // View mode: Saved
@@ -622,7 +632,7 @@ int EntryModel::countUnread()
         return 0;
     case 5:
         // View mode: Slow
-        return _db->countEntriesSlowUnreadByDashboard(s->getDashboardInUse());
+        return db->countEntriesSlowUnreadByDashboard(s->getDashboardInUse());
         break;
     case 6:
         // View mode: Liked
@@ -644,13 +654,15 @@ int EntryModel::count()
 
 void EntryModel::setData(int row, const QString &fieldName, QVariant newValue, QVariant newValue2)
 {
-    EntryItem* item = static_cast<EntryItem*>(readRow(row));
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
-    if (fieldName=="readlater") {
+    auto item = dynamic_cast<EntryItem*>(readRow(row));
+
+    if (fieldName == "readlater") {
         item->setReadlater(newValue.toInt());
         DatabaseManager::Action action;
-        action.id2 = s->db->readStreamIdByEntry(item->id());
+        action.id2 = db->readStreamIdByEntry(item->id());
         if (newValue==1) {
             action.type = DatabaseManager::SetSaved;
             action.id1 = item->id();
@@ -662,14 +674,12 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue, Q
             action.date1 = item->date();
             action.id3 = QString::number(action.date1);
         }
-        _db->writeAction(action);
-        _db->updateEntriesSavedFlagByEntry(item->id(),newValue.toInt());
-    }
-
-    if (fieldName=="read") {
+        db->writeAction(action);
+        db->updateEntriesSavedFlagByEntry(item->id(),newValue.toInt());
+    } else if (fieldName == "read") {
         item->setRead(newValue.toInt());
         DatabaseManager::Action action;
-        action.id2 = s->db->readStreamIdByEntry(item->id());
+        action.id2 = db->readStreamIdByEntry(item->id());
         if (newValue==1) {
             action.type = DatabaseManager::SetRead;
             action.id1 = item->id();
@@ -681,14 +691,12 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue, Q
             action.date1 = item->date();
             action.id3 = QString::number(action.date1);
         }
-        _db->writeAction(action);
-        _db->updateEntriesReadFlagByEntry(item->id(),newValue.toInt());
-    }
-
-    if (fieldName=="liked") {
+        db->writeAction(action);
+        db->updateEntriesReadFlagByEntry(item->id(),newValue.toInt());
+    } else if (fieldName == "liked") {
         item->setLiked(newValue.toBool() ? 1 : 0);
         DatabaseManager::Action action;
-        action.id2 = s->db->readStreamIdByEntry(item->id());
+        action.id2 = db->readStreamIdByEntry(item->id());
         if (newValue.toBool()) {
             action.type = DatabaseManager::SetLiked;
             action.id1 = item->id();
@@ -700,11 +708,9 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue, Q
             action.date1 = item->date();
             action.id3 = QString::number(action.date1);
         }
-        _db->writeAction(action);
-        _db->updateEntriesLikedFlagByEntry(item->id(),newValue.toBool() ? 1 : 0);
-    }
-
-    if (fieldName=="broadcast") {
+        db->writeAction(action);
+        db->updateEntriesLikedFlagByEntry(item->id(),newValue.toBool() ? 1 : 0);
+    } else if (fieldName == "broadcast") {
 #ifdef KAKTUS_LIGHT
         return;
 #endif
@@ -728,11 +734,9 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue, Q
             action.text = newValue2.toString();
             action.id3 = QString::number(action.date1);
         }
-        _db->writeAction(action);
-        _db->updateEntriesBroadcastFlagByEntry(item->id(),newValue.toInt(),newValue2.toString());
-    }
-
-    if (fieldName=="cached") {
+        db->writeAction(action);
+        db->updateEntriesBroadcastFlagByEntry(item->id(),newValue.toInt(),newValue2.toString());
+    } else if (fieldName == "cached") {
         item->setCached(newValue.toInt());
     }
 }

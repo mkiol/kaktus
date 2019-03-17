@@ -28,11 +28,13 @@ Image {
     property string orgSource: ""
     property bool cached: true
     property bool hidden: false
+    readonly property bool ok: status === Image.Ready &&
+                               (minWidth === 0 || (sourceSize.width > minWidth &&
+                                                   sourceSize.height > minWidth))
     readonly property bool filled: maxWidth > 0 && implicitWidth > maxWidth/3
 
     width: filled ? maxWidth : sourceSize.width
-    enabled: !hidden && status === Image.Ready &&
-             (minWidth === 0 || (sourceSize.width > minWidth && sourceSize.height > minWidth))
+    enabled: !hidden && ok
     visible: opacity > 0 && enabled
     opacity: enabled ? 1.0 : 0.0
     Behavior on opacity {
@@ -60,7 +62,7 @@ Image {
     }
 
     onStatusChanged: {
-        if (status === Image.Ready) {
+        if (!hidden && status === Image.Ready) {
             if (filled) {
                 var ratio = width / implicitWidth
                 height = implicitHeight * ratio

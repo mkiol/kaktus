@@ -43,7 +43,6 @@
 #include "dashboardmodel.h"
 #include "feedmodel.h"
 #include "entrymodel.h"
-#include "databasemanager.h"
 #include "settings.h"
 
 class Utils : public QObject

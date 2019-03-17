@@ -76,6 +76,7 @@ ListItem {
     signal evaluated(int evaluation)
     signal share
     signal pocketAdd
+    signal saveImage
 
     enabled: !last && !daterow
 
@@ -466,6 +467,17 @@ ListItem {
                 text: qsTr("Share link")
                 icon.source: "image://theme/icon-m-share?" + Theme.primaryColor
                 onClicked: root.share()
+            }
+
+            IconMenuItem {
+                text: qsTr("Save image")
+                icon.source: "image://theme/icon-m-cloud-download?" + Theme.primaryColor
+                enabled: entryImage.ok
+                visible: enabled
+                onClicked: {
+                    root.saveImage()
+                    menu.close()
+                }
             }
 
             IconMenuItem {

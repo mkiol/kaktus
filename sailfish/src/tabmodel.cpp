@@ -18,17 +18,18 @@
 */
 
 #include "tabmodel.h"
+#include "databasemanager.h"
 #include "downloadmanager.h"
 
-TabModel::TabModel(DatabaseManager *db, QObject *parent) :
-    ListModel(new TabItem, parent)
+TabModel::TabModel(QObject *parent) :
+    ListModel(new TabItem, parent),
+    _dashboardId()
 {
-    _db = db;
-    _dashboardId = "";
+    auto s = Settings::instance();
+    auto dm = DownloadManager::instance();
 
-    Settings *s = Settings::instance();
-    connect(s->dm, SIGNAL(cacheCleaned()), this, SLOT(updateFlags()));
-    connect(s,SIGNAL(showBroadcastChanged()),this,SLOT(init()));
+    connect(dm, SIGNAL(cacheCleaned()), this, SLOT(updateFlags()));
+    connect(s, SIGNAL(showBroadcastChanged()), this, SLOT(init()));
 }
 
 void TabModel::init(const QString &dashboardId)
@@ -45,19 +46,20 @@ void TabModel::init()
 
 void TabModel::createItems(const QString &dashboardId)
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
-    QList<DatabaseManager::Tab> list = _db->readTabsByDashboard(dashboardId);
+    QList<DatabaseManager::Tab> list = db->readTabsByDashboard(dashboardId);
     QList<DatabaseManager::Tab>::iterator i = list.begin();
 
-    while( i != list.end() ) {
+    while (i != list.end() ) {
         TabItem* tab = new TabItem((*i).id,
                                    (*i).title,
                                    (*i).icon,
-                                   _db->countEntriesUnreadByTab((*i).id),
-                                   _db->countEntriesReadByTab((*i).id),
+                                   db->countEntriesUnreadByTab((*i).id),
+                                   db->countEntriesReadByTab((*i).id),
                                    0,
-                                   _db->countEntriesFreshByTab((*i).id)
+                                   db->countEntriesFreshByTab((*i).id)
                                   );
 
         if ((*i).id == "friends") {
@@ -73,68 +75,80 @@ void TabModel::createItems(const QString &dashboardId)
     }
 
     // Dummy row as workaround!
-    if (list.count()>0)
+    if (!list.isEmpty())
         appendRow(new TabItem("last","","",0,0,0,0));
 }
 
 void TabModel::updateFlags()
 {
+    auto db = DatabaseManager::instance();
+
     int l = this->rowCount();
-    for (int i=0; i<l; ++i) {
-        TabItem* item = static_cast<TabItem*>(this->readRow(i));
-        item->setUnread(_db->countEntriesUnreadByTab(item->uid()));
-        item->setRead(_db->countEntriesReadByTab(item->uid()));
+    for (int i = 0; i < l; ++i) {
+        TabItem* item = dynamic_cast<TabItem*>(this->readRow(i));
+        item->setUnread(db->countEntriesUnreadByTab(item->uid()));
+        item->setRead(db->countEntriesReadByTab(item->uid()));
     }
 }
 
 void TabModel::markAsUnread(int row)
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     if (s->getSigninType() >= 10) {
         // markAsUnread not supported in API
         qWarning() << "Mark tab as unread is not supported!";
         return;
     }
 
-    TabItem* item = static_cast<TabItem*>(readRow(row));
-    _db->updateEntriesReadFlagByTab(item->id(),0);
-    item->setRead(0); item->setUnread(_db->countEntriesUnreadByTab(item->id()));
+    TabItem* item = dynamic_cast<TabItem*>(readRow(row));
+    db->updateEntriesReadFlagByTab(item->id(),0);
+    item->setRead(0); item->setUnread(db->countEntriesUnreadByTab(item->id()));
 
     DatabaseManager::Action action;
     action.type = DatabaseManager::UnSetTabReadAll;
     action.id1 = item->id();
-    action.date1 = _db->readLastUpdateByTab(item->id());
-    _db->writeAction(action);
+    action.date1 = db->readLastUpdateByTab(item->id());
+    db->writeAction(action);
 }
 
 void TabModel::markAsRead(int row)
 {
-    TabItem* item = static_cast<TabItem*>(readRow(row));
-    _db->updateEntriesReadFlagByTab(item->id(),1);
-    item->setUnread(0); item->setRead(_db->countEntriesReadByTab(item->id()));
+    auto db = DatabaseManager::instance();
+
+    TabItem* item = dynamic_cast<TabItem*>(readRow(row));
+    db->updateEntriesReadFlagByTab(item->id(),1);
+    item->setUnread(0); item->setRead(db->countEntriesReadByTab(item->id()));
 
     DatabaseManager::Action action;
     action.type = DatabaseManager::SetTabReadAll;
     action.id1 = item->id();
-    action.date1 = _db->readLastUpdateByTab(item->id());
-    _db->writeAction(action);
+    action.date1 = db->readLastUpdateByTab(item->id());
+    db->writeAction(action);
 }
 
 int TabModel::countRead()
 {
-    Settings *s = Settings::instance();
-    return _db->countEntriesReadByDashboard(s->getDashboardInUse());
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
+    return db->countEntriesReadByDashboard(s->getDashboardInUse());
 }
 
 int TabModel::countUnread()
 {
-    Settings *s = Settings::instance();
-    return _db->countEntriesUnreadByDashboard(s->getDashboardInUse());
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
+    return db->countEntriesUnreadByDashboard(s->getDashboardInUse());
 }
 
 void TabModel::setAllAsUnread()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     if (s->getSigninType() >= 10) {
         // setAllAsUnread not supported in API
         qWarning() << "Mark all as unread is not supported!";
@@ -143,31 +157,33 @@ void TabModel::setAllAsUnread()
 
     DatabaseManager::Action action;
 
-    _db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),0);
+    db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),0);
 
     action.type = DatabaseManager::UnSetAllRead;
     action.id1 = s->getDashboardInUse();
-    action.date1 = _db->readLastUpdateByDashboard(s->getDashboardInUse());
+    action.date1 = db->readLastUpdateByDashboard(s->getDashboardInUse());
 
     updateFlags();
 
-    _db->writeAction(action);
+    db->writeAction(action);
 }
 
 void TabModel::setAllAsRead()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     DatabaseManager::Action action;
 
-    _db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),1);
+    db->updateEntriesReadFlagByDashboard(s->getDashboardInUse(),1);
 
     action.type = DatabaseManager::SetAllRead;
     action.id1 = s->getDashboardInUse();
-    action.date1 = _db->readLastUpdateByDashboard(s->getDashboardInUse());
+    action.date1 = db->readLastUpdateByDashboard(s->getDashboardInUse());
 
     updateFlags();
 
-    _db->writeAction(action);
+    db->writeAction(action);
 }
 
 int TabModel::count()

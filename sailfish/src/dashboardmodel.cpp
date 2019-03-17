@@ -17,12 +17,12 @@
   along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "databasemanager.h"
 #include "dashboardmodel.h"
 
-DashboardModel::DashboardModel(DatabaseManager *db, QObject *parent) :
+DashboardModel::DashboardModel(QObject *parent) :
     ListModel(new DashboardItem, parent)
 {
-    _db = db;
 }
 
 void DashboardModel::init()
@@ -33,7 +33,8 @@ void DashboardModel::init()
 
 void DashboardModel::createItems()
 {
-    QList<DatabaseManager::Dashboard> list = _db->readDashboards();
+    auto db = DatabaseManager::instance();
+    QList<DatabaseManager::Dashboard> list = db->readDashboards();
     QList<DatabaseManager::Dashboard>::iterator i = list.begin();
     while( i != list.end() ) {
         //qDebug() << (*i).id << (*i).title;

@@ -23,6 +23,7 @@
 #include <QtCore/qmath.h>
 #include <QCryptographicHash>
 #include <QRegExp>
+#include <QFile>
 
 #ifdef SAILFISH
 #include <sailfishapp.h>
@@ -68,6 +69,7 @@
 #include "oldreaderfetcher.h"
 #include "nvfetcher.h"
 #include "ttrssfetcher.h"
+#include "databasemanager.h"
 
 Utils::Utils(QObject *parent) :
     QObject(parent)//, ncm(new QNetworkConfigurationManager(parent))
@@ -466,7 +468,7 @@ void Utils::setRootModel()
     switch (mode) {
     case 0:
         // View mode: Tabs->Feeds->Entries
-        tabModel = new TabModel(s->db);
+        tabModel = new TabModel();
         tabModel->init(s->getDashboardInUse());
 #ifdef BB10
         s->qml->setContextProperty("tabModel", tabModel);
@@ -485,7 +487,7 @@ void Utils::setRootModel()
         break;
     case 1:
         // View mode: Tabs->Entries
-        tabModel = new TabModel(s->db);
+        tabModel = new TabModel();
         tabModel->init(s->getDashboardInUse());
 #ifdef BB10
         s->qml->setContextProperty("tabModel", tabModel);
@@ -504,7 +506,7 @@ void Utils::setRootModel()
         break;
     case 2:
         // View mode: Feeds->Entries
-        feedModel = new FeedModel(s->db);
+        feedModel = new FeedModel();
         feedModel->init("root");
 #ifdef BB10
         s->qml->setContextProperty("feedModel", feedModel);
@@ -530,7 +532,7 @@ void Utils::setRootModel()
         // View mode: Liked
     case 7:
         // View mode: Broadcast
-        entryModel = new EntryModel(s->db);
+        entryModel = new EntryModel();
         entryModel->init("root");
 #ifdef BB10
         s->qml->setContextProperty("entryModel", entryModel);
@@ -554,7 +556,7 @@ void Utils::setFeedModel(const QString &tabId)
     FeedModel* oldFeedModel = feedModel;
     Settings *s = Settings::instance();
 
-    feedModel = new FeedModel(s->db);
+    feedModel = new FeedModel();
     feedModel->init(tabId);
 
 #ifdef BB10
@@ -573,7 +575,7 @@ void Utils::setEntryModel(const QString &feedId)
     EntryModel* oldEntryModel = entryModel;
     Settings *s = Settings::instance();
 
-    entryModel = new EntryModel(s->db);
+    entryModel = new EntryModel();
     entryModel->initInThread(feedId);
 
 #ifdef BB10
@@ -592,7 +594,7 @@ void Utils::setDashboardModel()
     DashboardModel* oldDashboardModel = dashboardModel;
     Settings *s = Settings::instance();
 
-    dashboardModel = new DashboardModel(s->db);
+    dashboardModel = new DashboardModel();
     dashboardModel->init();
 
 #ifdef BB10
@@ -637,9 +639,10 @@ Utils::~Utils()
 
 QList<QString> Utils::dashboards()
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     QList<QString> simpleList;
-    QList<DatabaseManager::Dashboard> list = s->db->readDashboards();
+    QList<DatabaseManager::Dashboard> list = db->readDashboards();
     QList<DatabaseManager::Dashboard>::iterator i = list.begin();
     while (i != list.end()) {
         simpleList.append((*i).title);
@@ -650,15 +653,19 @@ QList<QString> Utils::dashboards()
 
 QString Utils::defaultDashboardName()
 {
-    Settings *s = Settings::instance();
-    DatabaseManager::Dashboard d = s->db->readDashboard(s->getDashboardInUse());
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
+    DatabaseManager::Dashboard d = db->readDashboard(s->getDashboardInUse());
     return d.title;
 }
 
 int Utils::countUnread()
 {
-    Settings *s = Settings::instance();
-    return s->db->countEntriesUnreadByDashboard(s->getDashboardInUse());
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
+    return db->countEntriesUnreadByDashboard(s->getDashboardInUse());
 }
 
 QString Utils::getHumanFriendlySizeString(int size)
@@ -816,5 +823,5 @@ void Utils::resetFetcher(int type)
 #else
         s->context->setContextProperty("fetcher", s->fetcher);
 #endif
-
 }
+

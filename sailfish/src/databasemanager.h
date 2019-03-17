@@ -38,9 +38,7 @@
 class DatabaseManager : public QObject
 {
     Q_OBJECT
-
     Q_PROPERTY (bool synced READ isSynced NOTIFY syncedChanged)
-
 public:
     static const int version = 23;
 
@@ -172,8 +170,7 @@ public:
         int date3;
     };
 
-    explicit DatabaseManager(QObject *parent = 0);
-    ~DatabaseManager();
+    static DatabaseManager* instance(QObject *parent = nullptr);
 
     Q_INVOKABLE void init();
     Q_INVOKABLE void newInit();
@@ -339,9 +336,14 @@ signals:
     void syncedChanged();
 
 private:
+    static DatabaseManager* m_instance;
+
     QSqlDatabase db;
     QString dbFilePath;
     QString backupFilePath;
+
+    DatabaseManager(QObject *parent = nullptr);
+    ~DatabaseManager();
 
     void checkError(const QSqlError &error);
 

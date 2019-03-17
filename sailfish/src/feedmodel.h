@@ -29,7 +29,6 @@
 #include <QModelIndex>
 
 #include "listmodel.h"
-#include "databasemanager.h"
 
 class FeedItem : public ListItem
 {
@@ -51,7 +50,7 @@ public:
     };
 
 public:
-    FeedItem(QObject *parent = 0): ListItem(parent) {}
+    FeedItem(QObject *parent = nullptr): ListItem(parent) {}
     explicit FeedItem(const QString &uid,
                       const QString &title,
                       const QString &content,
@@ -63,7 +62,7 @@ public:
                       int read,
                       int readlater,
                       int fresh,
-                      QObject *parent = 0);
+                      QObject *parent = nullptr);
     QVariant data(int role) const;
     QHash<int, QByteArray> roleNames() const;
     inline QString id() const { return m_uid; }
@@ -102,7 +101,7 @@ class FeedModel : public ListModel
     Q_OBJECT
 
 public:
-    explicit FeedModel(DatabaseManager* db, QObject *parent = 0);
+    explicit FeedModel(QObject *parent = nullptr);
     void init(const QString &tabId);
     void init();
 
@@ -119,7 +118,6 @@ public:
     Q_INVOKABLE int count();
 
 private:
-    DatabaseManager* _db;
     QString _tabId;
 
     void createItems(const QString &dashboardId);

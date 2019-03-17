@@ -36,14 +36,11 @@
 #include "simplecrypt.h"
 #include "../key.h"
 
-Settings* Settings::inst = 0;
+Settings* Settings::m_instance = nullptr;
 
 Settings::Settings(QObject *parent) : QObject(parent),
-    settings(),
-    db(NULL),
-    cache(NULL),
-    dm(NULL),
-    fetcher(NULL)
+    fetcher(nullptr),
+    settings()
 {
     // Reset if not Signed in
     if (!getSignedIn()) {
@@ -55,11 +52,11 @@ Settings::Settings(QObject *parent) : QObject(parent),
 
 Settings* Settings::instance()
 {
-    if (Settings::inst == NULL) {
-        Settings::inst = new Settings();
+    if (Settings::m_instance == nullptr) {
+        Settings::m_instance = new Settings();
     }
 
-    return Settings::inst;
+    return Settings::m_instance;
 }
 
 QString Settings::pocketConsumerKey()

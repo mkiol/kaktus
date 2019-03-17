@@ -67,13 +67,14 @@ class CacheServer : public QObject
 {
     Q_OBJECT
 public:
+    static CacheServer* instance(QObject *parent = nullptr);
     static bool readFile(const QString &filename, QByteArray &data);
     static bool readFile2(const QString &path, QByteArray &data);
     static QString getFileUrl(const QString &id);
     static QByteArray getDataUrlByUrl(const QString &item);
+    static bool getPathAndContentTypeByUrl(const QString &url, QString &path,
+                                           QString &contentType);
 
-    explicit CacheServer(QObject *parent = 0);
-    ~CacheServer();
     Q_INVOKABLE QString getUrlbyId(const QString &item);
     Q_INVOKABLE QString getUrlbyUrl(const QString &item);
     Q_INVOKABLE QString getCacheUrlbyUrl(const QString &item);
@@ -84,11 +85,12 @@ public slots:
     void handleFinish();
 
 signals:
-    //void startWorker(QThread::Priority priority);
     void startWorker(QHttpRequest*, QHttpResponse*);
 
 private:
+    static CacheServer* m_instance;
     static const int port = 9999;
+    explicit CacheServer(QObject *parent = nullptr);
 
     QHttpServer *server;
 

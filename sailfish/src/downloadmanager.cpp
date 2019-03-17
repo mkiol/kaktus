@@ -32,12 +32,23 @@
 #include "downloadmanager.h"
 //#include "netvibesfetcher.h"
 #include "fetcher.h"
+#include "utils.h"
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 #else
 #include "utils.h"
 #endif
 
+DownloadManager* DownloadManager::m_instance = nullptr;
+
+DownloadManager* DownloadManager::instance(QObject *parent)
+{
+    if (DownloadManager::m_instance == nullptr) {
+        DownloadManager::m_instance = new DownloadManager(parent);
+    }
+
+    return DownloadManager::m_instance;
+}
 
 DownloadManager::DownloadManager(QObject *parent) :
     QObject(parent)
@@ -68,9 +79,6 @@ DownloadManager::DownloadManager(QObject *parent) :
     connect(&manager, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
             this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
 }
-
-DownloadManager::~DownloadManager()
-{}
 
 bool DownloadManager::isWLANConnected()
 {
@@ -171,8 +179,8 @@ void DownloadManager::removeCache()
     if (isRemoverBusy())
         return;
 
-    Settings *s = Settings::instance();
-    s->db->removeCacheItems();
+    auto db = DatabaseManager::instance();
+    db->removeCacheItems();
     remover.start(QThread::LowPriority);
     emit removerBusyChanged();
 }
@@ -196,7 +204,7 @@ void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAcc
 
 void DownloadManager::doDownload(DatabaseManager::CacheItem item)
 {
-    //qDebug() << "item.finalUrl:" << item.finalUrl;
+    qDebug() << "item.finalUrl:" << item.finalUrl;
     QNetworkRequest request(QUrl(item.finalUrl));
     Settings *s = Settings::instance();
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -257,7 +265,7 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
     "HttpStatusCode: " << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() <<
     "Url:" << reply->url();*/
 
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     QUrl url = reply->url();
     QNetworkReply::NetworkError error = reply->error();
@@ -266,7 +274,6 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
     delete replyToCheckerMap.take(reply);
 
     if (error) {
-
         /*qDebug() << "DM, Errorcode: " << error << "entryId=" << item.entryId;
         qWarning() << "Download of " << url.toEncoded().constData()
                    << " failed: " << reply->errorString();*/
@@ -280,22 +287,22 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
             return;
         }
 
-        if (item.entryId!="") {
+        if (!item.entryId.isEmpty()) {
             switch (error) {
             case QNetworkReply::OperationCanceledError:
                 if (!checkIfHeadersAreValid(reply))
-                    s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),2);
+                    db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),2);
                 break;
             case QNetworkReply::HostNotFoundError:
-                //s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),4);
+                //db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),4);
                 break;
             case QNetworkReply::AuthenticationRequiredError:
-                s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),5);
+                db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),5);
                 break;
             case QNetworkReply::ContentNotFoundError:
             case QNetworkReply::ContentOperationNotPermittedError:
             case QNetworkReply::UnknownContentError:
-                s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),6);
+                db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),6);
                 break;
             default:
                 break;
@@ -305,14 +312,14 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
         // Write Cache item to DB
         if (reply->header(QNetworkRequest::ContentTypeHeader).isValid()) {
             item.contentType = reply->header(QNetworkRequest::ContentTypeHeader).toString();
-            if (item.type == "")
+            if (item.type.isEmpty())
                 item.type = item.contentType.section('/', 0, 0);
         }
 
-        item.id = hash(item.finalUrl);
-        item.origUrl = hash(item.origUrl);
+        item.id = Utils::hash(item.finalUrl);
+        item.origUrl = Utils::hash(item.origUrl);
         item.baseUrl = item.finalUrl;
-        item.finalUrl = hash(item.finalUrl);
+        item.finalUrl = Utils::hash(item.finalUrl);
         item.date = QDateTime::currentDateTime().toTime_t();
         item.flag = 0;
 
@@ -336,13 +343,12 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
             item.flag = 9;
         }
 
-        s->db->writeCache(item);
+        db->writeCache(item);
 
     } else {
 
         // Redirection
         if (reply->attribute(QNetworkRequest::RedirectionTargetAttribute).isValid()) {
-
             /*qDebug() << ">>>>>>> Redirection";
             qDebug() << "origUrl" << item.origUrl;
             qDebug() << "finalUrl" << item.finalUrl;
@@ -377,10 +383,10 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
             if (item.type == "online-item") {
                 // Quick download in online mode
                 onlineItem = true;
-                item.type = "";
+                item.type.clear();
             }
 
-            if (item.type == "")
+            if (item.type.isEmpty())
                 item.type = item.contentType.section('/', 0, 0);
 
             if (item.type == "text" ||
@@ -395,43 +401,51 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
                     //qDebug() << "Tiny image found:"<<item.finalUrl;
 
                     // Write Cache item to DB with flag=10
-                    item.id = hash(item.entryId+item.finalUrl);
-                    item.origUrl = hash(item.origUrl);
+                    item.id = Utils::hash(item.entryId+item.finalUrl);
+                    item.origUrl = Utils::hash(item.origUrl);
                     item.baseUrl = item.finalUrl;
-                    item.finalUrl = hash(item.finalUrl);
+                    item.finalUrl = Utils::hash(item.finalUrl);
                     item.date = QDateTime::currentDateTime().toTime_t();
                     item.flag = 10;
-                    s->db->writeCache(item);
+                    db->writeCache(item);
 
                 } else {
                     //qDebug() << "url" << url.toString() << "finalUrl" << item.finalUrl;
                     //qDebug() << "hash" << hash(url.toString()) << "finalUrl" << hash(item.finalUrl);
-                    if (saveToDisk(hash(item.finalUrl), content)) {
+                    auto path = saveToDisk(Utils::hash(item.finalUrl), content);
+                    if (!path.isEmpty()) {
                         // Write Cache item to DB
                         //qDebug() << "Write Cache item to DB" << item.type << item.finalUrl;
-                        item.id = hash(item.entryId+item.finalUrl);
-                        item.origUrl = hash(item.origUrl);
+                        QString origUrl = item.origUrl;
+
+                        item.id = Utils::hash(item.entryId+item.finalUrl);
+                        item.origUrl = Utils::hash(item.origUrl);
                         item.baseUrl = item.finalUrl;
-                        item.finalUrl = hash(item.finalUrl);
+                        item.finalUrl = Utils::hash(item.finalUrl);
                         item.date = QDateTime::currentDateTime().toTime_t();
                         item.flag = 1;
-                        s->db->writeCache(item);
+                        db->writeCache(item);
 
-                        if (item.entryId!="") {
+                        if (!item.entryId.isEmpty()) {
                             // Scan for other resouces, only text files
                             //if (item.type == "text")
                             //    scanHtml(content, url);
-                            s->db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),1);
+                            db->updateEntriesCachedFlagByEntry(item.entryId,
+                                   QDateTime::currentDateTime().toTime_t(), 1);
                         }
 
                         if (onlineItem) {
-                            emit this->onlineDownloadReady(item.entryId,item.baseUrl);
+                            emit onlineDownloadReady(item.entryId, item.baseUrl);
                             //qDebug() << "emit onlineDownloadReady, item.entryId" << item.entryId << "item.baseUrl" << item.baseUrl << "filename" << hash(url.toString()) << "hash(item.finalUrl)" << hash(item.finalUrl) << "finalurl" << item.finalUrl;
+                        } else {
+                            emit downloadReady(origUrl, path, item.contentType);
                         }
-
                     } else {
-                        if (onlineItem)
-                            emit this->onlineDownloadFailed();
+                        if (onlineItem) {
+                            emit onlineDownloadFailed();
+                        } else {
+                            emit downloadFailed(item.origUrl);
+                        }
 
                         qWarning() << "Saving file has failed! Maybe out of disk space?";
                         emit this->error(501);
@@ -516,31 +530,33 @@ bool DownloadManager::isUrlinQueue(const QString &origUrl, const QString &finalU
     return false;
 }
 
-bool DownloadManager::saveToDisk(const QString &filename, const QByteArray &content)
+QString DownloadManager::saveToDisk(const QString &filename, const QByteArray &content)
 {
     Settings *s = Settings::instance();
-    QFile file(s->getDmCacheDir() + "/" + filename);
+    QDir dir(s->getDmCacheDir());
+    QString path = dir.absoluteFilePath(filename);
+    QFile file(path);
 
     if (file.exists()) {
         if (!file.remove()) {
             qWarning() << "File" << filename << "exists, but unable to delete.";
-            return false;
+            return QString();
         }
     }
 
     if (!file.open(QIODevice::WriteOnly)) {
         qWarning() << "Could not open" << filename << "for writing. Error string:" << file.errorString();
-        return false;
+        return QString();
     }
 
     if (file.write(content) == -1) {
         qWarning() << "Could not write data to" << filename << ". Error string:" << file.errorString();
         file.close();
-        return false;
+        return QString();
     }
 
     file.close();
-    return true;
+    return path;
 }
 
 void DownloadManager::sslErrors(const QList<QSslError> &sslErrors)
@@ -572,11 +588,8 @@ void DownloadManager::addDownload(DatabaseManager::CacheItem item)
     qDebug() << "s->fetcher->isBusy():" <<  s->fetcher->isBusy();
     qDebug() << "busy:" <<  busy;*/
 
-    if (
-            item.type=="icon" ||
-            (!s->fetcher->isBusy() &&
-            downloads.count() < s->getDmConnections())
-    ) {
+    if (item.type=="icon" || (!s->fetcher->isBusy() &&
+            downloads.count() < s->getDmConnections())) {
         //qDebug() << "doDownload";
         doDownload(item);
         if (!busy && item.type!="online-item")
@@ -650,11 +663,6 @@ void DownloadManager::startFeedDownload()
     adder.start(QThread::LowestPriority);
 }
 
-QString DownloadManager::hash(const QString &url)
-{
-    return QString(QCryptographicHash::hash(url.toLatin1(), QCryptographicHash::Md5).toHex());
-}
-
 void DownloadManager::cancel()
 {
     queue.clear();
@@ -672,8 +680,8 @@ void DownloadManager::cancel()
 
 int DownloadManager::itemsToDownloadCount()
 {
-    Settings *s = Settings::instance();
-    return s->db->countEntriesNotCached();
+    auto db = DatabaseManager::instance();
+    return db->countEntriesNotCached();
 }
 
 bool DownloadManager::isBusy()
@@ -692,13 +700,13 @@ bool DownloadManager::isRemoverBusy()
 
 void DownloadManager::onlineDownload(const QString& id, const QString& url)
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
     DatabaseManager::CacheItem item;
 
     // Search by entryId
-    if (id != "") {
-        item = s->db->readCacheByEntry(id);
-        if (item.id == "") {
+    if (!id.isEmpty()) {
+        item = db->readCacheByEntry(id);
+        if (item.id.isEmpty()) {
             //qDebug() << "Search by id not found";
             // No cache item -> downloaing
             //qDebug() << "No cache item -> downloaing";
@@ -712,9 +720,7 @@ void DownloadManager::onlineDownload(const QString& id, const QString& url)
         }
         //qDebug() << "Item found by entryId! baseUrl=" << item.baseUrl;
         emit onlineDownloadReady(id, "");
-
     } else {
-
         // Downloading
         item.entryId = id;
         item.origUrl = url;
@@ -765,13 +771,15 @@ void CacheCleaner::cleanOr()
 
 void CacheCleaner::cleanNv()
 {
-    Settings *s = Settings::instance();
+    auto s = Settings::instance();
+    auto db = DatabaseManager::instance();
+
     QString cacheDir = s->getDmCacheDir();
 
-    QList<QString> streamList = s->db->readStreamIds();
+    QList<QString> streamList = db->readStreamIds();
     QList<QString>::iterator ii = streamList.begin();
     while (ii!=streamList.end()) {
-        QList<QString> cacheList = s->db->readCacheFinalUrlsByStream(*ii, entriesLimit);
+        QList<QString> cacheList = db->readCacheFinalUrlsByStream(*ii, entriesLimit);
         QList<QString>::iterator iii = cacheList.begin();
         while (iii!=cacheList.end()) {
             QString filepath = cacheDir + "/" + *iii;
@@ -784,7 +792,7 @@ void CacheCleaner::cleanNv()
             QThread::msleep(10);
         }
 
-        s->db->removeEntriesByStream(*ii, entriesLimit);
+        db->removeEntriesByStream(*ii, entriesLimit);
 
         ++ii;
     }
@@ -869,8 +877,9 @@ DownloadAdder::DownloadAdder(QObject *parent) : QThread(parent)
 
 void DownloadAdder::run()
 {
-    Settings *s = Settings::instance();
-    QMap<QString,QString> list = s->db->readNotCachedEntries();
+    auto db = DatabaseManager::instance();
+
+    QMap<QString,QString> list = db->readNotCachedEntries();
     //qDebug() << "startFeedDownload, list.count=" << list.count();
 
     if (list.isEmpty()) {
@@ -880,7 +889,7 @@ void DownloadAdder::run()
 
     QMap<QString,QString>::iterator i = list.begin();
     while (i != list.end()) {
-        if (i.key() != "" && i.value() != "") {
+        if (!i.key().isEmpty() && !i.value().isEmpty()) {
             DatabaseManager::CacheItem item;
             item.entryId = i.key();
             item.origUrl = i.value();

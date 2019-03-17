@@ -29,7 +29,6 @@
 #include <QModelIndex>
 
 #include "listmodel.h"
-#include "databasemanager.h"
 
 class TabItem : public ListItem
 {
@@ -46,7 +45,7 @@ public:
         FreshRole
     };
 
-    TabItem(QObject *parent = 0): ListItem(parent) {}
+    TabItem(QObject *parent = nullptr): ListItem(parent) {}
     explicit TabItem(const QString &uid,
                      const QString &title,
                      const QString &icon,
@@ -54,7 +53,7 @@ public:
                      int read,
                      int readlater,
                      int fresh,
-                     QObject *parent = 0);
+                     QObject *parent = nullptr);
     QVariant data(int role) const;
     QHash<int, QByteArray> roleNames() const;
     inline QString id() const { return m_uid; }
@@ -85,7 +84,7 @@ class TabModel : public ListModel
     Q_OBJECT
 
 public:
-    explicit TabModel(DatabaseManager* db, QObject *parent = 0);
+    explicit TabModel(QObject *parent = nullptr);
     void init(const QString &dashboardId);
 
     Q_INVOKABLE void markAsUnread(int row);
@@ -103,7 +102,6 @@ public Q_SLOTS:
     void init();
 
 private:
-    DatabaseManager* _db;
     QString _dashboardId;
 
     void createItems(const QString &dashboardId);

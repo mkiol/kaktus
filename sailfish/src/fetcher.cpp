@@ -24,6 +24,11 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QJsonArray>
+#include <QStandardPaths>
+#include <QFile>
+#include <QFileInfo>
+#include <QDir>
+#include <memory>
 #else
 #include "parser.h"
 #endif
@@ -32,6 +37,8 @@
 #include "settings.h"
 #include "databasemanager.h"
 #include "downloadmanager.h"
+#include "cacheserver.h"
+#include "utils.h"
 
 FetcherCookieJar::FetcherCookieJar(QObject *parent) :
     QNetworkCookieJar(parent)
@@ -50,13 +57,14 @@ Fetcher::Fetcher(QObject *parent) :
     busyType(Fetcher::UnknownBusyType),
     busy(false)
 {
-    Settings *s = Settings::instance();
+    auto dm = DownloadManager::instance();
+
     nam.setCookieJar(new FetcherCookieJar(this));
     connect(&nam, SIGNAL(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)),
             this, SLOT(networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibility)));
     connect(this, SIGNAL(addDownload(DatabaseManager::CacheItem)),
-            s->dm, SLOT(addDownload(DatabaseManager::CacheItem)));
-    connect(this, SIGNAL(busyChanged()), s->dm, SLOT(startDownload()));
+            dm, SLOT(addDownload(DatabaseManager::CacheItem)));
+    connect(this, SIGNAL(busyChanged()), dm, SLOT(startDownload()));
 }
 
 Fetcher::~Fetcher()
@@ -118,10 +126,10 @@ bool Fetcher::update()
         return false;
     }
 
-    Settings *s = Settings::instance();
-    int streamsCount =s->db->countStreams();
-    int entriesCount =s->db->countEntries();
-    int tabsCount =s->db->countTabs();
+    auto db = DatabaseManager::instance();
+    int streamsCount = db->countStreams();
+    int entriesCount = db->countEntries();
+    int tabsCount = db->countTabs();
 
 #ifdef ONLINE_CHECK
     if (!ncm.isOnline()) {
@@ -156,8 +164,8 @@ void Fetcher::cancel()
     } else {
 
         // Restoring backup
-        Settings *s = Settings::instance();
-        if (!s->db->restoreBackup()) {
+        auto db = DatabaseManager::instance();
+        if (!db->restoreBackup()) {
             qWarning() << "Unable to restore DB backup!";
         }
 
@@ -269,6 +277,7 @@ void Fetcher::networkError(QNetworkReply::NetworkError e)
 bool Fetcher::parse()
 {
     //qint64 date1 = QDateTime::currentMSecsSinceEpoch();
+    //qDebug() << "parse:" << data;
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     QJsonDocument doc = QJsonDocument::fromJson(data);
 
@@ -325,7 +334,7 @@ void Fetcher::mergeActionsIntoList(DatabaseManager::ActionsTypes typeSet,
                                    DatabaseManager::ActionsTypes typeSetList,
                                    DatabaseManager::ActionsTypes typeUnsetList)
 {
-    Settings *s = Settings::instance();
+    auto db = DatabaseManager::instance();
 
     QList<DatabaseManager::Action>::iterator it1 = actionsList.begin();
     QList<DatabaseManager::Action>::iterator it2 = it1 + 1;
@@ -351,23 +360,22 @@ void Fetcher::mergeActionsIntoList(DatabaseManager::ActionsTypes typeSet,
                 QString newId1 = (*it1).id1 + QString("&%1").arg((*it2).id1);
                 QString newId2 = (*it1).id2 + QString("&%1").arg((*it2).id2);
                 QString newId3 = (*it1).id3 + QString("&%1").arg((*it2).id3);
-                s->db->updateActionByIdAndType((*it1).id1, type1, newId1, newId2, newId3, type1);
+                db->updateActionByIdAndType((*it1).id1, type1, newId1, newId2, newId3, type1);
                 (*it1).id1 = newId1;
                 (*it1).id2 = newId2;
                 (*it1).id3 = newId3;
-                s->db->removeActionsByIdAndType((*it2).id1, type2);
+                db->removeActionsByIdAndType((*it2).id1, type2);
                 it2 = actionsList.erase(it2);
                 inMerge = true;
 
                 if (it2 == actionsList.end()) {
-                    s->db->updateActionByIdAndType((*it1).id1, type1, (*it1).id1, (*it1).id2, (*it1).id3, newType);
+                    db->updateActionByIdAndType((*it1).id1, type1, (*it1).id1, (*it1).id2, (*it1).id3, newType);
                     (*it1).type = newType;
                     inMerge = false;
                 }
-
             } else {
                 if (inMerge) {
-                    s->db->updateActionByIdAndType((*it1).id1, type1, (*it1).id1, (*it1).id2, (*it1).id3, newType);
+                    db->updateActionByIdAndType((*it1).id1, type1, (*it1).id1, (*it1).id2, (*it1).id3, newType);
                     (*it1).type = newType;
                     inMerge = false;
                 }
@@ -382,8 +390,8 @@ void Fetcher::mergeActionsIntoList(DatabaseManager::ActionsTypes typeSet,
 void Fetcher::prepareUploadActions()
 {
     // upload actions
-    Settings *s = Settings::instance();
-    actionsList = s->db->readActions();
+    auto db = DatabaseManager::instance();
+    actionsList = db->readActions();
     if (actionsList.isEmpty()) {
         //qDebug() << "No actions to upload!";
         startFetching();
@@ -391,7 +399,7 @@ void Fetcher::prepareUploadActions()
 
         //qDebug() << actionsList.count() << " actions to upload!";
 
-        // Actions optimalization
+        // Actions optimization
         // 1. Merging series of SetRead into SetListRead
         mergeActionsIntoList(DatabaseManager::SetRead, DatabaseManager::UnSetRead,
                              DatabaseManager::SetListRead, DatabaseManager::UnSetListRead);
@@ -426,3 +434,84 @@ void Fetcher::taskEnd()
     setBusy(false);
 }
 
+void Fetcher::addExtension(const QString &contentType, QString &path)
+{
+    auto orig_ext = QFileInfo(path).suffix();
+
+    QString new_ext;
+    if (contentType == "image/jpeg") {
+        new_ext = "jpg";
+    } else if (contentType == "image/png") {
+        new_ext = "png";
+    } else if (contentType == "image/gif") {
+        new_ext = "gif";
+    } else if (contentType == "image/svg+xml") {
+        new_ext = "svg";
+    } else {
+        new_ext = orig_ext;
+    }
+
+    if (new_ext != orig_ext) {
+        path.append("." + new_ext);
+    }
+}
+
+void Fetcher::saveImage(const QString &url)
+{
+    //qDebug() << "saveImage url:" << url;
+
+    QString path, contentType;
+    if (CacheServer::getPathAndContentTypeByUrl(url, path, contentType)) {
+        qDebug() << "Image already in cache";
+        //qDebug() << "path:" << path;
+        //qDebug() << "contentType:" << contentType;
+        QString dpath = QDir(QStandardPaths::writableLocation(
+                             QStandardPaths::PicturesLocation))
+                             .absoluteFilePath(QFileInfo(path).fileName());
+        addExtension(contentType, dpath);
+        //qDebug() << "dpath:" << dpath;
+        if (QFile::exists(dpath)) {
+            emit error(801); // image already exists
+        } else if (QFile::copy(path, dpath)) {
+            emit imageSaved(QFileInfo(dpath).fileName());
+        } else {
+            emit error(800); // image save error
+        }
+    } else {
+        qDebug() << "Image not cached, so downloading";
+        DatabaseManager::CacheItem item;
+        item.origUrl = url;
+        item.finalUrl = url;
+        //item.type = "entry-image";
+        emit addDownload(item);
+
+        auto dm = DownloadManager::instance();
+        auto conn1 = std::make_shared<QMetaObject::Connection>();
+        auto conn2 = std::make_shared<QMetaObject::Connection>();
+        *conn1 = connect(dm, &DownloadManager::downloadReady,
+                        [this, conn1, conn2](const QString &url,
+                         const QString &path, const QString &contentType) {
+            //qDebug() << "Download finished:" << url << path << contentType;
+            Q_UNUSED(url);
+            disconnect(*conn1); disconnect(*conn2);
+            QString dpath = QDir(QStandardPaths::writableLocation(
+                                 QStandardPaths::PicturesLocation))
+                                 .absoluteFilePath(QFileInfo(path).fileName());
+            addExtension(contentType, dpath);
+            //qDebug() << "dpath:" << dpath;
+            if (QFile::exists(dpath)) {
+                emit error(801); // image already exists
+            } else if (QFile::copy(path, dpath)) {
+                emit imageSaved(QFileInfo(dpath).fileName());
+            } else {
+                emit error(800); // image save error
+            }
+        });
+        *conn2 = connect(dm, &DownloadManager::downloadFailed,
+                        [this, conn1, conn2](const QString &url) {
+            qWarning() << "Image download error:" << url;
+            disconnect(*conn1); disconnect(*conn2);
+            emit error(800); // image save error
+        });
+    }
+}
