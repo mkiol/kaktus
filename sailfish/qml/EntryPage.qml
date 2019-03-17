@@ -239,7 +239,6 @@ Page {
             landscapeMode: root.landscapeMode
             onlineurl: model.link
             offlineurl: cserver.getUrlbyId(model.uid)
-            evaluation: ai.evaluation(model.uid)
 
             signal singleEntryClicked
             signal doubleEntryClicked
@@ -460,10 +459,6 @@ Page {
                 }
 
                 openEntryInViewer()
-            }
-
-            onEvaluated: {
-                ai.addEvaluation(model.uid, model.title, evaluation)
             }
 
             onShare: {

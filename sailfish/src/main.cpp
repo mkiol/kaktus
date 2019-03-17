@@ -45,7 +45,6 @@
 #include "utils.h"
 #include "settings.h"
 #include "networkaccessmanagerfactory.h"
-#include "ai.h"
 
 int main(int argc, char *argv[])
 {
@@ -127,7 +126,6 @@ int main(int argc, char *argv[])
     app->installTranslator(&translator);
 
     settings->context = context;
-    Ai ai; ai.init();
 
     QObject::connect(engine.data(), SIGNAL(quit()), QCoreApplication::instance(), SLOT(quit()));
 
@@ -139,7 +137,6 @@ int main(int argc, char *argv[])
     context->setContextProperty("dm", DownloadManager::instance());
     context->setContextProperty("cache", CacheServer::instance());
     context->setContextProperty("cserver", CacheServer::instance());
-    context->setContextProperty("ai", &ai);
     context->setContextProperty("settings", settings);
 
 #ifdef SAILFISH

@@ -16,7 +16,6 @@ INCLUDEPATH += src
 
 SOURCES += \
     src/main.cpp \
-    src/ai.cpp \
     src/utils.cpp \
     src/tabmodel.cpp \
     src/listmodel.cpp \
@@ -39,7 +38,6 @@ SOURCES += \
 
 HEADERS += \
     src/info.h \
-    src/ai.h \
     src/utils.h \
     src/tabmodel.h \
     src/listmodel.h \

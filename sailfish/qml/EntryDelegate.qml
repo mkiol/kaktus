@@ -59,8 +59,6 @@ ListItem {
     readonly property alias expandable: box.expandable
     property bool expandedMode: settings.expandedMode
 
-    property int evaluation: 0
-
     signal markedAsRead
     signal markedAsUnread
     signal markedReadlater
@@ -73,7 +71,6 @@ ListItem {
     signal openInViewer
     signal openInBrowser
     signal showFeedContent
-    signal evaluated(int evaluation)
     signal share
     signal pocketAdd
     signal saveImage

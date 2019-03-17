@@ -204,7 +204,7 @@ void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAcc
 
 void DownloadManager::doDownload(DatabaseManager::CacheItem item)
 {
-    qDebug() << "item.finalUrl:" << item.finalUrl;
+    //qDebug() << "item.finalUrl:" << item.finalUrl;
     QNetworkRequest request(QUrl(item.finalUrl));
     Settings *s = Settings::instance();
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
