@@ -24,10 +24,12 @@
 #include <QJsonDocument>
 #include <QJsonValue>
 #include <QJsonArray>
-#include <QStandardPaths>
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
+#include <QImageReader>
+#include <QImageWriter>
+#include <QImage>
 #include <memory>
 #else
 #include "parser.h"
@@ -434,26 +436,42 @@ void Fetcher::taskEnd()
     setBusy(false);
 }
 
-void Fetcher::addExtension(const QString &contentType, QString &path)
+void Fetcher::copyImage(const QString &path, const QString &contentType)
 {
-    auto orig_ext = QFileInfo(path).suffix();
+    QString dpath = QDir(Settings::instance()->getImagesDir())
+                         .absoluteFilePath("kaktus_" + QFileInfo(path).fileName());
 
-    QString new_ext;
+    Utils::addExtension(contentType, dpath);
+
+    if (QFile::exists(dpath)) {
+        emit error(801); // image already exists
+        return;
+    }
+
     if (contentType == "image/jpeg") {
-        new_ext = "jpg";
-    } else if (contentType == "image/png") {
-        new_ext = "png";
-    } else if (contentType == "image/gif") {
-        new_ext = "gif";
-    } else if (contentType == "image/svg+xml") {
-        new_ext = "svg";
-    } else {
-        new_ext = orig_ext;
+        qWarning() << "JPEG file, so removing EXIF metadata";
+        QImageReader ir(path);
+        QImage img = ir.read();
+        if (img.isNull()) {
+            qWarning() << "Cannot read image:" << path << ir.errorString();
+        } else {
+            QImageWriter iw(dpath);
+            iw.setFormat(ir.format());
+            if (iw.write(img)) {
+                qDebug() << "Image saved successfully";
+                emit imageSaved(QFileInfo(dpath).fileName());
+                return;
+            } else {
+                qWarning() << "Cannot write image:" << dpath << iw.errorString();
+            }
+        }
+    } else if (QFile::copy(path, dpath)) {
+        qDebug() << "Image saved successfully";
+        emit imageSaved(QFileInfo(dpath).fileName());
+        return;
     }
 
-    if (new_ext != orig_ext) {
-        path.append("." + new_ext);
-    }
+    emit error(800); // image save error
 }
 
 void Fetcher::saveImage(const QString &url)
@@ -463,26 +481,13 @@ void Fetcher::saveImage(const QString &url)
     QString path, contentType;
     if (CacheServer::getPathAndContentTypeByUrl(url, path, contentType)) {
         qDebug() << "Image already in cache";
-        //qDebug() << "path:" << path;
-        //qDebug() << "contentType:" << contentType;
-        QString dpath = QDir(QStandardPaths::writableLocation(
-                             QStandardPaths::PicturesLocation))
-                             .absoluteFilePath(QFileInfo(path).fileName());
-        addExtension(contentType, dpath);
-        //qDebug() << "dpath:" << dpath;
-        if (QFile::exists(dpath)) {
-            emit error(801); // image already exists
-        } else if (QFile::copy(path, dpath)) {
-            emit imageSaved(QFileInfo(dpath).fileName());
-        } else {
-            emit error(800); // image save error
-        }
+        copyImage(path, contentType);
     } else {
         qDebug() << "Image not cached, so downloading";
         DatabaseManager::CacheItem item;
         item.origUrl = url;
         item.finalUrl = url;
-        //item.type = "entry-image";
+        item.type = "entry-image";
         emit addDownload(item);
 
         auto dm = DownloadManager::instance();
@@ -494,18 +499,7 @@ void Fetcher::saveImage(const QString &url)
             //qDebug() << "Download finished:" << url << path << contentType;
             Q_UNUSED(url);
             disconnect(*conn1); disconnect(*conn2);
-            QString dpath = QDir(QStandardPaths::writableLocation(
-                                 QStandardPaths::PicturesLocation))
-                                 .absoluteFilePath(QFileInfo(path).fileName());
-            addExtension(contentType, dpath);
-            //qDebug() << "dpath:" << dpath;
-            if (QFile::exists(dpath)) {
-                emit error(801); // image already exists
-            } else if (QFile::copy(path, dpath)) {
-                emit imageSaved(QFileInfo(dpath).fileName());
-            } else {
-                emit error(800); // image save error
-            }
+            copyImage(path, contentType);
         });
         *conn2 = connect(dm, &DownloadManager::downloadFailed,
                         [this, conn1, conn2](const QString &url) {

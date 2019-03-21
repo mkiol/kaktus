@@ -165,7 +165,7 @@ private:
                               DatabaseManager::ActionsTypes typeUnset,
                               DatabaseManager::ActionsTypes typeSetList,
                               DatabaseManager::ActionsTypes typeUnsetList);
-    void addExtension(const QString &contentType, QString &path);
+    void copyImage(const QString &path, const QString &contentType);
 };
 
 #endif // FETCHER_H

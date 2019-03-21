@@ -23,10 +23,6 @@
 #include <QObject>
 #include <QList>
 #include <QString>
-#include <QDir>
-#include <QFile>
-#include <QFileInfo>
-#include <QFileInfoList>
 #include <QDate>
 
 #ifdef ANDROID
@@ -71,11 +67,13 @@ public:
     //Q_INVOKABLE bool isOnline();
     Q_INVOKABLE QString formatHtml(const QString &data, bool offline, const QString &style = QString());
     Q_INVOKABLE QString readAsset(const QString &path);
+    Q_INVOKABLE QString nameFromPath(const QString &path);
 
     static QString hash(const QString &url);
     static int monthsTo(const QDate &from, const QDate &to);
     static int yearsTo(const QDate &from, const QDate &to);
     static bool isSameWeek(const QDate &date1, const QDate &date2);
+    static void addExtension(const QString &contentType, QString &path);
     Q_INVOKABLE static void log(const QString &data);
 
 #ifdef ANDROID

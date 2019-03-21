@@ -24,6 +24,9 @@
 #include <QCryptographicHash>
 #include <QRegExp>
 #include <QFile>
+#include <QDir>
+#include <QFileInfo>
+#include <QFileInfoList>
 
 #ifdef SAILFISH
 #include <sailfishapp.h>
@@ -825,3 +828,29 @@ void Utils::resetFetcher(int type)
 #endif
 }
 
+QString Utils::nameFromPath(const QString &path)
+{
+    return QFileInfo(path).fileName();
+}
+
+void Utils::addExtension(const QString &contentType, QString &path)
+{
+    auto orig_ext = QFileInfo(path).suffix();
+
+    QString new_ext;
+    if (contentType == "image/jpeg") {
+        new_ext = "jpg";
+    } else if (contentType == "image/png") {
+        new_ext = "png";
+    } else if (contentType == "image/gif") {
+        new_ext = "gif";
+    } else if (contentType == "image/svg+xml") {
+        new_ext = "svg";
+    } else {
+        new_ext = orig_ext;
+    }
+
+    if (new_ext != orig_ext) {
+        path.append("." + new_ext);
+    }
+}

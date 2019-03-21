@@ -899,47 +899,6 @@ Page {
                 }
             }
 
-            /*SectionHeader {
-                text: qsTr("Experiments")
-            }
-
-            Column {
-                x: Theme.horizontalPageMargin
-                spacing: Theme.paddingMedium
-
-                Row {
-                    spacing: Theme.paddingMedium
-
-                    Image {
-                        source: "image://icons/icon-m-good"
-                        height: Theme.iconSizeSmall
-                        width: Theme.iconSizeSmall
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-
-                    Label {
-                        text: ai.evaluationCount(1)
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-
-                Row {
-                    spacing: Theme.paddingMedium
-
-                    Image {
-                        source: "image://icons/icon-m-bad"
-                        height: Theme.iconSizeSmall
-                        width: Theme.iconSizeSmall
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-
-                    Label {
-                        text: ai.evaluationCount(-1)
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-            }*/
-
             SectionHeader {
                 text: qsTr("Other")
             }

@@ -325,7 +325,7 @@ ApplicationWindow {
                 return;
             }
         } else if (code === 800) {
-            notification.show(qsTr("Cannot save the image file"));
+            notification.show(qsTr("Cannot save image"));
         } else if (code === 801) {
             notification.show(qsTr("Image file already exists"));
         } else {
@@ -402,6 +402,7 @@ ApplicationWindow {
     }
 
     function fetcherImageSaved(filename) {
+        //console.log("fetcherImageSaved: " + filename)
         notification.show(qsTr("Image saved as \"" + filename + "\""));
     }
 

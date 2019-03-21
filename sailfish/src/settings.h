@@ -83,7 +83,7 @@ class Settings: public QObject
     Q_PROPERTY (QString pocketTags READ getPocketTags WRITE setPocketTags NOTIFY pocketTagsChanged)
     Q_PROPERTY (QString pocketTagsHistory READ getPocketTagsHistory WRITE setPocketTagsHistory NOTIFY pocketTagsHistoryChanged)
     Q_PROPERTY (bool ignoreSslErrors READ getIgnoreSslErrors WRITE setIgnoreSslErrors NOTIFY ignoreSslErrorsChanged)
-
+    Q_PROPERTY (QString imagesDir READ getImagesDir WRITE setImagesDir NOTIFY imagesDirChanged)
 public:
     static Settings* instance();
     Fetcher* fetcher;
@@ -167,6 +167,9 @@ public:
 
     void setOffsetLimit(int value);
     int getOffsetLimit();
+
+    void setImagesDir(const QString &value);
+    QString getImagesDir();
 
     /*
     View modes:
@@ -323,6 +326,7 @@ signals:
     void pocketFavoriteChanged();
     void pocketQuickAddChanged();
     void ignoreSslErrorsChanged();
+    void imagesDirChanged();
 
     /*
     501 - Unable create settings dir

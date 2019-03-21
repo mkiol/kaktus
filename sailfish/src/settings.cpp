@@ -18,6 +18,7 @@
 */
 
 #include <QDir>
+#include <QFileInfo>
 #include <QDebug>
 #include <QVariant>
 
@@ -938,4 +939,24 @@ void Settings::setIgnoreSslErrors(bool value)
 bool Settings::getIgnoreSslErrors()
 {
     return settings.value("ignoresslerrors", false).toBool();
+}
+
+void Settings::setImagesDir(const QString &value)
+{
+    if (getImagesDir() != value) {
+        settings.setValue("imagesdir", value);
+        emit imagesDirChanged();
+    }
+}
+
+QString Settings::getImagesDir()
+{
+    auto dir = settings.value("imagesdir", "").toString();
+    QFileInfo d(dir);
+    if (d.exists() && d.isDir()) {
+        return dir;
+    }
+
+    // default is Pictures dir
+    return QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
 }

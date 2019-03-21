@@ -28,6 +28,7 @@ Notification {
     maxContentLines: 10
 
     function show(bodyText, summaryText, clickedHandler) {
+        //console.log("show: " + bodyText + " " + summaryText)
         if (!bodyText || bodyText.length === 0)
             return
 
