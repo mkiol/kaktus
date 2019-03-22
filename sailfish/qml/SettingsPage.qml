@@ -732,18 +732,6 @@ Page {
                 description: qsTr("Defines the behavior for clicking on an article item. Article can be opened in the built-in web viewer, opened in an external browser or full RSS feed content can be shown.")
             }
 
-
-
-            /*TextSwitch {
-                text: qsTr("Show only unread articles")
-                onCheckedChanged: {
-                    settings.showOnlyUnread = checked;
-                }
-                Component.onCompleted: {
-                    checked = settings.showOnlyUnread;
-                }
-            }*/
-
             ComboBox {
                 width: root.width
                 label: qsTr("List filtering")
@@ -908,14 +896,6 @@ Page {
                 onCheckedChanged: settings.ignoreSslErrors = checked;
                 Component.onCompleted: checked = settings.ignoreSslErrors
             }
-
-            /*Button {
-                text: qsTr("Show User Guide")
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: {
-                    guide.show();
-                }
-            }*/
 
             Spacer {}
         }

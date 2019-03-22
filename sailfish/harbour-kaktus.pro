@@ -103,7 +103,6 @@ OTHER_FILES += \
     qml/FeedPage.qml \
     qml/FeedWebContentPage.qml \
     qml/FirstPage.qml \
-    qml/Guide.qml \
     qml/HintLabel.qml \
     qml/IconBarItem.qml \
     qml/IconBar.qml \

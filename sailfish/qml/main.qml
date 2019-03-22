@@ -140,9 +140,6 @@ ApplicationWindow {
                 //notification.show(qsTr("Signed out!"));
                 fetcher.cancel(); dm.cancel();
                 db.init();
-            } else {
-                /*if(!settings.helpDone)
-                    guide.showDelayed();*/
             }
         }
 
@@ -446,17 +443,6 @@ ApplicationWindow {
         y: app.barY
         x: app.barX
     }
-
-    /*Guide {
-        id: guide
-
-        rotation: app.orientation === Orientation.Portrait ? 0 : 90
-        transformOrigin: Item.TopLeft
-        height: app.orientation === Orientation.Portrait ? app.height : app.width
-        width: app.orientation === Orientation.Portrait ? app.width : app.height
-        y: 0
-        x: app.orientation === Orientation.Portrait ? 0 : app.width
-    }*/
 
     Pocket {
         id: pocket

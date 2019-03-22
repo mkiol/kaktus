@@ -46,7 +46,6 @@ Page {
 
         PullDownMenu {
             id: menu
-            //enabled: !guide.open
 
             MenuItem {
                 text: qsTr("About")
