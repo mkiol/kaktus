@@ -66,7 +66,7 @@ void TTRssFetcher::signIn()
     case 30:
     {
         if (password == "" || username == "" || url == "") {
-            qWarning() << "TTRss credentials are invalid!";
+            qWarning() << "TTRss credentials are invalid";
             if (busyType == Fetcher::CheckingCredentials)
                 emit errorCheckingCredentials(400);
             else
@@ -87,7 +87,7 @@ void TTRssFetcher::signIn()
         break;
     }
     default:
-        qWarning() << "Invalid sign in type!";
+        qWarning() << "Invalid sign in type";
         emit error(500);
         setBusy(false);
         return;
@@ -141,7 +141,7 @@ void TTRssFetcher::startFetching()
     auto db = DatabaseManager::instance();
 
     if (!db->makeBackup ()) {
-        qWarning() << "Unable to make DB backup!";
+        qWarning() << "Unable to make DB backup";
         emit error(506);
         setBusy(false);
         return;
@@ -288,7 +288,7 @@ void TTRssFetcher::startJob(Job job)
         connect(this, SIGNAL(finished()), this, SLOT(finishedStream2()));
         break;
     default:
-        qWarning() << "Unknown Job!";
+        qWarning() << "Unknown Job";
         emit error(502);
         setBusy(false);
         return;
@@ -310,7 +310,7 @@ void TTRssFetcher::run()
         storeStream();
         break;
     default:
-        qWarning() << "Unknown Job!";
+        qWarning() << "Unknown Job";
         break;
     }
 }
@@ -344,7 +344,7 @@ void TTRssFetcher::storeCategories()
             }
         }
     } else {
-        qWarning() << "No categories found!";
+        qWarning() << "No categories found";
     }
 }
 
@@ -405,7 +405,7 @@ void TTRssFetcher::storeFeeds()
             db->writeModule(m);
         }
     } else {
-        qWarning() << "No feeds found!";
+        qWarning() << "No feeds found";
     }
 }
 
@@ -743,7 +743,7 @@ bool TTRssFetcher::processResponse()
     }
 
     if (!parse()) {
-        qWarning() << "Error parsing Json!";
+        qWarning() << "Error parsing Json";
         emit error(600);
         setBusy(false);
         return false;

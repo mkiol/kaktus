@@ -80,7 +80,7 @@ Page {
 
         ViewPlaceholder {
             id: placeholder
-            enabled: listView.count == 0
+            enabled: listView.count === 0
             text: qsTr("No dashboards")
         }
 

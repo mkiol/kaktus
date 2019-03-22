@@ -294,7 +294,7 @@ Item {
                         if (dm.online)
                             settings.offlineMode = false;
                         else
-                            notification.show(qsTr("Can't switch to online mode because network is disconnected."));
+                            notification.show(qsTr("Cannot switch to online mode because network is disconnected."));
                     } else {
                         settings.offlineMode = true;
                     }
@@ -360,12 +360,6 @@ Item {
                 anchors.bottom: parent.bottom; anchors.top: parent.top
                 anchors.left: parent.left
                 width: root.progress * parent.width
-
-                /*gradient: Gradient {
-                            GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightColor, 0.4) }
-                            GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightColor, 0.0) }
-                        }*/
-
                 color: Theme.highlightDimmerColor
 
                 Behavior on width {
@@ -473,5 +467,4 @@ Item {
             }
         }
     }
-
 }

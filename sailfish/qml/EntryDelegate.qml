@@ -52,10 +52,13 @@ ListItem {
     property bool landscapeMode: false
     property bool showMarkedAsRead: true
     property bool hidden: read > 0 && readlater === 0
-    property bool showIcon: settings.viewMode === 1 || settings.viewMode === 3 ||
-                            settings.viewMode === 4 || settings.viewMode === 5 ? true : false
+    property bool showIcon: settings.viewMode === 1 ||
+                            settings.viewMode === 3 ||
+                            settings.viewMode === 4 ||
+                            settings.viewMode === 5 ? true : false
     property bool defaultIcon: feedIcon === "http://s.theoldreader.com/icons/user_icon.png"
-    property color highlightedColor: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
+    property color highlightedColor: Theme.rgba(Theme.highlightBackgroundColor,
+                                                Theme.highlightBackgroundOpacity)
     readonly property alias expandable: box.expandable
     property bool expandedMode: settings.expandedMode
 
@@ -77,7 +80,8 @@ ListItem {
 
     enabled: !last && !daterow
 
-    contentHeight: last ? app.stdHeight : daterow ? dateRowbox.height : box.height + expander.height
+    contentHeight: last ? app.stdHeight :
+                          daterow ? dateRowbox.height : box.height + expander.height
 
     onMenuOpenChanged: { if(menuOpen) app.hideBar() }
 

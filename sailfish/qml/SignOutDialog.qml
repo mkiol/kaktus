@@ -65,12 +65,12 @@ Dialog {
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.primaryColor
             text: settings.signinType < 10 ?
-                      qsTr("Disconnect Kaktus from Netvibes account?") :
+                      qsTr("Disconnect Netvibes account?") :
                   settings.signinType < 20 ?
-                      qsTr("Disconnect Kaktus from Old Reader account?") :
+                      qsTr("Disconnect Old Reader account?") :
                   settings.signinType < 30 ?
-                      qsTr("Disconnect Kaktus from Feedly account?") :
-                  qsTr("Disconnect Kaktus from Tiny Tiny RSS account?")
+                      qsTr("Disconnect Feedly account?") :
+                  qsTr("Disconnect Tiny Tiny RSS account?")
         }
     }
 

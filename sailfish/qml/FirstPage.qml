@@ -74,8 +74,8 @@ Page {
             enabled: true
             text: settings.signedIn ?
                       app.fetcherBusyStatus || dm.busy ? qsTr("Wait until sync finish") :
-                      qsTr("To do feeds synchronization, pull down and select sync.") :
-                      qsTr("You are not signed in to any account. Pull down to add one.")
+                      qsTr("To do feeds synchronization, pull down and select sync") :
+                      qsTr("You are not signed in to any account, pull down to add one")
         }
 
         VerticalScrollDecorator {

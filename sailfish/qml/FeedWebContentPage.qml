@@ -116,13 +116,13 @@ Page {
     function check() {
         // Not allowed while Syncing
         if (dm.busy || fetcher.busy || dm.removerBusy) {
-            notification.show(qsTr("Wait until current task is complete."));
+            notification.show(qsTr("Wait until current task is complete"));
             return false;
         }
 
         // Entry not cached and offline mode enabled
         if (settings.offlineMode && !cached) {
-            notification.show(qsTr("Offline version not available."));
+            notification.show(qsTr("Offline version not available"));
             return false;
         }
 
@@ -130,11 +130,11 @@ Page {
         if (!settings.offlineMode && !dm.online) {
             if (cached) {
                 // Entry cached
-                notification.show(qsTr("Enabling offline mode because network is disconnected."));
+                notification.show(qsTr("Enabling offline mode because network is disconnected"));
                 settings.offlineMode = true;
             } else {
                 // Entry not cached
-                notification.show(qsTr("Network is disconnected."));
+                notification.show(qsTr("Network is disconnected"));
                 return false;
             }
         }
@@ -143,8 +143,7 @@ Page {
     }
 
     function openEntryInBrowser() {
-        notification.show(qsTr("Launching a browser..."));
-        Qt.openUrlExternally(onlineUrl)
+        openUrlEntryInBrowser(onlineUrl)
     }
 
     function openUrlEntryInBrowser(url) {
@@ -469,7 +468,7 @@ Page {
             text: qsTr("Copy URL")
             icon: "image://theme/icon-m-clipboard"
             onClicked: {
-                notification.show(qsTr("URL was copied to the clipboard."));
+                notification.show(qsTr("URL was copied to the clipboard"));
                 Clipboard.text = root.onlineUrl;
             }
         }

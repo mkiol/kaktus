@@ -61,7 +61,7 @@ void NvFetcher::signIn()
     switch (type) {
     case 0:
         if (password == "" || username == "") {
-            qWarning() << "Netvibes username or password is empty!";
+            qWarning() << "Netvibes username or password is empty";
             if (busyType == Fetcher::CheckingCredentials)
                 emit errorCheckingCredentials(400);
             else
@@ -77,7 +77,7 @@ void NvFetcher::signIn()
     case 1:
     case 2:
         if (twitterCookie == "" || authUrl == "") {
-            qWarning() << "Twitter or Facebook sign in failed!";
+            qWarning() << "Twitter or Facebook sign in failed";
             if (busyType == Fetcher::CheckingCredentials)
                 emit errorCheckingCredentials(400);
             else
@@ -90,7 +90,7 @@ void NvFetcher::signIn()
         currentReply = nam.get(request);
         break;
     default:
-        qWarning() << "Invalid sign in type!";
+        qWarning() << "Invalid sign in type";
         emit error(500);
         setBusy(false);
         return;
@@ -113,7 +113,7 @@ void NvFetcher::startFetching()
 
     //Backup
     if (!db->makeBackup()) {
-        qWarning() << "Unable to make DB backup!";
+        qWarning() << "Unable to make DB backup";
         emit error(506);
         setBusy(false);
         return;
@@ -399,7 +399,7 @@ void NvFetcher::setAction()
         QList<DatabaseManager::StreamModuleTab> list = db->readStreamModuleTabListByTab(action.id1);
 
         if (list.empty()) {
-            qWarning() << "Action is broken!";
+            qWarning() << "Action is broken";
             removeAction();
             return;
         }
@@ -427,7 +427,7 @@ void NvFetcher::setAction()
         QList<DatabaseManager::StreamModuleTab> list = db->readStreamModuleTabListByDashboard(s->getDashboardInUse());
 
         if (list.empty()) {
-            qWarning() << "Action is broken!";
+            qWarning() << "Action is broken";
             removeAction();
             return;
         }
@@ -455,7 +455,7 @@ void NvFetcher::setAction()
         QList<DatabaseManager::StreamModuleTab> list = db->readSlowStreamModuleTabListByDashboard(s->getDashboardInUse());
 
         if (list.empty()) {
-            qWarning() << "Action is broken!";
+            qWarning() << "Action is broken";
             removeAction();
             return;
         }
@@ -493,7 +493,7 @@ void NvFetcher::setAction()
             action.type == DatabaseManager::UnSetSaved ) {
 
         if (action.date1==0) {
-            qWarning() << "PublishedAt date is 0!";
+            qWarning() << "PublishedAt date is 0";
         }
 
         actions += QString("{\"streams\":[{\"id\":\"%1\",\"items\":[{"
@@ -566,7 +566,7 @@ bool NvFetcher::setConnectUrl(const QString &url)
 void NvFetcher::getConnectUrl(int type)
 {
     if (busy) {
-        qWarning() << "Fetcher is busy!";
+        qWarning() << "Fetcher is busy";
         return;
     }
 
@@ -592,7 +592,7 @@ void NvFetcher::getConnectUrl(int type)
         currentReply = nam.post(request,"callbackUrl=%2Fconnect%2Ffacebook&service=facebook");
         break;
     default:
-        qWarning() << "Wrong sign in type!";
+        qWarning() << "Wrong sign in type";
         return;
     }
 
@@ -606,7 +606,7 @@ void NvFetcher::getConnectUrl(int type)
 void NvFetcher::finishedGetAuthUrl()
 {
     if (currentReply != NULL && currentReply->error()) {
-        qWarning() << "Error while getting authentication URL!";
+        qWarning() << "Error while getting authentication URL";
         setBusy(false);
         emit errorGettingAuthUrl();
         return;
@@ -620,7 +620,7 @@ void NvFetcher::finishedGetAuthUrl()
             QString url = jsonObj["url"].toString();
 
             if (url == "") {
-                qWarning() << "Authentication URL is empty!";
+                qWarning() << "Authentication URL is empty";
                 setBusy(false);
                 emit errorGettingAuthUrl();
                 return;
@@ -650,7 +650,7 @@ void NvFetcher::finishedGetAuthUrl()
         }
     }
 
-    qWarning() << "Can not get authentication URL!";
+    qWarning() << "Can not get authentication URL";
     setBusy(false);
     emit errorGettingAuthUrl();
 }
@@ -664,13 +664,13 @@ void NvFetcher::finishedSignIn()
     if (currentReply->error() &&
         currentReply->error()!=QNetworkReply::OperationCanceledError) {
         if (s->getSigninType()>0) {
-            qWarning() << "Sign in with social service failed!";
+            qWarning() << "Sign in with social service failed";
             emit error(403);
             setBusy(false);
             return;
         }
 
-        qWarning() << "Sign in failed!";
+        qWarning() << "Sign in failed";
         emit error(501);
         setBusy(false);
         return;
@@ -702,7 +702,7 @@ void NvFetcher::finishedSignIn()
             }
         } else {
             s->setSignedIn(false);
-            qWarning() << "Sign in failed!";
+            qWarning() << "Sign in failed";
             emit error(501);
             setBusy(false);
         }
@@ -711,7 +711,7 @@ void NvFetcher::finishedSignIn()
     case 2:
         if (!checkCookie(cookie)) {
             s->setSignedIn(false);
-            qWarning() << "Sign in failed!";
+            qWarning() << "Sign in failed";
             emit error(501);
             setBusy(false);
             return;
@@ -723,7 +723,7 @@ void NvFetcher::finishedSignIn()
 
         break;
     default:
-        qWarning() << "Invalid sign in type!";
+        qWarning() << "Invalid sign in type";
         emit error(501);
         setBusy(false);
         s->setSignedIn(false);
@@ -736,7 +736,7 @@ void NvFetcher::finishedSignInOnlyCheck()
     //qDebug() << this->_data;
     if (currentReply->error() &&
         currentReply->error()!=QNetworkReply::OperationCanceledError) {
-        qWarning() << "Sign in failed!";
+        qWarning() << "Sign in failed";
         emit errorCheckingCredentials(501);
         setBusy(false);
         return;
@@ -766,7 +766,7 @@ void NvFetcher::finishedSignInOnlyCheck()
             }
         } else {
             s->setSignedIn(false);
-            qWarning() << "Sign in check failed!";
+            qWarning() << "Sign in check failed";
             emit errorCheckingCredentials(501);
             setBusy(false);
         }
@@ -775,7 +775,7 @@ void NvFetcher::finishedSignInOnlyCheck()
     case 2:
         if (!checkCookie(cookie)) {
             s->setSignedIn(false);
-            qWarning() << "Sign in check failed!";
+            qWarning() << "Sign in check failed";
             emit errorCheckingCredentials(501);
             setBusy(false);
             return;
@@ -786,7 +786,7 @@ void NvFetcher::finishedSignInOnlyCheck()
         setBusy(false);
         break;
     default:
-        qWarning() << "Invalid sign in type!";
+        qWarning() << "Invalid sign in type";
         emit errorCheckingCredentials(501);
         setBusy(false);
         s->setSignedIn(false);
@@ -814,7 +814,7 @@ void NvFetcher::finishedDashboards()
         // Restoring backup
         auto db = DatabaseManager::instance();
         if (!db->restoreBackup()) {
-            qWarning() << "Unable to restore DB backup!";
+            qWarning() << "Unable to restore DB backup";
         }
 
         emit error(500);
@@ -841,12 +841,12 @@ void NvFetcher::finishedDashboards2()
         emit progress(0,1);
         fetchTabs();
     } else {
-        qWarning() << "No Dashboards found!";
+        qWarning() << "No Dashboards found";
 
         // Restoring backup
         auto db = DatabaseManager::instance();
         if (!db->restoreBackup()) {
-            qWarning() << "Unable to restore DB backup!";
+            qWarning() << "Unable to restore DB backup";
         }
 
         taskEnd();
@@ -861,7 +861,7 @@ void NvFetcher::finishedTabs()
         // Restoring backup
         auto db = DatabaseManager::instance();
         if (!db->restoreBackup()) {
-            qWarning() << "Unable to restore DB backup!";
+            qWarning() << "Unable to restore DB backup";
         }
 
         emit error(500);
@@ -880,10 +880,10 @@ void NvFetcher::finishedTabs2()
         fetchTabs();
     } else {
         if (tabList.isEmpty()) {
-            qWarning() << "No Tabs!";
+            qWarning() << "No Tabs";
         }
         if (streamList.isEmpty()) {
-            qWarning() << "No Streams!";
+            qWarning() << "No Streams";
             taskEnd();
         } else {
             if (busyType == Fetcher::Updating) {
@@ -898,7 +898,7 @@ void NvFetcher::finishedTabs2()
                 db->cleanStreams();
 
                 if (streamList.isEmpty()) {
-                    qDebug() << "No new Feeds!";
+                    qDebug() << "No new Feeds";
                     proggressTotal = qCeil(streamUpdateList.count()/feedsUpdateAtOnce)+3;
                     emit progress(3,proggressTotal);
                     fetchFeedsUpdate();
@@ -930,7 +930,7 @@ void NvFetcher::finishedFeeds()
         // Restoring backup
         auto db = DatabaseManager::instance();
         if (!db->restoreBackup()) {
-            qWarning() << "Unable to restore DB backup!";
+            qWarning() << "Unable to restore DB backup";
         }
 
         emit error(500);
@@ -971,7 +971,7 @@ void NvFetcher::finishedFeedsReadlater()
         // Restoring backup
         auto db = DatabaseManager::instance();
         if (!db->restoreBackup()) {
-            qWarning() << "Unable to restore DB backup!";
+            qWarning() << "Unable to restore DB backup";
         }
 
         emit error(500);
@@ -1012,7 +1012,7 @@ void NvFetcher::finishedFeedsUpdate()
         // Restoring backup
         auto db = DatabaseManager::instance();
         if (!db->restoreBackup()) {
-            qWarning() << "Unable to restore DB backup!";
+            qWarning() << "Unable to restore DB backup";
         }
 
         emit error(500);
@@ -1052,14 +1052,14 @@ void NvFetcher::finishedSetAction()
                 return;
             }
 
-            qWarning() << "Unknown error in setAction reply!";
+            qWarning() << "Unknown error in setAction reply";
 
             //emit error(500);
             //setBusy(false);
             //return;
 
         } else if (!parse()) {
-            qWarning() << "Error parsing Json!";
+            qWarning() << "Error parsing Json";
             emit error(600);
             setBusy(false);
             return;
@@ -1105,7 +1105,7 @@ void NvFetcher::run()
             publishedBeforeDate = 0;
         break;
     default:
-        qWarning() << "Unknown Job!";
+        qWarning() << "Unknown Job";
         break;
     }
 }
@@ -1129,7 +1129,7 @@ void NvFetcher::startJob(Job job)
 
             // If credentials other than Netvibes, prompting for re-auth
             if (s->getSigninType()>0) {
-                qWarning() << "Cookie expires!";
+                qWarning() << "Cookie expires";
                 s->setCookie("");
                 setBusy(false);
                 emit error(403);
@@ -1140,7 +1140,7 @@ void NvFetcher::startJob(Job job)
 
             // Restoring backup
             if (!db->restoreBackup()) {
-                qWarning() << "Unable to restore DB backup!";
+                qWarning() << "Unable to restore DB backup";
             }
 
             setBusy(false);
@@ -1149,11 +1149,11 @@ void NvFetcher::startJob(Job job)
             return;
         }
     } else {
-        qWarning() << "Error parsing Json!";
+        qWarning() << "Error parsing Json";
 
         // Restoring backup
         if (!db->restoreBackup()) {
-            qWarning() << "Unable to restore DB backup!";
+            qWarning() << "Unable to restore DB backup";
         }
 
         emit error(600);
@@ -1181,7 +1181,7 @@ void NvFetcher::startJob(Job job)
         connect(this, SIGNAL(finished()), this, SLOT(finishedFeedsReadlater2()));
         break;
     default:
-        qWarning() << "Unknown Job!";
+        qWarning() << "Unknown Job";
         emit error(502);
         setBusy(false);
         return;
@@ -1282,7 +1282,7 @@ void NvFetcher::storeDashboards()
         }
 
     } else {
-        qWarning() << "No dashboards element found!";
+        qWarning() << "No dashboards element found";
     }
 }
 
@@ -1349,7 +1349,7 @@ void NvFetcher::storeTabs()
             }
         }
     }  else {
-        qWarning() << "No \"tabs\" element found!";
+        qWarning() << "No \"tabs\" element found";
     }
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -1404,14 +1404,14 @@ void NvFetcher::storeTabs()
                         //qDebug() << "Writing module: " << "tabid:" << smt.tabId << "moduleId:" << smt.moduleId << "streamId:" << smt.streamId << m.title;
                     }
                 } else {
-                    qWarning() << "Module"<<m.id<<"without streams!";
+                    qWarning() << "Module"<<m.id<<"without streams";
                 }
 
                 db->writeModule(m);
             }
         }
     }  else {
-        qWarning() << "No modules element found!";
+        qWarning() << "No modules element found";
     }
 }
 
@@ -1454,7 +1454,7 @@ int NvFetcher::storeFeeds()
                         if (obj["error"].isObject()) {
                             int code = (int) obj["error"].toObject()["code"].toDouble();
                             if (code != 204) {
-                                qWarning() << "Nested error in Netvibes response!" <<
+                                qWarning() << "Nested error in Netvibes response:" <<
                                               "Code:" << code << "Message:" <<
                                               obj["error"].toObject()["message"].toString();
                                 //qWarning() << "JSON obj:" << obj;
@@ -1464,7 +1464,7 @@ int NvFetcher::storeFeeds()
 #else
                         QVariantMap obj = (*ai).toMap();
                         if (obj["error"].type()==QVariant::Map) {
-                            qWarning() << "Nested error in Netvibes response!";
+                            qWarning() << "Nested error in Netvibes response";
                             qWarning() << "Code:" << (int) obj["error"].toMap()["code"].toDouble();
                             qWarning() << "Message:" << obj["error"].toMap()["message"].toString();
                             qWarning() << "JSON obj:" << obj;
@@ -1506,7 +1506,7 @@ int NvFetcher::storeFeeds()
                         db->writeStream(st);
                     }
                 } else {
-                    qWarning() << "No \"streams\" element found!";
+                    qWarning() << "No \"streams\" element found";
                 }
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
                 if (arr.at(i).toObject()["items"].isArray()) {
@@ -1647,12 +1647,12 @@ int NvFetcher::storeFeeds()
                             publishedBeforeDate = e.publishedAt;
                     }
                 } else {
-                    qWarning() << "No \"items\" element found!";
+                    qWarning() << "No \"items\" element found";
                 }
             }
         }
     }  else {
-        qWarning() << "No \"relults\" element found!";
+        qWarning() << "No \"relults\" element found";
     }
 
     return entriesCount;
@@ -1662,12 +1662,12 @@ bool NvFetcher::checkError()
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     if(jsonObj["error"].isObject()) {
-        qWarning() << "Error in Netvibes response!";
+        qWarning() << "Error in Netvibes response";
         qWarning() << "Code:" << (int) jsonObj["error"].toObject()["code"].toDouble();
         qWarning() << "Message:" << jsonObj["error"].toObject()["message"].toString();
 #else
     if (jsonObj["error"].type()==QVariant::Map) {
-        qWarning() << "Error in Netvibes response!";
+        qWarning() << "Error in Netvibes response";
         qWarning() << "Code:" << (int) jsonObj["error"].toMap()["code"].toDouble();
         qWarning() << "Message:" << jsonObj["error"].toMap()["message"].toString();
 #endif

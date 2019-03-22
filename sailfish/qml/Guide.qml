@@ -136,7 +136,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
 
-            text: qsTr("Tap anywhere to continue.");
+            text: qsTr("Tap anywhere to continue");
         }
     }
 

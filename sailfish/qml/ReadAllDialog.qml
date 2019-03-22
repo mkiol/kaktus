@@ -88,5 +88,4 @@ Dialog {
             return;
         }
     }
-
 }

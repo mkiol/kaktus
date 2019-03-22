@@ -246,13 +246,13 @@ Page {
             function check() {
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy || dm.removerBusy) {
-                    notification.show(qsTr("Wait until current task is complete."));
+                    notification.show(qsTr("Wait until current task is complete"));
                     return false
                 }
 
                 // Entry not cached and offline mode enabled
                 if (settings.offlineMode && !model.cached) {
-                    notification.show(qsTr("Offline version is not available."));
+                    notification.show(qsTr("Offline version is not available"));
                     return false
                 }
 
@@ -260,11 +260,11 @@ Page {
                 if (!settings.offlineMode && !dm.online) {
                     if (model.cached) {
                         // Entry cached
-                        notification.show(qsTr("Enabling offline mode because network is disconnected."));
+                        notification.show(qsTr("Enabling offline mode because network is disconnected"));
                         settings.offlineMode = true;
                     } else {
                         // Entry not cached
-                        notification.show(qsTr("Network is disconnected."));
+                        notification.show(qsTr("Network is disconnected"));
                         return false
                     }
                 }
@@ -291,7 +291,7 @@ Page {
             function showEntryFeedContent() {
                 // Not allowed while Syncing
                 if (dm.busy || fetcher.busy || dm.removerBusy) {
-                    notification.show(qsTr("Wait until current task is complete."))
+                    notification.show(qsTr("Wait until current task is complete"))
                     return false
                 }
 
@@ -479,7 +479,8 @@ Page {
             enabled: listView.count === 0
             text: fetcher.busy ? qsTr("Wait until sync finish") :
                       settings.viewMode === 4 ? app.isNetvibes ? qsTr("No saved items") : qsTr("No starred items")  :
-                      settings.viewMode === 6 ? qsTr("No liked items") : settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
+                      settings.viewMode === 6 ? qsTr("No liked items") :
+                          settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }
 
         VerticalScrollDecorator {
@@ -501,7 +502,7 @@ Page {
 
         onClicked: {
             var delegate = root.expandedDelegate ?
-                        root.expandedDelegate : root.expandedUid !="" ?
+                        root.expandedDelegate : root.expandedUid.length > 0 ?
                             getDelegateByUid(root.expandedUid) : undefined
             if (delegate)
                 delegate.openEntry()
@@ -509,7 +510,7 @@ Page {
 
         onOpenClicked: {
             var delegate = root.expandedDelegate ?
-                        root.expandedDelegate : root.expandedUid !="" ?
+                        root.expandedDelegate : root.expandedUid.length > 0 ?
                             getDelegateByUid(root.expandedUid) : undefined
             if (delegate)
                 delegate.openEntry()

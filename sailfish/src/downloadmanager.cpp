@@ -192,7 +192,7 @@ void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAcc
         case QNetworkAccessManager::UnknownAccessibility:
             break;
         case QNetworkAccessManager::NotAccessible:
-            qWarning() << "Network is not accessible!";
+            qWarning() << "Network is not accessible";
             cancel();
             emit networkNotAccessible();
             break;
@@ -360,7 +360,7 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
             QString newFinalUrl = url.resolved(reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toUrl()).toString();
             if (item.finalUrl == newFinalUrl || item.redirectUrl == newFinalUrl) {
                 // Redirection loop detected -> skiping item
-                qWarning() << "Redirection loop detected!";
+                qWarning() << "Redirection loop detected";
                 downloads.removeOne(reply);
                 reply->deleteLater();
                 addNextDownload();
@@ -493,7 +493,7 @@ bool DownloadManager::checkIfHeadersAreValid(QNetworkReply *reply)
             return false;
         }
     }
-    //qDebug() << "headers are valid!";
+    //qDebug() << "headers are valid";
     return true;
 }
 
@@ -512,7 +512,7 @@ void DownloadManager::scanHtml(const QByteArray &content, const QUrl &url)
         if (!isUrlinQueue(item.origUrl, item.finalUrl))
             addDownload(item);
         else
-            //qDebug() << "scanHtml, Url is in the queue!";
+            //qDebug() << "scanHtml, Url is in the queue";
 
         pos += rxCss.matchedLength();
         ++i;
@@ -655,7 +655,7 @@ void DownloadManager::startFeedDownload()
 
     //qDebug() << "DownloadManager::startFeedDownload()";
     if (!ncm.isOnline()) {
-        qWarning() << "Network is offline!";
+        qWarning() << "Network is offline";
         //emit networkNotAccessible();
         //return false;
     }
@@ -757,9 +757,9 @@ void CacheCleaner::cleanOr()
         Q_FOREACH(QFileInfo info, infoList){
             if (info.created() < date) {
                 if (QFile::remove(info.absoluteFilePath())) {
-                    qDebug() << "Cache cleaner:" << info.fileName() << "deleted!";
+                    qDebug() << "Cache cleaner:" << info.fileName() << "deleted";
                 } else {
-                    qWarning() << "Cache cleaner:" << info.fileName() << " is old but can not be deleted!";
+                    qWarning() << "Cache cleaner:" << info.fileName() << " is old but can not be deleted";
                 }
             } else {
                 return;
@@ -883,7 +883,7 @@ void DownloadAdder::run()
     //qDebug() << "startFeedDownload, list.count=" << list.count();
 
     if (list.isEmpty()) {
-        qWarning() << "No feeds to download!";
+        qWarning() << "No feeds to download";
         return;
     }
 

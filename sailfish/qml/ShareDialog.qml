@@ -28,7 +28,7 @@ Dialog {
     property int index
     property bool actionDone: false
 
-    canAccept: note.text != ""
+    canAccept: note.text.length > 0
 
     allowedOrientations: {
         switch (settings.allowedOrientations) {

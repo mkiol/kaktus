@@ -77,7 +77,7 @@ Dialog {
                 Label {
                     id: label
                     anchors.verticalCenter: parent.verticalCenter
-                    text: qsTr("Tiny Tiny Rss")
+                    text: "Tiny Tiny Rss"
                     color: Theme.highlightColor
                     font.pixelSize: Theme.fontSizeSmall
                 }
@@ -147,11 +147,6 @@ Dialog {
 
             Spacer {}
         }
-    }
-
-    function validateEmail(email) {
-        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
     }
 
     onAccepted: {

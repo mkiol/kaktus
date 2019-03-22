@@ -98,7 +98,7 @@ void TabModel::markAsUnread(int row)
 
     if (s->getSigninType() >= 10) {
         // markAsUnread not supported in API
-        qWarning() << "Mark tab as unread is not supported!";
+        qWarning() << "Mark tab as unread is not supported";
         return;
     }
 
@@ -151,7 +151,7 @@ void TabModel::setAllAsUnread()
 
     if (s->getSigninType() >= 10) {
         // setAllAsUnread not supported in API
-        qWarning() << "Mark all as unread is not supported!";
+        qWarning() << "Mark all as unread is not supported";
         return;
     }
 

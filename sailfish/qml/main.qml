@@ -121,7 +121,7 @@ ApplicationWindow {
         target: settings
 
         onError: {
-            console.log("Settings error! code=" + code);
+            console.log("Settings error: code=" + code);
             Qt.quit();
         }
 
@@ -158,10 +158,10 @@ ApplicationWindow {
         target: db
 
         onError: {
-            console.log("DB error! code="+code);
+            console.log("DB error: code="+code);
 
             if (code==511) {
-                notification.show(qsTr("Restart the app to rebuild cache data."), qsTr("Something went wrong!"));
+                notification.show(qsTr("Restart the app to rebuild cache data"));
                 return;
             }
 
@@ -212,7 +212,7 @@ ApplicationWindow {
         }
 
         onNetworkNotAccessible: {
-            notification.show(qsTr("Download has failed because network is disconnected."));
+            notification.show(qsTr("Download has failed because network is disconnected"));
         }
 
         onRemoverProgressChanged: {
@@ -290,21 +290,21 @@ ApplicationWindow {
     }
 
     function fetcherErrorGettingAuthUrl() {
-        notification.show(qsTr("Something went wrong. Unable to sign in!"));
+        notification.show(qsTr("Unable to sign in"));
     }
 
     function fetcherNetworkNotAccessible() {
-        notification.show(qsTr("Sync failed!\nNetwork connection is unavailable."));
+        notification.show(qsTr("Network connection is unavailable"));
     }
 
     function fetcherError(code) {
-        console.log("Fetcher error, code=" + code);
+        console.log("Fetcher error: code=" + code);
 
         if (code < 400)
             return;
         if (code === 700 || (code >= 400 && code < 500)) {
             if (code === 402)
-                notification.show(qsTr("The user name or password is incorrect!"));
+                notification.show(qsTr("The user name or password is incorrect"));
             else if (code === 404)  // TT-RSS API disabled
                 notification.show(qsTr("Access through API is disabled on a server"));
             else if (code === 700)  // SSL error
@@ -325,9 +325,9 @@ ApplicationWindow {
                 return;
             }
         } else if (code === 800) {
-            notification.show(qsTr("Cannot save image"));
+            notification.show(qsTr("Cannot save image in gallery"));
         } else if (code === 801) {
-            notification.show(qsTr("Image file already exists"));
+            notification.show(qsTr("Image already exists in gallery"));
         } else {
             // Unknown error
             notification.show(qsTr("Unknown error"));
@@ -336,16 +336,16 @@ ApplicationWindow {
     }
 
     function fetcherErrorCheckingCredentials() {
-        notification.show(qsTr("The user name or password is incorrect."));
+        notification.show(qsTr("The user name or password is incorrect"));
     }
 
     function fetcherCredentialsValid() {
-        notification.show(qsTr("You are signed in."));
+        notification.show(qsTr("You are signed in"));
     }
 
     function fetcherProgress(current, total) {
         //console.log("fetcherProgress", current, total);
-        bar.progressText = qsTr("Receiving data... ");
+        bar.progressText = qsTr("Receiving data...");
         bar.progress = current / total;
     }
 
@@ -403,7 +403,7 @@ ApplicationWindow {
 
     function fetcherImageSaved(filename) {
         //console.log("fetcherImageSaved: " + filename)
-        notification.show(qsTr("Image saved as \"" + filename + "\""));
+        notification.show(qsTr("Image saved in gallery as \"" + filename + "\""));
     }
 
     Notification {

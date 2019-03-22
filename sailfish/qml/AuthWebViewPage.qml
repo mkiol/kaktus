@@ -120,7 +120,6 @@ Page {
     IconBar {
         id: controlbar
         flickable: view
-        theme: "black"
         IconBarItem {
             text: qsTr("Back")
             icon: "image://theme/icon-m-back"

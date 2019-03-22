@@ -77,7 +77,7 @@ Dialog {
                 Label {
                     id: label
                     anchors.verticalCenter: parent.verticalCenter
-                    text: qsTr("Netvibes")
+                    text: "Netvibes"
                     color: Theme.highlightColor
                     font.pixelSize: Theme.fontSizeSmall
                 }
@@ -91,7 +91,7 @@ Dialog {
 
                 inputMethodHints: Qt.ImhEmailCharactersOnly | Qt.ImhNoAutoUppercase | Qt.ImhNoPredictiveText
                 placeholderText: qsTr("Enter username")
-                label: qsTr("Username (your e-mail address)")
+                label: qsTr("Username")
 
                 Component.onCompleted: {
                     text = settings.getUsername();

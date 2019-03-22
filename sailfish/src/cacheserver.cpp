@@ -154,7 +154,7 @@ bool FilteringWorker::filterArticle()
             return false;
         QString cap = rx1.cap(0);
         if (cap != "") {
-            //qDebug() << "article!";
+            //qDebug() << "article";
             articles.append(cap);
         }
         pos += rx1.matchedLength();
@@ -273,7 +273,7 @@ void FilteringWorker::filterOffline()
     QFile file(cacheDir + "/" + filename);
 
     if (!QFile::exists(cacheDir + "/" + filename)) {
-        qWarning() << "File " << filename << "does not exists!";
+        qWarning() << "File " << filename << "does not exists";
         file.close();
         return false;
     }
@@ -312,7 +312,7 @@ CacheServer::CacheServer(QObject *parent) :
             this, SLOT(handle(QHttpRequest*, QHttpResponse*)));
 
     if (!server->listen(port)) {
-        qWarning() << "Cache server at localhost failed to start on" << this->port << "port!";
+        qWarning() << "Cache server at localhost failed to start on" << this->port << "port";
     }
 }
 
@@ -324,7 +324,7 @@ bool CacheServer::readFile(const QString &filename, QByteArray &data)
     QFile file(cacheDir + "/" + filename);
 
     if (!QFile::exists(cacheDir + "/" + filename)) {
-        qWarning() << "File " << filename << "does not exists!";
+        qWarning() << "File " << filename << "does not exists";
         file.close();
         return false;
     }
@@ -401,7 +401,7 @@ QString CacheServer::getFileUrl(const QString &id)
     QString path = s->getDmCacheDir() + "/" + filename;
 
     if (!QFile::exists(path)) {
-        qWarning() << "File " << path << "does not exists!";
+        qWarning() << "File " << path << "does not exists";
         return QString();
     }
 

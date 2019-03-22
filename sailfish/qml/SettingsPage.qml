@@ -101,7 +101,7 @@ Page {
                     anchors.rightMargin: Theme.paddingLarge
 
                     Label {
-                        text: qsTr("Not signed in ")
+                        text: qsTr("Not signed in")
                         visible: !settings.signedIn
                     }
                     Label {
@@ -435,7 +435,7 @@ Page {
                 description: qsTr("Clear web viewer cache and cookies. Changes will take effect after restart.")
                 button.onClicked: {
                     utils.resetQtWebKit()
-                    notification.show(qsTr("Cache and cookies have been deleted."))
+                    notification.show(qsTr("Cache and cookies have been deleted"))
                 }
             }
 
@@ -520,7 +520,7 @@ Page {
                 }
 
                 function showMessage() {
-                    notification.show(qsTr("Changes will take effect after you restart Kaktus."));
+                    notification.show(qsTr("Changes will take effect after you restart Kaktus"));
                 }
             }
 
@@ -895,7 +895,7 @@ Page {
                 button.text: qsTr("Delete saved tags")
                 button.onClicked: {
                     settings.pocketTagsHistory = ""
-                    notification.show(qsTr("Saved tags have been deleted."))
+                    notification.show(qsTr("Saved tags have been deleted"))
                 }
             }
 

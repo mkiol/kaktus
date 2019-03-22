@@ -112,7 +112,7 @@ void EntryModel::initFinished()
         if (item->id() == id)
             return i;
     }
-    qWarning() << "Entry ID not found!";
+    qWarning() << "Entry ID not found";
     return -1;
 }*/
 
@@ -364,7 +364,7 @@ void EntryModel::setAllAsUnread()
 
     if (s->getSigninType() >= 10) {
         // setAllAsUnread not supported in API
-        qWarning() << "Mark all as unread is not supported!";
+        qWarning() << "Mark all as unread is not supported";
         return;
     }
 
@@ -716,7 +716,7 @@ void EntryModel::setData(int row, const QString &fieldName, QVariant newValue, Q
 #endif
         if (s->getSigninType() < 10 && s->getSigninType() >= 20) {
             // Broadcast not supported in API
-            qWarning() << "Broadcast is not supported!";
+            qWarning() << "Broadcast is not supported";
             return;
         }
         item->setBroadcast(newValue.toBool(),newValue2.toString());

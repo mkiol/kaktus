@@ -54,7 +54,7 @@ QString IconProvider::themeDirPath()
     }
 
     if (!QDir(themeDir).exists()) {
-        qWarning() << "Theme" << themeDir << "for ratio" << ratio << "doesn't exist!";
+        qWarning() << "Theme" << themeDir << "for ratio" << ratio << "doesn't exist";
         themeDir = SailfishApp::pathTo("images/z1.0").toString(QUrl::RemoveScheme);
     }
 #else

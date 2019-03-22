@@ -27,16 +27,9 @@ CoverBackground {
     property bool active: status === Cover.Active
     property bool busy: app.fetcherBusyStatus || dm.busy
     property string label
-    property string unreadLabel: {
-        if (root.unread==0)
-            return qsTr("All read");
-        if (root.unread==1)
-            return unread + " " + qsTr("unread item");
-        if (root.unread<5)
-            return unread + " " + qsTr("unread items","less than 5 articles are unread");
-        return unread + " " + qsTr("unread items","more or equal 5 articles are unread");
-    }
-
+    property string unreadLabel: unread > 0 ?
+                                     qsTr("%n unread item(s)", "", unread) :
+                                     qsTr("All read")
     onStatusChanged: {
         if (status === Cover.Active) {
             root.unread = utils.countUnread();

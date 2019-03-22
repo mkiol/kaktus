@@ -703,64 +703,21 @@ QString Utils::getHumanFriendlyTimeString(int date)
     if (secs<=0) {
         return tr("just now");
     }
-    if (secs==1) {
-        return tr("1 second ago");
-    }
-    if (secs<5) {
-        return tr("%1 seconds ago","less than 5 seconds").arg(secs);
-    }
     if (secs<60) {
-        return tr("%1 seconds ago","more or equal 5 seconds").arg(secs);
+        return tr("%n second(s) ago", "", secs);
     }
     if (secs<120) {
-        return tr("1 minute ago");
-    }
-    if (secs<300) {
-        return tr("%1 minutes ago","less than 5 minutes").arg(qFloor(secs/60));
-    }
-    if (secs<3600) {
-        return tr("%1 minutes ago","more or equal 5 minutes").arg(qFloor(secs/60));
+        return tr("%n minute(s) ago", "", qFloor(secs/60));
     }
     if (secs<7200) {
-        return tr("1 hour ago");
-    }
-    if (secs<18000) {
-        return tr("%1 hours ago","less than 5 hours").arg(qFloor(secs/3600));
-    }
-    if (secs<86400) {
-        return tr("%1 hours ago","more or equal 5 hours").arg(qFloor(secs/3600));
+        return tr("%n hour(s) ago", "", qFloor(secs/3600));
     }
 
     int days = qdate.daysTo(QDateTime::currentDateTimeUtc());
 
-    if (days==1) {
-        return tr("day ago");
-    }
-    if (days<5) {
-        return tr("%1 days ago","less than 5 days").arg(days);
-    }
     if (days<8) {
-        return tr("%1 days ago","more or equal 5 days").arg(days);
+        return tr("%n day(s) ago", "", days);
     }
-    /*if (days<8) {
-        return tr("1 week ago");
-    }
-    if (days<29) {
-        return tr("%1 weeks ago").arg(qFloor(days/7));
-    }
-
-    int months = Utils::monthsTo(qdate.date(),QDate::currentDate());
-
-    if (months==1) {
-        return tr("1 month ago");
-    }
-
-    if (months<5) {
-        return tr("%1 months ago","less than 5 months").arg(months);
-    }
-    if (days<13) {
-        return tr("%1 months ago","more or equal 5 months").arg(months);
-    }*/
 
     return qdate.toString("dddd, d MMMM yy");
 }

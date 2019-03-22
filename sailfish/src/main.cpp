@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
     engine->addImageProvider(QLatin1String("nvicons"), new NvIconProvider);
 
     qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
-
+/*
 #ifdef SAILFISH
     //-- temp fix --
     // config file
@@ -115,6 +115,7 @@ int main(int argc, char *argv[])
     }
     //--
 #endif
+*/
 
     Settings *settings = Settings::instance();
 

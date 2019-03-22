@@ -672,7 +672,7 @@ QString Settings::getSettingsDir()
 
     if (!QDir(value).exists()) {
         if (!QDir::root().mkpath(value)) {
-            qWarning() << "Unable to create settings dir!";
+            qWarning() << "Unable to create settings dir";
             emit error(501);
         }
     }
@@ -728,7 +728,7 @@ QString Settings::getDmCacheDir()
 
     if (!QDir(value).exists()) {
         if (!QDir::root().mkpath(value)) {
-            qWarning() << "Unable to create cache dir!";
+            qWarning() << "Unable to create cache dir";
             emit error(502);
         }
     }
@@ -925,6 +925,7 @@ void Settings::reset()
         setProvider("");
         setUserId("");
         setShowBroadcast(true);
+        setIgnoreSslErrors(false);
     }
 }
 

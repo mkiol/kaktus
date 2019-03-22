@@ -275,9 +275,9 @@ Page {
                 proggressPanel.open = false;
 
                 if (_settings.offlineMode) {
-                    notification.show(qsTr("Failed to load page from local cache."));
+                    notification.show(qsTr("Failed to load page from local cache"));
                 } else {
-                    notification.show(qsTr("Failed to load page content."));
+                    notification.show(qsTr("Failed to load page content"));
                 }
                 break;
             default:
@@ -457,7 +457,7 @@ Page {
             text: qsTr("Copy URL")
             icon: "image://theme/icon-m-clipboard"
             onClicked: {
-                notification.show(qsTr("URL was copied to the clipboard."));
+                notification.show(qsTr("URL was copied to the clipboard"));
                 Clipboard.text = root.onlineUrl;
             }
         }

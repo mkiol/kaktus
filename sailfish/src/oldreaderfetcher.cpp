@@ -70,7 +70,7 @@ void OldReaderFetcher::signIn()
     switch (type) {
     case 10:
         if (password.isEmpty() || username.isEmpty()) {
-            qWarning() << "Username & password do not match!";
+            qWarning() << "Username & password do not match";
             if (busyType == Fetcher::CheckingCredentials)
                 emit errorCheckingCredentials(400);
             else
@@ -87,7 +87,7 @@ void OldReaderFetcher::signIn()
         currentReply = nam.post(request,body.toUtf8());
         break;
     default:
-        qWarning() << "Invalid sign in type!";
+        qWarning() << "Invalid sign in type";
         emit error(500);
         setBusy(false);
         return;
@@ -528,7 +528,7 @@ void OldReaderFetcher::finishedSignInOnlyCheck()
             return;
         }
 
-        qWarning() << "Sign in failed!";
+        qWarning() << "Sign in failed";
         emit errorCheckingCredentials(501);
         setBusy(false);
         return;
@@ -557,7 +557,7 @@ void OldReaderFetcher::finishedSignInOnlyCheck()
         }
         break;
     default:
-        qWarning() << "Invalid sign in type!";
+        qWarning() << "Invalid sign in type";
         emit errorCheckingCredentials(502);
         setBusy(false);
         s->setSignedIn(false);
@@ -580,7 +580,7 @@ void OldReaderFetcher::finishedSignIn()
             return;
         }
 
-        qWarning() << "Sign in failed!";
+        qWarning() << "Sign in failed";
         emit error(501);
         setBusy(false);
         return;
@@ -608,7 +608,7 @@ void OldReaderFetcher::finishedSignIn()
         }
         break;
     default:
-        qWarning() << "Invalid sign in type!";
+        qWarning() << "Invalid sign in type";
         emit error(502);
         setBusy(false);
         s->setSignedIn(false);
@@ -637,7 +637,7 @@ void OldReaderFetcher::finishedTabs2()
     continuationCount = 0;
 
     if (tabList.isEmpty()) {
-        qWarning() << "No Tabs to download!";
+        qWarning() << "No Tabs to download";
         if (busyType == Fetcher::Initiating)
             db->cleanEntries();
 
@@ -863,7 +863,7 @@ void OldReaderFetcher::finishedSetAction()
         int code = currentReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
         if (code == 404) {
             // Probably item already deleted -> skiping
-            qWarning() << "Action request returns 404!";
+            qWarning() << "Action request returns 404";
         } else {
             emit error(500);
             setBusy(false);
@@ -909,7 +909,7 @@ void OldReaderFetcher::getConnectUrl(int type)
 {
     Q_UNUSED(type)
     if (busy) {
-        qWarning() << "Fetcher is busy!";
+        qWarning() << "Fetcher is busy";
         return;
     }
 
@@ -956,7 +956,7 @@ void OldReaderFetcher::startJob(Job job)
     currentJob = job;
 
     if (parse()) {
-        /*qWarning() << "Cookie expires!";
+        /*qWarning() << "Cookie expires";
         Settings *s = Settings::instance();
         s->setCookie("");
         setBusy(false);
@@ -970,7 +970,7 @@ void OldReaderFetcher::startJob(Job job)
         update();
         return;*/
     } else {
-        qWarning() << "Error parsing Json!";
+        qWarning() << "Error parsing Json";
         emit error(600);
         setBusy(false);
         return;
@@ -1005,7 +1005,7 @@ void OldReaderFetcher::startJob(Job job)
         connect(this, SIGNAL(finished()), this, SLOT(finishedMarkSlow()));
         break;
     default:
-        qWarning() << "Unknown Job!";
+        qWarning() << "Unknown Job";
         emit error(502);
         setBusy(false);
         return;
@@ -1037,7 +1037,7 @@ void OldReaderFetcher::run()
         markSlowFeeds();
         break;
     default:
-        qWarning() << "Unknown Job!";
+        qWarning() << "Unknown Job";
         break;
     }
 }
@@ -1086,7 +1086,7 @@ void OldReaderFetcher::storeTabs()
         }
 
     }  else {
-        qWarning() << "No \"tabs\" element found!";
+        qWarning() << "No \"tabs\" element found";
     }
 }
 
@@ -1257,7 +1257,7 @@ void OldReaderFetcher::storeFriends()
         }
 
     }  else {
-        qWarning() << "No \"friends\" element found!";
+        qWarning() << "No \"friends\" element found";
     }
 }
 
@@ -1345,7 +1345,7 @@ void OldReaderFetcher::storeFeeds()
         }
 
     }  else {
-        qWarning() << "No \"tabs\" element found!";
+        qWarning() << "No \"tabs\" element found";
     }
 
     if (!subscriptionsFolderFeed) {
@@ -1371,7 +1371,7 @@ void OldReaderFetcher::storeStream()
     if (jsonObj["updated"].isDouble()) {
         updated = jsonObj["updated"].toDouble();
     } else {
-        qWarning() << "No updated param in stream!";
+        qWarning() << "No updated param in stream";
     }
     if (jsonObj["items"].isArray()) {
         QJsonArray arr = jsonObj["items"].toArray();
@@ -1381,7 +1381,7 @@ void OldReaderFetcher::storeStream()
     if (jsonObj["updated"].type()==QVariant::ULongLong) {
         updated = jsonObj["updated"].toDouble();
     } else {
-        qWarning() << "No updated param in stream!";
+        qWarning() << "No updated param in stream";
     }
     if (jsonObj["items"].type()==QVariant::List) {
         QVariantList::const_iterator i = jsonObj["items"].toList().constBegin();

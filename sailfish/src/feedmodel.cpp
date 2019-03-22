@@ -103,7 +103,7 @@ void FeedModel::markAsUnread(int row)
 
     if (s->getSigninType() >= 10) {
         // markAsUnread not supported in API
-        qWarning() << "Mark feed as unread is not supported!";
+        qWarning() << "Mark feed as unread is not supported";
         return;
     }
 
@@ -204,7 +204,7 @@ void FeedModel::setAllAsUnread()
 
     if (s->getSigninType() >= 10) {
         // setAllAsUnread not supported in API
-        qWarning() << "Mark tab as unread is not supported!";
+        qWarning() << "Mark tab as unread is not supported";
         return;
     }
 

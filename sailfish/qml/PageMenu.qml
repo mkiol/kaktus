@@ -58,7 +58,7 @@ PullDownMenu {
                 if (dm.online)
                     settings.offlineMode = false;
                 else
-                    notification.show(qsTr("Can't switch to online mode because network is disconnected."));
+                    notification.show(qsTr("Cannot switch to online mode because network is disconnected"));
             } else {
                 settings.offlineMode = true;
             }

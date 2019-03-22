@@ -61,7 +61,7 @@ Item {
         }, function(code) {
             console.log("X-Error:" + xhr.getResponseHeader("X-Error"))
             console.log("Error while requesting Pocket token, X-Error-Code:" + code)
-            notification.show(qsTr("Pocket authorization has failed."))
+            notification.show(qsTr("Pocket authorization has failed"))
             busy = false
         })
     }
@@ -71,12 +71,12 @@ Item {
             console.log("access token: " + root.access_token)
             settings.pocketToken = root.access_token
             settings.pocketEnabled = true
-            notification.show(qsTr("Pocket authorization was successful."))
+            notification.show(qsTr("Pocket authorization was successful"))
             busy = false
         }, function(code) {
             console.log("X-Error:" + xhr.getResponseHeader("X-Error"))
             console.log("Error while requesting Pocket access token, X-Error-Code:" + code)
-            notification.show(qsTr("Pocket authorization has failed."))
+            notification.show(qsTr("Pocket authorization has failed"))
             busy = false
         })
     }
@@ -114,13 +114,13 @@ Item {
                 if(xhr.readyState === XMLHttpRequest.DONE) {
                     busy = false
                     if (xhr.status === 200) {
-                        notification.show(qsTr("Article has been successfully added to Pocket."))
+                        notification.show(qsTr("Article has been successfully added to Pocket"))
                         settings.pocketTagsHistory = _split(settings.pocketTagsHistory + "," + tags).sort().join(",")
                     } else {
                         console.log("X-Error:" + xhr.getResponseHeader("X-Error"))
                         var code = xhr.getResponseHeader("X-Error-Code")
                         console.log("Error while adding article to Pocket, X-Error-Code:" + code)
-                        notification.show(qsTr("Error while adding article to Pocket."))
+                        notification.show(qsTr("Error while adding article to Pocket"))
                     }
                 }
             }

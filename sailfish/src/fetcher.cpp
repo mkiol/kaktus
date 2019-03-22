@@ -102,7 +102,7 @@ void Fetcher::setBusy(bool busy, Fetcher::BusyType type)
 bool Fetcher::init()
 {
     if (busy) {
-        qWarning() << "Fetcher is busy!";
+        qWarning() << "Fetcher is busy";
         return false;
     }
 
@@ -124,7 +124,7 @@ bool Fetcher::init()
 bool Fetcher::update()
 {
     if (busy) {
-        qWarning() << "Fetcher is busy!";
+        qWarning() << "Fetcher is busy";
         return false;
     }
 
@@ -168,7 +168,7 @@ void Fetcher::cancel()
         // Restoring backup
         auto db = DatabaseManager::instance();
         if (!db->restoreBackup()) {
-            qWarning() << "Unable to restore DB backup!";
+            qWarning() << "Unable to restore DB backup";
         }
 
         if (currentReply != NULL)
@@ -181,7 +181,7 @@ void Fetcher::cancel()
 bool Fetcher::checkCredentials()
 {
     if (busy) {
-        qWarning() << "Fetcher is busy!";
+        qWarning() << "Fetcher is busy";
         return false;
     }
 
@@ -214,7 +214,7 @@ void Fetcher::networkAccessibleChanged(QNetworkAccessManager::NetworkAccessibili
         case QNetworkAccessManager::UnknownAccessibility:
             break;
         case QNetworkAccessManager::NotAccessible:
-            qWarning() << "Network is not accessible!";
+            qWarning() << "Network is not accessible";
             cancel();
             emit networkNotAccessible();
             break;
@@ -230,7 +230,7 @@ bool Fetcher::delayedUpdate(bool state)
 
 #ifdef ONLINE_CHECK
     if (!state) {
-        qWarning() << "Network is Offline!";
+        qWarning() << "Network is Offline";
         emit networkNotAccessible();
         setBusy(false);
         return false;
@@ -248,7 +248,7 @@ bool Fetcher::delayedUpdate(bool state)
         setBusy(true, Fetcher::CheckingCredentials);
         break;
     default:
-        qWarning() << "Wrong busy state!";
+        qWarning() << "Wrong busy state";
         setBusy(false);
         return false;
     }
@@ -297,7 +297,7 @@ bool Fetcher::parse()
     bool ok;
     QVariant result = qjson.parse(data, &ok);
     if (!ok) {
-        qWarning() << "An error occurred during parsing Json!";
+        qWarning() << "An error occurred during parsing Json";
         return false;
     }
 
@@ -312,7 +312,7 @@ bool Fetcher::parse()
     }
 #endif
     //qDebug() << "parse time:" << (QDateTime::currentMSecsSinceEpoch() - date1);
-    qWarning() << "Json doc is empty!";
+    qWarning() << "Json doc is empty";
     return false;
 }
 
@@ -395,11 +395,11 @@ void Fetcher::prepareUploadActions()
     auto db = DatabaseManager::instance();
     actionsList = db->readActions();
     if (actionsList.isEmpty()) {
-        //qDebug() << "No actions to upload!";
+        //qDebug() << "No actions to upload";
         startFetching();
     } else {
 
-        //qDebug() << actionsList.count() << " actions to upload!";
+        //qDebug() << actionsList.count() << " actions to upload";
 
         // Actions optimization
         // 1. Merging series of SetRead into SetListRead
@@ -409,7 +409,7 @@ void Fetcher::prepareUploadActions()
         /*mergeActionsIntoList(DatabaseManager::SetSaved, DatabaseManager::UnSetSaved,
                              DatabaseManager::SetListSaved, DatabaseManager::UnSetListSaved);*/
 
-        //qDebug() << actionsList.count() << " actions to upload after opt!";
+        //qDebug() << actionsList.count() << " actions to upload after opt";
 
         this->uploadProggressTotal = actionsList.size();
         uploadActions();
