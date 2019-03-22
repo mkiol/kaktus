@@ -1782,18 +1782,6 @@ on the settings page.</source>
     </message>
 </context>
 <context>
-    <name>TourPage</name>
-    <message>
-        <location filename="../qml/sailfish/TourPage.qml" line="61"/>
-        <source></source>
-        <translation></translation>
-    </message>
-    <message>
-        <source>Wait until Sync finish</source>
-        <translation type="vanished">Patienter la fin de la synchronisation</translation>
-    </message>
-</context>
-<context>
     <name>UnreadAllDialog</name>
     <message>
         <location filename="../qml/UnreadAllDialog.qml" line="54"/>

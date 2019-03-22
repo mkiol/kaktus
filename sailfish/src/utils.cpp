@@ -706,10 +706,10 @@ QString Utils::getHumanFriendlyTimeString(int date)
     if (secs<60) {
         return tr("%n second(s) ago", "", secs);
     }
-    if (secs<120) {
+    if (secs<3600) {
         return tr("%n minute(s) ago", "", qFloor(secs/60));
     }
-    if (secs<7200) {
+    if (secs<86400) {
         return tr("%n hour(s) ago", "", qFloor(secs/3600));
     }
 

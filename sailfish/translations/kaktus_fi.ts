@@ -1736,14 +1736,6 @@ Ei internet-yhteyttä käytettävissä.</translation>
     </message>
 </context>
 <context>
-    <name>TourPage</name>
-    <message>
-        <location filename="../qml/sailfish/TourPage.qml" line="61"/>
-        <source></source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>UnreadAllDialog</name>
     <message>
         <location filename="../qml/UnreadAllDialog.qml" line="54"/>
