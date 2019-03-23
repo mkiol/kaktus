@@ -11,7 +11,7 @@
     <message>
         <location filename="../qml/AboutPage.qml" line="71"/>
         <source>Version %1</source>
-        <translation type="unfinished">Version %1</translation>
+        <translation>Version %1</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="81"/>
@@ -90,7 +90,8 @@
     </message>
     <message>
         <location filename="../qml/ChangelogPage.qml" line="64"/>
-        <location filename="../qml/ChangelogPage.qml" line="73"/>
+        <location filename="../qml/ChangelogPage.qml" line="93"/>
+        <location filename="../qml/ChangelogPage.qml" line="102"/>
         <source>Version %1</source>
         <translation>Version %1</translation>
     </message>
@@ -233,7 +234,7 @@
     <message>
         <location filename="../qml/DashboardDialog.qml" line="71"/>
         <source>No dashboards</source>
-        <translation>Keine Dashboards </translation>
+        <translation>Keine Dashboards</translation>
     </message>
 </context>
 <context>
@@ -246,7 +247,7 @@
     <message>
         <location filename="../qml/DashboardPage.qml" line="84"/>
         <source>No dashboards</source>
-        <translation>Keine Dashboards </translation>
+        <translation>Keine Dashboards</translation>
     </message>
 </context>
 <context>
@@ -460,22 +461,22 @@
         <location filename="../qml/EntryPage.qml" line="249"/>
         <location filename="../qml/EntryPage.qml" line="294"/>
         <source>Wait until current task is complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Warte bis der aktuelle Vorgang beendet ist</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="255"/>
         <source>Offline version is not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Offline Version ist nicht verfügbar</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="263"/>
         <source>Enabling offline mode because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviere Offline Modus, weil keine Netzwerkverbindung besteht</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="267"/>
         <source>Network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Netzwerkverbindung</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="481"/>
@@ -510,7 +511,7 @@
     <message>
         <location filename="../qml/EntryPage.qml" line="480"/>
         <source>Wait until sync finish</source>
-        <translation>Warte bis Synchronisation beendet ist.</translation>
+        <translation>Warte bis Synchronisation beendet ist</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="481"/>
@@ -546,7 +547,7 @@
     <message>
         <location filename="../qml/ErrorPage.qml" line="42"/>
         <source>Sorry, something went wrong :-(</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, etwas ist schief gelaufen :-(</translation>
     </message>
     <message>
         <source>Sorry, something went wrong!</source>
@@ -573,7 +574,7 @@
     <message>
         <location filename="../qml/FeedPage.qml" line="123"/>
         <source>Wait until sync finish</source>
-        <translation>Warte bis Synchronisation beendet ist.</translation>
+        <translation>Warte bis Synchronisation beendet ist</translation>
     </message>
     <message>
         <location filename="../qml/FeedPage.qml" line="74"/>
@@ -656,7 +657,7 @@
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="471"/>
         <source>URL was copied to the clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">URL in die Zwischenablage kopiert</translation>
     </message>
     <message>
         <source>URL was copied to the clipboard.</source>
@@ -675,22 +676,22 @@
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="119"/>
         <source>Wait until current task is complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Warte bis der aktuelle Vorgang beendet ist</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="125"/>
         <source>Offline version not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Offline-Version verfügbar</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="133"/>
         <source>Enabling offline mode because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiviere Offline Modus, weil keine Netzwerkverbindung besteht</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="137"/>
         <source>Network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Netzwerkverbindung</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="150"/>
@@ -735,17 +736,17 @@
     <message>
         <location filename="../qml/FirstPage.qml" line="75"/>
         <source>Wait until sync finish</source>
-        <translation>Warte bis Synchronisation beendet ist.</translation>
+        <translation>Warte bis Synchronisation beendet ist</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="76"/>
         <source>To do feeds synchronization, pull down and select sync</source>
-        <translation type="unfinished"></translation>
+        <translation>Zur Synchronisation der Feeds, ziehe das Pulldown-Menü und wähle Synchronisation</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="77"/>
         <source>You are not signed in to any account, pull down to add one</source>
-        <translation type="unfinished"></translation>
+        <translation>Du bist an keinem Zugang angemeldet. Ziehe das Pulldown-Menü herunter und füge einen Zugang hinzu</translation>
     </message>
     <message>
         <source>To do feeds synchronization, pull down and select sync.</source>
@@ -1022,7 +1023,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/PageMenu.qml" line="61"/>
         <source>Cannot switch to online mode because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Kann nicht in den Onlinemodus wechseln, weil keine Netzwerkverbindung besteht</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="90"/>
@@ -1064,12 +1065,12 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="77"/>
         <source>Loading page content...</source>
-        <translation type="unfinished"></translation>
+        <translation>Seiteninhalt wird geladen...</translation>
     </message>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="122"/>
         <source>Back</source>
-        <translation type="unfinished">Zurück</translation>
+        <translation>Zurück</translation>
     </message>
 </context>
 <context>
@@ -1105,7 +1106,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/ReadAllDialog.qml" line="68"/>
         <source>Mark all your articles as read?</source>
-        <translation>Sollen alle Ihre Artikel als gelesen gekennzeichnet werden? </translation>
+        <translation>Sollen alle Ihre Artikel als gelesen gekennzeichnet werden?</translation>
     </message>
     <message>
         <location filename="../qml/ReadAllDialog.qml" line="70"/>
@@ -1120,7 +1121,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/ReadAllDialog.qml" line="62"/>
         <source>Mark all tabs as read?</source>
-        <translation>Markiere alle Tabs als gelesen </translation>
+        <translation>Markiere alle Tabs als gelesen?</translation>
     </message>
     <message>
         <location filename="../qml/ReadAllDialog.qml" line="65"/>
@@ -1177,7 +1178,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="203"/>
         <source>1 Day</source>
-        <translation>1 Tag </translation>
+        <translation>1 Tag</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="204"/>
@@ -1192,7 +1193,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="206"/>
         <source>2 Weeks</source>
-        <translation>2 Wochen </translation>
+        <translation>2 Wochen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="207"/>
@@ -1295,7 +1296,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="758"/>
         <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
-        <translation>Folgende Old Reader soziale Netzwerkfunkionen werden  angeschalten: Follower Verzeichnis, Teile Artikel mit Followern, Gefällt mir Option, Gefällt-Mir Artikelansichtsmodus</translation>
+        <translation>Folgende Old Reader soziale Netzwerkfunkionen werden  angeschalten: Follower Verzeichnis, Teile Artikel mit Followern, Gefällt mir Option, Gefällt-Mir Artikelansichtsmodus.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="283"/>
@@ -1310,7 +1311,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="104"/>
         <source>Not signed in</source>
-        <translation type="unfinished">Nicht angemeldet</translation>
+        <translation>Nicht angemeldet</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="109"/>
@@ -1438,7 +1439,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="523"/>
         <source>Changes will take effect after you restart Kaktus</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Änderungen werden nach einem Neustart von Kaktus übernommen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="635"/>
@@ -1758,7 +1759,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="61"/>
         <source>Sign in</source>
-        <translation type="unfinished">Anmelden</translation>
+        <translation>Anmelden</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="93"/>
@@ -1825,7 +1826,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/TabPage.qml" line="129"/>
         <source>Wait until sync finish</source>
-        <translation>Warte bis Synchronisation beendet ist.</translation>
+        <translation>Warte bis Synchronisation beendet ist</translation>
     </message>
     <message>
         <location filename="../qml/TabPage.qml" line="130"/>
@@ -1878,7 +1879,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/UnreadAllDialog.qml" line="67"/>
         <source>Mark all your articles as unread?</source>
-        <translation>Alle Arilel als ungelesen markieren </translation>
+        <translation>Alle Arilel als ungelesen markieren?</translation>
     </message>
     <message>
         <location filename="../qml/UnreadAllDialog.qml" line="69"/>
@@ -2008,12 +2009,12 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="278"/>
         <source>Failed to load page from local cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Laden der Seite aus dem Zwischenspeicher ist fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="280"/>
         <source>Failed to load page content</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Laden des Seiteninhaltes ist fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="350"/>
@@ -2105,7 +2106,7 @@ in den Einstellungen.</translation>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="460"/>
         <source>URL was copied to the clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>URL in die Zwischenablage kopiert</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="482"/>
@@ -2195,12 +2196,12 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/main.qml" line="161"/>
         <source>Restart the app to rebuild cache data</source>
-        <translation type="unfinished"></translation>
+        <translation>Neustart der App um Zwischenspeicher neu aufzubauen</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="212"/>
         <source>Download has failed because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Download ist wegen fehlender Netzwerkverbindung fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="290"/>
@@ -2231,12 +2232,12 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/main.qml" line="340"/>
         <source>You are signed in</source>
-        <translation type="unfinished"></translation>
+        <translation>Du bist angemeldet</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="345"/>
         <source>Receiving data...</source>
-        <translation type="unfinished"></translation>
+        <translation>Daten werden empfangen...</translation>
     </message>
     <message>
         <source>Receiving data... </source>

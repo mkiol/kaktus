@@ -74,7 +74,8 @@
     </message>
     <message>
         <location filename="../qml/ChangelogPage.qml" line="64"/>
-        <location filename="../qml/ChangelogPage.qml" line="73"/>
+        <location filename="../qml/ChangelogPage.qml" line="93"/>
+        <location filename="../qml/ChangelogPage.qml" line="102"/>
         <source>Version %1</source>
         <translation type="unfinished"></translation>
     </message>

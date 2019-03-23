@@ -11,7 +11,7 @@
     <message>
         <location filename="../qml/AboutPage.qml" line="71"/>
         <source>Version %1</source>
-        <translation type="unfinished">Версия %1</translation>
+        <translation>Версия %1</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="81"/>
@@ -90,7 +90,8 @@
     </message>
     <message>
         <location filename="../qml/ChangelogPage.qml" line="64"/>
-        <location filename="../qml/ChangelogPage.qml" line="73"/>
+        <location filename="../qml/ChangelogPage.qml" line="93"/>
+        <location filename="../qml/ChangelogPage.qml" line="102"/>
         <source>Version %1</source>
         <translation>Версия %1</translation>
     </message>
@@ -405,22 +406,22 @@
         <location filename="../qml/EntryPage.qml" line="249"/>
         <location filename="../qml/EntryPage.qml" line="294"/>
         <source>Wait until current task is complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Подождите завершения текущей задачи</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="255"/>
         <source>Offline version is not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Оффлайн версия недоступна</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="263"/>
         <source>Enabling offline mode because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Включение автономного режима, так как сеть недоступна</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="267"/>
         <source>Network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Сеть отключена</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="481"/>
@@ -491,7 +492,7 @@
     <message>
         <location filename="../qml/ErrorPage.qml" line="42"/>
         <source>Sorry, something went wrong :-(</source>
-        <translation type="unfinished"></translation>
+        <translation>К сожалению, что-то пошло не так :-(</translation>
     </message>
     <message>
         <source>Sorry, something went wrong!</source>
@@ -601,7 +602,7 @@
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="471"/>
         <source>URL was copied to the clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>URL скопирована в буфер обмена</translation>
     </message>
     <message>
         <source>URL was copied to the clipboard.</source>
@@ -620,22 +621,22 @@
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="119"/>
         <source>Wait until current task is complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Подождите завершения текущей задачи</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="125"/>
         <source>Offline version not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Оффлайн версия недоступна</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="133"/>
         <source>Enabling offline mode because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Включение автономного режима, так как сеть недоступна</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="137"/>
         <source>Network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Сеть отключена</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="150"/>
@@ -685,12 +686,12 @@
     <message>
         <location filename="../qml/FirstPage.qml" line="76"/>
         <source>To do feeds synchronization, pull down and select sync</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы начать синхронизацию, потяните вниз и выберите &quot;Обновить&quot;</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="77"/>
         <source>You are not signed in to any account, pull down to add one</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы не вошли ни в один аккаунт. Потяните вниз для добавления аккаунта</translation>
     </message>
     <message>
         <source>To do feeds synchronization, pull down and select sync.</source>
@@ -971,7 +972,8 @@ on the settings page.</source>
     <message>
         <location filename="../qml/PageMenu.qml" line="61"/>
         <source>Cannot switch to online mode because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Невозможно переключиться в режим онлайн.
+Отсутствует соединение с сетью</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="90"/>
@@ -998,22 +1000,22 @@ on the settings page.</source>
         <location filename="../qml/Pocket.qml" line="64"/>
         <location filename="../qml/Pocket.qml" line="79"/>
         <source>Pocket authorization has failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Авторизация в сервисе Pocket не удалась</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="74"/>
         <source>Pocket authorization was successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Авторизация в сервисе Pocket прошла успешно</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="117"/>
         <source>Article has been successfully added to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Статья успешно добавлен в Pocket</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="123"/>
         <source>Error while adding article to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка при добавлении статьи в Pocket</translation>
     </message>
     <message>
         <source>Article has been successfully added to Pocket.</source>
@@ -1177,7 +1179,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/SettingsPage.qml" line="331"/>
         <source>WiFi only</source>
-        <translation>Только по WiFi </translation>
+        <translation>Только по WiFi</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="332"/>
@@ -1192,7 +1194,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/SettingsPage.qml" line="438"/>
         <source>Cache and cookies have been deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>Кеш и куки были удалены</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="719"/>
@@ -1268,7 +1270,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/SettingsPage.qml" line="104"/>
         <source>Not signed in</source>
-        <translation type="unfinished">Вход не выполнен</translation>
+        <translation>Вход не выполнен</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="109"/>
@@ -1283,7 +1285,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/SettingsPage.qml" line="236"/>
         <source>Regardless of the value, all saved items will be synced as well.</source>
-        <translation>Независимо от значения все ваши закладки будут синхронизироваться также</translation>
+        <translation>Независимо от значения все ваши закладки будут синхронизироваться также.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="237"/>
@@ -1400,7 +1402,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/SettingsPage.qml" line="523"/>
         <source>Changes will take effect after you restart Kaktus</source>
-        <translation type="unfinished"></translation>
+        <translation>Для применения изменений перезапустите Kaktus</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="635"/>
@@ -1679,7 +1681,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/ShareLinkPage.qml" line="53"/>
         <source>No sharing accounts available. You can add accounts in settings</source>
-        <translation>Нет доступных ресурсов. Вы можете добавить учетные записи в настройках.</translation>
+        <translation>Нет доступных ресурсов. Вы можете добавить учетные записи в настройках</translation>
     </message>
 </context>
 <context>
@@ -2082,7 +2084,7 @@ on the settings page.</source>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="460"/>
         <source>URL was copied to the clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>URL скопирована в буфер обмена</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="482"/>
@@ -2172,12 +2174,12 @@ Network connection is unavailable.</source>
     <message>
         <location filename="../qml/main.qml" line="161"/>
         <source>Restart the app to rebuild cache data</source>
-        <translation type="unfinished"></translation>
+        <translation>Перезапустите приложение для обновления кэша</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="212"/>
         <source>Download has failed because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Загрузка не удалась из-за проблемы сети</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="290"/>
