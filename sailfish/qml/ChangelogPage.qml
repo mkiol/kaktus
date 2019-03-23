@@ -61,6 +61,35 @@ Page {
             }
 
             SectionHeader {
+                text: qsTr("Version %1").arg("2.9.0 (beta)")
+            }
+
+            LogItem {
+                title: "Tiny Tiny RSS"
+                description: "Tiny Tiny RSS is now supported as a new feeds " +
+                             "aggregator. Tiny Tiny RSS is a free and " +
+                             "open source web-based news feed (RSS/Atom) reader. " +
+                             "To find more about it, please check the official " +
+                             "<a href=\"https://tt-rss.org/\">web page</a>.";
+            }
+
+            LogItem {
+                title: "UI refresh"
+                description: "The app UI has been updated to match the newest " +
+                             "Sailfish OS style. Many small elements of " +
+                             "Tabs, Feeds and Aricles lists have been improved, " +
+                             "together with images presentation and UI colors. " +
+                             "Support for Light themes has been added as well."
+            }
+
+            LogItem {
+                title: "Save images to gallery"
+                description: "If article item contains Image, it can be " +
+                             "saved to the gallery. The option to do so is " +
+                             "located in the item's context menu."
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("2.6.1")
             }
 

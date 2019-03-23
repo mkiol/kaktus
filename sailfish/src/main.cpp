@@ -122,7 +122,10 @@ int main(int argc, char *argv[])
     QTranslator translator;
     QString locale = settings->getLocale() == "" ? QLocale::system().name() : settings->getLocale();
     if(!translator.load(locale, "kaktus", "_", translationsDirPath, ".qm")) {
-        qDebug() << "Couldn't load translation for locale " + locale + " from " + translationsDirPath;
+        qDebug() << "Cannot load translation:" << locale << translationsDirPath;
+        if (!translator.load("kaktus_en", translationsDirPath)) {
+            qDebug() << "Cannot load default translation";
+        }
     }
     app->installTranslator(&translator);
 

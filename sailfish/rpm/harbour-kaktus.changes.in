@@ -8,6 +8,13 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sat Mar 23 2019 Michal Kosciesza 2.9.0-1
+- Tiny Tiny RSS
+- Readability.js updated to latest git version
+- UI refresh
+- Support for Light themes
+- Save Image to gallery option
+
 * Sun Aug 27 2017 Michal Kosciesza 2.6.1-2
 - UI minor fixes
 - Readability.js updated to latest git version

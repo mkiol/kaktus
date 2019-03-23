@@ -77,7 +77,7 @@ Dialog {
                 Label {
                     id: label
                     anchors.verticalCenter: parent.verticalCenter
-                    text: "Tiny Tiny Rss"
+                    text: "Tiny Tiny RSS"
                     color: Theme.highlightColor
                     font.pixelSize: Theme.fontSizeSmall
                 }
