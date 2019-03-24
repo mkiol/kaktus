@@ -113,7 +113,8 @@ Page {
                 text: "Nathan Follens \nFri \nJozef Mlích \nCarmen Fernández B. " +
                       "\nGökhan Kalayci \nFallaffel Box \nBenjamin (schnubbbi) \nR.G. Sidler " +
                       "\nKoleesch \nFravaccaro \nPetr Tsymbarovich \nAndrey Getmantsev " +
-                      "\nKiratonin \nАлексей Дедун \nmentaljam \nJosé Jiménez \nMesut Aktaş"
+                      "\nKiratonin \nАлексей Дедун \nmentaljam \nJosé Jiménez \nMesut Aktaş " +
+                      "\nHeimen Stoffels"
             }
 
             PaddedLabel {

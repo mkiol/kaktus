@@ -70,7 +70,8 @@ TRANSLATIONS += \
     translations/kaktus_pl.ts \
     translations/kaktus_ru.ts \
     translations/kaktus_cs.ts \
-    translations/kaktus_nl.ts \
+    translations/kaktus_nl_NL.ts \
+    translations/kaktus_nl_BE.ts \
     translations/kaktus_tr.ts \
     translations/kaktus_es.ts \
     translations/kaktus_it.ts \

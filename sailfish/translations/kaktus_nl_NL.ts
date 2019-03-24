@@ -11,53 +11,37 @@
     <message>
         <location filename="../qml/AboutPage.qml" line="71"/>
         <source>Version %1</source>
-        <translation type="unfinished">Versie: %1</translation>
+        <translation>Versie: %1</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="81"/>
         <source>Project website</source>
-        <translation type="unfinished"></translation>
+        <translation>Projectwebsite</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="87"/>
         <source>Authors</source>
-        <translation type="unfinished"></translation>
+        <translation>Makers</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="108"/>
         <source>Translations are provided by:</source>
-        <translation type="unfinished"></translation>
+        <translation>De vertalingen zijn geleverd door:</translation>
     </message>
     <message>
-        <location filename="../qml/AboutPage.qml" line="122"/>
+        <location filename="../qml/AboutPage.qml" line="123"/>
         <source>%1 is developed as an open source project under %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 wordt ontwikkeld als opensourceproject onder de voorwaarden van de %2</translation>
     </message>
     <message>
-        <location filename="../qml/AboutPage.qml" line="128"/>
+        <location filename="../qml/AboutPage.qml" line="129"/>
         <source>Libraries</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Version: %1</source>
-        <translation type="vanished">Versie: %1</translation>
+        <translation>Bibliotheken</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="75"/>
         <source>Changelog</source>
         <translation>Wijzigingslog</translation>
-    </message>
-    <message>
-        <source>Multi services feed reader, specially designed to work offline.</source>
-        <translation type="vanished">Een feedlezer met ondersteuning voor meerdere diensten, specifiek ontworpen om offline te werken.</translation>
-    </message>
-    <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Externe browser wordt gestart...</translation>
-    </message>
-    <message>
-        <source>This software is distributed under the terms of the GNU General Public Licence version 3.</source>
-        <translation type="vanished">Deze software wordt verspreid onder de voorwaarden van de GNU General Public-licentie versie 3.</translation>
     </message>
 </context>
 <context>
@@ -73,7 +57,7 @@
     <message>
         <location filename="../qml/AuthWebViewPage.qml" line="92"/>
         <source>Loading page content...</source>
-        <translation>Bezig met het laden van de paginainhoud...</translation>
+        <translation>Bezig met laden van paginainhoud...</translation>
     </message>
     <message>
         <location filename="../qml/AuthWebViewPage.qml" line="124"/>
@@ -93,7 +77,7 @@
         <location filename="../qml/ChangelogPage.qml" line="93"/>
         <location filename="../qml/ChangelogPage.qml" line="102"/>
         <source>Version %1</source>
-        <translation>Versie: %1</translation>
+        <translation>Versie %1</translation>
     </message>
 </context>
 <context>
@@ -101,47 +85,47 @@
     <message>
         <location filename="../qml/ControlBar.qml" line="316"/>
         <source>Marking tabs as read</source>
-        <translation>Bezig met het markeren van tabbladen als gelezen</translation>
+        <translation>Bezig met markeren van tabbladen als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="316"/>
         <source>Marking folders as read</source>
-        <translation>Bezig met het markeren van mappen als gelezen</translation>
+        <translation>Bezig met markeren van mappen als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="318"/>
         <source>Marking feeds as read</source>
-        <translation>Bezig met het markeren van de feeds als gelezen</translation>
+        <translation>Bezig met markeren van feeds als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="321"/>
         <source>Marking articles as read</source>
-        <translation>Bezig met het markeren van de artikelen als gelezen</translation>
+        <translation>Bezig met markeren van artikelen als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="325"/>
         <source>Marking all articles as read</source>
-        <translation>Bezig met het markeren van alle artikelen als gelezen</translation>
+        <translation>Bezig met markeren van alle artikelen als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="331"/>
         <source>Marking all saved articles as read</source>
-        <translation>Bezig met het markeren van al uw opgeslagen artikelen als gelezen</translation>
+        <translation>Bezig met markeren van alle opgeslagen artikelen als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="332"/>
         <source>Marking all starred articles as read</source>
-        <translation>Bezig met het markeren van alle favoriete artikelen als gelezen</translation>
+        <translation>Bezig met markeren van alle favoriete artikelen als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="337"/>
         <source>Marking all liked articles as read</source>
-        <translation>Bezig met het markeren van alle leuke artikelen als gelezen</translation>
+        <translation>Bezig met markeren van alle leuk gevonden artikelen als gelezen</translation>
     </message>
     <message>
         <location filename="../qml/ControlBar.qml" line="341"/>
         <source>Marking all shared articles as read</source>
-        <translation>Bezig met het markeren van alle gedeelde artikelen als gelezen</translation>
+        <translation>Bezig met markeren van alle gedeelde artikelen als gelezen</translation>
     </message>
 </context>
 <context>
@@ -156,26 +140,12 @@
         <source>All read</source>
         <translation>Alles gelezen</translation>
     </message>
-    <message>
-        <source>unread item</source>
-        <translation type="vanished">ongelezen item</translation>
-    </message>
-    <message>
-        <source>unread items</source>
-        <comment>less than 5 articles are unread</comment>
-        <translation type="vanished">ongelezen items</translation>
-    </message>
-    <message>
-        <source>unread items</source>
-        <comment>more or equal 5 articles are unread</comment>
-        <translation type="vanished">ongelezen items</translation>
-    </message>
     <message numerus="yes">
         <location filename="../qml/CoverPage.qml" line="31"/>
         <source>%n unread item(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>één ongelezen item</numerusform>
+            <numerusform>%n ongelezen items</numerusform>
         </translation>
     </message>
     <message>
@@ -268,12 +238,12 @@
     <message>
         <location filename="../qml/EntryDelegate.qml" line="397"/>
         <source>Toggle Save</source>
-        <translation>Opslaan/niet opslaan</translation>
+        <translation>Opslaan/Niet opslaan </translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="397"/>
         <source>Toggle Star</source>
-        <translation>Toevoegen aan favorieten/niet toevoegen</translation>
+        <translation>Toevoegen aan/Verwijderen uit favorieten</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="411"/>
@@ -283,7 +253,7 @@
     <message>
         <location filename="../qml/EntryDelegate.qml" line="423"/>
         <source>Viewer</source>
-        <translation>Weergever</translation>
+        <translation>Weergave</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="435"/>
@@ -298,7 +268,7 @@
     <message>
         <location filename="../qml/EntryDelegate.qml" line="459"/>
         <source>Add to Pocket</source>
-        <translation>Toevoegen aan Pocket</translation>
+        <translation>Toevoegen aan Pocket </translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="468"/>
@@ -308,17 +278,17 @@
     <message>
         <location filename="../qml/EntryDelegate.qml" line="474"/>
         <source>Save image</source>
-        <translation type="unfinished"></translation>
+        <translation>Afbeelding opslaan</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="486"/>
         <source>Toggle Like</source>
-        <translation>Leuk vinden/niet meer leuk vinden</translation>
+        <translation>Leuk vinden/Niet meer leuk vinden</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="501"/>
         <source>Toggle Share</source>
-        <translation>Delen/niet delen</translation>
+        <translation>Delen/Niet delen</translation>
     </message>
 </context>
 <context>
@@ -336,12 +306,12 @@
     <message>
         <location filename="../src/entrymodel.cpp" line="309"/>
         <source>Current week</source>
-        <translation>Huidige week</translation>
+        <translation>Deze week</translation>
     </message>
     <message>
         <location filename="../src/entrymodel.cpp" line="312"/>
         <source>Current month</source>
-        <translation>Huidige maand</translation>
+        <translation>Deze maand</translation>
     </message>
     <message>
         <location filename="../src/entrymodel.cpp" line="315"/>
@@ -351,7 +321,7 @@
     <message>
         <location filename="../src/entrymodel.cpp" line="318"/>
         <source>Current year</source>
-        <translation>Huidig jaar</translation>
+        <translation>Dit  jaar</translation>
     </message>
     <message>
         <location filename="../src/entrymodel.cpp" line="321"/>
@@ -379,7 +349,7 @@
     <message>
         <location filename="../qml/EntryPage.qml" line="48"/>
         <source>Launching a browser...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met opstarten van browser...</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="201"/>
@@ -405,22 +375,22 @@
         <location filename="../qml/EntryPage.qml" line="249"/>
         <location filename="../qml/EntryPage.qml" line="294"/>
         <source>Wait until current task is complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Wacht totdat de huidige taak is afgerond</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="255"/>
         <source>Offline version is not available</source>
-        <translation type="unfinished"></translation>
+        <translation>De offline-versie is niet beschikbaar</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="263"/>
         <source>Enabling offline mode because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkverbinding verbroken; bezig met inschakelen van offline-modus</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="267"/>
         <source>Network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>De netwerkverbinding is verbroken</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="481"/>
@@ -430,27 +400,7 @@
     <message>
         <location filename="../qml/EntryPage.qml" line="201"/>
         <source>Starred</source>
-        <translation>Gefavoriet</translation>
-    </message>
-    <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Bezig met starten van externe browser...</translation>
-    </message>
-    <message>
-        <source>Wait until current task is complete.</source>
-        <translation type="vanished">Wacht totdat de huidige taak is afgerond.</translation>
-    </message>
-    <message>
-        <source>Offline version is not available.</source>
-        <translation type="vanished">De offline-versie is niet beschikbaar.</translation>
-    </message>
-    <message>
-        <source>Enabling offline mode because network is disconnected.</source>
-        <translation type="vanished">Netwerkverbinding verbroken; bezig met inschakelen van offline-modus.</translation>
-    </message>
-    <message>
-        <source>Network is disconnected.</source>
-        <translation type="vanished">De netwerkverbinding is verbroken.</translation>
+        <translation>Toegevoegd aan favorieten</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="480"/>
@@ -491,11 +441,7 @@
     <message>
         <location filename="../qml/ErrorPage.qml" line="42"/>
         <source>Sorry, something went wrong :-(</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sorry, something went wrong!</source>
-        <translation type="vanished">Excuses, er is een fout opgetreden!</translation>
+        <translation>Sorry, er is iets misgegaan :-(</translation>
     </message>
 </context>
 <context>
@@ -529,26 +475,6 @@
 <context>
     <name>FeedWebContentPage</name>
     <message>
-        <source>Offline version not available.</source>
-        <translation type="vanished">Offline-versie niet beschikbaar.</translation>
-    </message>
-    <message>
-        <source>Wait until current task is complete.</source>
-        <translation type="vanished">Wacht totdat de huidige taak is afgerond.</translation>
-    </message>
-    <message>
-        <source>Enabling offline mode because network is disconnected.</source>
-        <translation type="vanished">Netwerkverbinding verbroken; bezig met inschakelen van offline-modus.</translation>
-    </message>
-    <message>
-        <source>Network is disconnected.</source>
-        <translation type="vanished">De netwerkverbinding is verbroken. </translation>
-    </message>
-    <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Bezig met starten van externe browser...</translation>
-    </message>
-    <message>
         <location filename="../qml/FeedWebContentPage.qml" line="373"/>
         <source>Back</source>
         <translation>Terug</translation>
@@ -561,17 +487,17 @@
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="395"/>
         <source>Toggle Save</source>
-        <translation>Opslaan/niet opslaan </translation>
+        <translation>Opslaan/Niet opslaan </translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="395"/>
         <source>Toggle Star</source>
-        <translation>Toevoegen aan favorieten/niet toevoegen</translation>
+        <translation>Toevoegen aan/Verwijderen uit favorieten</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="409"/>
         <source>Viewer</source>
-        <translation>Weergever</translation>
+        <translation>Weergave</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="419"/>
@@ -581,7 +507,7 @@
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="427"/>
         <source>Add to Pocket</source>
-        <translation>Toevoegen aan Pocket</translation>
+        <translation>Toevoegen aan Pocket </translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="438"/>
@@ -591,21 +517,17 @@
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="444"/>
         <source>Toggle Like</source>
-        <translation>Leuk vinden/niet meer leuk vinden</translation>
+        <translation>Leuk vinden/Niet meer leuk vinden</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="454"/>
         <source>Toggle Share</source>
-        <translation>Delen/niet delen</translation>
+        <translation>Delen/Niet delen</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="471"/>
         <source>URL was copied to the clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>URL was copied to the clipboard.</source>
-        <translation type="vanished">De URL is gekopieerd naar het klembord.</translation>
+        <translation>De URL is gekopieerd naar het klembord</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="485"/>
@@ -620,39 +542,32 @@
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="119"/>
         <source>Wait until current task is complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Wacht totdat de huidige taak is afgerond</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="125"/>
         <source>Offline version not available</source>
-        <translation type="unfinished"></translation>
+        <translation>Offline-versie niet beschikbaar</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="133"/>
         <source>Enabling offline mode because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkverbinding verbroken; bezig met inschakelen van offline-modus</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="137"/>
         <source>Network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>De netwerkverbinding is verbroken</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="150"/>
         <source>Launching a browser...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met opstarten van browser...</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="468"/>
         <source>Copy URL</source>
         <translation>URL kopiëren</translation>
-    </message>
-</context>
-<context>
-    <name>FeedlySignInDialog</name>
-    <message>
-        <source>Sign in</source>
-        <translation type="vanished">Inloggen</translation>
     </message>
 </context>
 <context>
@@ -685,146 +600,12 @@
     <message>
         <location filename="../qml/FirstPage.qml" line="76"/>
         <source>To do feeds synchronization, pull down and select sync</source>
-        <translation type="unfinished"></translation>
+        <translation>Om feeds te synchroniseren: trek het menu naar beneden en selecteer Synchroniseren.</translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="77"/>
         <source>You are not signed in to any account, pull down to add one</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To do feeds synchronization, pull down and select sync.</source>
-        <translation type="vanished">Om feeds te synchroniseren: trek het menu naar beneden en selecteer Synchroniseren.</translation>
-    </message>
-    <message>
-        <source>You are not signed in to any account. Pull down to add one.</source>
-        <translation type="vanished">U bent niet ingelogd op een account. Trek het menu naar beneden om een account toe te voegen,</translation>
-    </message>
-</context>
-<context>
-    <name>Guide</name>
-    <message>
-        <source>This guide will explain you how to use bottom bar and view modes.</source>
-        <translation type="vanished">Deze handleiding zal u uitleggen hoe u de onderste balk en de weergavemodi kunt gebruiken.</translation>
-    </message>
-    <message>
-        <source>Tap anywhere to continue.</source>
-        <translation type="vanished">Raak een willekeurige plek aan om door te gaan.</translation>
-    </message>
-    <message>
-        <source>Bottom bar lets you switch between 5 view modes.
-</source>
-        <translation type="vanished">De onderste balk laat u schakelen tussen 5 verschillende weergavemodi.
-</translation>
-    </message>
-    <message>
-        <source>Bottom bar lets you switch between 4 view modes.
-</source>
-        <translation type="vanished">De onderste balk laat u schakelen tussen 4 verschillende weergavemodi.
-</translation>
-    </message>
-    <message>
-        <source>Mode #1
-
-Lists all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.</source>
-        <translation type="vanished">Modus #1 - Tabbladen en feeds
-
-Lijst van al uw tabbladen. Feeds zijn gegroepeerd door de bijbehorende tabbladen en artikelen zijn gegroepeerd in de feeds.</translation>
-    </message>
-    <message>
-        <source>Mode #1
-
-Lists all your folders. Feeds are grouped by the folders they belong to and articles are grouped in the feeds.</source>
-        <translation type="vanished">Modus #1 - Tabbladen en feeds
-
-Lijst van al uw tabbladen. Feeds zijn gegroepeerd door de bijbehorende tabbladen en artikelen zijn gegroepeerd in de feeds.</translation>
-    </message>
-    <message>
-        <source>Mode #2
-
-Lists all your tabs. Articles are grouped by the tabs they belong to.</source>
-        <translation type="vanished">Modus #2 - Alleen tabbladen
-
-Lijst van al uw tabbladen. Alle artikelen zijn alleen gegroepeerd door de bijbehorende tabbladen.</translation>
-    </message>
-    <message>
-        <source>Mode #2
-
-Lists all your folders. Articles are grouped by the folders they belong to.</source>
-        <translation type="vanished">Modus #2 - Alleen tabbladen
-
-Lijst van al uw tabbladen. Alle artikelen zijn alleen gegroepeerd door de bijbehorende tabbladen.</translation>
-    </message>
-    <message>
-        <source>Mode #3
-
-Lists all articles from all your feeds in one list. Items are ordered by publication date.</source>
-        <translation type="vanished">Modus #3 - Alle feeds
-
-Lijst van alle artikelen van al uw feeds. Items zijn gesorteerd op publicatiedatum.</translation>
-    </message>
-    <message>
-        <source>Mode #4
-
-Lists all articles you have saved.</source>
-        <translation type="vanished">Modus #4 - Opgeslagen
-
-Lijst van alle artikelen die u heeft opgeslagen.</translation>
-    </message>
-    <message>
-        <source>Mode #4
-
-Lists all articles you have starred.</source>
-        <translation type="vanished">Modus #4 - Opgeslagen
-
-Lijst van alle artikelen die u heeft opgeslagen.</translation>
-    </message>
-    <message>
-        <source>Mode #5 &quot;Slow&quot;
-
-List articles from less frequently updated feeds. A feed is considered &quot;slow&quot; when it publishes less than 5 articles in a month.</source>
-        <translation type="vanished">Modus #5 - Sloom
-
-Lijst van alle artikelen van minder frequent bijgewerkte feeds. Een feed is aangeduid als sloom wanneer deze minder dan 5 artikelen per maand publiceert.</translation>
-    </message>
-    <message>
-        <source>Mode #5
-
-Lists all articles you have liked.</source>
-        <translation type="vanished">Modus #5
-
-Lijst met alle artikelen die u leuk vindt.</translation>
-    </message>
-    <message>
-        <source>Bottom bar also contains &quot;Mark as read&quot; button.
-
-With this button you can quickly mark all your tabs, feeds or articles as read.</source>
-        <translation type="vanished">De onderste balk bevat ook een &quot;Markeren als gelezen&quot;-knop.
-
-Met deze knop kunt u razendsnel al uw tabbladen, feeds of artikelen markeren als gelezen.</translation>
-    </message>
-    <message>
-        <source>Bottom bar also contains &quot;Mark as read&quot; button.
-
-With this button you can quickly mark all your folders, feeds or articles as read.</source>
-        <translation type="vanished">De onderste balk bevat ook een &quot;Markeren als gelezen&quot;-knop.
-
-Met deze knop kunt u razendsnel al uw mappen, feeds of artikelen markeren als gelezen.</translation>
-    </message>
-    <message>
-        <source>Pull-down menu contains network mode switcher.
-
-This switcher enables you to change between the online and offline mode. In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="vanished">Het trekmenu bevat ook een netwerkmodus-schakelaar.
-
-Deze schakelaar stelt u in staat om de online- en offline-modi in te schakelen. In de offline-modus zal Kaktus alleen de lokale cache gebruiken voor het verkrijgen van webpagina&apos;s en afbeeldingen; een netwerkverbinding is dan dus niet nodig.</translation>
-    </message>
-    <message>
-        <source>That&apos;s all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on
-&lt;i&gt;Show User Guide&lt;/i&gt;
-on the settings page.</source>
-        <translation type="vanished">Dat was het!&lt;br/&gt;&lt;br/&gt;Als u deze handleiding opnieuw wilt bekijken, druk dan op &lt;i&gt;Gebruikershandleiding weergeven&lt;/i&gt;
-op de instellingenpagina.</translation>
+        <translation>Je bent niet ingelogd. Trek het menu naar beneden om een account toe te voegen.</translation>
     </message>
 </context>
 <context>
@@ -837,61 +618,29 @@ op de instellingenpagina.</translation>
         <translation>Inloggen</translation>
     </message>
     <message>
-        <source>Netvibes</source>
-        <translation type="vanished">Netvibes</translation>
-    </message>
-    <message>
         <location filename="../qml/NvSignInDialog.qml" line="93"/>
         <source>Enter username</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer je gebruikersnaam in</translation>
     </message>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="94"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersnaam</translation>
     </message>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="111"/>
         <source>Enter password</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer je wachtwoord in</translation>
     </message>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="123"/>
         <source>Sign in with other account</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter username and password below.</source>
-        <translation type="vanished">Vul uw gebruikersnaam en wachtwoord hieronder in.</translation>
-    </message>
-    <message>
-        <source>Enter username here!</source>
-        <translation type="vanished">Vul hier uw gebruikersnaam in!</translation>
-    </message>
-    <message>
-        <source>Username (your e-mail)</source>
-        <translation type="vanished">Gebruikersnaam (uw e-mailadres)</translation>
-    </message>
-    <message>
-        <source>Enter password here!</source>
-        <translation type="vanished">Vul hier uw wachtwoord in!</translation>
+        <translation>Inloggen met ander account</translation>
     </message>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="112"/>
         <source>Password</source>
         <translation>Wachtwoord</translation>
-    </message>
-    <message>
-        <source>Third party services</source>
-        <translation type="vanished">Diensten van derde partijen</translation>
-    </message>
-    <message>
-        <source>Sign in with Twitter</source>
-        <translation type="vanished">Inloggen met uw Twitter-account</translation>
-    </message>
-    <message>
-        <source>Sign in with Facebook</source>
-        <translation type="vanished">Inloggen met uw Facebook-account</translation>
     </message>
 </context>
 <context>
@@ -902,39 +651,19 @@ op de instellingenpagina.</translation>
         <translation>Inloggen</translation>
     </message>
     <message>
-        <location filename="../qml/OldReaderSignInDialog.qml" line="93"/>
-        <source>Username</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Old Reader</source>
-        <translation type="vanished">Oude lezer</translation>
-    </message>
-    <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="92"/>
         <source>Enter username</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer je gebruikersnaam in</translation>
+    </message>
+    <message>
+        <location filename="../qml/OldReaderSignInDialog.qml" line="93"/>
+        <source>Username</source>
+        <translation>Gebruikersnaam</translation>
     </message>
     <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="110"/>
         <source>Enter password</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter username and password below.</source>
-        <translation type="vanished">Vul uw gebruikersnaam en wachtwoord hieronder in.</translation>
-    </message>
-    <message>
-        <source>Enter username here!</source>
-        <translation type="vanished">Vul hier uw gebruikersnaam in!</translation>
-    </message>
-    <message>
-        <source>Username (your e-mail)</source>
-        <translation type="vanished">Gebruikersnaam (uw e-mailadres)</translation>
-    </message>
-    <message>
-        <source>Enter password here!</source>
-        <translation type="vanished">Vul hier uw wachtwoord in!</translation>
+        <translation>Voer je wachtwoord in</translation>
     </message>
     <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="111"/>
@@ -955,10 +684,6 @@ op de instellingenpagina.</translation>
         <translation>Instellingen</translation>
     </message>
     <message>
-        <source>Can&apos;t switch to online mode because network is disconnected.</source>
-        <translation type="vanished">Overschakelen naar online-modus is niet mogelijk omdat de netwerkverbinding verbroken is.</translation>
-    </message>
-    <message>
         <location filename="../qml/PageMenu.qml" line="52"/>
         <source>Network mode: offline</source>
         <translation>Netwerkmodus: offline</translation>
@@ -971,57 +696,41 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/PageMenu.qml" line="61"/>
         <source>Cannot switch to online mode because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan niet overschakelen naar online-modus omdat de netwerkverbinding verbroken is</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="90"/>
         <source>Last sync: %1</source>
-        <translation>Laatste synchronisatie: %1</translation>
+        <translation>Vorige synchronisatie: %1</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="92"/>
         <source>You have never synced</source>
-        <translation>U heeft nog nooit gesynchroniseerd</translation>
+        <translation>Je hebt nog geen synchronisatie uitgevoerd</translation>
     </message>
 </context>
 <context>
     <name>Pocket</name>
     <message>
-        <source>Pocket authorization has failed.</source>
-        <translation type="vanished">De Pocket-autorisatie is mislukt.</translation>
-    </message>
-    <message>
-        <source>Pocket authorization was successful.</source>
-        <translation type="vanished">De Pocket-autorisatie is gelukt.</translation>
-    </message>
-    <message>
         <location filename="../qml/Pocket.qml" line="64"/>
         <location filename="../qml/Pocket.qml" line="79"/>
         <source>Pocket authorization has failed</source>
-        <translation type="unfinished"></translation>
+        <translation>De Pocket-autorisatie is mislukt</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="74"/>
         <source>Pocket authorization was successful</source>
-        <translation type="unfinished"></translation>
+        <translation>De Pocket-autorisatie is gelukt</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="117"/>
         <source>Article has been successfully added to Pocket</source>
-        <translation type="unfinished"></translation>
+        <translation>Het artikel is toegevoegd aan Pocket</translation>
     </message>
     <message>
         <location filename="../qml/Pocket.qml" line="123"/>
         <source>Error while adding article to Pocket</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Article has been successfully added to Pocket.</source>
-        <translation type="vanished">Het artikel is succesvol toegevoegd aan Pocket.</translation>
-    </message>
-    <message>
-        <source>Error while adding article to Pocket.</source>
-        <translation type="vanished">Er is een fout opgetreden tijdens het toevoegen aan Pocket.</translation>
+        <translation>Fout tijdens toevoegen aan Pocket</translation>
     </message>
 </context>
 <context>
@@ -1029,7 +738,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="77"/>
         <source>Loading page content...</source>
-        <translation>Bezig met het laden van de paginainhoud...</translation>
+        <translation>Bezig met laden van paginainhoud...</translation>
     </message>
     <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="122"/>
@@ -1047,7 +756,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/PocketDialog.qml" line="92"/>
         <source>Insert comma separated tags</source>
-        <translation>Komma-gescheiden labels invoeren</translation>
+        <translation>Voer kommagescheiden labels in</translation>
     </message>
     <message>
         <location filename="../qml/PocketDialog.qml" line="93"/>
@@ -1095,7 +804,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/ReadAllDialog.qml" line="70"/>
         <source>Mark all starred articles as read?</source>
-        <translation>Alle favoriete artikelen als gelezen markeren?</translation>
+        <translation>Alle favoriete artikelen markeren als gelezen?</translation>
     </message>
 </context>
 <context>
@@ -1121,13 +830,9 @@ op de instellingenpagina.</translation>
         <translation>Wijzigen</translation>
     </message>
     <message>
-        <source>Not signed in </source>
-        <translation type="vanished">Niet ingelogd</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="109"/>
         <source>Signed in with</source>
-        <translation>Ingelogd met</translation>
+        <translation>Ingelogd op</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="178"/>
@@ -1177,7 +882,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="331"/>
         <source>WiFi only</source>
-        <translation>Alleen via WiFi</translation>
+        <translation>Alleen via Wi-Fi</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="332"/>
@@ -1187,17 +892,17 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="339"/>
         <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
-        <translation>Na het synchroniseren zal de inhoud van alle items worden gedownload en in de cache worden opgeslagen zodat u er in de offline-modus bij kunt.</translation>
+        <translation>Na het synchroniseren wordt de inhoud van alle items gedownload en in de cache opgeslagen voor toegang in de offline-modus.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="438"/>
         <source>Cache and cookies have been deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>De cookies en cache zijn verwijderd</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="719"/>
         <source>Clicking on article behaviour</source>
-        <translation>Gedrag van aanraken van een artikel</translation>
+        <translation>Actie bij drukken op artikel</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="354"/>
@@ -1218,7 +923,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="742"/>
         <source>Unread or starred</source>
-        <translation>Ongelezen of gefavoriet</translation>
+        <translation>Ongelezen of favorieten</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="768"/>
@@ -1228,32 +933,32 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="769"/>
         <source>All article items on the list view be shown expanded.</source>
-        <translation>Hierdoor worden alle artikelitems in de lijstweergave uitgeklapt.</translation>
+        <translation>Hierdoor worden alle artikelen in de lijstweergave uitgeklapt.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="779"/>
         <source>Double-pane reader</source>
-        <translation>Lezer met dubbel paneel</translation>
+        <translation>Lezer met twee panelen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="779"/>
         <source>Double-pane reader in landscape</source>
-        <translation>Lezer met dubbel paneel in landschapsmodus</translation>
+        <translation>Lezer met twee panelen in horizontale modus</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="780"/>
         <source>View with the articles will be splited in to two colums.</source>
-        <translation>De artikelweergave zal worden gesplitst in twee kolommen.</translation>
+        <translation>De artikelweergave wordt gesplitst in twee kolommen.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="780"/>
         <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
-        <translation>De artikelweergave zal worden gesplitst in twee kolommen in landschapsmodus.</translation>
+        <translation>De artikelweergave wordt gesplitst in twee kolommen in horizontale modus.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="758"/>
         <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
-        <translation>De volgende functies van Old Reader zullen worden ingeschakeld: het volgen van een map, het delen van een artikel met volgers, vind ik leuk-optie en de leuk bevonden artikelen-weergavemodus.</translation>
+        <translation>De volgende functies van Old Reader worden ingeschakeld: het volgen van een map, het delen van een artikel met volgers, de vind ik leuk-optie en de leuk bevonden artikelen-weergavemodus.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="283"/>
@@ -1263,32 +968,32 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="235"/>
         <source>Most recent articles will be syncronized according to the defined timeframe.</source>
-        <translation>De meest recente artikelen zullen worden gesynchroniseerd in de opgegeven tijdsvolgorde.</translation>
+        <translation>De recentste artikelen binnen de opgegeven tijdspanne worden gesynchroniseerd.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="104"/>
         <source>Not signed in</source>
-        <translation type="unfinished">Niet ingelogd</translation>
+        <translation>Niet ingelogd</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="109"/>
         <source>Signed in as</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingelogd als</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="236"/>
         <source>Regardless of the value, all starred, liked and shared items will be synced as well.</source>
-        <translation>Alle gefavoriete, geleukte en gedeelde items zullen worden gesynchroniseerd, ongeacht de waarde.</translation>
+        <translation>Alle gefavoriete, geleukte en gedeelde items worden gesynchroniseerd, ongeacht de waarde.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="236"/>
         <source>Regardless of the value, all saved items will be synced as well.</source>
-        <translation>Alle opgeslagen items zullen ook worden gesynchroniseerd, ongeacht de waarde.</translation>
+        <translation>Alle opgeslagen items worden ook gesynchroniseerd, ongeacht de waarde.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="237"/>
         <source>Be aware, this parameter has significant impact on the speed of synchronization.</source>
-        <translation>Let op: deze parameter heeft grote impact op de synchronisatie-snelheid.</translation>
+        <translation>Let op: deze parameter heeft grote impact op de synchronisatiesnelheid.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="242"/>
@@ -1298,7 +1003,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="243"/>
         <source>In addition to unread also read articles will be synced. Disabling this option will speed up synchronization, but read articles will not be accessible form Kaktus.</source>
-        <translation>Zowel ongelezen als gelezen artikelen zullen worden gesynchroniseerd. Door deze optie uit te schakelen zal de synchronisatie-snelheid verbeteren maar zullen gelezen artikelen niet beschikbaar zijn in Kaktus.</translation>
+        <translation>Zowel ongelezen als gelezen artikelen worden gesynchroniseerd. Door deze optie uit te schakelen wordt de synchronisatiesnelheid verbeterd, maar zijn gelezen artikelen niet beschikbaar in Kaktus.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="294"/>
@@ -1308,7 +1013,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="309"/>
         <source>In offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation>In de offline-modus zal Kaktus alleen de lokale cache gebruiken om webpagina&apos;s en afbeeldingen te verkrijgen zodat u niet verbonden hoeft te zijn met het internet.</translation>
+        <translation>In de offline-modus gebruikt Kaktus alleen de lokale cache om webpagina&apos;s en afbeeldingen op te halen zodat je niet verbonden hoeft te zijn met het internet.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="314"/>
@@ -1330,7 +1035,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="362"/>
         <source>Defines how navigation is handled inside built-in web viewer. Hyperlinks could be disabled, opened in an external browser or opened inside web viewer.</source>
-        <translation>Bepaalt hoe de navigatie verloopt binnen de ingebouwde weergever. Hyperlinks kunnen worden uitgeschakeld, geopend in een externe webbrowser of geopend in de ingebouwde weergever.</translation>
+        <translation>Bepaalt hoe de navigatie verloopt binnen de ingebouwde weergave. Hyperlinks kunnen worden uitgeschakeld, geopend in een externe browser of in de ingebouwde weergave.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="366"/>
@@ -1340,23 +1045,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="367"/>
         <source>Reader View is a feature that strips away clutter like buttons, ads and background images, and changes the page&apos;s layout for better readability. By enabling this option, Reader View will be automatically switch on when page is loaded in the web viewer.</source>
-        <translation>Leesmodus is een functie die chaotische dingen zoals knoppen, advertenties en achtergrondafbeeldingen verbergt en de pagina aanpast naar een leesvriendelijke versie. Door deze optie in te schakelen zal de Leesmodus automatisch worden ingeschakeld in de webweergave.</translation>
-    </message>
-    <message>
-        <source>Reader View theme</source>
-        <translation type="vanished">Leesmodus-thema</translation>
-    </message>
-    <message>
-        <source>Style of theme which will be used to display articles in Reader View.</source>
-        <translation type="vanished">Themastijl die wordt gebruikt voor artikelweergave in de Leesmodus.</translation>
-    </message>
-    <message>
-        <source>Dark</source>
-        <translation type="vanished">Donker</translation>
-    </message>
-    <message>
-        <source>Light</source>
-        <translation type="vanished">Licht</translation>
+        <translation>Leesmodus is een functie die chaotische dingen zoals knoppen, reclame en achtergrondafbeeldingen verbergt en de pagina-indeling optimaliseert. Door deze optie in te schakelen wordt de Leesmodus automatisch ingeschakeld in de webweergave.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="406"/>
@@ -1366,12 +1055,12 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="407"/>
         <source>Night View reduces the brightness of websites. By enabling this option, Night View will be automatically switch on when page is loaded in the web viewer.</source>
-        <translation>Nachtmodus reduceert de helderheid van websites. Door deze optie in te schakelen zal de Nachtmodus automatisch worden ingeschakeld in de webweergave.</translation>
+        <translation>Nachtmodus verlaagt de helderheid van websites. Door deze optie in te schakelen wordt de Nachtmodus automatisch ingeschakeld in de webweergave.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="420"/>
         <source>Viewer font size level</source>
-        <translation>Lettertypegrootte van weergever</translation>
+        <translation>Lettertypegrootte van weergavemodus</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="434"/>
@@ -1381,11 +1070,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="435"/>
         <source>Clear web viewer cache and cookies. Changes will take effect after restart.</source>
-        <translation>Wis cookies en de webweergave-cache. Wijzigingen zullen worden toegepast nadat de app is herstart.</translation>
-    </message>
-    <message>
-        <source>Cache and cookies have been deleted.</source>
-        <translation type="vanished">De cookies en cache zijn verwijderd.</translation>
+        <translation>Wis cookies en de webweergavecache. Wijzigingen worden toegepast nadat de app is herstart.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="449"/>
@@ -1400,7 +1085,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="523"/>
         <source>Changes will take effect after you restart Kaktus</source>
-        <translation type="unfinished"></translation>
+        <translation>De wijzigingen worden toegepast nadat Kaktus is herstart</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="635"/>
@@ -1410,22 +1095,22 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="654"/>
         <source>Tabs, feeds &amp; articles</source>
-        <translation>Tabbladen, feeds &amp; artikelen</translation>
+        <translation>Tabbladen, feeds en artikelen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="654"/>
         <source>Folders, feeds &amp; articles</source>
-        <translation>Mappen, feeds &amp; artikelen</translation>
+        <translation>Mappen, feeds en artikelen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="658"/>
         <source>Tabs &amp; articles</source>
-        <translation>Tabbladen &amp; artikelen</translation>
+        <translation>Tabbladen en artikelen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="658"/>
         <source>Folders &amp; articles</source>
-        <translation>Mappen &amp; artikelen</translation>
+        <translation>Mappen en artikelen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="662"/>
@@ -1441,7 +1126,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="666"/>
         <source>Starred</source>
-        <translation>Gefavoriet</translation>
+        <translation>Favoriete artikelen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="672"/>
@@ -1456,7 +1141,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="699"/>
         <source>Sort order for list of articles</source>
-        <translation>Sorteervolgorde van artikelenlijst</translation>
+        <translation>Sorteervolgorde van artikellijst</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="703"/>
@@ -1481,37 +1166,18 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="821"/>
         <source>Pocket is an Internet tool for saving articles to read later. Integration implemented in Kaktus provides &quot;Add to Pocket&quot; button in the articles list and in the web viewer.</source>
-        <translation>Pocket is een internethulpmiddel voor het opslaan van artikelen om ze later te kunnen lezen. Pocket is geïntegreerd in Kaktus en biedt een &quot;Toevoegen aan Pocket&quot;-knop in de artikellijst en de webweergave.</translation>
+        <translation>Pocket is een internethulpmiddel voor het opslaan van artikelen voor later. Pocket is geïntegreerd in Kaktus en biedt een &quot;Toevoegen aan Pocket&quot;-knop in de artikellijst en webweergave.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="839"/>
         <location filename="../qml/SettingsPage.qml" line="840"/>
         <source>Default tags</source>
-        <translation>Standaard labels</translation>
+        <translation>Standaardlabels</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="842"/>
         <source>List of comma seperated tags that will be automatically inserted when you add article to Pocket.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="886"/>
-        <source>Saved tags have been deleted</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="891"/>
-        <source>Other</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="895"/>
-        <source>Ignore SSL errors</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List of comma separated tags that will be automatically inserted when you add article to Pocket.</source>
-        <translation type="vanished">Lijst van komma-gescheiden labels die automatisch zullen worden ingevoerd tijdens toevoegen van een artikel aan Pocket.</translation>
+        <translation>Lijst met kommagescheiden labels die automatisch worden ingevoerd tijdens het toevoegen van een artikel aan Pocket.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="872"/>
@@ -1521,7 +1187,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="873"/>
         <source>If enabled, article will be send to Pocket immediately after you click on &quot;Add to Pocket&quot; button, so without any confirmation dialog. All tags from &quot;Default tags&quot; field will be automatically added.</source>
-        <translation>Als dit is ingeschakeld, dan zal een artikel direct worden verstuurd naar Pocket na het klikken op &quot;Toevoegen aan Pocket&quot;-knop, zonder bevestigingsvraag. Alle labels uit de lijst met &quot;Standaard labels&quot; worden automatisch toegevoegd.</translation>
+        <translation>Als dit wordt ingeschakeld, dan wordt een artikel direct verstuurd naar Pocket na het drukken op &quot;Toevoegen aan Pocket&quot;. Alle labels uit de lijst met &quot;standaardlabels&quot; worden automatisch toegevoegd.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="883"/>
@@ -1529,16 +1195,19 @@ op de instellingenpagina.</translation>
         <translation>Opgeslagen labels verwijderen</translation>
     </message>
     <message>
-        <source>Saved tags have been deleted.</source>
-        <translation type="vanished">De opgeslagen labels zijn verwijderd.</translation>
+        <location filename="../qml/SettingsPage.qml" line="886"/>
+        <source>Saved tags have been deleted</source>
+        <translation>De opgeslagen labels zijn verwijderd</translation>
     </message>
     <message>
-        <source>Experimental</source>
-        <translation type="vanished">Experimenteel</translation>
+        <location filename="../qml/SettingsPage.qml" line="891"/>
+        <source>Other</source>
+        <translation>Overig</translation>
     </message>
     <message>
-        <source>Changes will take effect after you restart Kaktus.</source>
-        <translation type="vanished">De wijzigingen zullen worden toegepast nadat Kaktus is herstart.</translation>
+        <location filename="../qml/SettingsPage.qml" line="895"/>
+        <source>Ignore SSL errors</source>
+        <translation>SSL-fouten negeren</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="298"/>
@@ -1588,7 +1257,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="791"/>
         <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
-        <translation>Wanneer de telefoon of app in een inactieve staat verkeert, zullen alle openstaande webpagina&apos;s gesloten worden om energie te besparen.</translation>
+        <translation>Als de telefoon of app inactief is, dan worden alle openstaande webpagina&apos;s gesloten om energie te besparen.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="807"/>
@@ -1603,12 +1272,12 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="349"/>
         <source>Open link behaviour</source>
-        <translation>Gedrag van het openen van links</translation>
+        <translation>Actie bij openen van links</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="732"/>
         <source>Defines the behavior for clicking on an article item. Article can be opened in the built-in web viewer, opened in an external browser or full RSS feed content can be shown.</source>
-        <translation>Bepaalt het gedrag wanneer een artikelitem wordt aangeraakt. Het artikel kan worden geopend in de ingebouwde weergever, geopend worden in de externe browser of de volledige RSS-feed kan worden weergegeven.</translation>
+        <translation>Bepaalt wat er gebeurt als op een artikelitem wordt gedrukt. Het artikel kan worden geopend in de ingebouwde weergave, externe browser of de volledige RSS-feed kan worden getoond.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="737"/>
@@ -1628,12 +1297,12 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="751"/>
         <source>List of articles can be filtered to display all articles, unread and saved or only unread.</source>
-        <translation>De artikellijst kan worden gefilterd op het weergeven van alle, ongelezen en opgeslagen of ongelezen items.</translation>
+        <translation>De artikellijst kan worden gefilterd op het tonen van alle, ongelezen en opgeslagen of ongelezen items.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="752"/>
         <source>List of articles can be filtered to display all articles, unread and starred or only unread.</source>
-        <translation>De artikellijst kan worden gefilterd op het weergeven van alle, ongelezen en gefavoriete of ongelezen items.</translation>
+        <translation>De artikellijst kan worden gefilterd op het tonen van alle, ongelezen en gefavoriete of ongelezen items.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="803"/>
@@ -1643,12 +1312,12 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="808"/>
         <source>Portrait</source>
-        <translation>Portret</translation>
+        <translation>Verticaal</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="809"/>
         <source>Landscape</source>
-        <translation>Landschap</translation>
+        <translation>Horizontaal</translation>
     </message>
 </context>
 <context>
@@ -1661,7 +1330,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/ShareDialog.qml" line="68"/>
         <source>Want to add a note?</source>
-        <translation>Wilt u een notitie toevoegen?</translation>
+        <translation>Wil je een notitie toevoegen?</translation>
     </message>
     <message>
         <location filename="../qml/ShareDialog.qml" line="69"/>
@@ -1679,7 +1348,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/ShareLinkPage.qml" line="53"/>
         <source>No sharing accounts available. You can add accounts in settings</source>
-        <translation>Er zijn geen accounts beschikbaar voor delen. U kunt accounts toevoegen in de instellingen.</translation>
+        <translation>Er zijn geen accounts beschikbaar voor delen. Je kunt accounts toevoegen in de instellingen.</translation>
     </message>
 </context>
 <context>
@@ -1692,34 +1361,22 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/SignOutDialog.qml" line="68"/>
         <source>Disconnect Netvibes account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Netvibes-accountkoppeling verbreken?</translation>
     </message>
     <message>
         <location filename="../qml/SignOutDialog.qml" line="70"/>
         <source>Disconnect Old Reader account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Old Reader-accountkoppeling verbreken?</translation>
     </message>
     <message>
         <location filename="../qml/SignOutDialog.qml" line="72"/>
         <source>Disconnect Feedly account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Feedly-accountkoppeling verbreken?</translation>
     </message>
     <message>
         <location filename="../qml/SignOutDialog.qml" line="73"/>
         <source>Disconnect Tiny Tiny RSS account?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Disconnect Kaktus from your Feedly account?</source>
-        <translation type="vanished">Weet u zeker dat u de verbinding tussen Kaktus en uw Feedly-account wilt verbreken?</translation>
-    </message>
-    <message>
-        <source>Disconnect Kaktus from your Old Reader account?</source>
-        <translation type="vanished">De koppeling met uw oude lezer-account verbreken?</translation>
-    </message>
-    <message>
-        <source>Disconnect Kaktus from your Netvibes account?</source>
-        <translation type="vanished">De koppeling met uw Netvibes-account verbreken?</translation>
+        <translation>Tiny Tiny RSS-accountkoppeling verbreken?</translation>
     </message>
 </context>
 <context>
@@ -1727,50 +1384,42 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="61"/>
         <source>Sign in</source>
-        <translation type="unfinished">Inloggen</translation>
+        <translation>Inloggen</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="93"/>
         <source>Enter the url of your server</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer de url in van je server</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="111"/>
         <source>Enter username</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer je gebruikersnaam in</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="129"/>
         <source>Enter password</source>
-        <translation type="unfinished"></translation>
+        <translation>Voer je wachtwoord in</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="94"/>
         <source>Server Url</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter username here!</source>
-        <translation type="obsolete">Vul hier uw gebruikersnaam in!</translation>
+        <translation>Server-url</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="112"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter password here!</source>
-        <translation type="obsolete">Vul hier uw wachtwoord in!</translation>
+        <translation>Gebruikersnaam</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="130"/>
         <source>Password</source>
-        <translation type="unfinished">Wachtwoord</translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="141"/>
         <source>Ignore SSL errors</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL-fouten negeren</translation>
     </message>
 </context>
 <context>
@@ -1783,7 +1432,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/TabPage.qml" line="80"/>
         <source>Uncategorized</source>
-        <translation>Niet-gecategoriseerd</translation>
+        <translation>Ongecategoriseerd</translation>
     </message>
     <message>
         <location filename="../qml/TabPage.qml" line="90"/>
@@ -1846,7 +1495,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/UnreadAllDialog.qml" line="69"/>
         <source>Mark all starred articles as unread?</source>
-        <translation>Alle favoriete artikelen als ongelezen markeren?</translation>
+        <translation>Alle favoriete artikelen markeren als ongelezen?</translation>
     </message>
     <message>
         <location filename="../qml/UnreadAllDialog.qml" line="67"/>
@@ -1856,7 +1505,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/UnreadAllDialog.qml" line="69"/>
         <source>Mark all saved articles as unread?</source>
-        <translation>Alle opgeslagen artikelen markeren als ogelezen?</translation>
+        <translation>Alle opgeslagen artikelen markeren als ongelezen?</translation>
     </message>
     <message>
         <location filename="../qml/UnreadAllDialog.qml" line="70"/>
@@ -1884,90 +1533,34 @@ op de instellingenpagina.</translation>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="707"/>
         <source>%n second(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>seconde geleden</numerusform>
+            <numerusform>%n seconden geleden</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="710"/>
         <source>%n minute(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>minuut geleden</numerusform>
+            <numerusform>%n minuten geleden</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="713"/>
         <source>%n hour(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>uur geleden</numerusform>
+            <numerusform>%n uur geleden</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="719"/>
         <source>%n day(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>dag geleden</numerusform>
+            <numerusform>%n dagen geleden</numerusform>
         </translation>
-    </message>
-    <message>
-        <source>1 second ago</source>
-        <translation type="vanished">1 seconde geleden</translation>
-    </message>
-    <message>
-        <source>%1 seconds ago</source>
-        <comment>less than 5 seconds</comment>
-        <translation type="vanished">%1 seconden geleden</translation>
-    </message>
-    <message>
-        <source>%1 seconds ago</source>
-        <comment>more or equal 5 seconds</comment>
-        <translation type="vanished">%1 seconden geleden</translation>
-    </message>
-    <message>
-        <source>1 minute ago</source>
-        <translation type="vanished">1 minuut geleden</translation>
-    </message>
-    <message>
-        <source>%1 minutes ago</source>
-        <comment>less than 5 minutes</comment>
-        <translation type="vanished">%1 minuten geleden</translation>
-    </message>
-    <message>
-        <source>%1 minutes ago</source>
-        <comment>more or equal 5 minutes</comment>
-        <translation type="vanished">%1 minuten geleden</translation>
-    </message>
-    <message>
-        <source>1 hour ago</source>
-        <translation type="vanished">1 uur geleden</translation>
-    </message>
-    <message>
-        <source>%1 hours ago</source>
-        <comment>less than 5 hours</comment>
-        <translation type="vanished">%1 uur geleden</translation>
-    </message>
-    <message>
-        <source>%1 hours ago</source>
-        <comment>more or equal 5 hours</comment>
-        <translation type="vanished">%1 uur geleden</translation>
-    </message>
-    <message>
-        <source>day ago</source>
-        <translation type="vanished">dag geleden</translation>
-    </message>
-    <message>
-        <source>%1 days ago</source>
-        <comment>less than 5 days</comment>
-        <translation type="vanished">%1 dagen geleden</translation>
-    </message>
-    <message>
-        <source>%1 days ago</source>
-        <comment>more or equal 5 days</comment>
-        <translation type="vanished">%1 dagen geleden</translation>
     </message>
 </context>
 <context>
@@ -1981,12 +1574,12 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="278"/>
         <source>Failed to load page from local cache</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan pagina niet laden uit lokale cache</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="280"/>
         <source>Failed to load page content</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan paginainhoud niet laden</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="350"/>
@@ -2001,34 +1594,22 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="370"/>
         <source>Toggle Save</source>
-        <translation>Opslaan/niet opslaan</translation>
+        <translation>Opslaan/Niet opslaan </translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="370"/>
         <source>Toggle Star</source>
-        <translation>Toevoegen aan favorieten/niet toevoegen</translation>
-    </message>
-    <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Externe browser wordt gestart...</translation>
-    </message>
-    <message>
-        <source>Failed to load page from local cache.</source>
-        <translation type="vanished">Het laden van het item uit de lokale cache is mislukt.</translation>
-    </message>
-    <message>
-        <source>Failed to load page content.</source>
-        <translation type="vanished">Het laden van de paginainhoud is mislukt.</translation>
+        <translation>Toevoegen aan/Verwijderen uit favorieten</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="384"/>
         <source>Toggle Reader View</source>
-        <translation>Leesmodus inschakelen/uitschakelen</translation>
+        <translation>Leesmodus in-/uitschakelen</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="394"/>
         <source>Toggle Night View</source>
-        <translation>Nachtmodus inschakelen/uitschakelen</translation>
+        <translation>Nachtmodus in-/uitschakelen</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="404"/>
@@ -2038,7 +1619,7 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="416"/>
         <source>Add to Pocket</source>
-        <translation>Toevoegen aan Pocket</translation>
+        <translation>Toevoegen aan Pocket </translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="427"/>
@@ -2048,16 +1629,12 @@ op de instellingenpagina.</translation>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="433"/>
         <source>Toggle Like</source>
-        <translation>Leuk vinden/niet meer leuk vinden</translation>
+        <translation>Leuk vinden/Niet meer leuk vinden</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="443"/>
         <source>Toggle Share</source>
-        <translation>Delen/niet delen</translation>
-    </message>
-    <message>
-        <source>URL was copied to the clipboard.</source>
-        <translation type="vanished">De URL is gekopieerd naar het klembord.</translation>
+        <translation>Delen/Niet delen</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="474"/>
@@ -2073,12 +1650,12 @@ op de instellingenpagina.</translation>
         <location filename="../qml/WebPreviewPage.qml" line="61"/>
         <location filename="../qml/WebPreviewPage.qml" line="407"/>
         <source>Launching a browser...</source>
-        <translation type="unfinished"></translation>
+        <translation>Bezig met opstarten van browser...</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="460"/>
         <source>URL was copied to the clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>De URL is gekopieerd naar het klembord</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="482"/>
@@ -2099,10 +1676,6 @@ op de instellingenpagina.</translation>
         <translation>Feeds</translation>
     </message>
     <message>
-        <source>Restart the app to rebuild cache data.</source>
-        <translation type="vanished">Herstart de app om de cacheinhoud opnieuw op te bouwen.</translation>
-    </message>
-    <message>
         <location filename="../qml/main.qml" line="187"/>
         <source>Caching... %1 of %2</source>
         <translation>Bezig met opslaan in cache... %1 van %2</translation>
@@ -2113,114 +1686,76 @@ op de instellingenpagina.</translation>
         <translation>Bezig met opslaan in cache...</translation>
     </message>
     <message>
-        <source>Sync failed!
-Network connection is unavailable.</source>
-        <translation type="vanished">Het synchroniseren is mislukt!
-Er is geen netwerkverbinding beschikbaar.</translation>
-    </message>
-    <message>
-        <source>The user name or password is incorrect!</source>
-        <translation type="vanished">De gebruikersnaam of het wachtwoord is onjuist!</translation>
-    </message>
-    <message>
-        <source>Download has failed because network is disconnected.</source>
-        <translation type="vanished">Het downloaden is mislukt omdat de netwerkverbinding verbroken is.</translation>
-    </message>
-    <message>
-        <source>Something went wrong!</source>
-        <translation type="vanished">Er iets is misgegaan!</translation>
-    </message>
-    <message>
         <location filename="../qml/main.qml" line="217"/>
         <source>Removing cache data... %1 of %2</source>
         <translation>Bezig met verwijderen van cacheinhoud... %1 van %2</translation>
     </message>
     <message>
-        <source>Something went wrong. Unable to sign in!</source>
-        <translation type="vanished">Er is iets misgegaan. Het inloggen is mislukt!</translation>
-    </message>
-    <message>
-        <source>An unknown error occurred.</source>
-        <translation type="vanished">Er is een onbekende fout opgetreden.</translation>
-    </message>
-    <message>
         <location filename="../qml/main.qml" line="306"/>
         <source>Access through API is disabled on a server</source>
-        <translation type="unfinished"></translation>
+        <translation>De API-toegang is uitgeschakeld op een server</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="308"/>
         <source>Problem with SSL certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>SSL-certificaatprobleem</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="330"/>
         <source>Unknown error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The user name or password is incorrect.</source>
-        <translation type="vanished">De gebruikersnaam of het wachtwoord is onjuist.</translation>
-    </message>
-    <message>
-        <source>You are signed in.</source>
-        <translation type="vanished">U bent ingelogd.</translation>
+        <translation>Onbekende fout</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="161"/>
         <source>Restart the app to rebuild cache data</source>
-        <translation type="unfinished"></translation>
+        <translation>Herstart de app om de cacheinhoud opnieuw op te bouwen</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="212"/>
         <source>Download has failed because network is disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Het downloaden is mislukt omdat de netwerkverbinding verbroken is</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="290"/>
         <source>Unable to sign in</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan niet inloggen</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="294"/>
         <source>Network connection is unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Netwerkverbinding is niet beschikbaar</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="304"/>
         <location filename="../qml/main.qml" line="336"/>
         <source>The user name or password is incorrect</source>
-        <translation type="unfinished"></translation>
+        <translation>De gebruikersnaam of het wachtwoord is onjuist</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="325"/>
         <source>Cannot save image in gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Kan afbeelding niet opslaan naar galerij</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="327"/>
         <source>Image already exists in gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Afbeelding bevindt zich al in de galerij</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="340"/>
         <source>You are signed in</source>
-        <translation type="unfinished"></translation>
+        <translation>Je bent ingelogd</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="345"/>
         <source>Receiving data...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Receiving data... </source>
-        <translation type="vanished">Bezig met verkrijgen van data...</translation>
+        <translation>Bezig met ophalen van gegevens...</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="351"/>
         <location filename="../qml/main.qml" line="357"/>
         <source>Sending data...</source>
-        <translation>Bezig met versturen van data...</translation>
+        <translation>Bezig met versturen van gegevens...</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="367"/>
@@ -2243,7 +1778,7 @@ Er is geen netwerkverbinding beschikbaar.</translation>
         <location filename="../qml/main.qml" line="387"/>
         <location filename="../qml/main.qml" line="391"/>
         <source>Waiting for network...</source>
-        <translation>Wachten op netwerk...</translation>
+        <translation>Bezig met wachten op netwerk...</translation>
     </message>
 </context>
 </TS>
