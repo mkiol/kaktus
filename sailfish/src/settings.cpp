@@ -93,7 +93,8 @@ void Settings::setPowerSaveMode(bool value)
 
 bool Settings::getPowerSaveMode()
 {
-    return settings.value("powersavemode", true).toBool();
+    //return settings.value("powersavemode", true).toBool();
+    return false;
 }
 
 void Settings::setFilter(int value)

@@ -448,40 +448,14 @@ Page {
                 width: root.width
                 label: qsTr("Language")
                 currentIndex: {
-                    if (settings.locale === "")
-                        return 0;
-                    if (settings.locale === "cs")
-                        return 1;
-                    if (settings.locale === "de")
-                        return 2;
                     if (settings.locale === "en")
-                        return 3;
-                    if (settings.locale === "es")
-                        return 4;
-                    if (settings.locale === "it")
-                        return 5;
-                    if (settings.locale === "nl")
-                        return 6;
-                    if (settings.locale === "pl")
-                        return 7;
-                    if (settings.locale === "ru")
-                        return 8;
-                    /*if (settings.locale === "tr")
-                        return 9;*/
+                        return 1;
                     return 0;
                 }
 
                 menu: ContextMenu {
                     MenuItem { text: qsTr("Default"); onClicked: locale.showMessage() }
-                    MenuItem { text: "Čeština"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Deutsch"; onClicked: locale.showMessage() }
                     MenuItem { text: "English"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Espanol"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Italiano"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Nederlands"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Polski"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "Русский"; onClicked: locale.showMessage() }
-                    //MenuItem { text: "Türkçe"; onClicked: locale.showMessage() }
                 }
 
                 onCurrentIndexChanged: {
@@ -490,32 +464,8 @@ Page {
                         settings.locale = "";
                         break;
                     case 1:
-                        settings.locale = "cs";
-                        break;
-                    case 2:
-                        settings.locale = "de";
-                        break;
-                    case 3:
                         settings.locale = "en";
                         break;
-                    case 4:
-                        settings.locale = "es";
-                        break;
-                    case 5:
-                        settings.locale = "it";
-                        break;
-                    case 6:
-                        settings.locale = "nl";
-                        break;
-                    case 7:
-                        settings.locale = "pl";
-                        break;
-                    case 8:
-                        settings.locale = "ru";
-                        break;
-                    /*case 9:
-                        settings.locale = "tr";
-                        break;*/
                     }
                 }
 
@@ -523,112 +473,6 @@ Page {
                     notification.show(qsTr("Changes will take effect after you restart Kaktus"));
                 }
             }
-
-            /*ComboBox {
-                id: locale
-                width: root.width
-                label: qsTr("Language")
-                currentIndex: {
-                    if (settings.locale === "")
-                        return 0;
-                    if (settings.locale === "cs")
-                        return 1;
-                    if (settings.locale === "de")
-                        return 2;
-                    if (settings.locale === "en")
-                        return 3;
-                    if (settings.locale === "es")
-                        return 4;
-                    if (settings.locale === "fa")
-                        return 5;
-                    if (settings.locale === "fi")
-                        return 6;
-                    if (settings.locale === "fr")
-                        return 7;
-                    if (settings.locale === "it")
-                        return 8;
-                    if (settings.locale === "nl")
-                        return 9;
-                    if (settings.locale === "pl")
-                        return 10;
-                    if (settings.locale === "ru")
-                        return 11;
-                    if (settings.locale === "tr")
-                        return 12;
-                    if (settings.locale === "zh_CN")
-                        return 13;
-                }
-
-                menu: ContextMenu {
-                    MenuItem { text: qsTr("Default"); onClicked: locale.showMessage() }
-                    MenuItem { text: "Čeština"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Deutsch"; onClicked: locale.showMessage() }
-                    MenuItem { text: "English"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Espanol"; onClicked: locale.showMessage() }
-                    MenuItem { text: "فارسی"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Suomi"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Français"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Italiano"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Nederlands"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Polski"; onClicked: locale.showMessage()  }
-                    MenuItem { text: "Русский"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Türkçe"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Čeština"; onClicked: locale.showMessage() }
-                    MenuItem { text: "Čeština"; onClicked: locale.showMessage() }
-                    MenuItem { text: "中文 (简体)"; onClicked: locale.showMessage() }
-                }
-
-                onCurrentIndexChanged: {
-                    switch (currentIndex) {
-                    case 0:
-                        settings.locale = "";
-                        break;
-                    case 1:
-                        settings.locale = "cs";
-                        break;
-                    case 2:
-                        settings.locale = "de";
-                        break;
-                    case 3:
-                        settings.locale = "en";
-                        break;
-                    case 4:
-                        settings.locale = "es";
-                        break;
-                    case 5:
-                        settings.locale = "fa";
-                        break;
-                    case 6:
-                        settings.locale = "fi";
-                        break;
-                    case 7:
-                        settings.locale = "fr";
-                        break;
-                    case 8:
-                        settings.locale = "it";
-                        break;
-                    case 9:
-                        settings.locale = "nl";
-                        break;
-                    case 10:
-                        settings.locale = "pl";
-                        break;
-                    case 11:
-                        settings.locale = "ru";
-                        break;
-                    case 12:
-                        settings.locale = "tr";
-                        break;
-                    case 13:
-                        settings.locale = "zh_CN";
-                        break;
-                    }
-                }
-
-                function showMessage() {
-                    notification.show(qsTr("Changes will take effect after you restart Kaktus."));
-                }
-            }*/
 
             ComboBox {
                 width: root.width
@@ -786,7 +630,7 @@ Page {
                 }
             }
 
-            TextSwitch {
+            /*TextSwitch {
                 text: qsTr("Power save mode")
                 description: qsTr("When the phone or app goes to the idle state, "+
                                   "all opened web pages will be closed to lower power consumption.")
@@ -796,7 +640,7 @@ Page {
                 Component.onCompleted: {
                     checked = settings.powerSaveMode;
                 }
-            }
+            }*/
 
             ComboBox {
                 width: root.width
