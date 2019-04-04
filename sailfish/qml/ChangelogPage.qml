@@ -61,6 +61,17 @@ Page {
             }
 
             SectionHeader {
+                text: qsTr("Version %1").arg("2.9.1 (beta)")
+            }
+
+            LogItem {
+                title: "Translations update"
+                description: "Translations for Spanish, Belgian Dutch and " +
+                             "Netherlands Dutch have been updated. Many thanks " +
+                             "to Carmen Fernández B., Nathan Follens and Heimen Stoffels.";
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("2.9.0 (beta)")
             }
 

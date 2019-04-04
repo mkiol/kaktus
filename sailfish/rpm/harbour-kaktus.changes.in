@@ -8,6 +8,9 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sat Mar 23 2019 Michal Kosciesza 2.9.1-1
+- Translation files update for: es, nl_BE, nl_NL
+
 * Sat Mar 23 2019 Michal Kosciesza 2.9.0-1
 - Tiny Tiny RSS
 - Readability.js updated to latest git version
