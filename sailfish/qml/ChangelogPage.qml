@@ -61,18 +61,7 @@ Page {
             }
 
             SectionHeader {
-                text: qsTr("Version %1").arg("2.9.1 (beta)")
-            }
-
-            LogItem {
-                title: "Translations update"
-                description: "Translations for Spanish, Belgian Dutch and " +
-                             "Netherlands Dutch have been updated. Many thanks " +
-                             "to Carmen Fernández B., Nathan Follens and Heimen Stoffels.";
-            }
-
-            SectionHeader {
-                text: qsTr("Version %1").arg("2.9.0 (beta)")
+                text: qsTr("Version %1").arg("3.0.0")
             }
 
             LogItem {
@@ -98,6 +87,14 @@ Page {
                 description: "If article item contains Image, it can be " +
                              "saved to the gallery. The option to do so is " +
                              "located in the item's context menu."
+            }
+
+            LogItem {
+                title: "Translations update"
+                description: "Translations for Spanish, Chinese, German, " +
+                             "Belgian Dutch and Netherlands Dutch have been updated. " +
+                             "Many thanks to Carmen Fernández B., Rui Kon, " +
+                             "qwer_asew, Nathan Follens and Heimen Stoffels.";
             }
 
             SectionHeader {
