@@ -464,10 +464,12 @@ ListItem {
                 onClicked: root.pocketAdd()
             }
 
+            // not available in harbour package
             IconMenuItem {
                 text: qsTr("Share link")
                 icon.source: "image://theme/icon-m-share?" + Theme.primaryColor
                 onClicked: root.share()
+                visible: !settings.isHarbour()
             }
 
             IconMenuItem {

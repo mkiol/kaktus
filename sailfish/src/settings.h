@@ -84,6 +84,7 @@ class Settings: public QObject
     Q_PROPERTY (QString pocketTagsHistory READ getPocketTagsHistory WRITE setPocketTagsHistory NOTIFY pocketTagsHistoryChanged)
     Q_PROPERTY (bool ignoreSslErrors READ getIgnoreSslErrors WRITE setIgnoreSslErrors NOTIFY ignoreSslErrorsChanged)
     Q_PROPERTY (QString imagesDir READ getImagesDir WRITE setImagesDir NOTIFY imagesDirChanged)
+
 public:
     static Settings* instance();
     Fetcher* fetcher;
@@ -288,6 +289,14 @@ public:
     Q_INVOKABLE const QList<QVariant> viewModeHistory();
 
     Q_INVOKABLE QString pocketConsumerKey();
+
+    Q_INVOKABLE inline bool isHarbour() {
+#ifdef HARBOUR
+        return true;
+#else
+        return false;
+#endif
+    }
 
 signals:
     void offlineModeChanged();

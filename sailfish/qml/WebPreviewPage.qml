@@ -423,10 +423,12 @@ Page {
             }
         }
 
+        // not available in harbour package
         IconMenuItem {
             text: qsTr("Share link")
             icon.source: "image://theme/icon-m-share"
             onClicked: root.share()
+            visible: !settings.isHarbour()
         }
 
         IconBarItem {
