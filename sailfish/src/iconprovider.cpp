@@ -51,6 +51,8 @@ QString IconProvider::themeDirPath()
         themeDir = SailfishApp::pathTo("images/z1.75").toString(QUrl::RemoveScheme);
     } else if (ratio == 2.0) {
         themeDir = SailfishApp::pathTo("images/z2.0").toString(QUrl::RemoveScheme);
+    } else {
+        themeDir = SailfishApp::pathTo("images/z1.0").toString(QUrl::RemoveScheme);
     }
 
     if (!QDir(themeDir).exists()) {
