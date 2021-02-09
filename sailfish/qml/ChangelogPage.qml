@@ -61,6 +61,16 @@ Page {
             }
 
             SectionHeader {
+                text: qsTr("Version %1").arg("3.0.1")
+            }
+
+            LogItem {
+                title: "Fixes for bugs discovered on SFOS 4.0"
+                description: "In the recent SFOS version certain app pages couldn't be loaded." +
+                             "This issue is now resolved."
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("3.0.0")
             }
 

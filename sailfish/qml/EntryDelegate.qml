@@ -375,7 +375,7 @@ ListItem {
         IconContextMenu {
             id: menu
 
-            IconMenuItem {
+            IconMenuItem_ {
                 text: qsTr("Toggle Read")
                 icon.source: root.read ? "image://icons/icon-m-read-selected?" + Theme.primaryColor :
                                          "image://icons/icon-m-read?" + Theme.primaryColor
@@ -393,7 +393,7 @@ ListItem {
 
             }
 
-            IconMenuItem {
+            IconMenuItem_ {
                 text: app.isNetvibes ? qsTr("Toggle Save") : qsTr("Toggle Star")
                 icon.source: root.readlater ? "image://theme/icon-m-favorite-selected?" + Theme.primaryColor :
                                               "image://theme/icon-m-favorite?" + Theme.primaryColor
@@ -407,7 +407,7 @@ ListItem {
                 }
             }
 
-            IconMenuItem {
+            IconMenuItem_ {
                 text: qsTr("Above as read")
                 icon.source: "image://icons/icon-m-readabove?" + Theme.primaryColor
                 visible: enabled
@@ -419,7 +419,7 @@ ListItem {
                 }
             }
 
-            IconMenuItem {
+            IconMenuItem_ {
                 text: qsTr("Viewer")
                 icon.source: "image://icons/icon-m-webview?" + Theme.primaryColor
                 visible: enabled
@@ -431,7 +431,7 @@ ListItem {
                 }
             }
 
-            IconMenuItem {
+            IconMenuItem_ {
                 text: qsTr("Browser")
                 icon.source: "image://icons/icon-m-browser?" + Theme.primaryColor
                 visible: enabled
@@ -443,7 +443,7 @@ ListItem {
                 }
             }
 
-            IconMenuItem {
+            IconMenuItem_ {
                 text: qsTr("Feed content")
                 icon.source: "image://icons/icon-m-rss?" + Theme.primaryColor
                 visible: enabled
@@ -455,7 +455,7 @@ ListItem {
                 }
             }
 
-            IconMenuItem {
+            IconMenuItem_ {
                 text: qsTr("Add to Pocket")
                 visible: settings.pocketEnabled
                 enabled: settings.pocketEnabled && dm.online
@@ -465,14 +465,14 @@ ListItem {
             }
 
             // not available in harbour package
-            IconMenuItem {
+            IconMenuItem_ {
                 text: qsTr("Share link")
                 icon.source: "image://theme/icon-m-share?" + Theme.primaryColor
                 onClicked: root.share()
                 visible: !settings.isHarbour()
             }
 
-            IconMenuItem {
+            IconMenuItem_ {
                 text: qsTr("Save image")
                 icon.source: "image://theme/icon-m-cloud-download?" + Theme.primaryColor
                 enabled: entryImage.ok
@@ -483,7 +483,7 @@ ListItem {
                 }
             }
 
-            IconMenuItem {
+            IconMenuItem_ {
                 id: likeItem
                 text: qsTr("Toggle Like")
                 icon.source: root.liked ? "image://icons/icon-m-like-selected?" + Theme.primaryColor : "image://icons/icon-m-like?" + Theme.primaryColor
@@ -499,7 +499,7 @@ ListItem {
                 }
             }
 
-            IconMenuItem {
+            IconMenuItem_ {
                 text: qsTr("Toggle Share")
                 icon.source: root.broadcast ? "image://icons/icon-m-share-selected?" + Theme.primaryColor : "image://icons/icon-m-share?" + Theme.primaryColor
                 enabled: settings.showBroadcast && app.isOldReader &&

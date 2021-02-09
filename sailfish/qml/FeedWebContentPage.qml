@@ -423,7 +423,7 @@ Page {
             }
         }
 
-        IconMenuItem {
+        IconMenuItem_ {
             text: qsTr("Add to Pocket")
             visible: settings.pocketEnabled
             enabled: settings.pocketEnabled && dm.online
@@ -435,7 +435,7 @@ Page {
         }
 
         // not available in harbour package
-        IconMenuItem {
+        IconMenuItem_ {
             text: qsTr("Share link")
             icon.source: "image://theme/icon-m-share"
             onClicked: root.share()

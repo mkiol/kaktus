@@ -110,7 +110,7 @@ OTHER_FILES += \
     qml/IconBarItem.qml \
     qml/IconBar.qml \
     qml/IconContextMenu.qml \
-    qml/IconMenuItem.qml \
+    qml/IconMenuItem_.qml \
     qml/IconPlaceholder.qml \
     qml/IconSlider.qml \
     qml/LogItem.qml \
