@@ -23,9 +23,9 @@
 namespace Kaktus {
 static const char* APP_NAME = "Kaktus";
 #ifdef SAILFISH
-static const char* APP_VERSION = "3.0.0";
+static const char* APP_VERSION = "3.0.1";
 #elif ANDROID
-static const char* APP_VERSION = "3.0.0";
+static const char* APP_VERSION = "3.0.1";
 #endif
 static const char* AUTHOR = "Michal Kosciesza";
 static const char* COPYRIGHT_YEAR = "2014-2019";
