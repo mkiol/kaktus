@@ -43,7 +43,7 @@ Item {
     property Flickable flick: null
 
     // other
-    readonly property bool isPortrait: app.orientation === Orientation.Portrait
+    readonly property bool isPortrait: app.orientation == Orientation.Portrait || app.orientation == Orientation.PortraitInverted
     readonly property int stdHeight: isPortrait ? Theme.itemSizeMedium : 0.8 * Theme.itemSizeMedium
 
     height: root.stdHeight

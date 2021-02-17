@@ -31,7 +31,7 @@ ApplicationWindow {
     readonly property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
     readonly property bool isOldReader: settings.signinType >= 10 && settings.signinType < 20
     readonly property bool isTTRss: settings.signinType >= 30 && settings.signinType < 40
-    readonly property int stdHeight: orientation==Orientation.Portrait ? Theme.itemSizeMedium : 0.8 * Theme.itemSizeMedium
+    readonly property int stdHeight: isPortraitOrientation(orientation) ? Theme.itemSizeMedium : 0.8 * Theme.itemSizeMedium
 
     cover: CoverPage {}
 
@@ -49,6 +49,10 @@ ApplicationWindow {
                 }
             }
         }
+    }
+
+    function isPortraitOrientation(orientation) {
+        return orientation == Orientation.Portrait || orientation == Orientation.PortraitInverted;
     }
 
     function hideBar() {
@@ -407,25 +411,49 @@ ApplicationWindow {
         id: notification
     }
 
-    property int panelWidth: app.orientation==Orientation.Portrait ? Screen.width : Screen.height
+    property int panelWidth: isPortraitOrientation(app.orientation) ? Screen.width : Screen.height
     property int landscapeContentPanelWidth: isTablet ?
-                 app.orientation === Orientation.Portrait ? Screen.width-700 : Screen.height-700 :
-                 app.orientation === Orientation.Portrait ? Screen.width/2 : Screen.height/2
+                 isPortraitOrientation(app.orientation) ? Screen.width-700 : Screen.height-700 :
+                 isPortraitOrientation(app.orientation) ? Screen.width/2 : Screen.height/2
     property int flickHeight: {
         var size = 0
         if (bar.open)
             size += bar.stdHeight
-        return app.orientation === Orientation.Portrait ? Screen.height-size : Screen.width-size;
+        return isPortraitOrientation(app.orientation) ? Screen.height-size : Screen.width-size;
     }
-    property int barX: app.orientation === Orientation.Portrait ? 0 : bar.height
-    property int barY: app.orientation === Orientation.Portrait ? Screen.height - bar.height : 0
+
+    property int barX: {
+        switch (app.orientation) {
+        case Orientation.Portrait: return 0;
+        case Orientation.Landscape: return bar.height;
+        case Orientation.PortraitInverted: return Screen.width;
+        case Orientation.LandscapeInverted: return Screen.width - bar.height;
+        }
+    }
+
+    property int barY: {
+        switch (app.orientation) {
+        case Orientation.Portrait: return Screen.height - bar.height;
+        case Orientation.Landscape: return 0;
+        case Orientation.PortraitInverted: return bar.height;
+        case Orientation.LandscapeInverted: return Screen.height;
+        }
+    }
 
     readonly property alias barHeight: bar.height
 
     ControlBar {
         id: bar
         busy: app.fetcherBusyStatus || dm.removerBusy || dm.busy
-        rotation: app.orientation === Orientation.Portrait ? 0 : 90
+
+        rotation: {
+            switch (app.orientation) {
+            case Orientation.Portrait: return 0;
+            case Orientation.Landscape: return 90;
+            case Orientation.PortraitInverted: 180;
+            case Orientation.LandscapeInverted: 270;
+        }
+
         transformOrigin: Item.TopLeft
         width: app.panelWidth
 

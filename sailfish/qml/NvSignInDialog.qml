@@ -32,11 +32,11 @@ Dialog {
     allowedOrientations: {
         switch (settings.allowedOrientations) {
         case 1:
-            return Orientation.Portrait;
+            return Orientation.PortraitMask;
         case 2:
-            return Orientation.Landscape;
+            return Orientation.LandscapeMask;
         }
-        return Orientation.Landscape | Orientation.Portrait;
+        return Orientation.All;
     }
 
     ActiveDetector {}
