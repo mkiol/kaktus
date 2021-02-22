@@ -450,8 +450,9 @@ ApplicationWindow {
             switch (app.orientation) {
             case Orientation.Portrait: return 0;
             case Orientation.Landscape: return 90;
-            case Orientation.PortraitInverted: 180;
-            case Orientation.LandscapeInverted: 270;
+            case Orientation.PortraitInverted: return 180;
+            case Orientation.LandscapeInverted: return 270;
+            }
         }
 
         transformOrigin: Item.TopLeft
