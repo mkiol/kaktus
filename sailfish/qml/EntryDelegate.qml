@@ -516,4 +516,69 @@ ListItem {
             }
         }
     }
+
+    drag.target: box
+    drag.axis: Drag.XAxis
+    drag.minimumX: -width
+    drag.maximumX: 0
+
+    drag.onActiveChanged: {
+        if (!drag.active) {
+            if (box.x < -width / 3) {
+                state = "toggleRead"
+            } else {
+                state = "default"
+            }
+        }
+    }
+
+    state: "default"
+
+    states: [
+        State {
+            name: "default"
+        },
+        State {
+            name: "dragging"
+            when: drag.active
+        },
+        State {
+            name: "toggleRead"
+        }
+    ]
+
+    transitions: [
+        Transition {
+            from: "dragging"
+            to: "default"
+            NumberAnimation {
+                target: box
+                properties: "x"
+                to: 0
+                duration: 200
+            }
+        },
+        Transition {
+            from: "dragging"
+            to: "toggleRead"
+            SequentialAnimation {
+                ScriptAction {
+                    script: {
+                        if (root.read) {
+                            root.markedAsUnread()
+                        } else {
+                            root.markedAsRead();
+                            root.expanded = false;
+                        }
+                    }
+                }
+                NumberAnimation {
+                    target: box
+                    properties: "x"
+                    to: 0
+                    duration: 200
+                }
+            }
+        }
+    ]
 }

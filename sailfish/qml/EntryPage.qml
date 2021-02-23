@@ -241,7 +241,6 @@ Page {
             offlineurl: cserver.getUrlbyId(model.uid)
 
             signal singleEntryClicked
-            signal doubleEntryClicked
 
             function check() {
                 // Not allowed while Syncing
@@ -337,16 +336,11 @@ Page {
             }
 
             onClicked: {
-                if (timer.running) {
-                    // Double click
-                    timer.stop()
-                    doubleEntryClicked()
-                } else {
-                    timer.start()
-                }
+                timer.start()
             }
 
-            onDoubleEntryClicked: {
+            onDoubleClicked: {
+                timer.stop()
                 if (model.read === 0) {
                     entryModel.setData(model.index, "read", 1, "")
                     //read = 1;
@@ -369,7 +363,7 @@ Page {
 
             Timer {
                 id: timer
-                interval: 400
+                interval: 200
                 onTriggered: {
                     // Single click
                     singleEntryClicked()
