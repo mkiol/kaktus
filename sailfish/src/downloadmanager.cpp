@@ -294,7 +294,6 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
                     db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),2);
                 break;
             case QNetworkReply::HostNotFoundError:
-                //db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),4);
                 break;
             case QNetworkReply::AuthenticationRequiredError:
                 db->updateEntriesCachedFlagByEntry(item.entryId,QDateTime::currentDateTime().toTime_t(),5);
@@ -707,15 +706,13 @@ void DownloadManager::onlineDownload(const QString& id, const QString& url)
     if (!id.isEmpty()) {
         item = db->readCacheByEntry(id);
         if (item.id.isEmpty()) {
-            //qDebug() << "Search by id not found";
             // No cache item -> downloaing
-            //qDebug() << "No cache item -> downloaing";
             item.entryId = id;
             item.origUrl = url;
             item.finalUrl = url;
             item.baseUrl = url;
             item.type = "online-item";
-            emit addDownload(item);
+            addDownload(item);
             return;
         }
         //qDebug() << "Item found by entryId! baseUrl=" << item.baseUrl;
@@ -727,7 +724,7 @@ void DownloadManager::onlineDownload(const QString& id, const QString& url)
         item.finalUrl = url;
         item.baseUrl = url;
         item.type = "online-item";
-        emit addDownload(item);
+        addDownload(item);
         return;
     }
 }
@@ -754,7 +751,7 @@ void CacheCleaner::cleanOr()
 
     if (cacheDir.exists()) {
         QFileInfoList infoList = cacheDir.entryInfoList(QDir::Files,QDir::Time);
-        Q_FOREACH(QFileInfo info, infoList){
+        foreach (const QFileInfo& info, infoList){
             if (info.created() < date) {
                 if (QFile::remove(info.absoluteFilePath())) {
                     qDebug() << "Cache cleaner:" << info.fileName() << "deleted";
@@ -821,7 +818,7 @@ bool CacheRemover::removeDir(const QString &dirName)
         QFileInfoList infoList = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System | QDir::Hidden  | QDir::AllDirs | QDir::Files, QDir::DirsFirst);
         total = infoList.count();
         //qDebug() << "total" << total;
-        Q_FOREACH(QFileInfo info, infoList) {
+        foreach (const QFileInfo& info, infoList) {
             if (doCancel)
                 return result;
 

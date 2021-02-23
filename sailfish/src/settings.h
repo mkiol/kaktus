@@ -60,7 +60,6 @@ class Settings: public QObject
     Q_PROPERTY (int offsetLimit READ getOffsetLimit WRITE setOffsetLimit NOTIFY offsetLimitChanged)
     Q_PROPERTY (int viewMode READ getViewMode WRITE setViewMode NOTIFY viewModeChanged)
     Q_PROPERTY (bool helpDone READ getHelpDone WRITE setHelpDone NOTIFY helpDoneChanged)
-    Q_PROPERTY (bool reinitDB READ getReinitDB WRITE setReinitDB)
     Q_PROPERTY (QString locale READ getLocale WRITE setLocale NOTIFY localeChanged)
     Q_PROPERTY (int fontSize READ getFontSize WRITE setFontSize NOTIFY fontSizeChanged)
     Q_PROPERTY (float zoom READ getZoom WRITE setZoom NOTIFY zoomChanged)

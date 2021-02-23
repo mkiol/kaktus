@@ -66,6 +66,8 @@ void TabModel::createItems(const QString &dashboardId)
             if (s->getShowBroadcast()) {
                 // Only for OldReader, Friends tab is first on the list
                 insertRow(0,tab);
+            } else {
+                delete tab;
             }
         } else {
             appendRow(tab);

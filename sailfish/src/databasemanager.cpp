@@ -330,26 +330,25 @@ bool DatabaseManager::createStructure()
         query.exec("PRAGMA journal_mode = MEMORY");
         query.exec("PRAGMA synchronous = OFF");
 
-        ret = query.exec("DROP TABLE IF EXISTS parameters;");
+        query.exec("DROP TABLE IF EXISTS parameters;");
         ret = query.exec("CREATE TABLE IF NOT EXISTS parameters ("
                          "name CHARACTER(10) PRIMARY KEY, "
                          "value VARCHAR(10), "
                          "description TEXT "
                          ");");
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         ret = query.exec(QString("INSERT INTO parameters VALUES('%1','%2','%3');")
                          .arg("version")
                          .arg(DatabaseManager::version)
                          .arg("Data structure version"));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
         return false;
@@ -367,7 +366,7 @@ bool DatabaseManager::createActionsStructure()
         query.exec("PRAGMA journal_mode = MEMORY");
         query.exec("PRAGMA synchronous = OFF");
 
-        ret = query.exec("DROP TABLE IF EXISTS actions;");
+        query.exec("DROP TABLE IF EXISTS actions;");
         ret = query.exec("CREATE TABLE IF NOT EXISTS actions ("
                          "type INTEGER, "
                          "id1 VARCHAR(50), "
@@ -378,9 +377,9 @@ bool DatabaseManager::createActionsStructure()
                          "date2 TIMESTAMP, "
                          "date3 TIMESTAMP"
                          ");");
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
     } else {
@@ -400,18 +399,17 @@ bool DatabaseManager::createTabsStructure()
         query.exec("PRAGMA journal_mode = MEMORY");
         query.exec("PRAGMA synchronous = OFF");
 
-        ret = query.exec("DROP TABLE IF EXISTS tabs;");
+        query.exec("DROP TABLE IF EXISTS tabs;");
         ret = query.exec("CREATE TABLE tabs ("
                          "id VARCHAR(50) PRIMARY KEY, "
                          "dashboard_id VARCHAR(50), "
                          "title VARCHAR(100), "
                          "icon VARCHAR(100)"
                          ");");
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
         return false;
@@ -429,8 +427,8 @@ bool DatabaseManager::createCacheStructure()
         query.exec("PRAGMA journal_mode = MEMORY");
         query.exec("PRAGMA synchronous = OFF");
 
-        ret = query.exec("DROP TABLE IF EXISTS cache;");
-        ret = query.exec("CREATE TABLE cache ("
+        query.exec("DROP TABLE IF EXISTS cache;");
+        query.exec("CREATE TABLE cache ("
                          "id CHAR(32) PRIMARY KEY, "
                          "orig_url CHAR(32), "
                          "final_url CHAR(32), "
@@ -442,15 +440,14 @@ bool DatabaseManager::createCacheStructure()
                          "flag INTEGER DEFAULT 0, "
                          "date TIMESTAMP "
                          ");");
-        ret = query.exec("CREATE INDEX IF NOT EXISTS cache_final_url "
+        query.exec("CREATE INDEX IF NOT EXISTS cache_final_url "
                          "ON cache(final_url);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS cache_entry "
                          "ON cache(entry_id);");
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
         return false;
@@ -468,7 +465,7 @@ bool DatabaseManager::createDashboardsStructure()
         query.exec("PRAGMA journal_mode = MEMORY");
         query.exec("PRAGMA synchronous = OFF");
 
-        ret = query.exec("DROP TABLE IF EXISTS dashboards;");
+        query.exec("DROP TABLE IF EXISTS dashboards;");
         ret = query.exec("CREATE TABLE dashboards ("
                          "id VARCHAR(50) PRIMARY KEY, "
                          "name TEXT, "
@@ -476,9 +473,9 @@ bool DatabaseManager::createDashboardsStructure()
                          "description TEXT "
                          ");");
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
         return false;
@@ -496,8 +493,8 @@ bool DatabaseManager::createStreamsStructure()
         query.exec("PRAGMA journal_mode = MEMORY");
         query.exec("PRAGMA synchronous = OFF");
 
-        ret = query.exec("DROP TABLE IF EXISTS streams;");
-        ret = query.exec("CREATE TABLE streams ("
+        query.exec("DROP TABLE IF EXISTS streams;");
+        query.exec("CREATE TABLE streams ("
                          "id VARCHAR(50) PRIMARY KEY, "
                          "title TEXT, "
                          "content TEXT, "
@@ -513,17 +510,14 @@ bool DatabaseManager::createStreamsStructure()
                          "update_at TIMESTAMP, "
                          "last_update TIMESTAMP"
                          ");");
-        ret = query.exec("CREATE INDEX IF NOT EXISTS streams_id "
+        query.exec("CREATE INDEX IF NOT EXISTS streams_id "
                          "ON streams(id DESC);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS slow "
                          "ON streams(slow DESC);");
-        /*ret = query.exec("CREATE INDEX IF NOT EXISTS module_id "
-                         "ON streams(module_id DESC);");*/
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
         return false;
@@ -542,8 +536,8 @@ bool DatabaseManager::createModulesStructure()
         query.exec("PRAGMA journal_mode = MEMORY");
         query.exec("PRAGMA synchronous = OFF");
 
-        ret = query.exec("DROP TABLE IF EXISTS modules;");
-        ret = query.exec("CREATE TABLE modules ("
+        query.exec("DROP TABLE IF EXISTS modules;");
+        query.exec("CREATE TABLE modules ("
                          "id VARCHAR(50) PRIMARY KEY, "
                          "tab_id VARCHAR(50), "
                          "widget_id VARCHAR(50), "
@@ -553,31 +547,30 @@ bool DatabaseManager::createModulesStructure()
                          "status VARCHAR(50), "
                          "icon TEXT "
                          ");");
-        ret = query.exec("CREATE INDEX IF NOT EXISTS modules_id "
+        query.exec("CREATE INDEX IF NOT EXISTS modules_id "
                          "ON modules(id DESC);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS tabs_id "
                          "ON modules(tab_id DESC);");
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
-        ret = query.exec("DROP TABLE IF EXISTS module_stream;");
-        ret = query.exec("CREATE TABLE module_stream ("
+        query.exec("DROP TABLE IF EXISTS module_stream;");
+        query.exec("CREATE TABLE module_stream ("
                          "module_id VARCHAR(50), "
                          "stream_id VARCHAR(50), "
                          "PRIMARY KEY (module_id, stream_id) "
                          ");");
 
-        ret = query.exec("CREATE INDEX IF NOT EXISTS module_stream_modules "
+        query.exec("CREATE INDEX IF NOT EXISTS module_stream_modules "
                          "ON module_stream(module_id DESC);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS module_stream_streams "
                          "ON module_stream(stream_id DESC);");
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
         return false;
@@ -595,8 +588,8 @@ bool DatabaseManager::createEntriesStructure()
         query.exec("PRAGMA journal_mode = MEMORY");
         query.exec("PRAGMA synchronous = OFF");
 
-        ret = query.exec("DROP TABLE IF EXISTS entries;");
-        ret = query.exec("CREATE TABLE entries ("
+        query.exec("DROP TABLE IF EXISTS entries;");
+        query.exec("CREATE TABLE entries ("
                          "id VARCHAR(50) PRIMARY KEY, "
                          "stream_id VARCHAR(50), "
                          "title TEXT, "
@@ -621,23 +614,22 @@ bool DatabaseManager::createEntriesStructure()
                          "last_update TIMESTAMP "
                          ");");
 
-        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_published_at "
+        query.exec("CREATE INDEX IF NOT EXISTS entries_published_at "
                          "ON entries(published_at DESC);");
-        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_date_by_stream "
+        query.exec("CREATE INDEX IF NOT EXISTS entries_date_by_stream "
                          "ON entries(stream_id, published_at DESC);");
-        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_saved "
+        query.exec("CREATE INDEX IF NOT EXISTS entries_saved "
                          "ON entries(saved, published_at);");
-        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_by_stream "
+        query.exec("CREATE INDEX IF NOT EXISTS entries_read_by_stream "
                          "ON entries(stream_id, read, published_at);");
-        ret = query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_saved_by_stream "
+        query.exec("CREATE INDEX IF NOT EXISTS entries_read_and_saved_by_stream "
                          "ON entries(stream_id, read, saved, published_at);");
         ret = query.exec("CREATE INDEX IF NOT EXISTS entries_stream_id "
                          "ON entries(stream_id);");
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
         return false;
@@ -661,9 +653,9 @@ void DatabaseManager::writeDashboard(const Dashboard &item)
         query.addBindValue(item.description);
 
         if (!query.exec()) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -689,9 +681,9 @@ void DatabaseManager::writeCache(const CacheItem &item)
         query.addBindValue(item.date);
 
         if (!query.exec()) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -711,9 +703,9 @@ void DatabaseManager::writeTab(const Tab &item)
         query.addBindValue(item.icon);
 
         if (!query.exec()) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -739,7 +731,8 @@ void DatabaseManager::writeAction(const Action &item)
         query.addBindValue(QDateTime::currentDateTimeUtc().toTime_t());
 
         if (!query.exec()) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         } else {
             if (synced)
                 emit syncedChanged();
@@ -766,9 +759,9 @@ void DatabaseManager::updateActionByIdAndType(const QString &oldId1, ActionsType
         query.addBindValue(oldId1);
 
         if (!query.exec()) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -814,10 +807,10 @@ void DatabaseManager::writeStream(const Stream &item)
             query.addBindValue(item.id);
 
             if (!query.exec()) {
-               qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+               qWarning() << "SQL Error:" << query.lastQuery();
+               checkError(query.lastError());
             }
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -858,16 +851,15 @@ void DatabaseManager::writeModule(const Module &item)
         QList<QString>::const_iterator i = item.streamList.begin();
         while (i != item.streamList.end()) {
             bool ret = query.exec(QString("INSERT OR IGNORE INTO module_stream (module_id, stream_id) VALUES('%1','%2');")
-                             .arg(item.id)
-                             .arg(*i));
+                             .arg(item.id, *i));
 
             if (!ret) {
-               qWarning() << "SQL Error:" << query.lastQuery(); checkError(query.lastError());
+               qWarning() << "SQL Error:" << query.lastQuery();
+               checkError(query.lastError());
             }
 
             ++i;
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -879,13 +871,12 @@ void DatabaseManager::writeStreamModuleTab(const StreamModuleTab &item)
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("INSERT OR IGNORE INTO module_stream (module_id, stream_id) VALUES('%1','%2');")
-                         .arg(item.moduleId)
-                         .arg(item.streamId));
+                         .arg(item.moduleId, item.streamId));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -925,9 +916,9 @@ void DatabaseManager::writeEntry(const Entry &item)
         query.addBindValue(item.id);
 
         if (!query.exec()) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -941,9 +932,9 @@ void DatabaseManager::updateEntriesFreshFlag(int flag)
         bool ret = query.exec(QString("UPDATE entries SET fresh=%1;").arg(flag));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -957,9 +948,9 @@ void DatabaseManager::updateEntriesFlag(int flag)
         bool ret = query.exec(QString("UPDATE entries SET flag=%1;").arg(flag));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -974,9 +965,9 @@ void DatabaseManager::updateEntriesCachedFlagByEntry(const QString &id, int cach
                          .arg(cacheDate)
                          .arg(id));
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -988,12 +979,11 @@ void DatabaseManager::updateEntriesBroadcastFlagByEntry(const QString &id, int f
         QSqlQuery query(db);
         bool ret = query.exec(QString("UPDATE entries SET broadcast=%1, annotations='%2' WHERE id='%3';")
                          .arg(flag)
-                         .arg(QString(annotations.toUtf8().toBase64()))
-                         .arg(id));
+                         .arg(QString(annotations.toUtf8().toBase64()), id));
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -1006,9 +996,9 @@ void DatabaseManager::updateEntriesLikedFlagByEntry(const QString &id, int flag)
         bool ret = query.exec(QString("UPDATE entries SET liked=%1 WHERE id='%2';")
                          .arg(flag).arg(id));
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -1022,9 +1012,9 @@ void DatabaseManager::updateEntriesReadFlagByEntry(const QString &id, int flag)
                          .arg(flag)
                          .arg(id));
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -1042,9 +1032,9 @@ void DatabaseManager::updateEntriesReadFlagByTab(const QString &id, int flag)
                          .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -1058,9 +1048,9 @@ void DatabaseManager::updateEntriesSavedFlagByEntry(const QString &id, int flag)
                          .arg(flag)
                          .arg(id));
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -1075,9 +1065,9 @@ void DatabaseManager::updateEntriesReadFlagByStream(const QString &id, int flag)
                          .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -1096,9 +1086,9 @@ void DatabaseManager::updateEntriesReadFlagByDashboard(const QString &id, int fl
                          .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -1118,9 +1108,9 @@ void DatabaseManager::updateEntriesSavedFlagByFlagAndDashboard(const QString &id
                          .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -1135,9 +1125,9 @@ void DatabaseManager::updateStreamSlowFlagById(const QString &id, int flag)
                          .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -1156,9 +1146,9 @@ void DatabaseManager::updateEntriesSlowReadFlagByDashboard(const QString &id, in
                          .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -1174,7 +1164,8 @@ DatabaseManager::Dashboard DatabaseManager::readDashboard(const QString &id)
                         .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1183,7 +1174,6 @@ DatabaseManager::Dashboard DatabaseManager::readDashboard(const QString &id)
             item.title = query.value(2).toString();
             item.description = query.value(3).toString();
         }
-
     } else {
         qWarning() << "DB is not opened";
     }
@@ -1201,7 +1191,8 @@ QList<DatabaseManager::Dashboard> DatabaseManager::readDashboards()
                         .arg(dashboardsLimit));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1229,7 +1220,8 @@ QList<DatabaseManager::Tab> DatabaseManager::readTabsByDashboard(const QString &
                         .arg(id)
                         .arg(tabsLimit));
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1240,7 +1232,6 @@ QList<DatabaseManager::Tab> DatabaseManager::readTabsByDashboard(const QString &
             item.icon = query.value(2).toString();
             list.append(item);
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1264,7 +1255,8 @@ QList<DatabaseManager::Stream> DatabaseManager::readStreamsByTab(const QString &
                         .arg(streamLimit));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1293,7 +1285,6 @@ QList<DatabaseManager::Stream> DatabaseManager::readStreamsByTab(const QString &
             item.lastUpdate = query.value(16).toInt();
             list.append(item);
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1314,13 +1305,13 @@ QList<QString> DatabaseManager::readStreamIdsByTab(const QString &id)
                         .arg(streamLimit));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             list.append(query.value(0).toString());
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1344,7 +1335,8 @@ QList<DatabaseManager::Stream> DatabaseManager::readStreamsByDashboard(const QSt
                         .arg(streamLimit));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1373,7 +1365,6 @@ QList<DatabaseManager::Stream> DatabaseManager::readStreamsByDashboard(const QSt
             item.lastUpdate = query.value(16).toInt();
             list.append(item);
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1394,7 +1385,8 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readStreamModuleTabList
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1405,7 +1397,6 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readStreamModuleTabList
             smt.date = 0;
             list.append(smt);
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1426,7 +1417,8 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readStreamModuleTabList
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1438,7 +1430,6 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readStreamModuleTabList
             list.append(smt);
             //qDebug() << smt.streamId;
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1460,7 +1451,8 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readSlowStreamModuleTab
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1471,7 +1463,6 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readSlowStreamModuleTab
             smt.date = 0;
             list.append(smt);
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1488,13 +1479,13 @@ QList<QString> DatabaseManager::readStreamIds()
         bool ret = query.exec("SELECT id FROM streams;");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             list.append(query.value(0).toString());
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1509,15 +1500,14 @@ QString DatabaseManager::readStreamIdByEntry(const QString &id)
 
         bool ret = query.exec(QString("SELECT stream_id FROM entries WHERE id='%1';")
                               .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toString();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1534,15 +1524,14 @@ QList<QString> DatabaseManager::readTabIdsByDashboard(const QString &id)
 
         bool ret = query.exec(QString("SELECT id FROM tabs WHERE dashboard_id='%1';")
                               .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             list.append(query.value(0).toString());
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1557,15 +1546,14 @@ QString DatabaseManager::readEntryImageById(const QString &id)
 
         bool ret = query.exec(QString("SELECT image FROM entries WHERE id='%1';")
                               .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toString();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1580,20 +1568,19 @@ QString DatabaseManager::readEntryContentById(const QString &id)
 
         bool ret = query.exec(QString("SELECT content FROM entries WHERE id='%1';")
                               .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toString();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
 
-    return "";
+    return {};
 }
 
 QList<QString> DatabaseManager::readModuleIdByStream(const QString &id)
@@ -1605,15 +1592,14 @@ QList<QString> DatabaseManager::readModuleIdByStream(const QString &id)
 
         bool ret = query.exec(QString("SELECT module_id FROM module_stream WHERE module_id='%1';")
                               .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             list.append(query.value(0).toString());
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1632,48 +1618,20 @@ QList<QString> DatabaseManager::readCacheIdsOlderThan(int cacheDate, int limit)
                                       "(SELECT id FROM entries WHERE cached_at<%1 AND stream_id IN "
                                       "(SELECT stream_id FROM entries GROUP BY stream_id HAVING count(*)>%2));")
                         .arg(cacheDate).arg(limit));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             list.append(query.value(0).toString());
         }
-
     } else {
         qWarning() << "DB is not open";
     }
 
     return list;
 }
-
-/*QList<QString> DatabaseManager::readCacheIdsOlderThanByCrawlTime(int cacheDate, int limit)
-{
-    QList<QString> list;
-
-    if (db.isOpen()) {
-        QSqlQuery query(db);
-
-        bool ret = query.exec(QString("SELECT id FROM cache WHERE entry_id IN "
-                                      "(SELECT id FROM entries WHERE cached_at<%1 AND stream_id IN "
-                                      "(SELECT stream_id FROM entries GROUP BY stream_id HAVING count(*)>%2));")
-                        .arg(cacheDate).arg(limit));
-
-        if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
-        }
-
-        while(query.next()) {
-            list.append(query.value(0).toString());
-        }
-
-    } else {
-        qWarning() << "DB is not open";
-    }
-
-    return list;
-}*/
 
 QList<QString> DatabaseManager::readCacheFinalUrlsByStream(const QString &id, int limit)
 {
@@ -1688,13 +1646,13 @@ QList<QString> DatabaseManager::readCacheFinalUrlsByStream(const QString &id, in
             ");").arg(id).arg(limit));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             list.append(query.value(0).toString());
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1710,11 +1668,11 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByOrigUrl(const QString &id
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT id, orig_url, final_url, base_url, type, content_type, entry_id, stream_id, flag, date "
-                                      "FROM cache WHERE orig_url='%1' AND flag=1;")
-                        .arg(id));
+                                      "FROM cache WHERE orig_url='%1' AND flag=1;").arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1745,11 +1703,10 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByEntry(const QString &id)
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT id, orig_url, final_url, base_url, type, content_type, entry_id, stream_id, flag, date "
-                                      "FROM cache WHERE entry_id='%1' AND flag=1;")
-                        .arg(id));
-
+                                      "FROM cache WHERE entry_id='%1' AND flag=1;").arg(id));
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1764,7 +1721,6 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByEntry(const QString &id)
             item.flag = query.value(8).toInt();
             item.date = query.value(9).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1780,11 +1736,10 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByCache(const QString &id)
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT id, orig_url, final_url, type, content_type, entry_id, stream_id, flag, date "
-                                      "FROM cache WHERE id='%1';")
-                        .arg(id));
-
+                                      "FROM cache WHERE id='%1';").arg(id));
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1799,7 +1754,6 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByCache(const QString &id)
             item.flag = query.value(8).toInt();
             item.date = query.value(9).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1815,11 +1769,10 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByFinalUrl(const QString &i
         QSqlQuery query(db);
 
         bool ret = query.exec(QString("SELECT id, orig_url, final_url, base_url, type, content_type, entry_id, stream_id, flag, date "
-                                      "FROM cache WHERE final_url='%1';")
-                        .arg(id));
-
+                                      "FROM cache WHERE final_url='%1';").arg(id));
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1834,7 +1787,6 @@ DatabaseManager::CacheItem DatabaseManager::readCacheByFinalUrl(const QString &i
             item.flag = query.value(8).toInt();
             item.date = query.value(9).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1847,11 +1799,11 @@ bool DatabaseManager::isCacheExists(const QString &id)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        bool ret = query.exec(QString("SELECT COUNT(*) FROM cache WHERE id='%1';")
-                        .arg(id));
+        bool ret = query.exec(QString("SELECT COUNT(*) FROM cache WHERE id='%1';").arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1859,7 +1811,6 @@ bool DatabaseManager::isCacheExists(const QString &id)
                 return true;
             }
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1874,9 +1825,9 @@ bool DatabaseManager::isCacheExistsByEntryId(const QString &id)
 
         bool ret = query.exec(QString("SELECT count(*) FROM cache WHERE entry_id='%1' AND flag=1;")
                         .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1884,7 +1835,6 @@ bool DatabaseManager::isCacheExistsByEntryId(const QString &id)
                 return true;
             }
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1899,9 +1849,9 @@ bool DatabaseManager::isCacheExistsByFinalUrl(const QString &id)
 
         bool ret = query.exec(QString("SELECT count(*) FROM cache WHERE final_url='%1';")
                         .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1909,7 +1859,6 @@ bool DatabaseManager::isCacheExistsByFinalUrl(const QString &id)
                 return true;
             }
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1925,7 +1874,8 @@ bool DatabaseManager::isDashboardExists()
         bool ret = query.exec("SELECT count(*) FROM dashboards;");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -1949,15 +1899,14 @@ QMap<QString,QString> DatabaseManager::readStreamIdsTabIds()
 
         bool ret = query.exec("SELECT ms.stream_id, m.tab_id FROM module_stream as ms, modules as m "
                               "WHERE ms.module_id=m.id;");
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             list.insertMulti(query.value(0).toString(), query.value(1).toString());
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -1978,7 +1927,8 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readStreamModuleTabList
                               "(SELECT stream_id FROM entries GROUP BY stream_id HAVING count(*)>0);");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2010,7 +1960,8 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readStreamModuleTabList
                               "GROUP BY e.stream_id;");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2022,7 +1973,6 @@ QList<DatabaseManager::StreamModuleTab> DatabaseManager::readStreamModuleTabList
             list.append(smt);
             //qDebug() << smt.streamId << smt.moduleId << smt.tabId << smt.date;
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2039,13 +1989,13 @@ int DatabaseManager::readLastUpdateByStream(const QString &id)
                                       "WHERE id='%1';").arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2062,13 +2012,13 @@ int DatabaseManager::readLastUpdateByTab(const QString &id)
                                       "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id='%1';").arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2087,13 +2037,13 @@ int DatabaseManager::readLastPublishedAtByTab(const QString &id)
                                       .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2112,13 +2062,13 @@ int DatabaseManager::readLastTimestampByTab(const QString &id)
                                       .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2135,15 +2085,14 @@ int DatabaseManager::readLastCrawlTimeByTab(const QString &id)
                                       "FROM entries as e, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id='%1';")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2160,15 +2109,14 @@ int DatabaseManager::readLastLastUpdateByTab(const QString &id)
                                       "FROM entries as e, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id='%1';")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2186,15 +2134,14 @@ int DatabaseManager::readLastPublishedAtByDashboard(const QString &id)
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1';")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2212,15 +2159,14 @@ int DatabaseManager::readLastTimestampByDashboard(const QString &id)
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1';")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2238,15 +2184,14 @@ int DatabaseManager::readLastCrawlTimeByDashboard(const QString &id)
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1';")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2264,15 +2209,14 @@ int DatabaseManager::readLastLastUpdateByDashboard(const QString &id)
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1';")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2290,15 +2234,14 @@ int DatabaseManager::readLastPublishedAtSlowByDashboard(const QString &id)
                                       "WHERE e.stream_id=s.id AND s.id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' AND s.slow=1;")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2316,15 +2259,14 @@ int DatabaseManager::readLastTimestampSlowByDashboard(const QString &id)
                                       "WHERE e.stream_id=s.id AND s.id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' AND s.slow=1;")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2342,15 +2284,14 @@ int DatabaseManager::readLastCrawlTimeSlowByDashboard(const QString &id)
                                       "WHERE e.stream_id=s.id AND s.id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' AND s.slow=1;")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2368,15 +2309,14 @@ int DatabaseManager::readLastLastUpdateSlowByDashboard(const QString &id)
                                       "WHERE e.stream_id=s.id AND s.id=ms.stream_id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1' AND s.slow=1;")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2394,15 +2334,14 @@ int DatabaseManager::readLastPublishedAtByStream(const QString &id)
                                       "WHERE e.stream_id=ms.stream_id "
                                       "AND e.stream_id='%1';")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2420,15 +2359,14 @@ int DatabaseManager::readLastTimestampByStream(const QString &id)
                                       "WHERE e.stream_id=ms.stream_id "
                                       "AND e.stream_id='%1';")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2446,15 +2384,14 @@ int DatabaseManager::readLastCrawlTimeByStream(const QString &id)
                                       "WHERE e.stream_id=ms.stream_id "
                                       "AND e.stream_id='%1';")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2472,15 +2409,14 @@ int DatabaseManager::readLastLastUpdateByStream(const QString &id)
                                       "WHERE e.stream_id=ms.stream_id "
                                       "AND e.stream_id='%1';")
                                       .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2496,15 +2432,14 @@ int DatabaseManager::readLastUpdateByDashboard(const QString &id)
         bool ret = query.exec(QString("SELECT max(s.last_update) FROM streams as s, modules as m, module_stream as ms, tabs as t "
                                       "WHERE ms.stream_id=s.id AND ms.module_id=m.id AND m.tab_id=t.id "
                                       "AND t.dashboard_id='%1';").arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             return query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -2525,9 +2460,9 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByStream(const QString
                                       "WHERE e.stream_id='%1' AND e.stream_id=s.id "
                                       "ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2571,9 +2506,9 @@ QString DatabaseManager::readLatestEntryIdByStream(const QString &id)
         bool ret = query.exec(QString("SELECT id FROM entries WHERE stream_id='%1' "
                                       "ORDER BY published_at DESC LIMIT 1;")
                               .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2597,7 +2532,8 @@ QString DatabaseManager::readLatestEntryIdByTab(const QString &id)
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2621,7 +2557,8 @@ QString DatabaseManager::readLatestEntryIdByDashboard(const QString &id)
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2650,7 +2587,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByDashboard(const QStr
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2702,7 +2640,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByDashboard(cons
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2752,9 +2691,9 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadAndSavedByDashbo
                                       "AND t.dashboard_id='%1' "
                                       "AND (e.read=0 OR e.saved=1) ORDER BY e.published_at %4 LIMIT %2 OFFSET %3;")
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2806,7 +2745,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowUnreadByDashboard(
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2858,7 +2798,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowUnreadAndSavedByDa
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2910,7 +2851,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesByTab(const QString &i
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -2962,7 +2904,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByTab(const QStr
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3015,7 +2958,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadAndSavedByTab(co
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3068,7 +3012,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSavedByDashboard(const
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3104,55 +3049,6 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSavedByDashboard(const
     return list;
 }
 
-/*QList<DatabaseManager::Entry> DatabaseManager::readEntriesSaved(int offset, int limit, bool ascOrder)
-{
-    QList<DatabaseManager::Entry> list;
-
-    if (db.isOpen()) {
-        QSqlQuery query(db);
-
-        bool ret = query.exec(QString("SELECT e.id, e.stream_id, e.title, e.author, e.content, e.link, e.image, e.annotations, "
-                                      "e.fresh, e.fresh_or, e.read, e.saved, e.liked, e.cached, e.broadcast, e.created_at, e.published_at, e.timestamp, e.crawl_time, e.last_update "
-                                      "FROM entries as e ORDER BY e.published_at %3 LIMIT %1 OFFSET %2;")
-                                      .arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
-
-        if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
-        }
-
-        while(query.next()) {
-            Entry item;
-            item.id = query.value(0).toString();
-            item.streamId = query.value(1).toString();
-            decodeBase64(query.value(2),item.title);
-            decodeBase64(query.value(3),item.author);
-            decodeBase64(query.value(4),item.content);
-            decodeBase64(query.value(5),item.link);
-            decodeBase64(query.value(6),item.image);
-            decodeBase64(query.value(7),item.feedIcon);
-            decodeBase64(query.value(8),item.feedTitle);
-            decodeBase64(query.value(9),item.annotations);
-            item.feedId = query.value(10).toString();
-            item.fresh = query.value(11).toInt();
-            item.freshOR = query.value(12).toInt();
-            item.read = query.value(13).toInt();
-            item.saved = query.value(14).toInt();
-            item.liked = query.value(15).toInt();
-            item.cached = query.value(16).toInt();
-            item.broadcast = query.value(17).toInt();
-            item.createdAt = query.value(18).toInt();
-            item.publishedAt = query.value(19).toInt();
-            item.timestamp = query.value(20).toInt();
-            item.crawlTime = query.value(21).toInt();
-            list.append(item);
-        }
-    } else {
-        qWarning() << "DB is not open";
-    }
-
-    return list;
-}*/
-
 QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowByDashboard(const QString &id, int offset, int limit, bool ascOrder)
 {
     QList<DatabaseManager::Entry> list;
@@ -3169,7 +3065,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowByDashboard(const 
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3198,7 +3095,6 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesSlowByDashboard(const 
             item.crawlTime = query.value(21).toInt();
             list.append(item);
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -3222,7 +3118,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesLikedByDashboard(const
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3251,7 +3148,6 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesLikedByDashboard(const
             item.crawlTime = query.value(21).toInt();
             list.append(item);
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -3275,7 +3171,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesBroadcastByDashboard(c
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3304,7 +3201,6 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesBroadcastByDashboard(c
             item.crawlTime = query.value(21).toInt();
             list.append(item);
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -3327,7 +3223,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadByStream(const Q
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3378,7 +3275,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesUnreadAndSavedByStream
                         .arg(id).arg(limit).arg(offset).arg(ascOrder ? "ASC" : "DESC"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3424,7 +3322,8 @@ QList<DatabaseManager::Action> DatabaseManager::readActions()
         bool ret = query.exec("SELECT type, id1, id2, id3, text, date1, date2, date3 FROM actions ORDER BY date2;");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3462,7 +3361,8 @@ QList<DatabaseManager::Entry> DatabaseManager::readEntriesCachedOlderThan(int ca
                         .arg(cacheDate).arg(limit));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3507,13 +3407,13 @@ QList<QString> DatabaseManager::readCacheFinalUrlOlderThan(int cacheDate, int li
                         .arg(cacheDate).arg(limit));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             list.append(query.value(0).toString());
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -3529,13 +3429,15 @@ void DatabaseManager::removeCacheItems()
         bool ret = query.exec("DELETE FROM cache;");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         ret = query.exec("UPDATE entries SET cached=0;");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
     }  else {
@@ -3552,7 +3454,8 @@ void DatabaseManager::removeStreamsByStream(const QString &id)
                          .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
 
@@ -3560,14 +3463,16 @@ void DatabaseManager::removeStreamsByStream(const QString &id)
                          .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         ret = query.exec(QString("DELETE FROM module_stream WHERE stream_id='%1';")
                          .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         // Removing empty modules
@@ -3576,12 +3481,12 @@ void DatabaseManager::removeStreamsByStream(const QString &id)
                                  "GROUP BY stream_id HAVING count(*)=0);"));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         // Removing empty chache
         // TODO
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -3596,97 +3501,40 @@ void DatabaseManager::removeTabById(const QString &id)
                          .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
     } else {
         qWarning() << "DB is not open";
     }
 }
-
-/*void DatabaseManager::removeEntriesOlderThan(int cacheDate, int limit)
-{
-    if (db.isOpen()) {
-        QSqlQuery query(db);
-
-        bool ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN "
-                                      "(SELECT id FROM entries WHERE saved!=1 AND liked!=1 AND broadcast!=1 AND cached_at<%1 AND stream_id IN "
-                                      "(SELECT stream_id FROM entries GROUP BY stream_id HAVING count(*)>%2));")
-                         .arg(cacheDate).arg(limit));
-
-        if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
-        }
-
-        ret = query.exec(QString("DELETE FROM entries WHERE saved!=1 AND liked!=1 AND broadcast!=1 AND cached_at<%1 AND stream_id IN "
-                                 "(SELECT stream_id FROM entries GROUP BY stream_id HAVING count(*)>%2);")
-                         .arg(cacheDate).arg(limit));
-
-        if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
-        }
-
-    } else {
-        qWarning() << "DB is not open";
-    }
-}*/
 
 void DatabaseManager::removeEntriesByFlag(int value)
 {
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        /*bool ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN "
-                                      "(SELECT id FROM entries WHERE saved!=1 AND liked!=1 AND broadcast!=1 AND flag=%1);")
-                              .arg(value));*/
-
         bool ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN "
                                       "(SELECT id FROM entries WHERE flag=%1);")
                               .arg(value));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
-        /*ret = query.exec(QString("DELETE FROM entries WHERE saved!=1 AND liked!=1 AND broadcast!=1 AND flag=%1;")
-                         .arg(value));*/
 
         ret = query.exec(QString("DELETE FROM entries WHERE flag=%1;")
                          .arg(value));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
-
     } else {
         qWarning() << "DB is not open";
     }
 }
-
-/*void DatabaseManager::removeEntriesOlderThanByCrawlTime(int cacheDate)
-{
-    if (db.isOpen()) {
-        QSqlQuery query(db);
-
-        bool ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN "
-                                      "(SELECT id FROM entries WHERE saved!=1 AND liked!=1 AND broadcast!=1 AND crawl_time<%1);")
-                         .arg(cacheDate));
-
-        if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
-        }
-
-        ret = query.exec(QString("DELETE FROM entries WHERE saved!=1 AND liked!=1 AND broadcast!=1 AND crawl_time<%1);")
-                         .arg(cacheDate));
-
-        if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
-        }
-
-    } else {
-        qWarning() << "DB is not open";
-    }
-}*/
 
 void DatabaseManager::removeEntriesByStream(const QString &id, int limit)
 {
@@ -3701,7 +3549,8 @@ void DatabaseManager::removeEntriesByStream(const QString &id, int limit)
                               .arg(limit));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         ret = query.exec(QString("DELETE FROM entries WHERE stream_id='%1' AND saved!=1 AND id NOT IN ("
@@ -3711,36 +3560,12 @@ void DatabaseManager::removeEntriesByStream(const QString &id, int limit)
                          .arg(limit));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
     }
 }
-
-
-
-/*void DatabaseManager::removeEntriesBySavedFlag(int flag)
-{
-    if (db.isOpen()) {
-        QSqlQuery query(db);
-
-        bool ret = query.exec(QString("DELETE FROM cache WHERE entry_id IN ("
-                                      "SELECT id FROM entries WHERE saved=%1);")
-                              .arg(flag));
-
-        if (!ret) {
-            qWarning() << "SQL error!" << query.lastError().text();
-        }
-
-        ret = query.exec(QString("DELETE FROM entries WHERE saved=%1;")
-                         .arg(flag));
-
-        if (!ret) {
-            qWarning() << "SQL error!" << query.lastError().text();
-        }
-
-    }
-}*/
 
 void DatabaseManager::removeActionsById(const QString &id)
 {
@@ -3751,7 +3576,8 @@ void DatabaseManager::removeActionsById(const QString &id)
                          .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         } else {
             emit syncedChanged();
         }
@@ -3770,7 +3596,8 @@ void DatabaseManager::removeActionsByIdAndType(const QString &id, ActionsTypes t
                          .arg(id).arg(static_cast<int>(type)));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         } else {
             emit syncedChanged();
         }
@@ -3791,7 +3618,8 @@ QMap<QString,QString> DatabaseManager::readNotCachedEntries()
         bool ret = query.exec("SELECT id, link FROM entries WHERE cached=0;");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3815,7 +3643,8 @@ int DatabaseManager::countEntriesNotCached()
         bool ret = query.exec("SELECT count(*) FROM entries WHERE cached=0;");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3869,7 +3698,8 @@ int DatabaseManager::countEntries()
         bool ret = query.exec("SELECT COUNT(*) FROM entries;");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3893,7 +3723,8 @@ int DatabaseManager::countStreams()
         bool ret = query.exec("SELECT COUNT(*) FROM streams;");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3917,7 +3748,8 @@ int DatabaseManager::countTabs()
         bool ret = query.exec("SELECT COUNT(*) FROM tabs;");
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3942,7 +3774,8 @@ int DatabaseManager::countEntriesByStream(const QString &id)
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3968,7 +3801,8 @@ int DatabaseManager::countEntriesNewerThanByStream(const QString &id, const QDat
                               .arg(date.toTime_t()));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
@@ -3989,20 +3823,16 @@ int DatabaseManager::countEntriesUnreadByStream(const QString &id)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        /*qDebug() << QString("SELECT COUNT(*) FROM entries WHERE stream_id='%1' AND read=0;")
-                    .arg(id);*/
-
         bool ret = query.exec(QString("SELECT COUNT(*) FROM entries WHERE stream_id='%1' AND read=0;")
                               .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             count = query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -4024,13 +3854,13 @@ int DatabaseManager::countEntriesReadByDashboard(const QString &id)
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             count = query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -4052,13 +3882,13 @@ int DatabaseManager::countEntriesSlowReadByDashboard(const QString &id)
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             count = query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -4080,13 +3910,13 @@ int DatabaseManager::countEntriesUnreadByDashboard(const QString &id)
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             count = query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -4108,13 +3938,13 @@ int DatabaseManager::countEntriesSlowUnreadByDashboard(const QString &id)
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             count = query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -4129,24 +3959,18 @@ int DatabaseManager::countEntriesUnreadByTab(const QString &id)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        /*qDebug() << QString("SELECT COUNT(*) FROM entries as e, module_stream as ms, modules as m "
-                            "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id "
-                            "AND m.tab_id='%1' AND e.read=0;")
-                    .arg(id);*/
-
         bool ret = query.exec(QString("SELECT COUNT(*) FROM entries as e, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id "
                                       "AND m.tab_id='%1' AND e.read=0;")
                               .arg(id));
-
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             count = query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -4165,13 +3989,13 @@ int DatabaseManager::countEntriesReadByStream(const QString &id)
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             count = query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -4186,24 +4010,19 @@ int DatabaseManager::countEntriesReadByTab(const QString &id)
     if (db.isOpen()) {
         QSqlQuery query(db);
 
-        /*qDebug() << QString("SELECT COUNT(*) FROM entries as e, module_stream as ms, modules as m "
-                            "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id "
-                            "AND m.tab_id='%1' AND e.read>0;")
-                    .arg(id);*/
-
         bool ret = query.exec(QString("SELECT COUNT(*) FROM entries as e, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id "
                                       "AND m.tab_id='%1' AND e.read>0;")
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             count = query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -4222,13 +4041,13 @@ int DatabaseManager::countEntriesFreshByStream(const QString &id)
                               .arg(id));
 
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             count = query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -4245,17 +4064,15 @@ int DatabaseManager::countEntriesFreshByTab(const QString &id)
 
         bool ret = query.exec(QString("SELECT COUNT(*) FROM entries as e, module_stream as ms, modules as m "
                                       "WHERE e.stream_id=ms.stream_id AND ms.module_id=m.id "
-                                      "AND m.tab_id='%1' AND e.fresh=1;")
-                              .arg(id));
-
+                                      "AND m.tab_id='%1' AND e.fresh=1;").arg(id));
         if (!ret) {
-           qWarning() << "SQL Error:" << query.lastQuery();checkError(query.lastError());
+           qWarning() << "SQL Error:" << query.lastQuery();
+           checkError(query.lastError());
         }
 
         while(query.next()) {
             count = query.value(0).toInt();
         }
-
     } else {
         qWarning() << "DB is not open";
     }
@@ -4283,5 +4100,4 @@ void DatabaseManager::checkError(const QSqlError &error)
             }
         }
     }
-
 }

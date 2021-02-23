@@ -236,8 +236,7 @@ void NvFetcher::fetchFeeds()
             content += "\"filter\":\"unread\",";
         content += QString("\"limit\":%1},\"streams\":[{\"id\":\"%2\",\"moduleId\":\"%3\"}]}")
                 .arg(limitFeeds)
-                .arg((*i).streamId)
-                .arg((*i).moduleId);
+                .arg((*i).streamId, (*i).moduleId);
 
         //qDebug() << "streamId:" << (*i).streamId << "moduleId:" << (*i).moduleId;
 
@@ -322,8 +321,7 @@ void NvFetcher::fetchFeedsUpdate()
                            "\"streams\":[{\"id\":\"%3\",\"moduleId\":\"%4\"}]}")
                 .arg(limitFeedsUpdate)
                 .arg((*i).date)
-                .arg((*i).streamId)
-                .arg((*i).moduleId);
+                .arg((*i).streamId, (*i).moduleId);
 
         i = streamUpdateList.erase(i);
         ++ii;
@@ -413,7 +411,7 @@ void NvFetcher::setAction()
             if (i != list.begin())
                 actions  += ",";
 
-            actions += QString("{\"id\":\"%1\",\"moduleId\":\"%2\"}").arg((*i).streamId).arg((*i).moduleId);
+            actions += QString("{\"id\":\"%1\",\"moduleId\":\"%2\"}").arg((*i).streamId, (*i).moduleId);
 
             ++i;
         }
@@ -441,7 +439,7 @@ void NvFetcher::setAction()
             if (i != list.begin())
                 actions  += ",";
 
-            actions += QString("{\"id\":\"%1\",\"moduleId\":\"%2\"}").arg((*i).streamId).arg((*i).moduleId);
+            actions += QString("{\"id\":\"%1\",\"moduleId\":\"%2\"}").arg((*i).streamId, (*i).moduleId);
 
             ++i;
         }
@@ -469,7 +467,7 @@ void NvFetcher::setAction()
             if (i != list.begin())
                 actions  += ",";
 
-            actions += QString("{\"id\":\"%1\",\"moduleId\":\"%2\"}").arg((*i).streamId).arg((*i).moduleId);
+            actions += QString("{\"id\":\"%1\",\"moduleId\":\"%2\"}").arg((*i).streamId, (*i).moduleId);
 
             ++i;
         }
@@ -498,7 +496,7 @@ void NvFetcher::setAction()
 
         actions += QString("{\"streams\":[{\"id\":\"%1\",\"items\":[{"
                            "\"id\":\"%2\",\"publishedAt\":%3}]}]}")
-                .arg(action.id2).arg(action.id1).arg(action.date1);
+                .arg(action.id2, action.id1).arg(action.date1);
 
         //qDebug() << actions;
     }
@@ -1323,13 +1321,13 @@ void NvFetcher::storeTabs()
             if (t.icon=="" && obj["iconConfig"].isObject()) {
                 doDownloadIcon = false;
                 QJsonObject iconObj = obj["iconConfig"].toObject();
-                t.icon = QString("image://nvicons/%1?%2").arg(iconObj["icon"].toString()).arg(iconObj["color"].toString());
+                t.icon = QString("image://nvicons/%1?%2").arg(iconObj["icon"].toString(), iconObj["color"].toString());
             }
 #else
             if (t.icon=="" && obj["iconConfig"].type()==QVariant::Map) {
                 doDownloadIcon = false;
                 QVariantMap iconObj = obj["iconConfig"].toMap();
-                t.icon = QString("image://nvicons/%1?%2").arg(iconObj["icon"].toString()).arg(iconObj["color"].toString());
+                t.icon = QString("image://nvicons/%1?%2").arg(iconObj["icon"].toString(), iconObj["color"].toString());
             }
 #endif
 
@@ -1493,8 +1491,7 @@ int NvFetcher::storeFeeds()
                         if (st.link!="") {
                             QUrl iconUrl(st.link);
                             st.icon = QString("https://avatars.netvibes.com/favicon/%1://%2")
-                                    .arg(iconUrl.scheme())
-                                    .arg(iconUrl.host());
+                                    .arg(iconUrl.scheme(), iconUrl.host());
                             DatabaseManager::CacheItem item;
                             item.origUrl = st.icon;
                             item.finalUrl = st.icon;

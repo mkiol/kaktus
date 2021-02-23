@@ -51,7 +51,6 @@ public:
 class Fetcher : public QThread
 {
     Q_OBJECT
-    Q_ENUMS(BusyType)
     Q_PROPERTY (bool busy READ isBusy NOTIFY busyChanged)
     Q_PROPERTY (BusyType busyType READ readBusyType NOTIFY busyChanged)
 
@@ -68,6 +67,7 @@ public:
         CheckingCredentialsWaiting = 31,
         GettingAuthUrlWaiting = 41
     };
+    Q_ENUM(BusyType)
 
     explicit Fetcher(QObject *parent = 0);
     ~Fetcher();

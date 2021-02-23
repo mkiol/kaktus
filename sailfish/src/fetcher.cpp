@@ -343,7 +343,6 @@ void Fetcher::mergeActionsIntoList(DatabaseManager::ActionsTypes typeSet,
     if (it2 != actionsList.end()) {
         bool inMerge = false;
         while (it2 != actionsList.end()) {
-
             DatabaseManager::ActionsTypes type1 = (*it1).type;
             DatabaseManager::ActionsTypes type2 = (*it2).type;
             DatabaseManager::ActionsTypes newType;
@@ -358,7 +357,6 @@ void Fetcher::mergeActionsIntoList(DatabaseManager::ActionsTypes typeSet,
             }
 
             if (type1 == type2 && typeOk) {
-
                 QString newId1 = (*it1).id1 + QString("&%1").arg((*it2).id1);
                 QString newId2 = (*it1).id2 + QString("&%1").arg((*it2).id2);
                 QString newId3 = (*it1).id3 + QString("&%1").arg((*it2).id3);
@@ -493,7 +491,7 @@ void Fetcher::saveImage(const QString &url)
         auto dm = DownloadManager::instance();
         auto conn1 = std::make_shared<QMetaObject::Connection>();
         auto conn2 = std::make_shared<QMetaObject::Connection>();
-        *conn1 = connect(dm, &DownloadManager::downloadReady,
+        *conn1 = connect(dm, &DownloadManager::downloadReady, this,
                         [this, conn1, conn2](const QString &url,
                          const QString &path, const QString &contentType) {
             //qDebug() << "Download finished:" << url << path << contentType;
@@ -501,7 +499,7 @@ void Fetcher::saveImage(const QString &url)
             disconnect(*conn1); disconnect(*conn2);
             copyImage(path, contentType);
         });
-        *conn2 = connect(dm, &DownloadManager::downloadFailed,
+        *conn2 = connect(dm, &DownloadManager::downloadFailed, this,
                         [this, conn1, conn2](const QString &url) {
             qWarning() << "Image download error:" << url;
             disconnect(*conn1); disconnect(*conn2);

@@ -168,9 +168,8 @@ void OldReaderFetcher::setAction()
         break;
     case DatabaseManager::SetStreamReadAll:
         url.setUrl("https://theoldreader.com/reader/api/0/mark-all-as-read");
-        body = QString("s=%1&ts=%2").arg(action.id1).arg(
-                    QString::number(db->readLastLastUpdateByStream(action.id1))+"000000"
-                    );
+        body = QString("s=%1&ts=%2").arg(action.id1,
+                    QString::number(db->readLastLastUpdateByStream(action.id1))+"000000");
         break;
     case DatabaseManager::SetTabReadAll:
         if (action.id1 == "subscriptions") {
@@ -190,22 +189,20 @@ void OldReaderFetcher::setAction()
         }
 
         url.setUrl("https://theoldreader.com/reader/api/0/mark-all-as-read");
-        body = QString("s=%1&ts=%2").arg(action.id1).arg(
-                    QString::number(db->readLastLastUpdateByTab(action.id1))+"000000"
-                    );
+        body = QString("s=%1&ts=%2").arg(action.id1,
+                    QString::number(db->readLastLastUpdateByTab(action.id1))+"000000");
         break;
     case DatabaseManager::SetAllRead:
         url.setUrl("https://theoldreader.com/reader/api/0/mark-all-as-read");
         body = QString("s=user/-/state/com.google/reading-list&ts=%1").arg(
-                    QString::number(db->readLastLastUpdateByDashboard(s->getDashboardInUse()))+"000000"
-                    );
+                    QString::number(db->readLastLastUpdateByDashboard(s->getDashboardInUse()))+"000000");
         break;
     case DatabaseManager::SetBroadcast:
         url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
         if (action.text == "")
             body = QString("a=user/-/state/com.google/broadcast&i=%1").arg(action.id1);
         else
-            body = QString("a=user/-/state/com.google/broadcast&i=%1&annotation=%2").arg(action.id1).arg(action.text);
+            body = QString("a=user/-/state/com.google/broadcast&i=%1&annotation=%2").arg(action.id1, action.text);
         break;
     case DatabaseManager::UnSetBroadcast:
         url.setUrl("https://theoldreader.com/reader/api/0/edit-tag");
@@ -391,7 +388,7 @@ void OldReaderFetcher::fetchStarredStream()
                    .arg(limitAtOnce).arg(st));
     else
         url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&s=%3")
-                   .arg(limitAtOnce).arg(lastContinuation).arg(st));
+                   .arg(limitAtOnce).arg(lastContinuation, st));
     QNetworkRequest request(url);
 
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
@@ -426,7 +423,7 @@ void OldReaderFetcher::fetchLikedStream()
                    .arg(limitAtOnce).arg(st));
     else
         url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&s=%3")
-                   .arg(limitAtOnce).arg(lastContinuation).arg(st));
+                   .arg(limitAtOnce).arg(lastContinuation, st));
     QNetworkRequest request(url);
 
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
@@ -461,7 +458,7 @@ void OldReaderFetcher::fetchBroadcastStream()
                    .arg(limitAtOnce).arg(st));
     else
         url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&s=%3")
-                   .arg(limitAtOnce).arg(lastContinuation).arg(st));
+                   .arg(limitAtOnce).arg(lastContinuation, st));
     QNetworkRequest request(url);
 
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
@@ -499,7 +496,7 @@ void OldReaderFetcher::fetchUnreadStream()
     else
         url.setUrl(QString("https://theoldreader.com/reader/api/0/stream/contents?output=json&n=%1&c=%2&s=%3&xt=%4")
                    .arg(limitAtOnce)
-                   .arg(lastContinuation).arg(st1, st2));
+                   .arg(lastContinuation, st1, st2));
     QNetworkRequest request(url);
 
     request.setRawHeader("Authorization",QString("GoogleLogin auth=%1").arg(s->getCookie()).toLatin1());
