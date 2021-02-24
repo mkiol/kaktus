@@ -291,6 +291,99 @@ ListItem {
         }
     }
 
+    Image {
+        id: dragReadIcon
+        visible: false
+        scale: 0.0
+        anchors.right: parent.right
+        anchors.verticalCenter: box.verticalCenter
+        source: root.read ? "image://icons/icon-m-read-selected?" + Theme.primaryColor :
+            "image://icons/icon-m-read?" + Theme.primaryColor
+
+        state: "hidden"
+        states: [
+            State {
+                name: "hidden"
+                when: box.x > -dragReadIcon.sourceSize.width
+            },
+            State {
+                name: "visible"
+                when: box.x <= -dragReadIcon.sourceSize.width && box.x > -root.width / 3
+            },
+            State {
+                name: "toggling"
+                when: box.x <= -root.width / 3
+            }
+        ]
+
+        transitions: [
+            Transition {
+                from: "hidden"
+                to: "visible"
+                SequentialAnimation {
+                    ScriptAction { script: { dragReadIcon.visible = true } }
+                    NumberAnimation {
+                        target: dragReadIcon
+                        properties: "scale"
+                        to: 1.0
+                        duration: 100
+                    }
+                }
+            },
+            Transition {
+                from: "visible"
+                to: "hidden"
+                SequentialAnimation {
+                    NumberAnimation {
+                        target: dragReadIcon
+                        properties: "scale"
+                        to: 0.0
+                        duration: 100
+                    }
+                    ScriptAction { script: { dragReadIcon.visible = false } }
+                }
+            },
+            Transition {
+                from: "visible"
+                to: "toggling"
+                SequentialAnimation {
+                    NumberAnimation {
+                        target: dragReadIcon
+                        properties: "scale"
+                        to: 1.2
+                        duration: 100
+                        easing { type: Easing.OutCubic }
+                    }
+                    ScriptAction {
+                        script: {
+                            dragReadIcon.source = root.read ?
+                                "image://icons/icon-m-read?" + Theme.primaryColor :
+                                "image://icons/icon-m-read-selected?" + Theme.primaryColor
+                        }
+                    }
+                    NumberAnimation {
+                        target: dragReadIcon
+                        properties: "scale"
+                        to: 1.0
+                        duration: 100
+                        easing { type: Easing.InCubic }
+                    }
+                }
+            },
+            Transition {
+                from: "toggling"
+                to: "visible"
+                ScriptAction {
+                    script: {
+                        dragReadIcon.source = root.read ?
+                            "image://icons/icon-m-read-selected?" + Theme.primaryColor :
+                            "image://icons/icon-m-read?" + Theme.primaryColor
+                    }
+                }
+            }
+        ]
+    }
+
     BackgroundItem {
         id: expander
         visible: !last && !daterow
@@ -519,12 +612,12 @@ ListItem {
 
     drag.target: box
     drag.axis: Drag.XAxis
-    drag.minimumX: -width
+    drag.minimumX: -width / 3
     drag.maximumX: 0
 
     drag.onActiveChanged: {
         if (!drag.active) {
-            if (box.x < -width / 3) {
+            if (box.x <= -width / 3) {
                 state = "toggleRead"
             } else {
                 state = "default"
