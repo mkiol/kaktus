@@ -25,7 +25,6 @@ Notification {
     id: root
 
     expireTimeout: 4000
-    maxContentLines: 10
 
     function show(bodyText, summaryText, clickedHandler) {
         //console.log("show: " + bodyText + " " + summaryText)

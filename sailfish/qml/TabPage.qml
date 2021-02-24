@@ -113,11 +113,12 @@ Page {
                     if (vm == 0) {
                         utils.setFeedModel(uid);
                         pageStack.push(Qt.resolvedUrl("FeedPage.qml"),
-                                       {"title": title.text, "index": model.index})
+                                       {"title": title, "index": model.index})
                     } else if (vm == 1) {
                         utils.setEntryModel(uid);
+                        console.log()
                         pageStack.push(Qt.resolvedUrl("EntryPage.qml"),
-                                       {"title": title.text, "readlater": false})
+                                       {"title": title, "readlater": false})
                     }
                 }
             }

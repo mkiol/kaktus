@@ -131,20 +131,7 @@ Page {
 
             PaddedLabel {
                 horizontalAlignment: Text.AlignLeft
-                textFormat: Text.RichText
-                text: "QHTTPServer - Copyright &copy; 2011-2014 Nikhil Marathe"
-            }
-
-            PaddedLabel {
-                horizontalAlignment: Text.AlignLeft
-                textFormat: Text.RichText
-                text: "Readability.js - Copyright &copy; 2010 Arc90 Inc"
-            }
-
-            PaddedLabel {
-                horizontalAlignment: Text.AlignLeft
-                textFormat: Text.RichText
-                text: "SimpleCrypt - Copyright &copy; 2011 Andre Somers"
+                text: "QHTTPServer \nReadability.js \nSimpleCrypt"
             }
 
             Spacer {}

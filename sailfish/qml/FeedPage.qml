@@ -112,7 +112,7 @@ Page {
                 if (enabled) {
                     utils.setEntryModel(uid);
                     pageStack.push(Qt.resolvedUrl("EntryPage.qml"),
-                                   {"title": title.text, "index": model.index, "readlater": false})
+                                   {"title": title, "index": model.index, "readlater": false})
                 }
             }
         }

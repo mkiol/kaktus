@@ -147,7 +147,6 @@ Page {
     }
 
     function openUrlEntryInBrowser(url) {
-        notification.show(qsTr("Launching a browser..."));
         Qt.openUrlExternally(url);
     }
 
