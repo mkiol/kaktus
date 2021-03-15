@@ -61,7 +61,19 @@ Page {
             }
 
             SectionHeader {
-                text: qsTr("Version %1").arg("3.0.1")
+                text: qsTr("Version %1").arg("3.0.2")
+            }
+
+            LogItem {
+                title: "Mark as read/unread gesture"
+                description: "Items on the list can be marked as read/unread with a swipe gesture. " +
+                             "Many thanks to Renaud Casenave-Péré for the implementation."
+            }
+
+            LogItem {
+                title: "Inverted screen orientations enabled"
+                description: "Inverted landscape screen orientation is now possible. Thanks to this change " +
+                             "Kaktus on Gemini PDA is more pleasant to use."
             }
 
             LogItem {
@@ -80,7 +92,8 @@ Page {
                              "aggregator. Tiny Tiny RSS is a free and " +
                              "open source web-based news feed (RSS/Atom) reader. " +
                              "To find more about it, please check the official " +
-                             "<a href=\"https://tt-rss.org/\">web page</a>.";
+                             "<a href=\"https://tt-rss.org/\">web page</a>. " +
+                             "Many thanks to Renaud Casenave-Péré for the implementation."
             }
 
             LogItem {

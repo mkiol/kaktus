@@ -8,7 +8,10 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
-* Tue Feb 09 2020 Michal Kosciesza 3.0.1-1
+* Mon Mar 15 2021 Michal Kosciesza 3.0.2-1
+- Bug fixes discovered on SFOS 4.0
+
+* Tue Feb 09 2021 Michal Kosciesza 3.0.1-1
 - Bug fixes discovered on SFOS 4.0
 
 * Mon Apr 22 2019 Michal Kosciesza 3.0.0-1

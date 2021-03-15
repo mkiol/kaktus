@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2014-2019 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2014-2021 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -22,15 +22,15 @@
 
 namespace Kaktus {
 static const char* APP_NAME = "Kaktus";
-#ifdef SAILFISH
-static const char* APP_VERSION = "3.0.1";
-#elif ANDROID
-static const char* APP_VERSION = "3.0.1";
-#endif
+#ifdef QT_DEBUG
+static constexpr const char* APP_VERSION = "3.0.2 (debug)";
+#else
+static constexpr const char* APP_VERSION = "3.0.2";
+#endif // QT_DEBUG
 static const char* AUTHOR = "Michal Kosciesza";
-static const char* COPYRIGHT_YEAR = "2014-2019";
+static const char* COPYRIGHT_YEAR = "2014-2021";
 static const char* AUTHOR1 = "Renaud Casenave-Péré";
-static const char* COPYRIGHT_YEAR1 = "2019";
+static const char* COPYRIGHT_YEAR1 = "2019-2021";
 static const char* SUPPORT_EMAIL = "kaktus@mkiol.net";
 static const char* PAGE = "https://github.com/mkiol/kaktus";
 static const char* LICENSE = "GNU General Public Licence version 3";

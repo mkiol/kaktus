@@ -1,13 +1,10 @@
 TARGET = harbour-kaktus
 
-CONFIG += c++11 sailfishapp json no_lflags_merge object_parallel_to_source
+CONFIG += c++1z sailfishapp json
 
 QT += sql network dbus
 
 PKGCONFIG += mlite5
-
-linux-g++-32: CONFIG += x86
-linux-g++: CONFIG += arm
 
 DEFINES += SAILFISH
 DEFINES += ONLINE_CHECK
