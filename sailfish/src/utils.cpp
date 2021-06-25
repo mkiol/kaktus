@@ -516,8 +516,9 @@ void Utils::setRootModel()
 #else
         s->context->setContextProperty("feedModel", feedModel);
 #endif
-        if (tabModel != nullptr)
+        if (tabModel != nullptr) {
             delete tabModel; tabModel = nullptr;
+        }
         if (oldFeedModel != nullptr) {
             delete oldFeedModel;
         }
@@ -542,8 +543,9 @@ void Utils::setRootModel()
 #else
         s->context->setContextProperty("entryModel", entryModel);
 #endif
-        if (tabModel != nullptr)
+        if (tabModel != nullptr) {
             delete tabModel; tabModel = nullptr;
+        }
         if (feedModel != nullptr) {
             delete feedModel; feedModel = nullptr;
         }
