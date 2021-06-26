@@ -31,7 +31,7 @@ public:
     QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
 
 private:
-    const static QString availableColors[5];
+    const static QString availableColors[6];
     const static QString spriteMap[5][10];
 
     int getOffsetByColor(const QString &color);

@@ -28,7 +28,7 @@
 
 #include "nviconprovider.h"
 
-const QString NvIconProvider::availableColors[5] = {"green", "blue", "orange", "pink", "grey"};
+const QString NvIconProvider::availableColors[6] = {"green", "blue", "orange", "pink", "grey", "purple"};
 const QString NvIconProvider::spriteMap[5][10] = {
     {"plus","home","label-2","star","label","pin","sheet","power","diamond","folder"},
     {"enveloppe","happy-face","rss","calc","clock","pen","bug","label-box","yen","snail"},
@@ -43,15 +43,19 @@ NvIconProvider::NvIconProvider() : QQuickImageProvider(QQuickImageProvider::Pixm
 
 QPixmap NvIconProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
 {
-    QStringList parts = id.split('?');
-    QString spriteImagePath = "";
+    auto parts = id.split('?');
+    if (parts.size() < 2)
+        parts = QStringList{"plus", "green"};
+
+    QString spriteImagePath;
 #ifdef SAILFISH
     spriteImagePath = SailfishApp::pathTo("qml/sprite-icons.png").toString(QUrl::RemoveScheme);
 #endif
 #ifdef ANDROID
     spriteImagePath = ":/images/sprite-icons.png";
 #endif
-    QPixmap iconsPixmap(spriteImagePath);
+
+    QPixmap iconsPixmap{spriteImagePath};
     QPixmap iconPixmap = iconsPixmap.copy(getPosition(parts.at(0), parts.at(1)));
 
     if (size)
@@ -65,31 +69,35 @@ QPixmap NvIconProvider::requestPixmap(const QString &id, QSize *size, const QSiz
 
 QRect NvIconProvider::getPosition(const QString &icon, const QString &color)
 {
-    //qDebug() << icon << color;
-    int n = 16, s = 20, a = 16;
+    const int size = 40;
+    const int x_off = 30;
+    const int y_off = 28;
+
     for (int i = 0; i < 5; ++i) {
         for (int j = 0; j < 10; ++j) {
             if (spriteMap[i][j] == icon) {
-                n += 100 * i;
-                a += j * s;
-                return QRect(n + getOffsetByColor(color), a, 16, 16);
+                return QRect{x_off + (6 * size * i) + getOffsetByColor(color),
+                             y_off + (j * size),
+                             size, size};
             }
         }
     }
 
-    return QRect();
+    return QRect{x_off, y_off, size, size};
 }
 
 int NvIconProvider::getOffsetByColor(const QString &color)
 {
     int index = 0;
-    for (int i = 0; i < 5; ++i) {
+
+    for (int i = 0; i < 6; ++i) {
         if (availableColors[i] == color) {
             index = i;
             break;
         }
     }
-    return index * 20;
+
+    return index * 40;
 }
 
 
