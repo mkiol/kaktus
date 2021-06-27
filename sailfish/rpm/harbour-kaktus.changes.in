@@ -8,6 +8,9 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sat Jun 26 2021 Michal Kosciesza 3.0.3-1
+- High res Netvibes icons
+
 * Mon Mar 15 2021 Michal Kosciesza 3.0.2-1
 - Bug fixes discovered on SFOS 4.0
 

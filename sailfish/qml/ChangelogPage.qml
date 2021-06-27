@@ -61,6 +61,15 @@ Page {
             }
 
             SectionHeader {
+                text: qsTr("Version %1").arg("3.0.3")
+            }
+
+            LogItem {
+                title: "Better Netvibes icons"
+                description: "Low resolution Netvibes icons were replaced with improved ones."
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("3.0.2")
             }
 
