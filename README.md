@@ -16,7 +16,7 @@ Kaktus is an *unofficial* application. It means that it was not developed by Net
 
 The binary packages can be downloaded from:
 - Sailfish (Jolla phone): Jolla Store or [OpenRepos](https://openrepos.net/content/mkiol/kaktus)
-- BlackBerry 10: [BlackBerry World](https://appworld.blackberry.com/webstore/content/59951312)
+- BlackBerry 10: [BlackBerry World](https://appworld.blackberry.com/webstore/content/59951312) or [BAR file directly from GitHub](https://github.com/mkiol/kaktus/raw/master/bb10/bar/kaktus-2_5_0_1.bar)
 
 Symbian and Meego versions were discontinued.
 
