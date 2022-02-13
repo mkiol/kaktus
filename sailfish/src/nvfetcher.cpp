@@ -1678,27 +1678,22 @@ bool NvFetcher::checkError()
 void NvFetcher::setCookie(QNetworkRequest &request, const QString &cookie)
 {
     QString value;
-    //qDebug() << cookie;
     QStringList list = cookie.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
-    //qDebug() << cookie;
     QStringList::iterator i = list.begin();
+
     bool start = true;
     while (i != list.end()) {
-        //qDebug() << "setCookie" << (*i);
         QStringList parts = (*i).split(';');
-        //qDebug() << parts.at(0).split('=').at(1);
         if (parts.at(0).split('=').at(1) != "deleted") {
-            if (!start)
-                value = parts.at(0) + "; " + value;
-            else
-                value = parts.at(0);
+            if (!start) value = parts.at(0) + "; " + value;
+            else value = parts.at(0);
             start = false;
         }
         ++i;
     }
-    value = "lang=en_US; tz=2; "+value;
-    //qDebug() << "setCookie value" << value;
-    request.setRawHeader("Cookie",value.toLatin1());
+
+    value = "consent=necessary; " + value;
+    request.setRawHeader("Cookie", value.toLatin1());
 }
 
 bool NvFetcher::checkCookie(const QString &cookie)
@@ -1706,7 +1701,6 @@ bool NvFetcher::checkCookie(const QString &cookie)
     QStringList list = cookie.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
     QStringList::iterator i = list.begin();
     while (i != list.end()) {
-        //qDebug() << "checkCookie" << (*i);
         if ((*i).contains("activeSessionID",Qt::CaseSensitive)) {
             return true;
         }
@@ -1727,11 +1721,8 @@ void NvFetcher::uploadActions()
 
 void NvFetcher::cleanNewFeeds()
 {
-    //QList<DatabaseManager::StreamModuleTab> storedStreamList = s->db->readStreamModuleTabListWithoutDate();
     QList<DatabaseManager::StreamModuleTab> tmp_storedStreamList = QList<DatabaseManager::StreamModuleTab>(storedStreamList);
     QList<DatabaseManager::StreamModuleTab>::iterator i = streamList.begin();
-    //qDebug() << "###################################### tmp_storedStreamList.count" << tmp_storedStreamList.count();
-    i = streamList.begin();
     while (i != streamList.end()) {
         //qDebug() << "streamList| streamId:" << (*i).streamId << "tabId:" << (*i).tabId;
         QList<DatabaseManager::StreamModuleTab>::iterator ci = tmp_storedStreamList.begin();
