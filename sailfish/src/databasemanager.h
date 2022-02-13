@@ -51,7 +51,7 @@ public:
         QString streamId;
         QString moduleId;
         QString tabId;
-        int date;
+        int date = 0;
     };
 
     struct Dashboard {
@@ -88,13 +88,13 @@ public:
         QString query;
         QString icon;
         QString type;
-        int unread;
-        int read;
-        int saved;
-        int slow;
-        int newestItemAddedAt;
-        int updateAt;
-        int lastUpdate;
+        int unread = 0;
+        int read = 0;
+        int saved = 0;
+        int slow = 0;
+        int newestItemAddedAt = 0;
+        int updateAt = 0;
+        int lastUpdate = 0;
     };
 
     struct Entry {
@@ -109,17 +109,17 @@ public:
         QString feedIcon;
         QString feedTitle;
         QString annotations;
-        int fresh;
-        int freshOR;
-        int read;
-        int saved;
-        int liked;
-        int cached;
-        int broadcast;
-        int publishedAt;
-        int createdAt;
-        int crawlTime;
-        int timestamp;
+        int fresh = 0;
+        int freshOR = 0;
+        int read = 0;
+        int saved = 0;
+        int liked = 0;
+        int cached = 0;
+        int broadcast = 0;
+        int publishedAt = 0;
+        int createdAt = 0;
+        int crawlTime = 0;
+        int timestamp = 0;
     };
 
     struct CacheItem {
@@ -132,8 +132,8 @@ public:
         QString contentType;
         QString entryId;
         QString streamId;
-        int date;
-        int flag;
+        int date = 0;
+        int flag = 0;
     };
 
     enum ActionsTypes {
@@ -165,9 +165,9 @@ public:
         QString id2;
         QString id3;
         QString text;
-        int date1;
-        int date2;
-        int date3;
+        int date1 = 0;
+        int date2 = 0;
+        int date3 = 0;
     };
 
     static DatabaseManager* instance(QObject *parent = nullptr);

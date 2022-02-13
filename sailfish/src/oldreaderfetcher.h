@@ -79,8 +79,8 @@ private:
     //QList<DatabaseManager::StreamModuleTab> storedFeedList;
 
     QString lastContinuation;
-    int continuationCount;
-    int lastDate;
+    int continuationCount = 0;
+    int lastDate = 0;
 
     void signIn();
     void startFetching();

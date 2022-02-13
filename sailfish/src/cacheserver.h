@@ -37,11 +37,11 @@ class FilteringWorker : public QThread
 {
     Q_OBJECT
 public:
-    explicit FilteringWorker(QObject *parent = 0);
-    QHttpResponse *resp;
-    QHttpRequest *req;
+    explicit FilteringWorker(QObject *parent = nullptr);
+    QHttpResponse *resp = nullptr;
+    QHttpRequest *req = nullptr;
     QByteArray data;
-    bool error;
+    bool error = false;
 
 protected:
     void run();

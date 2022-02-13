@@ -17,7 +17,7 @@ class NetworkAccessManagerFactory: public QDeclarativeNetworkAccessManagerFactor
 #endif // QT5
 
 public:
-    NetworkAccessManagerFactory(QString userAgent);
+    explicit NetworkAccessManagerFactory(const QString &userAgent);
     virtual QNetworkAccessManager *create(QObject* parent);
 
 private:

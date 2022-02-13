@@ -3,14 +3,14 @@
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0) // QT5
 
-NetworkAccessManagerFactory::NetworkAccessManagerFactory(QString userAgent) : QQmlNetworkAccessManagerFactory(),
+NetworkAccessManagerFactory::NetworkAccessManagerFactory(const QString &userAgent) : QQmlNetworkAccessManagerFactory(),
     userAgent(userAgent)
 {
 }
 
 #else // QT5
 
-NetworkAccessManagerFactory::NetworkAccessManagerFactory(QString userAgent) : QDeclarativeNetworkAccessManagerFactory(),
+NetworkAccessManagerFactory::NetworkAccessManagerFactory(const QString &userAgent) : QDeclarativeNetworkAccessManagerFactory(),
     userAgent(userAgent)
 {
 }

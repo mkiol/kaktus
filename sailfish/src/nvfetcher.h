@@ -80,7 +80,7 @@ private:
     QList<DatabaseManager::StreamModuleTab> streamList;
     QList<DatabaseManager::StreamModuleTab> streamUpdateList;
     QList<DatabaseManager::StreamModuleTab> storedStreamList;
-    int publishedBeforeDate;
+    int publishedBeforeDate = 0;
 
     void signIn();
     void startFetching();

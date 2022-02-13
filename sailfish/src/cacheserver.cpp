@@ -31,7 +31,7 @@
 #include "utils.h"
 
 FilteringWorker::FilteringWorker(QObject *parent) :
-    QThread(parent), error(false)
+    QThread(parent)
 {
 }
 
@@ -392,7 +392,7 @@ QString CacheServer::getFileUrl(const QString &id)
 
     QString filename;
     if (item.id.isEmpty()) {
-        item = db->readCacheByFinalUrl(id);
+        //item = db->readCacheByFinalUrl(id);
         filename = id;
     } else {
         filename = item.finalUrl;

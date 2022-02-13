@@ -2,7 +2,7 @@
 #include <QNetworkReply>
 #include <QDebug>
 
-CustomNetworkAccessManager::CustomNetworkAccessManager(QString userAgent, QObject *parent) :
+CustomNetworkAccessManager::CustomNetworkAccessManager(const QString &userAgent, QObject *parent) :
     QNetworkAccessManager(parent), userAgent(userAgent)
 {
     this->setNetworkAccessible(QNetworkAccessManager::Accessible);

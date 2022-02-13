@@ -43,7 +43,7 @@ public:
 
 private:
     QString feedId;
-    EntryModel *model;
+    EntryModel *model = nullptr;
     void run();
 };
 

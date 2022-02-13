@@ -9,7 +9,7 @@ class CustomNetworkAccessManager: public QNetworkAccessManager
 {
 
 public:
-    CustomNetworkAccessManager(QString userAgent, QObject *parent = 0);
+    explicit CustomNetworkAccessManager(const QString &userAgent, QObject *parent = 0);
     QNetworkReply *createRequest(Operation operation, const QNetworkRequest &reqest, QIODevice *outgoingData);
 
 private:
