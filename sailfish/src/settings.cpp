@@ -227,7 +227,7 @@ void Settings::setPocketToken(const QString &value)
     if (getPocketToken() != value) {
         SimpleCrypt crypto(KEY);
         QString encryptedToken = crypto.encryptToString(value);
-        if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+        if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
             emit error(532);
             return;
         }
@@ -240,7 +240,7 @@ QString Settings::getPocketToken()
 {
     SimpleCrypt crypto(KEY);
     QString plainToken = crypto.decryptToString(settings.value("pockettoken", "").toString());
-    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+    if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(531);
         return "";
     }
@@ -438,7 +438,7 @@ void Settings::setPassword(const QString &value)
 {
     SimpleCrypt crypto(KEY);
     QString encryptedPassword = crypto.encryptToString(value);
-    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+    if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(512);
     }
     settings.setValue("password", encryptedPassword);
@@ -448,7 +448,7 @@ QString Settings::getPassword()
 {
     SimpleCrypt crypto(KEY);
     QString plainPassword = crypto.decryptToString(settings.value("password", "").toString());
-    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+    if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(511);
         return "";
     }
@@ -469,7 +469,7 @@ void Settings::setCookie(const QString &value)
 {
     SimpleCrypt crypto(KEY);
     QString encryptedValue = crypto.encryptToString(value);
-    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+    if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(512);
     }
     settings.setValue("cookie", encryptedValue);
@@ -479,7 +479,7 @@ QString Settings::getCookie()
 {
     SimpleCrypt crypto(KEY);
     QString plainValue = crypto.decryptToString(settings.value("cookie", "").toString());
-    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+    if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(511);
         return "";
     }
@@ -490,7 +490,7 @@ void Settings::setRefreshCookie(const QString &value)
 {
     SimpleCrypt crypto(KEY);
     QString encryptedValue = crypto.encryptToString(value);
-    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+    if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(512);
     }
     settings.setValue("refreshcookie", encryptedValue);
@@ -500,7 +500,7 @@ QString Settings::getRefreshCookie()
 {
     SimpleCrypt crypto(KEY);
     QString plainValue = crypto.decryptToString(settings.value("refreshcookie", "").toString());
-    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+    if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(511);
         return "";
     }
@@ -511,7 +511,7 @@ void Settings::setTwitterCookie(const QString &value)
 {
     SimpleCrypt crypto(KEY);
     QString encryptedValue = crypto.encryptToString(value);
-    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+    if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(512);
     }
     settings.setValue("twittercookie", encryptedValue);
@@ -521,7 +521,7 @@ QString Settings::getTwitterCookie()
 {
     SimpleCrypt crypto(KEY);
     QString plainValue = crypto.decryptToString(settings.value("twittercookie", "").toString());
-    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+    if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(511);
         return "";
     }
@@ -532,7 +532,7 @@ void Settings::setAuthUrl(const QString &value)
 {
     SimpleCrypt crypto(KEY);
     QString encryptedValue = crypto.encryptToString(value);
-    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+    if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(512);
     }
     settings.setValue("authurl", encryptedValue);
@@ -542,7 +542,7 @@ QString Settings::getAuthUrl()
 {
     SimpleCrypt crypto(KEY);
     QString plainValue = crypto.decryptToString(settings.value("authurl", "").toString());
-    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+    if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(511);
         return "";
     }
@@ -865,7 +865,7 @@ void Settings::setViewMode(int value)
                 qWarning() << "Netvibes forbidden mode";
                 return;
             }
-        } else if (type >= 10 && type < 20) {
+        } else if (type < 20) {
             // OldReader, Forbidden modes: none
         } else if (type >= 30 && type < 40) {
             // TT-RSS, Forbidden modes: 5, 6, 7
