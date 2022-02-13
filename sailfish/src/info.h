@@ -21,20 +21,20 @@
 #define INFO_H
 
 namespace Kaktus {
-static const char* APP_NAME = "Kaktus";
+constexpr const char* APP_NAME = "Kaktus";
 #ifdef QT_DEBUG
-static constexpr const char* APP_VERSION = "3.0.3 (debug)";
+constexpr const char* APP_VERSION = "3.0.4 (debug)";
 #else
-static constexpr const char* APP_VERSION = "3.0.3";
+constexpr const char* APP_VERSION = "3.0.4";
 #endif // QT_DEBUG
-static const char* AUTHOR = "Michal Kosciesza";
-static const char* COPYRIGHT_YEAR = "2014-2021";
-static const char* AUTHOR1 = "Renaud Casenave-Péré";
-static const char* COPYRIGHT_YEAR1 = "2019-2021";
-static const char* SUPPORT_EMAIL = "kaktus@mkiol.net";
-static const char* PAGE = "https://github.com/mkiol/kaktus";
-static const char* LICENSE = "GNU General Public Licence version 3";
-static const char* LICENSE_URL = "https://www.gnu.org/licenses/gpl-3.0.html";
+constexpr const char* AUTHOR = "Michal Kosciesza";
+constexpr const char* COPYRIGHT_YEAR = "2014-2022";
+constexpr const char* AUTHOR1 = "Renaud Casenave-Péré";
+constexpr const char* COPYRIGHT_YEAR1 = "2019-2022";
+constexpr const char* SUPPORT_EMAIL = "kaktus@mkiol.net";
+constexpr const char* PAGE = "https://github.com/mkiol/kaktus";
+constexpr const char* LICENSE = "GNU General Public Licence version 3";
+constexpr const char* LICENSE_URL = "https://www.gnu.org/licenses/gpl-3.0.html";
 }
 
 #endif // INFO_H

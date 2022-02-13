@@ -61,6 +61,20 @@ Page {
             }
 
             SectionHeader {
+                text: qsTr("Version %1").arg("3.0.4")
+            }
+
+            LogItem {
+                title: "Netvibes fixes"
+                description: "Syncing from Netvibies was broked due to API change."
+            }
+
+            LogItem {
+                title: "Translations update"
+                description: "Czech and French translations were updated."
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("3.0.3")
             }
 

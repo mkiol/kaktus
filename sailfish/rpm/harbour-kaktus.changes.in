@@ -8,6 +8,9 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sun Feb 13 2022 Michal Kosciesza 3.0.4-1
+- Fix: Netvibes API requires 'consent' cookie
+
 * Sat Jun 26 2021 Michal Kosciesza 3.0.3-1
 - High res Netvibes icons
 
