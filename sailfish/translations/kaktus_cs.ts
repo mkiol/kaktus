@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="cs" version="2.1">
 <context>
     <name>AboutPage</name>
     <message>
@@ -16,48 +14,32 @@
     <message>
         <location filename="../qml/AboutPage.qml" line="81"/>
         <source>Project website</source>
-        <translation type="unfinished"></translation>
+        <translation>Stránka projektu</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="87"/>
         <source>Authors</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoři</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="108"/>
         <source>Translations are provided by:</source>
-        <translation type="unfinished"></translation>
+        <translation>Překlady byly poskytnuty: </translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="122"/>
         <source>%1 is developed as an open source project under %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 je vývojář projektu s otevřeným zdrojovým kódem poskytnutého pod %2</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="128"/>
         <source>Libraries</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Version: %1</source>
-        <translation type="vanished">Verze: %1</translation>
+        <translation>Knihovny</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="75"/>
         <source>Changelog</source>
         <translation>Seznam změn</translation>
-    </message>
-    <message>
-        <source>Multi services feed reader, specially designed to work offline.</source>
-        <translation type="vanished">Čtečka kanálů pro více služeb, zvláště navržená pro práci ve stavu bez připojení k internetu.</translation>
-    </message>
-    <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Spouští se vnější prohlížeč...</translation>
-    </message>
-    <message>
-        <source>This software is distributed under the terms of the GNU General Public Licence version 3.</source>
-        <translation type="vanished">Tento software je distribuovaný za podmínek licence GNU General Public Licence verze 3.</translation>
     </message>
 </context>
 <context>
@@ -156,28 +138,10 @@
         <source>All read</source>
         <translation>Vše přečteno</translation>
     </message>
-    <message>
-        <source>unread item</source>
-        <translation type="vanished">nepřečtená položka</translation>
-    </message>
-    <message>
-        <source>unread items</source>
-        <comment>less than 5 articles are unread</comment>
-        <translation type="vanished">nepřečtené položky</translation>
-    </message>
-    <message>
-        <source>unread items</source>
-        <comment>more or equal 5 articles are unread</comment>
-        <translation type="vanished">nepřečtených položek</translation>
-    </message>
     <message numerus="yes">
         <location filename="../qml/CoverPage.qml" line="31"/>
         <source>%n unread item(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>jedna nepřečtená položka</numerusform><numerusform>%n nepřečtené položky</numerusform><numerusform>%n nepřečtených položek</numerusform><numerusform>%n nepřečtených položek</numerusform></translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="54"/>
@@ -309,7 +273,7 @@
     <message>
         <location filename="../qml/EntryDelegate.qml" line="474"/>
         <source>Save image</source>
-        <translation type="unfinished"></translation>
+        <translation>Uložit obrázek</translation>
     </message>
     <message>
         <location filename="../qml/EntryDelegate.qml" line="486"/>
@@ -380,7 +344,7 @@
     <message>
         <location filename="../qml/EntryPage.qml" line="48"/>
         <source>Launching a browser...</source>
-        <translation type="unfinished"></translation>
+        <translation>Spouští se prohlížeč...</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="201"/>
@@ -434,26 +398,6 @@
         <translation>Ohvězdičkováno</translation>
     </message>
     <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Spouští se vnější prohlížeč...</translation>
-    </message>
-    <message>
-        <source>Wait until current task is complete.</source>
-        <translation type="vanished">Počkejte, dokud nebude nynější úkol dokončen.</translation>
-    </message>
-    <message>
-        <source>Offline version is not available.</source>
-        <translation type="vanished">Verze pro stav bez připojení k internetu není dostupná.</translation>
-    </message>
-    <message>
-        <source>Enabling offline mode because network is disconnected.</source>
-        <translation type="vanished">Povoluje se kancelářský režim, protože síť je odpojena.</translation>
-    </message>
-    <message>
-        <source>Network is disconnected.</source>
-        <translation type="vanished">Síť je odpojena.</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryPage.qml" line="480"/>
         <source>Wait until sync finish</source>
         <translation>Počkejte, dokud nebude seřizování dokončeno</translation>
@@ -494,10 +438,6 @@
         <source>Sorry, something went wrong :-(</source>
         <translation>Promiňte. Něco není v pořádku :-(</translation>
     </message>
-    <message>
-        <source>Sorry, something went wrong!</source>
-        <translation type="vanished">Promiňte. Něco není v pořádku!</translation>
-    </message>
 </context>
 <context>
     <name>FeedPage</name>
@@ -529,26 +469,6 @@
 </context>
 <context>
     <name>FeedWebContentPage</name>
-    <message>
-        <source>Offline version not available.</source>
-        <translation type="vanished">Verze pro stav bez připojení k internetu není dostupná.</translation>
-    </message>
-    <message>
-        <source>Wait until current task is complete.</source>
-        <translation type="vanished">Počkejte, dokud nebude nynější úkol dokončen.</translation>
-    </message>
-    <message>
-        <source>Enabling offline mode because network is disconnected.</source>
-        <translation type="vanished">Povoluje se kancelářský režim, protože síť je odpojena.</translation>
-    </message>
-    <message>
-        <source>Network is disconnected.</source>
-        <translation type="vanished">Síť je odpojena.</translation>
-    </message>
-    <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Spouští se vnější prohlížeč...</translation>
-    </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="373"/>
         <source>Back</source>
@@ -605,10 +525,6 @@
         <translation>Adresa (URL) byla zkopírovaná do schránky</translation>
     </message>
     <message>
-        <source>URL was copied to the clipboard.</source>
-        <translation type="vanished">Adresa (URL) byla zkopírovaná do schránky.</translation>
-    </message>
-    <message>
         <location filename="../qml/FeedWebContentPage.qml" line="485"/>
         <source>Increase font</source>
         <translation>Zvětšit písmo</translation>
@@ -641,19 +557,12 @@
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="150"/>
         <source>Launching a browser...</source>
-        <translation type="unfinished"></translation>
+        <translation>Spouští se prohlížeč...</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="468"/>
         <source>Copy URL</source>
         <translation>Kopírovat adresu (URL)</translation>
-    </message>
-</context>
-<context>
-    <name>FeedlySignInDialog</name>
-    <message>
-        <source>Sign in</source>
-        <translation type="vanished">Přihlásit se</translation>
     </message>
 </context>
 <context>
@@ -693,141 +602,6 @@
         <source>You are not signed in to any account, pull down to add one</source>
         <translation>Nejste přihlášen k žádnému účtu. Stáhněte dolů pro přidání účtu</translation>
     </message>
-    <message>
-        <source>To do feeds synchronization, pull down and select sync.</source>
-        <translation type="vanished">K provedení synchronizace kanálů, stáhněte dolů a vyberte Seřídit.</translation>
-    </message>
-    <message>
-        <source>You are not signed in to any account. Pull down to add one.</source>
-        <translation type="vanished">Nejste přihlášen k žádnému účtu. Stáhněte dolů pro přidání účtu.</translation>
-    </message>
-</context>
-<context>
-    <name>Guide</name>
-    <message>
-        <source>This guide will explain you how to use bottom bar and view modes.</source>
-        <translation type="vanished">Tento průvodce vám vysvětlí, jak používat pruh dole a režimy zobrazení.</translation>
-    </message>
-    <message>
-        <source>Tap anywhere to continue.</source>
-        <translation type="vanished">Klepněte kamkoliv pro pokračování.</translation>
-    </message>
-    <message>
-        <source>Bottom bar lets you switch between 5 view modes.
-</source>
-        <translation type="vanished">Dolní pruh vám dovolí přepínat mezi 5 režimy pohledu.
-</translation>
-    </message>
-    <message>
-        <source>Bottom bar lets you switch between 4 view modes.
-</source>
-        <translation type="vanished">Dolní pruh vám dovolí přepínat mezi 4 režimy pohledu.
-</translation>
-    </message>
-    <message>
-        <source>Mode #1
-
-Lists all your tabs. Feeds are grouped by the tabs they belong to and articles are grouped in the feeds.</source>
-        <translation type="vanished">Režim #1
-
-Vypíše všechny vaše karty. Kanály jsou seskupeny podle karet, ke kterým patří, a články jsou seskupeny v kanálech.</translation>
-    </message>
-    <message>
-        <source>Mode #1
-
-Lists all your folders. Feeds are grouped by the folders they belong to and articles are grouped in the feeds.</source>
-        <translation type="vanished">Režim #1
-
-Vypíše všechny vaše složky. Kanály jsou seskupeny podle složek, ke kterým patří, a články jsou seskupeny v kanálech.</translation>
-    </message>
-    <message>
-        <source>Mode #2
-
-Lists all your tabs. Articles are grouped by the tabs they belong to.</source>
-        <translation type="vanished">Režim #2
-
-Vypíše všechny vaše karty. Články jsou seskupeny podle karet, ke kterým patří.</translation>
-    </message>
-    <message>
-        <source>Mode #2
-
-Lists all your folders. Articles are grouped by the folders they belong to.</source>
-        <translation type="vanished">Režim #2
-
-Vypíše všechny vaše karty. Články jsou seskupeny podle složek, ke kterým patří.</translation>
-    </message>
-    <message>
-        <source>Mode #3
-
-Lists all articles from all your feeds in one list. Items are ordered by publication date.</source>
-        <translation type="vanished">Režim #3
-
-Vypíše všechny články ze všech vašich kanálů v jednom seznamu. Položky jsou řazeny podle data vydání.</translation>
-    </message>
-    <message>
-        <source>Mode #4
-
-Lists all articles you have saved.</source>
-        <translation type="vanished">Režim #4
-
-Vypisuje všechny články, které jste uložil.</translation>
-    </message>
-    <message>
-        <source>Mode #4
-
-Lists all articles you have starred.</source>
-        <translation type="vanished">Režim #4
-
-Vypisuje všechny články, které jste ohvězdičkoval.</translation>
-    </message>
-    <message>
-        <source>Mode #5 &quot;Slow&quot;
-
-List articles from less frequently updated feeds. A feed is considered &quot;slow&quot; when it publishes less than 5 articles in a month.</source>
-        <translation type="vanished">Režim #5 - Pomalý
-
-Vypisuje články z méně často aktualizovaných kanálů. Kanál je považován za pomalý, když vydává méně než 5 článků za měsíc.</translation>
-    </message>
-    <message>
-        <source>Mode #5
-
-Lists all articles you have liked.</source>
-        <translation type="vanished">Režim #5
-
-Vypisuje všechny články, které se vám líbily.</translation>
-    </message>
-    <message>
-        <source>Bottom bar also contains &quot;Mark as read&quot; button.
-
-With this button you can quickly mark all your tabs, feeds or articles as read.</source>
-        <translation type="vanished">Dolní pruh také obsahuje tlačítko Označit jako přečtené.
-
-Tímto tlačítkem můžete rychle označit všechny své karty, kanály nebo články jako přečtené.</translation>
-    </message>
-    <message>
-        <source>Bottom bar also contains &quot;Mark as read&quot; button.
-
-With this button you can quickly mark all your folders, feeds or articles as read.</source>
-        <translation type="vanished">Dolní pruh také obsahuje tlačítko Označit jako přečtené.
-
-Tímto tlačítkem můžete rychle označit všechny své složky, kanály nebo články jako přečtené.</translation>
-    </message>
-    <message>
-        <source>Pull-down menu contains network mode switcher.
-
-This switcher enables you to change between the online and offline mode. In the offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
-        <translation type="vanished">Vysunovací nabídka také obsahuje přepínač režimu sítě.
-
-Tento přepínač vám umožňuje měnit mezi režimy připojen k internetu a nepřipojen k internetu. V režimu nepřipojen k internetu bude Kaktus k získání internetových stránek a obrázků používat pouze místní vyrovnávací paměť, takže síťové spojení nebude potřeba.</translation>
-    </message>
-    <message>
-        <source>That&apos;s all!&lt;br/&gt;&lt;br/&gt;If you want to see this guide one more time, click on
-&lt;i&gt;Show User Guide&lt;/i&gt;
-on the settings page.</source>
-        <translation type="vanished">A to je vše!&lt;br/&gt;&lt;br/&gt;Pokud chcete tohoto průvodce vidět ještě jednou, klepněte na
-&lt;i&gt;Ukázat průvodce uživatele&lt;/i&gt;
-na stránce s nastavením.</translation>
-    </message>
 </context>
 <context>
     <name>NvSignInDialog</name>
@@ -839,10 +613,6 @@ na stránce s nastavením.</translation>
         <translation>Přihlásit se</translation>
     </message>
     <message>
-        <source>Netvibes</source>
-        <translation type="vanished">Netvibes</translation>
-    </message>
-    <message>
         <location filename="../qml/NvSignInDialog.qml" line="93"/>
         <source>Enter username</source>
         <translation>Zde zadejte uživatelské jméno</translation>
@@ -850,7 +620,7 @@ na stránce s nastavením.</translation>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="94"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelské jméno</translation>
     </message>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="111"/>
@@ -860,40 +630,12 @@ na stránce s nastavením.</translation>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="123"/>
         <source>Sign in with other account</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter username and password below.</source>
-        <translation type="vanished">Zadejte uživatelské jméno a heslo níže.</translation>
-    </message>
-    <message>
-        <source>Enter username here!</source>
-        <translation type="vanished">Zde zadejte uživatelské jméno!</translation>
-    </message>
-    <message>
-        <source>Username (your e-mail)</source>
-        <translation type="vanished">Uživatelské jméno (Váš e-mail)</translation>
-    </message>
-    <message>
-        <source>Enter password here!</source>
-        <translation type="vanished">Zde zadejte heslo!</translation>
+        <translation>Přihlásit se s jiným účtem</translation>
     </message>
     <message>
         <location filename="../qml/NvSignInDialog.qml" line="112"/>
         <source>Password</source>
         <translation>Heslo</translation>
-    </message>
-    <message>
-        <source>Third party services</source>
-        <translation type="vanished">Služby třetích stran</translation>
-    </message>
-    <message>
-        <source>Sign in with Twitter</source>
-        <translation type="vanished">Přihlásit se přes Twitter</translation>
-    </message>
-    <message>
-        <source>Sign in with Facebook</source>
-        <translation type="vanished">Přihlásit se před Facebook</translation>
     </message>
 </context>
 <context>
@@ -904,39 +646,19 @@ na stránce s nastavením.</translation>
         <translation>Přihlásit se</translation>
     </message>
     <message>
-        <location filename="../qml/OldReaderSignInDialog.qml" line="93"/>
-        <source>Username</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Old Reader</source>
-        <translation type="vanished">Old Reader</translation>
-    </message>
-    <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="92"/>
         <source>Enter username</source>
         <translation>Zde zadejte uživatelské jméno</translation>
     </message>
     <message>
+        <location filename="../qml/OldReaderSignInDialog.qml" line="93"/>
+        <source>Username</source>
+        <translation>Uživatelské jméno</translation>
+    </message>
+    <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="110"/>
         <source>Enter password</source>
         <translation>Zde zadejte heslo</translation>
-    </message>
-    <message>
-        <source>Enter username and password below.</source>
-        <translation type="vanished">Zadejte uživatelské jméno a heslo níže.</translation>
-    </message>
-    <message>
-        <source>Enter username here!</source>
-        <translation type="vanished">Zde zadejte uživatelské jméno!</translation>
-    </message>
-    <message>
-        <source>Username (your e-mail)</source>
-        <translation type="vanished">Uživatelské jméno (Váš e-mail)</translation>
-    </message>
-    <message>
-        <source>Enter password here!</source>
-        <translation type="vanished">Zde zadejte heslo!</translation>
     </message>
     <message>
         <location filename="../qml/OldReaderSignInDialog.qml" line="111"/>
@@ -955,10 +677,6 @@ na stránce s nastavením.</translation>
         <location filename="../qml/PageMenu.qml" line="43"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
-    </message>
-    <message>
-        <source>Can&apos;t switch to online mode because network is disconnected.</source>
-        <translation type="vanished">Nelze přepnout do režimu připojen k internetu, protože síť je odpojena.</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="52"/>
@@ -989,14 +707,6 @@ na stránce s nastavením.</translation>
 <context>
     <name>Pocket</name>
     <message>
-        <source>Pocket authorization has failed.</source>
-        <translation type="vanished">Ověření u služby Pocket selhalo.</translation>
-    </message>
-    <message>
-        <source>Pocket authorization was successful.</source>
-        <translation type="vanished">Ověření u služby Pocket bylo úspěšné.</translation>
-    </message>
-    <message>
         <location filename="../qml/Pocket.qml" line="64"/>
         <location filename="../qml/Pocket.qml" line="79"/>
         <source>Pocket authorization has failed</source>
@@ -1016,14 +726,6 @@ na stránce s nastavením.</translation>
         <location filename="../qml/Pocket.qml" line="123"/>
         <source>Error while adding article to Pocket</source>
         <translation>Chyba při přidávání článku do Pocket</translation>
-    </message>
-    <message>
-        <source>Article has been successfully added to Pocket.</source>
-        <translation type="vanished">Článek byl úspěšně přidán do Pocket.</translation>
-    </message>
-    <message>
-        <source>Error while adding article to Pocket.</source>
-        <translation type="vanished">Chyba při přidávání článku do Pocket.</translation>
     </message>
 </context>
 <context>
@@ -1121,10 +823,6 @@ na stránce s nastavením.</translation>
         <location filename="../qml/SettingsPage.qml" line="168"/>
         <source>Change</source>
         <translation>Změnit</translation>
-    </message>
-    <message>
-        <source>Not signed in </source>
-        <translation type="vanished">Nepřihlášen</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="109"/>
@@ -1275,7 +973,7 @@ na stránce s nastavením.</translation>
     <message>
         <location filename="../qml/SettingsPage.qml" line="109"/>
         <source>Signed in as</source>
-        <translation type="unfinished"></translation>
+        <translation>Přihlášen jako</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="236"/>
@@ -1345,22 +1043,6 @@ na stránce s nastavením.</translation>
         <translation>Čtenářský pohled je funkce, která odstraní nepotřebná tlačítka, reklamy a obrázky na pozadí, a změní rozvržení strany pro lepší čitelnost. Povolením této volby bude přepnuto do pohledu na čtečku automaticky, když je strana nahrána do prohlížeče internetu.</translation>
     </message>
     <message>
-        <source>Reader View theme</source>
-        <translation type="vanished">Vzhled čtenářského pohledu</translation>
-    </message>
-    <message>
-        <source>Style of theme which will be used to display articles in Reader View.</source>
-        <translation type="vanished">Styl vzhledu, který se použije k zobrazení článků ve čtenářském pohledu.</translation>
-    </message>
-    <message>
-        <source>Dark</source>
-        <translation type="vanished">Tmavý</translation>
-    </message>
-    <message>
-        <source>Light</source>
-        <translation type="vanished">Světlo</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="406"/>
         <source>Auto switch to Night View</source>
         <translation>Přepnout automaticky do nočního pohledu</translation>
@@ -1384,10 +1066,6 @@ na stránce s nastavením.</translation>
         <location filename="../qml/SettingsPage.qml" line="435"/>
         <source>Clear web viewer cache and cookies. Changes will take effect after restart.</source>
         <translation>Vyprázdnit vyrovnávací paměť prohlížeče internetu a smazat koláčky. Změny se projeví po opětovném spuštění programu.</translation>
-    </message>
-    <message>
-        <source>Cache and cookies have been deleted.</source>
-        <translation type="vanished">Vyrovnávací paměť a koláčky byly smazány.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="449"/>
@@ -1497,25 +1175,6 @@ na stránce s nastavením.</translation>
         <translation>Seznam čárkou oddělených značek, které budou při přidání článku do Pocket automaticky vloženy.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="886"/>
-        <source>Saved tags have been deleted</source>
-        <translation>Uložené značky byly smazány</translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="891"/>
-        <source>Other</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="895"/>
-        <source>Ignore SSL errors</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>List of comma separated tags that will be automatically inserted when you add article to Pocket.</source>
-        <translation type="vanished">Seznam čárkou oddělených značek, které budou při přidání článku do Pocket automaticky vloženy.</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="872"/>
         <source>Quick adding</source>
         <translation>Rychlé přidání</translation>
@@ -1531,16 +1190,19 @@ na stránce s nastavením.</translation>
         <translation>Smazat uložené značky</translation>
     </message>
     <message>
-        <source>Saved tags have been deleted.</source>
-        <translation type="vanished">Uložené značky byly smazány.</translation>
+        <location filename="../qml/SettingsPage.qml" line="886"/>
+        <source>Saved tags have been deleted</source>
+        <translation>Uložené značky byly smazány</translation>
     </message>
     <message>
-        <source>Experimental</source>
-        <translation type="vanished">Pokusné</translation>
+        <location filename="../qml/SettingsPage.qml" line="891"/>
+        <source>Other</source>
+        <translation>Jiné</translation>
     </message>
     <message>
-        <source>Changes will take effect after you restart Kaktus.</source>
-        <translation type="vanished">Změny se projeví po opětovném spuštění Kaktusu.</translation>
+        <location filename="../qml/SettingsPage.qml" line="895"/>
+        <source>Ignore SSL errors</source>
+        <translation>Ignorovat chyby SSL</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="298"/>
@@ -1694,34 +1356,22 @@ na stránce s nastavením.</translation>
     <message>
         <location filename="../qml/SignOutDialog.qml" line="68"/>
         <source>Disconnect Netvibes account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Odhlásit se s účtem Netvibes?</translation>
     </message>
     <message>
         <location filename="../qml/SignOutDialog.qml" line="70"/>
         <source>Disconnect Old Reader account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Odhlásit se s účtem Old Reader?</translation>
     </message>
     <message>
         <location filename="../qml/SignOutDialog.qml" line="72"/>
         <source>Disconnect Feedly account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Odhlásit se s účtem Feedly?</translation>
     </message>
     <message>
         <location filename="../qml/SignOutDialog.qml" line="73"/>
         <source>Disconnect Tiny Tiny RSS account?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Disconnect Kaktus from your Feedly account?</source>
-        <translation type="vanished">Odpojit Kaktus od účtu Feedly?</translation>
-    </message>
-    <message>
-        <source>Disconnect Kaktus from your Old Reader account?</source>
-        <translation type="vanished">Odpojit Kaktus od účtu Old Reader?</translation>
-    </message>
-    <message>
-        <source>Disconnect Kaktus from your Netvibes account?</source>
-        <translation type="vanished">Odpojit Kaktus od účtu Netvibes?</translation>
+        <translation>Odhlásit se s účtem Tiny Tiny RSS?</translation>
     </message>
 </context>
 <context>
@@ -1729,50 +1379,42 @@ na stránce s nastavením.</translation>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="61"/>
         <source>Sign in</source>
-        <translation type="unfinished">Přihlásit se</translation>
+        <translation>Přihlásit se</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="93"/>
         <source>Enter the url of your server</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadejte url Vašeho serveru</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="111"/>
         <source>Enter username</source>
-        <translation type="unfinished">Zde zadejte uživatelské jméno</translation>
+        <translation>Zde zadejte uživatelské jméno</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="129"/>
         <source>Enter password</source>
-        <translation type="unfinished">Zde zadejte heslo</translation>
+        <translation>Zde zadejte heslo</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="94"/>
         <source>Server Url</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter username here!</source>
-        <translation type="obsolete">Zde zadejte uživatelské jméno!</translation>
+        <translation>Adresa serveru</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="112"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter password here!</source>
-        <translation type="obsolete">Zde zadejte heslo!</translation>
+        <translation>Uživatelské jméno</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="130"/>
         <source>Password</source>
-        <translation type="unfinished">Heslo</translation>
+        <translation>Heslo</translation>
     </message>
     <message>
         <location filename="../qml/TTRssSignInDialog.qml" line="141"/>
         <source>Ignore SSL errors</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorovat chyby SSL</translation>
     </message>
 </context>
 <context>
@@ -1886,94 +1528,22 @@ na stránce s nastavením.</translation>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="707"/>
         <source>%n second(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>před sekundou</numerusform><numerusform>před %n sekundami</numerusform><numerusform>před %n sekundami</numerusform><numerusform>před %n sekundami</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="710"/>
         <source>%n minute(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>před minutou</numerusform><numerusform>před %n minutami</numerusform><numerusform>před %n minutami</numerusform><numerusform>před %n minutami</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="713"/>
         <source>%n hour(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
+        <translation><numerusform>před hodinou</numerusform><numerusform>před %n hodinami</numerusform><numerusform>před %n hodinami</numerusform><numerusform>před %n hodinami</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="719"/>
         <source>%n day(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>1 second ago</source>
-        <translation type="vanished">před 1 sekundou</translation>
-    </message>
-    <message>
-        <source>%1 seconds ago</source>
-        <comment>less than 5 seconds</comment>
-        <translation type="vanished">před %1 sekundami</translation>
-    </message>
-    <message>
-        <source>%1 seconds ago</source>
-        <comment>more or equal 5 seconds</comment>
-        <translation type="vanished">před %1 sekundami</translation>
-    </message>
-    <message>
-        <source>1 minute ago</source>
-        <translation type="vanished">před 1 minutou</translation>
-    </message>
-    <message>
-        <source>%1 minutes ago</source>
-        <comment>less than 5 minutes</comment>
-        <translation type="vanished">před %1 minutami</translation>
-    </message>
-    <message>
-        <source>%1 minutes ago</source>
-        <comment>more or equal 5 minutes</comment>
-        <translation type="vanished">před %1 minutami</translation>
-    </message>
-    <message>
-        <source>1 hour ago</source>
-        <translation type="vanished">před 1 hodinou</translation>
-    </message>
-    <message>
-        <source>%1 hours ago</source>
-        <comment>less than 5 hours</comment>
-        <translation type="vanished">před %1 hodinami</translation>
-    </message>
-    <message>
-        <source>%1 hours ago</source>
-        <comment>more or equal 5 hours</comment>
-        <translation type="vanished">před %1 hodinami</translation>
-    </message>
-    <message>
-        <source>day ago</source>
-        <translation type="vanished">včera</translation>
-    </message>
-    <message>
-        <source>%1 days ago</source>
-        <comment>less than 5 days</comment>
-        <translation type="vanished">před %1 dny</translation>
-    </message>
-    <message>
-        <source>%1 days ago</source>
-        <comment>more or equal 5 days</comment>
-        <translation type="vanished">před %1 dny</translation>
+        <translation><numerusform>včera</numerusform><numerusform>před %n dny</numerusform><numerusform>před %n dny</numerusform><numerusform>před %n dny</numerusform></translation>
     </message>
 </context>
 <context>
@@ -2015,18 +1585,6 @@ na stránce s nastavením.</translation>
         <translation>Přepnout ohvězdičkování</translation>
     </message>
     <message>
-        <source>Launching an external browser...</source>
-        <translation type="vanished">Spouští se vnější prohlížeč...</translation>
-    </message>
-    <message>
-        <source>Failed to load page from local cache.</source>
-        <translation type="vanished">Nepodařilo se nahrát stránku z místní vyrovnávací paměti.</translation>
-    </message>
-    <message>
-        <source>Failed to load page content.</source>
-        <translation type="vanished">Nepodařilo se nahrát obsah stránky.</translation>
-    </message>
-    <message>
         <location filename="../qml/WebPreviewPage.qml" line="384"/>
         <source>Toggle Reader View</source>
         <translation>Přepnout čtenářský pohled</translation>
@@ -2062,10 +1620,6 @@ na stránce s nastavením.</translation>
         <translation>Přepnout sdílení</translation>
     </message>
     <message>
-        <source>URL was copied to the clipboard.</source>
-        <translation type="vanished">Adresa (URL) byla zkopírovaná do schránky.</translation>
-    </message>
-    <message>
         <location filename="../qml/WebPreviewPage.qml" line="474"/>
         <source>Increase font</source>
         <translation>Zvětšit písmo</translation>
@@ -2079,7 +1633,7 @@ na stránce s nastavením.</translation>
         <location filename="../qml/WebPreviewPage.qml" line="61"/>
         <location filename="../qml/WebPreviewPage.qml" line="407"/>
         <source>Launching a browser...</source>
-        <translation type="unfinished"></translation>
+        <translation>Spouští se prohlížeč...</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="460"/>
@@ -2105,10 +1659,6 @@ na stránce s nastavením.</translation>
         <translation>Kanály</translation>
     </message>
     <message>
-        <source>Restart the app to rebuild cache data.</source>
-        <translation type="vanished">Spusťte program znovu, aby byla data ve vyrovnávací paměti znovu sestavena.</translation>
-    </message>
-    <message>
         <location filename="../qml/main.qml" line="187"/>
         <source>Caching... %1 of %2</source>
         <translation>Ukládá se do vyrovnávací paměti... %1 z %2</translation>
@@ -2119,58 +1669,24 @@ na stránce s nastavením.</translation>
         <translation>Ukládá se do vyrovnávací paměti...</translation>
     </message>
     <message>
-        <source>Sync failed!
-Network connection is unavailable.</source>
-        <translation type="vanished">Seřizování selhalo!
-Síťové spojení je nedostupné.</translation>
-    </message>
-    <message>
-        <source>The user name or password is incorrect!</source>
-        <translation type="vanished">Uživatelské jméno nebo heslo není správné!</translation>
-    </message>
-    <message>
-        <source>Download has failed because network is disconnected.</source>
-        <translation type="vanished">Stahování selhalo, protože síť je odpojena.</translation>
-    </message>
-    <message>
-        <source>Something went wrong!</source>
-        <translation type="vanished">Něco není v pořádku!</translation>
-    </message>
-    <message>
         <location filename="../qml/main.qml" line="217"/>
         <source>Removing cache data... %1 of %2</source>
         <translation>Odstraňují se data uložená ve vyrovnávací paměti... %1 z %2</translation>
     </message>
     <message>
-        <source>Something went wrong. Unable to sign in!</source>
-        <translation type="vanished">Něco není v pořádku. Přihlášení se nepodařilo!</translation>
-    </message>
-    <message>
-        <source>An unknown error occurred.</source>
-        <translation type="vanished">Vyskytla se neznámá chyba.</translation>
-    </message>
-    <message>
         <location filename="../qml/main.qml" line="306"/>
         <source>Access through API is disabled on a server</source>
-        <translation type="unfinished"></translation>
+        <translation>Přístup přes API je zakázaný na serveru</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="308"/>
         <source>Problem with SSL certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Problém s SSL certifikátem</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="330"/>
         <source>Unknown error</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The user name or password is incorrect.</source>
-        <translation type="vanished">Uživatelské jméno nebo heslo není správné.</translation>
-    </message>
-    <message>
-        <source>You are signed in.</source>
-        <translation type="vanished">Jste přihlášen.</translation>
+        <translation>Neznámá chyba</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="161"/>
@@ -2185,42 +1701,38 @@ Síťové spojení je nedostupné.</translation>
     <message>
         <location filename="../qml/main.qml" line="290"/>
         <source>Unable to sign in</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze se přihlásit</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="294"/>
         <source>Network connection is unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Síťové připojení není k dispozici</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="304"/>
         <location filename="../qml/main.qml" line="336"/>
         <source>The user name or password is incorrect</source>
-        <translation type="unfinished"></translation>
+        <translation>Uživatelské jméno nebo heslo není správné</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="325"/>
         <source>Cannot save image in gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Nelze uložit obrázek do galerie</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="327"/>
         <source>Image already exists in gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrázek v galerii již existuje</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="340"/>
         <source>You are signed in</source>
-        <translation type="unfinished"></translation>
+        <translation>Jste přihlášení v</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="345"/>
         <source>Receiving data...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Receiving data... </source>
-        <translation type="vanished">Přijímají se data...</translation>
+        <translation>Příjímá data...</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="351"/>
