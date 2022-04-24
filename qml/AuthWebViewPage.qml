@@ -134,14 +134,4 @@ Page {
         cancelable: true
         onCloseClicked: view.stop()
     }
-
-    // Workaround for 'High Power Consumption' webkit bug
-    Connections {
-        target: Qt.application
-        onActiveChanged: {
-            if(!Qt.application.active && settings.powerSaveMode) {
-                pageStack.pop();
-            }
-        }
-    }
 }

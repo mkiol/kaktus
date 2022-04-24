@@ -1,24 +1,14 @@
-/*
-  Copyright (C) 2015-2019 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+
+import harbour.kaktus.Settings 1.0
 
 Page {
     id: root
@@ -194,15 +184,15 @@ Page {
         header: PageHeader {
             title: {
                 switch (settings.viewMode) {
-                case 3:
+                case Settings.AllEntries:
                     return qsTr("All feeds")
-                case 4:
+                case Settings.SavedEntries:
                     return app.isNetvibes ? qsTr("Saved") : qsTr("Starred")
-                case 5:
+                case Settings.SlowEntries:
                     return qsTr("Slow")
-                case 6:
+                case Settings.LikedEntries:
                     return qsTr("Liked")
-                case 7:
+                case Settings.BroadcastedEntries:
                     return qsTr("Shared")
                 default:
                     return root.title
@@ -233,7 +223,10 @@ Page {
             fresh: model.fresh
             last: model.uid === "last"
             daterow: model.uid === "daterow"
-            showMarkedAsRead: settings.viewMode!=4 && settings.viewMode!=6 && settings.viewMode!=7 && model.read<2
+            showMarkedAsRead: settings.viewMode !== Settings.SavedEntries &&
+                              settings.viewMode !== Settings.LikedEntries &&
+                              settings.viewMode !== Settings.BroadcastedEntries &&
+                              model.read<2
             objectName: "EntryDelegate"
             landscapeMode: root.landscapeMode
             onlineurl: model.link
@@ -471,8 +464,8 @@ Page {
             id: placeholder
             enabled: listView.count === 0
             text: fetcher.busy ? qsTr("Wait until sync finish") :
-                      settings.viewMode === 4 ? app.isNetvibes ? qsTr("No saved items") : qsTr("No starred items")  :
-                      settings.viewMode === 6 ? qsTr("No liked items") :
+                      settings.viewMode === Settings.SavedEntries ? app.isNetvibes ? qsTr("No saved items") : qsTr("No starred items")  :
+                      settings.viewMode === Settings.LikedEntries ? qsTr("No liked items") :
                           settings.showOnlyUnread ? qsTr("No unread items") : qsTr("No items")
         }
 

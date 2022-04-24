@@ -1,24 +1,14 @@
-/*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+
+import harbour.kaktus.Settings 1.0
 
 ListItem {
     id: root
@@ -52,10 +42,10 @@ ListItem {
     property bool landscapeMode: false
     property bool showMarkedAsRead: true
     property bool hidden: read > 0 && readlater === 0
-    property bool showIcon: settings.viewMode === 1 ||
-                            settings.viewMode === 3 ||
-                            settings.viewMode === 4 ||
-                            settings.viewMode === 5 ? true : false
+    property bool showIcon: settings.viewMode === Settings.TabsEntries ||
+                            settings.viewMode === Settings.AllEntries ||
+                            settings.viewMode === Settings.SavedEntries ||
+                            settings.viewMode === Settings.SlowEntries ? true : false
     property bool defaultIcon: feedIcon === "http://s.theoldreader.com/icons/user_icon.png"
     property color highlightedColor: Theme.rgba(Theme.highlightBackgroundColor,
                                                 Theme.highlightBackgroundOpacity)

@@ -1,59 +1,45 @@
-/*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 #ifndef ENTRYMODEL_H
 #define ENTRYMODEL_H
 
 #include <QAbstractListModel>
-#include <QString>
 #include <QByteArray>
-#include <QVariant>
 #include <QHash>
+#include <QString>
 #include <QThread>
+#include <QVariant>
 
-#include "listmodel.h"
 #include "feedmodel.h"
+#include "listmodel.h"
 
 class EntryModel;
 
-class EntryModelIniter : public QThread
-{
+class EntryModelIniter : public QThread {
     Q_OBJECT
 
-public:
+   public:
     EntryModelIniter(QObject *parent = nullptr);
     void init(EntryModel *model);
     void init(EntryModel *model, const QString &feedId);
 
-private:
-    QString feedId;
-    EntryModel *model = nullptr;
+   private:
+    QString m_feedId;
+    EntryModel *m_model = nullptr;
     void run();
 };
 
-class EntryItem : public ListItem
-{
+class EntryItem : public ListItem {
     Q_OBJECT
 
-public:
+   public:
     enum Roles {
-        UidRole = Qt::UserRole+1,
+        UidRole = Qt::UserRole + 1,
         TitleRole = Qt::DisplayRole,
         AuthorRole,
         ContentRole,
@@ -74,31 +60,20 @@ public:
         DateRole
     };
 
-public:
-    EntryItem(QObject *parent = nullptr): ListItem(parent) {}
-    explicit EntryItem(const QString &uid,
-                      const QString &title,
-                      const QString &author,
-                      const QString &content,
-                      const QString &contentall,
-                      const QString &contentraw,
-                      const QString &link,
-                      const QString &image,
-                      const QString &feedId,
-                      const QString &feedIcon,
-                      const QString &feedTitle,
-                      const QString &annotations,
-                      const bool cached,
-                      const bool broadcast,
-                      const bool liked,
-                      const bool fresh,
-                      const int read,
-                      const int readlater,
-                      const int date,
-                      QObject *parent = 0);
-    QVariant data(int role) const;
-    QHash<int, QByteArray> roleNames() const;
-    inline QString id() const { return m_uid; }
+   public:
+    EntryItem(QObject *parent = nullptr) : ListItem(parent) {}
+    explicit EntryItem(const QString &uid, const QString &title,
+                       const QString &author, const QString &content,
+                       const QString &contentall, const QString &contentraw,
+                       const QString &link, const QString &image,
+                       const QString &feedId, const QString &feedIcon,
+                       const QString &feedTitle, const QString &annotations,
+                       bool cached, bool broadcast, bool liked, bool fresh,
+                       int read, int readlater, int date,
+                       QObject *parent = nullptr);
+    QVariant data(int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
+    inline QString id() const override { return m_uid; }
     inline QString uid() const { return m_uid; }
     inline QString title() const { return m_title; }
     inline QString author() const { return m_author; }
@@ -125,7 +100,7 @@ public:
     void setBroadcast(bool value, const QString &annotations);
     void setCached(int value);
 
-private:
+   private:
     QString m_uid;
     QString m_title;
     QString m_author;
@@ -138,28 +113,28 @@ private:
     QString m_feedIcon;
     QString m_feedTitle;
     QString m_annotations;
-    bool m_cached;
-    bool m_broadcast;
-    bool m_liked;
-    bool m_fresh;
-    int m_read;
-    int m_readlater;
-    int m_date;
+    bool m_cached = false;
+    bool m_broadcast = false;
+    bool m_liked = false;
+    bool m_fresh = false;
+    int m_read = false;
+    int m_readlater = false;
+    int m_date = 0;
 };
 
-class EntryModel : public ListModel
-{
+class EntryModel : public ListModel {
     Q_OBJECT
 
-public:
-    bool reInit; // if true init existing model on setEntryModel
+   public:
+    bool reInit;  // if true init existing model on setEntryModel
 
     explicit EntryModel(QObject *parent = nullptr);
     void init(const QString &feedId);
     void initInThread(const QString &feedId);
 
     Q_INVOKABLE void setData(int row, const QString &fieldName,
-                             QVariant newValue, QVariant newValue2);
+                             const QVariant &newValue,
+                             const QVariant &newValue2);
 
     Q_INVOKABLE void setAllAsUnread();
     Q_INVOKABLE void setAllAsRead();
@@ -170,24 +145,24 @@ public:
     Q_INVOKABLE int countUnread();
 
     Q_INVOKABLE int createItems(int offset, int limit);
-    Q_INVOKABLE int count();
-    //Q_INVOKABLE int fixIndex(const QString &id);
+    Q_INVOKABLE int count() const;
+    // Q_INVOKABLE int fixIndex(const QString &id);
 
-public slots:
+   public slots:
     void init();
     void initInThread();
     void initFinished();
 
-signals:
+   signals:
     void ready();
 
-private:
-   static const int idsOnActionLimit = 100;
+   private:
+    static const int idsOnActionLimit = 100;
 
-   QString _feedId;
-   EntryModelIniter initer;
+    QString m_feedId;
+    EntryModelIniter m_initer;
 
-   int getDateRowId(int date);
+    static int getDateRowId(int date);
 };
 
-#endif // ENTRYMODEL_H
+#endif  // ENTRYMODEL_H

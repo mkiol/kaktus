@@ -1,89 +1,69 @@
-/*
-  Copyright (C) 2014-2019 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-#include <sailfishapp.h>
-#include <mlite5/MGConfItem>
-#include <QPainter>
-#include <QDebug>
-#include <QFile>
-#include <QDir>
+/* Copyright (C) 2015-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 #include "iconprovider.h"
 
-IconProvider::IconProvider() : QQuickImageProvider(QQuickImageProvider::Pixmap)
-{
-    this->themeDir = IconProvider::themeDirPath();
+#include <sailfishapp.h>
+
+#include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QPainter>
+#include <mlite5/MGConfItem>
+
+static inline QString pathTo(const QString &dir) {
+    return SailfishApp::pathTo(dir).toString(QUrl::RemoveScheme);
 }
 
-QString IconProvider::themeDirPath()
-{
-    QString themeDir;
-    double ratio = MGConfItem("/desktop/sailfish/silica/theme_pixel_ratio").value().toDouble();
-    if (ratio == 0) {
-        qWarning() << "Pixel ratio is 0, defaulting to 1.0.";
-        themeDir = SailfishApp::pathTo("images/z1.0").toString(QUrl::RemoveScheme);
-    } else if (ratio == 1.0) {
-        themeDir = SailfishApp::pathTo("images/z1.0").toString(QUrl::RemoveScheme);
+IconProvider::IconProvider()
+    : QQuickImageProvider(QQuickImageProvider::Pixmap) {
+    auto ratio =
+        MGConfItem(QStringLiteral("/desktop/sailfish/silica/theme_pixel_ratio"))
+            .value()
+            .toDouble();
+    qDebug() << "device pixel ratio:" << ratio;
+    if (ratio == 1.0) {
+        themeDir = pathTo(QStringLiteral("images/z1.0"));
     } else if (ratio == 1.25) {
-        themeDir = SailfishApp::pathTo("images/z1.25").toString(QUrl::RemoveScheme);
+        themeDir = pathTo(QStringLiteral("images/z1.25"));
     } else if (ratio == 1.5) {
-        themeDir = SailfishApp::pathTo("images/z1.5").toString(QUrl::RemoveScheme);
-    } else if (ratio == 1.75 || ratio == 1.8) {
-        themeDir = SailfishApp::pathTo("images/z1.75").toString(QUrl::RemoveScheme);
+        themeDir = pathTo(QStringLiteral("images/z1.5"));
+    } else if (ratio == 1.65 || ratio == 1.75 || ratio == 1.8) {
+        themeDir = pathTo(QStringLiteral("images/z1.75"));
     } else if (ratio == 2.0) {
-        themeDir = SailfishApp::pathTo("images/z2.0").toString(QUrl::RemoveScheme);
+        themeDir = pathTo(QStringLiteral("images/z2.0"));
     } else {
-        themeDir = SailfishApp::pathTo("images/z1.0").toString(QUrl::RemoveScheme);
+        qWarning() << "Unknown pixel ratio so, defaulting to 1.0";
+        themeDir = pathTo(QStringLiteral("images/z1.0"));
     }
-
-    if (!QDir(themeDir).exists()) {
-        qWarning() << "Theme" << themeDir << "for ratio" << ratio << "doesn't exist";
-        themeDir = SailfishApp::pathTo("images/z1.0").toString(QUrl::RemoveScheme);
-    }
-    return themeDir;
 }
 
-QPixmap IconProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)
-{
-    QStringList parts = id.split('?');
-
-    QString filepath = themeDir + "/" + parts.at(0) + ".png";
+QPixmap IconProvider::requestPixmap(const QString &id, QSize *size,
+                                    const QSize &requestedSize) {
+    auto parts = id.split('?');
+    auto filepath = QString{"%1/%2.png"}.arg(themeDir, parts.at(0));
     if (!QFile::exists(filepath)) {
-        // Icon file is not exist -> fallback to default icon
         filepath = themeDir + "/icon-m-item.png";
     }
 
-    QPixmap sourcePixmap(filepath);
+    QPixmap pixmap{filepath};
 
-    if (size)
-        *size  = sourcePixmap.size();
+    if (parts.size() > 1 && QColor::isValidColor(parts.at(1))) {
+        QPainter painter{&pixmap};
+        painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+        painter.fillRect(pixmap.rect(), parts.at(1));
+        painter.end();
+    }
 
-    if (parts.length() > 1)
-        if (QColor::isValidColor(parts.at(1))) {
-            QPainter painter(&sourcePixmap);
-            painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
-            painter.fillRect(sourcePixmap.rect(), parts.at(1));
-            painter.end();
-        }
+    if (size) *size = pixmap.size();
 
-    if (requestedSize.width() > 0 && requestedSize.height() > 0)
-        return sourcePixmap.scaled(requestedSize.width(), requestedSize.height(), Qt::IgnoreAspectRatio);
-    else
-        return sourcePixmap;
+    if (requestedSize.width() > 0 && requestedSize.height() > 0) {
+        return pixmap.scaled(requestedSize.width(), requestedSize.height());
+    }
+
+    return pixmap;
 }

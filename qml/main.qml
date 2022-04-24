@@ -1,31 +1,21 @@
-/*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import QtQuick.Window 2.0
 
+import harbour.kaktus.Settings 1.0
+
 ApplicationWindow {
     id: app
 
     property bool progress: false
-    property int oldViewMode
+    property var oldViewMode
 
     readonly property bool isTablet: Screen.sizeCategory === Screen.Large || Screen.sizeCategory === Screen.ExtraLarge
     readonly property bool isNetvibes: settings.signinType >= 0 && settings.signinType < 10
@@ -52,7 +42,7 @@ ApplicationWindow {
     }
 
     function isPortraitOrientation(orientation) {
-        return orientation == Orientation.Portrait || orientation == Orientation.PortraitInverted;
+        return orientation === Orientation.Portrait || orientation === Orientation.PortraitInverted;
     }
 
     function hideBar() {
@@ -86,8 +76,12 @@ ApplicationWindow {
         utils.setRootModel();
 
         var newViewMode = settings.viewMode;
-        if ((oldViewMode == 3 || oldViewMode == 4 || oldViewMode == 5 || oldViewMode == 6 || oldViewMode == 7) &&
-            (newViewMode == 3 || newViewMode == 4 || newViewMode == 5 || newViewMode == 6 || newViewMode == 7)) {
+        if ((oldViewMode === Settings.AllEntries || oldViewMode === Settings.SavedEntries ||
+             oldViewMode === Settings.SlowEntries || oldViewMode === Settings.LikedEntries ||
+             oldViewMode === Settings.BroadcastedEntries) &&
+                (newViewMode === Settings.AllEntries || newViewMode === Settings.SavedEntries ||
+                 newViewMode === Settings.SlowEntries || newViewMode === Settings.LikedEntries ||
+                 newViewMode === Settings.BroadcastedEntries)) {
             // No need to change stack
             app.progress = false;
         } else {
@@ -131,26 +125,22 @@ ApplicationWindow {
 
         onDashboardInUseChanged: {
             resetView();
-            //notification.show(qsTr("Dashboard changed!"));
         }
 
         onViewModeChanged: {
             resetView();
-            //notification.show(qsTr("Browsing mode changed!"));
         }
 
         onSignedInChanged: {
             if (!settings.signedIn) {
-                //notification.show(qsTr("Signed out!"));
                 fetcher.cancel(); dm.cancel();
                 db.init();
             }
         }
 
         onShowBroadcastChanged: {
-            // If social features disabled, viemode != 6
-            if (!settings.showBroadcast && settings.viewMode == 6) {
-                settings.viewMode = 4;
+            if (!settings.showBroadcast && settings.viewMode === Settings.LikedEntries) {
+                settings.viewMode = Settings.SavedEntries;
             }
         }
     }
@@ -160,19 +150,17 @@ ApplicationWindow {
 
         onError: {
             console.log("DB error: code="+code);
-
-            if (code==511) {
+            if (code == 511) {
                 notification.show(qsTr("Restart the app to rebuild cache data"));
                 return;
             }
-
             Qt.quit();
         }
 
         onEmpty: {
             dm.removeCache();
-            if (settings.viewMode!=0)
-                settings.viewMode=0;
+            if (settings.viewMode !== Settings.TabsFeedsEntries)
+                settings.viewMode = Settings.TabsFeedsEntries;
             else
                 resetView();
         }
@@ -200,12 +188,10 @@ ApplicationWindow {
             if (settings.autoOffline) {
                 if (dm.online) {
                     if (settings.offlineMode) {
-                        //notification.show(qsTr("Enabling online mode because network is connected."));
                         settings.offlineMode = false
                     }
                 } else {
                     if (!settings.offlineMode) {
-                        //notification.show(qsTr("Enabling offline mode because network is disconnected."));
                         settings.offlineMode = true
                     }
                 }
@@ -269,7 +255,6 @@ ApplicationWindow {
     property bool fetcherBusyStatus: false
 
     function fetcherReady() {
-        //console.log("Fetcher ready");
         resetView();
 
         switch (settings.cachingMode) {
@@ -403,7 +388,6 @@ ApplicationWindow {
     }
 
     function fetcherImageSaved(filename) {
-        //console.log("fetcherImageSaved: " + filename)
         notification.show(qsTr("Image saved in gallery as \"" + filename + "\""));
     }
 
@@ -413,8 +397,8 @@ ApplicationWindow {
 
     property int panelWidth: isPortraitOrientation(app.orientation) ? Screen.width : Screen.height
     property int landscapeContentPanelWidth: isTablet ?
-                 isPortraitOrientation(app.orientation) ? Screen.width-700 : Screen.height-700 :
-                 isPortraitOrientation(app.orientation) ? Screen.width/2 : Screen.height/2
+                                                 isPortraitOrientation(app.orientation) ? Screen.width-700 : Screen.height-700 :
+    isPortraitOrientation(app.orientation) ? Screen.width/2 : Screen.height/2
     property int flickHeight: {
         var size = 0
         if (bar.open)
@@ -465,8 +449,7 @@ ApplicationWindow {
         }
 
         onBusyChanged: {
-            if (!busy)
-                hide()
+            if (!busy) hide()
         }
 
         y: app.barY

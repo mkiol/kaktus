@@ -1,229 +1,190 @@
-/*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
-  This file is part of Kaktus.
+#include "settings.h"
 
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
-#include <QDebug>
-#include <QVariant>
-
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-#include <QStandardPaths>
 #include <QGuiApplication>
-#else
-#include <QtGui/QDesktopServices>
-#include <QCoreApplication>
-#endif
+#include <QStandardPaths>
+#include <QVariant>
 
 #include "cacheserver.h"
 #include "databasemanager.h"
 #include "downloadmanager.h"
+#include "info.h"
 #include "key.h"
-#include "settings.h"
 #include "simplecrypt.h"
 
-Settings* Settings::m_instance = nullptr;
+Settings *Settings::m_instance = nullptr;
 
-Settings::Settings(QObject *parent) : QObject(parent),
-    fetcher(nullptr),
-    settings()
+Settings::Settings()
+    : QSettings{settingsFilepath(), QSettings::NativeFormat}
+
 {
-    // Reset if not Signed in
-    if (!getSignedIn()) {
-        reset();
-    }
+    qDebug() << "app:" << Kaktus::ORG << Kaktus::APP_ID;
+    qDebug() << "config location:"
+             << QStandardPaths::writableLocation(
+                    QStandardPaths::ConfigLocation);
+    qDebug() << "data location:"
+             << QStandardPaths::writableLocation(
+                    QStandardPaths::AppDataLocation);
+    qDebug() << "cache location:"
+             << QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    qDebug() << "settings file:" << fileName();
 
-    connect(this, SIGNAL(signedInChanged()), this, SLOT(reset()));
+    if (!getSignedIn()) reset();
 }
 
-Settings* Settings::instance()
-{
-    if (Settings::m_instance == nullptr) {
-        Settings::m_instance = new Settings();
-    }
+QString Settings::settingsFilepath() {
+    QDir confDir{
+        QStandardPaths::writableLocation(QStandardPaths::ConfigLocation)};
+    confDir.mkpath(QCoreApplication::organizationName() + QDir::separator() +
+                   QCoreApplication::applicationName());
+    return confDir.absolutePath() + QDir::separator() +
+           QCoreApplication::organizationName() + QDir::separator() +
+           QCoreApplication::applicationName() + QDir::separator() +
+           settingsFilename;
+}
 
+Settings *Settings::instance() {
+    if (!Settings::m_instance) Settings::m_instance = new Settings{};
     return Settings::m_instance;
 }
 
-QString Settings::pocketConsumerKey()
-{
-    return pocket_consumer_key;
+QString Settings::pocketConsumerKey() const { return pocket_consumer_key; }
+
+void Settings::setViewModeHistory(QList<ViewMode> history) {
+    QVariantList l;
+    for (auto m : history) {
+        l.push_back(static_cast<int>(m));
+    }
+    setValue("viewmodehistory", l);
 }
 
-const QList<QVariant> Settings::viewModeHistory()
-{
-    return settings.value("viewmodehistory").toList();
+QList<Settings::ViewMode> Settings::viewModeHistory() const {
+    QList<ViewMode> history;
+    auto h = value("viewmodehistory").toList();
+    for (auto m : h) {
+        history.push_back(static_cast<ViewMode>(m.toInt()));
+    }
+    return history;
 }
 
-void Settings::setShowStarredTab(bool value)
-{
+void Settings::setShowStarredTab(bool value) {
     if (getShowStarredTab() != value) {
-        settings.setValue("showstarredtab", value);
+        setValue("showstarredtab", value);
         emit showStarredTabChanged();
     }
 }
 
-bool Settings::getShowStarredTab()
-{
-    return settings.value("showstarredtab", true).toBool();
+bool Settings::getShowStarredTab() const {
+    return value("showstarredtab", true).toBool();
 }
 
-void Settings::setPowerSaveMode(bool value)
-{
-    if (getPowerSaveMode() != value) {
-        settings.setValue("powersavemode", value);
-        emit powerSaveModeChanged();
-    }
-}
-
-bool Settings::getPowerSaveMode()
-{
-    //return settings.value("powersavemode", true).toBool();
-    return false;
-}
-
-void Settings::setFilter(int value)
-{
+void Settings::setFilter(int value) {
     if (getFilter() != value) {
-        settings.setValue("filter", value);
+        setValue("filter", value);
         emit filterChanged();
     }
 }
 
-int Settings::getFilter()
-{
-    return settings.value("filter", 0).toInt();
-}
+int Settings::getFilter() const { return value("filter", 0).toInt(); }
 
-void Settings::setShowOldestFirst(bool value)
-{
+void Settings::setShowOldestFirst(bool value) {
     if (getShowOldestFirst() != value) {
-        settings.setValue("showoldestfirst", value);
+        setValue("showoldestfirst", value);
         emit showOldestFirstChanged();
     }
 }
 
-bool Settings::getShowOldestFirst()
-{
-    return settings.value("showoldestfirst", false).toBool();
+bool Settings::getShowOldestFirst() const {
+    return value("showoldestfirst", false).toBool();
 }
 
-void Settings::setShowBroadcast(bool value)
-{
+void Settings::setShowBroadcast(bool value) {
     if (getShowBroadcast() != value) {
-        settings.setValue("showbroadcast", value);
+        setValue("showbroadcast", value);
         emit showBroadcastChanged();
     }
 }
 
-bool Settings::getShowBroadcast()
-{
-    return settings.value("showbroadcast", false).toBool();
+bool Settings::getShowBroadcast() const {
+    return value("showbroadcast", false).toBool();
 }
 
-void Settings::setOfflineMode(bool value)
-{
-#ifdef KAKTUS_LIGHT
-    return;
-#else
+void Settings::setOfflineMode(bool value) {
     if (getOfflineMode() != value) {
-        settings.setValue("offlinemode", value);
+        setValue("offlinemode", value);
         emit offlineModeChanged();
     }
-#endif
 }
 
-bool Settings::getOfflineMode()
-{
-#ifdef KAKTUS_LIGHT
-    return false;
-#else
-    return settings.value("offlinemode", false).toBool();
-#endif
+bool Settings::getOfflineMode() const {
+    return value("offlinemode", false).toBool();
 }
 
-void Settings::setAutoOffline(bool value)
-{
+void Settings::setAutoOffline(bool value) {
     if (getAutoOffline() != value) {
-        settings.setValue("autooffline", value);
+        setValue("autooffline", value);
         emit autoOfflineChanged();
     }
 }
 
-bool Settings::getAutoOffline()
-{
-    return settings.value("autooffline", true).toBool();
+bool Settings::getAutoOffline() const {
+    return value("autooffline", true).toBool();
 }
 
-void Settings::setReaderMode(bool value)
-{
+void Settings::setReaderMode(bool value) {
     if (getReaderMode() != value) {
-        settings.setValue("readermode", value);
+        setValue("readermode", value);
         emit readerModeChanged();
     }
 }
 
-bool Settings::getReaderMode()
-{
-    return settings.value("readermode", false).toBool();
+bool Settings::getReaderMode() const {
+    return value("readermode", false).toBool();
 }
 
-void Settings::setPocketEnabled(bool value)
-{
+void Settings::setPocketEnabled(bool value) {
     if (getPocketEnabled() != value) {
-        settings.setValue("pocketenabled", value);
+        setValue("pocketenabled", value);
         emit pocketEnabledChanged();
     }
 }
 
-bool Settings::getPocketEnabled()
-{
-    return settings.value("pocketenabled", false).toBool();
+bool Settings::getPocketEnabled() const {
+    return value("pocketenabled", false).toBool();
 }
 
-void Settings::setPocketQuickAdd(bool value)
-{
+void Settings::setPocketQuickAdd(bool value) {
     if (getPocketQuickAdd() != value) {
-        settings.setValue("pocketquickadd", value);
+        setValue("pocketquickadd", value);
         emit pocketQuickAddChanged();
     }
 }
 
-bool Settings::getPocketQuickAdd()
-{
-    return settings.value("pocketquickadd", false).toBool();
+bool Settings::getPocketQuickAdd() const {
+    return value("pocketquickadd", false).toBool();
 }
 
-void Settings::setPocketFavorite(bool value)
-{
+void Settings::setPocketFavorite(bool value) {
     if (getPocketFavorite() != value) {
-        settings.setValue("pocketfavorite", value);
+        setValue("pocketfavorite", value);
         emit pocketFavoriteChanged();
     }
 }
 
-bool Settings::getPocketFavorite()
-{
-    return settings.value("pocketfavorite", false).toBool();
+bool Settings::getPocketFavorite() const {
+    return value("pocketfavorite", false).toBool();
 }
 
-void Settings::setPocketToken(const QString &value)
-{
+void Settings::setPocketToken(const QString &value) {
     if (getPocketToken() != value) {
         SimpleCrypt crypto(KEY);
         QString encryptedToken = crypto.encryptToString(value);
@@ -231,15 +192,15 @@ void Settings::setPocketToken(const QString &value)
             emit error(532);
             return;
         }
-        settings.setValue("pockettoken", encryptedToken);
+        setValue("pockettoken", encryptedToken);
         emit pocketTokenChanged();
     }
 }
 
-QString Settings::getPocketToken()
-{
+QString Settings::getPocketToken() {
     SimpleCrypt crypto(KEY);
-    QString plainToken = crypto.decryptToString(settings.value("pockettoken", "").toString());
+    QString plainToken =
+        crypto.decryptToString(value("pockettoken", "").toString());
     if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(531);
         return "";
@@ -247,207 +208,165 @@ QString Settings::getPocketToken()
     return plainToken;
 }
 
-void Settings::setPocketTags(const QString &value)
-{
+void Settings::setPocketTags(const QString &value) {
     if (getPocketTags() != value) {
-        settings.setValue("pockettags", value);
+        setValue("pockettags", value);
         emit pocketTagsChanged();
     }
 }
 
-QString Settings::getPocketTags()
-{
-    return settings.value("pockettags", "").toString();
+QString Settings::getPocketTags() const {
+    return value("pockettags", "").toString();
 }
 
-void Settings::setPocketTagsHistory(const QString &value)
-{
+void Settings::setPocketTagsHistory(const QString &value) {
     if (getPocketTagsHistory() != value) {
-        settings.setValue("pockettagshistory", value);
+        setValue("pockettagshistory", value);
         emit pocketTagsHistoryChanged();
     }
 }
 
-QString Settings::getPocketTagsHistory()
-{
-    return settings.value("pockettagshistory", "").toString();
+QString Settings::getPocketTagsHistory() const {
+    return value("pockettagshistory", "").toString();
 }
 
-void Settings::setNightMode(bool value)
-{
+void Settings::setNightMode(bool value) {
     if (getNightMode() != value) {
-        settings.setValue("nightmode", value);
+        setValue("nightmode", value);
         emit nightModeChanged();
     }
 }
 
-bool Settings::getNightMode()
-{
-    return settings.value("nightmode", false).toBool();
+bool Settings::getNightMode() const {
+    return value("nightmode", false).toBool();
 }
 
-void Settings::setSyncRead(bool value)
-{
+void Settings::setSyncRead(bool value) {
     if (getSyncRead() != value) {
-        settings.setValue("syncread", value);
+        setValue("syncread", value);
         emit syncReadChanged();
     }
 }
 
-bool Settings::getSyncRead()
-{
-    return settings.value("syncread", false).toBool();
-}
+bool Settings::getSyncRead() const { return value("syncread", false).toBool(); }
 
-void Settings::setClickBehavior(int value)
-{
+void Settings::setClickBehavior(int value) {
     if (getClickBehavior() != value) {
-        settings.setValue("clickbehavior", value);
+        setValue("clickbehavior", value);
         emit clickBehaviorChanged();
     }
 }
 
-int Settings::getClickBehavior()
-{
-    return settings.value("clickbehavior", 0).toInt();
+int Settings::getClickBehavior() const {
+    return value("clickbehavior", 0).toInt();
 }
 
-void Settings::setWebviewNavigation(int value)
-{
+void Settings::setWebviewNavigation(int value) {
     if (getWebviewNavigation() != value) {
-        settings.setValue("webviewnavigation", value);
+        setValue("webviewnavigation", value);
         emit webviewNavigationChanged();
     }
 }
 
-int Settings::getWebviewNavigation()
-{
+int Settings::getWebviewNavigation() const {
     // Default is 2 - open in web view
-    return settings.value("webviewnavigation", 2).toInt();
+    return value("webviewnavigation", 2).toInt();
 }
 
-void Settings::setShowTabIcons(bool value)
-{
+void Settings::setShowTabIcons(bool value) {
     if (getShowTabIcons() != value) {
-        settings.setValue("showtabicons", value);
+        setValue("showtabicons", value);
         emit showTabIconsChanged();
     }
 }
 
-bool Settings::getShowTabIcons()
-{
-    return settings.value("showtabicons", true).toBool();
+bool Settings::getShowTabIcons() const {
+    return value("showtabicons", true).toBool();
 }
 
-void Settings::setSignedIn(bool value)
-{
+void Settings::setSignedIn(bool value) {
     if (getSignedIn() != value) {
-        settings.setValue("signedin", value);
+        setValue("signedin", value);
         emit signedInChanged();
+        reset();
     }
 }
 
-bool Settings::getSignedIn()
-{
-    return settings.value("signedin", false).toBool();
-}
+bool Settings::getSignedIn() const { return value("signedin", false).toBool(); }
 
-void Settings::setExpandedMode(bool value)
-{
+void Settings::setExpandedMode(bool value) {
     if (getExpandedMode() != value) {
-        settings.setValue("expandedmode", value);
+        setValue("expandedmode", value);
         emit expandedModeChanged();
     }
 }
 
-bool Settings::getExpandedMode()
-{
-    return settings.value("expandedmode", false).toBool();
+bool Settings::getExpandedMode() const {
+    return value("expandedmode", false).toBool();
 }
 
-void Settings::setHelpDone(bool value)
-{
+void Settings::setHelpDone(bool value) {
     if (getHelpDone() != value) {
-        settings.setValue("helpdone", value);
+        setValue("helpdone", value);
         emit helpDoneChanged();
     }
 }
 
-bool Settings::getHelpDone()
-{
-    return settings.value("helpdone", false).toBool();
-}
+bool Settings::getHelpDone() const { return value("helpdone", false).toBool(); }
 
-void Settings::setDoublePane(bool value)
-{
+void Settings::setDoublePane(bool value) {
     if (getDoublePane() != value) {
-        settings.setValue("doublepane", value);
+        setValue("doublepane", value);
         emit doublePaneChanged();
     }
 }
 
-bool Settings::getDoublePane()
-{
-    return settings.value("doublepane", true).toBool();
+bool Settings::getDoublePane() const {
+    return value("doublepane", true).toBool();
 }
 
-void Settings::setHint1Done(bool value)
-{
-    settings.setValue("hint1done", value);
+void Settings::setHint1Done(bool value) { setValue("hint1done", value); }
+
+bool Settings::getHint1Done() const {
+    return value("hint1done", false).toBool();
 }
 
-bool Settings::getHint1Done()
-{
-    return settings.value("hint1done", false).toBool();
-}
-
-void Settings::setAutoDownloadOnUpdate(bool value)
-{
+void Settings::setAutoDownloadOnUpdate(bool value) {
     if (getAutoDownloadOnUpdate() != value) {
-        settings.setValue("autodownloadonupdate", value);
+        setValue("autodownloadonupdate", value);
         emit autoDownloadOnUpdateChanged();
     }
 }
 
-bool Settings::getAutoDownloadOnUpdate()
-{
-    return settings.value("autodownloadonupdate", true).toBool();
+bool Settings::getAutoDownloadOnUpdate() const {
+    return value("autodownloadonupdate", true).toBool();
 }
 
-void Settings::setUrl(const QString &value)
-{
-    settings.setValue("url", value);
+void Settings::setUrl(const QString &value) { setValue("url", value); }
+
+QString Settings::getUrl() const { return value("url", "").toString(); }
+
+void Settings::setUsername(const QString &value) {
+    setValue("username", value);
 }
 
-QString Settings::getUrl()
-{
-    return settings.value("url", "").toString();
+QString Settings::getUsername() const {
+    return value("username", "").toString();
 }
 
-void Settings::setUsername(const QString &value)
-{
-    settings.setValue("username", value);
-}
-
-QString Settings::getUsername()
-{
-    return settings.value("username", "").toString();
-}
-
-void Settings::setPassword(const QString &value)
-{
+void Settings::setPassword(const QString &value) {
     SimpleCrypt crypto(KEY);
     QString encryptedPassword = crypto.encryptToString(value);
     if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(512);
     }
-    settings.setValue("password", encryptedPassword);
+    setValue("password", encryptedPassword);
 }
 
-QString Settings::getPassword()
-{
+QString Settings::getPassword() {
     SimpleCrypt crypto(KEY);
-    QString plainPassword = crypto.decryptToString(settings.value("password", "").toString());
+    QString plainPassword =
+        crypto.decryptToString(value("password", "").toString());
     if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(511);
         return "";
@@ -455,30 +374,22 @@ QString Settings::getPassword()
     return plainPassword;
 }
 
-void Settings::setUserId(const QString &value)
-{
-    settings.setValue("userid", value);
-}
+void Settings::setUserId(const QString &value) { setValue("userid", value); }
 
-QString Settings::getUserId()
-{
-    return settings.value("userid", "").toString();
-}
+QString Settings::getUserId() const { return value("userid", "").toString(); }
 
-void Settings::setCookie(const QString &value)
-{
+void Settings::setCookie(const QString &value) {
     SimpleCrypt crypto(KEY);
     QString encryptedValue = crypto.encryptToString(value);
     if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(512);
     }
-    settings.setValue("cookie", encryptedValue);
+    setValue("cookie", encryptedValue);
 }
 
-QString Settings::getCookie()
-{
+QString Settings::getCookie() {
     SimpleCrypt crypto(KEY);
-    QString plainValue = crypto.decryptToString(settings.value("cookie", "").toString());
+    QString plainValue = crypto.decryptToString(value("cookie", "").toString());
     if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(511);
         return "";
@@ -486,20 +397,19 @@ QString Settings::getCookie()
     return plainValue;
 }
 
-void Settings::setRefreshCookie(const QString &value)
-{
+void Settings::setRefreshCookie(const QString &value) {
     SimpleCrypt crypto(KEY);
     QString encryptedValue = crypto.encryptToString(value);
     if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(512);
     }
-    settings.setValue("refreshcookie", encryptedValue);
+    setValue("refreshcookie", encryptedValue);
 }
 
-QString Settings::getRefreshCookie()
-{
+QString Settings::getRefreshCookie() {
     SimpleCrypt crypto(KEY);
-    QString plainValue = crypto.decryptToString(settings.value("refreshcookie", "").toString());
+    QString plainValue =
+        crypto.decryptToString(value("refreshcookie", "").toString());
     if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(511);
         return "";
@@ -507,20 +417,19 @@ QString Settings::getRefreshCookie()
     return plainValue;
 }
 
-void Settings::setTwitterCookie(const QString &value)
-{
+void Settings::setTwitterCookie(const QString &value) {
     SimpleCrypt crypto(KEY);
     QString encryptedValue = crypto.encryptToString(value);
     if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(512);
     }
-    settings.setValue("twittercookie", encryptedValue);
+    setValue("twittercookie", encryptedValue);
 }
 
-QString Settings::getTwitterCookie()
-{
+QString Settings::getTwitterCookie() {
     SimpleCrypt crypto(KEY);
-    QString plainValue = crypto.decryptToString(settings.value("twittercookie", "").toString());
+    QString plainValue =
+        crypto.decryptToString(value("twittercookie", "").toString());
     if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(511);
         return "";
@@ -528,20 +437,19 @@ QString Settings::getTwitterCookie()
     return plainValue;
 }
 
-void Settings::setAuthUrl(const QString &value)
-{
+void Settings::setAuthUrl(const QString &value) {
     SimpleCrypt crypto(KEY);
     QString encryptedValue = crypto.encryptToString(value);
     if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(512);
     }
-    settings.setValue("authurl", encryptedValue);
+    setValue("authurl", encryptedValue);
 }
 
-QString Settings::getAuthUrl()
-{
+QString Settings::getAuthUrl() {
     SimpleCrypt crypto(KEY);
-    QString plainValue = crypto.decryptToString(settings.value("authurl", "").toString());
+    QString plainValue =
+        crypto.decryptToString(value("authurl", "").toString());
     if (crypto.lastError() != SimpleCrypt::ErrorNoError) {
         emit error(511);
         return "";
@@ -549,299 +457,208 @@ QString Settings::getAuthUrl()
     return plainValue;
 }
 
-void Settings::setDashboardInUse(const QString &value)
-{
+void Settings::setDashboardInUse(const QString &value) {
     if (getDashboardInUse() != value) {
         if (getDashboardInUse() == "") {
-            settings.setValue("dafaultdashboard", value);
+            setValue("dafaultdashboard", value);
         } else {
-            settings.setValue("dafaultdashboard", value);
+            setValue("dafaultdashboard", value);
             emit dashboardInUseChanged();
         }
     }
 }
 
-QString Settings::getDashboardInUse()
-{
-    return settings.value("dafaultdashboard", "").toString();
+QString Settings::getDashboardInUse() const {
+    return value("dafaultdashboard", "").toString();
 }
 
-void Settings::setProvider(const QString &value)
-{
-    settings.setValue("provider", value);
+void Settings::setProvider(const QString &value) {
+    setValue("provider", value);
 }
 
-QString Settings::getProvider()
-{
-    return settings.value("provider", "").toString();
+QString Settings::getProvider() const {
+    return value("provider", "").toString();
 }
 
-void Settings::setLocale(const QString &value)
-{
+void Settings::setLocale(const QString &value) {
     if (getLocale() != value) {
-        settings.setValue("locale", value);
+        setValue("locale", value);
         emit localeChanged();
     }
 }
 
-QString Settings::getLocale()
-{
-    QString locale = settings.value("locale", "").toString();
+QString Settings::getLocale() const {
+    QString locale = value("locale", "").toString();
     if (locale == "" || locale == "cs" || locale == "de" || locale == "es" ||
-        locale == "en" || locale == "it" || locale == "nl" || locale == "pl" || locale == "ru")
+        locale == "en" || locale == "it" || locale == "nl" || locale == "pl" ||
+        locale == "ru")
         return locale;
     return "";
 }
 
-void Settings::setLastUpdateDate(int value)
-{
+void Settings::setLastUpdateDate(int value) {
     if (getLastUpdateDate() != value) {
-        settings.setValue("lastupdatedate", value);
+        setValue("lastupdatedate", value);
         emit lastUpdateDateChanged();
     }
 }
 
-int Settings::getSigninType()
-{
-    return settings.value("signintype", 0).toInt();
-}
+int Settings::getSigninType() const { return value("signintype", 0).toInt(); }
 
-void Settings::setSigninType(int value)
-{
+void Settings::setSigninType(int value) {
     if (getSigninType() != value) {
-        settings.setValue("signintype", value);
+        setValue("signintype", value);
         emit signinTypeChanged();
     }
 }
 
-int Settings::getLastUpdateDate()
-{
-    return settings.value("lastupdatedate", 0).toInt();
+int Settings::getLastUpdateDate() const {
+    return value("lastupdatedate", 0).toInt();
 }
 
-void Settings::setAllowedOrientations(int value)
-{
+void Settings::setAllowedOrientations(int value) {
     if (getAllowedOrientations() != value) {
-        settings.setValue("allowedorientations", value);
+        setValue("allowedorientations", value);
         emit allowedOrientationsChanged();
     }
 }
 
-int Settings::getAllowedOrientations()
-{
-    return settings.value("allowedorientations", 0).toInt();
+int Settings::getAllowedOrientations() const {
+    return value("allowedorientations", 0).toInt();
 }
 
-void Settings::setCachingMode(int value)
-{
+void Settings::setCachingMode(int value) {
     if (getCachingMode() != value) {
-        settings.setValue("cachingmode", value);
+        setValue("cachingmode", value);
         emit cachingModeChanged();
     }
 }
 
-int Settings::getCachingMode()
-{
-#ifdef KAKTUS_LIGHT
-    return 0;
-#else
-    return settings.value("cachingmode", 0).toInt();
-#endif
-}
+int Settings::getCachingMode() const { return value("cachingmode", 0).toInt(); }
 
-void Settings::setOffsetLimit(int value)
-{
+void Settings::setOffsetLimit(int value) {
     if (getOffsetLimit() != value) {
-        settings.setValue("offsetLimit", value);
+        setValue("offsetLimit", value);
         emit offsetLimitChanged();
     }
 }
 
-int Settings::getOffsetLimit()
-{
-    return settings.value("offsetLimit", 150).toInt();
+int Settings::getOffsetLimit() const {
+    return value("offsetLimit", 150).toInt();
 }
 
-QString Settings::getSettingsDir()
-{
+QString Settings::getSettingsDir() {
+    QString dir =
+        QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    QString value = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).path();
-#else
-    QString value = QDir(QDesktopServices::storageLocation(QDesktopServices::CacheLocation)).path();
-#endif
-
-    if (!QDir(value).exists()) {
-        if (!QDir::root().mkpath(value)) {
-            qWarning() << "Unable to create settings dir";
+    if (!QDir{dir}.exists()) {
+        if (!QDir::root().mkpath(dir)) {
+            qWarning() << "unable to create settings dir";
             emit error(501);
         }
     }
 
-    return value;
+    return dir;
 }
 
-void Settings::setDmConnections(int value)
-{
-    settings.setValue("connections", value);
+void Settings::setDmConnections(int value) { setValue("connections", value); }
+
+int Settings::getDmConnections() const {
+    return value("connections", 10).toInt();
 }
 
-int Settings::getDmConnections()
-{
-#ifdef BB10
-    return settings.value("connections", 10).toInt();
-#else
-    return settings.value("connections", 10).toInt();
-#endif
-}
+void Settings::setDmTimeOut(int value) { setValue("timeout", value); }
 
-void Settings::setDmTimeOut(int value)
-{
-    settings.setValue("timeout", value);
-}
+int Settings::getDmTimeOut() const { return value("timeout", 20000).toInt(); }
 
-int Settings::getDmTimeOut()
-{
-    return settings.value("timeout", 20000).toInt();
-}
+void Settings::setDmMaxSize(int value) { setValue("maxsize", value); }
 
-void Settings::setDmMaxSize(int value)
-{
-    settings.setValue("maxsize", value);
-}
+int Settings::getDmMaxSize() const { return value("maxsize", 500000).toInt(); }
 
-int Settings::getDmMaxSize()
-{
+QString Settings::getDmCacheDir() {
+    QString dir =
+        QDir{QStandardPaths::writableLocation(QStandardPaths::CacheLocation)}
+            .filePath("cached_files");
 
-    return settings.value("maxsize", 500000).toInt();
-}
-
-QString Settings::getDmCacheDir()
-{
-
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
-    QString value = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).filePath("cached_files");
-#else
-    QString value = QDir(QDesktopServices::storageLocation(QDesktopServices::CacheLocation)).filePath("cached_files");
-#endif
-
-    //qDebug() << "Cache dir is" << value;
-
-    if (!QDir(value).exists()) {
-        if (!QDir::root().mkpath(value)) {
+    if (!QDir{dir}.exists()) {
+        if (!QDir::root().mkpath(dir)) {
             qWarning() << "Unable to create cache dir";
             emit error(502);
         }
     }
 
-    return value;
+    return dir;
 }
 
-void Settings::setDmUserAgent(const QString &value)
-{
-    settings.setValue("useragent", value);
+void Settings::setDmUserAgent(const QString &value) {
+    setValue("useragent", value);
 }
 
-QString Settings::getDmUserAgent()
-{
-    QString value = "Mozilla/5.0 (Linux; Android 4.2.1; Nexus 4 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19";
-    //QString value = "Mozilla/5.0 (MeeGo; NokiaN9) AppleWebKit/534.13 (KHTML, like Gecko) NokiaBrowser/8.5.0 Mobile Safari/534.13";
-    //QString value = "Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:26.0) Gecko/26.0 Firefox/26.0 SailfishBrowser/1.0 like Safari/538.1";
-    //QString value = "Mozilla/5.0 (Mobile; rv:26.0) Gecko/26.0 Firefox/26.0";
-    return settings.value("useragent", value).toString();
+QString Settings::getDmUserAgent() const {
+    QString agent =
+        "Mozilla/5.0 (Linux; Android 4.2.1; Nexus 4 Build/JOP40D) "
+        "AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile "
+        "Safari/535.19";
+    // QString value = "Mozilla/5.0 (MeeGo; NokiaN9) AppleWebKit/534.13 (KHTML,
+    // like Gecko) NokiaBrowser/8.5.0 Mobile Safari/534.13"; QString value =
+    // "Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:26.0)
+    // Gecko/26.0 Firefox/26.0 SailfishBrowser/1.0 like Safari/538.1"; QString
+    // value = "Mozilla/5.0 (Mobile; rv:26.0) Gecko/26.0 Firefox/26.0";
+    return value("useragent", agent).toString();
 }
 
-int Settings::getFontSize()
-{
-    int size = settings.value("fontsize", 10).toInt();
+int Settings::getFontSize() const {
+    int size = value("fontsize", 10).toInt();
     return size < 5 ? 5 : size > 50 ? 50 : size;
 }
 
-void Settings::setFontSize(int value)
-{
+void Settings::setFontSize(int value) {
     // Min value is 5 & max value is 50
-    if (value > 50 || value < 5)
-        return;
+    if (value > 50 || value < 5) return;
 
     if (getFontSize() != value) {
-        settings.setValue("fontsize", value);
+        setValue("fontsize", value);
         emit fontSizeChanged();
     }
 }
 
-float Settings::getZoom()
-{
-    float size = settings.value("zoom", 1.0).toFloat();
-    return size < 0.5 ? 0.5 : size > 2.0 ? 2.0 : size;
+float Settings::getZoom() const {
+    return std::min(std::max(minZoom, value("zoom", 1.0).toFloat()), maxZoom);
 }
 
-void Settings::setZoom(float value)
-{
-    // Min value is 0.5 & max value is 2.0
-    if (value < 0.5 || value > 2.0)
-        return;
-
+void Settings::setZoom(float value) {
+    value = std::min(std::max(minZoom, value), maxZoom);
     if (getZoom() != value) {
-        settings.setValue("zoom", value);
+        setValue("zoom", value);
         emit zoomChanged();
     }
 }
 
-int Settings::getRetentionDays()
-{
-    // Default is 14 days
-    return settings.value("retentiondays", 14).toInt();
+int Settings::getRetentionDays() const {
+    return value("retentiondays", 14).toInt();
 }
 
-void Settings::setRetentionDays(int value)
-{
-#ifdef KAKTUS_LIGHT
-    if (value < 1 || value >= 30 )
-        return;
-#endif
-    settings.setValue("retentiondays", value);
-}
+void Settings::setRetentionDays(int value) { setValue("retentiondays", value); }
 
-int Settings::getTheme()
-{
-    // Default is Dark theme
-    return settings.value("apptheme", 2).toInt();
-}
+int Settings::getTheme() const { return value("apptheme", 2).toInt(); }
 
-void Settings::setTheme(int value)
-{
+void Settings::setTheme(int value) {
     if (getTheme() != value) {
-        settings.setValue("apptheme", value);
+        setValue("apptheme", value);
         emit themeChanged();
     }
 }
 
-void Settings::setFeedsAtOnce(int value)
-{
-    settings.setValue("feedsatonce", value);
+void Settings::setFeedsAtOnce(int value) { setValue("feedsatonce", value); }
+
+int Settings::getFeedsAtOnce() const { return value("feedsatonce", 5).toInt(); }
+
+void Settings::setFeedsUpdateAtOnce(int value) {
+    setValue("feedsupdateatonce", value);
 }
 
-int Settings::getFeedsAtOnce()
-{
-#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
-    return settings.value("feedsatonce", 1).toInt();
-#else
-    return settings.value("feedsatonce", 5).toInt();
-#endif
-}
-
-void Settings::setFeedsUpdateAtOnce(int value)
-{
-    settings.setValue("feedsupdateatonce", value);
-}
-
-int Settings::getFeedsUpdateAtOnce()
-{
-#if defined(Q_OS_SYMBIAN) || defined(Q_WS_SIMULATOR)
-    return settings.value("feedsupdateatonce", 1).toInt();
-#else
-    return settings.value("feedsupdateatonce", 10).toInt();
-#endif
+int Settings::getFeedsUpdateAtOnce() const {
+    return value("feedsupdateatonce", 10).toInt();
 }
 
 /*
@@ -855,62 +672,48 @@ View modes:
 6 - Liked entries (Old Reader)
 7 - Broadcasted entries (Old Reader)
 */
-void Settings::setViewMode(int value)
-{
+void Settings::setViewMode(ViewMode mode) {
     int type = getSigninType();
-    if (getViewMode() != value) {
+    if (getViewMode() != mode) {
         if (type < 10) {
             // Netvibes, Forbidden modes: 6, 7
-            if (value == 6 || value == 7) {
-                qWarning() << "Netvibes forbidden mode";
+            if (mode == ViewMode::LikedEntries ||
+                mode == ViewMode::BroadcastedEntries) {
+                qWarning() << "netvibes forbidden mode";
                 return;
             }
         } else if (type < 20) {
             // OldReader, Forbidden modes: none
         } else if (type >= 30 && type < 40) {
             // TT-RSS, Forbidden modes: 5, 6, 7
-            if (value == 5 || value == 6 || value == 7) {
-                qWarning() << "TT-RSS forbidden mode";
+            if (mode == ViewMode::SlowEntries ||
+                mode == ViewMode::LikedEntries ||
+                mode == ViewMode::BroadcastedEntries) {
+                qWarning() << "ttrss forbidden mode";
                 return;
             }
         }
 
-        settings.setValue("viewmode", value);
+        setValue("viewmode", static_cast<int>(mode));
 
-        //update history
-        QList<QVariant> list = settings.value("viewmodehistory").toList();
-        if (list.indexOf(value)==-1)
-            list.prepend(value);
-        if (list.length()>3)
-            list.removeLast();
-        settings.setValue("viewmodehistory", list);
-
+        // update history
+        auto history = viewModeHistory();
+        if (history.indexOf(mode) == -1) history.prepend(mode);
+        if (history.length() > 3) history.removeLast();
+        setViewModeHistory(history);
         emit viewModeChanged();
     }
 }
 
-int Settings::getViewMode()
-{
-    int viewMode = settings.value("viewmode", 0).toInt();
-#ifdef KAKTUS_LIGHT
-    if (viewMode==5)
-        return 0;
-#endif
-    return viewMode;
+Settings::ViewMode Settings::getViewMode() const {
+    return static_cast<ViewMode>(value("viewmode", 0).toInt());
 }
 
-void Settings::setReinitDB(bool value)
-{
-    settings.setValue("reinitdb", value);
-}
+void Settings::setReinitDB(bool value) { setValue("reinitdb", value); }
 
-bool Settings::getReinitDB()
-{
-    return settings.value("reinitdb", false).toBool();
-}
+bool Settings::getReinitDB() const { return value("reinitdb", false).toBool(); }
 
-void Settings::reset()
-{
+void Settings::reset() {
     if (!getSignedIn()) {
         setLastUpdateDate(0);
         setDashboardInUse("");
@@ -930,35 +733,27 @@ void Settings::reset()
     }
 }
 
-void Settings::setIgnoreSslErrors(bool value)
-{
+void Settings::setIgnoreSslErrors(bool value) {
     if (getIgnoreSslErrors() != value) {
-        settings.setValue("ignoresslerrors", value);
+        setValue("ignoresslerrors", value);
         emit ignoreSslErrorsChanged();
     }
 }
 
-bool Settings::getIgnoreSslErrors()
-{
-    return settings.value("ignoresslerrors", false).toBool();
+bool Settings::getIgnoreSslErrors() const {
+    return value("ignoresslerrors", false).toBool();
 }
 
-void Settings::setImagesDir(const QString &value)
-{
+void Settings::setImagesDir(const QString &value) {
     if (getImagesDir() != value) {
-        settings.setValue("imagesdir", value);
+        setValue("imagesdir", value);
         emit imagesDirChanged();
     }
 }
 
-QString Settings::getImagesDir()
-{
-    auto dir = settings.value("imagesdir", "").toString();
-    QFileInfo d(dir);
-    if (d.exists() && d.isDir()) {
-        return dir;
-    }
-
-    // default is Pictures dir
+QString Settings::getImagesDir() const {
+    auto dir = value("imagesdir", "").toString();
+    QFileInfo d{dir};
+    if (d.exists() && d.isDir()) return dir;
     return QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
 }

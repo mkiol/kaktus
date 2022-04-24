@@ -1,24 +1,14 @@
-/*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+
+import harbour.kaktus.Settings 1.0
 
 Page {
     id: root
@@ -492,16 +482,16 @@ Page {
                             label: qsTr("View mode")
                             currentIndex: {
                                 switch (settings.viewMode) {
-                                case 0:
+                                case Settings.TabsFeedsEntries:
                                     return 0;
-                                case 1:
+                                case Settings.TabsEntries:
                                     return 1;
-                                case 3:
+                                case Settings.AllEntries:
                                     return 2;
-                                case 4:
+                                case Settings.SavedEntries:
                                     return 3;
-                                case 5:
-                                case 6:
+                                case Settings.SlowEntries:
+                                case Settings.LikedEntries:
                                     return 4;
                                 }
                             }
@@ -534,18 +524,18 @@ Page {
                             onCurrentIndexChanged: {
                                 switch (currentIndex) {
                                 case 0:
-                                    settings.viewMode = 0; break;
+                                    settings.viewMode = Settings.TabsFeedsEntries; break;
                                 case 1:
-                                    settings.viewMode = 1; break;
+                                    settings.viewMode = Settings.TabsEntries; break;
                                 case 2:
-                                    settings.viewMode = 3; break;
+                                    settings.viewMode = Settings.AllEntries; break;
                                 case 3:
-                                    settings.viewMode = 4; break;
+                                    settings.viewMode = Settings.SavedEntries; break;
                                 case 4:
                                     if (app.isNetvibes)
-                                        settings.viewMode = 5;
+                                        settings.viewMode = Settings.SlowEntries;
                                     else
-                                        settings.viewMode = 6;
+                                        settings.viewMode = Settings.LikedEntries;
                                     break;
                                 }
                             }
@@ -642,18 +632,6 @@ Page {
                                 checked = settings.doublePane;
                             }
                         }
-
-                        /*TextSwitch {
-                            text: qsTr("Power save mode")
-                            description: qsTr("When the phone or app goes to the idle state, "+
-                                              "all opened web pages will be closed to lower power consumption.")
-                            onCheckedChanged: {
-                                settings.powerSaveMode = checked;
-                            }
-                            Component.onCompleted: {
-                                checked = settings.powerSaveMode;
-                            }
-                        }*/
 
                         ComboBox {
                             width: root.width

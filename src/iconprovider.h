@@ -1,40 +1,26 @@
-/*
-  Copyright (C) 2014-2019 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2015-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 #ifndef ICONPROVIDER_H
 #define ICONPROVIDER_H
 
-#include <QSize>
 #include <QPixmap>
 #include <QQuickImageProvider>
+#include <QSize>
 #include <QString>
 
-class IconProvider : public QQuickImageProvider
-{
-public:
-    static QString themeDirPath();
-
+class IconProvider : public QQuickImageProvider {
+   public:
     IconProvider();
-    QPixmap requestPixmap(const QString &id, QSize *size, const QSize &requestedSize);
+    QPixmap requestPixmap(const QString &id, QSize *size,
+                          const QSize &requestedSize);
 
-private:
+   private:
     QString themeDir;
 };
 
-#endif // ICONPROVIDER_H
+#endif  // ICONPROVIDER_H

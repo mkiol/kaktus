@@ -83,23 +83,6 @@ Page {
         init()
     }
 
-    // Workaround for 'High Power Consumption' webkit bug
-    Connections {
-        target: Qt.application
-        onActiveChanged: {
-            if(!Qt.application.active) {
-                if (settings.powerSaveMode && root.status === PageStatus.Active) {
-                    pageStack.pop()
-                    return
-                }
-                if (root.status !== PageStatus.Active) {
-                    pageStack.pop(pageStack.previousPage(root), PageStackAction.Immediate)
-                    return
-                }
-            }
-        }
-    }
-
     Connections {
         target: fetcher
         onBusyChanged: {

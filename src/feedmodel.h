@@ -1,42 +1,29 @@
-/*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 #ifndef FEEDMODEL_H
 #define FEEDMODEL_H
 
 #include <QAbstractListModel>
-#include <QString>
-#include <QList>
-#include <QStringList>
-#include <QDebug>
 #include <QByteArray>
+#include <QDebug>
+#include <QList>
 #include <QModelIndex>
+#include <QString>
+#include <QStringList>
 
 #include "listmodel.h"
 
-class FeedItem : public ListItem
-{
+class FeedItem : public ListItem {
     Q_OBJECT
 
-public:
+   public:
     enum Roles {
-        UidRole = Qt::UserRole+1,
+        UidRole = Qt::UserRole + 1,
         TitleRole = Qt::DisplayRole,
         ContentRole,
         LinkRole,
@@ -49,23 +36,16 @@ public:
         FreshRole
     };
 
-public:
-    FeedItem(QObject *parent = nullptr): ListItem(parent) {}
-    explicit FeedItem(const QString &uid,
-                      const QString &title,
-                      const QString &content,
-                      const QString &link,
-                      const QString &url,
-                      const QString &icon,
-                      const QString &streamId,
-                      int unread,
-                      int read,
-                      int readlater,
-                      int fresh,
-                      QObject *parent = nullptr);
-    QVariant data(int role) const;
-    QHash<int, QByteArray> roleNames() const;
-    inline QString id() const { return m_uid; }
+   public:
+    FeedItem(QObject *parent = nullptr) : ListItem(parent) {}
+    explicit FeedItem(const QString &uid, const QString &title,
+                      const QString &content, const QString &link,
+                      const QString &url, const QString &icon,
+                      const QString &streamId, int unread, int read,
+                      int readlater, int fresh, QObject *parent = nullptr);
+    QVariant data(int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
+    inline QString id() const override { return m_uid; }
     inline QString uid() const { return m_uid; }
     inline QString title() const { return m_title; }
     inline QString content() const { return m_content; }
@@ -82,7 +62,7 @@ public:
     void setUnread(int value);
     void setRead(int value);
 
-private:
+   private:
     QString m_uid;
     QString m_title;
     QString m_content;
@@ -90,17 +70,16 @@ private:
     QString m_url;
     QString m_icon;
     QString m_streamid;
-    int m_unread;
-    int m_read;
-    int m_readlater;
-    int m_fresh;
+    int m_unread = 0;
+    int m_read = 0;
+    int m_readlater = 0;
+    int m_fresh = 0;
 };
 
-class FeedModel : public ListModel
-{
+class FeedModel : public ListModel {
     Q_OBJECT
 
-public:
+   public:
     explicit FeedModel(QObject *parent = nullptr);
     void init(const QString &tabId);
     void init();
@@ -113,14 +92,14 @@ public:
 
     Q_INVOKABLE void updateFlags();
 
-    Q_INVOKABLE int countRead();
-    Q_INVOKABLE int countUnread();
-    Q_INVOKABLE int count();
+    Q_INVOKABLE int countRead() const;
+    Q_INVOKABLE int countUnread() const;
+    Q_INVOKABLE int count() const;
 
-private:
+   private:
     QString _tabId;
 
     void createItems(const QString &dashboardId);
 };
 
-#endif // FEEDMODEL_H
+#endif  // FEEDMODEL_H

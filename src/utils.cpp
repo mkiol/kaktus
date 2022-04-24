@@ -163,11 +163,10 @@ void Utils::setRootModel() {
     // qDebug() << "utils tid:" << QThread::currentThreadId();
 
     Settings *s = Settings::instance();
-    int mode = s->getViewMode();
+    auto mode = s->getViewMode();
 
     switch (mode) {
-        case 0:
-            // View mode: Tabs->Feeds->Entries
+        case Settings::ViewMode::TabsFeedsEntries:
             tabModel = new TabModel();
             tabModel->init(s->getDashboardInUse());
             s->context->setContextProperty("tabModel", tabModel);
@@ -183,8 +182,7 @@ void Utils::setRootModel() {
                 entryModel = nullptr;
             }
             break;
-        case 1:
-            // View mode: Tabs->Entries
+        case Settings::ViewMode::TabsEntries:
             tabModel = new TabModel();
             tabModel->init(s->getDashboardInUse());
             s->context->setContextProperty("tabModel", tabModel);
@@ -200,7 +198,7 @@ void Utils::setRootModel() {
                 entryModel = nullptr;
             }
             break;
-        case 2:
+        case Settings::ViewMode::FeedsEntries:
             // View mode: Feeds->Entries
             feedModel = new FeedModel();
             feedModel->init("root");
@@ -217,16 +215,11 @@ void Utils::setRootModel() {
                 entryModel = nullptr;
             }
             break;
-        case 3:
-            // View mode: Entries
-        case 4:
-            // View mode: Saved
-        case 5:
-            // View mode: Slow
-        case 6:
-            // View mode: Liked
-        case 7:
-            // View mode: Broadcast
+        case Settings::ViewMode::AllEntries:
+        case Settings::ViewMode::SavedEntries:
+        case Settings::ViewMode::SlowEntries:
+        case Settings::ViewMode::LikedEntries:
+        case Settings::ViewMode::BroadcastedEntries:
             entryModel = new EntryModel();
             entryModel->init("root");
             s->context->setContextProperty("entryModel", entryModel);

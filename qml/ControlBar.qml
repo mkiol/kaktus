@@ -1,24 +1,14 @@
-/*
-  Copyright (C) 2016 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2016-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+
+import harbour.kaktus.Settings 1.0
 
 Item {
     id: root
@@ -144,13 +134,13 @@ Item {
                     id: vm0b
                     anchors.verticalCenter: parent.verticalCenter
                     icon.source: "image://icons/icon-m-vm0?" + Theme.primaryColor
-                    highlighted: settings.viewMode==0
+                    highlighted: settings.viewMode === Settings.TabsFeedsEntries
                     onClicked: {
                         show()
                         root.vmOpen = false
-                        if (!app.progress && settings.viewMode!=0) {
+                        if (!app.progress && settings.viewMode !== Settings.TabsFeedsEntries) {
                             app.progress = true
-                            settings.viewMode = 0
+                            settings.viewMode = Settings.TabsFeedsEntries
                         }
                     }
                 }
@@ -159,13 +149,13 @@ Item {
                     id: vm1b
                     anchors.verticalCenter: parent.verticalCenter
                     icon.source: "image://icons/icon-m-vm1?" + Theme.primaryColor
-                    highlighted: settings.viewMode==1
+                    highlighted: settings.viewMode === Settings.TabsEntries
                     onClicked: {
                         show()
                         root.vmOpen = false
-                        if (!app.progress && settings.viewMode!=1) {
+                        if (!app.progress && settings.viewMode !== Settings.TabsEntries) {
                             app.progress = true
-                            settings.viewMode = 1
+                            settings.viewMode = Settings.TabsEntries
                         }
                     }
                 }
@@ -174,13 +164,13 @@ Item {
                     id: vm3b
                     anchors.verticalCenter: parent.verticalCenter
                     icon.source: "image://icons/icon-m-vm3?" + Theme.primaryColor
-                    highlighted: settings.viewMode==3
+                    highlighted: settings.viewMod === Settings.AllEntries
                     onClicked: {
                         show()
                         root.vmOpen = false
-                        if (!app.progress && settings.viewMode!=3) {
+                        if (!app.progress && settings.viewMode !== Settings.AllEntries) {
                             app.progress = true
-                            settings.viewMode = 3
+                            settings.viewMode = Settings.AllEntries
                         }
                     }
                 }
@@ -189,13 +179,13 @@ Item {
                     id: vm4b
                     anchors.verticalCenter: parent.verticalCenter
                     icon.source: "image://icons/icon-m-vm4?" + Theme.primaryColor
-                    highlighted: settings.viewMode==4
+                    highlighted: settings.viewMode === Settings.SavedEntries
                     onClicked: {
                         show()
                         root.vmOpen = false
-                        if (!app.progress && settings.viewMode!=4) {
+                        if (!app.progress && settings.viewMode !== Settings.SavedEntries) {
                             app.progress = true
-                            settings.viewMode = 4
+                            settings.viewMode = Settings.SavedEntries
                         }
                     }
                 }
@@ -206,16 +196,17 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     icon.source: app.isOldReader ? "image://icons/icon-m-vm6?" + Theme.primaryColor :
                                                    "image://icons/icon-m-vm5?" + Theme.primaryColor
-                    highlighted: settings.viewMode==5 || settings.viewMode==6
+                    highlighted: settings.viewMode === Settings.SlowEntries ||
+                                 settings.viewMode === Settings.LikedEntries
                     onClicked: {
                         show()
                         root.vmOpen = false
-                        if (!app.progress && (settings.viewMode!=5 || settings.viewMode!=6)) {
+                        if (!app.progress && (settings.viewMode !== Settings.SlowEntries || settings.viewMode !== Settings.LikedEntries)) {
                             app.progress = true
                             if (settings.signinType >= 10)
-                                settings.viewMode = 6
+                                settings.viewMode = Settings.LikedEntries
                             else
-                                settings.viewMode = 5
+                                settings.viewMode = Settings.SlowEntries
                         }
                     }
                 }
@@ -234,7 +225,7 @@ Item {
                 id: vmIcon
                 anchors.right: parent.right; anchors.rightMargin: Theme.paddingMedium
                 anchors.verticalCenter: parent.verticalCenter
-                icon.source: "image://icons/icon-m-vm" + settings.viewMode + "?" + Theme.primaryColor
+                icon.source: "image://icons/icon-m-vm" + settings.viewModeNum + "?" + Theme.primaryColor
                 highlighted: root.vmOpen
                 onClicked: {
                     show()
@@ -271,8 +262,8 @@ Item {
                 visible: opacity > 0.0
                 Behavior on opacity { FadeAnimation {} }
                 opacity: (pageStack.currentPage.objectName === "entries" &&
-                          settings.viewMode !==4 && settings.viewMode !==6 &&
-                          settings.viewMode !==7) ? 1.0 : 0.0
+                          settings.viewMode !== Settings.SavedEntries && settings.viewMode !== Settings.LikedEntries &&
+                          settings.viewMode !== Settings.BroadcastedEntries) ? 1.0 : 0.0
 
                 icon.source: "image://icons/icon-m-filter-" + settings.filter + "?" + Theme.primaryColor
                 onClicked: {
@@ -317,15 +308,15 @@ Item {
                     } else if (name == "feeds") {
                         remorse.execute(qsTr("Marking feeds as read"), function(){feedModel.setAllAsRead()});
                     } else if (name == "entries") {
-                        if (settings.viewMode==1 || settings.viewMode==5) {
+                        if (settings.viewMode === Settings.TabsEntries || settings.viewMode === Settings.SlowEntries) {
                             remorse.execute(qsTr("Marking articles as read"), function(){entryModel.setAllAsRead()});
                             return;
                         }
-                        if (settings.viewMode==3) {
+                        if (settings.viewMode === Settings.AllEntries) {
                             remorse.execute(qsTr("Marking all articles as read"), function(){entryModel.setAllAsRead()});
                             return;
                         }
-                        if (settings.viewMode==4) {
+                        if (settings.viewMode === Settings.SavedEntries) {
                             remorse.execute(
                                         settings.signinType<10 || settings.signinType>=20 ?
                                             qsTr("Marking all saved articles as read") :
@@ -333,11 +324,11 @@ Item {
                                         , function(){entryModel.setAllAsRead()});
                             return;
                         }
-                        if (settings.viewMode==6) {
+                        if (settings.viewMode === Settings.LikedEntries) {
                             remorse.execute(qsTr("Marking all liked articles as read"), function(){entryModel.setAllAsRead()});
                             return;
                         }
-                        if (settings.viewMode==7) {
+                        if (settings.viewMode === Settings.BroadcastedEntries) {
                             remorse.execute(qsTr("Marking all shared articles as read"), function(){entryModel.setAllAsRead()});
                             return;
                         }

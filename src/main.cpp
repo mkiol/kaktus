@@ -29,6 +29,9 @@
 
 static void registerTypes() {
     qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
+    qmlRegisterUncreatableType<Settings>(
+        "harbour.kaktus.Settings", 1, 0, "Settings",
+        QStringLiteral("Settings is a singleton"));
 }
 
 static void installTranslator() {
