@@ -5,3 +5,7 @@ Name=Kaktus
 Icon=harbour-kaktus
 Exec=harbour-kaktus
 
+[X-Sailjail]
+Permissions=Internet;Pictures;WebView
+OrganizationName=org.mkiol
+ApplicationName=kaktus
