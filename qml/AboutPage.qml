@@ -1,21 +1,9 @@
-/*
-  Copyright (C) 2014-2019 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
@@ -23,7 +11,7 @@ import Sailfish.Silica 1.0
 Page {
     id: root
 
-    property bool showBar: false
+    readonly property bool showBar: false
 
     allowedOrientations: {
         switch (settings.allowedOrientations) {
@@ -52,12 +40,14 @@ Page {
             spacing: Theme.paddingLarge
 
             PageHeader {
-                title: qsTr("About")
+                title: qsTr("About %1").arg(APP_NAME)
             }
 
             Image {
                 anchors.horizontalCenter: parent.horizontalCenter
-                source: "image://icons/icon-i-kaktus"
+                height: root.isPortrait ? Theme.itemSizeHuge : Theme.iconSizeLarge
+                width: root.isPortrait ? Theme.itemSizeHuge : Theme.iconSizeLarge
+                source: settings.appIcon()
             }
 
             InfoLabel {
@@ -71,16 +61,17 @@ Page {
                 text: qsTr("Version %1").arg(APP_VERSION);
             }
 
-            Button {
-                text: qsTr("Changelog")
+            Flow {
                 anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: pageStack.push(Qt.resolvedUrl("ChangelogPage.qml"))
-            }
-
-            Button {
-                text: qsTr("Project website")
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: Qt.openUrlExternally(PAGE)
+                spacing: Theme.paddingLarge
+                Button {
+                    text: qsTr("Project website")
+                    onClicked: Qt.openUrlExternally(PAGE)
+                }
+                Button {
+                    text: qsTr("Changes")
+                    onClicked: pageStack.push(Qt.resolvedUrl("ChangelogPage.qml"))
+                }
             }
 
             SectionHeader {
@@ -105,16 +96,23 @@ Page {
 
             PaddedLabel {
                 horizontalAlignment: Text.AlignLeft
-                text: qsTr("Translations are provided by:")
+                textFormat: Text.StyledText
+                text: qsTr("%1 is developed as an open source project under %2.")
+                .arg(APP_NAME)
+                .arg("<a href=\"" + LICENSE_URL + "\">" + LICENSE + "</a>")
+            }
+
+            SectionHeader {
+                text: qsTr("Translators")
             }
 
             PaddedLabel {
                 horizontalAlignment: Text.AlignLeft
-                text: "Nathan Follens \nFri \nJozef Mlích \nCarmen Fernández B. " +
-                      "\nGökhan Kalayci \nFallaffel Box \nBenjamin (schnubbbi) \nR.G. Sidler " +
-                      "\nKoleesch \nFravaccaro \nPetr Tsymbarovich \nAndrey Getmantsev " +
-                      "\nKiratonin \nАлексей Дедун \nmentaljam \nJosé Jiménez \nMesut Aktaş " +
-                      "\nHeimen Stoffels \nRui Kon \nqwer_asew \nBérenger ARNAUD"
+                text: "Nathan Follens · Fri · Jozef Mlích · Carmen Fernández B. " +
+                      "· Gökhan Kalayci · Fallaffel Box · Benjamin (schnubbbi) · R.G. Sidler " +
+                      "· Koleesch · Fravaccaro · Petr Tsymbarovich · Andrey Getmantsev " +
+                      "· Kiratonin · Алексей Дедун · mentaljam · José Jiménez · Mesut Aktaş " +
+                      "· Heimen Stoffels · Rui Kon · qwer_asew · Bérenger ARNAUD"
             }
 
             PaddedLabel {
@@ -131,7 +129,7 @@ Page {
 
             PaddedLabel {
                 horizontalAlignment: Text.AlignLeft
-                text: "QHTTPServer \nReadability.js \nSimpleCrypt"
+                text: "QHTTPServer · Readability.js · SimpleCrypt"
             }
 
             Spacer {}

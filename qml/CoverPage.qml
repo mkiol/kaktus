@@ -1,21 +1,9 @@
-/*
-  Copyright (C) 2016 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2016-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 import QtQuick 2.1
 import Sailfish.Silica 1.0
@@ -37,15 +25,13 @@ CoverBackground {
     }
 
     function connectFetcher() {
-        if (typeof fetcher === 'undefined')
-            return;
+        if (typeof fetcher === 'undefined') return;
         fetcher.progress.connect(fetcherProgress);
         fetcher.busyChanged.connect(fetcherBusyChanged);
     }
 
     function disconnectFetcher() {
-        if (typeof fetcher === 'undefined')
-            return;
+        if (typeof fetcher === 'undefined') return;
         fetcher.progress.disconnect(fetcherProgress);
         fetcher.busyChanged.disconnect(fetcherBusyChanged);
     }
@@ -121,7 +107,7 @@ CoverBackground {
     }
 
     CoverPlaceholder {
-        text: settings.signedIn ? root.busy ? root.label : root.unreadLabel : qsTr("Not signed in")
-        icon.source: "image://icons/icon-a-kaktus"
+        text: settings.signedIn ? root.busy ? root.label : root.unreadLabel : APP_NAME
+        icon.source: settings.appIcon()
     }
 }

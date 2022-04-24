@@ -31,7 +31,7 @@ PullDownMenu {
     property bool showNetwork: true
 
     MenuItem {
-        text: qsTr("About")
+        text: qsTr("About %1").arg(APP_NAME)
         visible: root.showAbout
 
         onClicked: {

@@ -12,6 +12,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QString>
+#include <QUrl>
 #include <QVariant>
 
 class QQmlContext;
@@ -292,6 +293,7 @@ class Settings : public QSettings {
     QList<ViewMode> viewModeHistory() const;
 
     Q_INVOKABLE QString pocketConsumerKey() const;
+    Q_INVOKABLE QUrl appIcon() const;
 
    signals:
     void offlineModeChanged();

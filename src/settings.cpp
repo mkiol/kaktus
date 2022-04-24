@@ -757,3 +757,9 @@ QString Settings::getImagesDir() const {
     if (d.exists() && d.isDir()) return dir;
     return QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
 }
+
+QUrl Settings::appIcon() const {
+    return QUrl::fromLocalFile(
+        QString(QStringLiteral("/usr/share/icons/hicolor/172x172/apps/%1.png"))
+            .arg(Kaktus::APP_BINARY_ID));
+}
