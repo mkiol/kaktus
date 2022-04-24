@@ -32,9 +32,9 @@ static constexpr const char* AUTHOR1 = "Renaud Casenave-Péré";
 static constexpr const char* COPYRIGHT_YEAR1 = "2019-2022";
 static constexpr const char* SUPPORT_EMAIL = "kaktus@mkiol.net";
 static constexpr const char* PAGE = "https://github.com/mkiol/kaktus";
-static constexpr const char* LICENSE = "GNU General Public Licence version 3";
-static constexpr const char* LICENSE_URL =
-    "https://www.gnu.org/licenses/gpl-3.0.html";
+static constexpr const char* LICENSE = "Mozilla Public License 2.0";
+static constexpr const char* LICENSE_URL = "http://mozilla.org/MPL/2.0/";
+static constexpr const char* LICENSE_SPDX = "MPL-2.0";
 }  // namespace Kaktus
 
 #endif // INFO_H
