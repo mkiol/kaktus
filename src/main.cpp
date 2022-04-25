@@ -34,13 +34,13 @@ static void registerTypes() {
         QStringLiteral("Settings is a singleton"));
 }
 
-static void installTranslator() {
+static void installTranslator(const QString &locale) {
     auto *translator = new QTranslator{qApp};
     auto transDir =
         SailfishApp::pathTo(QStringLiteral("translations")).toLocalFile();
-    if (!translator->load(QLocale{}, QStringLiteral("kaktus"),
-                          QStringLiteral("_"), transDir,
-                          QStringLiteral(".qm"))) {
+    if (!translator->load(locale.isEmpty() ? QLocale{} : QLocale{locale},
+                          QStringLiteral("kaktus"), QStringLiteral("_"),
+                          transDir, QStringLiteral(".qm"))) {
         qDebug() << "cannot load translation:" << QLocale::system().name()
                  << transDir;
         if (!translator->load(QStringLiteral("kaktus_en"), transDir)) {
@@ -82,16 +82,16 @@ Q_DECL_EXPORT int main(int argc, char **argv) {
     context->setContextProperty(QStringLiteral("LICENSE"), Kaktus::LICENSE);
     context->setContextProperty(QStringLiteral("LICENSE_URL"),
                                 Kaktus::LICENSE_URL);
-    installTranslator();
 
     auto *settings = Settings::instance();
+    installTranslator(settings->getLocale());
 
     view->engine()->addImageProvider(QStringLiteral("icons"),
                                      new IconProvider{});
     view->engine()->addImageProvider(QStringLiteral("nvicons"),
                                      new NvIconProvider{});
 
-    settings->context = context;
+    settings->setContext(context);
 
     NetworkAccessManagerFactory namfactory{settings->getDmUserAgent()};
     view->engine()->setNetworkAccessManagerFactory(&namfactory);

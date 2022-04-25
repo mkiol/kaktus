@@ -436,10 +436,10 @@ void Fetcher::taskEnd()
 
 void Fetcher::copyImage(const QString &path, const QString &contentType)
 {
-    QString dpath = QDir(Settings::instance()->getImagesDir())
-                         .absoluteFilePath("kaktus_" + QFileInfo(path).fileName());
+    auto dpath = QDir(Settings::instance()->getImagesDir())
+                     .absoluteFilePath("kaktus_" + QFileInfo(path).fileName());
 
-    Utils::addExtension(contentType, dpath);
+    Utils::addExtension(contentType, &dpath);
 
     if (QFile::exists(dpath)) {
         emit error(801); // image already exists

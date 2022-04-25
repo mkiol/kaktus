@@ -10,12 +10,12 @@
 
 #include <QList>
 #include <QObject>
+#include <QQmlContext>
 #include <QSettings>
 #include <QString>
 #include <QUrl>
 #include <QVariant>
 
-class QQmlContext;
 class DatabaseManager;
 class DownloadManager;
 class CacheServer;
@@ -111,7 +111,11 @@ class Settings : public QSettings {
     static Settings *instance();
 
     Fetcher *fetcher = nullptr;
-    QQmlContext *context = nullptr;
+
+    inline void setContext(QQmlContext *context) { m_context = context; }
+    inline void setContextProperty(const QString &name, QObject *value) {
+        if (m_context) m_context->setContextProperty(name, value);
+    }
 
     void setOfflineMode(bool value);
     bool getOfflineMode() const;
@@ -350,6 +354,7 @@ class Settings : public QSettings {
     static constexpr const float maxZoom = 2.0;
     static constexpr const float minZoom = 0.5;
     static Settings *m_instance;
+    QQmlContext *m_context = nullptr;
     Settings();
     static QString settingsFilepath();
 };

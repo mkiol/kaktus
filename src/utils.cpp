@@ -1,21 +1,9 @@
-/*
-  Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 #include "utils.h"
 
@@ -42,27 +30,18 @@
 #include "oldreaderfetcher.h"
 #include "ttrssfetcher.h"
 
-Utils::Utils(QObject *parent) : QObject(parent) {
-    dashboardModel = nullptr;
-    entryModel = nullptr;
-    tabModel = nullptr;
-    feedModel = nullptr;
-}
+Utils::Utils(QObject *parent) : QObject{parent} {}
 
 QString Utils::readAsset(const QString &path) {
-    QFile file(SailfishApp::pathTo(path).toLocalFile());
+    QFile file{SailfishApp::pathTo(path).toLocalFile()};
 
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "Could not open" << path
                    << "for reading: " << file.errorString();
-        file.close();
-        return "";
+        return {};
     }
 
-    QString data = QString(file.readAll());
-    file.close();
-
-    return data;
+    return QString::fromUtf8(file.readAll());
 }
 
 void Utils::copyToClipboard(const QString &text) {
@@ -73,7 +52,7 @@ void Utils::copyToClipboard(const QString &text) {
 void Utils::resetQtWebKit() {
     QStringList dataDirs =
         QStandardPaths::standardLocations(QStandardPaths::DataLocation);
-    if (dataDirs.size() > 0) {
+    if (!dataDirs.isEmpty()) {
         QDir dir(QDir(dataDirs.at(0)).filePath(".QtWebKit"));
         qDebug() << dir.path();
         if (dir.exists()) dir.removeRecursively();
@@ -156,153 +135,73 @@ bool Utils::removeDir(const QString &dirName) {
 }
 
 void Utils::setRootModel() {
-    TabModel *oldTabModel = tabModel;
-    FeedModel *oldFeedModel = feedModel;
-    EntryModel *oldEntryModel = entryModel;
-
-    // qDebug() << "utils tid:" << QThread::currentThreadId();
-
-    Settings *s = Settings::instance();
-    auto mode = s->getViewMode();
-
-    switch (mode) {
+    switch (Settings::instance()->getViewMode()) {
         case Settings::ViewMode::TabsFeedsEntries:
-            tabModel = new TabModel();
-            tabModel->init(s->getDashboardInUse());
-            s->context->setContextProperty("tabModel", tabModel);
-            if (oldTabModel != nullptr) {
-                delete oldTabModel;
-            }
-            if (feedModel != nullptr) {
-                delete feedModel;
-                feedModel = nullptr;
-            }
-            if (entryModel != nullptr) {
-                delete entryModel;
-                entryModel = nullptr;
-            }
-            break;
         case Settings::ViewMode::TabsEntries:
-            tabModel = new TabModel();
-            tabModel->init(s->getDashboardInUse());
-            s->context->setContextProperty("tabModel", tabModel);
-            if (oldTabModel != nullptr) {
-                delete oldTabModel;
-            }
-            if (feedModel != nullptr) {
-                delete feedModel;
-                feedModel = nullptr;
-            }
-            if (entryModel != nullptr) {
-                delete entryModel;
-                entryModel = nullptr;
-            }
+            setTabModel(Settings::instance()->getDashboardInUse());
+            feedModel.reset();
+            entryModel.reset();
             break;
         case Settings::ViewMode::FeedsEntries:
-            // View mode: Feeds->Entries
-            feedModel = new FeedModel();
-            feedModel->init("root");
-            s->context->setContextProperty("feedModel", feedModel);
-            if (tabModel != nullptr) {
-                delete tabModel;
-                tabModel = nullptr;
-            }
-            if (oldFeedModel != nullptr) {
-                delete oldFeedModel;
-            }
-            if (entryModel != nullptr) {
-                delete entryModel;
-                entryModel = nullptr;
-            }
+            setFeedModel(QStringLiteral("root"));
+            tabModel.reset();
+            entryModel.reset();
             break;
         case Settings::ViewMode::AllEntries:
         case Settings::ViewMode::SavedEntries:
         case Settings::ViewMode::SlowEntries:
         case Settings::ViewMode::LikedEntries:
         case Settings::ViewMode::BroadcastedEntries:
-            entryModel = new EntryModel();
-            entryModel->init("root");
-            s->context->setContextProperty("entryModel", entryModel);
-            if (tabModel != nullptr) {
-                delete tabModel;
-                tabModel = nullptr;
-            }
-            if (feedModel != nullptr) {
-                delete feedModel;
-                feedModel = nullptr;
-            }
-            if (oldEntryModel != nullptr) {
-                delete oldEntryModel;
-            }
+            setEntryModel(QStringLiteral("root"));
+            tabModel.reset();
+            feedModel.reset();
             break;
     }
 }
 
+void Utils::setTabModel(const QString &dashboardId) {
+    auto model = std::make_unique<TabModel>();
+    std::swap(model, tabModel);
+    tabModel->init(dashboardId);
+    Settings::instance()->setContextProperty(QStringLiteral("tabModel"),
+                                             tabModel.get());
+}
+
 void Utils::setFeedModel(const QString &tabId) {
-    FeedModel *oldFeedModel = feedModel;
-    Settings *s = Settings::instance();
-
-    feedModel = new FeedModel();
+    auto model = std::make_unique<FeedModel>();
+    std::swap(model, feedModel);
     feedModel->init(tabId);
-
-    s->context->setContextProperty("feedModel", feedModel);
-    if (oldFeedModel != nullptr) {
-        delete oldFeedModel;
-    }
+    Settings::instance()->setContextProperty(QStringLiteral("feedModel"),
+                                             feedModel.get());
 }
 
 void Utils::setEntryModel(const QString &feedId) {
-    EntryModel *oldEntryModel = entryModel;
-    Settings *s = Settings::instance();
-
-    entryModel = new EntryModel();
+    auto model = std::make_unique<EntryModel>();
+    std::swap(model, entryModel);
     entryModel->initInThread(feedId);
-
-    s->context->setContextProperty("entryModel", entryModel);
-
-    if (oldEntryModel != nullptr) {
-        delete oldEntryModel;
-    }
+    Settings::instance()->setContextProperty(QStringLiteral("entryModel"),
+                                             entryModel.get());
 }
 
 void Utils::setDashboardModel() {
-    DashboardModel *oldDashboardModel = dashboardModel;
-    Settings *s = Settings::instance();
-
-    dashboardModel = new DashboardModel();
+    auto model = std::make_unique<DashboardModel>();
+    std::swap(model, dashboardModel);
     dashboardModel->init();
-
-    s->context->setContextProperty("dashboardModel", dashboardModel);
-
-    if (oldDashboardModel != nullptr) delete oldDashboardModel;
+    Settings::instance()->setContextProperty(QStringLiteral("dashboardModel"),
+                                             dashboardModel.get());
 }
 
 void Utils::updateModels() {
-    if (dashboardModel != nullptr) dashboardModel->init();
-
-    if (tabModel != nullptr) tabModel->init();
-
-    if (feedModel != nullptr) feedModel->init();
-
-    if (entryModel != nullptr) entryModel->init();
-}
-
-Utils::~Utils() {
-    if (entryModel != nullptr) delete entryModel;
-
-    if (feedModel != nullptr) delete feedModel;
-
-    if (tabModel != nullptr) delete tabModel;
-
-    if (dashboardModel != nullptr) delete dashboardModel;
+    if (dashboardModel) dashboardModel->init();
+    if (tabModel) tabModel->init();
+    if (feedModel) feedModel->init();
+    if (entryModel) entryModel->init();
 }
 
 QList<QString> Utils::dashboards() {
-    auto db = DatabaseManager::instance();
-
     QList<QString> simpleList;
-    QList<DatabaseManager::Dashboard> list = db->readDashboards();
-    QList<DatabaseManager::Dashboard>::iterator i = list.begin();
+    auto list = DatabaseManager::instance()->readDashboards();
+    auto i = list.begin();
     while (i != list.end()) {
         simpleList.append((*i).title);
         ++i;
@@ -311,18 +210,14 @@ QList<QString> Utils::dashboards() {
 }
 
 QString Utils::defaultDashboardName() {
-    auto s = Settings::instance();
-    auto db = DatabaseManager::instance();
-
-    DatabaseManager::Dashboard d = db->readDashboard(s->getDashboardInUse());
-    return d.title;
+    return DatabaseManager::instance()
+        ->readDashboard(Settings::instance()->getDashboardInUse())
+        .title;
 }
 
 int Utils::countUnread() {
-    auto s = Settings::instance();
-    auto db = DatabaseManager::instance();
-
-    return db->countEntriesUnreadByDashboard(s->getDashboardInUse());
+    return DatabaseManager::instance()->countEntriesUnreadByDashboard(
+        Settings::instance()->getDashboardInUse());
 }
 
 QString Utils::getHumanFriendlySizeString(int size) {
@@ -344,11 +239,6 @@ QString Utils::getHumanFriendlySizeString(int size) {
 QString Utils::getHumanFriendlyTimeString(int date) {
     QDateTime qdate = QDateTime::fromTime_t(date);
     int secs = qdate.secsTo(QDateTime::currentDateTimeUtc());
-
-    // qDebug() << ">>>>>>>>date" << date << "QDateTime::fromTime_t(date)" <<
-    // qdate; qDebug() << "QDateTime::currentDateTimeUtc()" <<
-    // QDateTime::currentDateTimeUtc(); qDebug() <<
-    // "qdate.secsTo(QDateTime::currentDateTimeUtc())" << secs;
 
     if (secs <= -18000) {
         return tr("unknown date");
@@ -385,7 +275,6 @@ QString Utils::hash(const QString &url) {
 int Utils::monthsTo(const QDate &from, const QDate &to) {
     int result = 12 * (to.year() - from.year());
     result += (to.month() - from.month());
-
     return result;
 }
 
@@ -397,9 +286,7 @@ bool Utils::isSameWeek(const QDate &date1, const QDate &date2) {
     int y1, y2;
     int w1 = date1.weekNumber(&y1);
     int w2 = date2.weekNumber(&y2);
-    // qDebug() << date1 << date2 << y1 << y2 << w1 << w2;
-    if (w1 == w2 && y1 == y2 && w1 != 0 && w2 != 0) return true;
-    return false;
+    return w1 == w2 && y1 == y2 && w1 != 0 && w2 != 0;
 }
 
 void Utils::resetFetcher(int type) {
@@ -426,16 +313,11 @@ void Utils::resetFetcher(int type) {
         s->fetcher = new TTRssFetcher();
     }
 
-    if (s->fetcher != nullptr)
-        s->context->setContextProperty("fetcher", s->fetcher);
+    if (s->fetcher != nullptr) s->setContextProperty("fetcher", s->fetcher);
 }
 
-QString Utils::nameFromPath(const QString &path) {
-    return QFileInfo(path).fileName();
-}
-
-void Utils::addExtension(const QString &contentType, QString &path) {
-    auto orig_ext = QFileInfo(path).suffix();
+void Utils::addExtension(const QString &contentType, QString *path) {
+    auto orig_ext = QFileInfo{*path}.suffix();
 
     QString new_ext;
     if (contentType == "image/jpeg") {
@@ -451,6 +333,6 @@ void Utils::addExtension(const QString &contentType, QString &path) {
     }
 
     if (new_ext != orig_ext) {
-        path.append("." + new_ext);
+        path->append("." + new_ext);
     }
 }
