@@ -127,8 +127,8 @@ Dialog {
                 text: "Twitter"
                 menuText: qsTr("Sign in")
                 onTriggered: {
-                    utils.resetQtWebKit();
-                    fetcher.getConnectUrl(1);
+                    utils.resetWebView()
+                    fetcher.getConnectUrl(1)
                 }
             }
 
@@ -136,8 +136,8 @@ Dialog {
                 text: "Facebook"
                 menuText: qsTr("Sign in")
                 onTriggered: {
-                    utils.resetQtWebKit();
-                    fetcher.getConnectUrl(2);
+                    utils.resetWebView()
+                    fetcher.getConnectUrl(2)
                 }
             }
 

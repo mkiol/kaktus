@@ -107,7 +107,7 @@ Page {
                         utils.setEntryModel(uid);
                         console.log()
                         pageStack.push(Qt.resolvedUrl("EntryPage.qml"),
-                                       {"title": title, "readlater": false})
+                                       {"title": title})
                     }
                 }
             }

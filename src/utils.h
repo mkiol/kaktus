@@ -30,23 +30,24 @@ class Utils : public QObject {
     Q_INVOKABLE void setRootModel();
     Q_INVOKABLE void setDashboardModel();
     Q_INVOKABLE void setTabModel(const QString &dashboardId);
-    Q_INVOKABLE QList<QString> dashboards();
-    Q_INVOKABLE void copyToClipboard(const QString &text);
-    Q_INVOKABLE QString defaultDashboardName();
-    Q_INVOKABLE QString getHumanFriendlyTimeString(int date);
-    Q_INVOKABLE QString getHumanFriendlySizeString(int size);
-    Q_INVOKABLE int countUnread();
-    Q_INVOKABLE void resetQtWebKit();
-    Q_INVOKABLE void resetFetcher(int type);
+    Q_INVOKABLE QList<QString> dashboards() const;
+    Q_INVOKABLE void copyToClipboard(const QString &text) const;
+    Q_INVOKABLE QString defaultDashboardName() const;
+    Q_INVOKABLE QString getHumanFriendlyTimeString(int date) const;
+    Q_INVOKABLE QString getHumanFriendlySizeString(int size) const;
+    Q_INVOKABLE int countUnread() const;
+    Q_INVOKABLE void resetWebView() const;
+    Q_INVOKABLE void resetFetcher(int type) const;
     Q_INVOKABLE QString formatHtml(const QString &data, bool offline,
                                    const QString &style = {});
-    Q_INVOKABLE QString readAsset(const QString &path);
+    Q_INVOKABLE QString readAsset(const QString &path) const;
     static QString hash(const QString &url);
     static int monthsTo(const QDate &from, const QDate &to);
     static int yearsTo(const QDate &from, const QDate &to);
     static bool isSameWeek(const QDate &date1, const QDate &date2);
     static void addExtension(const QString &contentType, QString *path);
-    Q_INVOKABLE static void log(const QString &data);
+    static void log(const QString &data);
+    static void resetWebViewStatic();
 
    public slots:
     void updateModels();

@@ -22,6 +22,10 @@ BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(mlite5)
 BuildRequires:  desktop-file-utils
+BuildRequires:  sailfish-components-webview-qt5
+BuildRequires:  sailfish-components-webview-qt5-pickers
+BuildRequires:  sailfish-components-webview-qt5-popups
+BuildRequires:  sailfish-components-webview-qt5-devel
 
 %description
 Multi aggregators mobile feed reader

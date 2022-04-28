@@ -204,15 +204,9 @@ void DownloadManager::networkAccessibleChanged(QNetworkAccessManager::NetworkAcc
 
 void DownloadManager::doDownload(DatabaseManager::CacheItem item)
 {
-    //qDebug() << "item.finalUrl:" << item.finalUrl;
     QNetworkRequest request(QUrl(item.finalUrl));
     Settings *s = Settings::instance();
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
     request.setHeader(QNetworkRequest::UserAgentHeader, s->getDmUserAgent());
-#else
-    request.setRawHeader("User-Agent", s->getDmUserAgent().toLatin1());
-#endif
-
     request.setRawHeader("Accept", "*/*");
     QNetworkReply *reply = manager.get(request);
     replyToCheckerMap.insert(reply, new Checker(reply));
@@ -261,10 +255,6 @@ void DownloadManager::addNextDownload()
 
 void DownloadManager::downloadFinished(QNetworkReply *reply)
 {
-    /*qDebug() << "Errorcode: " << reply->error() <<
-    "HttpStatusCode: " << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() <<
-    "Url:" << reply->url();*/
-
     auto db = DatabaseManager::instance();
 
     QUrl url = reply->url();
@@ -274,10 +264,6 @@ void DownloadManager::downloadFinished(QNetworkReply *reply)
     delete replyToCheckerMap.take(reply);
 
     if (error) {
-        /*qDebug() << "DM, Errorcode: " << error << "entryId=" << item.entryId;
-        qWarning() << "Download of " << url.toEncoded().constData()
-                   << " failed: " << reply->errorString();*/
-
         if (item.type == "online-item") {
             // Quick download in online mode
             emit onlineDownloadFailed();
@@ -854,14 +840,7 @@ void CacheRemover::run()
         qWarning() << "Unable to remove " << s->getDmCacheDir();
     }
 
-    // Remove QtWebKit cache files
-    QString cacheDir = s->getSettingsDir();
-    cacheDir.append(QDir::separator()).append(".QtWebKit");
-    if (!removeDir(cacheDir)) {
-        qWarning() << "Unable to remove " << cacheDir;
-    }
-
-    //emit ready();
+    Utils::resetWebViewStatic();
 }
 
 void CacheRemover::cancel()

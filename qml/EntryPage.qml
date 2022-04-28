@@ -39,11 +39,8 @@ Page {
     }
 
     function setContentPane(delegate) {
-        //console.log("setContentPane",delegate);
         contentPanel.index = delegate.index
-        //contentPanel.content = app.isTablet ? delegate.contentraw : delegate.contentall;
         contentPanel.content = delegate.contentall;
-        //contentPanel.image = app.isTablet ? "" : delegate.image;
         contentPanel.image = delegate.image;
         contentPanel.expanded = false;
         delegate.expanded = true;
@@ -78,24 +75,16 @@ Page {
 
     function autoSetDelegate() {
         var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid!="" ? getDelegateByUid(root.expandedUid) : undefined;
-        //console.log("autoSetDelegate",delegate);
         if (!delegate) {
             var curItem = listView.itemAt(0,listView.contentY + root.height/4);
             if (curItem.objectName === "EntryDelegate" && !curItem.last && !curItem.daterow) {
                 curItem.expanded = true;
-                //expandedDelegate = curItem;
-                //expandedUid = curItem.uid;
-                //expandedIndex = curItem.index;
                 return;
             } else {
                 for (var i = 0; i < listView.contentItem.children.length; i++) {
                     curItem = listView.contentItem.children[i];
                     if (curItem.objectName === "EntryDelegate" && !curItem.last && !curItem.daterow) {
                         curItem.expanded = true;
-                        //expandedDelegate = curItem;
-                        //expandedUid = curItem.uid;
-                        //expandedIndex = curItem.index;
-                        //listView.positionViewAtIndex(curItem.index, ListView.Contain);
                         return;
                     }
                 }
@@ -104,9 +93,7 @@ Page {
     }
 
     onExpandedUidChanged: {
-        //console.log("onExpandedUidChanged",root.expandedUid, root.expandedDelegate, root.expandedIndex);
         var delegate = root.expandedDelegate ? root.expandedDelegate : root.expandedUid!="" ? getDelegateByUid(root.expandedUid) : undefined;
-        //console.log("delegate",delegate);
         if (delegate) {
             setContentPane(delegate);
         } else {
@@ -123,7 +110,6 @@ Page {
 
     onOrientationTransitionRunningChanged: {
         if (!orientationTransitionRunning) {
-            //console.log("onOrientationTransitionRunningChanged");
             if (landscapeMode) {
                 autoSetDelegate();
             } else {

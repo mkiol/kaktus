@@ -1,27 +1,15 @@
-/*
-  Copyright (C) 2015 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2015-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import QtWebKit 3.0
+import Sailfish.WebView 1.0
 
-Page {
+WebViewPage {
     id: root
 
     property bool showBar: false
@@ -29,11 +17,21 @@ Page {
     property string url
     property int type
     property int code
+    readonly property color _bgColor: Theme.colorScheme === Theme.LightOnDark ?
+                                          Qt.darker(Theme.highlightBackgroundColor, 5.0) :
+                                          Qt.lighter(Theme.highlightBackgroundColor, 1.8)
 
     ActiveDetector {}
 
-    function accept() {
+    function navigateBack() {
+        if (view.canGoBack) {
+            view.goBack()
+        } else {
+            pageStack.pop()
+        }
+    }
 
+    function accept() {
         var doInit = settings.signinType != type;
         settings.signinType = type;
 
@@ -65,52 +63,21 @@ Page {
     allowedOrientations: {
         switch (settings.allowedOrientations) {
         case 1:
-            return Orientation.PortraitMask;
+            return Orientation.PortraitMask
         case 2:
-            return Orientation.LandscapeMask;
+            return Orientation.LandscapeMask
         }
-        return Orientation.All;
+        return Orientation.All
     }
 
-    SilicaWebView {
+    WebView {
         id: view
 
-        anchors {left: parent.left; right: parent.right}
-        height: controlbar.open ? parent.height - controlbar.height : parent.height
+        anchors.fill: parent
+        canShowSelectionMarkers: true
         url: root.url
-        clip: true
-
-        _cookiesEnabled: false
-        experimental.userAgent: settings.getDmUserAgent()
-        experimental.preferences.offlineWebApplicationCacheEnabled: false
-        experimental.preferences.localStorageEnabled: false
-        experimental.preferences.privateBrowsingEnabled: true
-
-        onLoadingChanged: {
-            switch (loadRequest.status) {
-            case WebView.LoadStartedStatus:
-                proggressPanel.text = qsTr("Loading page content...");
-                proggressPanel.open = true;
-                break;
-            case WebView.LoadSucceededStatus:
-                proggressPanel.open = false;
-                break;
-            case WebView.LoadFailedStatus:
-                proggressPanel.open = false;
-                break;
-            default:
-                proggressPanel.open = false;
-            }
-        }
-
-        onNavigationRequested: {
-            if (!Qt.application.active) {
-                request.action = WebView.IgnoreRequest;
-            }
-        }
 
         onUrlChanged: {
-            //console.log("Url changed:", url);
             if (fetcher.setConnectUrl(url)) {
                 accept();
             }
@@ -120,18 +87,12 @@ Page {
     IconBar {
         id: controlbar
         flickable: view
+        color: root._bgColor
+
         IconBarItem {
             text: qsTr("Back")
             icon: "image://theme/icon-m-back"
-            onClicked: view.canGoBack ? view.goBack() : pageStack.pop()
+            onClicked: root.navigateBack()
         }
-    }
-
-    ProgressPanel {
-        id: proggressPanel
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        cancelable: true
-        onCloseClicked: view.stop()
     }
 }

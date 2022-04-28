@@ -25,7 +25,7 @@ Item {
     property bool busy: false
 
     readonly property string consumer_key: settings.pocketConsumerKey()
-    readonly property string redirect_uri: "kaktus:authorizationFinished"
+    readonly property string redirect_uri: "https://localhost/kaktusAuthorizationFinished"
     readonly property string request_url: "https://getpocket.com/v3/oauth/request"
     readonly property string authorize_url: "https://getpocket.com/auth/authorize"
     readonly property string oauth_authorize_url: "https://getpocket.com/v3/oauth/authorize"

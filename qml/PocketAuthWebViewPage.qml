@@ -1,35 +1,34 @@
-/*
-  Copyright (C) 2017 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2017-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 import QtQuick 2.1
 import Sailfish.Silica 1.0
-import QtWebKit 3.0
+import Sailfish.WebView 1.0
 
-Page {
+WebViewPage {
     id: root
 
     property bool showBar: false
-    property bool doPop: false
-    property bool done: false
+    property bool _done: false
+    property bool _doPop: false
+    readonly property color _bgColor: Theme.colorScheme === Theme.LightOnDark ?
+                                          Qt.darker(Theme.highlightBackgroundColor, 5.0) :
+                                          Qt.lighter(Theme.highlightBackgroundColor, 1.8)
 
     function init() {
         view.url = pocket.getAuthUrl()
+    }
+
+    function navigateBack() {
+        if (view.canGoBack) {
+            view.goBack()
+        } else {
+            pageStack.pop()
+        }
     }
 
     Component.onCompleted: {
@@ -54,62 +53,33 @@ Page {
     }
 
     onStatusChanged: {
-        if (status === PageStatus.Active && doPop) {
+        if (status === PageStatus.Active && root._doPop) {
             pageStack.pop()
         }
     }
 
-    SilicaWebView {
+    WebView {
         id: view
 
-        anchors {left: parent.left; right: parent.right}
-        height: controlbar.open ? parent.height - controlbar.height : parent.height
-        clip: true
-
-        _cookiesEnabled: true
-        experimental.preferences.offlineWebApplicationCacheEnabled: false
-        experimental.preferences.localStorageEnabled: true
-        //experimental.preferences.privateBrowsingEnabled: true
-
-        onLoadingChanged: {
-            switch (loadRequest.status) {
-            case WebView.LoadStartedStatus:
-                proggressPanel.text = qsTr("Loading page content...");
-                proggressPanel.open = true
-                break;
-            case WebView.LoadSucceededStatus:
-                proggressPanel.open = false
-                break;
-            case WebView.LoadFailedStatus:
-                proggressPanel.open = false
-                break;
-            default:
-                proggressPanel.open = false
-            }
-        }
-
-        onNavigationRequested: {
-            if (!Qt.application.active) {
-                request.action = WebView.IgnoreRequest
-            }
-        }
+        anchors.fill: parent
+        canShowSelectionMarkers: true
 
         onUrlChanged: {
-            console.log("Url changed:", url)
-
             var surl = url.toString()
+            console.log("url changed:", surl)
+
             if (surl === "https://getpocket.com/a/") {
                 init()
                 return
             }
 
-            if (surl === "kaktus:authorizationFinished") {
-                done = true
+            if (surl === "https://localhost/kaktusAuthorizationFinished") {
+                root._done = true
                 pocket.check()
                 if (status === PageStatus.Active) {
                     pageStack.pop()
                 } else {
-                    doPop = true
+                    root._doPop = true
                 }
             }
         }
@@ -118,23 +88,17 @@ Page {
     IconBar {
         id: controlbar
         flickable: view
+        color: root._bgColor
+
         IconBarItem {
             text: qsTr("Back")
             icon: "image://theme/icon-m-back"
-            onClicked: view.canGoBack ? view.goBack() : pageStack.pop()
+            onClicked: root.navigateBack()
         }
     }
 
-    ProgressPanel {
-        id: proggressPanel
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        cancelable: true
-        onCloseClicked: view.stop()
-    }
-
     Component.onDestruction: {
-        if (!done) {
+        if (!root._done) {
             pocket.cancel()
         }
     }

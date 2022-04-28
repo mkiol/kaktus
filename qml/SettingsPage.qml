@@ -373,38 +373,10 @@ Page {
                             }
                         }
 
-                        /*ComboBox {
-                            width: root.width
-                            label: qsTr("Reader View theme")
-                            description: qsTr("Style of theme which will be used to display articles in Reader View.")
-                            currentIndex: {
-                                if (settings.readerTheme === "dark")
-                                    return 0;
-                                if (settings.readerTheme === "light")
-                                    return 1;
-                            }
-
-                            menu: ContextMenu {
-                                MenuItem { text: qsTr("Dark") }
-                                MenuItem { text: qsTr("Light") }
-                            }
-
-                            onCurrentIndexChanged: {
-                                switch (currentIndex) {
-                                case 0:
-                                    settings.readerTheme = "dark";
-                                    break;
-                                case 1:
-                                    settings.readerTheme = "light";
-                                    break;
-                                }
-                            }
-                        }*/
-
                         TextSwitchWithIcon {
                             text: qsTr("Auto switch to Night View")
                             description: qsTr("Night View reduces the brightness of websites. By enabling this option, Night View will be automatically switch on when page is loaded in the web viewer.")
-                            iconSource: settings.nightMode ? "image://icons/icon-m-night-selected?" + Theme.primaryColor : "image://icons/icon-m-night?" + Theme.primaryColor
+                            iconSource: settings.nightMode ? "image://icons/icon-m-night1?" + Theme.primaryColor : "image://icons/icon-m-night0?" + Theme.primaryColor
                             onCheckedChanged: {
                                 settings.nightMode = checked;
                             }
@@ -433,7 +405,7 @@ Page {
                             button.text: qsTr("Delete cookies")
                             description: qsTr("Clear web viewer cache and cookies. Changes will take effect after restart.")
                             button.onClicked: {
-                                utils.resetQtWebKit()
+                                utils.resetWebView()
                                 notification.show(qsTr("Cache and cookies have been deleted"))
                             }
                         }

@@ -1,27 +1,15 @@
-/*
-  Copyright (C) 2016 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2016-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import QtWebKit 3.0
+import Sailfish.WebView 1.0
 
-Page {
+WebViewPage {
     id: root
 
     property bool showBar: false
@@ -41,53 +29,52 @@ Page {
     property bool autoRead: true
 
     property variant _settings: settings
-    property bool themeApply: true
-    readonly property color bgColor: Theme.colorScheme ? Qt.lighter(Theme.highlightBackgroundColor, 1.9) :
-                                                         Qt.darker(Theme.highlightBackgroundColor, 4.0)
-
-    property bool navigateBackPop: true
+    property bool _zoomPossible: false
+    property bool _themePossible: false
+    readonly property color _bgColor: Theme.colorScheme === Theme.LightOnDark ?
+                                          Qt.darker(Theme.highlightBackgroundColor, 5.0) :
+                                          Qt.lighter(Theme.highlightBackgroundColor, 1.8)
+    property bool _navigateBackPop: false
 
     function init() {
         view.loadHtml(utils.formatHtml(content, settings.offlineMode, ""))
-        navigateBackPop = true
-        themeApply = true
+        _navigateBackPop = true
         if (!read) {
             read = true
-            entryModel.setData(index, "read", 1, "");
+            entryModel.setData(index, "read", 1, "")
         }
     }
 
     function navigateBack() {
-        if (view.canGoBack)
+        if (view.canGoBack) {
             view.goBack()
-        else
-            if (navigateBackPop)
-                pageStack.pop()
-            else
-                init()
+        } else {
+            if (root._navigateBackPop) pageStack.pop()
+            else init()
+        }
     }
 
     allowedOrientations: {
         switch (settings.allowedOrientations) {
         case 1:
-            return Orientation.PortraitMask;
+            return Orientation.PortraitMask
         case 2:
-            return Orientation.LandscapeMask;
+            return Orientation.LandscapeMask
         }
-        return Orientation.All;
+        return Orientation.All
     }
 
     Component.onCompleted: {
         bar.hide()
         controlbar.show()
-        init()
+        root.init()
     }
 
     Connections {
         target: fetcher
         onBusyChanged: {
             if(fetcher.busy) {
-                pageStack.pop();
+                pageStack.pop()
             }
         }
     }
@@ -99,38 +86,34 @@ Page {
     function check() {
         // Not allowed while Syncing
         if (dm.busy || fetcher.busy || dm.removerBusy) {
-            notification.show(qsTr("Wait until current task is complete"));
-            return false;
+            notification.show(qsTr("Wait until current task is complete"))
+            return false
         }
 
         // Entry not cached and offline mode enabled
         if (settings.offlineMode && !cached) {
-            notification.show(qsTr("Offline version not available"));
-            return false;
+            notification.show(qsTr("Offline version not available"))
+            return false
         }
 
         // Switch to Offline mode if no network
         if (!settings.offlineMode && !dm.online) {
             if (cached) {
                 // Entry cached
-                notification.show(qsTr("Enabling offline mode because network is disconnected"));
-                settings.offlineMode = true;
+                notification.show(qsTr("Enabling offline mode because network is disconnected"))
+                settings.offlineMode = true
             } else {
                 // Entry not cached
-                notification.show(qsTr("Network is disconnected"));
-                return false;
+                notification.show(qsTr("Network is disconnected"))
+                return false
             }
         }
 
-        return true;
+        return true
     }
 
     function openEntryInBrowser() {
-        openUrlEntryInBrowser(onlineUrl)
-    }
-
-    function openUrlEntryInBrowser(url) {
-        Qt.openUrlExternally(url);
+        Qt.openUrlExternally(onlineUrl)
     }
 
     function openEntryInViewer() {
@@ -167,173 +150,98 @@ Page {
     }
 
     function openEntry() {
-        if (!check()) {
-            return;
-        }
-
+        if (!check()) return
         if (settings.clickBehavior === 1) {
-            openEntryInBrowser();
-            return;
+            openEntryInBrowser()
+            return
         }
-
-        openEntryInViewer();
+        openEntryInViewer()
     }
 
-    function initTheme() {
-        var theme = { "primaryColor": Theme.rgba(Theme.primaryColor, 1.0).toString(),
-                      "secondaryColor": Theme.rgba(Theme.secondaryColor, 1.0).toString(),
-                      "highlightColor": Theme.rgba(Theme.highlightColor, 1.0).toString(),
-                      "bgColor": root.bgColor.toString(),
-                      "fontFamily": Theme.fontFamily,
-                      "fontFamilyHeading": Theme.fontFamilyHeading,
-                      "pageMargin": Theme.horizontalPageMargin/Theme.pixelRatio,
-                      "pageMarginBottom": Theme.itemSizeMedium/Theme.pixelRatio,
-                      "fontSize": Theme.fontSizeMedium,
-                      "fontSizeTitle": Theme.fontSizeLarge,
-                      "zoom": settings.zoom}
-        postMessage("theme_set", { "theme": theme })
-        postMessage("theme_apply")
+    function errorCallback(error) {
+        console.log("error:", error)
+    }
+
+    function init_js() {
+        var s = {
+                    primaryColor: Theme.rgba(Theme.primaryColor, 1.0).toString(),
+                    secondaryColor: Theme.rgba(Theme.secondaryColor, 1.0).toString(),
+                    highlightColor: Theme.rgba(Theme.highlightColor, 1.0).toString(),
+                    bgColor: Theme.rgba(root._bgColor, 1.0).toString(),
+                    fontFamily: Theme.fontFamily,
+                    fontFamilyHeading: Theme.fontFamilyHeading,
+                    pageMargin: Theme.horizontalPageMargin/Theme.pixelRatio,
+                    pageMarginBottom: Theme.itemSizeMedium/Theme.pixelRatio,
+                    fontSize: Theme.fontSizeMedium,
+                    fontSizeTitle: Theme.fontSizeLarge
+                }
+        console.log(JSON.stringify(s))
+        var script =
+                utils.readAsset("scripts/zoom.js") + "\n" +
+                utils.readAsset("scripts/theme.js") + "\n" +
+                "var res = {theme: false,zoom: false}\n" +
+                "try {\n" +
+                "res.theme = _theme_init(" + JSON.stringify(s) + ")\n" +
+                "res.zoom = _zoom_init()\n" +
+                "} catch {}\n" +
+                "return res\n";
+        view.runJavaScript(script, function(res) {
+            console.log("js init done:", JSON.stringify(res))
+            root._zoomPossible = res.zoom
+            root._themePossible = res.theme
+            if (root._zoomPossible) setZoom(settings.zoomFontSize())
+            if (root._themePossible) setTheme(true)
+            controlbar.show()
+        }, errorCallback)
     }
 
     function updateZoom(delta) {
-        var zoom = settings.zoom;
-        settings.zoom = ((zoom + delta) <= 0.5) || ((zoom + delta) >= 2.0) ? zoom : zoom + delta
-        var theme = { "zoom": settings.zoom }
-        postMessage("theme_set", { "theme": theme })
-        postMessage("theme_apply")
-        baner.show("" + Math.floor(settings.zoom * 100) + "%")
+        if (!root._zoomPossible) return
+        settings.zoom = settings.zoom + delta
+        setZoom(settings.zoomFontSize())
+        baner.show(Math.round(settings.zoom * 100).toString() + "%")
     }
 
-    function messageReceivedHandler(message) {
-        if (message.type === "inited") {
-            if (root.themeApply) {
-                initTheme()
-                root.themeApply = false
-            }
-            postMessage("readability_apply_fixups")
-        }
+    function setZoom(zoom) {
+        if (!root._zoomPossible) return
+        var script = "return window._zoom_set('" + zoom + "')\n";
+        view.runJavaScript(script, function(res) {
+            console.log("zoom set done:", zoom, res)
+        }, errorCallback)
     }
 
-    function postMessage(message, data) {
-        view.experimental.postMessage(JSON.stringify({ "type": message, "data": data }));
+    function setTheme(enabled) {
+        if (!root._themePossible) return
+        var script = "return window._theme_set(" + (enabled ? "true" : "false") + ")\n";
+        view.runJavaScript(script, function(res) {
+            console.log("theme set done:", enabled, res)
+        }, errorCallback)
     }
 
     Connections {
         target: settings
-        onFontSizeChanged: updateFontSize()
+        onFontSizeChanged: setZoom(settings.zoomFontSize())
     }
 
     Rectangle {
         anchors.fill: parent
-        color: root.bgColor
+        color: root._bgColor
     }
 
-    SilicaWebView {
+    PageHeader {
+        title: root.title
+    }
+
+    WebView {
         id: view
 
         anchors.fill: parent
-        experimental.transparentBackground: true
-        experimental.overview: false
-        experimental.enableResizeContent: true
-        experimental.preferences.javascriptEnabled: true
-        experimental.preferences.navigatorQtObjectEnabled: true
+        canShowSelectionMarkers: true
 
-        /*onLoadingChanged: {
-            console.log("onLoadingChanged:")
-            console.log(" url: ", loadRequest.url)
-            console.log(" status: ", loadRequest.status)
-            console.log(" error string: ", loadRequest.errorString)
-            console.log(" error code:: ", loadRequest.errorCode)
-
-            if (loadRequest.status === WebView.LoadSucceededStatus) {
-                console.log(" LoadSucceededStatus")
+        onLoadedChanged: {
+            if (loaded) {
+                root.init_js()
             }
-        }*/
-
-        experimental.userScripts: [
-            Qt.resolvedUrl("js/Kaktus.js"),
-            Qt.resolvedUrl("js/Console.js"),
-            Qt.resolvedUrl("js/MessageListener.js"),
-            Qt.resolvedUrl("js/Readability.js"),
-            Qt.resolvedUrl("js/Theme.js"),
-            Qt.resolvedUrl("js/ReaderMode.js"),
-            Qt.resolvedUrl("js/init.js")]
-
-        experimental.onMessageReceived: {
-            console.log("onMessageReceived data:", message.data)
-            root.messageReceivedHandler(JSON.parse(message.data))
-        }
-
-        onNavigationRequested: {
-            if (!Qt.application.active) {
-                request.action = WebView.IgnoreRequest;
-                return
-            }
-
-            /*console.log("onNavigationRequested: ")
-            console.log(" url:",request.url)
-            console.log(" navigation type:", request.navigationType)
-            console.log(" navigation LinkClickedNavigation:", request.navigationType === WebView.LinkClickedNavigation)
-            console.log(" navigation FormSubmittedNavigation:", request.navigationType === WebView.FormSubmittedNavigation)
-            console.log(" navigation BackForwardNavigation:", request.navigationType === WebView.BackForwardNavigation)
-            console.log(" navigation ReloadNavigation:", request.navigationType === WebView.ReloadNavigation)
-            console.log(" navigation FormResubmittedNavigation:", request.navigationType === WebView.FormResubmittedNavigation)
-            console.log(" navigation OtherNavigation:", request.navigationType === WebView.OtherNavigation)
-            console.log(" action:", request.action)*/
-
-            if (request.url.toString() === root.onlineUrl ||
-                    request.url.toString() === root.offlineUrl) {
-
-                if (_settings.webviewNavigation === 0) {
-                    request.action = WebView.IgnoreRequest
-                    return
-                }
-
-                if (_settings.webviewNavigation === 1 && !_settings.offlineMode) {
-                    request.action = WebView.IgnoreRequest
-                    root.openUrlEntryInBrowser(request.url)
-                    return
-                }
-
-                root.openEntryInViewer()
-                request.action = WebView.IgnoreRequest
-                return
-            }
-
-            // Offline
-            if (settings.offlineMode) {
-                if (request.navigationType === WebView.LinkClickedNavigation) {
-                    request.action = WebView.IgnoreRequest
-                } else {
-                    request.action = WebView.AcceptRequest
-                }
-                return
-            }
-
-            // Online
-            if (request.navigationType === WebView.LinkClickedNavigation) {
-
-                if (_settings.webviewNavigation === 0) {
-                    request.action = WebView.IgnoreRequest
-                    return
-                }
-
-                if (_settings.webviewNavigation === 1) {
-                    request.action = WebView.IgnoreRequest
-                    root.openUrlEntryInBrowser(request.url)
-                    return
-                }
-
-                if (_settings.webviewNavigation === 2) {
-                    root.openUrlInViewer(request.url)
-                    request.action = WebView.IgnoreRequest
-                    return;
-                }
-            }
-        }
-
-        header: PageHeader {
-            title: root.title
         }
     }
 
@@ -349,7 +257,7 @@ Page {
     IconBar {
         id: controlbar
         flickable: view
-        color: root.bgColor
+        color: root._bgColor
 
         IconBarItem {
             text: qsTr("Back")
@@ -361,13 +269,13 @@ Page {
             text: qsTr("Toggle Read")
             icon: root.read ? "image://icons/icon-m-read-selected" : "image://icons/icon-m-read"
             onClicked: {
-                root.autoRead=false;
+                root.autoRead=false
                 if (root.read) {
-                    root.read=false;
-                    entryModel.setData(root.index, "read", 0, "");
+                    root.read=false
+                    entryModel.setData(root.index, "read", 0, "")
                 } else {
-                    root.read=true;
-                    entryModel.setData(root.index, "read", 1, "");
+                    root.read=true
+                    entryModel.setData(root.index, "read", 1, "")
                 }
             }
         }
@@ -378,11 +286,11 @@ Page {
             icon: root.stared ? "image://theme/icon-m-favorite-selected" : "image://theme/icon-m-favorite"
             onClicked: {
                 if (root.stared) {
-                    root.stared=false;
-                    entryModel.setData(root.index, "readlater", 0, "");
+                    root.stared=false
+                    entryModel.setData(root.index, "readlater", 0, "")
                 } else {
-                    root.stared=true;
-                    entryModel.setData(root.index, "readlater", 1, "");
+                    root.stared=true
+                    entryModel.setData(root.index, "readlater", 1, "")
                 }
             }
         }
@@ -391,9 +299,8 @@ Page {
             text: qsTr("Viewer")
             icon: "image://icons/icon-m-webview"
             onClicked: {
-                if (!root.check())
-                    return;
-                root.openEntryInViewer();
+                if (!root.check()) return
+                root.openEntryInViewer()
             }
         }
 
@@ -401,7 +308,7 @@ Page {
             text: qsTr("Browser")
             icon: "image://icons/icon-m-browser"
             onClicked: {
-                root.openEntryInBrowser();
+                Qt.openUrlExternally(settings.offlineMode ? root.offlineUrl : root.onlineUrl)
             }
         }
 
@@ -416,20 +323,12 @@ Page {
             }
         }
 
-        // not available in harbour package
-        IconMenuItem_ {
-            text: qsTr("Share link")
-            icon.source: "image://theme/icon-m-share"
-            onClicked: root.share()
-            visible: !settings.isHarbour()
-        }
-
         IconBarItem {
             text: qsTr("Toggle Like")
             icon: root.liked ? "image://icons/icon-m-like-selected" : "image://icons/icon-m-like"
             enabled: settings.showBroadcast && app.isOldReader
             onClicked: {
-                entryModel.setData(root.index, "liked", !root.liked, "");
+                entryModel.setData(root.index, "liked", !root.liked, "")
                 root.liked = !root.liked
             }
         }
@@ -440,9 +339,9 @@ Page {
             enabled: settings.showBroadcast && app.isOldReader && !root.friendStream
             onClicked: {
                 if (root.broadcast) {
-                    entryModel.setData(root.index, "broadcast", false, "");
+                    entryModel.setData(root.index, "broadcast", false, "")
                 } else {
-                    pageStack.push(Qt.resolvedUrl("ShareDialog.qml"),{"index": root.index});
+                    pageStack.push(Qt.resolvedUrl("ShareDialog.qml"),{"index": root.index})
                 }
                 root.broadcast = !root.broadcast
             }
@@ -452,14 +351,16 @@ Page {
             text: qsTr("Copy URL")
             icon: "image://theme/icon-m-clipboard"
             onClicked: {
-                notification.show(qsTr("URL was copied to the clipboard"));
-                Clipboard.text = root.onlineUrl;
+                notification.show(qsTr("URL was copied to the clipboard"))
+                Clipboard.text = root.onlineUrl
             }
         }
 
         IconBarItem {
             text: qsTr("Decrease font")
             icon: "image://icons/icon-m-fontdown"
+            enabled: root._zoomPossible
+            visible: true
             onClicked: {
                 root.updateZoom(-0.1)
             }
@@ -468,6 +369,8 @@ Page {
         IconBarItem {
             text: qsTr("Increase font")
             icon: "image://icons/icon-m-fontup"
+            enabled: root._zoomPossible
+            visible: true
             onClicked: {
                 root.updateZoom(0.1)
             }

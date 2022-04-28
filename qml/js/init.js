@@ -1,1 +1,0 @@
-kaktusPostMessage("inited");

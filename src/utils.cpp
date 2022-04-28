@@ -32,7 +32,7 @@
 
 Utils::Utils(QObject *parent) : QObject{parent} {}
 
-QString Utils::readAsset(const QString &path) {
+QString Utils::readAsset(const QString &path) const {
     QFile file{SailfishApp::pathTo(path).toLocalFile()};
 
     if (!file.open(QIODevice::ReadOnly)) {
@@ -44,20 +44,18 @@ QString Utils::readAsset(const QString &path) {
     return QString::fromUtf8(file.readAll());
 }
 
-void Utils::copyToClipboard(const QString &text) {
-    QClipboard *clipboard = QGuiApplication::clipboard();
-    clipboard->setText(text);
+void Utils::copyToClipboard(const QString &text) const {
+    QGuiApplication::clipboard()->setText(text);
 }
 
-void Utils::resetQtWebKit() {
-    QStringList dataDirs =
-        QStandardPaths::standardLocations(QStandardPaths::DataLocation);
-    if (!dataDirs.isEmpty()) {
-        QDir dir(QDir(dataDirs.at(0)).filePath(".QtWebKit"));
-        qDebug() << dir.path();
-        if (dir.exists()) dir.removeRecursively();
-    }
+void Utils::resetWebViewStatic() {
+    auto cache =
+        QDir{QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
+             "/.mozilla"};
+    cache.removeRecursively();
 }
+
+void Utils::resetWebView() const { resetWebViewStatic(); }
 
 void Utils::log(const QString &data) {
     int l = data.length();
@@ -198,7 +196,7 @@ void Utils::updateModels() {
     if (entryModel) entryModel->init();
 }
 
-QList<QString> Utils::dashboards() {
+QList<QString> Utils::dashboards() const {
     QList<QString> simpleList;
     auto list = DatabaseManager::instance()->readDashboards();
     auto i = list.begin();
@@ -209,18 +207,18 @@ QList<QString> Utils::dashboards() {
     return simpleList;
 }
 
-QString Utils::defaultDashboardName() {
+QString Utils::defaultDashboardName() const {
     return DatabaseManager::instance()
         ->readDashboard(Settings::instance()->getDashboardInUse())
         .title;
 }
 
-int Utils::countUnread() {
+int Utils::countUnread() const {
     return DatabaseManager::instance()->countEntriesUnreadByDashboard(
         Settings::instance()->getDashboardInUse());
 }
 
-QString Utils::getHumanFriendlySizeString(int size) {
+QString Utils::getHumanFriendlySizeString(int size) const {
     if (size == 0) {
         return tr("empty");
     }
@@ -236,7 +234,7 @@ QString Utils::getHumanFriendlySizeString(int size) {
     return QString("%1 GB").arg(size / 1073741824);
 }
 
-QString Utils::getHumanFriendlyTimeString(int date) {
+QString Utils::getHumanFriendlyTimeString(int date) const {
     QDateTime qdate = QDateTime::fromTime_t(date);
     int secs = qdate.secsTo(QDateTime::currentDateTimeUtc());
 
@@ -289,7 +287,7 @@ bool Utils::isSameWeek(const QDate &date1, const QDate &date2) {
     return w1 == w2 && y1 == y2 && w1 != 0 && w2 != 0;
 }
 
-void Utils::resetFetcher(int type) {
+void Utils::resetFetcher(int type) const {
     Settings *s = Settings::instance();
 
     if (s->fetcher != nullptr) {

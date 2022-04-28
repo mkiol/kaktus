@@ -200,6 +200,8 @@ class Settings : public QSettings {
 
     void setZoom(float value);
     float getZoom() const;
+    Q_INVOKABLE QString zoomViewport() const;
+    Q_INVOKABLE QString zoomFontSize() const;
 
     void setAutoDownloadOnUpdate(bool value);
     bool getAutoDownloadOnUpdate() const;
@@ -260,8 +262,7 @@ class Settings : public QSettings {
     Q_INVOKABLE void setProvider(const QString &value);
     Q_INVOKABLE QString getProvider() const;
 
-    Q_INVOKABLE void setDmUserAgent(const QString &value);
-    Q_INVOKABLE QString getDmUserAgent() const;
+    QString getDmUserAgent() const;
 
     Q_INVOKABLE void setRetentionDays(int value);
     Q_INVOKABLE int getRetentionDays() const;

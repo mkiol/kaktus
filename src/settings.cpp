@@ -548,8 +548,7 @@ int Settings::getOffsetLimit() const {
 }
 
 QString Settings::getSettingsDir() {
-    QString dir =
-        QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    auto dir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
 
     if (!QDir{dir}.exists()) {
         if (!QDir::root().mkpath(dir)) {
@@ -590,20 +589,11 @@ QString Settings::getDmCacheDir() {
     return dir;
 }
 
-void Settings::setDmUserAgent(const QString &value) {
-    setValue("useragent", value);
-}
-
 QString Settings::getDmUserAgent() const {
     QString agent =
         "Mozilla/5.0 (Linux; Android 4.2.1; Nexus 4 Build/JOP40D) "
         "AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile "
         "Safari/535.19";
-    // QString value = "Mozilla/5.0 (MeeGo; NokiaN9) AppleWebKit/534.13 (KHTML,
-    // like Gecko) NokiaBrowser/8.5.0 Mobile Safari/534.13"; QString value =
-    // "Mozilla/5.0 (Maemo; Linux; U; Jolla; Sailfish; Mobile; rv:26.0)
-    // Gecko/26.0 Firefox/26.0 SailfishBrowser/1.0 like Safari/538.1"; QString
-    // value = "Mozilla/5.0 (Mobile; rv:26.0) Gecko/26.0 Firefox/26.0";
     return value("useragent", agent).toString();
 }
 
@@ -632,6 +622,14 @@ void Settings::setZoom(float value) {
         setValue("zoom", value);
         emit zoomChanged();
     }
+}
+
+QString Settings::zoomViewport() const {
+    return QString::number(getZoom(), 'f', 1);
+}
+
+QString Settings::zoomFontSize() const {
+    return QString::number(100 + ((getZoom() - 1.0) * 10), 'f', 0) + "%";
 }
 
 int Settings::getRetentionDays() const {

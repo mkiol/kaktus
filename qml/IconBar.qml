@@ -1,21 +1,9 @@
-/*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
@@ -29,40 +17,33 @@ Item {
     property bool showable: true
     property int showTime: 7000
     property real barShowMoveWidth: 20
-    property Flickable flickable: null
-    property bool shown: opacity == 1.0
+    property var flickable: null
+    readonly property bool shown: opacity == 1.0
     property alias color: bg.color
 
     width: parent.width
     height: Theme.itemSizeMedium
     anchors.left: parent.left
-    enabled: showable
-    visible: showable
-
-    clip: true
+    anchors.bottom: parent.bottom
+    visible: opacity > 0.0
     opacity: root.open ? 1.0 : 0.0
-    Behavior on opacity { FadeAnimation {duration: 200} }
-
-    Behavior on y {NumberAnimation { duration: 250; easing.type: Easing.OutQuad }}
-    y: open ? parent.height - height : parent.height - height/4
+    Behavior on opacity { FadeAnimation {} }
 
     function show() {
-        if (!showable)
-            return
         if (!open) {
-            root.open = true;
-            flick.contentX = 0;
+            root.open = true
+            flick.contentX = 0
         }
-        timer.restart();
+        timer.restart()
     }
 
     function hide() {
         if (open) {
             if (flick.dragging) {
-                timer.restart();
+                timer.restart()
             } else {
-                root.open = false;
-                timer.stop();
+                root.open = false
+                timer.stop()
             }
         }
     }
@@ -84,11 +65,9 @@ Item {
     }
 
     MouseArea {
-        enabled: root.showable
-        anchors { left: parent.left; right: parent.right; bottom: parent.bottom }
-        //height: root.open ? parent.height : parent.height / 3
-        height: parent.height
-        onClicked: root.show();
+        id: mouse
+        anchors.fill: parent
+        onClicked: root.show()
     }
 
     Item {
@@ -103,9 +82,7 @@ Item {
             opacity: flick.contentX < (flick.contentWidth - flick.width - Theme.paddingLarge) ? 0.5 : 0.0
             visible: opacity > 0
             anchors.right: visible ? parent.right : undefined
-            Behavior on opacity {
-                FadeAnimation {}
-            }
+            Behavior on opacity { FadeAnimation {} }
         }
 
         // Left
@@ -116,9 +93,7 @@ Item {
             opacity: flick.contentX > Theme.paddingLarge ? 0.5 : 0.0
             visible: opacity > 0
             anchors.left: visible ? parent.left : undefined
-            Behavior on opacity {
-                FadeAnimation {}
-            }
+            Behavior on opacity { FadeAnimation {} }
         }
 
         Flickable {
@@ -151,9 +126,7 @@ Item {
     Timer {
         id: timer
         interval: root.showTime
-        onTriggered: {
-            hide();
-        }
+        onTriggered: hide()
     }
 
     QtObject {
@@ -166,37 +139,42 @@ Item {
     Connections {
         target: root.flickable
 
-        onMovementStarted: {
-            m.vector = 0;
-            //m.lastContentY = 0.0;
-            m.lastContentY=root.flickable.contentY;
-            m.initialContentY=root.flickable.contentY;
+        onMovingChanged: {
+            if (root.flickable.moving) {
+                m.vector = 0;
+                m.lastContentY=root.flickable.scrollableOffset.y;
+                m.initialContentY=root.flickable.scrollableOffset.y;
+                if (root.flickable.atYEnd && root.flickable.atYBeginning) {
+                    root.show()
+                }
+            }
         }
 
-        onContentYChanged: {
+        onScrollableOffsetChanged: {
             if (root.flickable.moving) {
-                var dInit = root.flickable.contentY-m.initialContentY;
-                var dLast = root.flickable.contentY-m.lastContentY;
-                var lastV = m.vector;
+                var dInit = root.flickable.scrollableOffset.y-m.initialContentY
+                var dLast = root.flickable.scrollableOffset.y-m.lastContentY
+                var lastV = m.vector
+                var barShowMoveWidth = 20
                 if (dInit<-barShowMoveWidth)
-                    root.show();
+                    root.show()
                 if (dInit>barShowMoveWidth)
-                    root.hide();
+                    root.hide()
                 if (dLast>barShowMoveWidth)
-                    root.hide();
+                    root.hide()
                 if (m.lastContentY!=0) {
                     if (dLast<0)
-                        m.vector = -1;
+                        m.vector = -1
                     if (dLast>0)
-                        m.vector = 1;
+                        m.vector = 1
                     if (dLast==0)
-                        m.vector = 0;
+                        m.vector = 0
                 }
                 if (lastV==-1 && m.vector==1)
-                    m.initialContentY=root.flickable.contentY;
+                    m.initialContentY=root.flickable.scrollableOffset.y
                 if (lastV==1 && m.vector==-1)
-                    m.initialContentY=root.flickable.contentY;
-                m.lastContentY = root.flickable.contentY;
+                    m.initialContentY=root.flickable.scrollableOffset.y
+                m.lastContentY = root.flickable.scrollableOffset.y
             }
         }
     }

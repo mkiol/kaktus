@@ -115,14 +115,6 @@ Page {
                       "· Heimen Stoffels · Rui Kon · qwer_asew · Bérenger ARNAUD"
             }
 
-            PaddedLabel {
-                horizontalAlignment: Text.AlignLeft
-                textFormat: Text.StyledText
-                text: qsTr("%1 is developed as an open source project under %2.")
-                .arg(APP_NAME)
-                .arg("<a href=\"" + LICENSE_URL + "\">" + LICENSE + "</a>")
-            }
-
             SectionHeader {
                 text: qsTr("Libraries")
             }

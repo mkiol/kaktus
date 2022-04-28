@@ -18,7 +18,8 @@ include(qhttpserver/qhttpserver.pri)
 
 OTHER_FILES += \
     $$files(qml/*.qml) \
-    $$files(rpm/*)
+    $$files(rpm/*) \
+    $$files(scripts/*)
 
 SOURCES += \
     src/main.cpp \
@@ -86,5 +87,9 @@ include(sailfishapp_i18n.pri)
 install_images.files = images/*
 install_images.path = /usr/share/$${TARGET}/images
 INSTALLS += install_images
+
+install_scripts.files = scripts/*
+install_scripts.path = /usr/share/$${TARGET}/scripts
+INSTALLS += install_scripts
 
 DEPENDPATH += $${INCLUDEPATH}
