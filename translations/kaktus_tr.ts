@@ -4,37 +4,46 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../qml/AboutPage.qml" line="55"/>
         <source>About</source>
-        <translation>Hakkında</translation>
+        <translation type="vanished">Hakkında</translation>
     </message>
     <message>
-        <location filename="../qml/AboutPage.qml" line="71"/>
+        <location filename="../qml/AboutPage.qml" line="43"/>
+        <source>About %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutPage.qml" line="61"/>
         <source>Version %1</source>
         <translation type="unfinished">Versiyon %1</translation>
     </message>
     <message>
-        <location filename="../qml/AboutPage.qml" line="81"/>
+        <location filename="../qml/AboutPage.qml" line="68"/>
         <source>Project website</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AboutPage.qml" line="87"/>
+        <location filename="../qml/AboutPage.qml" line="72"/>
+        <source>Changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutPage.qml" line="78"/>
         <source>Authors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AboutPage.qml" line="108"/>
-        <source>Translations are provided by:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/AboutPage.qml" line="123"/>
+        <location filename="../qml/AboutPage.qml" line="100"/>
         <source>%1 is developed as an open source project under %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AboutPage.qml" line="129"/>
+        <location filename="../qml/AboutPage.qml" line="106"/>
+        <source>Translators</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AboutPage.qml" line="119"/>
         <source>Libraries</source>
         <translation type="unfinished"></translation>
     </message>
@@ -43,9 +52,8 @@
         <translation type="vanished">Versiyon: %1</translation>
     </message>
     <message>
-        <location filename="../qml/AboutPage.qml" line="75"/>
         <source>Changelog</source>
-        <translation>Değişiklikler</translation>
+        <translation type="vanished">Değişiklikler</translation>
     </message>
     <message>
         <source>Multi services feed reader, specially designed to work offline.</source>
@@ -71,12 +79,11 @@
 <context>
     <name>AuthWebViewPage</name>
     <message>
-        <location filename="../qml/AuthWebViewPage.qml" line="92"/>
         <source>Loading page content...</source>
-        <translation>Sayfa verisi yükleniyor...</translation>
+        <translation type="vanished">Sayfa verisi yükleniyor...</translation>
     </message>
     <message>
-        <location filename="../qml/AuthWebViewPage.qml" line="124"/>
+        <location filename="../qml/AuthWebViewPage.qml" line="93"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
@@ -90,11 +97,9 @@
     </message>
     <message>
         <location filename="../qml/ChangelogPage.qml" line="64"/>
-        <location filename="../qml/ChangelogPage.qml" line="78"/>
-        <location filename="../qml/ChangelogPage.qml" line="87"/>
+        <location filename="../qml/ChangelogPage.qml" line="86"/>
+        <location filename="../qml/ChangelogPage.qml" line="100"/>
         <location filename="../qml/ChangelogPage.qml" line="109"/>
-        <location filename="../qml/ChangelogPage.qml" line="147"/>
-        <location filename="../qml/ChangelogPage.qml" line="156"/>
         <source>Version %1</source>
         <translation>Versiyon %1</translation>
     </message>
@@ -108,47 +113,47 @@ Network connection is unavailable.</source>
 İnternet bağlantısı mevcut değil.</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="316"/>
+        <location filename="../qml/ControlBar.qml" line="307"/>
         <source>Marking tabs as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="316"/>
+        <location filename="../qml/ControlBar.qml" line="307"/>
         <source>Marking folders as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="318"/>
+        <location filename="../qml/ControlBar.qml" line="309"/>
         <source>Marking feeds as read</source>
         <translation type="unfinished">Beslemeyi okunmuş işaretle</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="321"/>
+        <location filename="../qml/ControlBar.qml" line="312"/>
         <source>Marking articles as read</source>
         <translation type="unfinished">Makaleler okunmuş işaretleniyor</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="325"/>
+        <location filename="../qml/ControlBar.qml" line="316"/>
         <source>Marking all articles as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="331"/>
+        <location filename="../qml/ControlBar.qml" line="322"/>
         <source>Marking all saved articles as read</source>
         <translation type="unfinished">Kaydedilmiş makaleler okunmuş işaretleniyor</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="332"/>
+        <location filename="../qml/ControlBar.qml" line="323"/>
         <source>Marking all starred articles as read</source>
         <translation type="unfinished">Yıldızlanmış makaleler okunmuş işaretleniyor</translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="337"/>
+        <location filename="../qml/ControlBar.qml" line="328"/>
         <source>Marking all liked articles as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/ControlBar.qml" line="341"/>
+        <location filename="../qml/ControlBar.qml" line="332"/>
         <source>Marking all shared articles as read</source>
         <translation type="unfinished"></translation>
     </message>
@@ -156,12 +161,11 @@ Network connection is unavailable.</source>
 <context>
     <name>CoverPage</name>
     <message>
-        <location filename="../qml/CoverPage.qml" line="124"/>
         <source>Not signed in</source>
-        <translation>Giriş yapılmadı</translation>
+        <translation type="vanished">Giriş yapılmadı</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="32"/>
+        <location filename="../qml/CoverPage.qml" line="20"/>
         <source>All read</source>
         <translation>Tümünü oku</translation>
     </message>
@@ -180,49 +184,49 @@ Network connection is unavailable.</source>
         <translation type="vanished">okunmamış</translation>
     </message>
     <message numerus="yes">
-        <location filename="../qml/CoverPage.qml" line="31"/>
+        <location filename="../qml/CoverPage.qml" line="19"/>
         <source>%n unread item(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="54"/>
+        <location filename="../qml/CoverPage.qml" line="40"/>
         <source>Syncing</source>
         <translation>Eşleniyor</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="60"/>
+        <location filename="../qml/CoverPage.qml" line="46"/>
         <source>Uploading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="68"/>
+        <location filename="../qml/CoverPage.qml" line="54"/>
         <source>Initiating</source>
         <translation>Yükleniyor</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="72"/>
+        <location filename="../qml/CoverPage.qml" line="58"/>
         <source>Updating</source>
         <translation>Güncelleniyor</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="77"/>
+        <location filename="../qml/CoverPage.qml" line="63"/>
         <source>Signing in</source>
         <translation>Giriş yapılıyor</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="82"/>
+        <location filename="../qml/CoverPage.qml" line="68"/>
         <source>Waiting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="97"/>
+        <location filename="../qml/CoverPage.qml" line="83"/>
         <source>Caching</source>
         <translation>Önbellekleniyor</translation>
     </message>
     <message>
-        <location filename="../qml/CoverPage.qml" line="99"/>
+        <location filename="../qml/CoverPage.qml" line="85"/>
         <source>%1 of %2</source>
         <translation type="unfinished"></translation>
     </message>
@@ -340,62 +344,57 @@ Network connection is unavailable.</source>
         <translation type="vanished">Okunmuş işaretle</translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="472"/>
+        <location filename="../qml/EntryDelegate.qml" line="462"/>
         <source>Toggle Read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="490"/>
+        <location filename="../qml/EntryDelegate.qml" line="480"/>
         <source>Toggle Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="490"/>
+        <location filename="../qml/EntryDelegate.qml" line="480"/>
         <source>Toggle Star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="504"/>
+        <location filename="../qml/EntryDelegate.qml" line="494"/>
         <source>Above as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="516"/>
+        <location filename="../qml/EntryDelegate.qml" line="506"/>
         <source>Viewer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="528"/>
+        <location filename="../qml/EntryDelegate.qml" line="518"/>
         <source>Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="540"/>
+        <location filename="../qml/EntryDelegate.qml" line="530"/>
         <source>Feed content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="552"/>
+        <location filename="../qml/EntryDelegate.qml" line="542"/>
         <source>Add to Pocket</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="562"/>
-        <source>Share link</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/EntryDelegate.qml" line="569"/>
+        <location filename="../qml/EntryDelegate.qml" line="551"/>
         <source>Save image</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="581"/>
+        <location filename="../qml/EntryDelegate.qml" line="563"/>
         <source>Toggle Like</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryDelegate.qml" line="596"/>
+        <location filename="../qml/EntryDelegate.qml" line="578"/>
         <source>Toggle Share</source>
         <translation type="unfinished"></translation>
     </message>
@@ -403,37 +402,37 @@ Network connection is unavailable.</source>
 <context>
     <name>EntryModel</name>
     <message>
-        <location filename="../src/entrymodel.cpp" line="303"/>
+        <location filename="../src/entrymodel.cpp" line="250"/>
         <source>Today</source>
         <translation>Bugün</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="306"/>
+        <location filename="../src/entrymodel.cpp" line="255"/>
         <source>Yesterday</source>
         <translation>Dün</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="309"/>
+        <location filename="../src/entrymodel.cpp" line="260"/>
         <source>Current week</source>
         <translation>Bu hafta</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="312"/>
+        <location filename="../src/entrymodel.cpp" line="265"/>
         <source>Current month</source>
         <translation>Bu ay</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="315"/>
+        <location filename="../src/entrymodel.cpp" line="270"/>
         <source>Previous month</source>
         <translation>Önceki ay</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="318"/>
+        <location filename="../src/entrymodel.cpp" line="275"/>
         <source>Current year</source>
         <translation>Bu yıl</translation>
     </message>
     <message>
-        <location filename="../src/entrymodel.cpp" line="321"/>
+        <location filename="../src/entrymodel.cpp" line="281"/>
         <source>Previous year &amp; older</source>
         <translation>Önceki yıl &amp; daha eski</translation>
     </message>
@@ -441,17 +440,17 @@ Network connection is unavailable.</source>
 <context>
     <name>EntryPage</name>
     <message>
-        <location filename="../qml/EntryPage.qml" line="476"/>
+        <location filename="../qml/EntryPage.qml" line="457"/>
         <source>No unread items</source>
         <translation>Okunmamış yok</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="476"/>
+        <location filename="../qml/EntryPage.qml" line="457"/>
         <source>No items</source>
         <translation>Öğe yok</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="198"/>
+        <location filename="../qml/EntryPage.qml" line="174"/>
         <source>All feeds</source>
         <translation>Tüm beslemeler</translation>
     </message>
@@ -460,43 +459,43 @@ Network connection is unavailable.</source>
         <translation type="vanished">Orjinal tarayıcı açılıyor..</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="200"/>
+        <location filename="../qml/EntryPage.qml" line="176"/>
         <source>Saved</source>
         <translation>Kaydedildi</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="202"/>
+        <location filename="../qml/EntryPage.qml" line="178"/>
         <source>Slow</source>
         <translation>Yavaş</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="204"/>
+        <location filename="../qml/EntryPage.qml" line="180"/>
         <source>Liked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="206"/>
+        <location filename="../qml/EntryPage.qml" line="182"/>
         <source>Shared</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="247"/>
-        <location filename="../qml/EntryPage.qml" line="292"/>
+        <location filename="../qml/EntryPage.qml" line="226"/>
+        <location filename="../qml/EntryPage.qml" line="272"/>
         <source>Wait until current task is complete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="253"/>
+        <location filename="../qml/EntryPage.qml" line="232"/>
         <source>Offline version is not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="261"/>
+        <location filename="../qml/EntryPage.qml" line="240"/>
         <source>Enabling offline mode because network is disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="265"/>
+        <location filename="../qml/EntryPage.qml" line="244"/>
         <source>Network is disconnected</source>
         <translation type="unfinished"></translation>
     </message>
@@ -519,7 +518,7 @@ Switching to Offline mode.</source>
         <translation type="vanished">Bağlantı mevcut değil.</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="474"/>
+        <location filename="../qml/EntryPage.qml" line="455"/>
         <source>No saved items</source>
         <translation>Kaydedilmiş öğe yok</translation>
     </message>
@@ -544,27 +543,27 @@ Switching to Offline mode.</source>
         <translation type="vanished">Yıldızlanmış makaleler okunmuş işaretleniyor</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="200"/>
+        <location filename="../qml/EntryPage.qml" line="176"/>
         <source>Starred</source>
         <translation>Yıldızlılar</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="473"/>
+        <location filename="../qml/EntryPage.qml" line="454"/>
         <source>Wait until sync finish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="474"/>
+        <location filename="../qml/EntryPage.qml" line="455"/>
         <source>No starred items</source>
         <translation>Yıldızlı öğe yok</translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="475"/>
+        <location filename="../qml/EntryPage.qml" line="456"/>
         <source>No liked items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/EntryPage.qml" line="523"/>
+        <location filename="../qml/EntryPage.qml" line="504"/>
         <source>One-tap to open article, double-tap to mark as read</source>
         <translation>Tık tıkla makaleyi aç, çift tıkla okunmuş işaretle</translation>
     </message>
@@ -626,27 +625,27 @@ Switching to Offline mode.</source>
 <context>
     <name>FeedPage</name>
     <message>
-        <location filename="../qml/FeedPage.qml" line="91"/>
+        <location filename="../qml/FeedPage.qml" line="80"/>
         <source>Mark all as read</source>
         <translation>Tüm. okunmuş işaretle</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="100"/>
+        <location filename="../qml/FeedPage.qml" line="89"/>
         <source>Mark all as unread</source>
         <translation>Tüm. okunmamış işaretle</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="123"/>
+        <location filename="../qml/FeedPage.qml" line="112"/>
         <source>No feeds</source>
         <translation>Besleme yok</translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="123"/>
+        <location filename="../qml/FeedPage.qml" line="112"/>
         <source>Wait until sync finish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedPage.qml" line="74"/>
+        <location filename="../qml/FeedPage.qml" line="63"/>
         <source>Feeds</source>
         <translation>Beslemeler</translation>
     </message>
@@ -684,92 +683,87 @@ Switching to Offline mode.</source>
         <translation type="obsolete">Orjinal tarayıcı açılıyor..</translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="372"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="265"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="378"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="271"/>
         <source>Toggle Read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="394"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="287"/>
         <source>Toggle Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="394"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="287"/>
         <source>Toggle Star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="408"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="301"/>
         <source>Viewer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="418"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="310"/>
         <source>Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="426"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="318"/>
         <source>Add to Pocket</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="438"/>
-        <source>Share link</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="445"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="329"/>
         <source>Toggle Like</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="455"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="339"/>
         <source>Toggle Share</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="472"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="356"/>
         <source>URL was copied to the clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="486"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="372"/>
         <source>Increase font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="478"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="362"/>
         <source>Decrease font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="119"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="89"/>
         <source>Wait until current task is complete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="125"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="95"/>
         <source>Offline version not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="133"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="103"/>
         <source>Enabling offline mode because network is disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="137"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="107"/>
         <source>Network is disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/FeedWebContentPage.qml" line="469"/>
+        <location filename="../qml/FeedWebContentPage.qml" line="353"/>
         <source>Copy URL</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1115,9 +1109,13 @@ tıklayın.</translation>
 <context>
     <name>PageMenu</name>
     <message>
-        <location filename="../qml/PageMenu.qml" line="34"/>
         <source>About</source>
-        <translation>Hakkında</translation>
+        <translation type="vanished">Hakkında</translation>
+    </message>
+    <message>
+        <location filename="../qml/PageMenu.qml" line="34"/>
+        <source>About %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="43"/>
@@ -1207,12 +1205,11 @@ Network connection is unavailable.</source>
 <context>
     <name>PocketAuthWebViewPage</name>
     <message>
-        <location filename="../qml/PocketAuthWebViewPage.qml" line="77"/>
         <source>Loading page content...</source>
-        <translation type="unfinished">Sayfa verisi yükleniyor...</translation>
+        <translation type="obsolete">Sayfa verisi yükleniyor...</translation>
     </message>
     <message>
-        <location filename="../qml/PocketAuthWebViewPage.qml" line="122"/>
+        <location filename="../qml/PocketAuthWebViewPage.qml" line="94"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1243,37 +1240,37 @@ Network connection is unavailable.</source>
 <context>
     <name>ReadAllDialog</name>
     <message>
-        <location filename="../qml/ReadAllDialog.qml" line="51"/>
+        <location filename="../qml/ReadAllDialog.qml" line="40"/>
         <source>Yes</source>
         <translation>Evet</translation>
     </message>
     <message>
-        <location filename="../qml/ReadAllDialog.qml" line="68"/>
+        <location filename="../qml/ReadAllDialog.qml" line="57"/>
         <source>Mark all your articles as read?</source>
         <translation>Tüm makaleler okunmuş olarak işaretlensin mi ?</translation>
     </message>
     <message>
-        <location filename="../qml/ReadAllDialog.qml" line="70"/>
+        <location filename="../qml/ReadAllDialog.qml" line="59"/>
         <source>Mark all saved articles as read?</source>
         <translation>Tüm kaydedilmiş makaleler okunmuş olarak işaretlensin mi ?</translation>
     </message>
     <message>
-        <location filename="../qml/ReadAllDialog.qml" line="71"/>
+        <location filename="../qml/ReadAllDialog.qml" line="60"/>
         <source>Mark articles as read?</source>
         <translation>Tüm makaleler okunmuş işaretlensin mi ?</translation>
     </message>
     <message>
-        <location filename="../qml/ReadAllDialog.qml" line="62"/>
+        <location filename="../qml/ReadAllDialog.qml" line="51"/>
         <source>Mark all tabs as read?</source>
         <translation>Tüm sekmeler okunmuş işaretlensin mi ?</translation>
     </message>
     <message>
-        <location filename="../qml/ReadAllDialog.qml" line="65"/>
+        <location filename="../qml/ReadAllDialog.qml" line="54"/>
         <source>Mark feeds as read?</source>
         <translation>Besleme okunmuş işaretlensin mi ?</translation>
     </message>
     <message>
-        <location filename="../qml/ReadAllDialog.qml" line="70"/>
+        <location filename="../qml/ReadAllDialog.qml" line="59"/>
         <source>Mark all starred articles as read?</source>
         <translation>Tüm yıldızlı makaleler okunmuş işaretlensin mi ?</translation>
     </message>
@@ -1281,22 +1278,22 @@ Network connection is unavailable.</source>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="62"/>
+        <location filename="../qml/SettingsPage.qml" line="52"/>
         <source>Settings</source>
         <translation>Ayarlar</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="154"/>
+        <location filename="../qml/SettingsPage.qml" line="144"/>
         <source>Dashboard in use</source>
         <translation>Kullanılan panel:</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="154"/>
+        <location filename="../qml/SettingsPage.qml" line="144"/>
         <source>Dashboard not selected</source>
         <translation>Panel seçilmedi</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="168"/>
+        <location filename="../qml/SettingsPage.qml" line="158"/>
         <source>Change</source>
         <translation>Değiştir</translation>
     </message>
@@ -1305,47 +1302,47 @@ Network connection is unavailable.</source>
         <translation type="vanished">Giriş yapılmadı</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="109"/>
+        <location filename="../qml/SettingsPage.qml" line="99"/>
         <source>Signed in with</source>
         <translation>Giriş yapıldı</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="179"/>
+        <location filename="../qml/SettingsPage.qml" line="169"/>
         <source>Syncronization</source>
         <translation>Eşleme</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="184"/>
+        <location filename="../qml/SettingsPage.qml" line="174"/>
         <source>Sync timeframe</source>
         <translation>Eşleme süreci</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="204"/>
+        <location filename="../qml/SettingsPage.qml" line="194"/>
         <source>1 Day</source>
         <translation>1 gün</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="205"/>
+        <location filename="../qml/SettingsPage.qml" line="195"/>
         <source>3 Days</source>
         <translation>3 gün</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="206"/>
+        <location filename="../qml/SettingsPage.qml" line="196"/>
         <source>1 Week</source>
         <translation>1 hafta</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="207"/>
+        <location filename="../qml/SettingsPage.qml" line="197"/>
         <source>2 Weeks</source>
         <translation>2 hafta</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="208"/>
+        <location filename="../qml/SettingsPage.qml" line="198"/>
         <source>1 Month</source>
         <translation>1 ay</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="209"/>
+        <location filename="../qml/SettingsPage.qml" line="199"/>
         <source>Wide as possible</source>
         <translation>Mümkün olduğunca geniş</translation>
     </message>
@@ -1354,44 +1351,38 @@ Network connection is unavailable.</source>
         <translation type="vanished">Çevrimdışı modda, Kaktus yalnızca ağ bağlantısı gerekli değil web sayfaları ve görüntüleri, almak için yerel önbelleği kullanır.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="335"/>
+        <location filename="../qml/SettingsPage.qml" line="325"/>
         <source>Never</source>
         <translation>Asla</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="336"/>
+        <location filename="../qml/SettingsPage.qml" line="326"/>
         <source>WiFi only</source>
         <translation>Sadece Wifi</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="337"/>
+        <location filename="../qml/SettingsPage.qml" line="327"/>
         <source>Always</source>
         <translation>Her zaman</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="344"/>
+        <location filename="../qml/SettingsPage.qml" line="334"/>
         <source>After sync the content of all items will be downloaded and cached for access in the offline mode.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="576"/>
+        <location filename="../qml/SettingsPage.qml" line="538"/>
         <source>Clicking on article behaviour</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="363"/>
-        <location filename="../qml/SettingsPage.qml" line="581"/>
+        <location filename="../qml/SettingsPage.qml" line="543"/>
         <source>External browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="582"/>
+        <location filename="../qml/SettingsPage.qml" line="544"/>
         <source>Feed content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="362"/>
-        <source>Disabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1403,37 +1394,37 @@ Network connection is unavailable.</source>
         <translation type="vanished">Web sayfaları kolay okunabilir versiyona geçti.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="625"/>
+        <location filename="../qml/SettingsPage.qml" line="587"/>
         <source>Expanded items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="626"/>
+        <location filename="../qml/SettingsPage.qml" line="588"/>
         <source>All article items on the list view be shown expanded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="636"/>
+        <location filename="../qml/SettingsPage.qml" line="598"/>
         <source>Double-pane reader</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="636"/>
+        <location filename="../qml/SettingsPage.qml" line="598"/>
         <source>Double-pane reader in landscape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="637"/>
+        <location filename="../qml/SettingsPage.qml" line="599"/>
         <source>View with the articles will be splited in to two colums.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="637"/>
+        <location filename="../qml/SettingsPage.qml" line="599"/>
         <source>View with the articles in the landscape orientation will be splited in to two colums.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="615"/>
+        <location filename="../qml/SettingsPage.qml" line="577"/>
         <source>Following Old Reader&apos;s social features will be enabled: Following folder, Sharing article with followers, Like option, Liked articles view mode.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1454,246 +1445,240 @@ Network connection is unavailable.</source>
         <translation type="vanished">+50%</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="288"/>
+        <location filename="../qml/SettingsPage.qml" line="278"/>
         <source>Delete cache</source>
         <translation>Önbelleği sil</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="236"/>
+        <location filename="../qml/SettingsPage.qml" line="226"/>
         <source>Most recent articles will be syncronized according to the defined timeframe.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="104"/>
+        <location filename="../qml/SettingsPage.qml" line="94"/>
         <source>Not signed in</source>
         <translation type="unfinished">Giriş yapılmadı</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="109"/>
+        <location filename="../qml/SettingsPage.qml" line="99"/>
         <source>Signed in as</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="237"/>
+        <location filename="../qml/SettingsPage.qml" line="227"/>
         <source>Regardless of the value, all starred, liked and shared items will be synced as well.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="237"/>
+        <location filename="../qml/SettingsPage.qml" line="227"/>
         <source>Regardless of the value, all saved items will be synced as well.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="238"/>
+        <location filename="../qml/SettingsPage.qml" line="228"/>
         <source>Be aware, this parameter has significant impact on the speed of synchronization.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="243"/>
+        <location filename="../qml/SettingsPage.qml" line="233"/>
         <source>Sync read articles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="244"/>
+        <location filename="../qml/SettingsPage.qml" line="234"/>
         <source>In addition to unread also read articles will be synced. Disabling this option will speed up synchronization, but read articles will not be accessible form Kaktus.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="299"/>
+        <location filename="../qml/SettingsPage.qml" line="289"/>
         <source>Network mode</source>
         <translation>Bağlantı modu</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="314"/>
+        <location filename="../qml/SettingsPage.qml" line="304"/>
         <source>In offline mode, Kaktus will only use local cache to get web pages and images, so network connection won&apos;t be needed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="319"/>
+        <location filename="../qml/SettingsPage.qml" line="309"/>
         <source>Auto network mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="320"/>
+        <location filename="../qml/SettingsPage.qml" line="310"/>
         <source>Network mode will be switched automatically on network connection lost or restore.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="353"/>
-        <location filename="../qml/SettingsPage.qml" line="364"/>
-        <location filename="../qml/SettingsPage.qml" line="580"/>
+        <location filename="../qml/SettingsPage.qml" line="343"/>
+        <location filename="../qml/SettingsPage.qml" line="542"/>
         <source>Web viewer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="371"/>
-        <source>Defines how navigation is handled inside built-in web viewer. Hyperlinks could be disabled, opened in an external browser or opened inside web viewer.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="375"/>
+        <location filename="../qml/SettingsPage.qml" line="365"/>
         <source>Auto switch to Reader View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="376"/>
+        <location filename="../qml/SettingsPage.qml" line="366"/>
         <source>Reader View is a feature that strips away clutter like buttons, ads and background images, and changes the page&apos;s layout for better readability. By enabling this option, Reader View will be automatically switch on when page is loaded in the web viewer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="415"/>
+        <location filename="../qml/SettingsPage.qml" line="377"/>
         <source>Auto switch to Night View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="416"/>
+        <location filename="../qml/SettingsPage.qml" line="378"/>
         <source>Night View reduces the brightness of websites. By enabling this option, Night View will be automatically switch on when page is loaded in the web viewer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="429"/>
+        <location filename="../qml/SettingsPage.qml" line="391"/>
         <source>Viewer font size level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="443"/>
+        <location filename="../qml/SettingsPage.qml" line="405"/>
         <source>Delete cookies</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="444"/>
+        <location filename="../qml/SettingsPage.qml" line="406"/>
         <source>Clear web viewer cache and cookies. Changes will take effect after restart.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="462"/>
+        <location filename="../qml/SettingsPage.qml" line="424"/>
         <source>Language</source>
         <translation>Dil</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="470"/>
+        <location filename="../qml/SettingsPage.qml" line="432"/>
         <source>Default</source>
         <translation>Varsayılan</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="486"/>
+        <location filename="../qml/SettingsPage.qml" line="448"/>
         <source>Changes will take effect after you restart Kaktus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="492"/>
+        <location filename="../qml/SettingsPage.qml" line="454"/>
         <source>View mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="511"/>
+        <location filename="../qml/SettingsPage.qml" line="473"/>
         <source>Tabs, feeds &amp; articles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="511"/>
+        <location filename="../qml/SettingsPage.qml" line="473"/>
         <source>Folders, feeds &amp; articles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="515"/>
+        <location filename="../qml/SettingsPage.qml" line="477"/>
         <source>Tabs &amp; articles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="515"/>
+        <location filename="../qml/SettingsPage.qml" line="477"/>
         <source>Folders &amp; articles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="519"/>
-        <location filename="../qml/SettingsPage.qml" line="598"/>
+        <location filename="../qml/SettingsPage.qml" line="481"/>
+        <location filename="../qml/SettingsPage.qml" line="560"/>
         <source>All articles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="523"/>
+        <location filename="../qml/SettingsPage.qml" line="485"/>
         <source>Saved</source>
         <translation type="unfinished">Kaydedildi</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="523"/>
+        <location filename="../qml/SettingsPage.qml" line="485"/>
         <source>Starred</source>
         <translation type="unfinished">Yıldızlılar</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="529"/>
+        <location filename="../qml/SettingsPage.qml" line="491"/>
         <source>Slow</source>
         <translation type="unfinished">Yavaş</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="529"/>
+        <location filename="../qml/SettingsPage.qml" line="491"/>
         <source>Liked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="556"/>
+        <location filename="../qml/SettingsPage.qml" line="518"/>
         <source>Sort order for list of articles</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="560"/>
+        <location filename="../qml/SettingsPage.qml" line="522"/>
         <source>Recent first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="561"/>
+        <location filename="../qml/SettingsPage.qml" line="523"/>
         <source>Oldest first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="677"/>
+        <location filename="../qml/SettingsPage.qml" line="627"/>
         <source>Pocket</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="681"/>
+        <location filename="../qml/SettingsPage.qml" line="631"/>
         <source>Pocket integration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="682"/>
+        <location filename="../qml/SettingsPage.qml" line="632"/>
         <source>Pocket is an Internet tool for saving articles to read later. Integration implemented in Kaktus provides &quot;Add to Pocket&quot; button in the articles list and in the web viewer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="700"/>
-        <location filename="../qml/SettingsPage.qml" line="701"/>
+        <location filename="../qml/SettingsPage.qml" line="650"/>
+        <location filename="../qml/SettingsPage.qml" line="651"/>
         <source>Default tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="703"/>
+        <location filename="../qml/SettingsPage.qml" line="653"/>
         <source>List of comma seperated tags that will be automatically inserted when you add article to Pocket.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="733"/>
+        <location filename="../qml/SettingsPage.qml" line="683"/>
         <source>Quick adding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="734"/>
+        <location filename="../qml/SettingsPage.qml" line="684"/>
         <source>If enabled, article will be send to Pocket immediately after you click on &quot;Add to Pocket&quot; button, so without any confirmation dialog. All tags from &quot;Default tags&quot; field will be automatically added.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="744"/>
+        <location filename="../qml/SettingsPage.qml" line="694"/>
         <source>Delete saved tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="747"/>
+        <location filename="../qml/SettingsPage.qml" line="697"/>
         <source>Saved tags have been deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="760"/>
+        <location filename="../qml/SettingsPage.qml" line="710"/>
         <source>Ignore SSL errors</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1706,7 +1691,7 @@ Network connection is unavailable.</source>
         <translation type="vanished">Görüntüleri göster</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="756"/>
+        <location filename="../qml/SettingsPage.qml" line="706"/>
         <source>Other</source>
         <translation>Diğer</translation>
     </message>
@@ -1715,17 +1700,17 @@ Network connection is unavailable.</source>
         <translation type="vanished">Kullanıcı Kılavuzunu Göster</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="303"/>
+        <location filename="../qml/SettingsPage.qml" line="293"/>
         <source>Online</source>
         <translation>Çevrimiçi</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="304"/>
+        <location filename="../qml/SettingsPage.qml" line="294"/>
         <source>Offline</source>
         <translation>Çevrimdışı</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="331"/>
+        <location filename="../qml/SettingsPage.qml" line="321"/>
         <source>Cache articles</source>
         <translation>Makaleleri önbellekle</translation>
     </message>
@@ -1734,32 +1719,32 @@ Network connection is unavailable.</source>
         <translation type="vanished">Sadece okunmamış makaleleri göster</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="124"/>
+        <location filename="../qml/SettingsPage.qml" line="114"/>
         <source>Sign out</source>
         <translation>Oturum kapat</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="124"/>
+        <location filename="../qml/SettingsPage.qml" line="114"/>
         <source>Sign in</source>
         <translation>Giriş</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="259"/>
+        <location filename="../qml/SettingsPage.qml" line="249"/>
         <source>Cache</source>
         <translation>Önbellek</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="277"/>
+        <location filename="../qml/SettingsPage.qml" line="267"/>
         <source>Current cache size</source>
         <translation>Mevcut önbellek boyutu</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="599"/>
+        <location filename="../qml/SettingsPage.qml" line="561"/>
         <source>Unread or starred</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="613"/>
+        <location filename="../qml/SettingsPage.qml" line="575"/>
         <source>Social features</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1772,67 +1757,62 @@ Network connection is unavailable.</source>
         <translation type="vanished">Telefon veya uygulaması için boşta çalışma durumuna girdiğinde, tüm açılan web sayfaları daha düşük güç tüketimi için kapalıdır.</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="664"/>
+        <location filename="../qml/SettingsPage.qml" line="614"/>
         <source>Dynamic</source>
         <translation>Dinamik</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="456"/>
+        <location filename="../qml/SettingsPage.qml" line="418"/>
         <source>UI</source>
         <translation>Arayüz</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="358"/>
-        <source>Open link behaviour</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/SettingsPage.qml" line="447"/>
+        <location filename="../qml/SettingsPage.qml" line="409"/>
         <source>Cache and cookies have been deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="589"/>
+        <location filename="../qml/SettingsPage.qml" line="551"/>
         <source>Defines the behavior for clicking on an article item. Article can be opened in the built-in web viewer, opened in an external browser or full RSS feed content can be shown.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="594"/>
+        <location filename="../qml/SettingsPage.qml" line="556"/>
         <source>List filtering</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="599"/>
+        <location filename="../qml/SettingsPage.qml" line="561"/>
         <source>Unread or saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="600"/>
+        <location filename="../qml/SettingsPage.qml" line="562"/>
         <source>Only unread</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="608"/>
+        <location filename="../qml/SettingsPage.qml" line="570"/>
         <source>List of articles can be filtered to display all articles, unread and saved or only unread.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="609"/>
+        <location filename="../qml/SettingsPage.qml" line="571"/>
         <source>List of articles can be filtered to display all articles, unread and starred or only unread.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="660"/>
+        <location filename="../qml/SettingsPage.qml" line="610"/>
         <source>Orientation</source>
         <translation>Ekran durumu</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="665"/>
+        <location filename="../qml/SettingsPage.qml" line="615"/>
         <source>Portrait</source>
         <translation>Düz</translation>
     </message>
     <message>
-        <location filename="../qml/SettingsPage.qml" line="666"/>
+        <location filename="../qml/SettingsPage.qml" line="616"/>
         <source>Landscape</source>
         <translation>Yan</translation>
     </message>
@@ -1970,7 +1950,7 @@ Network connection is unavailable.</source>
 <context>
     <name>TabPage</name>
     <message>
-        <location filename="../qml/TabPage.qml" line="70"/>
+        <location filename="../qml/TabPage.qml" line="60"/>
         <source>Tabs</source>
         <translation>Sekmeler</translation>
     </message>
@@ -1979,47 +1959,47 @@ Network connection is unavailable.</source>
         <translation type="vanished">Eşlemenin bitmesini bekleyin.</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="80"/>
+        <location filename="../qml/TabPage.qml" line="70"/>
         <source>Uncategorized</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="90"/>
+        <location filename="../qml/TabPage.qml" line="80"/>
         <source>Mark all as read</source>
         <translation>Tüm. okunmuş işaretle</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="99"/>
+        <location filename="../qml/TabPage.qml" line="89"/>
         <source>Mark all as unread</source>
         <translation>Tüm. okunmamış işaretle</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="130"/>
+        <location filename="../qml/TabPage.qml" line="119"/>
         <source>Wait until sync finish</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="131"/>
+        <location filename="../qml/TabPage.qml" line="120"/>
         <source>No tabs</source>
         <translation>Sekme yok</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="70"/>
+        <location filename="../qml/TabPage.qml" line="60"/>
         <source>Folders</source>
         <translation>Klasörler</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="78"/>
+        <location filename="../qml/TabPage.qml" line="68"/>
         <source>Subscriptions</source>
         <translation>Abonelikler</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="79"/>
+        <location filename="../qml/TabPage.qml" line="69"/>
         <source>Following</source>
         <translation>Takip</translation>
     </message>
     <message>
-        <location filename="../qml/TabPage.qml" line="131"/>
+        <location filename="../qml/TabPage.qml" line="120"/>
         <source>No folders</source>
         <translation>Klasör yok</translation>
     </message>
@@ -2027,37 +2007,37 @@ Network connection is unavailable.</source>
 <context>
     <name>UnreadAllDialog</name>
     <message>
-        <location filename="../qml/UnreadAllDialog.qml" line="50"/>
+        <location filename="../qml/UnreadAllDialog.qml" line="39"/>
         <source>Yes</source>
         <translation>Evet</translation>
     </message>
     <message>
-        <location filename="../qml/UnreadAllDialog.qml" line="61"/>
+        <location filename="../qml/UnreadAllDialog.qml" line="50"/>
         <source>Mark tab as unread?</source>
         <translation>Sekme okunmamış işaretlensin mi ?</translation>
     </message>
     <message>
-        <location filename="../qml/UnreadAllDialog.qml" line="64"/>
+        <location filename="../qml/UnreadAllDialog.qml" line="53"/>
         <source>Mark feed as unread?</source>
         <translation>Besleme okunmamış işaretlensin mi ?</translation>
     </message>
     <message>
-        <location filename="../qml/UnreadAllDialog.qml" line="69"/>
+        <location filename="../qml/UnreadAllDialog.qml" line="58"/>
         <source>Mark all starred articles as unread?</source>
         <translation>Tüm yıldızlı makaleler okunmamış işaretlensin mi ?</translation>
     </message>
     <message>
-        <location filename="../qml/UnreadAllDialog.qml" line="67"/>
+        <location filename="../qml/UnreadAllDialog.qml" line="56"/>
         <source>Mark all your articles as unread?</source>
         <translation>Tüm makaleler okunmamış işaretlensin mi ?</translation>
     </message>
     <message>
-        <location filename="../qml/UnreadAllDialog.qml" line="69"/>
+        <location filename="../qml/UnreadAllDialog.qml" line="58"/>
         <source>Mark all saved articles as unread?</source>
         <translation>Tüm kaydedilmiş makaleler okunmamış işaretlensin mi ?</translation>
     </message>
     <message>
-        <location filename="../qml/UnreadAllDialog.qml" line="70"/>
+        <location filename="../qml/UnreadAllDialog.qml" line="59"/>
         <source>Mark articles as unread?</source>
         <translation>Makaleler okunmamış işaretlensin mi ?</translation>
     </message>
@@ -2065,43 +2045,43 @@ Network connection is unavailable.</source>
 <context>
     <name>Utils</name>
     <message>
-        <location filename="../src/utils.cpp" line="337"/>
+        <location filename="../src/utils.cpp" line="205"/>
         <source>empty</source>
         <translation>boş</translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="361"/>
+        <location filename="../src/utils.cpp" line="224"/>
         <source>unknown date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/utils.cpp" line="364"/>
+        <location filename="../src/utils.cpp" line="227"/>
         <source>just now</source>
         <translation>şimdi</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/utils.cpp" line="367"/>
+        <location filename="../src/utils.cpp" line="230"/>
         <source>%n second(s) ago</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/utils.cpp" line="370"/>
+        <location filename="../src/utils.cpp" line="233"/>
         <source>%n minute(s) ago</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/utils.cpp" line="373"/>
+        <location filename="../src/utils.cpp" line="236"/>
         <source>%n hour(s) ago</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/utils.cpp" line="379"/>
+        <location filename="../src/utils.cpp" line="242"/>
         <source>%n day(s) ago</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -2167,10 +2147,8 @@ Network connection is unavailable.</source>
 <context>
     <name>WebPreviewPage</name>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="66"/>
-        <location filename="../qml/WebPreviewPage.qml" line="258"/>
         <source>Loading page content...</source>
-        <translation>Sayfa verisi yükleniyor...</translation>
+        <translation type="vanished">Sayfa verisi yükleniyor...</translation>
     </message>
     <message>
         <source>Failed to load item from local cache :-(</source>
@@ -2189,92 +2167,77 @@ Network connection is unavailable.</source>
         <translation type="vanished">Okuyucu moduna geçilemedi :-(</translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="349"/>
+        <location filename="../qml/WebPreviewPage.qml" line="222"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="355"/>
+        <location filename="../qml/WebPreviewPage.qml" line="228"/>
         <source>Toggle Read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="369"/>
+        <location filename="../qml/WebPreviewPage.qml" line="242"/>
         <source>Toggle Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="369"/>
+        <location filename="../qml/WebPreviewPage.qml" line="242"/>
         <source>Toggle Star</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="383"/>
+        <location filename="../qml/WebPreviewPage.qml" line="256"/>
         <source>Toggle Reader View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="393"/>
+        <location filename="../qml/WebPreviewPage.qml" line="266"/>
         <source>Toggle Night View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="403"/>
+        <location filename="../qml/WebPreviewPage.qml" line="281"/>
         <source>Browser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="414"/>
+        <location filename="../qml/WebPreviewPage.qml" line="291"/>
         <source>Add to Pocket</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="426"/>
-        <source>Share link</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/WebPreviewPage.qml" line="433"/>
+        <location filename="../qml/WebPreviewPage.qml" line="302"/>
         <source>Toggle Like</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="443"/>
+        <location filename="../qml/WebPreviewPage.qml" line="312"/>
         <source>Toggle Share</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="474"/>
+        <location filename="../qml/WebPreviewPage.qml" line="345"/>
         <source>Increase font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="466"/>
+        <location filename="../qml/WebPreviewPage.qml" line="335"/>
         <source>Decrease font</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="277"/>
-        <source>Failed to load page from local cache</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/WebPreviewPage.qml" line="279"/>
-        <source>Failed to load page content</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/WebPreviewPage.qml" line="460"/>
+        <location filename="../qml/WebPreviewPage.qml" line="329"/>
         <source>URL was copied to the clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="482"/>
+        <location filename="../qml/WebPreviewPage.qml" line="355"/>
         <source>Hide toolbar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/WebPreviewPage.qml" line="457"/>
+        <location filename="../qml/WebPreviewPage.qml" line="326"/>
         <source>Copy URL</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2286,7 +2249,7 @@ Network connection is unavailable.</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../qml/main.qml" line="102"/>
+        <location filename="../qml/main.qml" line="96"/>
         <source>Feeds</source>
         <translation>Beslemeler</translation>
     </message>
@@ -2315,107 +2278,107 @@ Bağlantı mevcut değil.</translation>
         <translation type="vanished">Veri alınıyor...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="165"/>
+        <location filename="../qml/main.qml" line="154"/>
         <source>Restart the app to rebuild cache data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="191"/>
+        <location filename="../qml/main.qml" line="179"/>
         <source>Caching... %1 of %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="194"/>
+        <location filename="../qml/main.qml" line="182"/>
         <source>Caching...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="216"/>
+        <location filename="../qml/main.qml" line="202"/>
         <source>Download has failed because network is disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="221"/>
+        <location filename="../qml/main.qml" line="207"/>
         <source>Removing cache data... %1 of %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="294"/>
+        <location filename="../qml/main.qml" line="279"/>
         <source>Unable to sign in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="298"/>
+        <location filename="../qml/main.qml" line="283"/>
         <source>Network connection is unavailable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="308"/>
-        <location filename="../qml/main.qml" line="340"/>
+        <location filename="../qml/main.qml" line="293"/>
+        <location filename="../qml/main.qml" line="325"/>
         <source>The user name or password is incorrect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="310"/>
+        <location filename="../qml/main.qml" line="295"/>
         <source>Access through API is disabled on a server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="312"/>
+        <location filename="../qml/main.qml" line="297"/>
         <source>Problem with SSL certificate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="329"/>
+        <location filename="../qml/main.qml" line="314"/>
         <source>Cannot save image in gallery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="331"/>
+        <location filename="../qml/main.qml" line="316"/>
         <source>Image already exists in gallery</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="334"/>
+        <location filename="../qml/main.qml" line="319"/>
         <source>Unknown error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="344"/>
+        <location filename="../qml/main.qml" line="329"/>
         <source>You are signed in</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="349"/>
+        <location filename="../qml/main.qml" line="334"/>
         <source>Receiving data...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="355"/>
-        <location filename="../qml/main.qml" line="361"/>
+        <location filename="../qml/main.qml" line="340"/>
+        <location filename="../qml/main.qml" line="346"/>
         <source>Sending data...</source>
         <translation>Veri gönderiliyor...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="371"/>
+        <location filename="../qml/main.qml" line="356"/>
         <source>Initiating...</source>
         <translation>Yükleniyor...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="375"/>
+        <location filename="../qml/main.qml" line="360"/>
         <source>Updating...</source>
         <translation>Güncelleniyor</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="379"/>
-        <location filename="../qml/main.qml" line="383"/>
+        <location filename="../qml/main.qml" line="364"/>
+        <location filename="../qml/main.qml" line="368"/>
         <source>Signing in...</source>
         <translation>Giriş yapılıyor...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="387"/>
-        <location filename="../qml/main.qml" line="391"/>
-        <location filename="../qml/main.qml" line="395"/>
+        <location filename="../qml/main.qml" line="372"/>
+        <location filename="../qml/main.qml" line="376"/>
+        <location filename="../qml/main.qml" line="380"/>
         <source>Waiting for network...</source>
         <translation>Bağlantı bekleniyor...</translation>
     </message>
