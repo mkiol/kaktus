@@ -27,6 +27,16 @@
 #include "settings.h"
 #include "utils.h"
 
+static void makeAppDirs() {
+    auto root = QDir::root();
+    root.mkpath(
+        QStandardPaths::writableLocation(QStandardPaths::ConfigLocation));
+    root.mkpath(
+        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+    root.mkpath(
+        QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+}
+
 static void registerTypes() {
     qRegisterMetaType<DatabaseManager::CacheItem>("CacheItem");
     qmlRegisterUncreatableType<Settings>(
@@ -85,6 +95,7 @@ Q_DECL_EXPORT int main(int argc, char **argv) {
 
     auto *settings = Settings::instance();
     installTranslator(settings->getLocale());
+    makeAppDirs();
 
     view->engine()->addImageProvider(QStringLiteral("icons"),
                                      new IconProvider{});
