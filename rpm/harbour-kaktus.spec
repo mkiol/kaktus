@@ -8,7 +8,7 @@ Name:       harbour-kaktus
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    Kaktus
-Version:    3.0.4
+Version:    3.1.0
 Release:    1
 Group:      Qt/Qt
 License:    MPL-2.0
@@ -28,8 +28,7 @@ BuildRequires:  sailfish-components-webview-qt5-popups
 BuildRequires:  sailfish-components-webview-qt5-devel
 
 %description
-Multi aggregators mobile feed reader
-
+Multi aggregators mobile feed reader for Sailfish OS
 
 %prep
 %setup -q -n %{name}-%{version}

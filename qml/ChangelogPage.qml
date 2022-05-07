@@ -61,6 +61,28 @@ Page {
             }
 
             SectionHeader {
+                text: qsTr("Version %1").arg("3.1")
+            }
+
+            LogItem {
+                title: "Improved web viewer"
+                description: "Old WebKit based web view is replaced with new Sailfish WebView based on Gecko engine. " +
+                             "Thanks to this change many web rendering bugs disappeared and html pages look much better now."
+            }
+
+            LogItem {
+                title: "Reader View update"
+                description: "Engine behind Reader View (Mozilla's Readability.js lib) has been " +
+                             "updated to the most recent version."
+            }
+
+            LogItem {
+                title: "Sandboxing"
+                description: "SailJail is now explicitly enabled with " +
+                             "following permissions needed: Internet, Pictures, WebView."
+            }
+
+            SectionHeader {
                 text: qsTr("Version %1").arg("3.0.4")
             }
 
@@ -103,82 +125,6 @@ Page {
                 title: "Fixes for bugs discovered on SFOS 4.0"
                 description: "In the recent SFOS version certain app pages couldn't be loaded." +
                              "This issue is now resolved."
-            }
-
-            SectionHeader {
-                text: qsTr("Version %1").arg("3.0.0")
-            }
-
-            LogItem {
-                title: "Tiny Tiny RSS"
-                description: "Tiny Tiny RSS is now supported as a new feeds " +
-                             "aggregator. Tiny Tiny RSS is a free and " +
-                             "open source web-based news feed (RSS/Atom) reader. " +
-                             "To find more about it, please check the official " +
-                             "<a href=\"https://tt-rss.org/\">web page</a>. " +
-                             "Many thanks to Renaud Casenave-Péré for the implementation."
-            }
-
-            LogItem {
-                title: "UI refresh"
-                description: "The app UI has been updated to match the newest " +
-                             "Sailfish OS style. Many small elements of " +
-                             "Tabs, Feeds and Aricles lists have been improved, " +
-                             "together with images presentation and UI colors. " +
-                             "Support for Light themes has been added as well."
-            }
-
-            LogItem {
-                title: "Save images to gallery"
-                description: "If article item contains Image, it can be " +
-                             "saved to the gallery. The option to do so is " +
-                             "located in the item's context menu."
-            }
-
-            LogItem {
-                title: "Translations update"
-                description: "Translations for Spanish, Chinese, German, " +
-                             "Belgian Dutch and Netherlands Dutch have been updated. " +
-                             "Many thanks to Carmen Fernández B., Rui Kon, " +
-                             "qwer_asew, Nathan Follens and Heimen Stoffels.";
-            }
-
-            SectionHeader {
-                text: qsTr("Version %1").arg("2.6.1")
-            }
-
-            LogItem {
-                title: "Support for OnePlus X"
-                description: "Missing icons on OnePlus X have beed fixed.";
-            }
-
-            SectionHeader {
-                text: qsTr("Version %1").arg("2.6.0")
-            }
-
-            LogItem {
-                title: "Pocket integration"
-                description: "Pocket is an Internet tool for saving articles to read later. " +
-                             "Integration implemented in Kaktus provides \"Add to Pocket\" " +
-                             "button in the articles list and in the web viewer.";
-            }
-
-            LogItem {
-                title: "Share link"
-                description: "\"Share link\" button has been added. " +
-                             "Due to Jolla Store restrictions it will be " +
-                             "enabled only in OpenRepos package.";
-            }
-
-            LogItem {
-                title: "Improved app icon"
-                description: "Kaktus icon has a new fresh look!"
-            }
-
-            LogItem {
-                title: "Delete web viewer cookies"
-                description: "Option in the settings that allows you to clear " +
-                             "cache and cookies of the web viewer."
             }
 
             Spacer {}
