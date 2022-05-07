@@ -34,6 +34,7 @@ WebViewPage {
     property bool _nightModePossible: false
     readonly property bool _autoReaderMode: settings.readerMode
     property bool _zoomPossible: false
+    property bool _themePossible: false
     property bool autoRead: true
     readonly property color _bgColor: Theme.colorScheme === Theme.LightOnDark ?
                                           Qt.darker(Theme.highlightBackgroundColor, 5.0) :
@@ -62,15 +63,30 @@ WebViewPage {
     }
 
     function init_js() {
+        var s = {
+                    primaryColor: Theme.rgba(Theme.primaryColor, 1.0).toString(),
+                    secondaryColor: Theme.rgba(Theme.secondaryColor, 1.0).toString(),
+                    highlightColor: Theme.rgba(Theme.highlightColor, 1.0).toString(),
+                    bgColor: Theme.rgba(root._bgColor, 1.0).toString(),
+                    fontFamily: Theme.fontFamily,
+                    fontFamilyHeading: Theme.fontFamilyHeading,
+                    pageMargin: Theme.horizontalPageMargin/Theme.pixelRatio,
+                    pageMarginBottom: Theme.itemSizeMedium/Theme.pixelRatio,
+                    fontSize: Theme.fontSizeMedium,
+                    fontSizeTitle: Theme.fontSizeLarge
+                }
+        console.log(JSON.stringify(s))
         var script =
                 utils.readAsset("scripts/Readability.js") + "\n" +
                 utils.readAsset("scripts/reader_view.js") + "\n" +
                 utils.readAsset("scripts/night_mode.js") + "\n" +
                 utils.readAsset("scripts/zoom.js") + "\n" +
-                "var res = {reader_view: false,night_mode: false,zoom: false}\n" +
+                utils.readAsset("scripts/theme.js") + "\n" +
+                "var res = {reader_view: false,night_mode: false,theme: false,zoom: false}\n" +
                 "try {\n" +
                 "res.reader_view = _reader_view_init()\n" +
                 "res.night_mode = _night_mode_init()\n" +
+                "res.theme = _theme_init(" + JSON.stringify(s) + ")\n" +
                 "res.zoom = _zoom_init()\n" +
                 "} catch {}\n" +
                 "return res\n";
@@ -79,9 +95,11 @@ WebViewPage {
             root._readerModePossible = res.reader_view
             root._nightModePossible = res.night_mode
             root._zoomPossible = res.zoom
+            root._themePossible = res.theme
             if (root._readerModePossible) setReaderMode(root._readerMode)
             if (root._nightModePossible) setNightMode(root._nightMode)
             if (root._zoomPossible) setZoom(settings.zoomFontSize())
+            if (root._themePossible && settings.offlineMode && !root._readerMode) setTheme(true)
             controlbar.show()
         }, errorCallback)
     }
@@ -105,6 +123,14 @@ WebViewPage {
         }, errorCallback)
     }
 
+    function setTheme(enabled) {
+        if (!root._themePossible) return
+        var script = "return window._theme_set(" + (enabled ? "true" : "false") + ")\n";
+        view.runJavaScript(script, function(res) {
+            console.log("theme set done:", enabled, res)
+        }, errorCallback)
+    }
+
     function setNightMode(type) {
         if (!root._nightModePossible) return
         var script = "return window._night_mode_set(" + type + ")\n"
@@ -125,6 +151,7 @@ WebViewPage {
 
     function setReaderMode(enabled) {
         if (!root._readerModePossible) return
+        if (settings.offlineMode) setTheme(!enabled)
         var script = "return window._reader_view_set(" + (enabled ? "true" : "false") + ")\n"
         view.runJavaScript(script, function(res) {
             console.log("reader mode switch done:", enabled, res)
@@ -229,8 +256,8 @@ WebViewPage {
         IconBarItem {
             text: qsTr("Toggle Reader View")
             icon: root._readerMode ? "image://icons/icon-m-reader-selected" : "image://icons/icon-m-reader"
-            enabled: root._readerModePossible && !settings.offlineMode
-            visible: !settings.offlineMode
+            enabled: root._readerModePossible
+            visible: true
             onClicked: {
                 root.switchReaderMode()
             }

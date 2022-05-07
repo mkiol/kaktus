@@ -250,8 +250,9 @@ Page {
             }
 
             function openEntryInViewer() {
+                app.hideBar()
                 pageStack.push(Qt.resolvedUrl("WebPreviewPage.qml"),
-                               {"entryId": model.uid,
+                               {
                                    "onlineUrl": delegate.onlineurl,
                                    "offlineUrl": delegate.offlineurl,
                                    "title": model.title,
@@ -272,6 +273,7 @@ Page {
                     return false
                 }
 
+                app.hideBar()
                 pageStack.push(Qt.resolvedUrl("FeedWebContentPage.qml"),
                                {"entryId": model.uid,
                                    "content": model.contentraw,

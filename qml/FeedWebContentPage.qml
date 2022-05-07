@@ -117,8 +117,9 @@ WebViewPage {
     }
 
     function openEntryInViewer() {
+        app.hideBar()
         pageStack.replace(Qt.resolvedUrl("WebPreviewPage.qml"),
-                          {"entryId": entryId,
+                          {
                               "onlineUrl": onlineUrl,
                               "offlineUrl": offlineUrl,
                               "title": title,
@@ -134,8 +135,9 @@ WebViewPage {
     }
 
     function openUrlInViewer(url) {
+        app.hideBar()
         pageStack.replace(Qt.resolvedUrl("WebPreviewPage.qml"),
-                          {"entryId": entryId,
+                          {
                               "onlineUrl": url,
                               "offlineUrl": url,
                               "title": title,
