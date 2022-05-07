@@ -343,7 +343,7 @@ Page {
                     title: qsTr("Web viewer")
 
                     content.sourceComponent: Column {
-                        ComboBox {
+                        /*ComboBox {
                             width: root.width
                             label: qsTr("Open link behaviour")
                             currentIndex: settings.webviewNavigation
@@ -359,7 +359,7 @@ Page {
                             }
 
                             description: qsTr("Defines how navigation is handled inside built-in web viewer. Hyperlinks could be disabled, opened in an external browser or opened inside web viewer.")
-                        }
+                        }*/
 
                         TextSwitchWithIcon {
                             text: qsTr("Auto switch to Reader View")

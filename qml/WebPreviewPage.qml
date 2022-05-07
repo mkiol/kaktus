@@ -28,11 +28,10 @@ WebViewPage {
 
     readonly property variant _settings: settings
     readonly property int _markAsReadTime: 4000
-    property bool _readerMode: false
+    property bool _readerMode: settings.readerMode
     property int _nightMode: settings.nightMode ? 1 : 0
     property bool _readerModePossible: false
     property bool _nightModePossible: false
-    readonly property bool _autoReaderMode: settings.readerMode
     property bool _zoomPossible: false
     property bool _themePossible: false
     property bool autoRead: true
