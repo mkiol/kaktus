@@ -1,64 +1,42 @@
-/*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
-#include <QRegExp>
 #include <QCryptographicHash>
-#include <QTextCodec>
-#include <QFile>
 #include <QDebug>
+#include <QFile>
+#include <QRegExp>
+#include <QTextCodec>
 
-#if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 #include <QUrlQuery>
 #endif
 
 #include "cacheserver.h"
 #include "utils.h"
 
-FilteringWorker::FilteringWorker(QObject *parent) :
-    QThread(parent)
-{
-}
+FilteringWorker::FilteringWorker(QObject *parent) : QThread{parent} {}
 
-void FilteringWorker::start(QHttpRequest *req, QHttpResponse *resp)
-{
+void FilteringWorker::start(QHttpRequest *req, QHttpResponse *resp) {
     sender()->disconnect(this);
     this->req = req;
     this->resp = resp;
     QThread::start(QThread::LowPriority);
 }
 
-void FilteringWorker::run()
-{
-    auto db = DatabaseManager::instance();
+void FilteringWorker::run() {
+    auto *db = DatabaseManager::instance();
 
     QString entryId = req->url().path();
-    if (entryId.at(0) == '/')
-        entryId = entryId.right(entryId.length()-1);
+    if (entryId.at(0) == '/') entryId = entryId.right(entryId.length() - 1);
     item = db->readCacheByEntry(entryId);
-    //qDebug() << "baseUrl3" << item.baseUrl;
-    //qDebug() << "finalUrl3" << item.finalUrl;
 
     QString filename;
     if (item.id.isEmpty()) {
         item = db->readCacheByFinalUrl(entryId);
-        //qDebug() << "baseUrl4" << item.baseUrl;
-        //qDebug() << "finalUrl4" << item.finalUrl;
         filename = entryId;
     } else {
         filename = item.finalUrl;
@@ -73,7 +51,7 @@ void FilteringWorker::run()
         // Converting charset
         QTextCodec *tc;
         QRegExp rx("charset=(\\S*)", Qt::CaseInsensitive);
-        if (rx.indexIn(item.contentType)!=-1)
+        if (rx.indexIn(item.contentType) != -1)
             tc = QTextCodec::codecForName(rx.cap(1).toUtf8());
         else
             tc = QTextCodec::codecForHtml(data);
@@ -92,13 +70,13 @@ void FilteringWorker::run()
     error = false;
 }
 
-void FilteringWorker::resolveRelativeUrls(const QRegExp &rx)
-{
+void FilteringWorker::resolveRelativeUrls(const QRegExp &rx) {
     int i = 1, pos = 0;
     QStringList caps;
     while ((pos = rx.indexIn(content, pos)) != -1) {
-        QString cap = rx.cap(2); cap = cap.mid(1,cap.length()-2);
-        if (cap != "" && cap!= "/" && cap.at(0) != QChar('#'))
+        QString cap = rx.cap(2);
+        cap = cap.mid(1, cap.length() - 2);
+        if (cap != "" && cap != "/" && cap.at(0) != QChar('#'))
             caps.append(cap);
         pos += rx.matchedLength();
         ++i;
@@ -110,23 +88,26 @@ void FilteringWorker::resolveRelativeUrls(const QRegExp &rx)
         QUrl capUrl(cap);
         QUrl baseUrl(item.baseUrl);
         // (capUrl.scheme()=="http" || capUrl.scheme()=="https") &&
-        //qDebug() << "baseUrl:" << baseUrl << "cap:" << cap;
+        // qDebug() << "baseUrl:" << baseUrl << "cap:" << cap;
         if (capUrl.isRelative()) {
-            content.replace("'"+cap+"'", "'"+baseUrl.resolved(capUrl).toString()+"'");
-            content.replace("\""+cap+"\"", "\""+baseUrl.resolved(capUrl).toString()+"\"");
-            //qDebug() << "cap is relative" << baseUrl.resolved(capUrl).toString();
+            content.replace("'" + cap + "'",
+                            "'" + baseUrl.resolved(capUrl).toString() + "'");
+            content.replace("\"" + cap + "\"",
+                            "\"" + baseUrl.resolved(capUrl).toString() + "\"");
+            // qDebug() << "cap is relative" <<
+            // baseUrl.resolved(capUrl).toString();
         }
         ++it;
     }
 }
 
-void FilteringWorker::removeUrls(const QRegExp &rx)
-{
+void FilteringWorker::removeUrls(const QRegExp &rx) {
     int i = 1, pos = 0;
     QStringList caps;
     while ((pos = rx.indexIn(content, pos)) != -1) {
-        QString cap = rx.cap(2); cap = cap.mid(1,cap.length()-2);
-        if (cap != "" && cap!= "/" && cap.at(0) != QChar('#'))
+        QString cap = rx.cap(2);
+        cap = cap.mid(1, cap.length() - 2);
+        if (cap != "" && cap != "/" && cap.at(0) != QChar('#'))
             caps.append(cap);
         pos += rx.matchedLength();
         ++i;
@@ -136,25 +117,24 @@ void FilteringWorker::removeUrls(const QRegExp &rx)
     while (it != caps.end()) {
         QString cap = *it;
         QUrl capUrl(cap);
-        if (capUrl.scheme()=="data") {
+        if (capUrl.scheme() == "data") {
             content.replace(cap, "");
         }
         ++it;
     }
 }
 
-bool FilteringWorker::filterArticle()
-{
-    QRegExp rx1("<article[^>]*>((?!<\\/article>).)*<\\/article>", Qt::CaseInsensitive);
+bool FilteringWorker::filterArticle() {
+    QRegExp rx1("<article[^>]*>((?!<\\/article>).)*<\\/article>",
+                Qt::CaseInsensitive);
 
     int i = 1, pos = 0;
     QStringList articles;
     while ((pos = rx1.indexIn(content, pos)) != -1) {
-        if (i>1)
-            return false;
+        if (i > 1) return false;
         QString cap = rx1.cap(0);
         if (cap != "") {
-            //qDebug() << "article";
+            // qDebug() << "article";
             articles.append(cap);
         }
         pos += rx1.matchedLength();
@@ -171,7 +151,7 @@ bool FilteringWorker::filterArticle()
     while ((pos = rx2.indexIn(content, pos)) != -1) {
         QString cap = rx2.cap(0);
         if (cap != "") {
-            //qDebug() << "meta: " << cap;
+            // qDebug() << "meta: " << cap;
             newContent += cap;
         }
         pos += rx2.matchedLength();
@@ -192,22 +172,34 @@ bool FilteringWorker::filterArticle()
     return true;
 }
 
-void FilteringWorker::filter()
-{
+void FilteringWorker::filter() {
     QRegExp rxLinkAll("<link[^>]*>", Qt::CaseInsensitive);
-    QRegExp rxScriptAll("<script[^>]*>((?!<\\/script>).)*<\\/script>", Qt::CaseInsensitive);
-    QRegExp rxStyleAll("<style[^>]*>((?!<\\/style>).)*<\\/style>", Qt::CaseInsensitive);
-    QRegExp rxStyle("\\s*style\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
-    QRegExp rxClass("\\s*class\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
-    QRegExp rxWidth("\\s*width\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
-    QRegExp rxHeight("\\s*height\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
-    QRegExp rxMetaViewport("<meta\\s[^>]*name\\s*=(\"viewport\"|'viewport')[^>]*>", Qt::CaseInsensitive);
+    QRegExp rxScriptAll("<script[^>]*>((?!<\\/script>).)*<\\/script>",
+                        Qt::CaseInsensitive);
+    QRegExp rxStyleAll("<style[^>]*>((?!<\\/style>).)*<\\/style>",
+                       Qt::CaseInsensitive);
+    QRegExp rxStyle("\\s*style\\s*=\\s*(\"[^\"]*\"|'[^']*')",
+                    Qt::CaseInsensitive);
+    QRegExp rxClass("\\s*class\\s*=\\s*(\"[^\"]*\"|'[^']*')",
+                    Qt::CaseInsensitive);
+    QRegExp rxWidth("\\s*width\\s*=\\s*(\"[^\"]*\"|'[^']*')",
+                    Qt::CaseInsensitive);
+    QRegExp rxHeight("\\s*height\\s*=\\s*(\"[^\"]*\"|'[^']*')",
+                     Qt::CaseInsensitive);
+    QRegExp rxMetaViewport(
+        "<meta\\s[^>]*name\\s*=(\"viewport\"|'viewport')[^>]*>",
+        Qt::CaseInsensitive);
     QRegExp rxInputAll("<input[^>]*>", Qt::CaseInsensitive);
-    QRegExp rxTextareaAll("<textarea[^>]*>((?!<\\/textarea>).)*<\\/textarea>", Qt::CaseInsensitive);
-    QRegExp rxObjectAll("<object[^>]*>((?!<\\/object>).)*<\\/object>", Qt::CaseInsensitive);
-    QRegExp rxButtonAll("<button[^>]*>((?!<\\/button>).)*<\\/button>", Qt::CaseInsensitive);
-    QRegExp rxNoscriptAll("<noscript[^>]*>((?!<\\/noscript>).)*<\\/noscript>", Qt::CaseInsensitive);
-    QRegExp rxSelectAll("<select[^>]*>((?!<\\/select>).)*<\\/select>", Qt::CaseInsensitive);
+    QRegExp rxTextareaAll("<textarea[^>]*>((?!<\\/textarea>).)*<\\/textarea>",
+                          Qt::CaseInsensitive);
+    QRegExp rxObjectAll("<object[^>]*>((?!<\\/object>).)*<\\/object>",
+                        Qt::CaseInsensitive);
+    QRegExp rxButtonAll("<button[^>]*>((?!<\\/button>).)*<\\/button>",
+                        Qt::CaseInsensitive);
+    QRegExp rxNoscriptAll("<noscript[^>]*>((?!<\\/noscript>).)*<\\/noscript>",
+                          Qt::CaseInsensitive);
+    QRegExp rxSelectAll("<select[^>]*>((?!<\\/select>).)*<\\/select>",
+                        Qt::CaseInsensitive);
     QRegExp rxNavAll("<nav[^>]*>((?!<\\/nav>).)*<\\/nav>", Qt::CaseInsensitive);
 
     content.remove(rxLinkAll);
@@ -227,97 +219,60 @@ void FilteringWorker::filter()
     content.remove(rxNavAll);
 }
 
-void FilteringWorker::filterOnline()
-{
+void FilteringWorker::filterOnline() {
     filter();
 
-    //QRegExp rxCss("<link\\s[^>]*rel\\s*=(\"stylesheet\"|'stylesheet')[^>]*href\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
-    //QRegExp rxImg("(<img\\s[^>]*)src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
-    //resolveRelativeUrls(rxImg);
-    //QRegExp rxA("(<a\\s[^>]*)href\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
-    //resolveRelativeUrls(rxA);
+    // QRegExp
+    // rxCss("<link\\s[^>]*rel\\s*=(\"stylesheet\"|'stylesheet')[^>]*href\\s*=\\s*(\"[^\"]*\"|'[^']*')",
+    // Qt::CaseInsensitive); QRegExp
+    // rxImg("(<img\\s[^>]*)src\\s*=\\s*(\"[^\"]*\"|'[^']*')",
+    // Qt::CaseInsensitive); resolveRelativeUrls(rxImg); QRegExp
+    // rxA("(<a\\s[^>]*)href\\s*=\\s*(\"[^\"]*\"|'[^']*')",
+    // Qt::CaseInsensitive); resolveRelativeUrls(rxA);
 }
 
-void FilteringWorker::filterOffline()
-{
+void FilteringWorker::filterOffline() {
     filter();
 
     QRegExp rxUrl("url[\\s]*\\([^\\)]*\\)", Qt::CaseInsensitive);
     QRegExp rxImgAll("<img[^>]*>", Qt::CaseInsensitive);
-    QRegExp rxFrame("(<iframe\\s[^>]*)src\\s*=\\s*(\"[^\"]*\"|'[^']*')", Qt::CaseInsensitive);
+    QRegExp rxFrame("(<iframe\\s[^>]*)src\\s*=\\s*(\"[^\"]*\"|'[^']*')",
+                    Qt::CaseInsensitive);
     QRegExp rxBody("(<body[^>]*>)", Qt::CaseInsensitive);
 
-    content.replace(rxUrl,"http://0.0.0.0");
-    content.replace(rxImgAll,""); content.remove("</img>", Qt::CaseInsensitive);
-    content.replace(rxFrame,"\\1");
+    content.replace(rxUrl, "http://0.0.0.0");
+    content.replace(rxImgAll, "");
+    content.remove("</img>", Qt::CaseInsensitive);
+    content.replace(rxFrame, "\\1");
 
     // Inserting image after <body> tag
     auto db = DatabaseManager::instance();
     QString image;
-    if(!item.entryId.isEmpty())
-        image = db->readEntryImageById(item.entryId);
+    if (!item.entryId.isEmpty()) image = db->readEntryImageById(item.entryId);
     if (!image.isEmpty()) {
         image = QString(CacheServer::getDataUrlByUrl(image));
         if (!image.isEmpty()) {
-            content.replace(rxBody,QString("\\1<img id='_kaktus_img' src='%1'/>")
-                            .arg(image));
+            content.replace(
+                rxBody,
+                QString("\\1<img id='_kaktus_img' src='%1'/>").arg(image));
         }
     }
 }
 
-/*bool FilteringWorker::readFile(const QString &filename)
-{
-    Settings *s = Settings::instance();
-    QString cacheDir = s->getDmCacheDir();
-
-    QFile file(cacheDir + "/" + filename);
-
-    if (!QFile::exists(cacheDir + "/" + filename)) {
-        qWarning() << "File " << filename << "does not exists";
-        file.close();
-        return false;
-    }
-
-    if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "Could not open" << filename << "for reading: " << file.errorString();
-        file.close();
-        return false;
-    }
-
-    data.append(file.readAll());
-    file.close();
-
-    return true;
-}*/
-
-// --------------
-
-CacheServer* CacheServer::m_instance = nullptr;
-
-CacheServer* CacheServer::instance(QObject *parent)
-{
-    if (CacheServer::m_instance == nullptr) {
-        CacheServer::m_instance = new CacheServer(parent);
-    }
-
-    return CacheServer::m_instance;
-}
-
-CacheServer::CacheServer(QObject *parent) :
-    QObject(parent)
-{
+CacheServer::CacheServer(QObject *parent) : QObject(parent) {
     server = new QHttpServer;
 
-    QObject::connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
-            this, SLOT(handle(QHttpRequest*, QHttpResponse*)));
+    QObject::connect(server,
+                     SIGNAL(newRequest(QHttpRequest *, QHttpResponse *)), this,
+                     SLOT(handle(QHttpRequest *, QHttpResponse *)));
 
     if (!server->listen(port)) {
-        qWarning() << "Cache server at localhost failed to start on" << this->port << "port";
+        qWarning() << "Cache server at localhost failed to start on" << port
+                   << "port";
     }
 }
 
-bool CacheServer::readFile(const QString &filename, QByteArray &data)
-{
+bool CacheServer::readFile(const QString &filename, QByteArray &data) {
     Settings *s = Settings::instance();
     QString cacheDir = s->getDmCacheDir();
 
@@ -330,7 +285,8 @@ bool CacheServer::readFile(const QString &filename, QByteArray &data)
     }
 
     if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "Could not open" << filename << "for reading: " << file.errorString();
+        qWarning() << "Could not open" << filename
+                   << "for reading: " << file.errorString();
         file.close();
         return false;
     }
@@ -341,11 +297,11 @@ bool CacheServer::readFile(const QString &filename, QByteArray &data)
     return true;
 }
 
-bool CacheServer::readFile2(const QString &path, QByteArray &data)
-{
+bool CacheServer::readFile2(const QString &path, QByteArray &data) {
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "Could not open" << path << "for reading: " << file.errorString();
+        qWarning() << "Could not open" << path
+                   << "for reading: " << file.errorString();
         file.close();
         return false;
     }
@@ -381,9 +337,8 @@ bool CacheServer::readFile2(const QString &path, QByteArray &data)
     return data;
 }*/
 
-QString CacheServer::getFileUrl(const QString &id)
-{
-    //qDebug() << "getFileUrl, id=" << id;
+QString CacheServer::getFileUrl(const QString &id) {
+    // qDebug() << "getFileUrl, id=" << id;
 
     auto s = Settings::instance();
     auto db = DatabaseManager::instance();
@@ -392,7 +347,7 @@ QString CacheServer::getFileUrl(const QString &id)
 
     QString filename;
     if (item.id.isEmpty()) {
-        //item = db->readCacheByFinalUrl(id);
+        // item = db->readCacheByFinalUrl(id);
         filename = id;
     } else {
         filename = item.finalUrl;
@@ -408,12 +363,9 @@ QString CacheServer::getFileUrl(const QString &id)
     return path;
 }
 
-void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
-{
-    //qDebug() << "handle, url:" << req->url().toString();
-
+void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp) {
     QStringList parts = req->url().path().split('/');
-    //qDebug() << "handle, parts.length():" << parts.length();
+
     if (parts.length() > 1) {
         if (parts[1] == "test") {
             resp->setHeader("Content-Type", "text/html");
@@ -422,55 +374,12 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
             return;
         }
 
-        /*if (parts[1] == "assets" && parts.length() > 2) {
-            //qDebug() << "handle, path=" << req->url().path();
-            QString path = "app/native" + req->url().path();
-            if (QFile::exists(path)) {
-                QByteArray content;
-                QStringList extParts = parts[parts.length()-1].split('.');
-                QString ext = extParts.length() > 0 ? extParts[extParts.length()-1] : "";
-
-                if (ext == "js") {
-                    resp->setHeader("Content-Type", "application/javascript");
-                    resp->setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
-                    resp->setHeader("Pragma", "no-cache");
-                    resp->writeHead(200);
-                    CacheServer::readFile2(path, content);
-                    resp->end(content);
-                    return;
-                }
-            }
-            resp->writeHead(404);
-            resp->end("");
-            return;
-        }*/
-
-        /*if (parts[1] == "rssdata" && parts.length() > 2) {
-            qDebug() << "handle, path=" << req->url().path();
-            Settings *s = Settings::instance();
-            QString id = parts[2];
-            QString content = s->db->readEntryContentById(id);
-            QString style = "";//img {max-width: 100% !important; max-height: device-height !important;}";
-
-            content = "<html><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/>" +
-                      (style.isEmpty() ? "" : "<style>" + style + "</style>") +
-                      "</head><body>" + content + "</body></html>";
-
-            content = "<!DOCTYPE html>\n<html><head><meta content='width=device-width, initial-scale=1.0' name='viewport'>" +
-                      (style.isEmpty() ? "" : "<style>" + style + "</style>") +
-                      "</head><body>" + content + "</body></html>";
-
-            resp->setHeader("Content-Type", "text/html");
-            resp->setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
-            resp->setHeader("Pragma", "no-cache");
-            resp->writeHead(200);
-            resp->end(content.toUtf8());
-            return;
-        }*/
-
         FilteringWorker *worker = new FilteringWorker();
-        QObject::connect(this, SIGNAL(startWorker(QHttpRequest*,QHttpResponse*)), worker, SLOT(start(QHttpRequest*,QHttpResponse*)));
-        QObject::connect(worker, SIGNAL(finished()), this, SLOT(handleFinish()));
+        QObject::connect(this,
+                         SIGNAL(startWorker(QHttpRequest *, QHttpResponse *)),
+                         worker, SLOT(start(QHttpRequest *, QHttpResponse *)));
+        QObject::connect(worker, SIGNAL(finished()), this,
+                         SLOT(handleFinish()));
         emit startWorker(req, resp);
 
     } else {
@@ -480,11 +389,10 @@ void CacheServer::handle(QHttpRequest *req, QHttpResponse *resp)
     }
 }
 
-void CacheServer::handleFinish()
-{
-    FilteringWorker *worker = qobject_cast<FilteringWorker*>(sender());
+void CacheServer::handleFinish() {
+    FilteringWorker *worker = qobject_cast<FilteringWorker *>(sender());
 
-    if (worker->error)    {
+    if (worker->error) {
         qDebug() << "handleFinish error:" << worker->req->url();
         worker->resp->setHeader("Content-Length", "0");
         worker->resp->setHeader("Connection", "close");
@@ -493,19 +401,16 @@ void CacheServer::handleFinish()
         return;
     }
 
-    //worker->resp->setHeader("Content-Type", item.contentType);
     worker->resp->writeHead(200);
     worker->resp->end(worker->data);
-    delete(worker);
+    delete (worker);
 }
 
-QString CacheServer::getUrlbyId(const QString &item)
-{
+QString CacheServer::getUrlbyId(const QString &item) {
     return "http://localhost:" + QString::number(port) + "/" + item;
 }
 
-QString CacheServer::getUrlbyUrl(const QString &url)
-{
+QString CacheServer::getUrlbyUrl(const QString &url) {
     if (url.isEmpty()) {
         return url;
     }
@@ -524,13 +429,12 @@ QString CacheServer::getUrlbyUrl(const QString &url)
     Settings *s = Settings::instance();
     QString path = QDir(s->getDmCacheDir()).absoluteFilePath(filename);
 
-    return QFile::exists(path) ?
-                "http://localhost:" + QString::number(port) + "/" + filename :
-                "";
+    return QFile::exists(path)
+               ? "http://localhost:" + QString::number(port) + "/" + filename
+               : "";
 }
 
-QString CacheServer::getPathByUrl(const QString &url)
-{
+QString CacheServer::getPathByUrl(const QString &url) {
     if (url.isEmpty()) {
         return url;
     }
@@ -552,9 +456,8 @@ QString CacheServer::getPathByUrl(const QString &url)
     return QFile::exists(path) ? path : "";
 }
 
-bool CacheServer::getPathAndContentTypeByUrl(
-        const QString &url, QString &path, QString &contentType) {
-
+bool CacheServer::getPathAndContentTypeByUrl(const QString &url, QString &path,
+                                             QString &contentType) {
     auto s = Settings::instance();
     auto db = DatabaseManager::instance();
 
@@ -562,8 +465,7 @@ bool CacheServer::getPathAndContentTypeByUrl(
     path = QDir(s->getDmCacheDir()).absoluteFilePath(filename);
     if (QFile::exists(path)) {
         contentType = db->readCacheByOrigUrl(filename).contentType;
-        if (contentType.isEmpty())
-            return false;
+        if (contentType.isEmpty()) return false;
     } else {
         return false;
     }
@@ -571,8 +473,7 @@ bool CacheServer::getPathAndContentTypeByUrl(
     return true;
 }
 
-QByteArray CacheServer::getDataUrlByUrl(const QString &url)
-{
+QByteArray CacheServer::getDataUrlByUrl(const QString &url) {
     auto db = DatabaseManager::instance();
 
     QString entryId = Utils::hash(url);
@@ -592,11 +493,10 @@ QByteArray CacheServer::getDataUrlByUrl(const QString &url)
     }
 
     QStringList ct = item.contentType.split(';');
-    return QString("data:"+ct[0]+";base64,").toUtf8() + data.toBase64();
+    return QString("data:" + ct[0] + ";base64,").toUtf8() + data.toBase64();
 }
 
-QString CacheServer::getCacheUrlbyUrl(const QString &url)
-{
+QString CacheServer::getCacheUrlbyUrl(const QString &url) {
     // If url is "image://" will not be hashed
     if (url.isEmpty() || url.startsWith("image://")) {
         return url;
@@ -604,5 +504,3 @@ QString CacheServer::getCacheUrlbyUrl(const QString &url)
 
     return "cache://" + Utils::hash(url);
 }
-
-

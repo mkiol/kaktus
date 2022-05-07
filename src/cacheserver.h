@@ -1,40 +1,27 @@
-/*
-  Copyright (C) 2014 Michal Kosciesza <michal@mkiol.net>
-
-  This file is part of Kaktus.
-
-  Kaktus is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Kaktus is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Kaktus.  If not, see <http://www.gnu.org/licenses/>.
-*/
+/* Copyright (C) 2014-2022 Michal Kosciesza <michal@mkiol.net>
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ */
 
 #ifndef CACHESERVER_H
 #define CACHESERVER_H
 
-#include <QObject>
 #include <QByteArray>
+#include <QObject>
 #include <QString>
 #include <QThread>
 #include <QUrl>
 
-#include "qhttpserver/qhttpserver.h"
+#include "databasemanager.h"
 #include "qhttpserver/qhttprequest.h"
 #include "qhttpserver/qhttpresponse.h"
-
-#include "databasemanager.h"
+#include "qhttpserver/qhttpserver.h"
 #include "settings.h"
+#include "singleton.h"
 
-class FilteringWorker : public QThread
-{
+class FilteringWorker : public QThread {
     Q_OBJECT
 public:
     explicit FilteringWorker(QObject *parent = nullptr);
@@ -55,25 +42,22 @@ private:
 
     void filter();
     bool filterArticle();
-    //void advancedFilter();
     void filterOffline();
     void filterOnline();
     void removeUrls(const QRegExp &rx);
     void resolveRelativeUrls(const QRegExp &rx);
-    //bool readFile(const QString &filename);
 };
 
-class CacheServer : public QObject
-{
+class CacheServer : public QObject, public Singleton<CacheServer> {
     Q_OBJECT
 public:
-    static CacheServer* instance(QObject *parent = nullptr);
     static bool readFile(const QString &filename, QByteArray &data);
     static bool readFile2(const QString &path, QByteArray &data);
     static QString getFileUrl(const QString &id);
     static QByteArray getDataUrlByUrl(const QString &item);
     static bool getPathAndContentTypeByUrl(const QString &url, QString &path,
                                            QString &contentType);
+    explicit CacheServer(QObject *parent = nullptr);
 
     Q_INVOKABLE QString getUrlbyId(const QString &item);
     Q_INVOKABLE QString getUrlbyUrl(const QString &item);
@@ -88,14 +72,9 @@ signals:
     void startWorker(QHttpRequest*, QHttpResponse*);
 
 private:
-    static CacheServer* m_instance;
     static const int port = 9999;
-    explicit CacheServer(QObject *parent = nullptr);
 
-    QHttpServer *server;
-
-    //QString hash(const QString &url);
-    //void resolveRelativeUrls(QString &content, const QRegExp &rx, const QUrl &baseUrl, int filter);
+    QHttpServer *server = nullptr;
 };
 
 #endif // CACHESERVER_H

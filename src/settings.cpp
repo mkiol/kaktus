@@ -21,8 +21,6 @@
 #include "key.h"
 #include "simplecrypt.h"
 
-Settings *Settings::m_instance = nullptr;
-
 Settings::Settings()
     : QSettings{settingsFilepath(), QSettings::NativeFormat}
 
@@ -50,11 +48,6 @@ QString Settings::settingsFilepath() {
            QCoreApplication::organizationName() + QDir::separator() +
            QCoreApplication::applicationName() + QDir::separator() +
            settingsFilename;
-}
-
-Settings *Settings::instance() {
-    if (!Settings::m_instance) Settings::m_instance = new Settings{};
-    return Settings::m_instance;
 }
 
 QString Settings::pocketConsumerKey() const { return pocket_consumer_key; }

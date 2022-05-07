@@ -45,6 +45,7 @@ SOURCES += \
 
 HEADERS += \
     src/info.h \
+    src/singleton.h \
     src/utils.h \
     src/tabmodel.h \
     src/listmodel.h \

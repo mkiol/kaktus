@@ -16,12 +16,14 @@
 #include <QUrl>
 #include <QVariant>
 
+#include "singleton.h"
+
 class DatabaseManager;
 class DownloadManager;
 class CacheServer;
 class Fetcher;
 
-class Settings : public QSettings {
+class Settings : public QSettings, public Singleton<Settings> {
     Q_OBJECT
 
     Q_PROPERTY(bool offlineMode READ getOfflineMode WRITE setOfflineMode NOTIFY
@@ -108,9 +110,9 @@ class Settings : public QSettings {
     };
     Q_ENUM(ViewMode)
 
-    static Settings *instance();
-
     Fetcher *fetcher = nullptr;
+
+    Settings();
 
     inline void setContext(QQmlContext *context) { m_context = context; }
     inline void setContextProperty(const QString &name, QObject *value) {
@@ -354,9 +356,7 @@ class Settings : public QSettings {
         QStringLiteral("settings.conf");
     static constexpr const float maxZoom = 2.0;
     static constexpr const float minZoom = 0.5;
-    static Settings *m_instance;
     QQmlContext *m_context = nullptr;
-    Settings();
     static QString settingsFilepath();
 };
 

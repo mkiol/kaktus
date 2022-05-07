@@ -38,8 +38,8 @@ class Utils : public QObject {
     Q_INVOKABLE int countUnread() const;
     Q_INVOKABLE void resetWebView() const;
     Q_INVOKABLE void resetFetcher(int type) const;
-    Q_INVOKABLE QString formatHtml(const QString &data, bool offline,
-                                   const QString &style = {});
+    Q_INVOKABLE QString formatHtml(QString data, bool offline,
+                                   const QString &style = {}) const;
     Q_INVOKABLE QString readAsset(const QString &path) const;
     static QString hash(const QString &url);
     static int monthsTo(const QDate &from, const QDate &to);
@@ -57,8 +57,6 @@ class Utils : public QObject {
     std::unique_ptr<FeedModel> feedModel;
     std::unique_ptr<TabModel> tabModel;
     std::unique_ptr<DashboardModel> dashboardModel;
-
-    bool removeDir(const QString &dirName);
 };
 
 #endif  // UTILS_H

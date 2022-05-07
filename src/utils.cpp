@@ -51,7 +51,7 @@ void Utils::copyToClipboard(const QString &text) const {
 void Utils::resetWebViewStatic() {
     auto cache =
         QDir{QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
-             "/.mozilla"};
+             QStringLiteral("/.mozilla")};
     cache.removeRecursively();
 }
 
@@ -70,66 +70,48 @@ void Utils::log(const QString &data) {
     }
 }
 
-QString Utils::formatHtml(const QString &data, bool offline,
-                          const QString &style) {
-    QRegExp rxImg("<img[^>]*>", Qt::CaseInsensitive);
-    QRegExp rxWidth("\\s*width\\s*=\\s*(\"[^\"]*\"|'[^']*')",
-                    Qt::CaseInsensitive);
-    QRegExp rxTarget("\\s*target\\s*=\\s*(\"[^\"]*\"|'[^']*')",
-                     Qt::CaseInsensitive);
-    QRegExp rxHeight("\\s*height\\s*=\\s*(\"[^\"]*\"|'[^']*')",
-                     Qt::CaseInsensitive);
-    QRegExp rxSizes("\\s*sizes\\s*=\\s*(\"[^\"]*\"|'[^']*')",
-                    Qt::CaseInsensitive);
-    QRegExp rxA("<a[^>]*></a>", Qt::CaseInsensitive);
-    QRegExp rxP("<p[^>]*></p>", Qt::CaseInsensitive);
+QString Utils::formatHtml(QString data, bool offline,
+                          const QString &style) const {
+    static const QRegExp rxImg{QStringLiteral("<img[^>]*>"),
+                               Qt::CaseInsensitive};
+    static const QRegExp rxWidth{
+        QStringLiteral("\\s*width\\s*=\\s*(\"[^\"]*\"|'[^']*')"),
+        Qt::CaseInsensitive};
+    static const QRegExp rxTarget{
+        QStringLiteral("\\s*target\\s*=\\s*(\"[^\"]*\"|'[^']*')"),
+        Qt::CaseInsensitive};
+    static const QRegExp rxHeight{
+        QStringLiteral("\\s*height\\s*=\\s*(\"[^\"]*\"|'[^']*')"),
+        Qt::CaseInsensitive};
+    static const QRegExp rxSizes{
+        QStringLiteral("\\s*sizes\\s*=\\s*(\"[^\"]*\"|'[^']*')"),
+        Qt::CaseInsensitive};
+    static const QRegExp rxA{QStringLiteral("<a[^>]*></a>"),
+                             Qt::CaseInsensitive};
+    static const QRegExp rxP{QStringLiteral("<p[^>]*></p>"),
+                             Qt::CaseInsensitive};
 
-    QString content = data;
-
-    content.remove(rxTarget);
+    data.remove(rxTarget);
     if (offline) {
-        content.remove(rxImg);
-        content.remove("</img>", Qt::CaseInsensitive);
-        content.remove(rxA);
-        content.remove(rxP);
+        data.remove(rxImg);
+        data.remove(QStringLiteral("</img>"), Qt::CaseInsensitive);
+        data.remove(rxA);
+        data.remove(rxP);
     } else {
-        content.remove(rxWidth);
-        content.remove(rxHeight);
-        content.remove(rxSizes);
+        data.remove(rxWidth);
+        data.remove(rxHeight);
+        data.remove(rxSizes);
     }
 
-    content =
-        "<html><head><meta name=\"viewport\" content=\"width=device-width, "
-        "maximum-scale=1.0, initial-scale=1.0\">" +
+    data =
+        QStringLiteral(
+            "<html><head><meta name=\"viewport\" content=\"width=device-width, "
+            "maximum-scale=1.0, initial-scale=1.0\">") +
         (style.isEmpty() ? "" : "<style>" + style + "</style>") +
-        "</head><body>" + content + "</body></html>";
+        QStringLiteral("</head><body>") + data +
+        QStringLiteral("</body></html>");
 
-    return content;
-}
-
-/*
- * Copyright (c) 2009 John Schember <john@nachtimwald.com>
- * http://john.nachtimwald.com/2010/06/08/qt-remove-directory-and-its-contents/
- */
-bool Utils::removeDir(const QString &dirName) {
-    bool result = true;
-    QDir dir(dirName);
-
-    if (dir.exists(dirName)) {
-        QFileInfoList infoList =
-            dir.entryInfoList(QDir::NoDotAndDotDot | QDir::System |
-                                  QDir::Hidden | QDir::AllDirs | QDir::Files,
-                              QDir::DirsFirst);
-        foreach (const QFileInfo &info, infoList) {
-            if (info.isDir())
-                result = removeDir(info.absoluteFilePath());
-            else
-                result = QFile::remove(info.absoluteFilePath());
-            if (!result) return result;
-        }
-        result = dir.rmdir(dirName);
-    }
-    return result;
+    return data;
 }
 
 void Utils::setRootModel() {
@@ -260,7 +242,7 @@ QString Utils::getHumanFriendlyTimeString(int date) const {
         return tr("%n day(s) ago", "", days);
     }
 
-    return qdate.toString("dddd, d MMMM yy");
+    return qdate.toString(QStringLiteral("dddd, d MMMM yy"));
 }
 
 QString Utils::hash(const QString &url) {
@@ -311,7 +293,8 @@ void Utils::resetFetcher(int type) const {
         s->fetcher = new TTRssFetcher();
     }
 
-    if (s->fetcher != nullptr) s->setContextProperty("fetcher", s->fetcher);
+    if (s->fetcher != nullptr)
+        s->setContextProperty(QStringLiteral("fetcher"), s->fetcher);
 }
 
 void Utils::addExtension(const QString &contentType, QString *path) {
