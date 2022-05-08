@@ -1,16 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="cs">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="cs">
 <context>
     <name>AboutPage</name>
     <message>
-        <source>About</source>
-        <translation type="vanished">O programu</translation>
-    </message>
-    <message>
         <location filename="../qml/AboutPage.qml" line="43"/>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation>O programu %1</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="61"/>
@@ -25,16 +19,12 @@
     <message>
         <location filename="../qml/AboutPage.qml" line="72"/>
         <source>Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Změny</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="78"/>
         <source>Authors</source>
         <translation>Autoři</translation>
-    </message>
-    <message>
-        <source>Translations are provided by:</source>
-        <translation type="vanished">Překlady byly poskytnuty: </translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="100"/>
@@ -44,16 +34,12 @@
     <message>
         <location filename="../qml/AboutPage.qml" line="106"/>
         <source>Translators</source>
-        <translation type="unfinished"></translation>
+        <translation>Překladatelé</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="119"/>
         <source>Libraries</source>
         <translation>Knihovny</translation>
-    </message>
-    <message>
-        <source>Changelog</source>
-        <translation type="vanished">Seznam změn</translation>
     </message>
 </context>
 <context>
@@ -66,10 +52,6 @@
 </context>
 <context>
     <name>AuthWebViewPage</name>
-    <message>
-        <source>Loading page content...</source>
-        <translation type="vanished">Nahrává se obsah stránky...</translation>
-    </message>
     <message>
         <location filename="../qml/AuthWebViewPage.qml" line="93"/>
         <source>Back</source>
@@ -143,10 +125,6 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <source>Not signed in</source>
-        <translation type="vanished">Nepřihlášen</translation>
-    </message>
-    <message>
         <location filename="../qml/CoverPage.qml" line="20"/>
         <source>All read</source>
         <translation>Vše přečteno</translation>
@@ -154,11 +132,7 @@
     <message numerus="yes">
         <location filename="../qml/CoverPage.qml" line="19"/>
         <source>%n unread item(s)</source>
-        <translation>
-            <numerusform>jedna nepřečtená položka</numerusform>
-            <numerusform>%n nepřečtené položky</numerusform>
-            <numerusform>%n nepřečtených položek</numerusform>
-        </translation>
+        <translation><numerusform>jedna nepřečtená položka</numerusform><numerusform>%n nepřečtené položky</numerusform><numerusform>%n nepřečtených položek</numerusform><numerusform>%n nepřečtených položek</numerusform></translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="40"/>
@@ -283,10 +257,6 @@
         <translation>Přidat do Pocket</translation>
     </message>
     <message>
-        <source>Share link</source>
-        <translation type="vanished">Sdílet odkaz</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryDelegate.qml" line="551"/>
         <source>Save image</source>
         <translation>Uložit obrázek</translation>
@@ -356,10 +326,6 @@
         <location filename="../qml/EntryPage.qml" line="174"/>
         <source>All feeds</source>
         <translation>Všechny kanály</translation>
-    </message>
-    <message>
-        <source>Launching a browser...</source>
-        <translation type="vanished">Spouští se prohlížeč...</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="176"/>
@@ -520,10 +486,6 @@
         <translation>Přidat do Pocket</translation>
     </message>
     <message>
-        <source>Share link</source>
-        <translation type="vanished">Sdílet odkaz</translation>
-    </message>
-    <message>
         <location filename="../qml/FeedWebContentPage.qml" line="329"/>
         <source>Toggle Like</source>
         <translation>Přepnout zalíbení</translation>
@@ -567,10 +529,6 @@
         <location filename="../qml/FeedWebContentPage.qml" line="107"/>
         <source>Network is disconnected</source>
         <translation>Síť je odpojena</translation>
-    </message>
-    <message>
-        <source>Launching a browser...</source>
-        <translation type="vanished">Spouští se prohlížeč...</translation>
     </message>
     <message>
         <location filename="../qml/FeedWebContentPage.qml" line="353"/>
@@ -682,13 +640,9 @@
 <context>
     <name>PageMenu</name>
     <message>
-        <source>About</source>
-        <translation type="vanished">O programu</translation>
-    </message>
-    <message>
         <location filename="../qml/PageMenu.qml" line="34"/>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation>O programu %1</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="43"/>
@@ -748,17 +702,9 @@
 <context>
     <name>PocketAuthWebViewPage</name>
     <message>
-        <source>Loading page content...</source>
-        <translation type="vanished">Nahrává se obsah stránky...</translation>
-    </message>
-    <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="94"/>
         <source>Back</source>
         <translation>Zpět</translation>
-    </message>
-    <message>
-        <source>Hide toolbar</source>
-        <translation type="obsolete">Skrýt nástrojový pruh</translation>
     </message>
 </context>
 <context>
@@ -930,10 +876,6 @@
         <translation>Obsah kanálu</translation>
     </message>
     <message>
-        <source>Disabled</source>
-        <translation type="vanished">Zakázáno</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="561"/>
         <source>Unread or starred</source>
         <translation>Nepřečteno nebo ohvězdičkováno</translation>
@@ -1043,10 +985,6 @@
         <location filename="../qml/SettingsPage.qml" line="542"/>
         <source>Web viewer</source>
         <translation>Prohlížeč internetu</translation>
-    </message>
-    <message>
-        <source>Defines how navigation is handled inside built-in web viewer. Hyperlinks could be disabled, opened in an external browser or opened inside web viewer.</source>
-        <translation type="vanished">Určuje, jak se ve vestavěném prohlížeči internetových stránek řeší pohyb po nich. Odkazy lze zakázat, otevřít ve vnějším prohlížeči nebo otevřít v prohlížeči internetových stránek.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="365"/>
@@ -1261,14 +1199,6 @@
         <translation>Společenské funkce</translation>
     </message>
     <message>
-        <source>Power save mode</source>
-        <translation type="vanished">Režim šetření energií</translation>
-    </message>
-    <message>
-        <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
-        <translation type="vanished">Když telefon nebo program přejde do stavu nečinnosti, všechny otevřené internetové stránky budou kvůli snížení spotřeby energie zavřeny.</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="614"/>
         <source>Dynamic</source>
         <translation>Dynamický</translation>
@@ -1277,10 +1207,6 @@
         <location filename="../qml/SettingsPage.qml" line="418"/>
         <source>UI</source>
         <translation>Rozhraní</translation>
-    </message>
-    <message>
-        <source>Open link behaviour</source>
-        <translation type="vanished">Otevřít chování odkazu</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="551"/>
@@ -1541,54 +1467,26 @@
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="230"/>
         <source>%n second(s) ago</source>
-        <translation>
-            <numerusform>před sekundou</numerusform>
-            <numerusform>před %n sekundami</numerusform>
-            <numerusform>před %n sekundami</numerusform>
-        </translation>
+        <translation><numerusform>před sekundou</numerusform><numerusform>před %n sekundami</numerusform><numerusform>před %n sekundami</numerusform><numerusform>před %n sekundami</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="233"/>
         <source>%n minute(s) ago</source>
-        <translation>
-            <numerusform>před minutou</numerusform>
-            <numerusform>před %n minutami</numerusform>
-            <numerusform>před %n minutami</numerusform>
-        </translation>
+        <translation><numerusform>před minutou</numerusform><numerusform>před %n minutami</numerusform><numerusform>před %n minutami</numerusform><numerusform>před %n minutami</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="236"/>
         <source>%n hour(s) ago</source>
-        <translation>
-            <numerusform>před hodinou</numerusform>
-            <numerusform>před %n hodinami</numerusform>
-            <numerusform>před %n hodinami</numerusform>
-        </translation>
+        <translation><numerusform>před hodinou</numerusform><numerusform>před %n hodinami</numerusform><numerusform>před %n hodinami</numerusform><numerusform>před %n hodinami</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="242"/>
         <source>%n day(s) ago</source>
-        <translation>
-            <numerusform>včera</numerusform>
-            <numerusform>před %n dny</numerusform>
-            <numerusform>před %n dny</numerusform>
-        </translation>
+        <translation><numerusform>včera</numerusform><numerusform>před %n dny</numerusform><numerusform>před %n dny</numerusform><numerusform>před %n dny</numerusform></translation>
     </message>
 </context>
 <context>
     <name>WebPreviewPage</name>
-    <message>
-        <source>Loading page content...</source>
-        <translation type="vanished">Nahrává se obsah stránky...</translation>
-    </message>
-    <message>
-        <source>Failed to load page from local cache</source>
-        <translation type="vanished">Nepodařilo se nahrát stránku z místní vyrovnávací paměti</translation>
-    </message>
-    <message>
-        <source>Failed to load page content</source>
-        <translation type="vanished">Nepodařilo se nahrát obsah stránky</translation>
-    </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="222"/>
         <source>Back</source>
@@ -1630,10 +1528,6 @@
         <translation>Přidat do Pocket</translation>
     </message>
     <message>
-        <source>Share link</source>
-        <translation type="vanished">Sdílet odkaz</translation>
-    </message>
-    <message>
         <location filename="../qml/WebPreviewPage.qml" line="302"/>
         <source>Toggle Like</source>
         <translation>Přepnout zalíbení</translation>
@@ -1652,10 +1546,6 @@
         <location filename="../qml/WebPreviewPage.qml" line="335"/>
         <source>Decrease font</source>
         <translation>Zmenšit písmo</translation>
-    </message>
-    <message>
-        <source>Launching a browser...</source>
-        <translation type="vanished">Spouští se prohlížeč...</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="329"/>
@@ -1681,6 +1571,11 @@
         <translation>Kanály</translation>
     </message>
     <message>
+        <location filename="../qml/main.qml" line="154"/>
+        <source>Restart the app to rebuild cache data</source>
+        <translation>Spusťte program znovu, aby byla data ve vyrovnávací paměti znovu sestavena</translation>
+    </message>
+    <message>
         <location filename="../qml/main.qml" line="179"/>
         <source>Caching... %1 of %2</source>
         <translation>Ukládá se do vyrovnávací paměti... %1 z %2</translation>
@@ -1691,34 +1586,14 @@
         <translation>Ukládá se do vyrovnávací paměti...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="207"/>
-        <source>Removing cache data... %1 of %2</source>
-        <translation>Odstraňují se data uložená ve vyrovnávací paměti... %1 z %2</translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="295"/>
-        <source>Access through API is disabled on a server</source>
-        <translation>Přístup přes API je zakázaný na serveru</translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="297"/>
-        <source>Problem with SSL certificate</source>
-        <translation>Problém s SSL certifikátem</translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="319"/>
-        <source>Unknown error</source>
-        <translation>Neznámá chyba</translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="154"/>
-        <source>Restart the app to rebuild cache data</source>
-        <translation>Spusťte program znovu, aby byla data ve vyrovnávací paměti znovu sestavena</translation>
-    </message>
-    <message>
         <location filename="../qml/main.qml" line="202"/>
         <source>Download has failed because network is disconnected</source>
         <translation>Stahování selhalo, protože síť je odpojena</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="207"/>
+        <source>Removing cache data... %1 of %2</source>
+        <translation>Odstraňují se data uložená ve vyrovnávací paměti... %1 z %2</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="279"/>
@@ -1737,6 +1612,16 @@
         <translation>Uživatelské jméno nebo heslo není správné</translation>
     </message>
     <message>
+        <location filename="../qml/main.qml" line="295"/>
+        <source>Access through API is disabled on a server</source>
+        <translation>Přístup přes API je zakázaný na serveru</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="297"/>
+        <source>Problem with SSL certificate</source>
+        <translation>Problém s SSL certifikátem</translation>
+    </message>
+    <message>
         <location filename="../qml/main.qml" line="314"/>
         <source>Cannot save image in gallery</source>
         <translation>Nelze uložit obrázek do galerie</translation>
@@ -1745,6 +1630,11 @@
         <location filename="../qml/main.qml" line="316"/>
         <source>Image already exists in gallery</source>
         <translation>Obrázek v galerii již existuje</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="319"/>
+        <source>Unknown error</source>
+        <translation>Neznámá chyba</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="329"/>
