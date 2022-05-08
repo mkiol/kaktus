@@ -1,16 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="de">
+<?xml version="1.0" ?><!DOCTYPE TS><TS version="2.1" language="de">
 <context>
     <name>AboutPage</name>
     <message>
-        <source>About</source>
-        <translation type="vanished">Über die Anwendung</translation>
-    </message>
-    <message>
         <location filename="../qml/AboutPage.qml" line="43"/>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Über</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="61"/>
@@ -25,16 +19,12 @@
     <message>
         <location filename="../qml/AboutPage.qml" line="72"/>
         <source>Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungen</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="78"/>
         <source>Authors</source>
         <translation>Autoren</translation>
-    </message>
-    <message>
-        <source>Translations are provided by:</source>
-        <translation type="vanished">Übersetzungen von:</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="100"/>
@@ -44,16 +34,12 @@
     <message>
         <location filename="../qml/AboutPage.qml" line="106"/>
         <source>Translators</source>
-        <translation type="unfinished"></translation>
+        <translation>Übersetzer</translation>
     </message>
     <message>
         <location filename="../qml/AboutPage.qml" line="119"/>
         <source>Libraries</source>
         <translation>Bibliotheken</translation>
-    </message>
-    <message>
-        <source>Changelog</source>
-        <translation type="vanished">Änderungsprotokoll</translation>
     </message>
 </context>
 <context>
@@ -66,10 +52,6 @@
 </context>
 <context>
     <name>AuthWebViewPage</name>
-    <message>
-        <source>Loading page content...</source>
-        <translation type="vanished">Seiteninhalt wird geladen...</translation>
-    </message>
     <message>
         <location filename="../qml/AuthWebViewPage.qml" line="93"/>
         <source>Back</source>
@@ -143,10 +125,6 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <source>Not signed in</source>
-        <translation type="vanished">Nicht angemeldet</translation>
-    </message>
-    <message>
         <location filename="../qml/CoverPage.qml" line="20"/>
         <source>All read</source>
         <translation>Alle gelesen</translation>
@@ -154,10 +132,7 @@
     <message numerus="yes">
         <location filename="../qml/CoverPage.qml" line="19"/>
         <source>%n unread item(s)</source>
-        <translation>
-            <numerusform>ein ungelesenes Element</numerusform>
-            <numerusform>%n ungelesen Elemente</numerusform>
-        </translation>
+        <translation><numerusform>ein ungelesenes Element</numerusform><numerusform>%n ungelesen Elemente</numerusform></translation>
     </message>
     <message>
         <location filename="../qml/CoverPage.qml" line="40"/>
@@ -282,10 +257,6 @@
         <translation>Speichere in Pocket</translation>
     </message>
     <message>
-        <source>Share link</source>
-        <translation type="vanished">Teile Link</translation>
-    </message>
-    <message>
         <location filename="../qml/EntryDelegate.qml" line="551"/>
         <source>Save image</source>
         <translation>Speichere Bild</translation>
@@ -355,10 +326,6 @@
         <location filename="../qml/EntryPage.qml" line="174"/>
         <source>All feeds</source>
         <translation>Alles Feeds</translation>
-    </message>
-    <message>
-        <source>Launching a browser...</source>
-        <translation type="vanished">Starte einen Browser...</translation>
     </message>
     <message>
         <location filename="../qml/EntryPage.qml" line="176"/>
@@ -519,10 +486,6 @@
         <translation>Speichere in Pocket</translation>
     </message>
     <message>
-        <source>Share link</source>
-        <translation type="vanished">Teile Link</translation>
-    </message>
-    <message>
         <location filename="../qml/FeedWebContentPage.qml" line="329"/>
         <source>Toggle Like</source>
         <translation>Als Gefällt mir markieren</translation>
@@ -568,10 +531,6 @@
         <translation>Keine Netzwerkverbindung</translation>
     </message>
     <message>
-        <source>Launching a browser...</source>
-        <translation type="vanished">Starte einen Browser...</translation>
-    </message>
-    <message>
         <location filename="../qml/FeedWebContentPage.qml" line="353"/>
         <source>Copy URL</source>
         <translation>Kopiere URL</translation>
@@ -592,7 +551,7 @@
     <message>
         <location filename="../qml/FirstPage.qml" line="64"/>
         <source>Sync</source>
-        <translation>Synchronisieren</translation>
+        <translation>Synchronisieren </translation>
     </message>
     <message>
         <location filename="../qml/FirstPage.qml" line="64"/>
@@ -681,13 +640,9 @@
 <context>
     <name>PageMenu</name>
     <message>
-        <source>About</source>
-        <translation type="vanished">Über</translation>
-    </message>
-    <message>
         <location filename="../qml/PageMenu.qml" line="34"/>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Über</translation>
     </message>
     <message>
         <location filename="../qml/PageMenu.qml" line="43"/>
@@ -747,17 +702,9 @@
 <context>
     <name>PocketAuthWebViewPage</name>
     <message>
-        <source>Loading page content...</source>
-        <translation type="vanished">Seiteninhalt wird geladen...</translation>
-    </message>
-    <message>
         <location filename="../qml/PocketAuthWebViewPage.qml" line="94"/>
         <source>Back</source>
         <translation>Zurück</translation>
-    </message>
-    <message>
-        <source>Hide toolbar</source>
-        <translation type="obsolete">Verstecke Toolbar</translation>
     </message>
 </context>
 <context>
@@ -929,10 +876,6 @@
         <translation>Feedinhalt</translation>
     </message>
     <message>
-        <source>Disabled</source>
-        <translation type="vanished">Gesperrt</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="561"/>
         <source>Unread or starred</source>
         <translation>Ungelesen oder mit Stern versehen</translation>
@@ -1042,10 +985,6 @@
         <location filename="../qml/SettingsPage.qml" line="542"/>
         <source>Web viewer</source>
         <translation>Web Betrachter</translation>
-    </message>
-    <message>
-        <source>Defines how navigation is handled inside built-in web viewer. Hyperlinks could be disabled, opened in an external browser or opened inside web viewer.</source>
-        <translation type="vanished">Definiert das Navigationsverhalten im eingebauten Web-Betrachter. Hyperlinks können gesperrt, im externen oder internen Web-Betrachter geöffnet werden.</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="365"/>
@@ -1260,14 +1199,6 @@
         <translation>soziale Merkmale</translation>
     </message>
     <message>
-        <source>Power save mode</source>
-        <translation type="vanished">Energiesparmodus</translation>
-    </message>
-    <message>
-        <source>When the phone or app goes to the idle state, all opened web pages will be closed to lower power consumption.</source>
-        <translation type="vanished">Wenn das Telefon oder die App pausieren, werden alle geöffneten Webseiten geschlossen um die Energiebedarf zu reduzieren.</translation>
-    </message>
-    <message>
         <location filename="../qml/SettingsPage.qml" line="614"/>
         <source>Dynamic</source>
         <translation>Dynamisch</translation>
@@ -1276,10 +1207,6 @@
         <location filename="../qml/SettingsPage.qml" line="418"/>
         <source>UI</source>
         <translation>Bedienoberfläche</translation>
-    </message>
-    <message>
-        <source>Open link behaviour</source>
-        <translation type="vanished">Öffne Link Verhalten</translation>
     </message>
     <message>
         <location filename="../qml/SettingsPage.qml" line="551"/>
@@ -1540,50 +1467,26 @@
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="230"/>
         <source>%n second(s) ago</source>
-        <translation>
-            <numerusform>vor einer Sekunde</numerusform>
-            <numerusform>vor %n Sekunden</numerusform>
-        </translation>
+        <translation><numerusform>vor einer Sekunde</numerusform><numerusform>vor %n Sekunden</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="233"/>
         <source>%n minute(s) ago</source>
-        <translation>
-            <numerusform>vor einer Minute</numerusform>
-            <numerusform>vor %n Minuten</numerusform>
-        </translation>
+        <translation><numerusform>vor einer Minute</numerusform><numerusform>vor %n Minuten</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="236"/>
         <source>%n hour(s) ago</source>
-        <translation>
-            <numerusform>vor einer Stunde</numerusform>
-            <numerusform>vor %n Stunden</numerusform>
-        </translation>
+        <translation><numerusform>vor einer Stunde</numerusform><numerusform>vor %n Stunden</numerusform></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/utils.cpp" line="242"/>
         <source>%n day(s) ago</source>
-        <translation>
-            <numerusform>vor einem Tag</numerusform>
-            <numerusform>vor %n Tagen</numerusform>
-        </translation>
+        <translation><numerusform>vor einem Tag</numerusform><numerusform>vor %n Tagen</numerusform></translation>
     </message>
 </context>
 <context>
     <name>WebPreviewPage</name>
-    <message>
-        <source>Loading page content...</source>
-        <translation type="vanished">Der Seiteninhalt wird geladen...</translation>
-    </message>
-    <message>
-        <source>Failed to load page from local cache</source>
-        <translation type="vanished">Das Laden der Seite aus dem Zwischenspeicher ist fehlgeschlagen</translation>
-    </message>
-    <message>
-        <source>Failed to load page content</source>
-        <translation type="vanished">Das Laden des Seiteninhaltes ist fehlgeschlagen</translation>
-    </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="222"/>
         <source>Back</source>
@@ -1625,10 +1528,6 @@
         <translation>Speichere in Pocket</translation>
     </message>
     <message>
-        <source>Share link</source>
-        <translation type="vanished">Teile Link</translation>
-    </message>
-    <message>
         <location filename="../qml/WebPreviewPage.qml" line="302"/>
         <source>Toggle Like</source>
         <translation>Als Gefällt mir markieren</translation>
@@ -1647,10 +1546,6 @@
         <location filename="../qml/WebPreviewPage.qml" line="335"/>
         <source>Decrease font</source>
         <translation>Verkleiner die Schriftart</translation>
-    </message>
-    <message>
-        <source>Launching a browser...</source>
-        <translation type="vanished">Starte einen Browser...</translation>
     </message>
     <message>
         <location filename="../qml/WebPreviewPage.qml" line="329"/>
@@ -1676,6 +1571,11 @@
         <translation>Feeds</translation>
     </message>
     <message>
+        <location filename="../qml/main.qml" line="154"/>
+        <source>Restart the app to rebuild cache data</source>
+        <translation>Neustart der App um Zwischenspeicher neu aufzubauen</translation>
+    </message>
+    <message>
         <location filename="../qml/main.qml" line="179"/>
         <source>Caching... %1 of %2</source>
         <translation>Caching...%1 von %2</translation>
@@ -1686,34 +1586,14 @@
         <translation>Zwischenspeichern...</translation>
     </message>
     <message>
-        <location filename="../qml/main.qml" line="207"/>
-        <source>Removing cache data... %1 of %2</source>
-        <translation>Entferne Zwischenspeicherdaten... %1 von %2</translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="295"/>
-        <source>Access through API is disabled on a server</source>
-        <translation>Der Zugriff über die API ist auf einem Server deaktiviert</translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="297"/>
-        <source>Problem with SSL certificate</source>
-        <translation>Problem mit dem SSL Zertifikat</translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="319"/>
-        <source>Unknown error</source>
-        <translation>Unbekannter Fehler</translation>
-    </message>
-    <message>
-        <location filename="../qml/main.qml" line="154"/>
-        <source>Restart the app to rebuild cache data</source>
-        <translation>Neustart der App um Zwischenspeicher neu aufzubauen</translation>
-    </message>
-    <message>
         <location filename="../qml/main.qml" line="202"/>
         <source>Download has failed because network is disconnected</source>
         <translation>Download ist wegen fehlender Netzwerkverbindung fehlgeschlagen</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="207"/>
+        <source>Removing cache data... %1 of %2</source>
+        <translation>Entferne Zwischenspeicherdaten... %1 von %2</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="279"/>
@@ -1732,6 +1612,16 @@
         <translation>Benutzername oder Kennwort falsch</translation>
     </message>
     <message>
+        <location filename="../qml/main.qml" line="295"/>
+        <source>Access through API is disabled on a server</source>
+        <translation>Der Zugriff über die API ist auf einem Server deaktiviert</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="297"/>
+        <source>Problem with SSL certificate</source>
+        <translation>Problem mit dem SSL Zertifikat</translation>
+    </message>
+    <message>
         <location filename="../qml/main.qml" line="314"/>
         <source>Cannot save image in gallery</source>
         <translation>Bild kann nicht in der Galerie gespeichert werden</translation>
@@ -1740,6 +1630,11 @@
         <location filename="../qml/main.qml" line="316"/>
         <source>Image already exists in gallery</source>
         <translation>Bild existiert bereits in der Galerie</translation>
+    </message>
+    <message>
+        <location filename="../qml/main.qml" line="319"/>
+        <source>Unknown error</source>
+        <translation>Unbekannter Fehler</translation>
     </message>
     <message>
         <location filename="../qml/main.qml" line="329"/>
