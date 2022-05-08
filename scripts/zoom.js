@@ -26,7 +26,7 @@ function _zoom_set(zoom) {
             style_o.innerHTML = css
             if (style_r) style_r.innerHTML = css
         } else {
-            style = document.createElement('style')
+            var style = document.createElement('style')
             style.className = '_zoom_class'
             style.type = 'text/css'
             style.appendChild(document.createTextNode(css))

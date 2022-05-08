@@ -55,6 +55,8 @@ WebViewPage {
         if (view.canGoBack) {
             root._readerModePossible = false
             root._nightModePossible = false
+            root._zoomPossible = false
+            root._themePossible = false
             view.goBack()
         } else {
             pageStack.pop()
@@ -88,7 +90,7 @@ WebViewPage {
                 "res.theme = _theme_init(" + JSON.stringify(s) + ")\n" +
                 "res.zoom = _zoom_init()\n" +
                 "} catch {}\n" +
-                "return res\n";
+                "return res\n"
         view.runJavaScript(script, function(res) {
             console.log("js init done:", JSON.stringify(res))
             root._readerModePossible = res.reader_view

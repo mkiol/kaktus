@@ -62,7 +62,7 @@ h1, h1, h3 { font-family: "${s.fontFamilyHeading}"; }
         style_o.innerHTML = css
         if (style_r) style_r.innerHTML = css
     } else {
-        style = document.createElement('style')
+        var style = document.createElement('style')
         style.className = '_theme_class'
         style.type = 'text/css'
         style.appendChild(document.createTextNode(css))
