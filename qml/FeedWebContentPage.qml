@@ -191,7 +191,7 @@ WebViewPage {
             console.log("js init done:", JSON.stringify(res))
             root._zoomPossible = res.zoom
             root._themePossible = res.theme
-            if (root._zoomPossible) setZoom(settings.zoomFontSize())
+            if (root._zoomPossible) setZoom(settings.zoomViewport(), true)
             if (root._themePossible) setTheme(true)
             controlbar.show()
         }, errorCallback)
@@ -200,15 +200,18 @@ WebViewPage {
     function updateZoom(delta) {
         if (!root._zoomPossible) return
         settings.zoom = settings.zoom + delta
-        setZoom(settings.zoomFontSize())
+        setZoom(settings.zoomViewport(), false)
         baner.show(Math.round(settings.zoom * 100).toString() + "%")
     }
 
-    function setZoom(zoom) {
+    function setZoom(zoom, init) {
         if (!root._zoomPossible) return
-        var script = "return window._zoom_set('" + zoom + "')\n";
+        var script;
+        if (init) script = "return window._zoom_set('" + zoom + "', true)\n";
+        else script = "return window._zoom_set('" + zoom + "', false)\n";
         view.runJavaScript(script, function(res) {
-            console.log("zoom set done:", zoom, res)
+            if (init) setZoom(zoom, false)
+            else console.log("zoom set done:", zoom, res)
         }, errorCallback)
     }
 
