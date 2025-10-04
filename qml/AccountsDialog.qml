@@ -46,7 +46,7 @@ Page {
         clip: true
 
         model:  ListModel {
-            ListElement { name: "Netvibes"; iconSource: "image://icons/icon-m-netvibes"; type: 1}
+            // ListElement { name: "Netvibes"; iconSource: "image://icons/icon-m-netvibes"; type: 1}
             ListElement { name: "Old Reader"; iconSource: "image://icons/icon-m-oldreader"; type: 2}
             ListElement { name: "Tiny Tiny RSS"; iconSource: "image://icons/icon-m-ttrss"; type: 4}
         }
