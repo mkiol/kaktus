@@ -5,7 +5,6 @@ Multi aggregators mobile feed reader for Sailfish OS
 ## Supported aggregators
 
 Kaktus supports follwing RSS feed aggregation services:
-- [Netvibes](http://www.netvibes.com/)
 - [The Old Reader](https://theoldreader.com/)
 - [Tiny Tiny Rss](https://tt-rss.org)
 
