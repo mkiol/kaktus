@@ -36,6 +36,8 @@ Settings::Settings()
              << QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
     qDebug() << "settings file:" << fileName();
 
+    fixWebView();
+
     if (!getSignedIn()) reset();
 }
 
@@ -753,4 +755,10 @@ QUrl Settings::appIcon() const {
     return QUrl::fromLocalFile(
         QString(QStringLiteral("/usr/share/icons/hicolor/172x172/apps/%1.png"))
             .arg(Kaktus::APP_BINARY_ID));
+}
+
+void Settings::fixWebView() {
+    QFile::remove(
+        QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+        "/__PREFS_WRITTEN__");
 }

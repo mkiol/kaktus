@@ -344,8 +344,7 @@ class Settings : public QSettings, public Singleton<Settings> {
     501 - Unable create settings dir
     502 - Unable create cache dir
     511 - Password decryption error
-    512 - Password encryption error
-     */
+    512 - Password encryption error     */
     void error(int);
 
    public slots:
@@ -358,6 +357,7 @@ class Settings : public QSettings, public Singleton<Settings> {
     static constexpr const float minZoom = 0.5;
     QQmlContext *m_context = nullptr;
     static QString settingsFilepath();
+    static void fixWebView();
 };
 
 #endif  // SETTINGS_H
