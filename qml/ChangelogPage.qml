@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2016-2019 Michal Kosciesza <michal@mkiol.net>
+  Copyright (C) 2016-2025 Michal Kosciesza <michal@mkiol.net>
 
   This file is part of Kaktus.
 
@@ -58,6 +58,20 @@ Page {
 
             PageHeader {
                 title: qsTr("Changelog")
+            }
+
+            SectionHeader {
+                text: qsTr("Version %1").arg("3.2")
+            }
+
+            LogItem {
+                title: "Netvibes removed"
+                description: "Netvibes feed reader service has been discontinued and support for it in Kaktus has been removed."
+            }
+
+            LogItem {
+                title: "Fix: Scrolling in web view is broken"
+                description: "Sometimes it was not possible to scroll through the website in web view. This error has been fixed."
             }
 
             SectionHeader {
