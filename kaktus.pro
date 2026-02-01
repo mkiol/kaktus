@@ -80,7 +80,8 @@ TRANSLATIONS += \
     translations/kaktus_es.ts \
     translations/kaktus_it.ts \
     translations/kaktus_de.ts \
-    translations/kaktus_zh_CN.ts
+    translations/kaktus_zh_CN.ts \
+    translations/kaktus_nb.ts
 include(sailfishapp_i18n.pri)
 
 # install

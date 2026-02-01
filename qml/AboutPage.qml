@@ -112,7 +112,7 @@ Page {
                       "· Gökhan Kalayci · Fallaffel Box · Benjamin (schnubbbi) · R.G. Sidler " +
                       "· Koleesch · Fravaccaro · Petr Tsymbarovich · Andrey Getmantsev " +
                       "· Kiratonin · Алексей Дедун · mentaljam · José Jiménez · Mesut Aktaş " +
-                      "· Heimen Stoffels · Rui Kon · qwer_asew · Bérenger Arnaud"
+                      "· Heimen Stoffels · Rui Kon · qwer_asew · Bérenger Arnaud · Frank Paul Silye"
             }
 
             SectionHeader {
